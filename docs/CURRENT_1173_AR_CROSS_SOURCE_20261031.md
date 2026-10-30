@@ -23,11 +23,19 @@ Conditions: maximum reinforcement (+25 standard, +10 somber), one-handed unless 
 | Fire Knight's Greatsword | 584 | STR 22, DEX 18, FAI 12 |
 | Great Club | 715 | STR 35 |
 | Longsword | 308 | STR 10, DEX 10 |
-| Reduvia | 265 | STR 5, DEX 13, ARC 13 |
+| Cinquedea | 277 | STR 10, DEX 10 |
 | Rabbath's Cannon | 756 | STR 28, DEX 16 |
 | Jar Cannon | 672 | STR 34, DEX 12 |
 
 `public/src/current-reference-ar.mjs` stores the 14 named published reference facts. `npm run audit:real-v117` independently downloads the pinned public 1.17 JSON on the CI runner, calculates these totals using our existing converter and writes only aggregate counts and failing IDs to `.audit/v117-vs-current-1173.json`. New disagreement causes CI failure; original reference numbers are not automatically revised.
+
+## Source-methodology discrepancy — deliberately excluded from the pass count
+
+The current-patch reference site shows **Reduvia 265 AR** in a table labeled "minimum requirements", while the explicit weapon requirements are **5 STR / 13 DEX / 13 ARC**. Under the pinned v1.17 regulation source:
+- At **5 STR**, 13 DEX, 13 ARC, +10, AR is **262**.
+- At **10 STR**, 13 DEX, 13 ARC, +10, AR is **265**.
+
+Therefore the reported 265 appears to use a baseline of 10 even for a stated lower requirement, which is not a true minimum-requirement check for this weapon. Reduvia has been **replaced with Cinquedea (STR 10 / DEX 10, AR 277)** in the hard-gated 14-vector suite. Reduvia is a known reference-methodology caveat, not an implicit game-accuracy pass. Neither website is allowed to silently change the facts.
 
 ## Release status
 
