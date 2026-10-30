@@ -25,7 +25,7 @@ Visit `http://localhost:8080` and try every calculator. Viewing the HTML directl
 - Build command: `npm run build`
 - Build output directory: `dist`
 - Node.js 20+.
-- While testing, omit `SITE_URL`; the build adds `noindex` and disallows crawling.
+- Research builds remain site-wide `noindex` even if `SITE_URL` is configured. Robots allow crawlers to read the `noindex` directive; sitemap is withheld. Never set `RELEASE_INDEX_APPROVED=1` without independently approved release gates.
 - Before public launch, set `SITE_URL=https://your-real-https-domain.example` in Cloudflare's build environment and rebuild. Use the final canonical origin, without a trailing slash. This emits canonical URLs, a sitemap and public robots directives. Verify the deployed output and GSC before announcing it.
 
 **Do not use the example domain as your SITE_URL.** The repo does not choose or register a domain. Cloudflare Pages is connected to `main` and is serving the preview at `https://elden-ring-5i9.pages.dev/`. Do not change indexing until production release checks pass.
@@ -107,7 +107,7 @@ quality review and real non-brand keyword/SERP validation.
 
 \`/weapon-upgrade-calculator/\` calculates required and missing materials for **regular +0–25** and **somber +0–10** weapon reinforcement. The rules are documented in [Eldenpedia Smithing Stones](https://eldenring.wiki.gg/wiki/Smithing_Stones), [Somber Smithing Stones](https://eldenring.wiki.gg/wiki/Somber_Smithing_Stone) and the Gamer Guides reinforcement table. Regular stones [1]–[8] use a 2/4/6 schedule per grade (96 total from +0 to +24); +25 uses an Ancient Dragon Smithing Stone. Somber grades [1]–[9] each use one stone; +10 uses a Somber Ancient Dragon Smithing Stone. The site computes interval totals, subtracts user-entered owned inventory, details each step and exports a CSV missing-materials checklist.
 
-The calculator is **not an attack rating tool** and does not estimate weapon-specific rune costs, stone locations or weapon eligibility. Inputs remain in-browser only. This route stays \`noindex\` pending live functional QA, precise search-intent validation and any upcoming official patch check; the site-wide preview crawler block is unchanged.
+The calculator is **not an attack rating tool** and does not estimate weapon-specific rune costs, stone locations or weapon eligibility. Inputs remain in-browser only. This route stays \`noindex\` pending live functional QA, precise search-intent validation and any upcoming official patch check; site-wide research `noindex` protection stays active.
 
 
 ## Versioned AR parameter import — local developer workflow

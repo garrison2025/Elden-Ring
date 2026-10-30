@@ -111,6 +111,12 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
       continue;
     }
     const attr=[];
+    // Match the source's floating-point operation order only for imported
+    // compact profiles: floor-at-integer boundaries is sensitive to IEEE-754
+    // multiplication/accumulation ordering. This is NOT game certification.
+    const sourceOrder=requirementsPolicy==='damage-type-60'&&roundingPolicy==='floor-components'&&
+      POWER_STATS.every(s=>!a.elementScaling[d][s].enabled||a.elementScaling[d][s].impactRatio===1);
+    let sourceOrderMultiplier=1;
     for(const s of POWER_STATS){
       const rule=a.elementScaling[d][s];
       if(!rule.enabled){attr.push({stat:s,multiplier:0,reason:'disabled'});continue}
@@ -121,13 +127,23 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
       }
       const scaling=rule.overrideScaling??a.baseScaling[s];
       const correction=a.correctionCurves[d][effective[s]];
-      attr.push({stat:s,multiplier:impact-1+scaling*u.scalingMultipliers[s]*correction*impact,reason:'scaled'});
+      let factor=impact-1+scaling*u.scalingMultipliers[s]*correction*impact;
+      if(sourceOrder){
+        const effectiveScaling=rule.overrideScaling===null||rule.overrideScaling===undefined?
+          a.baseScaling[s]*u.scalingMultipliers[s]:
+          a.baseScaling[s]?
+            rule.overrideScaling*(a.baseScaling[s]*u.scalingMultipliers[s])/a.baseScaling[s]:0;
+        factor=correction*effectiveScaling;
+        sourceOrderMultiplier+=factor;
+      }
+      attr.push({stat:s,multiplier:factor,reason:'scaled'});
     }
     const sum=attr.reduce((t,v)=>t+v.multiplier,0);
     const lower=Math.min(...attr.map(v=>v.multiplier));
     const scalingMultiplier=Math.max(lower,sum);
-    const scaling=base*scalingMultiplier;
-    const raw=base+scaling;
+    const raw=sourceOrder?base*sourceOrderMultiplier:
+      base+base*scalingMultiplier;
+    const scaling=raw-base;
     result.push({element:d,base,scaling,raw,displayed:Math.floor(raw),attributes:attr});
   }
   // Both values are returned until independent in-game golden vectors settle

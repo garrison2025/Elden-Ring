@@ -50,6 +50,16 @@ export function findLocalWeaponFamily(regulation,requestedName){
 export function describeLocalWeapon(regulation,weaponName,gameVersion,sourceReference){
  const profile=convertCompactRegulation(regulation,{weaponName,gameVersion,sourceReference});
  const affinity='SOURCE AFFINITY';
+ // Mechanism coverage is distinct from convertibility. All are research-only.
+ const row=regulation.weapons.find(w=>w?.name===weaponName);
+ const scopeFlags=[];
+ if(row?.paired===true)scopeFlags.push('paired-grip-moveset-not-modeled');
+ if([50,51,53,56].includes(row?.weaponType))scopeFlags.push('ranged-ammunition-and-motion-not-modeled');
+ if(row?.sorceryTool===true||row?.incantationTool===true)scopeFlags.push('spell-catalyst-scaling-not-modeled');
+ if(Array.isArray(row?.attack)&&row.attack.some(pair=>Array.isArray(pair)&&
+   Number(pair[0])>=5&&Number(pair[0])<=11))scopeFlags.push('status-buildup-not-modeled');
+ if(profile.affinities[affinity].upgrades.length===11)
+  scopeFlags.push('somber-weapon-skill-damage-not-modeled');
  return {
   profile,
   description:{
@@ -59,6 +69,7 @@ export function describeLocalWeapon(regulation,weaponName,gameVersion,sourceRefe
    requirements:profile.requirements,
    upgradeLevels:profile.affinities[affinity].upgrades.map(u=>u.level),
    damageTypes:Object.entries(profile.affinities[affinity].baseDamage).filter(([,v])=>v>0).map(([k])=>k),
+   scopeFlags,
    status:'UNVERIFIED — not independently compared against current in-game equipment screens'
   }
  };
