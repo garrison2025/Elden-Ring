@@ -5,15 +5,34 @@ This report audits the **102** Shadow of the Erdtree weapon/shield entries refer
 | Field / gate | Source-backed rows | Still unknown |
 | --- | ---: | ---: |
 | Weapon/shield name and category | 102 | 0 within selected reference roster |
-| All five attribute requirements | 61 | 41 |
-| +0 physical/elemental attack arrays | 9 | 93 |
-| Weight | 9 | 93 |
-| Critical and +0 letter grades | 9 | 93 |
+| All five attribute requirements | 70 | 32 |
+| +0 physical/elemental attack arrays | 18 | 84 |
+| Weight | 18 | 84 |
+| Critical and +0 letter grades | 18 | 84 |
+| Community-published +0–+10 integer BASE attack tables | **3** | **99** |
 | Exact reinforcement attack/scaling multipliers | **0** | **102** |
 | Exact affinity/infusion parameter profiles | **0** | **102** |
 | Current regulation validated exact AR | **0** | **102** |
 
-### Already cross-checked +0 reference entries
+### October 30 follow-up: additional source-checked DLC +0 facts
+
+The following nine entries advanced from name-only to +0 reference-only. All sourced stats are for individual weapon pages, not full AR:
+
+| Weapon | Physical | Magic | Fire | Holy | Weight | Source |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Spear of the Impaler | 85 | 0 | 102 | 0 | 9.5 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Spear_of_the_Impaler) |
+| Sword of Night | 110 | 33 | 0 | 0 | 6.5 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Sword_of_Night) |
+| Star-Lined Sword | 82 | 82 | 0 | 0 | 5.0 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Star-Lined_Sword) |
+| Obsidian Lamina | 120 | 0 | 0 | 0 | 6.5 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Obsidian_Lamina) |
+| Poleblade of the Bud | 131 | 0 | 0 | 0 | 10.0 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Poleblade_of_the_Bud) |
+| Queelign's Greatsword | 117 | 0 | 35 | 0 | 7.5 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Queelign%27s_Greatsword) |
+| Shadow Sunflower Blossom | 114 | 0 | 0 | 114 | 16.0 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Shadow_Sunflower_Blossom) |
+| Pata | 104 | 0 | 0 | 0 | 4.0 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Pata) |
+| Repeating Crossbow | 74 | 0 | 0 | 0 | 6.0 | [Eldenpedia](https://eldenring.wiki.gg/wiki/Repeating_Crossbow) |
+
+Separately, published somber base-attack progression arrays (+0 through +10) were added for **Sword of Night** (physical 110→269, magic 33→80), **Rakshasa's Great Katana** (physical 155→379) and **Repeating Crossbow** (physical 74→259). These page-published rounded base-attack integers **are not numerical reinforcement multipliers**; no interpolated values or AR projections are allowed. These source tables are not game-verified under the latest regulation.
+
+### Existing cross-checked +0 reference entries
 
 - **Milady** — physical 116, weight 6.5, critical 100; [source](https://eldenring.wiki.gg/wiki/Milady)
 - **Backhand Blade** — physical 105, weight 2, critical 100; [source](https://eldenring.wiki.gg/wiki/Backhand_Blade)
