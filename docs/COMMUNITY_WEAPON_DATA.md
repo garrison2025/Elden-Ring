@@ -6,17 +6,17 @@ Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community 
 
 | Tier | DLC rows | Available | Unavailable |
 | --- | ---: | --- | --- |
-| `base-reference` | 18 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
+| `base-reference` | 21 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
 | `requirements-only` | 52 | Name, class and community-reported 5-stat requirements | +0 attack, critical, weight, scaling, upgrades, affinities, AR |
-| `name-category-only` | 32 | Name and class, checked against DLC roster | Requirements and all numerical combat properties |
+| `name-category-only` | 29 | Name and class, checked against DLC roster | Requirements and all numerical combat properties |
 
-**Every missing numeric field is null, not zero.** The 18 wiki +0 values are reference facts, **not** current patch game-tested AR.
+**Every missing numeric field is null, not zero.** The 21 wiki +0 values are reference facts, **not** current patch game-tested AR.
 
 Original nine sourced +0 references: Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
 
 Additional nine sourced +0 references: Spear of the Impaler, Sword of Night, Star-Lined Sword, Obsidian Lamina, Poleblade of the Bud, Queelign's Greatsword, Shadow Sunflower Blossom, Pata, and Repeating Crossbow. Each provides its individual `checkedWith` source URL.
 
-Three individual weapons (Sword of Night, Rakshasa's Great Katana, Repeating Crossbow) also contain community-published rounded **base-attack tables** for their somber +0–+10 path, each with its individual source. Their rows do **not** reveal the underlying exact reinforcement multipliers or scaling values and are never used to compute AR.
+Four individual weapons (Sword of Night, Rakshasa's Great Katana, Repeating Crossbow and Tooth Whip) also contain community-published rounded **base-attack tables** for their somber +0–+10 path, each with its individual source. Their rows do **not** reveal the underlying exact reinforcement multipliers or scaling values and are never used to compute AR.
 
 ## Sources and rights
 
@@ -44,3 +44,11 @@ The public `weapon-database/` route remains noindex; `weapon-ar-lab/` is an isol
 ## Maintenance
 
 On each official patch, mark affected rows for re-check, verify relevant param changes, rerun golden comparisons, and only then update the supported regulation identifier. When exact data is missing, retain the search reference but return `UNSUPPORTED` for precise AR.
+
+### Additional source-linked DLC facts (2026-10-30)
+
+- Spread Crossbow: +0 physical 68, weight 5.0, STR 11, DEX 17 — https://eldenring.wiki.gg/wiki/Spread_Crossbow
+- Spirit Sword: +0 physical 92, magic 59, weight 2.5, STR 8, DEX 16, INT 16 — https://eldenring.wiki.gg/wiki/Spirit_Sword
+- Tooth Whip: +0 physical 109, weight 3, STR 10, DEX 24; published somber +0 to +10 physical base attack 109,124,140,156,172,188,203,219,235,251,267 — https://eldenring.wiki.gg/wiki/Tooth_Whip
+
+All numbers are community reference facts, not game-certified current-regulation AR.

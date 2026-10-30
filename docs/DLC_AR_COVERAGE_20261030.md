@@ -5,11 +5,11 @@ This report audits the **102** Shadow of the Erdtree weapon/shield entries refer
 | Field / gate | Source-backed rows | Still unknown |
 | --- | ---: | ---: |
 | Weapon/shield name and category | 102 | 0 within selected reference roster |
-| All five attribute requirements | 70 | 32 |
-| +0 physical/elemental attack arrays | 18 | 84 |
-| Weight | 18 | 84 |
-| Critical and +0 letter grades | 18 | 84 |
-| Community-published +0–+10 integer BASE attack tables | **3** | **99** |
+| All five attribute requirements | 73 | 29 |
+| +0 physical/elemental attack arrays | 21 | 81 |
+| Weight | 21 | 81 |
+| Critical and +0 letter grades | 21 | 81 |
+| Community-published +0–+10 integer BASE attack tables | **4** | **98** |
 | Exact reinforcement attack/scaling multipliers | **0** | **102** |
 | Exact affinity/infusion parameter profiles | **0** | **102** |
 | Current regulation validated exact AR | **0** | **102** |
@@ -49,3 +49,7 @@ Separately, published somber base-attack progression arrays (+0 through +10) wer
 Use individually verified regulation tables (weapon row + reinforcement + attribute correction + affinity eligibility) with explicit license permission, version, source checksum and affected weapon ID. Run `npm run audit:regulation` **only** against a locally and legitimately obtained JSON snapshot. Follow with at least 50 real in-game golden comparisons across ordinary/somber, infused/uninfused, paired weapons and special damage rules before publishing game-accurate AR.
 
 The wiki +0 values are community-reported; do not silently claim official 1.17.3 certification or import absent multipliers.
+
+### Later 2026-10-30 addition: 3 further cited weapons
+
+Spread Crossbow (physical 68, weight 5.0), Spirit Sword (physical 92 + magic 59, weight 2.5), and Tooth Whip (physical 109, weight 3.0) have individualized source links and base stats. Tooth Whip also has an 11-level source-published somber attack table. No accuracy upgrade for AR is claimed.
