@@ -1,4 +1,5 @@
 import {POWER_STATS} from './weapon-ar.mjs';
+import {makeUnreviewedArObservation} from './ar-observation.mjs';
 import {parseArWorkbenchHandoff} from './ar-workbench-navigation.mjs';
 const handoff=parseArWorkbenchHandoff(location.search);
 import {downloadV117Source,V117_PROVENANCE} from './upstream-regulation-v117.mjs';
@@ -7,7 +8,9 @@ const feedback=(s,bad=false)=>{
  get('arw-feedback').textContent=s;
  get('arw-feedback').className=bad?'feedback bad':'feedback';
 };
+let latestGripResults=null;
 const clear=()=>{
+ latestGripResults=null;
  get('arw-onehand').textContent='—';get('arw-twohand').textContent='—';
  get('arw-delta').textContent='—';get('arw-effective').textContent='—';
  get('arw-components').replaceChildren();get('arw-comparison').hidden=true;
@@ -269,7 +272,8 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-description').textContent=m.description.name+' · '+m.description.gripMode+
    ' grip · '+m.description.damageTypes.join(' + ')+' damage types · source '+m.description.provenance.gameVersion+
    ' · Required: '+POWER_STATS.map(a=>a.toUpperCase()+' '+currentRequirements[a]).join(', ')+
-   '. Exact game-version parity unverified.';
+   '. Scope limits: '+(m.description.scopeFlags?.join(', ')||'no specific flags detected')+
+   '. Skills, movesets and enemy damage remain unmodeled; game-client AR unverified.';
   const u=get('arw-upgrade');
   const previous=u.value===''?null:Number(u.value);
   u.replaceChildren();
@@ -313,6 +317,7 @@ if(worker)worker.onmessage=({data:m})=>{
  }
  if(m.op==='compared'){
   if(m.requestId!==gripRevision)return;
+  latestGripResults=m.result;
   const {oneHand,twoHand,difference}=m.result;
   get('arw-onehand').textContent=oneHand.total;
   get('arw-twohand').textContent=twoHand.total;
@@ -437,6 +442,37 @@ get('arw-compare-grip').addEventListener('change',requestComparison);
 get('arw-compare-run').addEventListener('click',requestComparison);
 get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();requestComparison();});
 get('arw-compare').addEventListener('click',requestCalculation);
+get('arw-observation-export').addEventListener('click',()=>{
+ const feedbackNode=get('arw-observation-feedback');
+ try{
+  if(!selected||!latestGripResults)
+   throw new RangeError('Calculate a sourced weapon AR before recording a game-menu observation.');
+  const raw=get('arw-observed-total').value.trim();
+  if(!/^(?:0|[1-9][0-9]{0,4})$/.test(raw))
+   throw new RangeError('Enter the actual integer AR shown in the game menu.');
+  const twoHanded=get('arw-observation-grip').value==='two';
+  const candidate=twoHanded?latestGripResults.twoHand:latestGripResults.oneHand;
+  const draft=makeUnreviewedArObservation({
+   weaponName:get('arw-select').value,
+   sourceVersion:candidate.provenance.gameVersion,
+   gameAppVersion:get('arw-observation-app').value,
+   regulationVersion:get('arw-observation-reg').value,
+   platform:get('arw-observation-platform').value,
+   observedAt:get('arw-observation-date').value,
+   evidenceReference:get('arw-observation-reference').value,
+   stats:readStats(),upgrade:Number(get('arw-upgrade').value),twoHanded,
+   observedTotal:Number(raw),candidateTotal:candidate.total,synthetic:syntheticMode
+  });
+  const blob=new Blob([JSON.stringify(draft,null,2)+'\n'],{type:'application/json'});
+  const url=URL.createObjectURL(blob),anchor=make('a','');
+  anchor.href=url;anchor.download='ar-game-menu-observation-UNREVIEWED.json';
+  document.body.append(anchor);anchor.click();anchor.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+  feedbackNode.textContent='Downloaded UNREVIEWED draft. Candidate minus game menu: '+
+   draft.candidateCalculation.differenceCandidateMinusObserved+
+   '. Matching values are NOT independent verification; retain your screenshot for review.';
+ }catch(error){feedbackNode.textContent='Cannot export observation: '+error.message;}
+});
 get('arw-handoff-context').textContent=initialWeaponQuery?
  'From weapon database: '+initialWeaponQuery+(handoff.stats?' · 5 character stats were transferred.':' · using default character stats.')+
  '. Click Load public v1.17 dataset or import local JSON; no external source auto-downloads.':
