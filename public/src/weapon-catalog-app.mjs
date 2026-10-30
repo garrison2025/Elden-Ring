@@ -3,6 +3,7 @@ import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequireme
 import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
 import {makeArWorkbenchUrl} from './ar-workbench-navigation.mjs';
 import {makeWeaponCatalogShareUrl} from './weapon-catalog-navigation.mjs';
+import {makeCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -126,6 +127,12 @@ function renderDetails(){
  if(!chosen){box.hidden=true;renderReferenceComparison();return;}
  box.hidden=false;
  $('catalog-title').textContent=chosen.name;
+ $('catalog-smithing-link').href=makeCatalogSmithingHandoff(chosen,location.href);
+ $('catalog-smithing-note').textContent=chosen.upgradeReference?.path==='somber'&&
+  chosen.upgradeReference?.status==='community-published-base-attack'&&
+  chosen.upgradeReference?.sourceUrl===chosen.checkedWith?
+  'The published community reinforcement reference labels this a Somber +10 track. The planner will suggest Somber, but you must confirm it in your game. A reference +level is NOT your current upgrade level.':
+  'No independently sourced upgrade track is attached to this catalog record. Choose Regular or Somber from the actual game smithing menu. Neither track nor current +level is inferred.';
  const coverage=chosen.dataCoverage??'base-community';
  const dlc=chosen.expansion==='Shadow of the Erdtree';
  const partial=coverage==='requirements-only'||coverage==='requirements-weight-only'||coverage==='name-category-only';
