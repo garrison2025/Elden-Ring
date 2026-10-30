@@ -1,0 +1,34 @@
+name: Audit public pinned v1.17 AR math (no redistributed data)
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - feat/v117-real-source-ci-math-audit-20261030
+    paths:
+      - .github/workflows/v117-ar-math-audit.yml
+      - scripts/audit-v117-pinned.mjs
+      - public/src/regulation-parity.mjs
+      - public/src/regulation-import.mjs
+      - public/src/weapon-ar.mjs
+permissions:
+  contents: read
+jobs:
+  v117-raw-math-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download pinned public 1.17 JSON in CI and check math in memory
+        run: npm run audit:real-v117
+      - name: Save anonymized audit summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-v117-ar-math-audit
+          path: .audit/v117-math-audit.json
+          if-no-files-found: warn
+          retention-days: 7
