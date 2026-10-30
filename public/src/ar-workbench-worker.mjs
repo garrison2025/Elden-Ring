@@ -1,4 +1,5 @@
 import {listCompactWeaponNames,searchLocalWeapons,describeLocalWeapon,compareLocalGrips} from './ar-workbench-core.mjs';
+import {COMPACT_SYNTHETIC_REGULATION} from '../data/ar-compact-synthetic.mjs';
 
 /**
  * Worker holds the loaded JSON only in memory, not in localStorage, caches,
@@ -9,6 +10,14 @@ self.onmessage=event=>{
  const m=event.data||{};
  try{
   switch(m.op){
+   case 'demo':{
+    source=structuredClone(COMPACT_SYNTHETIC_REGULATION);
+    version='SYNTHETIC-EXAMPLE-NOT-GAME';
+    reference='Invented regression fixture. Not a game weapon database.';
+    names=listCompactWeaponNames(source);selected=null;
+    self.postMessage({op:'loaded',count:names.length,synthetic:true,preview:searchLocalWeapons(names,'')});
+    break;
+   }
    case 'load':{
     if(typeof m.text!=='string'||m.text.length>16_000_000)
       throw new RangeError('Please choose a local JSON file smaller than 16 MB.');
@@ -20,7 +29,7 @@ self.onmessage=event=>{
     const indexed=listCompactWeaponNames(next);
     if(!indexed.length)throw new RangeError('The file contains no weapon entries.');
     source=next;names=indexed;selected=null;
-    self.postMessage({op:'loaded',count:names.length,preview:searchLocalWeapons(names,'')});
+    self.postMessage({op:'loaded',count:names.length,synthetic:false,preview:searchLocalWeapons(names,'')});
     break;
    }
    case 'search':

@@ -140,3 +140,11 @@ It runs in a dedicated Web Worker to keep UI responsive. The data is never
 uploaded, automatically fetched, stored in browser storage, or bundled.
 The page includes neither a public game-derived database nor a certification
 claim. Regression tests use independently authored invented weapon entries.
+
+
+### AR workbench synthetic demo
+
+The local workbench includes a one-click **fictional demo** with four invented
+weapons. This is UI and formula regression test data, NOT Elden Ring item data,
+and remains strictly `noindex`. It permits testing the whole workflow without
+uploading or redistributing any real-game dataset.

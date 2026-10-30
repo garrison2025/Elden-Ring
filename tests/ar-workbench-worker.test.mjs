@@ -37,3 +37,15 @@ test('worker rejects missing upgrade and clears previously loaded weapon dataset
  r=command({op:'load',text:'not-json',version:'synthetic-v1',reference:'invented test'});
  assert.equal(r.op,'error');assert.equal(r.phase,'load');
 });
+
+test('one-click fictional demo loads, compares and can be cleared without uploads',()=>{
+ let r=command({op:'demo'});
+ assert.equal(r.op,'loaded');assert.equal(r.synthetic,true);assert.equal(r.count,4);
+ assert.ok(r.preview.names.every(x=>x.includes('Fictional')&&x.includes('QA ONLY')));
+ r=command({op:'select',name:'Fictional Bronze Sword — QA ONLY'});
+ assert.equal(r.op,'selected');
+ r=command({op:'compare',stats:{str:40,dex:20,int:10,fai:10,arc:10},upgrade:0});
+ assert.equal(r.op,'compared');assert.equal(r.result.oneHand.total,136);assert.equal(r.result.twoHand.total,152);
+ assert.equal(command({op:'clear'}).op,'cleared');
+ assert.equal(command({op:'compare',stats:{str:40,dex:20,int:10,fai:10,arc:10},upgrade:0}).op,'error');
+});
