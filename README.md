@@ -281,3 +281,14 @@ damage are inferred. Nothing is uploaded or bundled, and the site-wide
 research `noindex` gate remains enabled. See
 `docs/AR_CLIENT_EVIDENCE_20261031.md`.
 
+
+### Optional screenshot file fingerprint (2026-10-31)
+
+In the manual game-menu AR test grid, optionally select the original PNG/JPEG/WebP
+file (up to 12 MB) for a recorded case. The browser computes its SHA-256 locally
+and embeds **only** filename, image format, byte count and hash in the exported
+UNREVIEWED observation batch. It never uploads or embeds the screenshot.
+On batch reimport, choose a recorded case and the original screenshot to check
+whether file bytes match the stored hash. Older filename-only batches remain
+supported. A matching file hash is **not** independent screenshot authenticity
+or in-game AR validation. See `docs/AR_CLIENT_EVIDENCE_20261031.md`.

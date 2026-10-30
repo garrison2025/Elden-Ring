@@ -1,4 +1,5 @@
 import {recheckUnreviewedArDraft} from './ar-observation-recheck.mjs';
+import {validateLocalScreenshotFingerprint} from './ar-screenshot-fingerprint.mjs';
 
 const fail=msg=>{throw new RangeError(msg);};
 /**
@@ -26,17 +27,25 @@ export function recheckUnreviewedArBatch(root,{
    fail('Duplicate or malformed batch case id.');
   used.add(item.caseId);
   try{
+   const fp=item.observation?.sourceEvidence?.screenshotFingerprint;
+   let hasFingerprint=false;
+   if(fp!==undefined&&fp!==null){
+    const valid=validateLocalScreenshotFingerprint(fp);
+    if(valid.filename!==item.observation?.sourceEvidence?.reference)
+     fail('Screenshot fingerprint filename must match observation evidence reference.');
+    hasFingerprint=true;
+   }
    const result=recheckUnreviewedArDraft(root,{
     gameVersion,sourceReference,draft:item.observation,synthetic});
    rows.push({caseId:item.caseId,status:result.status,
     differenceFreshMinusStored:result.differenceFreshMinusStored??null,
     differenceFreshMinusGame:result.differenceFreshMinusGame??null,
     storedFieldsConsistent:result.storedFieldsConsistent,
-    gameClientVerified:false});
+    screenshotFingerprintRecorded:hasFingerprint,gameClientVerified:false});
   }catch(error){
    rows.push({caseId:item.caseId,status:'recheck-rejected',
     differenceFreshMinusStored:null,differenceFreshMinusGame:null,
-    storedFieldsConsistent:false,gameClientVerified:false,
+    storedFieldsConsistent:false,screenshotFingerprintRecorded:false,gameClientVerified:false,
     reason:String(error?.message??error).slice(0,220)});
   }
  }
@@ -45,6 +54,7 @@ export function recheckUnreviewedArBatch(root,{
  return {schemaVersion:1,recordType:'unreviewed-ar-batch-recheck-report',
   reviewStatus:'UNREVIEWED',gameClientVerified:false,
   screenshotInspected:false,sourceVersionProven:false,
-  reviewedScreenshotCount:0,submittedCases:rows.length,statusCounts:counts,rows,
-  note:'Only numeric candidate arithmetic was rechecked with the currently loaded source. No game client, screenshots, Regulation version, rights or actual damage were independently validated.'};
+  reviewedScreenshotCount:0,storedFingerprintCount:rows.filter(x=>x.screenshotFingerprintRecorded).length,
+  submittedCases:rows.length,statusCounts:counts,rows,
+  note:'Candidate arithmetic and optional hash metadata were checked against the currently loaded source. No screenshot bytes were read by this worker, and no game client, screenshot authenticity, Regulation version, rights or actual damage were independently validated.'};
 }

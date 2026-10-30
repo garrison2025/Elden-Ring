@@ -11,7 +11,9 @@ test('manual AR evidence planner HTML inputs and browser handlers agree',()=>{
   'arw-plan-run','arw-plan-download','arw-plan-export',
   'arw-plan-feedback','arw-plan-results','arw-plan-summary','arw-plan-rows',
   'arw-observation-app','arw-observation-reg','arw-observation-platform',
-  'arw-observation-date','arw-recheck-batch','arw-recheck-batch-rows'
+  'arw-observation-date','arw-recheck-batch','arw-recheck-batch-rows',
+  'arw-fingerprint-verify','arw-fingerprint-case','arw-fingerprint-file',
+  'arw-fingerprint-run','arw-fingerprint-feedback'
  ];
  for(const id of ids){
   assert.equal((html.match(new RegExp('id="'+id+'"','g'))??[]).length,1,
@@ -25,4 +27,13 @@ test('manual AR evidence planner HTML inputs and browser handlers agree',()=>{
  assert.ok(ui.includes('gamePlanRevision'));
  assert.ok(ui.includes('if(!gamePlan||syntheticMode||gamePlan.synthetic)'));
  assert.ok(worker.includes('plan.synthetic=synthetic'));
+});
+
+test('optional screenshot SHA-256 is captured and compared without upload',()=>{
+ assert.ok(ui.includes('fingerprintLocalScreenshot(file)'));
+ assert.ok(ui.includes('compareLocalScreenshotToFingerprint(file,expected)'));
+ assert.ok(ui.includes("input.type='file'")||ui.includes("imageInput.type='file'"));
+ assert.ok(ui.includes('screenshotFingerprint'));
+ assert.ok(ui.includes('if(revisionAtStart!==gamePlanRevision'));
+ assert.ok(ui.includes('Screenshot-reviewed: 0.'));
 });
