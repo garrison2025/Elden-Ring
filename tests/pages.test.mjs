@@ -144,7 +144,7 @@ test('pinned community v1.17 source is explicitly opt-in and AR remains noindex'
  assert.match(app,/cancelPinnedLoad/);
  assert.match(app,/if\(initialWeaponQuery&&!syntheticMode\)/);
  assert.match(catalog,/id="catalog-ar-source-link"/);
- assert.match(catalogApp,/encodeURIComponent\(chosen.name\)/);
+ assert.match(catalogApp,/makeArWorkbenchUrl\(chosen\.name,arStats/);
  assert.match(source,/JSON\.parse\(text\)/);
  assert.doesNotMatch(source,/eval\(|new Function\(/);
  assert.doesNotMatch(app,/eval\(|new Function\(/);
