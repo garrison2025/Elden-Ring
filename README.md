@@ -341,3 +341,31 @@ optional owned-stone input remains private and no new API, backend,
 asset files or live-game claims are introduced. Such community track
 hints are not independent current-Regulation validation. Research
 `noindex` remains enabled.
+
+## Multi-weapon Smithing Stone basket (2026-10-31)
+
+The existing `/weapon-upgrade-calculator/` now includes an **optional
+multi-weapon checklist** in addition to its unchanged single-weapon planner.
+Players can add the selected single-weapon settings (including a weapon
+name arrived from `/weapon-database/`), create other manually named rows,
+remove rows and combine up to **8** separate weapons. A second copy of the
+same weapon may be entered intentionally. Each row requires a manually
+chosen Regular or Somber track and the player's actual current and target
+upgrade level.
+
+The basket aggregates exact regular +0…+25 and Somber +0…+10 material
+schedules using the existing validated calculator. It combines the
+**required quantities by stone type first**, then subtracts the basket's
+one shared inventory **exactly once**; the single-weapon inventory is
+independent and cannot accidentally subtract shared stock twice. All 19
+regular/Somber stone types are accepted in the shared inventory, and a
+combined CSV exports named plans and a total material/shortage checklist.
+Inputs are temporary browser state; no upload, account, persistence,
+API key or external dependency.
+
+The catalog's 6 explicit Somber references offer only an unverified
+track suggestion, not actual game-client proof. The remaining catalog
+entries have no sourced track and must be confirmed by the player. No
+published reference reinforcement level is silently used as the player's
+current level. Material math is **not** weapon AR, rune costs, game-client
+parity or special weapon-effect calculation. Research `noindex` remains.
