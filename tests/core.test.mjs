@@ -42,3 +42,24 @@ test('share links parse eight bounded attributes only',async()=>{
  assert.deepEqual(parseSharedStats('40,20,25,30,30,10,10,10'),[40,20,25,30,30,10,10,10]);
  for(const value of [null,'40,20,25','40,20,25,30,30,10,10,100','40,20,25,30,30,10,10,<svg>','40,20,25,30,30,10,10,0','40,20,25,30,30,10,10,10,9'])assert.equal(parseSharedStats(value),null);
 });
+
+test('respec preserves origin and level budget',async()=>{
+ const {compareRespec}=await import('../public/src/core.mjs');
+ const cls=classForName('Samurai');
+ const original=cls.stats.map((v,i)=>i===0?v+10:i===4?v+5:v);
+ const exact=cls.stats.map((v,i)=>i===0?v+5:i===4?v+10:v);
+ const baseline=compareRespec(cls,original,exact);
+ assert.equal(baseline.currentLevel,24);
+ assert.equal(baseline.plannedLevel,24);
+ assert.equal(baseline.remainingPoints,0);
+ assert.equal(baseline.valid,true);
+ assert.deepEqual(baseline.changes,[-5,0,0,0,5,0,0,0]);
+ const unused=compareRespec(cls,original,cls.stats);
+ assert.equal(unused.remainingPoints,15);
+ assert.equal(unused.withinBudget,true);
+ assert.equal(unused.valid,false);
+ const over=compareRespec(cls,original,exact.map((v,i)=>i===0?v+1:v));
+ assert.equal(over.remainingPoints,-1);
+ assert.equal(over.withinBudget,false);
+ assert.throws(()=>compareRespec(cls,original,cls.stats.map((v,i)=>i===0?v-1:v)));
+});

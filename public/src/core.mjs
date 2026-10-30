@@ -69,3 +69,22 @@ export function parseSharedStats(str){
   const values=parts.map(Number);
   return values.every(n=>n>=1&&n<=99)?values:null;
 }
+
+
+/**
+ * Compare an existing character's attribute allocation with a proposed respec.
+ * Respec preserves the starting origin and total character level. Neither gear
+ * effects nor consumable availability is modeled.
+ */
+export function compareRespec(origin,original,proposed){
+  if(!origin||!CLASSES.some(c=>c.name===origin.name))throw new RangeError('Choose a valid starting class.');
+  const before=validateStats(original,origin),after=validateStats(proposed,origin);
+  const currentLevel=buildLevel(origin,before),plannedLevel=buildLevel(origin,after);
+  return {
+    currentLevel,plannedLevel,
+    remainingPoints:currentLevel-plannedLevel,
+    changes:after.map((value,i)=>value-before[i]),
+    valid:plannedLevel===currentLevel,
+    withinBudget:plannedLevel<=currentLevel
+  };
+}

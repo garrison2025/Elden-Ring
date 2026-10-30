@@ -33,3 +33,27 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .result-actions [hidden]{display:none!important}
 .load-guidance{margin:16px 0 0!important;padding:13px 14px;border:1px solid #567367;border-radius:10px;background:#21352d;color:#d6eee0!important;line-height:1.55;font-size:13px}
 @media(max-width:570px){.result-actions{display:grid;grid-template-columns:1fr}.result-actions .btn{width:100%}}
+
+/* Respec planner: dense but legible character comparison. */
+.save-actions{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 12px}
+.save-actions button{min-height:39px;border:1px solid #64716d;background:#21302f;color:#e3e7db;padding:8px 12px;border-radius:9px;cursor:pointer;font:inherit;font-size:12px}
+.save-actions button:hover{border-color:var(--gold);color:var(--gold)}
+.save-actions button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.respec-feature{margin:-12px 0 60px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:26px;border:1px solid #5e594b;border-radius:15px;background:#222b2c}
+.respec-feature h2{font-family:Georgia,serif;font-size:clamp(24px,3vw,35px);margin:8px 0}
+.respec-feature p{max-width:780px;color:var(--muted);line-height:1.65;margin:0}
+.respec-feature .btn{flex-shrink:0}
+.respec-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.respec-layout .panel{min-width:0}
+.respec-results{margin-top:18px}
+.respec-results .metric-grid{grid-template-columns:repeat(3,1fr)}
+.respec-state{display:block;color:var(--accent);font-size:18px;margin-top:12px}
+.respec-state.over{color:var(--danger)}.respec-state.unused{color:#f2cb8f}
+.respec-change-table{width:100%;border-collapse:collapse}
+.respec-change-table th,.respec-change-table td{border-bottom:1px solid var(--line);padding:10px;text-align:left;font-size:13px}
+.respec-change-table td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.respec-change-table .up{color:#9ed3ac}.respec-change-table .down{color:#e3bc91}
+.respec-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.respec-actions .btn{margin:0}.respec-actions [hidden]{display:none!important}
+@media(max-width:840px){.respec-layout{grid-template-columns:1fr}.respec-feature{align-items:start;flex-direction:column}.respec-results .metric-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:570px){.respec-feature{padding:20px;margin:0 0 45px}.respec-feature .btn{width:100%}.respec-results .metric-grid{grid-template-columns:1fr 1fr}.respec-actions{display:grid;grid-template-columns:1fr}.respec-actions .btn{width:100%}.save-actions button{flex:1}}

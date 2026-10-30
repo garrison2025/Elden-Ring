@@ -37,11 +37,36 @@ function initBuild(){
     $('#build-summary').textContent=`${current.name} · Lv ${level} · ${v.join(' / ')}`;
     $('#class-compare-link').href=queryURL('../class-optimizer/',{stats:v.join(',')});
     $('#rune-plan-link').href=queryURL('../level-rune-calculator/',{from:current.level,to:level});
-    $('#class-compare-link').hidden=false;$('#rune-plan-link').hidden=false;
+    $('#respec-link').href=queryURL('../respec-planner/',{origin:current.name,stats:v.join(',')});
+    $('#class-compare-link').hidden=false;$('#rune-plan-link').hidden=false;$('#respec-link').hidden=false;
     status('Plan valid. Send this build to the class optimizer or rune planner below.');
-  }catch(e){clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);$('#class-compare-link').hidden=true;$('#rune-plan-link').hidden=true;status(e.message,true)}}
+  }catch(e){clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);$('#class-compare-link').hidden=true;$('#rune-plan-link').hidden=true;$('#respec-link').hidden=true;status(e.message,true)}}
   sel.addEventListener('change',()=>{current=classForName(sel.value);statInputs(grid,current.stats);render()});grid.addEventListener('input',render);
   $('#reset-build').addEventListener('click',()=>{statInputs(grid,current.stats);render()});
+  const savedKey='buildlab:local-build:v1';
+  $('#save-build').addEventListener('click',()=>{
+    try{
+      const stats=read();
+      localStorage.setItem(savedKey,JSON.stringify({version:1,origin:current.name,stats}));
+      status('Build saved on this device only. It is never uploaded.');
+    }catch(e){status('Unable to save locally: '+e.message,true)}
+  });
+  $('#load-build').addEventListener('click',()=>{
+    try{
+      const saved=localStorage.getItem(savedKey);
+      if(!saved){status('No saved build on this browser.');return}
+      const parsed=JSON.parse(saved);
+      const origin=CLASSES.find(c=>c.name===parsed.origin);
+      if(parsed.version!==1||!origin)throw Error('Saved build has an unsupported format.');
+      const stats=validateStats(parsed.stats,origin);
+      current=origin;sel.value=origin.name;statInputs(grid,stats);render();
+      status('Saved build restored from this browser.');
+    }catch(e){status('Unable to load saved build: '+e.message,true)}
+  });
+  $('#delete-build').addEventListener('click',()=>{
+    try{localStorage.removeItem(savedKey);status('Saved build deleted from this browser.')}
+    catch(e){status('Unable to clear local storage: '+e.message,true)}
+  });
   $('#share-build').addEventListener('click',async()=>{try{
     const v=read(),u=queryURL(location.pathname,{origin:current.name,stats:v.join(',')});
     try{await navigator.clipboard.writeText(u);status('Share URL copied. It contains your class and eight attribute values.');}

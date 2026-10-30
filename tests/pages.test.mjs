@@ -4,7 +4,7 @@ import {readdir,readFile,stat} from 'node:fs/promises';
 import {join,resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../public');
-const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','weapon-ar-lab','validation-status','about','privacy'];
+const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-ar-lab','validation-status','about','privacy'];
 for (const slug of paths){
   test(`static page ${slug||'/'} has usable metadata and local assets`,async()=>{
     const p=join(root,slug,'index.html'),html=await readFile(p,'utf8');
@@ -41,4 +41,25 @@ test('cross-tool links and optional budgets have wired inputs and outputs',async
  assert.match(app,/farmingRunsNeeded\(/);
  assert.match(app,/parseSharedStats\(/);
  assert.match(app,/function clearValues\(/);
+});
+
+test('respec stays out of early SEO and passes build handoff',async()=>{
+ const respec=await readFile(join(root,'respec-planner/index.html'),'utf8');
+ const js=await readFile(join(root,'src/respec-app.mjs'),'utf8');
+ const build=await readFile(join(root,'build-planner/index.html'),'utf8');
+ const home=await readFile(join(root,'index.html'),'utf8');
+ const script=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');
+ for(const item of ['origin','before-grid','after-grid','respec-state','respec-build-link','feedback'])
+   assert.match(respec,new RegExp('id="'+item+'"'));
+ assert.match(js,/compareRespec/);
+ assert.match(build,/id="respec-link"/);
+ assert.match(home,/href="respec-planner\/"/);
+ assert.match(script,/uri==='respec-planner'/);
+});
+test('build-local save is explicitly user initiated and has erase control',async()=>{
+ const build=await readFile(join(root,'build-planner/index.html'),'utf8');
+ const app=await readFile(join(root,'src/app.mjs'),'utf8');
+ for(const id of ['save-build','load-build','delete-build'])assert.match(build,new RegExp('id="'+id+'"'));
+ assert.match(app,/localStorage\.removeItem\(savedKey\)/);
+ assert.match(app,/localStorage\.setItem\(savedKey/);
 });

@@ -52,3 +52,10 @@ This is an unofficial fan project unaffiliated with FromSoftware or Bandai Namco
 ## Latest usability work (2026-10-30)
 
 The Build Planner can send its eight stats to the Class Optimizer and its level plan to the Rune Calculator. Rune farming yield is an optional, user-supplied estimate, not a measured farm rate. Equip Load now gives action-oriented reduction thresholds. Invalid inputs clear stale displayed results. See `docs/ITERATION_20261030.md`.
+
+
+## Respec planning and private local storage (2026-10-30)
+
+- `/respec-planner/` compares a character's current and proposed eight stats under the same starting class and level budget. A respec is valid only when the total points are allocated exactly. It does not simulate gear, unlock conditions, or consumables.
+- The respec page is `noindex` pending separate search-intent verification; it is accessible through the homepage and Build Planner.
+- In Build Planner, saving is **opt-in**: Save locally, Load saved, and Delete saved work using this browser's `localStorage`. Shared URLs contain only origin and eight stat values, not identity information.
