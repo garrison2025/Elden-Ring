@@ -10,7 +10,8 @@
     "check": "npm run test && npm run verify:ar && npm run build",
     "verify:ar": "node scripts/verify-ar.mjs --example",
     "import:regulation": "node scripts/import-regulation.mjs --help",
-    "audit:regulation": "node scripts/audit-regulation.mjs --help"
+    "audit:regulation": "node scripts/audit-regulation.mjs --help",
+    "audit:real-v117": "node scripts/audit-v117-pinned.mjs"
   },
   "engines": {
     "node": ">=20"
