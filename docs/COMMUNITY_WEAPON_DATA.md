@@ -6,11 +6,11 @@ Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community 
 
 | Tier | DLC rows | Available | Unavailable |
 | --- | ---: | --- | --- |
-| `base-reference` | 43 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
-| `requirements-weight-only` | 59 | Name, class, five-stat requirements, and secondary community-sourced single-weapon weight | +0 attack, critical, scaling, upgrades, affinities, AR; independent current-patch verification |
+| `base-reference` | 57 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
+| `requirements-weight-only` | 45 | Name, class, five-stat requirements, and secondary community-sourced single-weapon weight | +0 attack, critical, scaling, upgrades, affinities, AR; independent current-patch verification |
 | `requirements-only` / `name-category-only` | 0 | Legacy parser tiers kept for compatibility | Not used in this snapshot |
 
-**Every missing numeric field is null, not zero.** All 102 DLC entries have sourced requirement arrays and community-reported single-item weight; do not confuse this with independently game-validated patch values. The 43 wiki +0 values are reference facts, **not** current patch game-tested AR.
+**Every missing numeric field is null, not zero.** All 102 DLC entries have sourced requirement arrays and community-reported single-item weight; do not confuse this with independently game-validated patch values. The 57 wiki +0 values are reference facts, **not** current patch game-tested AR.
 
 Original nine sourced +0 references: Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
 
@@ -85,3 +85,11 @@ Euporia alone receives a source-published +0–+10 somber **BASE** attack progre
 - Carian Sorcery Sword: corrected physical base attack **69 → 38** in accordance with independent [Regulation 1.17 numeric patch diff](https://almanauts.com/eldenring/patches/1-17/). Earlier wiki.gg 69 figure is not used for current patch physical reference. Magic base remains 69. This is not evidence of full player AR.
 - No upgrade tables were added for Barbed Staff-Spear or Claws of Night: published intermediate upgraded attack rows contain contradictory / decreasing numbers. Bad data is withheld, never interpolated.
 - Backhand Blade, shield, bow and special-grip requirements still follow selective source-based 2H assumptions, never AR formula guesses.
+
+### Additional 14 weapon-specific source reconciliations (2026-10-30)
+
+Leda's Sword; Dryleaf Arts; Sword of Darkness; Sword of Light; Thiollier's Hidden Needle; Velvet Sword of St Trina; Spirit Glaive; Staff of the Great Beyond; Golem Fist; Golden Lion Shield; Moonrithyll's Knight Sword; Sword Lance; Greatsword of Radahn (Light); Greatsword of Radahn (Lord). Each now contains per-item Eldenpedia +0 attack, single weight, critical, requirements, scaling letters and source URL. The secondary dataset incorrectly reports weight 2.5 (Staff of the Great Beyond), 5 (Golem Fist), and 20 (Radahn Light); individual wiki evidence updates these to **2, 6, and 19** respectively. In addition, wiki.gg explicitly states the Radahn paired Greatswords retain a standard two-hand STR boost; those named exceptions are enabled while unrelated paired weapons remain conservative.
+
+Stone-Sheathed Sword wiki presents inconsistent +0 physical numbers (119 infobox vs 89 upgrade table). This is deliberately retained as a weight/requirement-only record with attack **null**, quality-warning flag and a conflict source URL; do not publish either unreviewed attack number as accurate.
+
+Current overall DLC coverage **57 cited +0, 45 weight+requirements only; 102/102 have attributed weight and requirements, 0 precise certified AR**. Prior totals in historical sections reflect earlier increments.

@@ -34,7 +34,7 @@ test('DLC weapon cannot be selected without explicit SOTE reference availability
 });
 test('partially sourced weapon has nonzero weight but still unknown attack and scaling',()=>{
  const nameOnly=find("Bloodfiend's Fork");
- const requirementsOnly=find("Leda's Sword");
+ const requirementsOnly=find("Anvil Hammer");
  const onlyName=inspectBuildWeapon(catalog.weapons,nameOnly.id,stats,{allowSote:true});
  assert.equal(onlyName.weight,4.5);
  assert.deepEqual(onlyName.requirements,[14,8,0,0,13]);

@@ -145,13 +145,13 @@ test('DLC roster has 102 sourced unique weapons/shields and three explicit data 
  assert.equal(new Set(dlc.map(w=>w.name)).size,102);
  assert.equal(catalog.meta.baseCommunityCount,307);
  assert.equal(catalog.meta.dlcCatalogCount,102);
- assert.equal(catalog.meta.dlcBaseFactCount,43);
- assert.equal(catalog.meta.dlcWeightOnlyCount,59);
+ assert.equal(catalog.meta.dlcBaseFactCount,57);
+ assert.equal(catalog.meta.dlcWeightOnlyCount,45);
  assert.equal(catalog.meta.dlcRequirementOnlyCount,0);
  assert.equal(catalog.meta.dlcNameOnlyCount,0);
- assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,43);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,57);
  assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,0);
- assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-weight-only').length,59);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-weight-only').length,45);
  assert.ok(dlc.every(w=>w.sourceUrl?.startsWith('https://')&&w.arParameters===undefined));
  for(const name of ["Rellana's Twin Blades","Rakshasa's Great Katana","Smithscript Dagger",
   "Smithscript Cirque","Spear of the Impaler","Staff of the Great Beyond","Verdigris Greatshield",
@@ -189,9 +189,9 @@ test('102 DLC records have attributed requirements and weights without inventing
  assert.ok(dlc.every(w=>Array.isArray(w.requirements)&&w.requirements.length===5));
  assert.ok(dlc.every(w=>Number.isFinite(w.weight)&&w.weight>=0));
  const partial=dlc.filter(w=>w.dataCoverage==='requirements-weight-only');
- assert.equal(partial.length,59);
+ assert.equal(partial.length,45);
  assert.ok(partial.every(w=>w.attack===null&&w.critical===null&&w.scaling===null&&w.weightSourceUrl));
- const fork=find("Bloodfiend's Fork"),leda=find("Leda's Sword");
+ const fork=find("Bloodfiend's Fork"),leda=find("Anvil Hammer");
  assert.deepEqual(fork.requirements,[14,8,0,0,13]);
  assert.equal(fork.weight,4.5);
  assert.equal(fork.dataCoverage,'requirements-weight-only');
@@ -374,5 +374,48 @@ test('two-handed Strength exceptions are source-scoped, not blindly applied to a
   const result=weaponRequirementComparison(w,stats);
   assert.equal(result.oneHanded.canWield,false);
   assert.equal(result.twoHanded.canWield,true);
+ }
+});
+
+test('another fourteen cited +0 DLC rows use current single-weapon sources, not conflicting CSV weights',()=>{
+ const facts=[
+ ["Leda's Sword",[101,0,0,0,65],7.5,[11,22,0,19,0]],
+ ['Dryleaf Arts',[86,0,0,0,0],1,[8,8,0,0,0]],
+ ['Sword of Darkness',[93,0,0,0,93],4,[14,11,0,24,0]],
+ ['Sword of Light',[93,0,0,0,93],4,[14,11,0,24,0]],
+ ["Thiollier's Hidden Needle",[70,45,0,0,0],0.5,[10,22,15,0,0]],
+ ['Velvet Sword of St Trina',[95,61,0,0,0],2.5,[10,12,14,0,0]],
+ ['Spirit Glaive',[121,36,0,0,0],6.5,[14,17,16,0,0]],
+ ['Staff of the Great Beyond',[27,0,0,0,0],2,[7,0,25,25,0]],
+ ['Golem Fist',[110,0,0,0,0],6,[24,8,11,11,0]],
+ ['Golden Lion Shield',[97,0,0,0,0],5.5,[11,0,0,0,0]],
+ ["Moonrithyll's Knight Sword",[124,80,0,0,0],18,[20,14,18,0,0]],
+ ['Sword Lance',[132,0,0,0,0],9,[21,11,0,0,0]],
+ ['Greatsword of Radahn (Light)',[129,83,0,0,0],19,[32,24,15,0,0]],
+ ['Greatsword of Radahn (Lord)',[129,83,0,0,0],19,[32,24,15,0,0]]
+ ];
+ for(const [name,attack,weight,req] of facts){
+  const w=find(name);
+  assert.equal(w.dataCoverage,'base-reference',name);
+  assert.deepEqual(w.attack,attack,name);assert.equal(w.weight,weight,name);
+  assert.deepEqual(w.requirements,req,name);assert.equal(w.critical,100);
+  assert.match(w.checkedWith,/^https:\/\/eldenring\.wiki\.gg\/wiki\//);
+  assert.equal(Object.hasOwn(w,'arParameters'),false);
+ }
+ for(const name of ['Staff of the Great Beyond','Golem Fist','Greatsword of Radahn (Light)'])
+  assert.match(cautionForWeapon(find(name)).join(' '),/disagreed/);
+ const stone=find('Stone-Sheathed Sword');
+ assert.equal(stone.attack,null);
+ assert.equal(stone.dataCoverage,'requirements-weight-only');
+ assert.match(cautionForWeapon(stone).join(' '),/Conflicting \+0/);
+ assert.match(stone.conflictSourceUrl,/Stone-Sheathed_Sword/);
+});
+test('special paired and fist 2H requirements follow named published exceptions only',()=>{
+ for(const name of ['Greatsword of Radahn (Light)','Greatsword of Radahn (Lord)',
+  'Golem Fist','Golden Lion Shield',"Thiollier's Hidden Needle"]){
+  const w=find(name),req=w.requirements;
+  const stats=[Math.ceil(req[0]*2/3),...req.slice(1).map(n=>Math.max(1,n))];
+  assert.equal(weaponRequirementComparison(w,stats).twoHanded.canWield,true,name);
+  assert.equal(weaponRequirementComparison(w,stats).applyTwoHandBonus,true,name);
  }
 });

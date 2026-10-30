@@ -102,11 +102,12 @@ const NO_STANDARD_TWO_HAND=new Set([
  'Greatshield','Torch'
 ]);
 const SOURCE_VERIFIED_TWO_HAND_EXCEPTION_NAMES=new Set([
- "Ansbach's Longbow","Beast Claw","Nanaya's Torch"
+ "Ansbach's Longbow","Beast Claw","Nanaya's Torch",
+ "Golem Fist","Golden Lion Shield","Thiollier's Hidden Needle"
 ]);
 const SPECIAL_PAIRED_NAMES=new Set([
  "Rellana's Twin Blades","Death Knight's Twin Axes","Falx",
- "Dancing Blade of Ranah","Greatsword of Radahn (Light)","Greatsword of Radahn (Lord)"
+ "Dancing Blade of Ranah"
 ]);
 export function standardTwoHandAssumption(weapon){
  return SOURCE_VERIFIED_TWO_HAND_EXCEPTION_NAMES.has(weapon.name)||
@@ -202,6 +203,8 @@ export function cautionForWeapon(w){
  if(flags.has('malformed-physical-field-in-source'))warnings.push('Upstream physical attack field is malformed. Do not rely on this number.');
  if(flags.has('zero-physical-mixed-entry-check'))warnings.push('Physical attack needs independent cross-check.');
  if(flags.has('unknown-scaling-letter'))warnings.push('One or more base scaling grades are unknown (?) in the source. They are NOT estimated.');
+ if(flags.has('conflicting-weapon-plus-zero-observation'))warnings.push('Conflicting +0 source observations; attack, scaling and critical intentionally remain UNKNOWN. Source requires manual reconciliation.');
+ if(flags.has('secondary-weight-overridden-by-individual-wiki'))warnings.push('Secondary community weight disagreed; individual wiki source is used instead. Not current-regulation game-certified.');
  if(flags.has('1.17-physical-attack-corrected'))warnings.push('Physical +0 base attack corrected using a documented Regulation 1.17 change; other fields are not game-certified.');
  if(flags.has('published-upgrade-table-conflict-not-imported'))warnings.push('Community published upgrade rows contain contradictions; +1..+10 attack values deliberately withheld.');
  if(flags.has('selected-values-cross-checked'))warnings.push('Selected base figures independently cross-checked; full patch/AR still unverified.');
