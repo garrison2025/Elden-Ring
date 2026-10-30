@@ -152,8 +152,8 @@
  <p class="note" id="arw-plan-feedback" role="status" aria-live="polite">Select a sourced weapon and enter your five combat stats to create a local test plan.</p>
  <div id="arw-plan-results" hidden>
   <p class="note" id="arw-plan-summary"></p>
-  <p class="note">For each completed case, enter the <strong>actual integer AR displayed in the game</strong> and a separately saved <strong>screenshot filename</strong>. Partial batches are allowed. Use the game App version, Regulation version, platform and observation date in the preceding single-observation form. Actual screenshots remain on your device and are not uploaded.</p>
-  <div class="table-wrap"><table class="datatable"><thead><tr><th>Case</th><th>Test condition</th><th>Upgrade</th><th>Grip</th><th>STR</th><th>DEX</th><th>INT</th><th>FAI</th><th>ARC</th><th>Candidate AR</th><th>Actual game-menu AR</th><th>Screenshot reference</th></tr></thead><tbody id="arw-plan-rows"></tbody></table></div>
+  <p class="note">For each completed case, enter the <strong>actual integer AR displayed in the game</strong> and a separately saved <strong>screenshot filename</strong>. Partial batches are allowed. Use the game App version, Regulation version, platform and observation date in the preceding single-observation form. For a stronger evidence trail, optionally select the original PNG/JPEG/WebP screenshot (max 12 MB) for each completed case; the browser embeds only its SHA-256 fingerprint, file size and filename. Original images remain on your device and are not uploaded. A matching hash proves only file identity, not that the screenshot is authentic.</p>
+  <div class="table-wrap"><table class="datatable"><thead><tr><th>Case</th><th>Test condition</th><th>Upgrade</th><th>Grip</th><th>STR</th><th>DEX</th><th>INT</th><th>FAI</th><th>ARC</th><th>Candidate AR</th><th>Actual game-menu AR</th><th>Screenshot reference</th><th>Optional screenshot (local SHA-256)</th></tr></thead><tbody id="arw-plan-rows"></tbody></table></div>
  </div>
  <div class="safe-banner"><strong>Independent review is a separate step.</strong> Exported numeric matches remain UNREVIEWED. No screenshot authenticity, client version, game-data rights, somber skill, ammo, spell-tool, status or enemy damage is certified here. FICTIONAL demo plans cannot be exported as real observations.</div>
 </section>
@@ -170,6 +170,16 @@
    <div class="metric"><div class="metric-label">Fresh minus game-menu entry</div><strong id="arw-recheck-game-gap">—</strong></div>
   </div>
   <p class="note" id="arw-recheck-summary"></p>
+  <div id="arw-fingerprint-verify" hidden>
+   <h3>Compare a saved screenshot against its batch SHA-256</h3>
+   <p>Choose a fingerprinted case from the imported batch and select the original image file. The browser checks whether its bytes match the saved hash. This is not a game-client or screenshot-content review.</p>
+   <div class="input-two">
+    <label class="field">Fingerprinted case<select id="arw-fingerprint-case"></select></label>
+    <label class="field">Original screenshot to compare<input id="arw-fingerprint-file" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"></label>
+   </div>
+   <div class="workbench-actions"><button class="btn alt" id="arw-fingerprint-run" type="button">Compare screenshot SHA-256 locally</button></div>
+   <p class="note" id="arw-fingerprint-feedback" role="status" aria-live="polite">No screenshot bytes checked. No images leave this browser.</p>
+  </div>
   <div id="arw-recheck-batch" hidden>
    <div class="table-wrap"><table class="datatable"><thead><tr><th>Case</th><th>Recheck status</th><th>Fresh minus stored</th><th>Fresh minus reported game AR</th><th>Fields consistent</th></tr></thead><tbody id="arw-recheck-batch-rows"></tbody></table></div>
   </div>
