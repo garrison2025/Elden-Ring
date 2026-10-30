@@ -60,13 +60,14 @@ test('raw source arithmetic matches independently converted synthetic weapon AR'
   }
  }
 });
-test('whole-source parity covers four cases each; status stays unverified and output anonymous',()=>{
+test('whole-source parity covers 12 boundary and attribute-focus scenarios per row; output remains anonymous',()=>{
  const source=fixture(),progress=[];
  const report=auditRawMathParity(source,{gameVersion:'synthetic',sourceReference:'synthetic fixture',
   onProgress:p=>progress.push(p)});
  assert.equal(report.totalRows,5);
  assert.equal(report.converted,5);
- assert.equal(report.compared,20);
+ assert.equal(report.scenarioCount,12);
+ assert.equal(report.compared,60);
  assert.equal(report.mismatched,0);
  assert.equal(report.unsupported,0);
  assert.equal(report.parityPass,true);
