@@ -177,7 +177,9 @@ test('character build seamlessly passes five combat stats to real community weap
  const catalog=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
  assert.match(html,/id="weapon-catalog-link"/);
  assert.match(app,/weapon-catalog-link/);
- assert.match(app,/queryURL\('\.\.\/weapon-database\/',\{stats:v\.join\(','\)\}\)/);
+ assert.match(app,/queryURL\('\.\.\/weapon-database\/',\{/);
+ assert.match(app,/origin:current\.name,stats:v\.join\(','\)/);
+ assert.match(app,/weapon:selectedWeaponId/);
  assert.match(catalog,/params\.get\('stats'\)/);
  assert.match(catalog,/slice\(3\)/);
 });

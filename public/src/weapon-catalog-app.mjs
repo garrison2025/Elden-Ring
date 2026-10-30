@@ -166,6 +166,16 @@ function renderDetails(){
   a.href=chosen.checkedWith;a.target='_blank';a.rel='noopener noreferrer';
   $('catalog-verified').append(a);
  }
+  const buildLink=$('catalog-build-link');
+ const buildUrl=new URL('../build-planner/',location.href);
+ buildUrl.searchParams.set('weapon',chosen.id);
+ const origin=params.get('origin'),eight=params.get('stats');
+ if(origin&&origin.length<=60)buildUrl.searchParams.set('origin',origin);
+ if(eight&&/^([0-9]{1,2},){7}[0-9]{1,2}$/.test(eight))buildUrl.searchParams.set('stats',eight);
+ if(params.get('tarnished')==='1')buildUrl.searchParams.set('tarnished','1');
+ if(params.get('sote')==='1')buildUrl.searchParams.set('sote','1');
+ buildLink.href=buildUrl.pathname+buildUrl.search;
+
  try{
   const stats=readStats();
   if(chosen.requirements===null)throw new RangeError('Unknown weapon requirements');
@@ -178,7 +188,7 @@ function renderDetails(){
   $('catalog-two').title=result.applyTwoHandBonus?
    'Standard 1.5× STR assumption only; check paired and special grip rules in-game.':
    'No normal two-hand Strength increase assumed for this category.';
-  const link=$('catalog-requirements-link');
+ const link=$('catalog-requirements-link');
   link.href=requirementsUrl(chosen,stats);
   link.hidden=false;
  }catch(e){

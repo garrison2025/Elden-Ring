@@ -218,3 +218,15 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .compare-controls button:disabled{opacity:.5;cursor:not-allowed}
 .compare-share{margin:0}.compare-share input{width:100%;font-size:12px}
 @media(max-width:570px){.reference-compare-table th:first-child,.reference-compare-table td:first-child{min-width:125px}.reference-compare-table th,.reference-compare-table td{min-width:145px;padding:11px 9px}.compare-controls{display:grid;grid-template-columns:1fr 1fr}.compare-controls .btn{width:100%;font-size:12px;padding:10px 6px}.catalog-compare{padding:17px}}
+
+/* Build Planner optional weapon reference: content packs are separate, and facts are not AR. */
+.build-content-check{display:flex;align-items:flex-start;gap:11px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.5}
+.build-content-check input{width:19px;height:19px;margin:1px 0 0;flex:0 0 auto;accent-color:var(--gold)}
+.build-weapon-panel{margin:23px 0 10px;padding:17px 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel2)}
+.build-weapon-panel h3{margin:0 0 8px;font:600 19px Georgia,serif}
+.build-weapon-panel .field{margin:15px 0 8px}
+.build-weapon-panel .note{line-height:1.65}
+.build-weapon-summary{min-height:45px;margin:14px 0 11px;padding:12px 14px;border:1px solid var(--line);background:var(--panel);border-radius:9px;color:var(--text);font-size:13px;line-height:1.65;overflow-wrap:anywhere}
+.build-weapon-panel .btn.alt{margin-left:0}
+.build-weapon-panel input:disabled,.build-weapon-panel select:disabled{opacity:.55;cursor:wait}
+@media(max-width:570px){.build-weapon-panel{padding:14px 12px}.build-weapon-panel .btn{width:100%}}
