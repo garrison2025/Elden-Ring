@@ -20,3 +20,5 @@ The source has two distinct Erdtree Seal rows with the same name, both flagged. 
 Records without warning flags are NOT independently verified. Some DLC weapons and balance changes are absent.
 Base weapon attack is not player AR. Letter-grade scaling is insufficient for true AR math.
 Research route remains noindex until independent current-patch validation and data-rights review.
+
+Twelve source weapons have unknown '?' scaling grades. They remain '?' (not guessed) and are flagged in the UI; this is not a current-patch-verified scaling database.

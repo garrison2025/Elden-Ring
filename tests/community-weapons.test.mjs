@@ -70,3 +70,10 @@ test('reject invalid values, duplicate IDs, corrupted stats and unsupported sort
  assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:308},weapons:[...catalog.weapons,catalog.weapons[0]]}),/Duplicate weapon ID/);
  assert.throws(()=>searchCatalog(catalog.weapons,{sort:'unknown'}),/Invalid catalog search/);
 });
+
+test('12 upstream unknown scaling grades are explicitly flagged and never guessed',()=>{
+ const marked=catalog.weapons.filter(x=>x.flags?.includes('unknown-scaling-letter'));
+ assert.equal(marked.length,12);
+ assert.ok(marked.every(x=>x.scaling.includes('?')));
+ assert.match(cautionForWeapon(marked[0]).join(' '),/unknown/);
+});

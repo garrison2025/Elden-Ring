@@ -31,7 +31,7 @@ export function validateCommunityCatalog(catalog){
   if(!Array.isArray(w.requirements)||w.requirements.length!==5||
     w.requirements.some(v=>!Number.isInteger(v)||v<0||v>99))fail('Invalid requirements '+i);
   if(!Array.isArray(w.scaling)||w.scaling.length!==5||
-    w.scaling.some(v=>typeof v!=='string'||!/^(?:S|A|B|C|D|E|-)$/i.test(v)))
+    w.scaling.some(v=>typeof v!=='string'||!/^(?:S|A|B|C|D|E|-|\?)$/i.test(v)))
    fail('Invalid scaling-letter metadata '+i);
   if(w.flags!==undefined&&(!Array.isArray(w.flags)||w.flags.some(x=>typeof x!=='string'||x.length>65)))
    fail('Invalid quality flags '+i);
@@ -72,6 +72,7 @@ export function cautionForWeapon(w){
  if(flags.has('suspicious-critical-in-source'))warnings.push('Critical value in the upstream source is suspicious. Treat it as unverified.');
  if(flags.has('malformed-physical-field-in-source'))warnings.push('Upstream physical attack field is malformed. Do not rely on this number.');
  if(flags.has('zero-physical-mixed-entry-check'))warnings.push('Physical attack needs independent cross-check.');
+ if(flags.has('unknown-scaling-letter'))warnings.push('One or more base scaling grades are unknown (?) in the source. They are NOT estimated.');
  if(flags.has('selected-values-cross-checked'))warnings.push('Selected base figures independently cross-checked; full patch/AR still unverified.');
  return warnings;
 }
