@@ -116,6 +116,21 @@ test('weapon material planner has input controls, local engine and dedicated noi
  assert.match((await readFile(join(root,'index.html'),'utf8')),/href="weapon-upgrade-calculator\/"/);
 });
 
+test('catalog link carries exactly five stats into same-source affinity-family workbench without auto-loading third-party data',async()=>{
+ const catalogApp=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
+ const worker=await readFile(join(root,'src/ar-workbench-worker.mjs'),'utf8');
+ const js=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
+ const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
+ assert.match(catalogApp,/makeArWorkbenchUrl\(chosen\.name,arStats/);
+ assert.match(worker,/case 'family'/);
+ assert.match(worker,/findLocalWeaponFamily/);
+ assert.match(js,/parseArWorkbenchHandoff\(location\.search\)/);
+ assert.match(js,/send\(\{op:'family',requestId:/);
+ assert.match(js,/m\.requestId!==searchRevision/);
+ for(const id of ['arw-handoff-context','arw-upgrade-max','arw-apply-requirements'])assert.ok(html.includes('id="'+id+'"'));
+ assert.match(html,/noindex,nofollow/);
+ assert.match(html,/Only clicking the external-source button downloads/);
+});
 test('pinned community v1.17 source is explicitly opt-in and AR remains noindex',async()=>{
  const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
  const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {searchLocalWeapons,describeLocalWeapon,compareLocalGrips} from '../public/src/ar-workbench-core.mjs';
+import {searchLocalWeapons,findLocalWeaponFamily,describeLocalWeapon,compareLocalGrips} from '../public/src/ar-workbench-core.mjs';
 const data=()=>{
  const graph=[{maxVal:0,maxGrowVal:0,adjPt:1},{maxVal:148,maxGrowVal:1.48,adjPt:1}];
  const stats={str:1,dex:1,int:1,fai:1,arc:1};
@@ -83,4 +83,38 @@ test('pair comparison refuses missing reinforcement and different declared game 
  assert.throws(()=>compareWeaponPair(left,right,stats,{leftUpgrade:0,rightUpgrade:20}),/no supplied data/);
  right.provenance.gameVersion='different';
  assert.throws(()=>compareWeaponPair(left,right,stats,{leftUpgrade:0,rightUpgrade:0}),/different declared game versions/);
+});
+
+test('exact weapon family resolves original and all source affinity variants without substring guessing',()=>{
+ const source=data();
+ source.weapons.push({...source.weapons[0],
+  name:'Fictional Magic Blade',weaponName:'Blade',affinityId:8});
+ source.weapons[0].affinityId=9;source.weapons[1].affinityId=1;
+ assert.deepEqual(findLocalWeaponFamily(source,'Blade'),{
+  found:true,family:'Blade',matches:3,
+  names:['Fictional Heavy Blade','Fictional Magic Blade','Fictional Cold Blade'],
+  defaultName:'Fictional Heavy Blade'
+ });
+ const exact=findLocalWeaponFamily(source,'Fictional Magic Blade');
+ assert.equal(exact.defaultName,'Fictional Magic Blade');
+ assert.equal(exact.matches,3);
+ const paired=findLocalWeaponFamily(source,'Blades');
+ assert.equal(paired.matches,1);
+ assert.equal(paired.defaultName,'Fictional Paired Blades');
+ const miss=findLocalWeaponFamily(source,'Bla');
+ assert.equal(miss.found,false);assert.equal(miss.matches,0);
+ assert.deepEqual(miss.names,[]);
+ assert.throws(()=>findLocalWeaponFamily(source,' '.repeat(2)),/Invalid local/);
+});
+test('real source family lookup handles punctuation and rejects variant flooding',()=>{
+ const root={weapons:[
+  {name:"Fire Knight's Shortsword",weaponName:"Fire Knight's Shortsword",affinityId:0},
+  {name:"Fire Knight's Cold Shortsword",weaponName:"Fire Knight's Shortsword",affinityId:9},
+  {name:"Fire Knight's Heavy Shortsword",weaponName:"Fire Knight's Shortsword",affinityId:1}
+ ]};
+ const a=findLocalWeaponFamily(root,'Fire Knight’s Shortsword');
+ assert.deepEqual(a.names,["Fire Knight's Shortsword","Fire Knight's Heavy Shortsword","Fire Knight's Cold Shortsword"]);
+ assert.equal(a.defaultName,"Fire Knight's Shortsword");
+ const b=findLocalWeaponFamily(root,"Fire Knight's Cold Shortsword");
+ assert.equal(b.defaultName,"Fire Knight's Cold Shortsword");
 });

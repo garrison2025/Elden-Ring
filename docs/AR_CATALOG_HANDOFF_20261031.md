@@ -1,0 +1,11 @@
+# AR workbench: source-defined weapon-family links from catalog (2026-10-31)
+
+A community weapon in `/weapon-database/` can now open `/weapon-data-workbench/?weapon=...&player=...&upgrade=...`. The handoff is **only a URL**: five validated STR/DEX/INT/FAI/ARC attributes, exactly one catalog base weapon name, and an optional level currently displayed for a sourced community somber +0–10 sequence. No save-to-browser, no server build transmission, and no third-party request is performed by opening this link.
+
+After **explicitly clicking** Load public v1.17 dataset or importing local JSON, the worker resolves the requested catalog name against the source's exact `weaponName`, not a guessed string prefix. If the user requested an exact named affinity row, it is selected; otherwise choose source-standard/uninfused/unique row. All 13 actual source-defined Greatsword / Claymore / Longsword affinities are listed together by their `affinityId`; unique DLC armaments show one entry. When there is no exact match, show an explicit no-match warning and do not silently load a similar name.
+
+Workflow: open a community weapon → enter five actual stats → open its AR research link → user clicks the source download button → the exact weapon/affinity group appears, with the prior five stats → select variant and supplied enhancement level. Quick controls **Use highest supplied upgrade** and **Use weapon minimum requirements** operate only on the in-memory imported source. The latter chooses at least 10 in other attributes and never changes the catalog or a saved build. Changing selection retains an existing supported level when possible.
+
+The workbench uses request IDs to drop stale searches and selected-weapon responses. It keeps **noindex,nofollow** and unverified-research disclaimers. It does not imply that community-catalog +0 values are identical to source-v1.17 numerical values: seven source conflicts remain flagged and unresolved. No official in-game screenshot/2026 Regulation 1.17.3 game-client goldens exist yet. Existing 3 historical player, 14 independently published 1.17.3 table and 13,184 same-source formula benchmarks still run as separate CI gates.
+
+No paid API, server-side source download, or redistribution of game-derived parameter databases was introduced.

@@ -116,3 +116,27 @@ test('worker sends anonymous audit progress and never reveals original item name
   assert.ok(!JSON.stringify(all[1].report).includes('Invented regression fixture'));
  }finally{self.postMessage=original;}
 });
+
+test('worker resolves source-defined base weapon to actual affinity variants and returns correlated request IDs',()=>{
+ const source={
+  ...data(),
+  weapons:[
+   {...data().weapons[0],name:'Invented Claymore',weaponName:'Claymore',affinityId:0},
+   {...data().weapons[0],name:'Heavy Invented Claymore',weaponName:'Claymore',affinityId:1}
+  ]
+ };
+ let response=command({op:'load',text:JSON.stringify(source),version:'fictional',reference:'self-produced synthetic'});
+ assert.equal(response.op,'loaded');
+ response=command({op:'family',requestId:14,name:'Claymore'});
+ assert.equal(response.op,'family-results');
+ assert.equal(response.requestId,14);
+ assert.equal(response.result.matches,2);
+ assert.equal(response.result.defaultName,'Invented Claymore');
+ response=command({op:'select',requestId:17,name:'Heavy Invented Claymore'});
+ assert.equal(response.op,'selected');assert.equal(response.requestId,17);
+ response=command({op:'search',requestId:20,term:'heavy'});
+ assert.equal(response.op,'search-results');assert.equal(response.requestId,20);
+ response=command({op:'family',requestId:21,name:'No such variant'});
+ assert.equal(response.op,'family-results');assert.equal(response.result.found,false);
+ assert.equal(command({op:'clear'}).op,'cleared');
+});
