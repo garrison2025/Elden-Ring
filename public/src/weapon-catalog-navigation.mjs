@@ -9,8 +9,9 @@ export function makeWeaponCatalogShareUrl(weaponId,stats,currentPageUrl){
   throw new RangeError('Expected the current catalog URL.');
  const url=new URL(currentPageUrl);
  if(!['https:','http:'].includes(url.protocol)||
-    !url.pathname.endsWith('/weapon-database/'))
+    !(url.pathname.endsWith('/weapon-database/')||url.pathname.endsWith('/weapon-database/index.html')))
   throw new RangeError('Not a weapon catalog page URL.');
+ if(url.pathname.endsWith('/index.html'))url.pathname=url.pathname.slice(0,-10);
  url.search='';url.hash='';
  url.searchParams.set('weapon',weaponId);
  if(stats!==null&&stats!==undefined){
