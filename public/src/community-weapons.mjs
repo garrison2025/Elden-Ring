@@ -90,12 +90,16 @@ const NO_STANDARD_TWO_HAND=new Set([
  'Thrusting Shield','Throwing Blade','Small Shield','Medium Shield',
  'Greatshield','Torch'
 ]);
+const SOURCE_VERIFIED_TWO_HAND_EXCEPTION_NAMES=new Set([
+ "Ansbach's Longbow"
+]);
 const SPECIAL_PAIRED_NAMES=new Set([
  "Rellana's Twin Blades","Death Knight's Twin Axes","Falx",
  "Dancing Blade of Ranah","Greatsword of Radahn (Light)","Greatsword of Radahn (Lord)"
 ]);
 export function standardTwoHandAssumption(weapon){
- return !NO_STANDARD_TWO_HAND.has(weapon.category)&&!SPECIAL_PAIRED_NAMES.has(weapon.name);
+ return SOURCE_VERIFIED_TWO_HAND_EXCEPTION_NAMES.has(weapon.name)||
+  (!NO_STANDARD_TWO_HAND.has(weapon.category)&&!SPECIAL_PAIRED_NAMES.has(weapon.name));
 }
 export function weaponRequirementComparison(weapon,stats){
  if(!weapon)fail('Weapon selection is missing.');

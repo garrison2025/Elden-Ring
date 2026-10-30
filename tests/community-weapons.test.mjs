@@ -145,12 +145,12 @@ test('DLC roster has 102 sourced unique weapons/shields and three explicit data 
  assert.equal(new Set(dlc.map(w=>w.name)).size,102);
  assert.equal(catalog.meta.baseCommunityCount,307);
  assert.equal(catalog.meta.dlcCatalogCount,102);
- assert.equal(catalog.meta.dlcBaseFactCount,21);
- assert.equal(catalog.meta.dlcRequirementOnlyCount,52);
- assert.equal(catalog.meta.dlcNameOnlyCount,29);
- assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,21);
- assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,52);
- assert.equal(dlc.filter(w=>w.dataCoverage==='name-category-only').length,29);
+ assert.equal(catalog.meta.dlcBaseFactCount,30);
+ assert.equal(catalog.meta.dlcRequirementOnlyCount,44);
+ assert.equal(catalog.meta.dlcNameOnlyCount,28);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,30);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,44);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='name-category-only').length,28);
  assert.ok(dlc.every(w=>w.sourceUrl?.startsWith('https://')&&w.arParameters===undefined));
  for(const name of ["Rellana's Twin Blades","Rakshasa's Great Katana","Smithscript Dagger",
   "Smithscript Cirque","Spear of the Impaler","Staff of the Great Beyond","Verdigris Greatshield",
@@ -236,9 +236,10 @@ test('three +0–+10 somber published BASE attack tables never imply exact AR pa
   'Sword of Night':[[110,33,0,0,0],[269,80,0,0,0]],
   "Rakshasa's Great Katana":[[155,0,0,0,0],[379,0,0,0,0]],
   'Repeating Crossbow':[[74,0,0,0,0],[259,0,0,0,0]],
-  'Tooth Whip':[[109,0,0,0,0],[267,0,0,0,0]]
+  'Tooth Whip':[[109,0,0,0,0],[267,0,0,0,0]],
+  'Euporia':[[84,0,0,0,100],[205,0,0,0,245]]
  };
- assert.equal(catalog.meta.dlcUpgradeReferenceCount,4);
+ assert.equal(catalog.meta.dlcUpgradeReferenceCount,5);
  for(const [name,[first,last]] of Object.entries(expected)){
   const w=find(name);
   assert.equal(w.upgradeReference.path,'somber');
@@ -276,6 +277,47 @@ test('three further source-linked DLC weapons are safely available for base atta
  assert.deepEqual(find('Tooth Whip').upgradeReference.attackByLevel.map(x=>x[0]),
   [109,124,140,156,172,188,203,219,235,251,267]);
  assert.equal(searchCatalog(catalog.weapons,{term:'Spirit Sword',damage:'magic'}).total,1);
+});
+test('nine verified wiki.gg +0 armament facts and DLC 1.17 corrections stay exact',()=>{
+ const rows=[["Ancient Meteoric Ore Greatsword",[154,46,0,0,0],22,100,[35,10,0,0,19],["D","E","-","-","D"],"Ancient_Meteoric_Ore_Greatsword"],["Greatsword of Solitude",[120,0,0,0,0],15.5,100,[27,13,0,0,0],["B","E","-","-","-"],"Greatsword_of_Solitude"],["Black Steel Greathammer",[140,0,0,0,42],12,100,[25,11,0,17,0],["C","E","-","D","-"],"Black_Steel_Greathammer"],["Bloodfiend's Arm",[147,0,0,0,0],20,100,[28,11,0,0,16],["D","E","-","-","D"],"Bloodfiend%27s_Arm"],["Euporia",[84,0,0,0,100],8.5,100,[16,16,0,24,0],["D","D","-","D","-"],"Euporia"],["Greatsword of Damnation",[123,0,0,0,79],8,100,[20,15,0,20,0],["D","E","-","D","-"],"Greatsword_of_Damnation"],["Black Steel Greatshield",[119,0,0,0,0],18,100,[35,0,0,0,0],["D","-","-","-","-"],"Black_Steel_Greatshield"],["Carian Sorcery Sword",[69,69,0,0,0],2.5,110,[10,19,16,0,0],["E","D","D","-","-"],"Carian_Sorcery_Sword"],["Ansbach's Longbow",[74,0,0,0,0],4.5,100,[9,43,0,0,0],["E","D","-","-","-"],"Ansbach%27s_Longbow"]];
+ for(const [name,attack,weight,critical,req,scale,source] of rows){
+  const weapon=find(name);
+  assert.ok(weapon);
+  assert.equal(weapon.dataCoverage,'base-reference');
+  assert.deepEqual(weapon.attack,attack);
+  assert.equal(weapon.weight,weight);
+  assert.equal(weapon.critical,critical);
+  assert.deepEqual(weapon.requirements,req);
+  assert.deepEqual(weapon.scaling,scale);
+  assert.equal(weapon.checkedWith,'https://eldenring.wiki.gg/wiki/'+source);
+  assert.equal(Object.hasOwn(weapon,'arParameters'),false);
+ }
+ assert.equal(find('Ansbach\'s Longbow').requirements[1],43);
+ assert.equal(find('Black Steel Greatshield').weight,18);
+ assert.equal(find('Carian Sorcery Sword').critical,110);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Euporia',damage:'holy'}).total,1);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Black Steel Greatshield',maxWeight:17}).total,0);
+});
+test('Euporia published split somber base attack progression preserves holy component without AR extrapolation',()=>{
+ const weapon=find('Euporia');
+ assert.deepEqual(weapon.upgradeReference.attackByLevel.map(row=>row[0]),
+   [84,96,108,120,132,144,157,169,181,193,205]);
+ assert.deepEqual(weapon.upgradeReference.attackByLevel.map(row=>row[4]),
+   [100,114,129,143,158,172,187,201,216,230,245]);
+ assert.deepEqual(publishedUpgradeParts(weapon,10),
+   [{name:'Physical',amount:205},{name:'Holy',amount:245}]);
+ assert.equal(catalog.meta.dlcUpgradeReferenceCount,5);
+ assert.match(cautionForWeapon(weapon).join(' '),/not precise reinforcement multipliers/);
+});
+test('sourced Ansbach Longbow exception permits only documented 2H Strength requirements',()=>{
+ const bow=find("Ansbach's Longbow");
+ const result=weaponRequirementComparison(bow,[8,43,10,10,10]);
+ assert.equal(result.oneHanded.canWield,false);
+ assert.equal(result.twoHanded.canWield,true);
+ assert.equal(result.applyTwoHandBonus,true);
+ assert.equal(result.twoHanded.effectiveStrength,12);
+ assert.equal(searchCatalog(catalog.weapons,{term:"Ansbach's Longbow",wield:'one',stats:[8,43,10,10,10]}).total,0);
+ assert.equal(searchCatalog(catalog.weapons,{term:"Ansbach's Longbow",wield:'standard-two',stats:[8,43,10,10,10]}).total,1);
 });
 test('conservative 2H calculations do not grant strength boost to new paired/special DLC types',()=>{
  const stats=[9,20,10,10,10];

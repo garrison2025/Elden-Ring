@@ -6,17 +6,17 @@ Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community 
 
 | Tier | DLC rows | Available | Unavailable |
 | --- | ---: | --- | --- |
-| `base-reference` | 21 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
-| `requirements-only` | 52 | Name, class and community-reported 5-stat requirements | +0 attack, critical, weight, scaling, upgrades, affinities, AR |
-| `name-category-only` | 29 | Name and class, checked against DLC roster | Requirements and all numerical combat properties |
+| `base-reference` | 30 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
+| `requirements-only` | 44 | Name, class and community-reported 5-stat requirements | +0 attack, critical, weight, scaling, upgrades, affinities, AR |
+| `name-category-only` | 28 | Name and class, checked against DLC roster | Requirements and all numerical combat properties |
 
-**Every missing numeric field is null, not zero.** The 21 wiki +0 values are reference facts, **not** current patch game-tested AR.
+**Every missing numeric field is null, not zero.** The 30 wiki +0 values are reference facts, **not** current patch game-tested AR.
 
 Original nine sourced +0 references: Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
 
 Additional nine sourced +0 references: Spear of the Impaler, Sword of Night, Star-Lined Sword, Obsidian Lamina, Poleblade of the Bud, Queelign's Greatsword, Shadow Sunflower Blossom, Pata, and Repeating Crossbow. Each provides its individual `checkedWith` source URL.
 
-Four individual weapons (Sword of Night, Rakshasa's Great Katana, Repeating Crossbow and Tooth Whip) also contain community-published rounded **base-attack tables** for their somber +0–+10 path, each with its individual source. Their rows do **not** reveal the underlying exact reinforcement multipliers or scaling values and are never used to compute AR.
+Five individual weapons (Sword of Night, Rakshasa's Great Katana, Repeating Crossbow, Tooth Whip and Euporia) also contain community-published rounded **base-attack tables** for their somber +0–+10 path, each with its individual source. Their rows do **not** reveal the underlying exact reinforcement multipliers or scaling values and are never used to compute AR.
 
 ## Sources and rights
 
@@ -60,3 +60,19 @@ Eldenpedia's [Spiked Spear](https://eldenring.wiki.gg/wiki/Spiked_Spear) +0 reco
 Two-handing a Crossbow **can** satisfy reduced Strength requirements where a documented weapon displays the 1H/2H requirements: [Repeating Crossbow](https://eldenring.wiki.gg/wiki/Repeating_Crossbow) 13 STR (1H), 9 STR (2H); [Spread Crossbow](https://eldenring.wiki.gg/wiki/Spread_Crossbow) 11 STR (1H), 8 STR (2H). The requirement checker now permits the standard 1.5× effective STR rule for Crossbow; this is **not** a claim that crossbows gain Strength damage scaling or can fire without bolts. Bows and other categories remain conservative until independently checked.
 
 New catalog integrity validation compares declared coverage counts against actual DLC tiers and published attack tables; mismatches fail the build. Neither corrected weapon facts nor new validation constitutes current regulation AR certification.
+
+## Additional nine source-audited DLC +0 entries — later 2026-10-30
+
+- **Ancient Meteoric Ore Greatsword** — attack [physical,magic,fire,lightning,holy] [154,46,0,0,0], weight 22, critical 100, requirements [STR,DEX,INT,FAI,ARC] [35,10,0,0,19], +0 scaling letters ["D","E","-","-","D"]. Source: https://eldenring.wiki.gg/wiki/Ancient_Meteoric_Ore_Greatsword
+- **Greatsword of Solitude** — attack [physical,magic,fire,lightning,holy] [120,0,0,0,0], weight 15.5, critical 100, requirements [STR,DEX,INT,FAI,ARC] [27,13,0,0,0], +0 scaling letters ["B","E","-","-","-"]. Source: https://eldenring.wiki.gg/wiki/Greatsword_of_Solitude
+- **Black Steel Greathammer** — attack [physical,magic,fire,lightning,holy] [140,0,0,0,42], weight 12, critical 100, requirements [STR,DEX,INT,FAI,ARC] [25,11,0,17,0], +0 scaling letters ["C","E","-","D","-"]. Source: https://eldenring.wiki.gg/wiki/Black_Steel_Greathammer
+- **Bloodfiend's Arm** — attack [physical,magic,fire,lightning,holy] [147,0,0,0,0], weight 20, critical 100, requirements [STR,DEX,INT,FAI,ARC] [28,11,0,0,16], +0 scaling letters ["D","E","-","-","D"]. Source: https://eldenring.wiki.gg/wiki/Bloodfiend%27s_Arm
+- **Euporia** — attack [physical,magic,fire,lightning,holy] [84,0,0,0,100], weight 8.5, critical 100, requirements [STR,DEX,INT,FAI,ARC] [16,16,0,24,0], +0 scaling letters ["D","D","-","D","-"]. Source: https://eldenring.wiki.gg/wiki/Euporia
+- **Greatsword of Damnation** — attack [physical,magic,fire,lightning,holy] [123,0,0,0,79], weight 8, critical 100, requirements [STR,DEX,INT,FAI,ARC] [20,15,0,20,0], +0 scaling letters ["D","E","-","D","-"]. Source: https://eldenring.wiki.gg/wiki/Greatsword_of_Damnation
+- **Black Steel Greatshield** — attack [physical,magic,fire,lightning,holy] [119,0,0,0,0], weight 18, critical 100, requirements [STR,DEX,INT,FAI,ARC] [35,0,0,0,0], +0 scaling letters ["D","-","-","-","-"]. Source: https://eldenring.wiki.gg/wiki/Black_Steel_Greatshield
+- **Carian Sorcery Sword** — attack [physical,magic,fire,lightning,holy] [69,69,0,0,0], weight 2.5, critical 110, requirements [STR,DEX,INT,FAI,ARC] [10,19,16,0,0], +0 scaling letters ["E","D","D","-","-"]. Source: https://eldenring.wiki.gg/wiki/Carian_Sorcery_Sword
+- **Ansbach's Longbow** — attack [physical,magic,fire,lightning,holy] [74,0,0,0,0], weight 4.5, critical 100, requirements [STR,DEX,INT,FAI,ARC] [9,43,0,0,0], +0 scaling letters ["E","D","-","-","-"]. Source: https://eldenring.wiki.gg/wiki/Ansbach%27s_Longbow
+
+Important source corrections: Ansbach's Longbow originally had requirements 10 STR / 18 DEX in the secondary roster but the per-weapon source reports **9 STR / 43 DEX** (8 STR when two-handed). Only this specifically documented Bow is opted into the two-hand Strength condition; no generic bow AR or scaling assumptions are introduced. Black Steel Greatshield weighs **18** per its documented 1.17 change. Carian Sorcery Sword critical is **110**. Ancient Meteoric Ore Greatsword's source +3 upgrade table has a likely inconsistent magic value; its level-by-level table was deliberately NOT imported.
+
+Euporia alone receives a source-published +0–+10 somber **BASE** attack progression (physical 84→205, holy 100→245), not scaling or verified final AR.
