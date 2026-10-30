@@ -24,7 +24,7 @@ test('real community catalog requirement shortfall identifies exact stat deficit
 });
 test('fewest missing one-handed points sort is deterministic, supports filters and unknowns last',()=>{
  const pool=[get('Greatsword'),get('Uchigatana'),get('Stone-Sheathed Sword'),
-  {...get('Sword of Night'),id:'synthetic-unknown-requirements',requirements:null,name:'Unknown Sample'}];
+  {...get('Sword of Night'),id:'synthetic-unknown-requirements',category:'unknown',requirements:null,name:'Unknown Sample'}];
  const sorted=searchCatalog(pool,{sort:'requirements',stats,limit:10});
  assert.deepEqual(sorted.results.map(x=>x.name),[
   'Stone-Sheathed Sword','Uchigatana','Greatsword','Unknown Sample']);
