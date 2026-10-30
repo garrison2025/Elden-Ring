@@ -16,6 +16,37 @@ export function searchLocalWeapons(names,term='',limit=60){
  }
  return {matches,names:results};
 }
+/** Exact base-weapon family lookup from an already imported local compact JSON.
+ * A catalog deep link must not silently pick an unrelated substring match.
+ * Preserves numeric affinity order (standard, heavy, keen, ...), using the
+ * independently imported source's weaponName mapping, not guessed prefixes.
+ */
+export function findLocalWeaponFamily(regulation,requestedName){
+ if(!regulation||!Array.isArray(regulation.weapons)||
+    typeof requestedName!=='string'||!requestedName.trim()||requestedName.length>100)
+  throw new RangeError('Invalid local weapon family lookup.');
+ const normal=value=>String(value).trim().replace(/[\u2018\u2019]/g,"'").toLocaleLowerCase('en-US');
+ const target=normal(requestedName);
+ const valid=regulation.weapons.filter(x=>x&&typeof x.name==='string'&&x.name.length<=120&&
+  typeof (x.weaponName??x.name)==='string');
+ const match=valid.find(x=>normal(x.weaponName??x.name)===target)||
+  valid.find(x=>normal(x.name)===target);
+ if(!match)return {found:false,family:'',matches:0,names:[],defaultName:''};
+ const familyName=match.weaponName??match.name;
+ const variants=valid.filter(x=>normal(x.weaponName??x.name)===normal(familyName))
+  .sort((a,b)=>{
+   const aa=Number.isInteger(a.affinityId)?a.affinityId:100;
+   const bb=Number.isInteger(b.affinityId)?b.affinityId:100;
+   return aa-bb||a.name.localeCompare(b.name);
+  });
+ const names=[...new Set(variants.map(x=>x.name))];
+ if(names.length>100)throw new RangeError('Weapon family variant limit exceeded.');
+ const chosen=variants.find(x=>normal(x.name)===target)?.name||
+  variants.find(x=>x.affinityId===0||x.affinityId===-1)?.name||
+  names[0];
+ return {found:true,family:familyName,matches:names.length,names,defaultName:chosen};
+}
+
 export function describeLocalWeapon(regulation,weaponName,gameVersion,sourceReference){
  const profile=convertCompactRegulation(regulation,{weaponName,gameVersion,sourceReference});
  const affinity='SOURCE AFFINITY';
