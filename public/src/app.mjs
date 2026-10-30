@@ -61,7 +61,9 @@ function initBuild(){
     if(weaponLoadError){weaponSummary.textContent='Weapon references unavailable: '+weaponLoadError;return;}
     if(!weaponCatalog){weaponSummary.textContent='Loading local weapon references…';return;}
     if(!selectedWeaponId){
-      if(!search.value.trim())weaponSummary.textContent='No weapon selected. Search the catalogue to add one.';
+      if(requestedWeapon)weaponSummary.textContent=
+        'A linked Shadow of the Erdtree weapon is waiting. Tick the SOTE reference checkbox to activate it.';
+      else if(!search.value.trim())weaponSummary.textContent='No weapon selected. Search the catalogue to add one.';
       return;
     }
     try{
@@ -116,7 +118,7 @@ function initBuild(){
   grid.addEventListener('input',render);
   $('#reset-build').addEventListener('click',()=>{statInputs(grid,current.stats);render()});
   search.addEventListener('input',()=>{refreshWeaponChoices();render()});
-  weaponSelect.addEventListener('change',()=>{selectedWeaponId=weaponSelect.value||null;render()});
+  weaponSelect.addEventListener('change',()=>{selectedWeaponId=weaponSelect.value||null;requestedWeapon=null;sharedProblem=null;render()});
   const savedKey='buildlab:local-build:v1';
   $('#save-build').addEventListener('click',()=>{try{
     const stats=read();
