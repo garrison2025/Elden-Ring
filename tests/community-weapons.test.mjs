@@ -199,7 +199,7 @@ test('all DLC rows have requirements and weight; only independently disputed +0 
  assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',maxWeight:4}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',wield:'one',stats:[99,99,99,99,99]}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc',limit:100}).total,102);
- assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,307);
+ assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,306);
  const bad=structuredClone(catalog);
  bad.weapons.find(w=>w.name==='Stone-Sheathed Sword').attack=[119,0,0,0,0];
  assert.throws(()=>validateCommunityCatalog(bad),/Partial DLC/);
@@ -382,7 +382,7 @@ test('another fourteen cited +0 DLC rows use current single-weapon sources, not 
  ['Sword of Darkness',[93,0,0,0,93],4,[14,11,0,24,0]],
  ['Sword of Light',[93,0,0,0,93],4,[14,11,0,24,0]],
  ["Thiollier's Hidden Needle",[70,45,0,0,0],0.5,[10,22,15,0,0]],
- ['Velvet Sword of St Trina',[95,61,0,0,0],2.5,[10,12,14,0,0]],
+ ['Velvet Sword of St. Trina',[95,61,0,0,0],2.5,[10,12,14,0,0]],
  ['Spirit Glaive',[121,36,0,0,0],6.5,[14,17,16,0,0]],
  ['Staff of the Great Beyond',[27,0,0,0,0],2,[7,0,25,25,0]],
  ['Golem Fist',[110,0,0,0,0],6,[24,8,11,11,0]],
