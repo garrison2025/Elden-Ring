@@ -1,5 +1,6 @@
 import {materialCatalog,planUpgradeMaterials,materialsCsv} from './upgrade-materials.mjs';
 import {parseCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
+import {planWeaponUpgradeBasket,weaponUpgradeBasketCsv} from './upgrade-multi-weapon.mjs';
 const el=id=>document.getElementById(id);
 const store={regular:{},somber:{}};
 let latest=null;
@@ -92,3 +93,141 @@ if(handoff.weaponId){
  }
 }
 rebuildFields();
+
+
+/** Multi-weapon planning is opt-in and independent of the single-weapon input. */
+let latestBasket=null,addedWeaponCount=0;
+const multiRows=el('multi-weapon-rows');
+const multiFeedback=(message,bad=false)=>{
+ el('multi-upgrade-feedback').textContent=message;
+ el('multi-upgrade-feedback').className=bad?'note feedback bad':'note';
+};
+const multiLimits=track=>track==='somber'?10:25;
+const cell=child=>{const td=make('td');td.append(child);return td;};
+const input=(type,aria,value)=>{
+ const node=make('input');node.type=type;node.setAttribute('aria-label',aria);
+ node.value=String(value);return node;
+};
+const multiInventory=el('multi-owned-inputs');
+for(const track of ['regular','somber'])for(const material of materialCatalog(track)){
+ const label=make('label');label.className='inventory-field';
+ const amount=input('number','Shared owned '+material.label,0);
+ amount.min='0';amount.max='999999';amount.step='1';
+ amount.inputMode='numeric';amount.dataset.multiOwned=material.key;
+ label.append(make('span',material.label),amount);multiInventory.append(label);
+}
+function readMultiInventory(){
+ const amounts={};
+ for(const field of multiInventory.querySelectorAll('input[data-multi-owned]')){
+  const v=field.value.trim();
+  if(!/^(?:0|[1-9][0-9]{0,5})$/.test(v))
+   throw new RangeError('Shared owned stones must be whole numbers from 0 to 999999.');
+  amounts[field.dataset.multiOwned]=Number(v);
+ }
+ return amounts;
+}
+function makeMultiRow({name,track,from,to}){
+ const index=++addedWeaponCount,tr=make('tr');
+ tr.dataset.multiRow=String(index);
+ const weapon=input('text','Weapon '+index+' label',name);
+ weapon.maxLength=120;weapon.dataset.multiField='name';
+ const kind=make('select');
+ kind.dataset.multiField='track';kind.setAttribute('aria-label','Weapon '+index+' smithing track');
+ for(const [value,label] of [['regular','Regular +25'],['somber','Somber +10']]){
+  const option=make('option',label);option.value=value;kind.append(option);
+ }
+ kind.value=track;
+ const start=input('number','Weapon '+index+' current reinforcement level',from);
+ const target=input('number','Weapon '+index+' target reinforcement level',to);
+ for(const [field,label] of [[start,'from'],[target,'to']]){
+  field.min='0';field.max=String(multiLimits(track));field.step='1';
+  field.inputMode='numeric';field.dataset.multiField=label;
+ }
+ const remove=make('button','Remove');remove.type='button';remove.className='btn alt';
+ remove.setAttribute('aria-label','Remove weapon '+index+' from shared upgrade list');
+ remove.addEventListener('click',()=>{tr.remove();calculateMulti();});
+ kind.addEventListener('change',()=>{
+  start.max=String(multiLimits(kind.value));target.max=start.max;
+  calculateMulti();
+ });
+ for(const node of [weapon,kind,start,target,remove])tr.append(cell(node));
+ return tr;
+}
+function addMultiPlan(weapon){
+ if(multiRows.children.length>=8){
+  multiFeedback('A maximum of eight weapon plans can be combined.',true);
+  return;
+ }
+ multiRows.append(makeMultiRow(weapon));
+ calculateMulti();
+}
+function readMultiRows(){
+ return [...multiRows.querySelectorAll('tr[data-multi-row]')].map(row=>{
+  const getField=name=>row.querySelector('[data-multi-field="'+name+'"]');
+  return {name:getField('name').value,track:getField('track').value,
+   from:getField('from').value,to:getField('to').value};
+ });
+}
+function calculateMulti(){
+ latestBasket=null;el('multi-upgrade-results').hidden=true;
+ el('multi-export').disabled=true;
+ if(!multiRows.children.length){
+  multiFeedback('Add your current single-weapon plan or a manually specified weapon.');
+  return;
+ }
+ try{
+  const result=planWeaponUpgradeBasket(readMultiRows(),readMultiInventory());
+  latestBasket=result;
+  el('multi-count').textContent=String(result.weaponCount);
+  el('multi-total').textContent=result.totalStones.toLocaleString('en-US');
+  el('multi-missing').textContent=result.totalMissing.toLocaleString('en-US');
+  el('multi-upgrade-summary').textContent=
+   result.regularStones+' regular stones + '+result.somberStones+
+   ' Somber stones · '+result.totalSteps+' separate reinforcement steps.'+
+   ' Shared inventory subtracted once; no weapon-specific rune costs included.';
+  const tbody=el('multi-material-rows');tbody.replaceChildren();
+  for(const material of result.materials){
+   const tr=make('tr');
+   for(const value of [material.track,material.label,material.required,
+    material.owned,material.missing,material.leftover]){
+    tr.append(cell(make('span',value)));
+   }
+   tbody.append(tr);
+  }
+  if(!result.materials.length){
+   const tr=make('tr'),td=make('td','No new materials needed.');
+   td.colSpan=6;tr.append(td);tbody.append(tr);
+  }
+  el('multi-upgrade-results').hidden=false;
+  el('multi-export').disabled=false;
+  multiFeedback('Combined '+result.weaponCount+
+   ' player-specified weapon plan(s). Verify each track and current level in-game.');
+ }catch(error){
+  multiFeedback('Check the multi-weapon inputs: '+error.message,true);
+ }
+}
+el('multi-add-current').addEventListener('click',()=>{
+ const name=handoff.weaponName||'Weapon '+(addedWeaponCount+1);
+ addMultiPlan({name,track:el('upgrade-track').value,
+  from:el('upgrade-from').value,to:el('upgrade-to').value});
+});
+el('multi-add-blank').addEventListener('click',()=>addMultiPlan({
+ name:'Weapon '+(addedWeaponCount+1),track:'regular',from:0,to:25
+}));
+el('multi-clear').addEventListener('click',()=>{
+ multiRows.replaceChildren();calculateMulti();
+});
+el('multi-reset-owned').addEventListener('click',()=>{
+ for(const n of multiInventory.querySelectorAll('input[data-multi-owned]'))n.value='0';
+ calculateMulti();
+});
+multiRows.addEventListener('input',calculateMulti);
+multiInventory.addEventListener('input',calculateMulti);
+el('multi-export').addEventListener('click',()=>{
+ if(!latestBasket)return;
+ const csv=weaponUpgradeBasketCsv(latestBasket);
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+ const a=make('a');a.href=url;a.download='elden-ring-multi-weapon-smithing-list.csv';
+ document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),2500);
+});
