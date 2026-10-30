@@ -160,8 +160,8 @@
 <section class="panel workbench-audit-panel" aria-labelledby="arw-recheck-title">
  <div class="eyebrow">Independent observation draft · Recompute only · No upload</div>
  <h2 id="arw-recheck-title">Recheck a saved game-menu observation</h2>
- <p>Load one <strong>UNREVIEWED</strong> JSON draft exported above. The browser recalculates the same exact weapon, reinforcement, grip and five attributes from the <strong>currently imported local source</strong>. Detect candidate arithmetic drift, version mismatch or inconsistent draft fields. Reproduced numbers are <strong>not</strong> independent game-client verification.</p>
- <label class="field">Observation JSON (max 120 kB)<input type="file" id="arw-recheck-file" accept="application/json,.json"></label>
+ <p>Load one <strong>UNREVIEWED</strong> JSON draft or an exported <strong>UNREVIEWED batch</strong>. The browser recalculates the same exact weapon, reinforcement, grip and five attributes from the <strong>currently imported local source</strong>. Detect candidate arithmetic drift, version mismatch or inconsistent draft fields. Reproduced numbers are <strong>not</strong> independent game-client verification.</p>
+ <label class="field">Single or batch observation JSON (max 120 kB)<input type="file" id="arw-recheck-file" accept="application/json,.json"></label>
  <div class="workbench-actions"><button class="btn alt" id="arw-recheck-run" type="button" disabled>Recompute observation locally</button></div>
  <p class="note" role="status" aria-live="polite" id="arw-recheck-feedback">Load source parameters and a locally saved UNREVIEWED JSON observation.</p>
  <div id="arw-recheck-results" hidden>
@@ -170,6 +170,9 @@
    <div class="metric"><div class="metric-label">Fresh minus game-menu entry</div><strong id="arw-recheck-game-gap">—</strong></div>
   </div>
   <p class="note" id="arw-recheck-summary"></p>
+  <div id="arw-recheck-batch" hidden>
+   <div class="table-wrap"><table class="datatable"><thead><tr><th>Case</th><th>Recheck status</th><th>Fresh minus stored</th><th>Fresh minus reported game AR</th><th>Fields consistent</th></tr></thead><tbody id="arw-recheck-batch-rows"></tbody></table></div>
+  </div>
  </div>
  <div class="safe-banner"><strong>Always unreviewed:</strong> This function does not see a screenshot or read a running game. It cannot establish app/regulation version, authenticity, data rights, skill damage or overall AR accuracy.</div>
 </section>
