@@ -130,3 +130,15 @@ test('local AR workbench is noindexed, worker-based and reachable only as resear
  assert.match(build,/uri==='weapon-data-workbench'/);
  assert.match((await readFile(join(root,'weapon-ar-lab/index.html'),'utf8')),/weapon-data-workbench/);
 });
+
+test('two-weapon AR workbench exposes paired selectors with stale-result revision gates',async()=>{
+ const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
+ const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
+ const worker=await readFile(join(root,'src/ar-workbench-worker.mjs'),'utf8');
+ for(const id of ['arw-compare-select','arw-compare-upgrade','arw-compare-grip','arw-compare-run','arw-compare-results','arw-pair-rows'])
+  assert.ok(html.includes('id="'+id+'"'),id);
+ assert.match(app,/m\.requestId!==comparisonRevision/);
+ assert.match(app,/m\.requestId!==gripRevision/);
+ assert.match(worker,/case 'compare-weapons'/);
+ assert.match(html,/Higher total AR is not necessarily higher damage/);
+});

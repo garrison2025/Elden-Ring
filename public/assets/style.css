@@ -139,3 +139,13 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .tool-card:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 @media(max-width:860px){.header-more{display:none}}
 @media(min-width:861px) and (max-width:1120px){.header-more>summary{padding:8px 10px;font-size:11px}}
+
+/* Side-by-side imported weapon AR comparison */
+.workbench-pair-panel{margin:18px 0 32px}
+.workbench-pair-panel .input-two{grid-template-columns:repeat(3,minmax(0,1fr))}
+.workbench-pair-panel .field{min-width:0}
+.workbench-pair-panel select{width:100%;min-width:0}
+.workbench-pair-metrics{grid-template-columns:repeat(3,minmax(0,1fr));margin:20px 0}
+.workbench-pair-metrics .metric strong{overflow-wrap:anywhere}
+#arw-compare-results[hidden]{display:none!important}
+@media(max-width:760px){.workbench-pair-panel .input-two{grid-template-columns:1fr}.workbench-pair-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}

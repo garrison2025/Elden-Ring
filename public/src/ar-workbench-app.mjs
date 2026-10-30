@@ -22,12 +22,33 @@ let worker;
 try{worker=new Worker(new URL('./ar-workbench-worker.mjs',import.meta.url),{type:'module'});}
 catch(e){feedback('Your browser does not support the local research worker: '+e.message,true);}
 let fileLoaded=false,selected=false,upgrades=[],syntheticMode=false;
+let selectedB=false,bUpgrades=[],comparisonRevision=0,gripRevision=0;
+const clearPair=()=>{
+ comparisonRevision++;
+ get('arw-compare-results').hidden=true;
+ get('arw-pair-rows').replaceChildren();
+ for(const key of ['arw-pair-a','arw-pair-b','arw-pair-delta'])get(key).textContent='—';
+};
+const readStats=()=>{
+ const stats={};
+ for(const el of get('arw-stats').querySelectorAll('input[data-arw-stat]')){
+  if(!/^(?:[1-9]|[1-9][0-9])$/.test(el.value.trim()))
+   throw new RangeError('All attributes must be whole numbers from 1 to 99.');
+  stats[el.dataset.arwStat]=Number(el.value);
+ }
+ return stats;
+};
 const send=(message)=>{if(!worker)throw new Error('Browser worker unavailable.');worker.postMessage(message);};
 const setOptions=(records)=>{
  const select=get('arw-select');select.replaceChildren();
  for(const name of records){const option=new Option(name,name);select.add(option);}
  select.disabled=records.length===0;
- selected=false;clear();get('arw-upgrade').replaceChildren();
+ const second=get('arw-compare-select');second.replaceChildren();
+ for(const name of records)second.add(new Option(name,name));
+ second.disabled=records.length===0;
+ if(records.length>1)second.selectedIndex=1;
+ selected=false;selectedB=false;bUpgrades=[];
+ clear();clearPair();get('arw-upgrade').replaceChildren();get('arw-compare-upgrade').replaceChildren();
  if(!records.length)get('arw-results-count').textContent='No matching weapon names.';
 };
 function selectCurrent(){
@@ -35,28 +56,49 @@ function selectCurrent(){
  selected=false;clear();
  send({op:'select',name:get('arw-select').value});
 }
+function selectSecond(){
+ const second=get('arw-compare-select');
+ selectedB=false;bUpgrades=[];clearPair();get('arw-compare-upgrade').replaceChildren();
+ if(!fileLoaded||second.disabled||!second.value)return;
+ send({op:'selectB',name:second.value});
+}
 function requestCalculation(){
+ gripRevision++;
  if(!selected)return;
  try{
-  const stats={};
-  for(const control of get('arw-stats').querySelectorAll('input[data-arw-stat]')){
-   if(!/^(?:[1-9]|[1-9][0-9])$/.test(control.value.trim()))
-    throw new RangeError('All attributes must be whole numbers from 1 to 99.');
-   stats[control.dataset.arwStat]=Number(control.value);
-  }
-  const upgrade=Number(get('arw-upgrade').value);
+  const stats=readStats(),upgrade=Number(get('arw-upgrade').value);
   if(!upgrades.includes(upgrade))throw new RangeError('Selected upgrade level has no source data.');
-  send({op:'compare',stats,upgrade});
+  send({op:'compare',requestId:gripRevision,stats,upgrade});
  }catch(e){clear();feedback(e.message,true);}
+}
+function requestComparison(){
+ clearPair();
+ if(!selected||!selectedB)return;
+ try{
+  const stats=readStats();
+  const leftUpgrade=Number(get('arw-upgrade').value);
+  const rightUpgrade=Number(get('arw-compare-upgrade').value);
+  if(!upgrades.includes(leftUpgrade)||!bUpgrades.includes(rightUpgrade))
+   throw new RangeError('Choose supplied reinforcement levels for both weapons.');
+  send({op:'compare-weapons',requestId:comparisonRevision,stats,leftUpgrade,rightUpgrade,
+   twoHanded:get('arw-compare-grip').value==='two'});
+ }catch(e){get('arw-pair-feedback').textContent=e.message;}
 }
 if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='error'){
+  if(m.phase==='compare-weapons'||m.phase==='selectB'){
+   if(m.phase==='selectB')selectedB=false;
+   clearPair();get('arw-pair-feedback').textContent=m.message;return;
+  }
   if(m.phase==='load'){fileLoaded=false;get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-file-status').textContent='No file loaded';}
   if(m.phase==='select')selected=false;
-  clear();feedback(m.message,true);return;
+  gripRevision++;clear();clearPair();feedback(m.message,true);return;
  }
  if(m.op==='cleared'){
-  fileLoaded=false;selected=false;upgrades=[];syntheticMode=false;get('arw-file-status').textContent='No file loaded';
+  fileLoaded=false;selected=false;selectedB=false;upgrades=[];bUpgrades=[];syntheticMode=false;
+  gripRevision++;clearPair();get('arw-compare-select').replaceChildren();
+  get('arw-compare-upgrade').replaceChildren();
+  get('arw-file-status').textContent='No file loaded';
   get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-search').value='';
   get('arw-upgrade').replaceChildren();get('arw-description').textContent='—';
   get('arw-results-count').textContent='—';clear();feedback('Local file cleared from worker memory.');return;
@@ -68,12 +110,12 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-search').value='';get('arw-results-count').textContent=m.preview.matches+' results; only first '+m.preview.names.length+' shown.';
   setOptions(m.preview.names);
   feedback(syntheticMode?'FICTIONAL DEMO: all computed AR values are invented.':'Loaded local JSON. Nothing was uploaded.');
-  if(m.preview.names.length)selectCurrent();
+  if(m.preview.names.length){selectCurrent();selectSecond();}
   return;
  }
  if(m.op==='search-results'){
   get('arw-results-count').textContent=m.result.matches+' matching names; first '+m.result.names.length+' shown.';
-  setOptions(m.result.names);if(m.result.names.length)selectCurrent();return;
+  setOptions(m.result.names);if(m.result.names.length){selectCurrent();selectSecond();}return;
  }
  if(m.op==='selected'){
   selected=true;upgrades=m.description.upgradeLevels;
@@ -81,9 +123,36 @@ if(worker)worker.onmessage=({data:m})=>{
    ' grip · '+m.description.damageTypes.join(' + ')+' damage types · '+m.description.provenance.gameVersion;
   const u=get('arw-upgrade');u.replaceChildren();
   for(const n of upgrades)u.add(new Option('+'+n,String(n)));
-  requestCalculation();return;
+  requestCalculation();requestComparison();return;
+ }
+ if(m.op==='selectedB'){
+  selectedB=true;bUpgrades=m.description.upgradeLevels;
+  const select=get('arw-compare-upgrade');select.replaceChildren();
+  for(const n of bUpgrades)select.add(new Option('+'+n,String(n)));
+  get('arw-pair-feedback').textContent='Weapon B: '+m.description.name;
+  requestComparison();return;
+ }
+ if(m.op==='compared-weapons'){
+  if(m.requestId!==comparisonRevision)return;
+  const {left,right,delta,components}=m.result;
+  get('arw-pair-a').textContent=String(left.total);
+  get('arw-pair-b').textContent=String(right.total);
+  get('arw-pair-delta').textContent=(delta>=0?'+':'')+delta;
+  const tbody=get('arw-pair-rows');tbody.replaceChildren();
+  for(const component of components){
+   const row=make('tr','');
+   for(const value of [component.type,component.left,component.right,
+     (component.delta>=0?'+':'')+component.delta])row.append(make('td',value));
+   tbody.append(row);
+  }
+  get('arw-compare-results').hidden=false;
+  get('arw-pair-feedback').textContent=syntheticMode?
+   'FICTIONAL TEST — both weapon AR values are invented.':
+   'UNVERIFIED nominal AR. A higher total does not establish higher real damage.';
+  return;
  }
  if(m.op==='compared'){
+  if(m.requestId!==gripRevision)return;
   const {oneHand,twoHand,difference}=m.result;
   get('arw-onehand').textContent=oneHand.total;
   get('arw-twohand').textContent=twoHand.total;
@@ -113,7 +182,7 @@ get('arw-load').addEventListener('click',async()=>{
  if(!version||version.length>60||!reference||reference.length>300){
   feedback('Enter an explicit game version and data provenance before loading.',true);return;
  }
- clear();selected=false;fileLoaded=false;
+ gripRevision++;clear();clearPair();selected=false;selectedB=false;fileLoaded=false;
  get('arw-file-status').textContent='Reading local file…';
  try{
   send({op:'clear'});send({op:'load',text:await file.text(),version,reference});
@@ -124,7 +193,11 @@ get('arw-clear').addEventListener('click',()=>{get('arw-file').value='';send({op
 get('arw-demo').addEventListener('click',()=>{get('arw-file').value='';send({op:'demo'});});
 get('arw-search').addEventListener('input',()=>{if(fileLoaded)send({op:'search',term:get('arw-search').value});});
 get('arw-select').addEventListener('change',selectCurrent);
-get('arw-upgrade').addEventListener('change',requestCalculation);
-get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();});
+get('arw-compare-select').addEventListener('change',selectSecond);
+get('arw-upgrade').addEventListener('change',()=>{clear();requestCalculation();requestComparison();});
+get('arw-compare-upgrade').addEventListener('change',requestComparison);
+get('arw-compare-grip').addEventListener('change',requestComparison);
+get('arw-compare-run').addEventListener('click',requestComparison);
+get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();requestComparison();});
 get('arw-compare').addEventListener('click',requestCalculation);
 feedback('Choose a local compact regulation JSON file. No game data is bundled.');

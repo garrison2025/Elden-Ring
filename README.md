@@ -157,3 +157,15 @@ repetitive feature banners. The static build calls `scripts/navigation.mjs`
 to place four additional tool links into desktop and mobile headers on every
 indexable and research HTML page. No client-side navigation runtime, API,
 server or new npm dependency is introduced. All links remain static HTML.
+
+
+### Compare two weapon profiles (research only)
+
+The local data workbench now allows choosing weapon A and B from the same
+imported compact JSON (or fictional demo), selecting reinforcement separately,
+and comparing one-handed or two-handed nominal AR using the same character
+attributes. Breakdown shows damage elements separately. A larger nominal
+AR does NOT imply greater enemy damage, particularly with split damage.
+Both profile versions must match, missing upgrade data is refused and UI
+request revisions prevent stale async comparisons overriding newer changes.
+All numbers remain **UNVERIFIED**, and the workbench is noindex.
