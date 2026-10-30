@@ -5,6 +5,7 @@ import {auditCompactRegulation} from './regulation-audit.mjs';
 import {auditRawMathParity} from './regulation-parity.mjs';
 import {calculateSourceUpgradeProgression} from './ar-upgrade-progression.mjs';
 import {recheckUnreviewedArDraft} from './ar-observation-recheck.mjs';
+import {calculateStatInvestmentSensitivity} from './ar-stat-sensitivity.mjs';
 
 /**
  * Worker holds the loaded JSON only in memory, not in localStorage, caches,
@@ -69,6 +70,13 @@ self.onmessage=event=>{
     if(!selected)throw new RangeError('Choose a weapon and reinforcement level first.');
     self.postMessage({op:'compared',requestId:m.requestId,result:compareLocalGrips(selected,m.stats,m.upgrade)});
     break;
+   case 'stat-sensitivity':{
+    if(!selected)throw new RangeError('Select an exact source weapon before probing stats.');
+    const result=calculateStatInvestmentSensitivity(selected,m.stats,{
+     upgrade:m.upgrade,twoHanded:m.twoHanded});
+    self.postMessage({op:'stat-sensitivity-result',requestId:m.requestId,result});
+    break;
+   }
    case 'upgrade-progression':{
     if(!selected)throw new RangeError('Select an exact source weapon first.');
     self.postMessage({op:'upgrade-progression-result',requestId:m.requestId,
