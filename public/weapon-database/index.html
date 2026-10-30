@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
 <title>Elden Ring Weapon Database | Base Stats & Requirements</title>
-<meta name="description" content="Browse 364 named Elden Ring weapon records, including 57 Shadow of the Erdtree DLC entries with requirements only. Community-reported data, patch unverified.">
+<meta name="description" content="Browse 409 Elden Ring weapon and shield references, including 102 Shadow of the Erdtree entries. Some have +0 and upgraded base attack observations, but no certified AR. Community-reported data, patch unverified.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css">
 </head><body data-page="weapon-catalog">
 <header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="active" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="active" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
@@ -71,6 +71,13 @@
 <div><span class="metric-label">Reported critical</span><strong id="catalog-critical">—</strong></div>
 </div>
 <h3>Reported +0 base attack (where available; not AR)</h3><div id="catalog-damage" class="catalog-values"></div>
+<div id="catalog-upgrade-reference" hidden>
+<h3>Community-published upgraded BASE attack — not AR</h3>
+<label class="field">Reinforcement level
+<select id="catalog-upgrade-level" aria-label="Community reference reinforcement level"></select></label>
+<div id="catalog-upgrade-damage" class="catalog-values" aria-live="polite"></div>
+<p class="note">These are published integer base-attack values, not exact reinforcement coefficients. Character attribute scaling, affinities, PvE damage and total AR are not calculated.</p>
+</div>
 <h3>Reported base scaling letters</h3><div id="catalog-scaling" class="catalog-values"></div>
 <h3>Reported attribute requirements</h3>
 <div class="catalog-values" id="catalog-required"></div>
@@ -86,7 +93,7 @@
 </div>
 <p id="catalog-status" class="feedback" role="status" aria-live="polite">Loading community weapon data…</p>
 <section class="editorial-grid">
-<article class="panel info"><h2>Where do these numbers come from?</h2><p>The factual fields are a compact derivative of the open-source <a href="https://github.com/deliton/eldenring-api" target="_blank" rel="noopener noreferrer">Elden Ring API</a> community dataset, source revision <code>1d2626c</code>. Its API source declares MIT licensing, but this does not grant rights to unrelated game artwork, writing or proprietary assets. We exclude all source imagery, descriptions and lore text.</p><p>Three visibly inconsistent numerical entries were individually cross-checked with published weapon references. We also track 102 Shadow of the Erdtree weapons and shields across three disclosed data tiers: 9 with individually sourced +0 reference values, 52 with only known requirements, and 41 with names/categories only. No upgrade or affinity tables are certified. Other entries are not confirmed for the current patch. Source-code attribution and corrections are documented in the repository.</p></article>
+<article class="panel info"><h2>Where do these numbers come from?</h2><p>The factual fields are a compact derivative of the open-source <a href="https://github.com/deliton/eldenring-api" target="_blank" rel="noopener noreferrer">Elden Ring API</a> community dataset, source revision <code>1d2626c</code>. Its API source declares MIT licensing, but this does not grant rights to unrelated game artwork, writing or proprietary assets. We exclude all source imagery, descriptions and lore text.</p><p>Three visibly inconsistent numerical entries were individually cross-checked with published weapon references. We also track 102 Shadow of the Erdtree weapons and shields across three disclosed data tiers: 18 with individually sourced +0 reference values, 52 with only known requirements, and 32 with names/categories only. Three weapons have community-published +0 to +10 base-attack tables. No reinforcement scaling coefficients, affinity profiles or total AR are certified. Other entries are not confirmed for the current patch. Source-code attribution and corrections are documented in the repository.</p></article>
 <article class="panel info"><h2>Why can't this calculate true AR yet?</h2><p>Letter grades such as B or D cannot determine exact scaling coefficients, reinforcement tables or affinity changes. Many DLC records contain only names or requirements. None of these alone can determine a character's full attack rating or PvE damage.</p><p>For current official rules, see <a href="https://www.bandainamcoent.com/news/elden-ring-tarnished-edition-patch-1-17-2" target="_blank" rel="noopener noreferrer">App 1.17.2 / Regulation 1.17.3</a>. The separately maintained <a href="../weapon-data-workbench/">AR research workbench</a> still requires authorized detailed parameters and independent in-game checks.</p></article>
 </section>
 <nav class="related-tools" aria-label="Related tools"><span class="eyebrow">Continue planning</span>
