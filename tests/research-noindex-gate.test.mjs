@@ -28,3 +28,28 @@ test('game client observation UI is offline and blocks demo evidence masqueradin
  assert.match(app,/synthetic:syntheticMode/);
  assert.match(app,/candidateCalculation\.differenceCandidateMinusObserved/);
 });
+
+test('actual build with SITE_URL still emits noindex and never produces an index sitemap',async()=>{
+ const {mkdtemp,mkdir,cp,rm,readFile,access}=await import('node:fs/promises');
+ const {tmpdir}=await import('node:os');
+ const {join}=await import('node:path');
+ const {spawnSync}=await import('node:child_process');
+ const temp=await mkdtemp(join(tmpdir(),'elden-research-build-'));
+ try{
+  await cp(new URL('../public/',import.meta.url),join(temp,'public'),{recursive:true});
+  await cp(new URL('../scripts/',import.meta.url),join(temp,'scripts'),{recursive:true});
+  const run=spawnSync(process.execPath,['scripts/build.mjs'],{
+   cwd:temp,encoding:'utf8',
+   env:{...process.env,SITE_URL:'https://research.example.org',RELEASE_INDEX_APPROVED:''}
+  });
+  assert.equal(run.status,0,run.stdout+'\n'+run.stderr);
+  const home=await readFile(join(temp,'dist/index.html'),'utf8');
+  const tool=await readFile(join(temp,'dist/weapon-data-workbench/index.html'),'utf8');
+  const robots=await readFile(join(temp,'dist/robots.txt'),'utf8');
+  assert.match(home,/<meta name="robots" content="noindex,follow">/);
+  assert.match(tool,/<meta name="robots" content="noindex,nofollow">/);
+  assert.match(robots,/Allow: \/\n/);
+  assert.doesNotMatch(robots,/Sitemap:/);
+  await assert.rejects(access(join(temp,'dist/sitemap.xml')));
+ }finally{await rm(temp,{recursive:true,force:true});}
+});
