@@ -316,3 +316,28 @@ disagreements, not App 1.17.2 / Regulation 1.17.3 independently checked
 in-game outcomes. Special grips remain research assumptions and the
 entire site retains research-only `noindex`. This adds no new redistributed
 game-derived data, paid API or backend service.
+
+## Weapon database → Smithing Stone planner handoff (2026-10-31)
+
+From a selected weapon entry in `/weapon-database/`, the new
+**Plan Smithing Stones for this weapon** link opens the existing
+`/weapon-upgrade-calculator/` with the exact existing community
+weapon ID and display name. The materials calculator shows this identity
+and a direct return link to the same database entry, **without**
+inventing a player's current reinforcement level.
+
+Of the **408 existing catalog records**, only **six** have explicit
+community-published `upgradeReference.path: "somber"` tables.
+For these six, the link suggests the Somber (+10) calculator track
+with a prominent instruction to confirm the real smithing-menu track.
+The remaining **402 records** do not receive a guessed track; the
+player must select Regular (+25) or Somber (+10) themselves. The
+catalog's published +level is a *reference base-attack row*, not the
+level of a player's own weapon, so neither current nor target upgrade
+levels are transferred.
+
+All quantities are calculated with the existing local material rules;
+optional owned-stone input remains private and no new API, backend,
+asset files or live-game claims are introduced. Such community track
+hints are not independent current-Regulation validation. Research
+`noindex` remains enabled.

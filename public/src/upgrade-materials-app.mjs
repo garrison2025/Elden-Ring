@@ -1,4 +1,5 @@
 import {materialCatalog,planUpgradeMaterials,materialsCsv} from './upgrade-materials.mjs';
+import {parseCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
 const el=id=>document.getElementById(id);
 const store={regular:{},somber:{}};
 let latest=null;
@@ -76,4 +77,18 @@ el('export-list').addEventListener('click',()=>{
  document.body.append(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),2500);
 });
+const handoff=parseCatalogSmithingHandoff(location.search);
+if(handoff.weaponId){
+ el('upgrade-weapon-context').hidden=false;
+ el('upgrade-weapon-name').textContent=handoff.weaponName;
+ el('upgrade-weapon-back').href='../weapon-database/?weapon='+encodeURIComponent(handoff.weaponId);
+ if(handoff.suggestedTrack==='somber'){
+  el('upgrade-track').value='somber';
+  el('upgrade-weapon-hint').textContent=
+   'Somber (+10) is a COMMUNITY-LINK suggestion only, NOT game-verified. Check the smithing menu. Current level remains +0 for manual entry.';
+ }else{
+  el('upgrade-weapon-hint').textContent=
+   'Weapon upgrade track is UNKNOWN in the source catalog. Choose Regular (+25) or Somber (+10) from the game menu. Current level remains +0 for manual entry.';
+ }
+}
 rebuildFields();
