@@ -200,3 +200,21 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .catalog-filter-grid .field input,.catalog-filter-grid .field select{width:100%;min-width:0}
 .catalog-filter-grid .field:last-child{grid-column:1 / -1}
 @media(max-width:520px){.catalog-filter-grid{grid-template-columns:1fr}.catalog-filter-grid .field:last-child{grid-column:auto}}
+
+/* Reference-only weapon comparison: explicit unknown fields and mobile table scroll. */
+.catalog-compare{margin-top:22px}
+.compare-heading{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.compare-heading h2{margin:8px 0 0;font-family:Georgia,serif;font-size:clamp(22px,3vw,30px)}
+.reference-compare-table{border-collapse:collapse;width:100%;min-width:560px;margin:15px 0}
+.reference-compare-table th,.reference-compare-table td{padding:11px 13px;min-width:130px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);font-size:13px;overflow-wrap:anywhere}
+.reference-compare-table th:first-child,.reference-compare-table td:first-child{min-width:165px;position:sticky;left:0;background:var(--panel);z-index:1}
+.reference-compare-table th{font-size:12px;color:var(--text)}
+.reference-compare-table td{font-variant-numeric:tabular-nums}
+.reference-compare-table .compare-name{display:block;font-weight:700;margin-bottom:8px}
+.reference-compare-table .compare-remove{font-size:12px;cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:7px 10px;min-height:36px}
+.reference-compare-table .compare-remove:hover{border-color:var(--gold)}
+.compare-controls{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.compare-controls .btn.alt{margin:0}
+.compare-controls button:disabled{opacity:.5;cursor:not-allowed}
+.compare-share{margin:0}.compare-share input{width:100%;font-size:12px}
+@media(max-width:570px){.reference-compare-table th:first-child,.reference-compare-table td:first-child{min-width:125px}.reference-compare-table th,.reference-compare-table td{min-width:145px;padding:11px 9px}.compare-controls{display:grid;grid-template-columns:1fr 1fr}.compare-controls .btn{width:100%;font-size:12px;padding:10px 6px}.catalog-compare{padding:17px}}

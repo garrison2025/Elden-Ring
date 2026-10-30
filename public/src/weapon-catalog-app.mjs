@@ -1,5 +1,6 @@
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
  baseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl} from './community-weapons.mjs';
+import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -16,7 +17,77 @@ for(let i=0;i<5;i++){
  input.inputMode='numeric';input.value=String(buildStats[i]);input.dataset.stat=String(i);
  label.append(input);$('catalog-stats').append(label);
 }
-let catalog=null,chosen=null,offset=0,lastUpgradeWeaponId=null;
+let catalog=null,chosen=null,offset=0,lastUpgradeWeaponId=null,comparedIds=[];
+function renderReferenceComparison(){
+ const add=$('catalog-compare-add');
+ if(chosen){
+  const selected=comparedIds.includes(chosen.id);
+  add.textContent=selected?'Remove from comparison':'Add to reference comparison';
+  add.setAttribute('aria-pressed',String(selected));
+  add.disabled=!selected&&comparedIds.length>=3;
+ }
+ const active=comparedIds.length>0;
+ $('catalog-compare-count').textContent=comparedIds.length+' of 3 selected';
+ $('catalog-compare-clear').disabled=!active;
+ $('catalog-compare-copy').disabled=!active;
+ $('catalog-compare-table-wrap').hidden=!active;
+ if(!active){
+  $('catalog-compare-feedback').textContent='Choose a weapon to start.';
+  $('catalog-compare-link').value='';
+  $('catalog-compare-table').replaceChildren();return;
+ }
+ let stats=null;
+ try{stats=readStats();}catch{ /* share source facts, but skip invalid character stats */ }
+ const model=compareWeaponReferences(catalog.weapons,comparedIds,stats);
+ const table=$('catalog-compare-table');table.replaceChildren();
+ const head=el('thead'),heading=el('tr'),label=el('th','Property');
+ label.scope='col';heading.append(label);
+ for(const weapon of model.columns){
+  const th=el('th');th.scope='col';
+  const name=el('span',weapon.name);name.className='compare-name';
+  const remove=el('button','Remove');
+  remove.type='button';remove.className='compare-remove';
+  remove.setAttribute('aria-label','Remove '+weapon.name+' from comparison');
+  remove.addEventListener('click',()=>{
+   comparedIds=comparedIds.filter(id=>id!==weapon.id);
+   renderReferenceComparison();
+  });
+  th.append(name,remove);heading.append(th);
+ }
+ head.append(heading);table.append(head);
+ const body=el('tbody');
+ for(const row of model.rows){
+  const tr=el('tr'),th=el('th',row.label);th.scope='row';tr.append(th);
+  for(const value of row.values)tr.append(el('td',value));
+  body.append(tr);
+ }
+ table.append(body);
+ $('catalog-compare-feedback').textContent=stats===null?
+  'Player stats invalid: showing available weapon facts only. '+model.warning:model.warning;
+ const query=referenceCompareQuery(comparedIds,stats);
+ $('catalog-compare-link').value=location.origin+location.pathname+'?'+query;
+}
+$('catalog-compare-add').addEventListener('click',()=>{
+ if(!chosen||!catalog)return;
+ if(comparedIds.includes(chosen.id))comparedIds=comparedIds.filter(id=>id!==chosen.id);
+ else if(comparedIds.length<3)comparedIds=[...comparedIds,chosen.id];
+ renderReferenceComparison();
+});
+$('catalog-compare-clear').addEventListener('click',()=>{
+ comparedIds=[];renderReferenceComparison();
+});
+$('catalog-compare-copy').addEventListener('click',async()=>{
+ const value=$('catalog-compare-link').value;
+ if(!value)return;
+ try{
+  if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');
+  await navigator.clipboard.writeText(value);
+  $('catalog-compare-feedback').textContent='Comparison link copied. +0 source facts only; not AR.';
+ }catch{
+  $('catalog-compare-link').focus();$('catalog-compare-link').select();
+  $('catalog-compare-feedback').textContent='Copy the selected comparison URL manually.';
+ }
+});
 function renderPublishedUpgrade(){
  const parent=$('catalog-upgrade-reference'),level=$('catalog-upgrade-level');
  if(!chosen?.upgradeReference){parent.hidden=true;lastUpgradeWeaponId=null;return;}
@@ -49,7 +120,7 @@ const status=(s,error=false)=>{
 };
 function renderDetails(){
  const box=$('catalog-details');
- if(!chosen){box.hidden=true;return;}
+ if(!chosen){box.hidden=true;renderReferenceComparison();return;}
  box.hidden=false;
  $('catalog-title').textContent=chosen.name;
  const coverage=chosen.dataCoverage??'base-community';
@@ -115,6 +186,7 @@ function renderDetails(){
   $('catalog-two').textContent='—';
   $('catalog-requirements-link').hidden=true;
  }
+ renderReferenceComparison();
 }
 function showList(reset=false,keepSelected=false){
  if(!catalog)return;
@@ -202,10 +274,14 @@ try{
  for(const category of catalogCategories(catalog.weapons)){
   const opt=el('option',category);opt.value=category;$('catalog-category').append(opt);
  }
+ try{comparedIds=parseReferenceCompareIds(params.get('compare'),new Set(catalog.weapons.map(w=>w.id)));}
+ catch{comparedIds=[];$('catalog-compare-feedback').textContent='Invalid comparison URL; selection ignored.';}
  const preferred=params.get('weapon');
  if(preferred){chosen=catalog.weapons.find(w=>w.id===preferred)||null;}
+ if(!chosen&&comparedIds.length)chosen=catalog.weapons.find(w=>w.id===comparedIds[0])||null;
  showList(true,Boolean(chosen));
  if(chosen)renderDetails();
+ renderReferenceComparison();
  status('Loaded '+catalog.weapons.length+' weapon and shield references ('+
   catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree').length+
   ' DLC: '+catalog.meta.dlcBaseFactCount+' with sourced +0 facts, '+
