@@ -9,3 +9,7 @@ Workflow: open a community weapon → enter five actual stats → open its AR re
 The workbench uses request IDs to drop stale searches and selected-weapon responses. It keeps **noindex,nofollow** and unverified-research disclaimers. It does not imply that community-catalog +0 values are identical to source-v1.17 numerical values: seven source conflicts remain flagged and unresolved. No official in-game screenshot/2026 Regulation 1.17.3 game-client goldens exist yet. Existing 3 historical player, 14 independently published 1.17.3 table and 13,184 same-source formula benchmarks still run as separate CI gates.
 
 No paid API, server-side source download, or redistribution of game-derived parameter databases was introduced.
+
+## Exact source family coverage
+
+Before correction: 405 of 409 catalog rows matched the 488 unique `weaponName` source families. Three original upstream display labels were corrected without changing record IDs; one original Closed Network Test-only Winged Spear row was removed (the released game has Spear). This yields **408/408 catalog row names matched** against the pinned v1.17 parameter source. The name match is not numerical game parity.

@@ -6,9 +6,9 @@ import {validateCommunityCatalog,catalogCategories,searchCatalog,baseDamageParts
  cautionForWeapon,weaponRequirementComparison,requirementsUrl,publishedUpgradeParts} from '../public/src/community-weapons.mjs';
 const catalog=validateCommunityCatalog(JSON.parse(await readFile(resolve('public/data/community-weapon-catalog.json'),'utf8')));
 const find=name=>catalog.weapons.find(w=>w.name===name);
-test('source-attributed 409 references with 102 DLC weapons and shields, stripped of images and prose',()=>{
- assert.equal(catalog.weapons.length,409);
- assert.equal(catalog.meta.count,409);
+test('source-attributed 408 launch-game references with 102 DLC weapons and shields, stripped of images and prose',()=>{
+ assert.equal(catalog.weapons.length,408);
+ assert.equal(catalog.meta.count,408);
  assert.match(catalog.meta.version,/not established/);
  assert.match(catalog.meta.sourceRevision,/^[a-f0-9]{40}$/);
  for(const row of catalog.weapons){
@@ -76,7 +76,7 @@ test('reject invalid values, duplicate IDs, corrupted stats and unsupported sort
  bad.weapons[0].attack[0]='invalid';
  assert.throws(()=>validateCommunityCatalog(bad),/Invalid base damage/);
  assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:10}}),/record count/);
- assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:410},weapons:[...catalog.weapons,catalog.weapons[0]]}),/Duplicate weapon ID/);
+ assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:409},weapons:[...catalog.weapons,catalog.weapons[0]]}),/Duplicate weapon ID/);
  assert.throws(()=>searchCatalog(catalog.weapons,{sort:'unknown'}),/Invalid catalog search/);
 });
 
@@ -143,7 +143,7 @@ test('DLC roster has 102 sourced unique weapons/shields and three explicit data 
  const dlc=catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree');
  assert.equal(dlc.length,102);
  assert.equal(new Set(dlc.map(w=>w.name)).size,102);
- assert.equal(catalog.meta.baseCommunityCount,307);
+ assert.equal(catalog.meta.baseCommunityCount,306);
  assert.equal(catalog.meta.dlcCatalogCount,102);
  assert.equal(catalog.meta.dlcBaseFactCount,101);
  assert.equal(catalog.meta.dlcWeightOnlyCount,1);
@@ -490,4 +490,14 @@ test('seven independently observed 1.17 conflicts stay review-flagged without ov
  assert.match(cautionForWeapon(m).join(' '),/SOURCE CONFLICT/);
  const broken=structuredClone(catalog);broken.meta.v117SourceConflictCount=0;
  assert.throws(()=>validateCommunityCatalog(broken),/metadata mismatch/);
+});
+
+test('canonical released names resolve from catalog with stable IDs and network-test-only Winged Spear is absent',()=>{
+ const names=["Prince of Death's Staff",'Sword of St. Trina','Velvet Sword of St. Trina'];
+ for(const n of names)assert.ok(find(n),n);
+ assert.equal(find('Winged Spear'),undefined);
+ assert.equal(find('Spear').attack[0],114);
+ assert.equal(find('Prince Of Death\'s Star'),undefined);
+ assert.equal(find('Sword Of St Trina'),undefined);
+ assert.ok(catalog.meta.corrections.includes('Closed Network Test-only Winged Spear'));
 });
