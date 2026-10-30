@@ -101,6 +101,21 @@
 <p class="note" id="arw-rounding-summary" aria-live="polite">Rounding variants are displayed when local data is loaded.</p>
 <p class="note">AR is not actual damage against an enemy. Missing game parameters and unsupported versions may be rejected. Final game parity requires independent golden samples and rights checks.</p>
 </section>
+<section class="panel workbench-pair-panel" aria-labelledby="arw-sensitivity-title">
+ <div class="eyebrow">Attribute investment · Exact source math · Not an optimized build</div>
+ <h2 id="arw-sensitivity-title">How much AR does each combat stat add?</h2>
+ <p>Keep four combat attributes unchanged and add <strong>+1, +5 or +10</strong> to only Strength, Dexterity, Intelligence, Faith or Arcane. Compare the resulting nominal equipment AR at the currently selected weapon and upgrade. Values are capped at 99; an investment near the cap shows the number of points actually added.</p>
+ <div class="input-two">
+  <label class="field">Grip for attribute sensitivity<select id="arw-sensitivity-grip"><option value="one">One-handed</option><option value="two">Two-handed</option></select></label>
+ </div>
+ <div class="workbench-actions"><button class="btn alt" id="arw-sensitivity-run" type="button" disabled>Calculate +1 / +5 / +10 AR gains</button></div>
+ <p class="note" id="arw-sensitivity-feedback" role="status" aria-live="polite">Select a sourced weapon and reinforcement level to check five combat stats.</p>
+ <div id="arw-sensitivity-results" hidden>
+  <p class="note" id="arw-sensitivity-summary"></p>
+  <div class="table-wrap"><table class="datatable"><thead><tr><th>Stat</th><th>Requested</th><th>Spent</th><th>New stat</th><th>New nominal AR</th><th>AR gain</th><th>AR / point</th><th>Physical Δ</th><th>Magic Δ</th><th>Fire Δ</th><th>Lightning Δ</th><th>Holy Δ</th><th>Requirement / status</th></tr></thead><tbody id="arw-sensitivity-rows"></tbody></table></div>
+ </div>
+ <div class="safe-banner"><strong>Not a global stat optimizer.</strong> This comparison changes only one stat at a time. It does not model player rune level, build respec rules, casting, weapon skills, status buildup, target defenses, buffs or true damage. Numerically higher AR is not necessarily better in combat.</div>
+</section>
 <section class="panel workbench-pair-panel" aria-labelledby="arw-progression-title">
  <div class="eyebrow">Reinforcement progression · All source-supplied levels</div>
  <h2 id="arw-progression-title">Upgrade path: +0 to +10 / +25</h2>

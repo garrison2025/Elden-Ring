@@ -76,6 +76,35 @@ These scenarios **are not** new actual client goldens.
 third-party weapon data, unresolved redistribution rights, and **zero**
 independently reviewed 1.17.2/1.17.3 game-client AR screenshot goldens.
 
+## 2026-10-31 continuation: combat attribute investment sensitivity
+
+The research workbench can now compare **+1, +5, and +10** to each of the
+five player combat attributes (STR / DEX / INT / FAI / ARC). For each probe,
+all *other* attributes, the exact source weapon/affinity, reinforcement
+level and selected grip remain constant. The app exposes:
+
+- Baseline nominal AR, final nominal AR and **gain per actually invested**
+  stat point. A current stat of 97 queried with +5 invests only **2** points;
+  stat 99 is explicitly unavailable rather than counted as a zero-gain
+  available investment.
+- Five independently floored damage-component changes and unmet or newly
+  satisfied weapon attribute requirements. 1H/2H STR effects and paired
+  grip restrictions follow the same imported-source calculation engine.
+- A Worker-only, manually triggered sensitivity table; previous rows are
+  cleared on changes to weapon, attribute values, upgrade, source dataset
+  or comparison grip to avoid stale result confusion.
+
+The implementation does **not** rank global build quality or optimize
+a complete character: it makes only one-variable local probes, assumes
+added points are possible within 1–99, and cannot infer player rune
+level or skill/status/ammunition/target-defense effects. In particular,
+nominal split AR changes are not a prediction of real enemy damage.
+
+Synthetic tests cover exact equality with direct profile calculation,
+all 15 per-attribute probes, 99 caps and partial investments, requirement
+threshold crossings, split physical/magic results and paired weapons.
+**Zero new independent game-client screenshots were reviewed.**
+
 ## Outstanding release blockers
 
 - No independently inspected, current-version game-menu screenshot samples are claimed here.
