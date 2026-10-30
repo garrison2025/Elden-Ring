@@ -1,5 +1,6 @@
 import {calculateAr,validateArProfile,POWER_STATS} from './weapon-ar.mjs';
 import {makeUnreviewedArObservation} from './ar-observation.mjs';
+import {validateLocalScreenshotFingerprint} from './ar-screenshot-fingerprint.mjs';
 
 const fail=message=>{throw new RangeError(message);};
 const validStats=stats=>stats&&typeof stats==='object'&&!Array.isArray(stats)&&
@@ -121,16 +122,20 @@ export function makeUnreviewedArObservationBatch(plan,{
    fail('Unknown or duplicate submitted test case.');
   used.add(item.caseId);
   const testCase=byId.get(item.caseId);
-  drafts.push({
-   caseId:item.caseId,scenario:testCase.scenario,
-   observation:makeUnreviewedArObservation({
+  const observation=makeUnreviewedArObservation({
     weaponName:testCase.weaponName,sourceVersion:plan.sourceVersion,
     gameAppVersion,regulationVersion,platform,observedAt,
     evidenceReference:item.evidenceReference,
     stats:testCase.stats,upgrade:testCase.upgrade,twoHanded:testCase.twoHanded,
     observedTotal:item.observedTotal,candidateTotal:testCase.candidateTotal
-   })
-  });
+   });
+  if(item.screenshotFingerprint!==undefined&&item.screenshotFingerprint!==null){
+   const fingerprint=validateLocalScreenshotFingerprint(item.screenshotFingerprint);
+   if(fingerprint.filename!==observation.sourceEvidence.reference)
+    fail('Screenshot filename must match its evidence reference for '+item.caseId+'.');
+   observation.sourceEvidence.screenshotFingerprint=fingerprint;
+  }
+  drafts.push({caseId:item.caseId,scenario:testCase.scenario,observation});
  }
  return {
   schemaVersion:1,recordType:'unreviewed-game-menu-AR-observation-batch',
@@ -138,11 +143,12 @@ export function makeUnreviewedArObservationBatch(plan,{
   scopeFlags:[...(plan.scopeFlags??[])],
   plannedCases:plan.cases.length,submittedCases:drafts.length,
   numericalMatches:drafts.filter(x=>x.observation.candidateCalculation.numericMatch).length,
+  fingerprintedCases:drafts.filter(x=>x.observation.sourceEvidence.screenshotFingerprint).length,
   reviewStatus:'UNREVIEWED',gameClientVerified:false,publicationApproved:false,
   screenshotReviewedCount:0,observations:drafts,
   limitations:[
    'Numerical matches are not independent game-client validation.',
-   'Game-menu screenshots were not uploaded or inspected. Evidence references are filenames only.',
+   'Screenshot bytes were not uploaded, stored in JSON or inspected. An optional SHA-256 is a file-identity fingerprint, not authenticity proof.',
    'The values originate from manual transcription and remain pending independent review.'
   ]
  };
