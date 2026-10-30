@@ -27,13 +27,33 @@
 <label class="field">Weapon class<select id="catalog-category"><option value="all">All classes</option></select></label>
 <label class="field">Sort by<select id="catalog-sort"><option value="name">Name (A–Z)</option><option value="weight">Weight (lightest first)</option><option value="base">Sum of base damage (not actual AR)</option></select></label>
 </div>
+<div class="catalog-filter-grid">
+ <label class="field">Requirements for your stats
+  <select id="catalog-wield">
+   <option value="any">Any requirement</option>
+   <option value="one">Can wield one-handed</option>
+   <option value="standard-two">Meets with standard 2H assumption*</option>
+  </select>
+ </label>
+ <label class="field">Base damage component
+  <select id="catalog-damage-filter">
+   <option value="any">Any damage type</option><option value="physical">Physical</option>
+   <option value="magic">Magic</option><option value="fire">Fire</option>
+   <option value="lightning">Lightning</option><option value="holy">Holy</option>
+  </select>
+ </label>
+ <label class="field">Maximum weight
+  <input type="number" id="catalog-max-weight" min="0" max="200" step="0.5" placeholder="No limit">
+ </label>
+</div>
+<p class="note">* Two-hand filter uses the ordinary melee Strength assumption, not a guarantee for paired/special weapon grips. Ranged and casting categories do not receive a guessed STR bonus. Base damage types do not imply final damage or AR.</p>
 <p id="catalog-results" class="note" role="status">Loading weapon records…</p>
 <div id="catalog-list" class="catalog-list" aria-label="Weapon search results"></div>
 <button type="button" id="catalog-more" class="btn alt" hidden>Show more weapons</button>
 </section>
 <section class="catalog-detail-col">
 <section class="panel catalog-character">
-<h2>Character attributes</h2><p class="note">Change your current levels to check minimum requirements. Standard two-handing is a conditional Strength bonus, not an AR or damage estimate.</p>
+<h2>Your character · Find usable weapons</h2><p class="note">Change your current levels to check minimum requirements. Standard two-handing is a conditional Strength bonus, not an AR or damage estimate.</p>
 <div id="catalog-stats" class="requirements-grid catalog-stats"></div>
 </section>
 <section class="panel catalog-detail" id="catalog-details" hidden>

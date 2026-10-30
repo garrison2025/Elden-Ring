@@ -253,3 +253,7 @@ Data provenance, source MIT license and targeted corrections: docs/COMMUNITY_WEA
 
 
 The Character Build Planner now links directly to the real community Weapon Database with the player's five weapon-related stats carried through. Clicking a specific weapon there passes its reported requirements and character stats to the independent Requirements Calculator.
+
+## Find wieldable real weapons
+
+The community weapon database now combines five-attribute requirements, weapon category, physical/elemental base type and weight filters. The conservative two-hand model excludes ranged, casting, fist and claw categories from the ordinary bonus, while warning that other special grips can still differ. This is an equipment **requirements** filter, not real AR or enemy DPS; numbers remain source- and version-unverified. No runtime paid APIs.

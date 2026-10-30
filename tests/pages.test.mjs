@@ -181,3 +181,13 @@ test('character build seamlessly passes five combat stats to real community weap
  assert.match(catalog,/params\.get\('stats'\)/);
  assert.match(catalog,/slice\(3\)/);
 });
+
+test('real weapon database exposes combinable character-wield, damage-type and weight filters',async()=>{
+ const html=await readFile(join(root,'weapon-database/index.html'),'utf8');
+ const app=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
+ for(const id of ['catalog-wield','catalog-damage-filter','catalog-max-weight','catalog-stats'])
+  assert.ok(html.includes('id="'+id+'"'),id);
+ assert.match(app,/searchCatalog\(catalog\.weapons/);
+ assert.match(app,/readStats\(\)/);
+ assert.match(html,/not a guarantee for paired\/special/);
+});

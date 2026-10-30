@@ -65,9 +65,12 @@ function renderDetails(){
   const result=weaponRequirementComparison(chosen,stats);
   $('catalog-one').textContent=result.oneHanded.canWield?'Requirements met':
     result.oneHanded.totalMissing+' attribute point(s) short';
-  $('catalog-two').textContent=result.twoHanded.canWield?'Standard grip meets requirements':
-    result.twoHanded.totalMissing+' point(s) short (standard grip assumption)';
-  $('catalog-two').title='Paired or exceptional wielding modes may not receive the standard 1.5× Strength bonus.';
+  $('catalog-two').textContent=result.twoHanded.canWield?
+   (result.applyTwoHandBonus?'Requirements met (standard 2H assumed)':'Requirements met (no 2H STR bonus)'):
+   result.twoHanded.totalMissing+' point(s) short'+(result.applyTwoHandBonus?' (standard 2H assumed)':' (no 2H STR bonus)');
+  $('catalog-two').title=result.applyTwoHandBonus?
+   'Standard 1.5× STR assumption only; check paired and special grip rules in-game.':
+   'No normal two-hand Strength increase assumed for this category.';
   const link=$('catalog-requirements-link');
   link.href=requirementsUrl(chosen,stats);
   link.hidden=false;
@@ -77,21 +80,41 @@ function renderDetails(){
   $('catalog-requirements-link').hidden=true;
  }
 }
-function showList(reset=false){
+function showList(reset=false,keepSelected=false){
  if(!catalog)return;
  if(reset)offset=0;
- const term=$('catalog-search').value,category=$('catalog-category').value,sort=$('catalog-sort').value;
- const data=searchCatalog(catalog.weapons,{term,category,sort,limit:40,offset});
+ const term=$('catalog-search').value;
+ const category=$('catalog-category').value;
+ const sort=$('catalog-sort').value;
+ const wield=$('catalog-wield').value;
+ const damage=$('catalog-damage-filter').value;
+ const rawWeight=$('catalog-max-weight').value.trim();
+ let maxWeight=null;
+ if(rawWeight!==''){
+  maxWeight=Number(rawWeight);
+  if(!Number.isFinite(maxWeight)||maxWeight<0||maxWeight>200){
+   $('catalog-results').textContent='Enter a weight limit from 0 to 200.';
+   $('catalog-more').hidden=true;
+   if(reset){$('catalog-list').replaceChildren();chosen=null;renderDetails();}
+   return;
+  }
+ }
+ let data;
+ try{
+  data=searchCatalog(catalog.weapons,{
+   term,category,sort,limit:40,offset,wield,damage,maxWeight,
+   stats:wield==='any'?null:readStats()
+  });
+ }catch(error){
+  $('catalog-results').textContent='Correct your character attributes: '+error.message;
+  $('catalog-more').hidden=true;
+  if(reset){$('catalog-list').replaceChildren();chosen=null;renderDetails();}
+  return;
+ }
  const list=$('catalog-list');
  if(reset){
   list.replaceChildren();
-  const check=searchCatalog(catalog.weapons,{term,category,sort,limit:100,offset:0});
-  if(chosen&&!check.results.some(w=>w.id===chosen.id)&&
-    !catalog.weapons.some(w=>w.id===chosen.id&&
-      (category==='all'||w.category===category)&&
-      (!term.trim()||w.name.toLowerCase().includes(term.trim().toLowerCase())||
-       w.category.toLowerCase().includes(term.trim().toLowerCase()))))
-   chosen=null;
+  if(!keepSelected)chosen=null;
  }
  if(!chosen&&data.results.length)chosen=data.results[0];
  const fragment=document.createDocumentFragment();
@@ -100,16 +123,16 @@ function showList(reset=false){
   btn.setAttribute('aria-label','View '+w.name+' weapon details');
   if(w.id===chosen?.id)btn.classList.add('selected');
   const title=el('span',w.name);title.className='catalog-row-title';
-  const detail=el('span',w.category+' · Wt '+w.weight+' · +0 base stats');
+  const detail=el('span',w.category+' · Wt '+w.weight+' · +0 community base stats');
   detail.className='catalog-row-desc';
-  const tag=el('span',w.flags?.includes('duplicate-name-in-source')?'Review source':'View details');
+  const tag=el('span',w.flags?.length?'Check data':'View details');
   tag.className='catalog-row-tag';
   btn.append(title,detail,tag);
   btn.addEventListener('click',()=>{
    chosen=w;
-   for(const previous of list.querySelectorAll('.catalog-row.selected'))previous.classList.remove('selected');
-   btn.classList.add('selected');
-   renderDetails();
+   for(const prev of list.querySelectorAll('.catalog-row.selected'))
+    prev.classList.remove('selected');
+   btn.classList.add('selected');renderDetails();
   });
   fragment.append(btn);
  }
@@ -117,13 +140,19 @@ function showList(reset=false){
  offset+=data.results.length;
  $('catalog-results').textContent=data.total+' matching entries · '+offset+' shown';
  $('catalog-more').hidden=offset>=data.total;
- if(chosen)renderDetails();else $('catalog-details').hidden=true;
+ renderDetails();
 }
 $('catalog-search').addEventListener('input',()=>showList(true));
 $('catalog-category').addEventListener('change',()=>showList(true));
 $('catalog-sort').addEventListener('change',()=>showList(true));
+$('catalog-wield').addEventListener('change',()=>showList(true));
+$('catalog-damage-filter').addEventListener('change',()=>showList(true));
+$('catalog-max-weight').addEventListener('input',()=>showList(true));
 $('catalog-more').addEventListener('click',()=>showList(false));
-$('catalog-stats').addEventListener('input',renderDetails);
+$('catalog-stats').addEventListener('input',()=>{
+ renderDetails();
+ if($('catalog-wield').value!=='any')showList(true);
+});
 try{
  const response=await fetch('../data/community-weapon-catalog.json',{cache:'default'});
  if(!response.ok)throw new Error('The local weapon catalog is unavailable ('+response.status+').');
@@ -134,7 +163,7 @@ try{
  }
  const preferred=params.get('weapon');
  if(preferred){chosen=catalog.weapons.find(w=>w.id===preferred)||null;}
- showList(true);
+ showList(true,Boolean(chosen));
  if(chosen)renderDetails();
  status('Loaded '+catalog.weapons.length+' community weapon entries from this site. Data remains patch-unverified; base stats are NOT calculated AR.');
 }catch(e){

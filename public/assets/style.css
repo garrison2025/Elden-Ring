@@ -193,3 +193,10 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 @media(max-width:920px){.catalog-layout{grid-template-columns:1fr}}
 @media(max-width:650px){.catalog-overview{grid-template-columns:1fr 1fr}.catalog-character .catalog-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:440px){.catalog-overview{grid-template-columns:1fr}.catalog-character .catalog-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Real weapon filtering: compact and accessible on phone */
+.catalog-filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.catalog-filter-grid .field{min-width:0}
+.catalog-filter-grid .field input,.catalog-filter-grid .field select{width:100%;min-width:0}
+.catalog-filter-grid .field:last-child{grid-column:1 / -1}
+@media(max-width:520px){.catalog-filter-grid{grid-template-columns:1fr}.catalog-filter-grid .field:last-child{grid-column:auto}}
