@@ -154,6 +154,38 @@ introduced. This is **data collection and arithmetic reproducibility
 tooling**, not special-weapon skill-damage or status-effect modeling.
 The site stays research-only `noindex`.
 
+## 2026-10-31 continuation: screenshot SHA-256 file-identity chain
+
+Manual game-menu AR batch entries now support an **optional LOCAL screenshot**
+input alongside the player-transcribed AR and filename. Only screenshots
+with PNG/JPEG/WebP signatures and matching extensions/MIME types are accepted
+(up to 12 MB each). When the player clicks **Export completed observations**,
+the browser computes SHA-256 using Web Crypto and adds a small metadata object
+(filename, media type, byte length, SHA-256, `screenshotReviewed:false`,
+`gameClientVerified:false`) to each selected record. The screenshot itself
+is **not** embedded in JSON, uploaded, committed or cached by this workflow.
+The original photo should be saved separately by the tester.
+
+When a batch containing fingerprints is imported into the existing local
+arithmetic recheck tool, the app offers **Compare screenshot SHA-256 locally**:
+select a case and the corresponding original file. It recomputes that image's
+fingerprint and reports a **bytes-match** or **bytes-mismatch**. Hash validation
+also rejects malformed fingerprint fields in batch arithmetic recheck; older
+UNREVIEWED JSON records with only a filename remain compatible.
+
+**Important interpretation:** SHA-256 matching proves that the selected file
+has the same byte digest/size/type as the previously fingerprinted file.
+It cannot establish that the file contains a genuine Elden Ring UI,
+correct character stats, the current App/Regulation version, an untampered
+screenshot, independently confirmed client goldens or lawful redistribution.
+The browser does not itself examine screenshot pixels or authenticate a
+player's claims. All outputs remain `UNREVIEWED`, `gameClientVerified:false`,
+and `screenshotReviewed:false`. There are still **zero** separately
+inspected, accepted real-client screenshot goldens.
+
+This flow uses no additional npm dependency, server, paid API or storage.
+The site-wide `noindex` research gate is unchanged.
+
 ## Outstanding release blockers
 
 - No independently inspected, current-version game-menu screenshot samples are claimed here.
