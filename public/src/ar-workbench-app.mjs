@@ -8,6 +8,20 @@ const feedback=(s,bad=false)=>{
  get('arw-feedback').textContent=s;
  get('arw-feedback').className=bad?'feedback bad':'feedback';
 };
+let progressionRevision=0,recheckRevision=0;
+const clearProgression=()=>{
+ progressionRevision++;
+ get('arw-progression-results').hidden=true;
+ get('arw-progression-rows').replaceChildren();
+ get('arw-progression-summary').textContent='';
+};
+const clearRecheck=()=>{
+ recheckRevision++;
+ get('arw-recheck-results').hidden=true;
+ get('arw-recheck-summary').textContent='';
+ get('arw-recheck-drift').textContent='—';
+ get('arw-recheck-game-gap').textContent='—';
+};
 let familyRevision=0;
 const clearFamily=()=>{
  familyRevision++;
@@ -17,7 +31,7 @@ const clearFamily=()=>{
 };
 let latestGripResults=null;
 const clear=()=>{
- clearFamily();
+ clearFamily();clearProgression();clearRecheck();
  latestGripResults=null;
  get('arw-onehand').textContent='—';get('arw-twohand').textContent='—';
  get('arw-delta').textContent='—';get('arw-effective').textContent='—';
@@ -94,6 +108,7 @@ const setOptions=(records,preferred='')=>{
  selected=false;selectedB=false;bUpgrades=[];currentRequirements=null;
  get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
  get('arw-family-run').disabled=true;
+ get('arw-progression-run').disabled=true;
  gripRevision++;clear();clearPair();get('arw-upgrade').replaceChildren();get('arw-compare-upgrade').replaceChildren();
  if(!records.length)get('arw-results-count').textContent='No matching weapon names.';
 };
@@ -101,6 +116,7 @@ function selectCurrent(){
  if(!fileLoaded||get('arw-select').disabled||!get('arw-select').value)return;
  selected=false;gripRevision++;clear();clearPair();
  get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
+ get('arw-progression-run').disabled=true;
  send({op:'select',requestId:++selectRevision,name:get('arw-select').value});
 }
 function selectSecond(){
@@ -133,6 +149,14 @@ function requestComparison(){
 }
 if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='error'){
+  if(m.phase==='upgrade-progression'){
+   if(m.requestId!==progressionRevision)return;
+   get('arw-progression-feedback').textContent='Upgrade progression failed: '+m.message;return;
+  }
+  if(m.phase==='recheck-observation'){
+   if(m.requestId!==recheckRevision)return;
+   get('arw-recheck-feedback').textContent='Observation recheck failed: '+m.message;return;
+  }
   if(m.phase==='family-compare'){
    if(m.requestId!==familyRevision)return;
    get('arw-family-feedback').textContent='Family comparison failed: '+m.message;return;
@@ -168,8 +192,9 @@ if(worker)worker.onmessage=({data:m})=>{
   fileLoaded=false;selected=false;selectedB=false;upgrades=[];bUpgrades=[];syntheticMode=false;
   currentRequirements=null;searchRevision++;selectRevision++;selectBRevision++;
   get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
-  get('arw-family-run').disabled=true;
-  gripRevision++;clearPair();clearFamily();get('arw-compare-select').replaceChildren();
+  get('arw-family-run').disabled=true;get('arw-progression-run').disabled=true;
+  get('arw-recheck-run').disabled=true;
+  gripRevision++;clearPair();clearFamily();clearProgression();clearRecheck();get('arw-compare-select').replaceChildren();
   get('arw-compare-upgrade').replaceChildren();
   get('arw-file-status').textContent='No file loaded';
   get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-search').value='';
@@ -179,6 +204,7 @@ if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='loaded'){
   clearAudit();get('arw-audit-run').disabled=false;get('arw-parity-run').disabled=false;
   fileLoaded=true;syntheticMode=Boolean(m.synthetic);
+   get('arw-recheck-run').disabled=syntheticMode;
   get('arw-file-status').textContent=m.count.toLocaleString('en-US')+
     (syntheticMode?' FICTIONAL demo entries (not game weapons).':' locally imported weapon names in memory.');
   get('arw-search').value='';get('arw-results-count').textContent=m.preview.matches+' results; only first '+m.preview.names.length+' shown.';
@@ -280,6 +306,44 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-results-count').textContent=m.result.matches+' matching names; first '+m.result.names.length+' shown.';
   setOptions(m.result.names);if(m.result.names.length){selectCurrent();selectSecond();}return;
  }
+ if(m.op==='upgrade-progression-result'){
+  if(m.requestId!==progressionRevision)return;
+  const out=m.result,body=get('arw-progression-rows');body.replaceChildren();
+  get('arw-progression-summary').textContent=out.weaponName+' · '+out.reinforcementSystem+
+   ' · source levels: '+out.suppliedLevels+' · maximum +'+out.highestLevel+
+   '. One- and two-handed values are source-derived, not game-client certified.';
+  for(const step of out.rows){
+   const row=make('tr',''),available=step.status==='calculated-unverified';
+   const values=['+'+step.level,available?step.oneHand:'—',available?step.twoHand:'—',
+    available?(step.delta>=0?'+':'')+step.delta:'—',
+    ...['physical','magic','fire','lightning','holy'].map(
+     key=>available?step.oneComponents[key]:'—'),
+    available?(step.missingRequirements.length?
+     'Unmet: '+step.missingRequirements.join(', ')+'. ':'')+
+     'No skills, status or target-defense model':step.note];
+   for(const value of values)row.append(make('td',value));
+   body.append(row);
+  }
+  get('arw-progression-results').hidden=false;
+  get('arw-progression-feedback').textContent=syntheticMode?
+   'FICTIONAL reinforcement table — invented values only.':
+   'Exact imported source progression calculated locally. NOT current game AR verified.';
+  return;
+ }
+ if(m.op==='recheck-observation-result'){
+  if(m.requestId!==recheckRevision)return;
+  const item=m.result;
+  get('arw-recheck-drift').textContent=
+   item.differenceFreshMinusStored??'—';
+  get('arw-recheck-game-gap').textContent=
+   item.differenceFreshMinusGame??'—';
+  get('arw-recheck-summary').textContent=item.reason;
+  get('arw-recheck-feedback').textContent='Result: '+item.status+
+   '. Draft stored fields consistent: '+item.storedFieldsConsistent+
+   '. Always UNREVIEWED; screenshot not inspected.';
+  get('arw-recheck-results').hidden=false;
+  return;
+ }
  if(m.op==='family-compared'){
   if(m.requestId!==familyRevision)return;
   const out=m.result,body=get('arw-family-rows');body.replaceChildren();
@@ -321,7 +385,7 @@ if(worker)worker.onmessage=({data:m})=>{
   if(preferred!==null&&upgrades.includes(preferred))u.value=String(preferred);
   pendingUpgradeFromLink=null;
   get('arw-upgrade-max').disabled=false;get('arw-apply-requirements').disabled=false;
-  get('arw-family-run').disabled=false;
+  get('arw-family-run').disabled=false;get('arw-progression-run').disabled=false;
   requestCalculation();requestComparison();return;
  }
  if(m.op==='selectedB'){
@@ -482,6 +546,34 @@ get('arw-compare-grip').addEventListener('change',requestComparison);
 get('arw-compare-run').addEventListener('click',requestComparison);
 get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();requestComparison();});
 get('arw-compare').addEventListener('click',requestCalculation);
+get('arw-progression-run').addEventListener('click',()=>{
+ clearProgression();
+ if(!selected||!fileLoaded)return;
+ try{
+  get('arw-progression-feedback').textContent='Calculating every supplied reinforcement level locally…';
+  send({op:'upgrade-progression',requestId:progressionRevision,stats:readStats()});
+ }catch(error){get('arw-progression-feedback').textContent=error.message;}
+});
+get('arw-recheck-run').addEventListener('click',async()=>{
+ clearRecheck();
+ if(!fileLoaded||syntheticMode){
+  get('arw-recheck-feedback').textContent='Load a real source candidate, not the fictional demo.';
+  return;
+ }
+ const file=get('arw-recheck-file').files?.[0];
+ if(!file||!file.name.toLowerCase().endsWith('.json')||file.size>120000){
+  get('arw-recheck-feedback').textContent='Choose a single local UNREVIEWED .json file (max 120 kB).';return;
+ }
+ const id=recheckRevision;
+ get('arw-recheck-feedback').textContent='Re-evaluating this draft from the active source. No screenshot is inspected.';
+ try{
+  const text=await file.text();
+  if(id!==recheckRevision||!fileLoaded)return;
+  send({op:'recheck-observation',requestId:id,text});
+ }catch(error){
+  if(id===recheckRevision)get('arw-recheck-feedback').textContent=error.message;
+ }
+});
 get('arw-family-grip').addEventListener('change',clearFamily);
 get('arw-family-run').addEventListener('click',()=>{
  clearFamily();

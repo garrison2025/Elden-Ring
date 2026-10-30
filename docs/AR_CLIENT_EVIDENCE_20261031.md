@@ -43,6 +43,39 @@ outputs remain research-only; site-wide `noindex` remains enabled.
 Numerical nominal AR does not include movesets, enemy defenses,
 status buildup, ammunition or weapon skills.
 
+## 2026-10-31 continuation: reinforcement paths and observation draft recheck
+
+Two more research functions are implemented in the local browser Worker and source
+calculator:
+
+1. **Full upgrade progression** for one exact selected source entry: calculate
+   nominal equipment AR at **every explicitly available** +level for one-hand
+   and two-hand grip, plus five separately floored elemental components.
+   Standard 26-step and special 11-step source tables are never conflated.
+   Missing reinforcement rows are shown as unavailable rather than invented.
+   The source-table length identifies the *supplied table length only*; it does
+   **not** certify somber classification, hidden scaling, weapon skill damage,
+   equipment buffs, statuses or game version parity.
+2. **Recheck an unreviewed game-menu observation JSON**: select a locally
+   exported draft and recompute its exact weapon/affinity, stats, enhancement
+   level and grip from the **currently loaded parameter source**. Detect
+   mismatched source version, candidate formula drift and inconsistent saved
+   derived fields, with an explicit comparison against the originally
+   transcribed game-menu AR. Only one small local JSON file is read;
+   nothing is uploaded. Fictional demo mode cannot run the rechecker.
+   This process cannot independently inspect the screenshot or establish
+   that the claimed App/Regulation versions match the actual installed game;
+   all results remain `UNREVIEWED` and `gameClientVerified:false`.
+
+Synthetic regression tests exercise +0–+10, +0–+25, intentionally absent
+reinforcement rows, paired weapons without a fictional two-hand bonus,
+split physical/magic AR, and tampered/contradictory JSON drafts.
+These scenarios **are not** new actual client goldens.
+
+**Publication gates remain unchanged:** research-only `noindex`, no bundled
+third-party weapon data, unresolved redistribution rights, and **zero**
+independently reviewed 1.17.2/1.17.3 game-client AR screenshot goldens.
+
 ## Outstanding release blockers
 
 - No independently inspected, current-version game-menu screenshot samples are claimed here.

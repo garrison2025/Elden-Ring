@@ -101,6 +101,17 @@
 <p class="note" id="arw-rounding-summary" aria-live="polite">Rounding variants are displayed when local data is loaded.</p>
 <p class="note">AR is not actual damage against an enemy. Missing game parameters and unsupported versions may be rejected. Final game parity requires independent golden samples and rights checks.</p>
 </section>
+<section class="panel workbench-pair-panel" aria-labelledby="arw-progression-title">
+ <div class="eyebrow">Reinforcement progression · All source-supplied levels</div>
+ <h2 id="arw-progression-title">Upgrade path: +0 to +10 / +25</h2>
+ <p>View both one-handed and two-handed nominal AR for <strong>every exact reinforcement row</strong> in the selected weapon's local source data. Eleven-level and twenty-six-level tables are handled independently. A missing level stays unavailable; we do not synthesize it.</p>
+ <div class="workbench-actions"><button class="btn alt" id="arw-progression-run" type="button" disabled>Show complete upgrade path</button></div>
+ <p class="note" id="arw-progression-feedback" role="status" aria-live="polite">Select a source weapon to calculate its reinforcement progression.</p>
+ <div id="arw-progression-results" hidden><p class="note" id="arw-progression-summary"></p>
+ <div class="table-wrap"><table class="datatable"><thead><tr><th>Upgrade</th><th>1H AR</th><th>2H AR</th><th>2H minus 1H</th><th>Physical 1H</th><th>Magic 1H</th><th>Fire 1H</th><th>Lightning 1H</th><th>Holy 1H</th><th>Evidence scope</th></tr></thead><tbody id="arw-progression-rows"></tbody></table></div>
+ </div>
+ <div class="safe-banner"><strong>Special weapon boundary:</strong> A source table with 11 levels does not establish an item's rarity or prove its weapon-skill formula. This table excludes real enemy damage, spell-tool scaling, ammunition, attack motion and status accumulation. No independent game screenshot has been reviewed.</div>
+</section>
 <section class="panel workbench-audit-panel" aria-labelledby="arw-observation-title">
  <div class="eyebrow">Independent game-menu evidence · Manual entry · Local export</div>
  <h2 id="arw-observation-title">Record a real game-client AR observation</h2>
@@ -117,6 +128,22 @@
  <div class="workbench-actions"><button class="btn alt" id="arw-observation-export" type="button">Export unreviewed observation JSON</button></div>
  <p class="note" id="arw-observation-feedback" role="status" aria-live="polite">No game-client observation has been entered or independently reviewed.</p>
  <div class="safe-banner"><strong>Verification gate unchanged.</strong> A matching number is not proof of regulation-wide accuracy, screenshot authenticity, rights clearance, special weapon-skill damage, status effects or actual enemy damage.</div>
+</section>
+<section class="panel workbench-audit-panel" aria-labelledby="arw-recheck-title">
+ <div class="eyebrow">Independent observation draft · Recompute only · No upload</div>
+ <h2 id="arw-recheck-title">Recheck a saved game-menu observation</h2>
+ <p>Load one <strong>UNREVIEWED</strong> JSON draft exported above. The browser recalculates the same exact weapon, reinforcement, grip and five attributes from the <strong>currently imported local source</strong>. Detect candidate arithmetic drift, version mismatch or inconsistent draft fields. Reproduced numbers are <strong>not</strong> independent game-client verification.</p>
+ <label class="field">Observation JSON (max 120 kB)<input type="file" id="arw-recheck-file" accept="application/json,.json"></label>
+ <div class="workbench-actions"><button class="btn alt" id="arw-recheck-run" type="button" disabled>Recompute observation locally</button></div>
+ <p class="note" role="status" aria-live="polite" id="arw-recheck-feedback">Load source parameters and a locally saved UNREVIEWED JSON observation.</p>
+ <div id="arw-recheck-results" hidden>
+  <div class="metric-grid workbench-metrics">
+   <div class="metric"><div class="metric-label">Fresh minus stored candidate</div><strong id="arw-recheck-drift">—</strong></div>
+   <div class="metric"><div class="metric-label">Fresh minus game-menu entry</div><strong id="arw-recheck-game-gap">—</strong></div>
+  </div>
+  <p class="note" id="arw-recheck-summary"></p>
+ </div>
+ <div class="safe-banner"><strong>Always unreviewed:</strong> This function does not see a screenshot or read a running game. It cannot establish app/regulation version, authenticity, data rights, skill damage or overall AR accuracy.</div>
 </section>
 <section class="panel workbench-pair-panel" aria-labelledby="arw-family-title">
  <div class="eyebrow">Source affinity matrix · Research only</div>
