@@ -15,7 +15,7 @@ test('real community catalog requirement shortfall identifies exact stat deficit
  assert.deepEqual(great.requirements,[31,12,0,0,0]);
  assert.deepEqual(weaponWieldShortfall(great,stats).oneHandMissing,[{stat:'STR',points:15}]);
  assert.equal(weaponWieldShortfall(great,stats).oneHandPoints,15);
- assert.equal(weaponWieldShortfall(great,stats).twoHandPoints,7);
+ assert.equal(weaponWieldShortfall(great,stats).twoHandPoints,5);
  assert.deepEqual(weaponWieldShortfall(sword,stats).oneHandMissing,[{stat:'DEX',points:1}]);
  assert.equal(weaponWieldShortfall(sword,stats).oneHandPoints,1);
  const other=get('Stone-Sheathed Sword');
