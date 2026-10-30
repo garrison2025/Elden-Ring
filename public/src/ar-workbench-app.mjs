@@ -8,6 +8,13 @@ const feedback=(s,bad=false)=>{
  get('arw-feedback').textContent=s;
  get('arw-feedback').className=bad?'feedback bad':'feedback';
 };
+let sensitivityRevision=0;
+const clearSensitivity=()=>{
+ sensitivityRevision++;
+ get('arw-sensitivity-results').hidden=true;
+ get('arw-sensitivity-rows').replaceChildren();
+ get('arw-sensitivity-summary').textContent='';
+};
 let progressionRevision=0,recheckRevision=0;
 const clearProgression=()=>{
  progressionRevision++;
@@ -31,7 +38,7 @@ const clearFamily=()=>{
 };
 let latestGripResults=null;
 const clear=()=>{
- clearFamily();clearProgression();clearRecheck();
+ clearFamily();clearProgression();clearRecheck();clearSensitivity();
  latestGripResults=null;
  get('arw-onehand').textContent='—';get('arw-twohand').textContent='—';
  get('arw-delta').textContent='—';get('arw-effective').textContent='—';
@@ -108,7 +115,7 @@ const setOptions=(records,preferred='')=>{
  selected=false;selectedB=false;bUpgrades=[];currentRequirements=null;
  get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
  get('arw-family-run').disabled=true;
- get('arw-progression-run').disabled=true;
+ get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;
  gripRevision++;clear();clearPair();get('arw-upgrade').replaceChildren();get('arw-compare-upgrade').replaceChildren();
  if(!records.length)get('arw-results-count').textContent='No matching weapon names.';
 };
@@ -116,7 +123,7 @@ function selectCurrent(){
  if(!fileLoaded||get('arw-select').disabled||!get('arw-select').value)return;
  selected=false;gripRevision++;clear();clearPair();
  get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
- get('arw-progression-run').disabled=true;
+ get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;
  send({op:'select',requestId:++selectRevision,name:get('arw-select').value});
 }
 function selectSecond(){
@@ -149,6 +156,10 @@ function requestComparison(){
 }
 if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='error'){
+  if(m.phase==='stat-sensitivity'){
+   if(m.requestId!==sensitivityRevision)return;
+   get('arw-sensitivity-feedback').textContent='Attribute sensitivity failed: '+m.message;return;
+  }
   if(m.phase==='upgrade-progression'){
    if(m.requestId!==progressionRevision)return;
    get('arw-progression-feedback').textContent='Upgrade progression failed: '+m.message;return;
@@ -192,9 +203,9 @@ if(worker)worker.onmessage=({data:m})=>{
   fileLoaded=false;selected=false;selectedB=false;upgrades=[];bUpgrades=[];syntheticMode=false;
   currentRequirements=null;searchRevision++;selectRevision++;selectBRevision++;
   get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
-  get('arw-family-run').disabled=true;get('arw-progression-run').disabled=true;
+  get('arw-family-run').disabled=true;get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;
   get('arw-recheck-run').disabled=true;
-  gripRevision++;clearPair();clearFamily();clearProgression();clearRecheck();get('arw-compare-select').replaceChildren();
+  gripRevision++;clearPair();clearFamily();clearProgression();clearRecheck();clearSensitivity();get('arw-compare-select').replaceChildren();
   get('arw-compare-upgrade').replaceChildren();
   get('arw-file-status').textContent='No file loaded';
   get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-search').value='';
@@ -306,6 +317,38 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-results-count').textContent=m.result.matches+' matching names; first '+m.result.names.length+' shown.';
   setOptions(m.result.names);if(m.result.names.length){selectCurrent();selectSecond();}return;
  }
+ if(m.op==='stat-sensitivity-result'){
+  if(m.requestId!==sensitivityRevision)return;
+  const out=m.result,body=get('arw-sensitivity-rows');body.replaceChildren();
+  get('arw-sensitivity-summary').textContent=out.weaponName+
+   ' · Source: '+out.parameterSourceVersion+
+   ' · Upgrade +'+out.upgrade+' · '+(out.twoHanded?'two-handed':'one-handed')+
+   ' · Baseline nominal AR '+out.baselineTotal+
+   ' · Unmet base requirements: '+(out.missingRequirementsBefore.join(', ')||'none')+
+   '. All values are UNVERIFIED game-menu AR.';
+  for(const item of out.rows){
+   const tr=make('tr',''),calc=item.spentPoints>0;
+   const cells=[
+    labels[item.stat], '+'+item.requestedPoints, item.spentPoints,
+    calc?item.statBefore+' → '+item.statAfter:'At 99',
+    calc?item.total:'—',calc?(item.gain>=0?'+':'')+item.gain:'—',
+    calc?item.gainPerPoint.toFixed(2):'—',
+    ...['physical','magic','fire','lightning','holy'].map(
+     d=>calc?(item.componentGains[d]>=0?'+':'')+item.componentGains[d]:'—'),
+    (item.status==='capped-at-99'?'Clipped at 99. ':'')+
+    (item.requirementsNewlyMet.length?'Now meets '+item.requirementsNewlyMet.join(', ')+'. ':'')+
+    (item.missingRequirementsAfter.length?'Still unmet '+item.missingRequirementsAfter.join(', ')+'. ':'')+
+    (calc?'Nominal AR only':'No more points available')
+   ];
+   for(const cell of cells)tr.append(make('td',cell));
+   body.append(tr);
+  }
+  get('arw-sensitivity-results').hidden=false;
+  get('arw-sensitivity-feedback').textContent=syntheticMode?
+   'FICTIONAL STAT ANALYSIS — numbers are invented, not Elden Ring values.':
+   'Calculated from source-defined scaling. These are not game-client goldens or optimal builds.';
+  return;
+ }
  if(m.op==='upgrade-progression-result'){
   if(m.requestId!==progressionRevision)return;
   const out=m.result,body=get('arw-progression-rows');body.replaceChildren();
@@ -385,7 +428,7 @@ if(worker)worker.onmessage=({data:m})=>{
   if(preferred!==null&&upgrades.includes(preferred))u.value=String(preferred);
   pendingUpgradeFromLink=null;
   get('arw-upgrade-max').disabled=false;get('arw-apply-requirements').disabled=false;
-  get('arw-family-run').disabled=false;get('arw-progression-run').disabled=false;
+  get('arw-family-run').disabled=false;get('arw-progression-run').disabled=false;get('arw-sensitivity-run').disabled=false;
   requestCalculation();requestComparison();return;
  }
  if(m.op==='selectedB'){
@@ -546,6 +589,20 @@ get('arw-compare-grip').addEventListener('change',requestComparison);
 get('arw-compare-run').addEventListener('click',requestComparison);
 get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();requestComparison();});
 get('arw-compare').addEventListener('click',requestCalculation);
+get('arw-sensitivity-grip').addEventListener('change',clearSensitivity);
+get('arw-sensitivity-run').addEventListener('click',()=>{
+ clearSensitivity();
+ if(!selected||!fileLoaded)return;
+ try{
+  const stats=readStats(),upgrade=Number(get('arw-upgrade').value);
+  if(!upgrades.includes(upgrade))throw new RangeError('Choose a source-defined upgrade first.');
+  get('arw-sensitivity-feedback').textContent='Comparing individual stat gains locally…';
+  send({op:'stat-sensitivity',requestId:sensitivityRevision,stats,upgrade,
+   twoHanded:get('arw-sensitivity-grip').value==='two'});
+ }catch(error){
+  get('arw-sensitivity-feedback').textContent='Cannot compare stat gains: '+error.message;
+ }
+});
 get('arw-progression-run').addEventListener('click',()=>{
  clearProgression();
  if(!selected||!fileLoaded)return;
