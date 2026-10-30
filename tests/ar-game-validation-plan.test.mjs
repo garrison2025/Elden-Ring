@@ -51,6 +51,7 @@ test('paired weapon has no invented 1.5 STR and +0 / +1 steps only',()=>{
   {str:40,dex:20,int:10,fai:10,arc:10});
  assert.deepEqual(p.sourceLevels,[0,1]);
  assert.ok(p.cases.filter(x=>x.twoHanded).every(x=>x.effectiveStrength===x.stats.str));
+ assert.ok(!p.cases.some(x=>x.scenario.startsWith('twohand-strength-threshold')));
 });
 test('planner rejects invalid stats, multiple affinity profiles and fabricated steps',()=>{
  assert.throws(()=>createLocalArValidationPlan(make(),{...stats,str:0}),/Five combat/);
