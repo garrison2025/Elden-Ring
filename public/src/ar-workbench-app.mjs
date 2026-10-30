@@ -1,4 +1,5 @@
 import {POWER_STATS} from './weapon-ar.mjs';
+import {downloadV117Source,V117_PROVENANCE} from './upstream-regulation-v117.mjs';
 const get=id=>document.getElementById(id);
 const feedback=(s,bad=false)=>{
  get('arw-feedback').textContent=s;
@@ -25,6 +26,9 @@ catch(e){feedback('Your browser does not support the local research worker: '+e.
 let fileLoaded=false,selected=false,upgrades=[],syntheticMode=false;
 let selectedB=false,bUpgrades=[],comparisonRevision=0,gripRevision=0;
 let auditReport=null;
+let sourceLoadRevision=0,sourceLoadController=null;
+const initialWeaponQuery=(()=>{const value=new URLSearchParams(location.search).get('weapon');return value&&value.length<=100?value:'';})();
+const cancelPinnedLoad=()=>{sourceLoadRevision++;sourceLoadController?.abort();sourceLoadController=null;get('arw-load-upstream').disabled=false;};
 const clearAudit=()=>{
  auditReport=null;
  get('arw-audit-run').disabled=true;get('arw-audit-download').disabled=true;
@@ -130,8 +134,12 @@ if(worker)worker.onmessage=({data:m})=>{
     (syntheticMode?' FICTIONAL demo entries (not game weapons).':' locally imported weapon names in memory.');
   get('arw-search').value='';get('arw-results-count').textContent=m.preview.matches+' results; only first '+m.preview.names.length+' shown.';
   setOptions(m.preview.names);
-  feedback(syntheticMode?'FICTIONAL DEMO: all computed AR values are invented.':'Loaded local JSON. Nothing was uploaded.');
-  if(m.preview.names.length){selectCurrent();selectSecond();}
+  feedback(syntheticMode?'FICTIONAL DEMO: all computed AR values are invented.':
+    'Third-party parameter JSON loaded into local worker memory. NO independent in-game AR certification.');
+  if(initialWeaponQuery&&!syntheticMode){
+    get('arw-search').value=initialWeaponQuery;
+    send({op:'search',term:initialWeaponQuery});
+  }else if(m.preview.names.length){selectCurrent();selectSecond();}
   return;
  }
  if(m.op==='audit-progress'){
@@ -242,7 +250,36 @@ if(worker)worker.onmessage=({data:m})=>{
  'Calculated with your imported parameters. Results remain UNVERIFIED game AR.');
  }
 };
+get('arw-load-upstream').addEventListener('click',async()=>{
+ if(!worker){feedback('This browser cannot start the local AR worker.',true);return;}
+ cancelPinnedLoad();
+ const revision=sourceLoadRevision;
+ const controller=new AbortController();sourceLoadController=controller;
+ const button=get('arw-load-upstream');button.disabled=true;
+ get('arw-upstream-status').textContent='Downloading pinned public 1.17 JSON from GitHub into this browser on your request…';
+ try{
+  const {text,summary}=await downloadV117Source(fetch,{signal:controller.signal});
+  if(revision!==sourceLoadRevision)return;
+  get('arw-version').value='1.17 (community snapshot)';
+  get('arw-source').value=V117_PROVENANCE;
+  gripRevision++;clear();clearPair();clearAudit();selected=false;selectedB=false;fileLoaded=false;
+  send({op:'clear'});
+  send({op:'load',text,version:'1.17',reference:V117_PROVENANCE});
+  get('arw-upstream-status').textContent=
+   summary.entries.toLocaleString('en-US')+' source weapon/affinity variants downloaded. '+
+   'Calculation remains a research preview. Run the complete structural audit below.';
+ }catch(error){
+  if(revision!==sourceLoadRevision)return;
+  get('arw-upstream-status').textContent=
+   'Could not load the source: '+error.message+
+   ' Use the upstream file link and local JSON import as a fallback.';
+  feedback('Public v1.17 source download did not complete. No third-party script ran.',true);
+ }finally{
+  if(revision===sourceLoadRevision){button.disabled=false;sourceLoadController=null;}
+ }
+});
 get('arw-load').addEventListener('click',async()=>{
+ cancelPinnedLoad();
  const file=get('arw-file').files?.[0];
  if(!file){feedback('Choose a .json file first.',true);return;}
  if(!file.name.toLowerCase().endsWith('.json')||file.size>16_000_000){
@@ -259,7 +296,7 @@ get('arw-load').addEventListener('click',async()=>{
   feedback('Parsing and checking names in a dedicated browser worker…');
  }catch(e){feedback(e.message,true);}
 });
-get('arw-clear').addEventListener('click',()=>{get('arw-file').value='';send({op:'clear'});});
+get('arw-clear').addEventListener('click',()=>{cancelPinnedLoad();get('arw-file').value='';send({op:'clear'});get('arw-upstream-status').textContent='No remote source loaded.';});
 get('arw-audit-run').addEventListener('click',()=>{
  if(!fileLoaded)return;
  clearAudit();get('arw-audit-feedback').textContent='Checking every entry in a background worker…';
@@ -273,7 +310,7 @@ get('arw-audit-download').addEventListener('click',()=>{
  document.body.append(node);node.click();node.remove();
  setTimeout(()=>URL.revokeObjectURL(url),3000);
 });
-get('arw-demo').addEventListener('click',()=>{get('arw-file').value='';send({op:'demo'});});
+get('arw-demo').addEventListener('click',()=>{cancelPinnedLoad();get('arw-file').value='';send({op:'demo'});});
 get('arw-search').addEventListener('input',()=>{if(fileLoaded)send({op:'search',term:get('arw-search').value});});
 get('arw-select').addEventListener('change',selectCurrent);
 get('arw-compare-select').addEventListener('change',selectSecond);
@@ -283,4 +320,4 @@ get('arw-compare-grip').addEventListener('change',requestComparison);
 get('arw-compare-run').addEventListener('click',requestComparison);
 get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();requestComparison();});
 get('arw-compare').addEventListener('click',requestCalculation);
-feedback('Choose a local compact regulation JSON file. No game data is bundled.');
+feedback('Click to load pinned public 1.17 data in your browser, or supply a local JSON file. No regulation dataset ships with the site.');

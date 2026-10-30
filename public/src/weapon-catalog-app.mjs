@@ -191,6 +191,8 @@ function renderDetails(){
  if(params.get('tarnished')==='1')buildUrl.searchParams.set('tarnished','1');
  if(params.get('sote')==='1')buildUrl.searchParams.set('sote','1');
  buildLink.href=buildUrl.pathname+buildUrl.search;
+ const arLink=$('catalog-ar-source-link');
+ arLink.href='../weapon-data-workbench/?weapon='+encodeURIComponent(chosen.name);
 
  try{
   const stats=readStats();
