@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
+<meta name="description" content="Check whether your stats meet user-entered Elden Ring weapon requirements one-handed or standard two-handed, including Strength shortfall.">
+<title>Elden Ring Weapon Requirements Calculator | Build Lab</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css">
+</head><body data-page="requirements">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="active" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="active" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
+<main class="container">
+<section class="hero">
+<div class="eyebrow">Player-supplied numbers · Pure browser calculations</div>
+<h1>Weapon Requirements Calculator</h1>
+<p>Check one-handed and standard two-handed attribute requirements using your current STR, DEX, INT, FAI and ARC. The tool tells you how many points you need before using a weapon effectively.</p>
+<span class="pill">Supports manual inputs · No weapon database or unverified AR estimates</span>
+</section>
+<div class="requirements-layout">
+<section class="panel"><h2>Your character</h2><p>Enter your five weapon-scaling attributes, or arrive here from the Build Planner with these values prefilled.</p><div class="stat-grid requirements-grid" id="requirement-player"></div></section>
+<section class="panel"><h2>Weapon requirements</h2><p>Copy the minimum stat requirements from your weapon's in-game equipment details. Zero indicates that no requirement exists for that attribute.</p><div class="stat-grid requirements-grid" id="requirement-weapon"></div>
+<label class="ar-check" style="margin-top:20px"><input type="checkbox" id="two-hand-eligible" checked>Standard two-handed Strength bonus applies</label><p class="note">Disable this for paired/special weapon modes where the normal two-handed bonus may not apply.</p></section>
+</div>
+<div class="requirements-results">
+<section class="panel results"><div class="metric-label">One-handed</div><h2 id="one-hand-status">—</h2><p>Normal attribute requirements, without a Strength bonus.</p></section>
+<section class="panel results"><div class="metric-label">Two-handed / selected grip</div><h2 id="two-hand-status">—</h2><p id="two-hand-rule">—</p>
+<div class="metric-grid">
+<div class="metric"><div class="metric-label">Effective Strength</div><strong id="effective-str">—</strong></div>
+<div class="metric"><div class="metric-label">Raw STR needed</div><strong id="two-hand-str-min">—</strong></div>
+</div></section>
+</div>
+<section class="panel info">
+<h2>Requirement breakdown</h2>
+<div class="table-wrap"><table class="datatable"><thead><tr><th>Stat</th><th>Your level</th><th>Required</th><th>1H shortfall</th><th>2H shortfall</th></tr></thead><tbody id="requirements-rows"></tbody></table></div>
+<div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+<div class="requirements-actions"><button class="btn" id="copy-requirements" type="button">Copy calculator link</button><button class="btn alt" id="restore-example" type="button">Restore example</button></div>
+<p class="note">Illustrative starting example: 16 STR against a 24 STR requirement. No specific real weapon is being represented.</p>
+</section>
+<section class="editorial-grid" aria-label="Method and limitations">
+<article class="panel info"><span class="eyebrow">Rules</span><h2>Why dual-grip Strength matters</h2><p>Standard two-handing boosts effective STR by 50%, rounded down for this calculation. For instance, 16 STR meets a 24 STR weapon requirement. DEX, INT, FAI and ARC never gain the same boost.</p><p>The game publisher's <a href="https://www.bandainamcoent.com/news/elden-ring-introduction-part-2-advanced-stats" target="_blank" rel="noopener noreferrer">Advanced Stats guide</a> confirms the standard 1.5× Strength rule and its 24/16 example. Certain paired and special weapon behaviors are exceptions; disable the boost where appropriate.</p></article>
+<article class="panel info"><span class="eyebrow">Limitations</span><h2>No attack rating claims</h2><p>Meeting stat requirements does not calculate actual weapon damage, attack rating, skill scaling, buffs, stat-boosting equipment, affinities or upgrading costs. This is a minimum stat planner, not a substitute for verified weapon data.</p><p>All inputs are processed on your device. The optional URL contains only numerical attributes. See our <a href="../validation-status/">accuracy policy</a> and <a href="../privacy/">privacy policy</a>.</p></article>
+</section>
+<nav class="related-tools" aria-label="Related calculators"><span class="eyebrow">Continue planning</span><a href="../build-planner/">Build Planner ↗</a><a href="../class-optimizer/">Class Optimizer ↗</a><a href="../respec-planner/">Respec Planner ↗</a><a href="../level-rune-calculator/">Rune Calculator ↗</a></nav>
+</main>
+<footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy & sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
+<script type="module" src="../src/requirements-app.mjs"></script>
+</body></html>

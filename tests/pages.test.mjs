@@ -4,7 +4,7 @@ import {readdir,readFile,stat} from 'node:fs/promises';
 import {join,resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../public');
-const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-ar-lab','weapon-ar-validation','validation-status','about','privacy'];
+const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','weapon-ar-lab','weapon-ar-validation','validation-status','about','privacy'];
 for (const slug of paths){
   test(`static page ${slug||'/'} has usable metadata and local assets`,async()=>{
     const p=join(root,slug,'index.html'),html=await readFile(p,'utf8');
@@ -74,4 +74,19 @@ test('AR evidence comparison remains noindex with offline data inputs',async()=>
  const s=await readFile(join(root,'src/ar-validation-app.mjs'),'utf8');
  assert.match(s,/compareArObservations/);
  assert.match(s,/URL\.createObjectURL/);
+});
+
+test('manual weapon requirement planner is reachable but initially noindex',async()=>{
+ const page=await readFile(join(root,'weapon-requirements/index.html'),'utf8');
+ const script=await readFile(join(root,'src/requirements-app.mjs'),'utf8');
+ const home=await readFile(join(root,'index.html'),'utf8');
+ const build=await readFile(join(root,'build-planner/index.html'),'utf8');
+ const siteBuild=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');
+ assert.match(page,/noindex,follow/);
+ for(const id of ['requirement-player','requirement-weapon','two-hand-eligible','requirements-rows','copy-requirements','restore-example'])
+  assert.ok(page.includes('id="'+id+'"'));
+ assert.match(script,/compareWeaponRequirements/);
+ assert.match(home,/href="weapon-requirements\/"/);
+ assert.match(build,/id="weapon-req-link"/);
+ assert.match(siteBuild,/uri==='weapon-requirements'/);
 });

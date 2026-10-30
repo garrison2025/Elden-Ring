@@ -68,3 +68,18 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .verification-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media(max-width:820px){.verification-layout{grid-template-columns:1fr}.verification-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:570px){.verification-controls{display:grid;grid-template-columns:1fr}.verification-controls .btn{width:100%}}
+
+/* Manual weapon requirement calculator, locally calculated. */
+.requirements-layout,.requirements-results{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.requirements-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.requirements-grid .stat-field{min-width:0}
+.requirements-grid .stat-field input{width:100%;min-width:0}
+.requirements-results h2{font-size:clamp(20px,2.5vw,29px);margin:10px 0}
+.requirements-results .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.requirements-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.requirements-actions .btn{margin:0}
+.requirements-spotlight{margin:0 0 55px;background:#1f2c2b}
+.requirements-spotlight a{white-space:nowrap}
+@media(max-width:1000px){.requirements-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:740px){.requirements-layout,.requirements-results{grid-template-columns:1fr}}
+@media(max-width:570px){.requirements-actions{display:grid;grid-template-columns:1fr}.requirements-actions .btn{width:100%}.requirements-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
