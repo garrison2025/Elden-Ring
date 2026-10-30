@@ -262,3 +262,22 @@ The community weapon database now combines five-attribute requirements, weapon c
 ### Sourced Shadow of the Erdtree requirements-only expansion
 
 The static Weapon Database includes 364 named entries: 307 legacy community rows plus 57 DLC name/class/requirement references. Unknown DLC base damage, weight, critical and scaling are NULL, not guessed. A coverage filter selects base, DLC or all data. Source and numeric limitations: docs/COMMUNITY_WEAPON_DATA.md. This is not a complete DLC catalog and does not certify game version 1.17.3 AR.
+
+## Manual game-menu AR test checklist (research-only, 2026-10-31)
+
+In `/weapon-data-workbench/`, **Generate manual test cases** creates
+up to 24 condition-specific test vectors for one exact imported weapon:
+source-supplied reinforcement levels, one/two-hand grip, attribute
+requirements and high-stat edges. You may enter genuine in-game
+equipment-menu AR values and separately saved screenshot filenames,
+then export an **UNREVIEWED** JSON batch. The existing local recheck
+also supports these batches. It detects arithmetic drift but cannot
+authenticate the screenshot, game version or game-data rights.
+
+The optional pinned source is **v1.17 research data**, not independently
+validated App 1.17.2 / Regulation 1.17.3 game-client AR.
+No special weapon skills, spell catalysts, ammo, statuses or target
+damage are inferred. Nothing is uploaded or bundled, and the site-wide
+research `noindex` gate remains enabled. See
+`docs/AR_CLIENT_EVIDENCE_20261031.md`.
+
