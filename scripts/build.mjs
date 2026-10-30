@@ -3,6 +3,9 @@ import path from 'node:path';
 import {injectToolNavigation} from './navigation.mjs';
 const root=process.cwd(),dist=path.join(root,'dist'),source=path.join(root,'public');
 const url=(process.env.SITE_URL||'').trim().replace(/\/$/,'');
+// Research deployment is noindex by default even when SITE_URL is configured.
+// Do not enable indexing without a deliberate, separately reviewed release.
+const indexApproved=process.env.RELEASE_INDEX_APPROVED==='1';
 if(url&&!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(url))throw Error('SITE_URL must be an HTTPS origin, e.g. https://example.com');
 await rm(dist,{force:true,recursive:true});await cp(source,dist,{recursive:true});
 async function pages(dir){const arr=[];for(const entry of await readdir(dir,{withFileTypes:true})){const child=path.join(dir,entry.name);if(entry.isDirectory())arr.push(...await pages(child));else if(entry.name==='index.html')arr.push(child)}return arr}
@@ -10,15 +13,16 @@ let indexed=[];
 for(const file of await pages(dist)){
  let html=await readFile(file,'utf8');const uri=path.relative(dist,path.dirname(file)).split(path.sep).filter(Boolean).join('/');const pathname=uri?`/${uri}/`:'/';
  const intentionallyNoindex=uri==='weapon-ar-lab'||uri==='weapon-ar-validation'||uri==='weapon-data-workbench'||uri==='weapon-database'||uri==='validation-status'||uri==='respec-planner'||uri==='weapon-requirements'||uri==='armor-optimizer'||uri==='weapon-upgrade-calculator';
- const meta=intentionallyNoindex?'':(url?`<link rel="canonical" href="${url+pathname}">`:'<meta name="robots" content="noindex,follow">');
+ const meta=intentionallyNoindex?'':(url&&indexApproved?`<link rel="canonical" href="${url+pathname}">`:'<meta name="robots" content="noindex,follow">');
  html=html.replace('</head>',`${meta}</head>`);
  // Never index the developer-only synthetic AR fixture or verification test status.
- if(url&&!intentionallyNoindex)indexed.push(pathname);
+ if(url&&indexApproved&&!intentionallyNoindex)indexed.push(pathname);
  html=injectToolNavigation(html,uri);
  await writeFile(file,html,'utf8');
 }
-let robots=url?`User-agent: *\nAllow: /\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n';
+// Crawlers must be able to read noindex; robots.txt must not hide it.
+let robots=url&&indexApproved?`User-agent: *\nAllow: /\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nAllow: /\n';
 await writeFile(path.join(dist,'robots.txt'),robots);
-if(url){const body=indexed.sort().map(p=>`  <url><loc>${url+p}</loc></url>`).join('\n');await writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`)}
-if(!url)console.warn('[SEO GATE] SITE_URL is not configured: this is a nonindexable preview. Robots disallows all crawling, ordinary pages receive noindex, and sitemap.xml is not generated. Do not enable production indexing until page verification gates pass.');
-console.log(`Built ${indexed.length} indexable pages; ${url||'preview noindex'}. Output: dist/`);
+if(url&&indexApproved){const body=indexed.sort().map(p=>`  <url><loc>${url+p}</loc></url>`).join('\n');await writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`)}
+if(!indexApproved||!url)console.warn('[SEO GATE] Research build: all pages remain noindex; robots allows crawlers to see noindex; sitemap.xml is withheld. RELEASE_INDEX_APPROVED=1 requires independent manual approval of all release gates.');
+console.log(`Built ${indexed.length} indexable pages; ${indexApproved&&url?url:'RESEARCH MODE / noindex'}. Output: dist/`);
