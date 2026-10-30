@@ -1,7 +1,8 @@
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
- baseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl} from './community-weapons.mjs';
+ baseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall} from './community-weapons.mjs';
 import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
 import {makeArWorkbenchUrl} from './ar-workbench-navigation.mjs';
+import {makeWeaponCatalogShareUrl} from './weapon-catalog-navigation.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -198,6 +199,13 @@ function renderDetails(){
  if(params.get('tarnished')==='1')buildUrl.searchParams.set('tarnished','1');
  if(params.get('sote')==='1')buildUrl.searchParams.set('sote','1');
  buildLink.href=buildUrl.pathname+buildUrl.search;
+ const shared=$('catalog-weapon-link');
+ let shareStats=null;
+ try{shareStats=readStats();}catch{/* share weapon only when character stats invalid */}
+ shared.value=makeWeaponCatalogShareUrl(chosen.id,shareStats,location.href);
+ $('catalog-weapon-share-feedback').textContent=shareStats?
+  'Exact weapon and five character attributes in the same-page link. Community facts only.':
+  'Character stats invalid; the link contains the weapon reference only.';
  const arLink=$('catalog-ar-source-link');
  // Carry exactly the current five combat stats, not the full build sheet.
  // Both the external v1.17 source download and local import remain opt-in.
@@ -221,10 +229,21 @@ function renderDetails(){
  const link=$('catalog-requirements-link');
   link.href=requirementsUrl(chosen,stats);
   link.hidden=false;
+  const summary=weaponWieldShortfall(chosen,stats);
+  const format=missing=>missing.map(x=>x.stat+' +'+x.points).join(', ')||'none';
+  $('catalog-shortfall').textContent=
+   'Missing for 1H: '+format(summary.oneHandMissing)+
+   ' · Missing for 2H: '+format(summary.twoHandMissing)+
+   (summary.twoHandAssumption?
+    ' (ordinary 1.5× STR assumption; not independently game-tested)':
+    ' (no ordinary 1.5× STR bonus assumed)')+'.';
  }catch(e){
   $('catalog-one').textContent=chosen.requirements===null?'Requirements unavailable':'Invalid character attributes';
   $('catalog-two').textContent='—';
   $('catalog-requirements-link').hidden=true;
+  $('catalog-shortfall').textContent=chosen.requirements===null?
+   'Source-reported requirements unknown; missing stats cannot be calculated.':
+   'Enter five valid character attributes to calculate missing points.';
  }
  renderReferenceComparison();
 }
@@ -252,7 +271,7 @@ function showList(reset=false,keepSelected=false){
  try{
   data=searchCatalog(catalog.weapons,{
    term,category,sort,limit:40,offset,wield,damage,maxWeight,coverage,
-   stats:wield==='any'?null:readStats()
+   stats:wield==='any'&&sort!=='requirements'?null:readStats()
   });
  }catch(error){
   $('catalog-results').textContent='Correct your character attributes: '+error.message;
@@ -267,6 +286,8 @@ function showList(reset=false,keepSelected=false){
  }
  if(!chosen&&data.results.length)chosen=data.results[0];
  const fragment=document.createDocumentFragment();
+ let listStats=null;
+ try{listStats=readStats();}catch{/* other catalog filters still usable */}
  for(const w of data.results){
   const btn=el('button');btn.type='button';btn.className='catalog-row';
   btn.setAttribute('aria-label','View '+w.name+' weapon details');
@@ -277,6 +298,12 @@ function showList(reset=false,keepSelected=false){
    'DLC requirements + community weight · attack unknown':w.dataCoverage==='requirements-only'?
    'DLC attribute requirements only':w.dataCoverage==='base-reference'?
    'DLC sourced +0 stats · not AR':'Wt '+w.weight+' · reported +0 base'));
+  if(listStats){
+   const missing=weaponWieldShortfall(w,listStats);
+   detail.textContent+=' · '+(!missing.known?'Requirements unknown':
+    missing.oneHandPoints===0?'Ready 1H':
+     missing.oneHandMissing.map(x=>x.stat+' +'+x.points).join(', ')+' needed (1H)');
+  }
   detail.className='catalog-row-desc';
   const tag=el('span',w.expansion==='Shadow of the Erdtree'?(w.dataCoverage==='base-reference'?'DLC · +0 source':'DLC · partial'):(w.flags?.length?'Review data':'View details'));
   tag.className='catalog-row-tag';
@@ -295,6 +322,31 @@ function showList(reset=false,keepSelected=false){
  $('catalog-more').hidden=offset>=data.total;
  renderDetails();
 }
+$('catalog-clear-filters').addEventListener('click',()=>{
+ $('catalog-search').value='';
+ $('catalog-category').value='all';
+ $('catalog-sort').value='name';
+ $('catalog-wield').value='any';
+ $('catalog-damage-filter').value='any';
+ $('catalog-coverage').value='all';
+ $('catalog-max-weight').value='';
+ showList(true);
+ $('catalog-search').focus();
+});
+$('catalog-weapon-copy').addEventListener('click',async()=>{
+ const url=$('catalog-weapon-link').value;
+ if(!chosen||!url)return;
+ try{
+  if(!navigator.clipboard?.writeText)throw new Error('Clipboard permission unavailable');
+  await navigator.clipboard.writeText(url);
+  $('catalog-weapon-share-feedback').textContent=
+   'Exact weapon link copied. Only five numeric attributes are shared, no game AR.';
+ }catch{
+  $('catalog-weapon-link').focus();$('catalog-weapon-link').select();
+  $('catalog-weapon-share-feedback').textContent=
+   'Clipboard unavailable. Copy the selected link manually.';
+ }
+});
 $('catalog-search').addEventListener('input',()=>showList(true));
 $('catalog-category').addEventListener('change',()=>showList(true));
 $('catalog-sort').addEventListener('change',()=>showList(true));
@@ -319,6 +371,7 @@ try{
  catch{comparedIds=[];$('catalog-compare-feedback').textContent='Invalid comparison URL; selection ignored.';}
  const preferred=params.get('weapon');
  if(preferred){chosen=catalog.weapons.find(w=>w.id===preferred)||null;}
+ if(chosen)$('catalog-search').value=chosen.name;
  if(!chosen&&comparedIds.length)chosen=catalog.weapons.find(w=>w.id===comparedIds[0])||null;
  showList(true,Boolean(chosen));
  if(chosen)renderDetails();
