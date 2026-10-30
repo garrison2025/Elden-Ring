@@ -83,3 +83,18 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 @media(max-width:1000px){.requirements-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:740px){.requirements-layout,.requirements-results{grid-template-columns:1fr}}
 @media(max-width:570px){.requirements-actions{display:grid;grid-template-columns:1fr}.requirements-actions .btn{width:100%}.requirements-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Manual custom armor optimizer. */
+.armor-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+.armor-layout .panel{min-width:0}
+.armor-layout textarea{min-height:320px;white-space:pre;overflow:auto}
+.armor-actions{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}
+.armor-actions .btn.alt{margin:0}
+.armor-file{display:inline-flex;align-items:center;border:1px solid #616b67;border-radius:10px;padding:9px 13px;min-height:45px;cursor:pointer;font-size:13px}
+.armor-file:focus-within{outline:2px solid var(--gold);outline-offset:2px}
+.armor-file input{width:1px;height:1px;position:absolute;opacity:0;pointer-events:none}
+.armor-table td:nth-child(2){min-width:240px;white-space:normal;line-height:1.5}
+.armor-table th,.armor-table td{vertical-align:top}
+.armor-spotlight{margin-bottom:45px}
+@media(max-width:850px){.armor-layout{grid-template-columns:1fr}}
+@media(max-width:570px){.armor-actions{display:grid;grid-template-columns:1fr}.armor-actions .btn{width:100%}.armor-file{justify-content:center}}

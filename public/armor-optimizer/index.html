@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
+<title>Elden Ring Custom Armor Optimizer | Build Lab</title>
+<meta name="description" content="Find armor combinations fitting your equip load and poise targets using custom user-entered equipment options and scores, all in your browser.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css">
+</head><body data-page="armor">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="active" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="active" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
+<main class="container">
+<section class="hero"><div class="eyebrow">Custom inputs · Exact combination search · No item database</div>
+<h1>Custom Armor Optimizer</h1>
+<p>Find armor combinations from your own item shortlist while controlling total equipped weight, desired roll tier and minimum poise. Every protection score here is <strong>your own comparable rating</strong> — not the game's damage-negation percentage.</p>
+<span class="pill">Local CSV · No account · No game assets · Research / noindex</span></section>
+<div class="armor-layout">
+<section class="panel"><h2>1. Your armor options</h2>
+<p>Paste CSV rows with one item per line. Slots: <code>head</code>, <code>chest</code>, <code>hands</code>, <code>legs</code>. Use a score on any consistent personal scale to rate protection or utility. Poise is added separately.</p>
+<label class="field" for="armor-csv">CSV items (max 12 per slot, 48 total)</label>
+<textarea id="armor-csv" spellcheck="false" rows="13" aria-label="CSV armor options"></textarea>
+<div class="armor-actions">
+<label class="armor-file">Import CSV file<input type="file" id="armor-file" accept=".csv,text/csv"></label>
+<button type="button" class="btn alt" id="export-armor">Export CSV</button>
+<button type="button" class="btn alt" id="restore-armor">Restore fictional example</button>
+</div>
+<p class="note">The initial rows are deliberately fictional. Replace them with your own names and values. No armor inventory or game-derived values are bundled.</p></section>
+<section class="panel"><h2>2. Optimization constraints</h2>
+<div class="input-two">
+<label class="field">Maximum equip load (in-game)<input id="maxLoad" type="number" min="0.001" step="0.001" value="75"></label>
+<label class="field">Weight of weapons &amp; other gear<input id="reservedWeight" type="number" min="0" step="0.001" value="18"></label>
+<label class="field">Keep total load below<select id="targetTier"><option value="light">30% (light)</option><option value="medium" selected>70% (medium or lighter)</option><option value="heavy">100% (not overloaded)</option></select></label>
+<label class="field">Minimum combined poise<input id="minPoise" type="number" min="0" max="800" step="1" value="0"></label>
+<label class="field">Bonus score for each poise point<input id="poiseWeight" type="number" min="0" max="10" step="0.1" value="0.3"></label>
+</div>
+<p class="note">Ranking = sum of your custom item scores + (poise × chosen bonus). This is a personal comparison metric, not real game damage reduction. Each armor slot may be left empty.</p>
+<button type="button" class="btn" id="optimize-armor">Find best combinations</button>
+<div id="armor-feedback" role="status" aria-live="polite" class="feedback"></div>
+</section></div>
+<section class="panel results" style="margin:22px 0 30px">
+<div class="eyebrow">Optimal configurations</div><h2 id="armor-summary">—</h2><p class="note" id="armor-details">—</p>
+<div class="table-wrap"><table class="datatable armor-table"><thead><tr><th>#</th><th>Selected items</th><th>Total load</th><th>Poise</th><th>Manual score</th><th>Rank score</th></tr></thead><tbody id="armor-results"></tbody></table></div>
+<div class="result-actions"><a href="../equip-load-calculator/" class="btn alt" id="armor-equip-link" hidden>Check selected load ↗</a></div>
+</section>
+<section class="editorial-grid" aria-label="How the optimizer works">
+<article class="panel info"><h2>How does it choose combinations?</h2><p>The search enumerates one item or no item in each of four armor slots. It excludes results below the minimum poise or at/above the selected equipment-load threshold, then ranks the five best eligible sets by your chosen scoring rule.</p>
+<p>The 30%, 70%, and 100% boundaries are strict; exactly 70% is heavy, not medium. Maximum load should match what the game shows after buffs and talismans.</p></article>
+<article class="panel info"><h2>What the scores do not mean</h2><p><strong>Do not add the game's damage-negation percentages</strong> and treat the total as true damage reduction. Different damage types and buffs require separate rules. Here, scores are user-entered preference values only; item weight and minimum poise constrain the search.</p>
+<p>All data is handled locally. Export your options to keep them. No inventory, official images or weapon data are distributed. See <a href="../validation-status/">accuracy and sources</a>.</p></article>
+</section>
+<nav class="related-tools" aria-label="Related tools"><span class="eyebrow">Continue planning</span><a href="../equip-load-calculator/">Equip Load ↗</a><a href="../build-planner/">Build Planner ↗</a><a href="../weapon-requirements/">Weapon Requirements ↗</a><a href="../respec-planner/">Respec Planner ↗</a></nav>
+</main>
+<footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy & sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
+<script type="module" src="../src/armor-app.mjs"></script>
+</body></html>

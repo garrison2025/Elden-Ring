@@ -89,7 +89,12 @@ function initClass(){
   }catch(e){clearValues(['#best-class']);$('#class-results').innerHTML='';$('#edit-build-link').hidden=true;status(e.message,true)}};
   grid.addEventListener('input',render);toggle.addEventListener('change',render);render();
 }
-function initEquip(){const update=()=>{try{
+function initEquip(){
+ const q=new URLSearchParams(location.search);
+ const safe=value=>typeof value==='string'&&/^(?:0|[1-9][0-9]{0,3})(?:\.[0-9]{1,3})?$/.test(value);
+ if(safe(q.get('weight')))$('#gear-weight').value=q.get('weight');
+ if(safe(q.get('max'))&&Number(q.get('max'))>0)$('#max-load').value=q.get('max');
+ const update=()=>{try{
  const w=number('#gear-weight'),max=number('#max-load'),d=loadTier(w,max);
  $('#load-percent').textContent=d.percent.toFixed(1)+'%';$('#load-tier').textContent=d.tier;
  $('#medium-limit').textContent=d.mediumBelow.toFixed(2);$('#light-limit').textContent=d.lightBelow.toFixed(2);

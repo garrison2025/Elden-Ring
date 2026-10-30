@@ -4,7 +4,7 @@ import {readdir,readFile,stat} from 'node:fs/promises';
 import {join,resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../public');
-const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','weapon-ar-lab','weapon-ar-validation','validation-status','about','privacy'];
+const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','armor-optimizer','weapon-ar-lab','weapon-ar-validation','validation-status','about','privacy'];
 for (const slug of paths){
   test(`static page ${slug||'/'} has usable metadata and local assets`,async()=>{
     const p=join(root,slug,'index.html'),html=await readFile(p,'utf8');
@@ -89,4 +89,17 @@ test('manual weapon requirement planner is reachable but initially noindex',asyn
  assert.match(home,/href="weapon-requirements\/"/);
  assert.match(build,/id="weapon-req-link"/);
  assert.match(siteBuild,/uri==='weapon-requirements'/);
+});
+
+test('armor optimizer has dedicated manual input page and noindex gate',async()=>{
+ const html=await readFile(join(root,'armor-optimizer/index.html'),'utf8');
+ const site=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');
+ const app=await readFile(join(root,'src/armor-app.mjs'),'utf8');
+ assert.match(html,/noindex,follow/);
+ for(const id of ['armor-csv','armor-file','optimize-armor','armor-results','armor-equip-link'])
+   assert.ok(html.includes('id="'+id+'"'));
+ assert.match(site,/uri==='armor-optimizer'/);
+ assert.match(app,/optimizeArmor/);
+ assert.match((await readFile(join(root,'index.html'),'utf8')),/href="armor-optimizer\/"/);
+ assert.match((await readFile(join(root,'equip-load-calculator/index.html'),'utf8')),/href="\.\.\/armor-optimizer\/"/);
 });

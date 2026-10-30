@@ -82,3 +82,22 @@ The command exits nonzero when any recorded total or element differs, when data 
 \`/weapon-requirements/\` provides an independent, browser-only attribute threshold checker using **player-entered** weapon requirements. For ordinary two-handed wielding, effective STR is floor(1.5 × STR); DEX, INT, FAI and ARC are unchanged. It offers a special/paired grip option to disable the bonus, exact deficit breakdown and sharable numerical links. Build Planner can pre-fill current stats via URL. Example 16 STR / 24 STR is grounded in the publisher's Advanced Stats guide, but the tool does not bundle or assert a weapon database, AR values, equipment effects or damage formulas.
 
 The page initially remains \`noindex\` until the live interaction and individual keyword intent are verified, independently of incomplete Weapon AR research.
+
+
+## Custom Armor Optimizer — manual-entry preview
+
+\`/armor-optimizer/\` is a genuinely functional, research-stage **manual-data** optimizer.
+Users enter up to twelve candidates per armor slot using CSV columns
+\`slot,name,weight,score,poise\`, choose maximum equipment load, reserved non-armor
+weight, load tier, minimum poise and an optional per-poise score preference.
+The engine exhaustively compares up to 13⁴ = 28,561 combinations (including
+empty slots) and returns five top combinations.
+
+**Critical distinction:** The user-entered \`score\` is a subjective additive
+comparison metric; it does **not** reproduce Elden Ring's damage-negation
+formula. The bundled starter pieces and values are fictional. The tool does
+not provide real armor item data, weapon data, or legal permission to
+redistribute game content. No user data is uploaded or persisted, except a
+CSV the user explicitly downloads. Winning equipped weight can be opened in
+the existing Equip Load Calculator. The route stays \`noindex\` until
+quality review and real non-brand keyword/SERP validation.
