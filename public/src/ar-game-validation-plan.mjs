@@ -56,7 +56,7 @@ export function createLocalArValidationPlan(profile,stats,{
   const before={...met,[stat]:threshold-1},after={...met,[stat]:threshold};
   add('requirement-'+stat+'-below',maxLevel,before,false);
   add('requirement-'+stat+'-met',maxLevel,after,false);
-  if(stat==='str'){
+  if(stat==='str'&&(p.gripMode??'standard')==='standard'){
    const edge=Math.max(1,Math.ceil(threshold/1.5));
    add('twohand-strength-threshold-below',maxLevel,{...met,str:Math.max(1,edge-1)},true);
    add('twohand-strength-threshold-met',maxLevel,{...met,str:edge},true);
