@@ -38,6 +38,7 @@ export function compareWeaponReferences(weapons,ids,stats=null){
  const rows=[];
  const add=(label,get)=>rows.push({label,values:columns.map(get)});
  add('Data coverage',w=>w.dataCoverage==='base-reference'?'DLC +0 reference':
+   w.dataCoverage==='requirements-weight-only'?'DLC requirements + source weight only':
    w.dataCoverage==='requirements-only'?'DLC requirements only':
    w.dataCoverage==='name-category-only'?'DLC name/class only':'Base-game community +0');
  add('Weapon class',w=>w.category);
@@ -66,5 +67,5 @@ export function compareWeaponReferences(weapons,ids,stats=null){
   });
  }
  return {columns:columns.map(w=>({id:w.id,name:w.name})),rows,
-  warning:'Community source-reported +0 base attack ONLY. Physical and elemental components are not interchangeable. No total AR, player scaling, upgrades, infusion, DPS, or PvE damage is computed.'};
+  warning:'Community source-reported attack is +0 BASE only (or Unknown), while single-weapon weight is NOT total equipment load. Physical and elemental components are not interchangeable. No total AR, player scaling, upgrades, infusion, DPS, or PvE damage is computed.'};
 }

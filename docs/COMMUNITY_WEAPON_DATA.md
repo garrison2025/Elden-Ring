@@ -6,11 +6,11 @@ Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community 
 
 | Tier | DLC rows | Available | Unavailable |
 | --- | ---: | --- | --- |
-| `base-reference` | 30 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
-| `requirements-only` | 44 | Name, class and community-reported 5-stat requirements | +0 attack, critical, weight, scaling, upgrades, affinities, AR |
-| `name-category-only` | 28 | Name and class, checked against DLC roster | Requirements and all numerical combat properties |
+| `base-reference` | 43 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
+| `requirements-weight-only` | 59 | Name, class, five-stat requirements, and secondary community-sourced single-weapon weight | +0 attack, critical, scaling, upgrades, affinities, AR; independent current-patch verification |
+| `requirements-only` / `name-category-only` | 0 | Legacy parser tiers kept for compatibility | Not used in this snapshot |
 
-**Every missing numeric field is null, not zero.** The 30 wiki +0 values are reference facts, **not** current patch game-tested AR.
+**Every missing numeric field is null, not zero.** All 102 DLC entries have sourced requirement arrays and community-reported single-item weight; do not confuse this with independently game-validated patch values. The 43 wiki +0 values are reference facts, **not** current patch game-tested AR.
 
 Original nine sourced +0 references: Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
 
@@ -76,3 +76,12 @@ New catalog integrity validation compares declared coverage counts against actua
 Important source corrections: Ansbach's Longbow originally had requirements 10 STR / 18 DEX in the secondary roster but the per-weapon source reports **9 STR / 43 DEX** (8 STR when two-handed). Only this specifically documented Bow is opted into the two-hand Strength condition; no generic bow AR or scaling assumptions are introduced. Black Steel Greatshield weighs **18** per its documented 1.17 change. Carian Sorcery Sword critical is **110**. Ancient Meteoric Ore Greatsword's source +3 upgrade table has a likely inconsistent magic value; its level-by-level table was deliberately NOT imported.
 
 Euporia alone receives a source-published +0–+10 somber **BASE** attack progression (physical 84→205, holy 100→245), not scaling or verified final AR.
+
+### Further DLC coverage audit and patch correction — 2026-10-30
+
+- **43** DLC armaments with per-weapon wiki sourced +0 attack/weight/critical/grades; **59** DLC armaments have five-stat requirements plus secondary-source single-weapon weight, but have **null attack, critical, and scaling**. Totals: **102/102 requirements, 102/102 weights**, still **0 precise AR verified**.
+- 59 partial rows' weights and any previously unknown requirements are factual fields adapted from [Elden Ring Dataset API CSV](https://github.com/hakkache/Elden-Ring-Dataset-API) with source URLs per row, originally compiled from community/Fextralife sources. This secondary set is not independently verified under App 1.17.2/Regulation 1.17.3; the site's display explicitly reflects that. Source imagery, artwork, lore, descriptive writing and CSV dumps are not included.
+- 13 new +0 source-checked rows: Beast Claw, Nanaya's Torch, Verdigris Greatshield, Claws of Night, Chilling Perfume Bottle, Deadly Poison Perfume Bottle, Firespark Perfume Bottle, Frenzyflame Perfume Bottle, Lightning Perfume Bottle, Barbed Staff-Spear, Black Steel Twinblade, Bonny Butchering Knife, Fire Knight's Greatsword. Each carries an exact Eldenpedia page URL.
+- Carian Sorcery Sword: corrected physical base attack **69 → 38** in accordance with independent [Regulation 1.17 numeric patch diff](https://almanauts.com/eldenring/patches/1-17/). Earlier wiki.gg 69 figure is not used for current patch physical reference. Magic base remains 69. This is not evidence of full player AR.
+- No upgrade tables were added for Barbed Staff-Spear or Claws of Night: published intermediate upgraded attack rows contain contradictory / decreasing numbers. Bad data is withheld, never interpolated.
+- Backhand Blade, shield, bow and special-grip requirements still follow selective source-based 2H assumptions, never AR formula guesses.

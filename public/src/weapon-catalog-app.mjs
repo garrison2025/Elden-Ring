@@ -125,9 +125,10 @@ function renderDetails(){
  $('catalog-title').textContent=chosen.name;
  const coverage=chosen.dataCoverage??'base-community';
  const dlc=chosen.expansion==='Shadow of the Erdtree';
- const partial=coverage==='requirements-only'||coverage==='name-category-only';
+ const partial=coverage==='requirements-only'||coverage==='requirements-weight-only'||coverage==='name-category-only';
  $('catalog-class').textContent=chosen.category+' · '+(dlc?
   (coverage==='base-reference'?'Shadow of the Erdtree · sourced +0 facts (not AR)':
+   coverage==='requirements-weight-only'?'Shadow of the Erdtree · requirements + community weight only':
    coverage==='requirements-only'?'Shadow of the Erdtree · requirements only':
    'Shadow of the Erdtree · name/category only'):
   'Community-reported +0 base data · patch unknown');
@@ -159,6 +160,21 @@ function renderDetails(){
  if(chosen.sourceUrl){
   const a=el('a','View named DLC weapon and requirements source ↗');
   a.href=chosen.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';
+  $('catalog-verified').append(a);
+ }
+ if(chosen.weightSourceUrl){
+  const a=el('a','View attributed community weight source ↗');
+  a.href=chosen.weightSourceUrl;a.target='_blank';a.rel='noopener noreferrer';
+  $('catalog-verified').append(a);
+ }
+ if(chosen.requirementsSourceUrl){
+  const a=el('a','View attributed attribute requirements source ↗');
+  a.href=chosen.requirementsSourceUrl;a.target='_blank';a.rel='noopener noreferrer';
+  $('catalog-verified').append(a);
+ }
+ if(chosen.patchCorrection?.sourceUrl){
+  const a=el('a','View Regulation 1.17 physical attack correction ↗');
+  a.href=chosen.patchCorrection.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';
   $('catalog-verified').append(a);
  }
  if(chosen.checkedWith){
@@ -243,7 +259,8 @@ function showList(reset=false,keepSelected=false){
   if(w.id===chosen?.id)btn.classList.add('selected');
   const title=el('span',w.name);title.className='catalog-row-title';
   const detail=el('span',w.category+' · '+(w.dataCoverage==='name-category-only'?
-   'DLC name/category only':w.dataCoverage==='requirements-only'?
+   'DLC name/category only':w.dataCoverage==='requirements-weight-only'?
+   'DLC requirements + community weight · attack unknown':w.dataCoverage==='requirements-only'?
    'DLC attribute requirements only':w.dataCoverage==='base-reference'?
    'DLC sourced +0 stats · not AR':'Wt '+w.weight+' · reported +0 base'));
   detail.className='catalog-row-desc';
@@ -295,6 +312,7 @@ try{
  status('Loaded '+catalog.weapons.length+' weapon and shield references ('+
   catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree').length+
   ' DLC: '+catalog.meta.dlcBaseFactCount+' with sourced +0 facts, '+
+  catalog.meta.dlcWeightOnlyCount+' requirements + community weight, '+
   catalog.meta.dlcRequirementOnlyCount+' requirements-only, '+
   catalog.meta.dlcNameOnlyCount+' names-only, '+catalog.meta.dlcUpgradeReferenceCount+
   ' with source-published upgraded BASE attacks). No precise DLC AR is available.');

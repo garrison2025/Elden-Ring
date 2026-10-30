@@ -25,26 +25,35 @@ export function validateCommunityCatalog(catalog){
   ids.add(w.id);
   const dlc=w.expansion==='Shadow of the Erdtree';
   const coverage=w.dataCoverage??'base-community';
-  if(dlc&&!['requirements-only','name-category-only','base-reference'].includes(coverage))
+  if(dlc&&!['requirements-only','requirements-weight-only','name-category-only','base-reference'].includes(coverage))
    fail('Unknown DLC data coverage at row '+i);
   if(dlc&&(!w.sourceUrl?.startsWith('https://')||w.arParameters!==undefined&&w.arParameters!==null))
    fail('DLC provenance missing or unchecked AR parameters inserted at row '+i);
-  const missingNumeric=coverage==='requirements-only'||coverage==='name-category-only';
-  if(missingNumeric&&(w.attack!==null||w.weight!==null||w.critical!==null||w.scaling!==null))
-   fail('Partial DLC rows must keep unverified numeric fields null: '+i);
+  const missingAttack=coverage==='requirements-only'||coverage==='requirements-weight-only'||coverage==='name-category-only';
+  if(missingAttack&&(w.attack!==null||w.critical!==null||w.scaling!==null))
+   fail('Partial DLC rows must keep unavailable attack, critical and scaling null: '+i);
+  if((coverage==='requirements-only'||coverage==='name-category-only')&&w.weight!==null)
+   fail('Unavailable DLC weight must be null: '+i);
+  if(coverage==='requirements-weight-only'&&
+     (!Number.isFinite(w.weight)||w.weight<0||w.weight>200||
+      !w.weightSourceUrl?.startsWith('https://github.com/hakkache/Elden-Ring-Dataset-API/blob/')))
+   fail('Source and weight required for DLC partial weighted entry '+i);
+  if(w.requirementsSourceUrl!==undefined&&
+     !w.requirementsSourceUrl.startsWith('https://github.com/hakkache/Elden-Ring-Dataset-API/blob/'))
+   fail('Invalid independently attributed requirement source '+i);
   if(coverage==='name-category-only'&&w.requirements!==null)
    fail('Unknown DLC requirements must be null: '+i);
   if(coverage==='base-reference'&&(!dlc||!w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')))
    fail('DLC +0 reference requires named numeric source: '+i);
-  if(!missingNumeric&&(!Number.isFinite(w.weight)||w.weight<0||w.weight>200||
+  if(!missingAttack&&(!Number.isFinite(w.weight)||w.weight<0||w.weight>200||
     !Number.isInteger(w.critical)||w.critical<0||w.critical>300))
    fail('Invalid weight or critical at row '+i);
-  if(!missingNumeric&&(!Array.isArray(w.attack)||w.attack.length!==5||
+  if(!missingAttack&&(!Array.isArray(w.attack)||w.attack.length!==5||
     w.attack.some(v=>!Number.isInteger(v)||v<0||v>5000)||!w.attack.some(v=>v>0)))
    fail('Invalid base damage '+i);
   if(coverage!=='name-category-only'&&(!Array.isArray(w.requirements)||w.requirements.length!==5||
     w.requirements.some(v=>!Number.isInteger(v)||v<0||v>99)))fail('Invalid requirements '+i);
-  if(!missingNumeric&&(!Array.isArray(w.scaling)||w.scaling.length!==5||
+  if(!missingAttack&&(!Array.isArray(w.scaling)||w.scaling.length!==5||
     w.scaling.some(v=>typeof v!=='string'||!/^(?:S|A|B|C|D|E|-|\?)$/i.test(v))))
    fail('Invalid scaling-letter metadata '+i);
   if(w.upgradeReference!==undefined){
@@ -62,6 +71,7 @@ export function validateCommunityCatalog(catalog){
    if(ref.attackByLevel[0].some((v,j)=>v!==w.attack[j]))
     fail('Upgrade +0 must match original source base attack at row '+i);
   }
+  if(w.patchCorrection!==undefined&&(!w.patchCorrection?.sourceUrl?.startsWith('https://almanauts.com/')||!Number.isInteger(w.patchCorrection.correctedValue)||w.patchCorrection.correctedValue!==w.attack[0]))fail('Invalid patch correction source '+i);
   if(w.flags!==undefined&&(!Array.isArray(w.flags)||w.flags.some(x=>typeof x!=='string'||x.length>65)))
    fail('Invalid quality flags '+i);
  }
@@ -70,6 +80,7 @@ export function validateCommunityCatalog(catalog){
   baseCommunityCount:catalog.weapons.length-dlcRows.length,
   dlcCatalogCount:dlcRows.length,
   dlcBaseFactCount:dlcRows.filter(w=>w.dataCoverage==='base-reference').length,
+  dlcWeightOnlyCount:dlcRows.filter(w=>w.dataCoverage==='requirements-weight-only').length,
   dlcRequirementOnlyCount:dlcRows.filter(w=>w.dataCoverage==='requirements-only').length,
   dlcNameOnlyCount:dlcRows.filter(w=>w.dataCoverage==='name-category-only').length,
   dlcUpgradeReferenceCount:dlcRows.filter(w=>w.upgradeReference!==undefined).length
@@ -91,7 +102,7 @@ const NO_STANDARD_TWO_HAND=new Set([
  'Greatshield','Torch'
 ]);
 const SOURCE_VERIFIED_TWO_HAND_EXCEPTION_NAMES=new Set([
- "Ansbach's Longbow"
+ "Ansbach's Longbow","Beast Claw","Nanaya's Torch"
 ]);
 const SPECIAL_PAIRED_NAMES=new Set([
  "Rellana's Twin Blades","Death Knight's Twin Axes","Falx",
@@ -176,6 +187,8 @@ export function publishedUpgradeParts(weapon,level){
 export function cautionForWeapon(w){
  const flags=new Set(w.flags??[]);
  const warnings=[];
+ if(w.dataCoverage==='requirements-weight-only')warnings.push(
+   'Requirements and single-weapon weight are sourced from a secondary community dataset. +0 attack, critical, scaling and upgrade values remain UNKNOWN. Source not independently game-verified for current regulation.');
  if(w.dataCoverage==='requirements-only')warnings.push(
    'DLC reference: attribute requirements listed, but +0 attack, weight, critical and scaling are UNVERIFIED (not zero).');
  if(w.dataCoverage==='name-category-only')warnings.push(
@@ -189,6 +202,8 @@ export function cautionForWeapon(w){
  if(flags.has('malformed-physical-field-in-source'))warnings.push('Upstream physical attack field is malformed. Do not rely on this number.');
  if(flags.has('zero-physical-mixed-entry-check'))warnings.push('Physical attack needs independent cross-check.');
  if(flags.has('unknown-scaling-letter'))warnings.push('One or more base scaling grades are unknown (?) in the source. They are NOT estimated.');
+ if(flags.has('1.17-physical-attack-corrected'))warnings.push('Physical +0 base attack corrected using a documented Regulation 1.17 change; other fields are not game-certified.');
+ if(flags.has('published-upgrade-table-conflict-not-imported'))warnings.push('Community published upgrade rows contain contradictions; +1..+10 attack values deliberately withheld.');
  if(flags.has('selected-values-cross-checked'))warnings.push('Selected base figures independently cross-checked; full patch/AR still unverified.');
  return warnings;
 }

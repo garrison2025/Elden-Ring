@@ -32,16 +32,16 @@ test('DLC weapon cannot be selected without explicit SOTE reference availability
  assert.equal(inspectBuildWeapon(catalog.weapons,spear.id,stats).weight,23);
  assert.equal(inspectBuildWeapon(catalog.weapons,null,stats),null);
 });
-test('missing reference fields stay null and cannot become fabricated equipment weight',()=>{
+test('partially sourced weapon has nonzero weight but still unknown attack and scaling',()=>{
  const nameOnly=find("Bloodfiend's Fork");
  const requirementsOnly=find("Leda's Sword");
  const onlyName=inspectBuildWeapon(catalog.weapons,nameOnly.id,stats,{allowSote:true});
- assert.equal(onlyName.weight,null);
- assert.equal(onlyName.requirements,null);
- assert.equal(onlyName.oneHanded,null);
+ assert.equal(onlyName.weight,4.5);
+ assert.deepEqual(onlyName.requirements,[14,8,0,0,13]);
+ assert.equal(onlyName.oneHanded,false);
  assert.equal(onlyName.attackAtZero,null);
  const onlyRequirements=inspectBuildWeapon(catalog.weapons,requirementsOnly.id,stats,{allowSote:true});
- assert.equal(onlyRequirements.weight,null);
+ assert.ok(onlyRequirements.weight>0);
  assert.ok(Array.isArray(onlyRequirements.requirements));
  assert.equal(onlyRequirements.attackAtZero,null);
  for(const invalid of [[1,1,1],[40,20,25,16,17,16,16,100],[40,20,25,16,17,16,16,0]])
