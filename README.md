@@ -2,7 +2,7 @@
 
 A free, static, privacy-conscious calculator website. No API keys, backend, payments or database.
 
-**Published interactive tools:** Build Stat Planner, Starting Class Optimizer, Level/Rune Calculator, Equip Load Checker.
+**Implemented interactive tools (deployment pending):** Build Stat Planner, Starting Class Optimizer, Level/Rune Calculator, Equip Load Checker.
 
 **Not production-validated:** Weapon AR research lab (synthetic test data only), real opponent damage, armor optimizer, spell scaling and full equipment simulation. The AR test fixture is explicitly fictional and the page is `noindex`.
 
@@ -41,7 +41,7 @@ Visit `http://localhost:8080` and try every calculator. Viewing the HTML directl
 
 ## Keywords / content architecture
 
-The product specification and keyword study are in `docs/BUILD_SPEC_V2.md` and `docs/keyword-research.xlsx`. These are research inputs, **not permission to publish a page per keyword**. Four public tools are live; additional routes require accurate new capabilities and unique search intent.
+The product specification and keyword study are in `docs/BUILD_SPEC_V2.md` and `docs/keyword-research.xlsx`. These are research inputs, **not permission to publish a page per keyword**. Four public tool routes are implemented; additional routes require accurate new capabilities and unique search intent.
 
 ## Tests
 
