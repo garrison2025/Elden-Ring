@@ -33,26 +33,31 @@ function renderDetails(){
  if(!chosen){box.hidden=true;return;}
  box.hidden=false;
  $('catalog-title').textContent=chosen.name;
- const partial=chosen.dataCoverage==='requirements-only';
- $('catalog-class').textContent=chosen.category+' · '+(partial?
-  'Shadow of the Erdtree · requirements documented; base stats unavailable':
+ const coverage=chosen.dataCoverage??'base-community';
+ const dlc=chosen.expansion==='Shadow of the Erdtree';
+ const partial=coverage==='requirements-only'||coverage==='name-category-only';
+ $('catalog-class').textContent=chosen.category+' · '+(dlc?
+  (coverage==='base-reference'?'Shadow of the Erdtree · sourced +0 facts (not AR)':
+   coverage==='requirements-only'?'Shadow of the Erdtree · requirements only':
+   'Shadow of the Erdtree · name/category only'):
   'Community-reported +0 base data · patch unknown');
  $('catalog-weight').textContent=chosen.weight===null?'Not verified':String(chosen.weight);
  $('catalog-critical').textContent=chosen.critical===null||chosen.critical===0?'Not verified':String(chosen.critical);
  const damage=$('catalog-damage');damage.replaceChildren();
- if(partial)damage.append(el('p','Base attack not yet verified; no values are guessed.'));
+ if(partial)damage.append(el('p','Base attack unavailable; no values are guessed.'));
  for(const part of baseDamageParts(chosen)){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',part.name),el('strong',part.amount));damage.append(row);
  }
  const required=$('catalog-required');required.replaceChildren();
- for(let i=0;i<5;i++){
+ if(chosen.requirements===null)required.append(el('p','Requirements not sourced yet. Wieldability cannot be determined.'));
+ else for(let i=0;i<5;i++){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',chosen.requirements[i]));
   required.append(row);
  }
  const scaling=$('catalog-scaling');scaling.replaceChildren();
- if(partial)scaling.append(el('p','Base scaling grades not yet verified for this DLC weapon.'));
+ if(partial)scaling.append(el('p','Base scaling grades not available for this DLC entry.'));
  for(let i=0;!partial&&i<5;i++){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',chosen.scaling[i]));scaling.append(row);
@@ -72,6 +77,7 @@ function renderDetails(){
  }
  try{
   const stats=readStats();
+  if(chosen.requirements===null)throw new RangeError('Unknown weapon requirements');
   const result=weaponRequirementComparison(chosen,stats);
   $('catalog-one').textContent=result.oneHanded.canWield?'Requirements met':
     result.oneHanded.totalMissing+' attribute point(s) short';
@@ -85,7 +91,7 @@ function renderDetails(){
   link.href=requirementsUrl(chosen,stats);
   link.hidden=false;
  }catch(e){
-  $('catalog-one').textContent='Invalid character attributes';
+  $('catalog-one').textContent=chosen.requirements===null?'Requirements unavailable':'Invalid character attributes';
   $('catalog-two').textContent='—';
   $('catalog-requirements-link').hidden=true;
  }
@@ -134,10 +140,12 @@ function showList(reset=false,keepSelected=false){
   btn.setAttribute('aria-label','View '+w.name+' weapon details');
   if(w.id===chosen?.id)btn.classList.add('selected');
   const title=el('span',w.name);title.className='catalog-row-title';
-  const detail=el('span',w.category+' · '+(w.dataCoverage==='requirements-only'?
-   'DLC attribute requirements only':'Wt '+w.weight+' · reported +0 base'));
+  const detail=el('span',w.category+' · '+(w.dataCoverage==='name-category-only'?
+   'DLC name/category only':w.dataCoverage==='requirements-only'?
+   'DLC attribute requirements only':w.dataCoverage==='base-reference'?
+   'DLC sourced +0 stats · not AR':'Wt '+w.weight+' · reported +0 base'));
   detail.className='catalog-row-desc';
-  const tag=el('span',w.dataCoverage==='requirements-only'?'DLC · partial':(w.flags?.length?'Review data':'View details'));
+  const tag=el('span',w.expansion==='Shadow of the Erdtree'?(w.dataCoverage==='base-reference'?'DLC · +0 source':'DLC · partial'):(w.flags?.length?'Review data':'View details'));
   tag.className='catalog-row-tag';
   btn.append(title,detail,tag);
   btn.addEventListener('click',()=>{
@@ -178,9 +186,11 @@ try{
  if(preferred){chosen=catalog.weapons.find(w=>w.id===preferred)||null;}
  showList(true,Boolean(chosen));
  if(chosen)renderDetails();
- status('Loaded '+catalog.weapons.length+' weapon references ('+
-  catalog.weapons.filter(w=>w.dataCoverage==='requirements-only').length+
-  ' DLC requirements-only). Partial rows have NO base attack or weight values. All current-patch numbers remain unverified.');
+ status('Loaded '+catalog.weapons.length+' weapon and shield references ('+
+  catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree').length+
+  ' DLC: '+catalog.meta.dlcBaseFactCount+' with sourced +0 facts, '+
+  catalog.meta.dlcRequirementOnlyCount+' requirements-only, '+
+  catalog.meta.dlcNameOnlyCount+' names-only). No precise DLC AR is available.');
 }catch(e){
  status('Could not load weapon records: '+e.message,true);
  $('catalog-results').textContent='No data loaded';

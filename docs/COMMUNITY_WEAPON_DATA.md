@@ -1,29 +1,40 @@
-# Community weapon database: provenance and limitations
+# Community weapon data – provenance and exact-AR boundary
 
-307 real named Elden Ring weapons with community-reported numerical +0 facts.
-Game regulation version of the source snapshot is NOT established; it is NOT a current-patch certified AR database.
+Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community reference rows and 102 `Shadow of the Erdtree` weapon/shield entries.
 
-Upstream repository: https://github.com/deliton/eldenring-api
-Source: https://github.com/deliton/eldenring-api/blob/main/api/public/data/weapons.json
-Source commit: 1d2626ceda5eb8c08997e345e303344a64edc106
-Upstream API software license: MIT (api/LICENSE).
-We copy only factual weapon names, type, unupgraded physical/elemental attack numbers, critical, requirements, scaling letter and weight.
-No images, item descriptions, lore, code, icons, extracted regulation parameters or user-uploaded game files.
-MIT software licensing does not establish a license over the game's intellectual property or commercial reuse rights for game assets.
+## Evidence tiers
 
-Three independently cross-checked factual corrections:
-- Royal Greatsword physical 112, magic 134 and critical 100: https://eldenring.wiki.gg/wiki/Royal_Greatsword
-- Serpentbone Blade physical 120, critical 100: https://eldenring.wiki.gg/wiki/Serpentbone_Blade
-- Star Fist critical 100: https://www.pushsquare.com/guides/elden-ring-all-weapons-list-and-weapon-locations
+| Tier | DLC rows | Available | Unavailable |
+| --- | ---: | --- | --- |
+| `base-reference` | 9 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
+| `requirements-only` | 52 | Name, class and community-reported 5-stat requirements | +0 attack, critical, weight, scaling, upgrades, affinities, AR |
+| `name-category-only` | 41 | Name and class, checked against DLC roster | Requirements and all numerical combat properties |
 
-The source has two distinct Erdtree Seal rows with the same name, both flagged. Spiked Spear and Vulgar Militia Shotel include suspicious critical values, so no silent corrections were invented.
-Records without warning flags are NOT independently verified. Some DLC weapons and balance changes are absent.
-Base weapon attack is not player AR. Letter-grade scaling is insufficient for true AR math.
-Research route remains noindex until independent current-patch validation and data-rights review.
+**Every missing numeric field is null, not zero.** The 9 wiki +0 values are reference facts and are **not** current patch game-tested AR. These 9 are Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
 
-Twelve source weapons have unknown '?' scaling grades. They remain '?' (not guessed) and are flagged in the UI; this is not a current-patch-verified scaling database.
+## Sources and rights
 
+- Base-game factual sample: https://github.com/deliton/eldenring-api/blob/main/api/public/data/weapons.json (source commit `1d2626ceda5eb8c08997e345e303344a64edc106`), 307 entries. Upstream software license MIT applies to its software, **not necessarily to all game-derived data or media**.
+- 57 original DLC names/types/requirements: https://consolepulse.com/multiplatform/elden-ring/guides/elden-ring-dlc-weapon-shield-locations . Its listed scaling is at MAX upgrade, not valid +0 scaling.
+- Additional 45 DLC name/class references: https://eldenring.fandom.com/wiki/Weapons_(Shadow_of_the_Erdtree) . Its list includes shields. This snapshot tracks 102 entries and does not claim completeness of separate Tarnished Pack content.
+- Individually checked factual +0 statistics: each record's `checkedWith` URL on https://eldenring.wiki.gg/ . The accessible wiki has CC BY-SA 4.0 licensing for page content; this repository does not copy artwork, descriptions, source layouts or prose.
+- Existing base-game cross checks: Royal Greatsword, Serpentbone Blade, Star Fist. Twelve unverified '?' grades remain unknown. Erdtree Seal upstream duplicate remains flagged.
 
-## Shadow of the Erdtree partial factual additions (2026-10-30)
+## AR validation gate
 
-Added 57 named DLC armaments with categories and five minimum attributes, from https://consolepulse.com/multiplatform/elden-ring/guides/elden-ring-dlc-weapon-shield-locations . This is a PARTIAL selection, not a complete DLC list. All new DLC rows retain null weight, attack, critical and base scaling; their source supplies scaling for a different upgrade level and thus is not a valid +0 replacement. All new rows carry a source link and a prominent warning. They are searchable by name/category/requirements, while damage-type and weight filtering properly EXCLUDES unknown data. Totals: 307 base community numeric entries + 57 DLC requirements-only entries = 364. Never infer current-patch AR from any of them. All preview routes remain noindex.
+A weapon must not be presented as having exact AR merely because its +0 attack or letter grades are available. A publishable AR profile additionally needs:
+
+1. Exact applicable game app/regulation identifiers and legal/source review.
+2. Weapon's precise source affinity, base damage per type, **numeric** scaling coefficients, per-damage attribute correction graphs and element applicability.
+3. Full legal reinforcement progression (regular +0 to +25, or somber +0 to +10), no interpolation of missing upgrades.
+4. All supported affinity/infusion param records, with validity restrictions per weapon.
+5. Two-hand/paired special rules, attribute requirements, rounding and split-damage semantics.
+6. Independent in-game golden samples with precise character stats, upgrade, affinity and UI integer outputs; regressions fail closed.
+
+Existing `public/src/regulation-import.mjs` and `scripts/audit-regulation.mjs` are **research-only** converters for independently sourced local inputs. They do not prove commercial redistribution rights, provide actual regulation params, or authorize publishing precise AR. Never upload personal or unlicensed param dumps to the public repo.
+
+The public `weapon-database/` route remains noindex; `weapon-ar-lab/` is an isolated synthetic research facility, not player-ready AR. All DLC profiles still need parameter sourcing and independent game validation.
+
+## Maintenance
+
+On each official patch, mark affected rows for re-check, verify relevant param changes, rerun golden comparisons, and only then update the supported regulation identifier. When exact data is missing, retain the search reference but return `UNSUPPORTED` for precise AR.

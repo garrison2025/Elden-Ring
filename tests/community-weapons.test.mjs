@@ -6,9 +6,9 @@ import {validateCommunityCatalog,catalogCategories,searchCatalog,baseDamageParts
  cautionForWeapon,weaponRequirementComparison,requirementsUrl} from '../public/src/community-weapons.mjs';
 const catalog=validateCommunityCatalog(JSON.parse(await readFile(resolve('public/data/community-weapon-catalog.json'),'utf8')));
 const find=name=>catalog.weapons.find(w=>w.name===name);
-test('source-attributed 364 real weapon references with 57 DLC requirements-only, stripped of images and prose',()=>{
- assert.equal(catalog.weapons.length,364);
- assert.equal(catalog.meta.count,364);
+test('source-attributed 409 references with 102 DLC weapons and shields, stripped of images and prose',()=>{
+ assert.equal(catalog.weapons.length,409);
+ assert.equal(catalog.meta.count,409);
  assert.match(catalog.meta.version,/not established/);
  assert.match(catalog.meta.sourceRevision,/^[a-f0-9]{40}$/);
  for(const row of catalog.weapons){
@@ -67,7 +67,7 @@ test('reject invalid values, duplicate IDs, corrupted stats and unsupported sort
  bad.weapons[0].attack[0]='invalid';
  assert.throws(()=>validateCommunityCatalog(bad),/Invalid base damage/);
  assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:10}}),/record count/);
- assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:365},weapons:[...catalog.weapons,catalog.weapons[0]]}),/Duplicate weapon ID/);
+ assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:410},weapons:[...catalog.weapons,catalog.weapons[0]]}),/Duplicate weapon ID/);
  assert.throws(()=>searchCatalog(catalog.weapons,{sort:'unknown'}),/Invalid catalog search/);
 });
 
@@ -110,36 +110,74 @@ test('filters combine class, damage and weight without treating raw base as AR',
  assert.throws(()=>searchCatalog(catalog.weapons,{damage:'bleed'}),/Invalid catalog search/);
 });
 
-test('57 real DLC records have sourced requirements and do not invent base damage or scaling',()=>{
- const dlc=catalog.weapons.filter(w=>w.dataCoverage==='requirements-only');
- assert.equal(dlc.length,57);
+test('DLC roster has 102 sourced unique weapons/shields and three explicit data tiers',()=>{
+ const dlc=catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree');
+ assert.equal(dlc.length,102);
+ assert.equal(new Set(dlc.map(w=>w.name)).size,102);
  assert.equal(catalog.meta.baseCommunityCount,307);
- assert.equal(catalog.meta.dlcRequirementOnlyCount,57);
- assert.ok(dlc.every(w=>w.attack===null&&w.weight===null&&w.critical===null&&w.scaling===null));
- assert.ok(dlc.every(w=>w.sourceUrl?.startsWith('https://')&&w.requirements.length===5));
- const milady=find('Milady');
- assert.equal(milady.category,'Light Greatsword');
- assert.deepEqual(milady.requirements,[12,17,0,0,0]);
- assert.equal(baseDamageParts(milady).length,0);
- assert.match(cautionForWeapon(milady).join(' '),/UNVERIFIED/);
- assert.equal(find('Great Katana').category,'Great Katana');
- assert.deepEqual(find('Rellana\'s Twin Blades')?.requirements??null,null);
+ assert.equal(catalog.meta.dlcCatalogCount,102);
+ assert.equal(catalog.meta.dlcBaseFactCount,9);
+ assert.equal(catalog.meta.dlcRequirementOnlyCount,52);
+ assert.equal(catalog.meta.dlcNameOnlyCount,41);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,9);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,52);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='name-category-only').length,41);
+ assert.ok(dlc.every(w=>w.sourceUrl?.startsWith('https://')&&w.arParameters===undefined));
+ for(const name of ["Rellana's Twin Blades","Rakshasa's Great Katana","Smithscript Dagger",
+  "Smithscript Cirque","Spear of the Impaler","Staff of the Great Beyond","Verdigris Greatshield",
+  "Sword of Night","Nanaya's Torch"]){
+  assert.equal(dlc.filter(w=>w.name===name).length,1);
+ }
 });
-test('partial DLC numeric fields are not silently coerced to zero or used for misleading sorting and filters',()=>{
- const dlc=catalog.weapons.filter(w=>w.dataCoverage==='requirements-only');
- const source=searchCatalog(catalog.weapons,{coverage:'dlc',limit:100});
- assert.equal(source.total,57);
- assert.equal(source.results.length,57);
+test('nine wiki cross-checked DLC base facts, no invented upgrade or affinity values',()=>{
+ const examples=[
+  ['Milady',116,6.5,[12,17,0,0,0]],
+  ['Backhand Blade',105,2,[10,13,0,0,0]],
+  ['Great Katana',145,9,[14,18,0,0,0]],
+  ["Dragon-Hunter's Great Katana",152,10.5,[15,20,0,0,0]],
+  ['Dueling Shield',125,9,[15,14,0,0,0]],
+  ["Rellana's Twin Blades",103,8,[13,16,16,16,0]],
+  ["Rakshasa's Great Katana",155,9.5,[12,27,0,0,0]],
+  ['Smithscript Dagger',67,1.5,[5,11,11,11,0]],
+  ['Smithscript Cirque',100,2,[9,14,11,11,0]]
+ ];
+ for(const [name,physical,weight,req] of examples){
+  const w=find(name);
+  assert.equal(w.dataCoverage,'base-reference');
+  assert.equal(w.attack[0],physical);
+  assert.equal(w.weight,weight);
+  assert.deepEqual(w.requirements,req);
+  assert.match(w.checkedWith,/eldenring\.wiki\.gg/);
+  assert.match(cautionForWeapon(w).join(' '),/AR is UNSUPPORTED/);
+  assert.equal(Object.hasOwn(w,'arParameters'),false);
+ }
+ assert.deepEqual(find("Rellana's Twin Blades").attack,[103,66,66,0,0]);
+});
+test('partial rows keep missing data null; cannot compare unknown requirements',()=>{
+ const nameOnly=find('Spear of the Impaler'), reqOnly=find("Leda's Sword");
+ assert.equal(nameOnly.dataCoverage,'name-category-only');
+ assert.equal(nameOnly.requirements,null);
+ assert.equal(nameOnly.weight,null);
+ assert.equal(nameOnly.attack,null);
+ assert.equal(reqOnly.dataCoverage,'requirements-only');
+ assert.ok(Array.isArray(reqOnly.requirements));
+ assert.equal(reqOnly.weight,null);
+ assert.throws(()=>weaponRequirementComparison(nameOnly,[20,20,20,20,20]),/not documented/);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Spear of the Impaler',wield:'one',stats:[99,99,99,99,99]}).total,0);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Spear of the Impaler',damage:'physical'}).total,0);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Spear of the Impaler',maxWeight:200}).total,0);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Milady',damage:'physical'}).total,1);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Milady',maxWeight:6}).total,0);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Milady',maxWeight:7}).total,1);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Milady',wield:'one',stats:[12,17,10,10,10]}).total,1);
+ assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc',limit:100}).total,102);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,307);
- assert.equal(searchCatalog(catalog.weapons,{term:'Milady',damage:'physical'}).total,0);
- assert.equal(searchCatalog(catalog.weapons,{term:'Milady',maxWeight:200}).total,0);
- const low=searchCatalog(catalog.weapons,{term:'Milady',wield:'one',stats:[12,17,10,10,10]});
- assert.equal(low.total,1);
- const rejected=structuredClone(catalog);
- const index=rejected.weapons.findIndex(w=>w.name==='Milady');
- rejected.weapons[index].attack=[0,0,0,0,0];
- assert.throws(()=>validateCommunityCatalog(rejected),/Partial DLC rows/);
- assert.equal(searchCatalog(catalog.weapons,{sort:'base',limit:100}).results.some(w=>w.dataCoverage==='requirements-only'),false);
+ const invalid=structuredClone(catalog);
+ invalid.weapons.find(w=>w.name==='Spear of the Impaler').requirements=[0,0,0,0,0];
+ assert.throws(()=>validateCommunityCatalog(invalid),/must be null/);
+ const invalidAttack=structuredClone(catalog);
+ invalidAttack.weapons.find(w=>w.name==="Leda's Sword").attack=[0,0,0,0,0];
+ assert.throws(()=>validateCommunityCatalog(invalidAttack),/Partial DLC rows/);
 });
 test('conservative 2H calculations do not grant strength boost to new paired/special DLC types',()=>{
  const stats=[9,20,10,10,10];
