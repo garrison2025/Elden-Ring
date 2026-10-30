@@ -151,7 +151,18 @@ export function auditRawMathParity(root,{
       current.effectiveStats.str===raw.actualStrength&&
       current.perElement.every((p,j)=>p.element===raw.parts[j].element&&
         Math.abs(p.raw-raw.parts[j].raw)<0.000001);
-     if(!equal){mismatched++;count('arithmetic-mismatch-case-'+caseIndex,index);}
+     if(!equal){
+      mismatched++;
+      // Export only a mismatch category and anonymous row index; never
+      // redistribute upstream AR values or parameter tables in CI artifacts.
+      const rawComponentsAgree=current.perElement.length===raw.parts.length&&
+       current.perElement.every((p,j)=>p.element===raw.parts[j].element&&
+        Math.abs(p.raw-raw.parts[j].raw)<0.000001);
+      const mismatchKind=rawComponentsAgree&&current.total!==raw.total?
+       'integer-floor-boundary':current.total===raw.total?
+       'unrounded-component-difference':'raw-component-or-grip-difference';
+      count('arithmetic-mismatch-case-'+caseIndex+'-'+mismatchKind,index);
+     }
     }catch(error){
      unsupported++;count('reference-case-error-'+caseIndex,index);
     }
