@@ -145,12 +145,13 @@ test('DLC roster has 102 sourced unique weapons/shields and three explicit data 
  assert.equal(new Set(dlc.map(w=>w.name)).size,102);
  assert.equal(catalog.meta.baseCommunityCount,307);
  assert.equal(catalog.meta.dlcCatalogCount,102);
- assert.equal(catalog.meta.dlcBaseFactCount,30);
- assert.equal(catalog.meta.dlcRequirementOnlyCount,44);
- assert.equal(catalog.meta.dlcNameOnlyCount,28);
- assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,30);
- assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,44);
- assert.equal(dlc.filter(w=>w.dataCoverage==='name-category-only').length,28);
+ assert.equal(catalog.meta.dlcBaseFactCount,43);
+ assert.equal(catalog.meta.dlcWeightOnlyCount,59);
+ assert.equal(catalog.meta.dlcRequirementOnlyCount,0);
+ assert.equal(catalog.meta.dlcNameOnlyCount,0);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,43);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,0);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-weight-only').length,59);
  assert.ok(dlc.every(w=>w.sourceUrl?.startsWith('https://')&&w.arParameters===undefined));
  for(const name of ["Rellana's Twin Blades","Rakshasa's Great Katana","Smithscript Dagger",
   "Smithscript Cirque","Spear of the Impaler","Staff of the Great Beyond","Verdigris Greatshield",
@@ -182,31 +183,35 @@ test('nine wiki cross-checked DLC base facts, no invented upgrade or affinity va
  }
  assert.deepEqual(find("Rellana's Twin Blades").attack,[103,66,66,0,0]);
 });
-test('partial rows keep missing data null; cannot compare unknown requirements',()=>{
- const nameOnly=find("Bloodfiend's Fork"), reqOnly=find("Leda's Sword");
- assert.equal(nameOnly.dataCoverage,'name-category-only');
- assert.equal(nameOnly.requirements,null);
- assert.equal(nameOnly.weight,null);
- assert.equal(nameOnly.attack,null);
- assert.equal(reqOnly.dataCoverage,'requirements-only');
- assert.ok(Array.isArray(reqOnly.requirements));
- assert.equal(reqOnly.weight,null);
- assert.throws(()=>weaponRequirementComparison(nameOnly,[20,20,20,20,20]),/not documented/);
- assert.equal(searchCatalog(catalog.weapons,{term:"Bloodfiend's Fork",wield:'one',stats:[99,99,99,99,99]}).total,0);
+test('102 DLC records have attributed requirements and weights without inventing base attacks',()=>{
+ const dlc=catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree');
+ assert.equal(dlc.length,102);
+ assert.ok(dlc.every(w=>Array.isArray(w.requirements)&&w.requirements.length===5));
+ assert.ok(dlc.every(w=>Number.isFinite(w.weight)&&w.weight>=0));
+ const partial=dlc.filter(w=>w.dataCoverage==='requirements-weight-only');
+ assert.equal(partial.length,59);
+ assert.ok(partial.every(w=>w.attack===null&&w.critical===null&&w.scaling===null&&w.weightSourceUrl));
+ const fork=find("Bloodfiend's Fork"),leda=find("Leda's Sword");
+ assert.deepEqual(fork.requirements,[14,8,0,0,13]);
+ assert.equal(fork.weight,4.5);
+ assert.equal(fork.dataCoverage,'requirements-weight-only');
+ assert.ok(leda.weight>0);
+ assert.equal(leda.attack,null);
  assert.equal(searchCatalog(catalog.weapons,{term:"Bloodfiend's Fork",damage:'physical'}).total,0);
- assert.equal(searchCatalog(catalog.weapons,{term:"Bloodfiend's Fork",maxWeight:200}).total,0);
- assert.equal(searchCatalog(catalog.weapons,{term:'Milady',damage:'physical'}).total,1);
- assert.equal(searchCatalog(catalog.weapons,{term:'Milady',maxWeight:6}).total,0);
- assert.equal(searchCatalog(catalog.weapons,{term:'Milady',maxWeight:7}).total,1);
- assert.equal(searchCatalog(catalog.weapons,{term:'Milady',wield:'one',stats:[12,17,10,10,10]}).total,1);
+ assert.equal(searchCatalog(catalog.weapons,{term:"Bloodfiend's Fork",maxWeight:4}).total,0);
+ assert.equal(searchCatalog(catalog.weapons,{term:"Bloodfiend's Fork",maxWeight:5}).total,1);
+ assert.equal(searchCatalog(catalog.weapons,{term:"Bloodfiend's Fork",wield:'one',stats:[99,99,99,99,99]}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc',limit:100}).total,102);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,307);
- const invalid=structuredClone(catalog);
- invalid.weapons.find(w=>w.name==="Bloodfiend\u0027s Fork").requirements=[0,0,0,0,0];
- assert.throws(()=>validateCommunityCatalog(invalid),/must be null/);
- const invalidAttack=structuredClone(catalog);
- invalidAttack.weapons.find(w=>w.name==="Leda's Sword").attack=[0,0,0,0,0];
- assert.throws(()=>validateCommunityCatalog(invalidAttack),/Partial DLC rows/);
+ const corrupt=structuredClone(catalog);
+ corrupt.weapons.find(w=>w.name==="Bloodfiend's Fork").attack=[0,0,0,0,0];
+ assert.throws(()=>validateCommunityCatalog(corrupt),/Partial DLC/);
+ const badProvenance=structuredClone(catalog);
+ badProvenance.weapons.find(w=>w.name==="Bloodfiend's Fork").weightSourceUrl='http://example.test';
+ assert.throws(()=>validateCommunityCatalog(badProvenance),/Source and weight/);
+ const badCounts=structuredClone(catalog);
+ badCounts.meta.dlcWeightOnlyCount=58;
+ assert.throws(()=>validateCommunityCatalog(badCounts),/coverage metadata mismatch/);
 });
 test('nine more individually sourced DLC +0 fact rows include split damage and requirements',()=>{
  const examples=[
@@ -279,7 +284,7 @@ test('three further source-linked DLC weapons are safely available for base atta
  assert.equal(searchCatalog(catalog.weapons,{term:'Spirit Sword',damage:'magic'}).total,1);
 });
 test('nine verified wiki.gg +0 armament facts and DLC 1.17 corrections stay exact',()=>{
- const rows=[["Ancient Meteoric Ore Greatsword",[154,46,0,0,0],22,100,[35,10,0,0,19],["D","E","-","-","D"],"Ancient_Meteoric_Ore_Greatsword"],["Greatsword of Solitude",[120,0,0,0,0],15.5,100,[27,13,0,0,0],["B","E","-","-","-"],"Greatsword_of_Solitude"],["Black Steel Greathammer",[140,0,0,0,42],12,100,[25,11,0,17,0],["C","E","-","D","-"],"Black_Steel_Greathammer"],["Bloodfiend's Arm",[147,0,0,0,0],20,100,[28,11,0,0,16],["D","E","-","-","D"],"Bloodfiend%27s_Arm"],["Euporia",[84,0,0,0,100],8.5,100,[16,16,0,24,0],["D","D","-","D","-"],"Euporia"],["Greatsword of Damnation",[123,0,0,0,79],8,100,[20,15,0,20,0],["D","E","-","D","-"],"Greatsword_of_Damnation"],["Black Steel Greatshield",[119,0,0,0,0],18,100,[35,0,0,0,0],["D","-","-","-","-"],"Black_Steel_Greatshield"],["Carian Sorcery Sword",[69,69,0,0,0],2.5,110,[10,19,16,0,0],["E","D","D","-","-"],"Carian_Sorcery_Sword"],["Ansbach's Longbow",[74,0,0,0,0],4.5,100,[9,43,0,0,0],["E","D","-","-","-"],"Ansbach%27s_Longbow"]];
+ const rows=[["Ancient Meteoric Ore Greatsword",[154,46,0,0,0],22,100,[35,10,0,0,19],["D","E","-","-","D"],"Ancient_Meteoric_Ore_Greatsword"],["Greatsword of Solitude",[120,0,0,0,0],15.5,100,[27,13,0,0,0],["B","E","-","-","-"],"Greatsword_of_Solitude"],["Black Steel Greathammer",[140,0,0,0,42],12,100,[25,11,0,17,0],["C","E","-","D","-"],"Black_Steel_Greathammer"],["Bloodfiend's Arm",[147,0,0,0,0],20,100,[28,11,0,0,16],["D","E","-","-","D"],"Bloodfiend%27s_Arm"],["Euporia",[84,0,0,0,100],8.5,100,[16,16,0,24,0],["D","D","-","D","-"],"Euporia"],["Greatsword of Damnation",[123,0,0,0,79],8,100,[20,15,0,20,0],["D","E","-","D","-"],"Greatsword_of_Damnation"],["Black Steel Greatshield",[119,0,0,0,0],18,100,[35,0,0,0,0],["D","-","-","-","-"],"Black_Steel_Greatshield"],["Carian Sorcery Sword",[38,69,0,0,0],2.5,110,[10,19,16,0,0],["E","D","D","-","-"],"Carian_Sorcery_Sword"],["Ansbach's Longbow",[74,0,0,0,0],4.5,100,[9,43,0,0,0],["E","D","-","-","-"],"Ansbach%27s_Longbow"]];
  for(const [name,attack,weight,critical,req,scale,source] of rows){
   const weapon=find(name);
   assert.ok(weapon);
@@ -325,5 +330,49 @@ test('conservative 2H calculations do not grant strength boost to new paired/spe
   const w=find(name);assert.ok(w);
   const output=weaponRequirementComparison(w,stats);
   assert.equal(output.twoHanded.effectiveStrength,9);
+ }
+});
+
+test('thirteen newly sourced DLC +0 facts and patch correction survive refactors',()=>{
+ const facts=[
+ ['Beast Claw',[98,0,0,0,0],3,100],
+ ["Nanaya's Torch",[55,0,99,0,0],3.5,100],
+ ['Verdigris Greatshield',[194,0,0,0,0],28,100],
+ ['Claws of Night',[79,51,0,0,0],3,110],
+ ['Chilling Perfume Bottle',[0,112,0,0,0],1,100],
+ ['Deadly Poison Perfume Bottle',[98,0,0,0,0],1,100],
+ ['Firespark Perfume Bottle',[0,0,118,0,0],1,100],
+ ['Frenzyflame Perfume Bottle',[0,0,112,0,0],1,100],
+ ['Lightning Perfume Bottle',[0,0,0,118,0],1,100],
+ ['Barbed Staff-Spear',[86,0,0,0,86],7.5,100],
+ ['Black Steel Twinblade',[112,0,0,0,33],8,100],
+ ['Bonny Butchering Knife',[134,0,0,0,0],8.5,100],
+ ["Fire Knight's Greatsword",[147,0,44,0,0],16,100]
+ ];
+ for(const [name,attack,weight,critical] of facts){
+  const w=find(name);assert.ok(w,name);assert.equal(w.dataCoverage,'base-reference');
+  assert.deepEqual(w.attack,attack,name);assert.equal(w.weight,weight,name);assert.equal(w.critical,critical,name);
+  assert.match(w.checkedWith,/^https:\/\/eldenring\.wiki\.gg\/wiki\//);
+  assert.equal(Object.hasOwn(w,'arParameters'),false);
+ }
+ const carian=find('Carian Sorcery Sword');
+ assert.deepEqual(carian.attack,[38,69,0,0,0]);
+ assert.equal(carian.patchCorrection.correctedValue,38);
+ assert.match(carian.patchCorrection.sourceUrl,/almanauts.com/);
+ const bad=structuredClone(catalog);
+ bad.weapons.find(w=>w.name==='Carian Sorcery Sword').patchCorrection.correctedValue=69;
+ assert.throws(()=>validateCommunityCatalog(bad),/Invalid patch correction/);
+ for(const name of ['Barbed Staff-Spear','Claws of Night']){
+  const w=find(name);assert.equal(w.upgradeReference,undefined);
+  assert.match(cautionForWeapon(w).join(' '),/contradictions/);
+ }
+});
+test('two-handed Strength exceptions are source-scoped, not blindly applied to all claws and torches',()=>{
+ for(const [name,str] of [['Beast Claw',9],["Nanaya's Torch",8]]){
+  const w=find(name);
+  const stats=[str,...w.requirements.slice(1).map(n=>Math.max(n,1))];
+  const result=weaponRequirementComparison(w,stats);
+  assert.equal(result.oneHanded.canWield,false);
+  assert.equal(result.twoHanded.canWield,true);
  }
 });
