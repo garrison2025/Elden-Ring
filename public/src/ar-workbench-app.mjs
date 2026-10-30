@@ -8,8 +8,16 @@ const feedback=(s,bad=false)=>{
  get('arw-feedback').textContent=s;
  get('arw-feedback').className=bad?'feedback bad':'feedback';
 };
+let familyRevision=0;
+const clearFamily=()=>{
+ familyRevision++;
+ get('arw-family-results').hidden=true;
+ get('arw-family-rows').replaceChildren();
+ get('arw-family-summary').textContent='';
+};
 let latestGripResults=null;
 const clear=()=>{
+ clearFamily();
  latestGripResults=null;
  get('arw-onehand').textContent='—';get('arw-twohand').textContent='—';
  get('arw-delta').textContent='—';get('arw-effective').textContent='—';
@@ -85,6 +93,7 @@ const setOptions=(records,preferred='')=>{
  if(records.length>1)second.selectedIndex=1;
  selected=false;selectedB=false;bUpgrades=[];currentRequirements=null;
  get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
+ get('arw-family-run').disabled=true;
  gripRevision++;clear();clearPair();get('arw-upgrade').replaceChildren();get('arw-compare-upgrade').replaceChildren();
  if(!records.length)get('arw-results-count').textContent='No matching weapon names.';
 };
@@ -124,6 +133,10 @@ function requestComparison(){
 }
 if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='error'){
+  if(m.phase==='family-compare'){
+   if(m.requestId!==familyRevision)return;
+   get('arw-family-feedback').textContent='Family comparison failed: '+m.message;return;
+  }
   if(m.phase==='search'||m.phase==='family'){
    if(m.requestId!==searchRevision)return;
    get('arw-results-count').textContent='Search error: '+m.message;
@@ -155,7 +168,8 @@ if(worker)worker.onmessage=({data:m})=>{
   fileLoaded=false;selected=false;selectedB=false;upgrades=[];bUpgrades=[];syntheticMode=false;
   currentRequirements=null;searchRevision++;selectRevision++;selectBRevision++;
   get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
-  gripRevision++;clearPair();get('arw-compare-select').replaceChildren();
+  get('arw-family-run').disabled=true;
+  gripRevision++;clearPair();clearFamily();get('arw-compare-select').replaceChildren();
   get('arw-compare-upgrade').replaceChildren();
   get('arw-file-status').textContent='No file loaded';
   get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-search').value='';
@@ -266,6 +280,31 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-results-count').textContent=m.result.matches+' matching names; first '+m.result.names.length+' shown.';
   setOptions(m.result.names);if(m.result.names.length){selectCurrent();selectSecond();}return;
  }
+ if(m.op==='family-compared'){
+  if(m.requestId!==familyRevision)return;
+  const out=m.result,body=get('arw-family-rows');body.replaceChildren();
+  get('arw-family-summary').textContent=out.family+' · '+out.sourceVariantCount+
+   ' source variants · '+out.available+' nominally calculated · '+out.unavailable+
+   ' unavailable / blocked · +'+out.upgrade+' · '+(out.twoHanded?'two-hand':'one-hand')+
+   '. Research values; NOT independently verified.';
+  for(const item of out.rows){
+   const tr=make('tr','');
+   const columns=[item.name,item.total===null?'—':item.total,
+    ...['physical','magic','fire','lightning','holy'].map(
+     d=>item.components===null?'—':(item.components[d]??0)),
+    item.status==='calculated-unverified'?
+     (item.missingRequirements.length?'Unmet: '+item.missingRequirements.join(', ')+'. ':'')+
+      (item.scopeFlags.length?item.scopeFlags.join('; '):'Nominal AR only; not game verified'):
+     item.status+': '+item.reason];
+   for(const value of columns)tr.append(make('td',value));
+   body.append(tr);
+  }
+  get('arw-family-results').hidden=false;
+  get('arw-family-feedback').textContent=syntheticMode?
+   'FICTIONAL TEST MATRIX — all values are invented.':
+   'Computed from source-defined affinities. NOT independent game-client goldens.';
+  return;
+ }
  if(m.op==='selected'){
   if(m.requestId!==selectRevision)return;
   selected=true;upgrades=m.description.upgradeLevels;currentRequirements=m.description.requirements;
@@ -282,6 +321,7 @@ if(worker)worker.onmessage=({data:m})=>{
   if(preferred!==null&&upgrades.includes(preferred))u.value=String(preferred);
   pendingUpgradeFromLink=null;
   get('arw-upgrade-max').disabled=false;get('arw-apply-requirements').disabled=false;
+  get('arw-family-run').disabled=false;
   requestCalculation();requestComparison();return;
  }
  if(m.op==='selectedB'){
@@ -442,6 +482,21 @@ get('arw-compare-grip').addEventListener('change',requestComparison);
 get('arw-compare-run').addEventListener('click',requestComparison);
 get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();requestComparison();});
 get('arw-compare').addEventListener('click',requestCalculation);
+get('arw-family-grip').addEventListener('change',clearFamily);
+get('arw-family-run').addEventListener('click',()=>{
+ clearFamily();
+ if(!selected||!fileLoaded)return;
+ try{
+  const stats=readStats(),upgrade=Number(get('arw-upgrade').value);
+  if(!upgrades.includes(upgrade))throw new RangeError('Choose a sourced +level first.');
+  get('arw-family-feedback').textContent='Calculating exact family affinities in a local worker…';
+  send({op:'family-compare',requestId:familyRevision,
+   name:get('arw-select').value,stats,upgrade,
+   twoHanded:get('arw-family-grip').value==='two'});
+ }catch(error){
+  get('arw-family-feedback').textContent='Family comparison unavailable: '+error.message;
+ }
+});
 get('arw-observation-export').addEventListener('click',()=>{
  const feedbackNode=get('arw-observation-feedback');
  try{

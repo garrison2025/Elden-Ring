@@ -1,4 +1,4 @@
-import {listCompactWeaponNames,searchLocalWeapons,findLocalWeaponFamily,describeLocalWeapon,compareLocalGrips} from './ar-workbench-core.mjs';
+import {listCompactWeaponNames,searchLocalWeapons,findLocalWeaponFamily,describeLocalWeapon,compareLocalGrips,compareLocalFamilyAffinities} from './ar-workbench-core.mjs';
 import {COMPACT_SYNTHETIC_REGULATION} from '../data/ar-compact-synthetic.mjs';
 import {compareWeaponPair} from './ar-weapon-compare.mjs';
 import {auditCompactRegulation} from './regulation-audit.mjs';
@@ -67,7 +67,14 @@ self.onmessage=event=>{
     if(!selected)throw new RangeError('Choose a weapon and reinforcement level first.');
     self.postMessage({op:'compared',requestId:m.requestId,result:compareLocalGrips(selected,m.stats,m.upgrade)});
     break;
-   case 'selectB':{
+   case 'family-compare':{
+     if(!source)throw new RangeError('Load a local regulation source first.');
+     const result=compareLocalFamilyAffinities(source,m.name,version,reference,m.stats,
+      {upgrade:m.upgrade,twoHanded:m.twoHanded});
+     self.postMessage({op:'family-compared',requestId:m.requestId,result});
+     break;
+    }
+    case 'selectB':{
     if(!source)throw new RangeError('Import a local file before choosing weapon B.');
     const found=describeLocalWeapon(source,m.name,version,reference);
     selectedB=found.profile;

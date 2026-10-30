@@ -118,6 +118,18 @@
  <p class="note" id="arw-observation-feedback" role="status" aria-live="polite">No game-client observation has been entered or independently reviewed.</p>
  <div class="safe-banner"><strong>Verification gate unchanged.</strong> A matching number is not proof of regulation-wide accuracy, screenshot authenticity, rights clearance, special weapon-skill damage, status effects or actual enemy damage.</div>
 </section>
+<section class="panel workbench-pair-panel" aria-labelledby="arw-family-title">
+ <div class="eyebrow">Source affinity matrix · Research only</div>
+ <h2 id="arw-family-title">Compare every affinity of this weapon family</h2>
+ <p>Use the selected weapon's exact source family, the five attributes and +level above. Calculate every source-defined affinity under identical inputs. Normal +25 and somber +10 reinforcement paths are never mixed or interpolated.</p>
+ <div class="input-two"><label class="field">Grip for all source variants<select id="arw-family-grip"><option value="one">One-handed</option><option value="two">Two-handed</option></select></label></div>
+ <div class="workbench-actions"><button class="btn" id="arw-family-run" type="button" disabled>Compare all family affinities</button></div>
+ <p class="note" id="arw-family-feedback" role="status" aria-live="polite">Load source parameters and select one weapon variant to enable comparison.</p>
+ <div id="arw-family-results" hidden><p class="note" id="arw-family-summary"></p>
+  <div class="table-wrap"><table class="datatable"><thead><tr><th>Source variant</th><th>Nominal AR</th><th>Physical</th><th>Magic</th><th>Fire</th><th>Lightning</th><th>Holy</th><th>Requirements / scope</th></tr></thead><tbody id="arw-family-rows"></tbody></table></div>
+ </div>
+ <div class="safe-banner"><strong>Not a real-damage ranking.</strong> Elemental defenses, skill multipliers, ammunition, statuses and attack motions are not modeled. A complete source-defined affinity table does not establish current-game verification.</div>
+</section>
 <section class="panel workbench-pair-panel" aria-labelledby="arw-pair-title">
  <div class="eyebrow">Two-weapon analysis · Unverified</div>
  <h2 id="arw-pair-title">Compare two weapon entries</h2>

@@ -13,6 +13,36 @@ This branch **does not claim current-version game AR certification**.
 
 The extended matrix first exposed eight integer-floor discrepancies (four rows at 99 FAI and four at all-99 two-handed) due to IEEE-754 calculation order. The imported-profile engine now evaluates modern compact-source scaling in the same operand order as its independent raw-source arithmetic checker; all expanded comparisons pass. This is a correction to mathematical consistency, **not** evidence that the game uses this same floating-point order at its display boundary. Those boundary states still require game-menu screenshots.
 
+## 2026-10-31 continuation: full affinity matrix
+
+The local AR workbench now has **Compare every affinity of this weapon family**, a manual
+action that compares every *exact source-defined* variant of the currently selected
+weapon family under the same five attributes, enhancement level and grip. It uses
+the existing local Worker and imported JSON and sends nothing to a server.
+
+- Displays the source-name row, nominal AR and the five separately floored
+  physical/magic/fire/lightning/holy components.
+- Displays missing weapon attribute requirements and scope warnings per row,
+  including paired weapon movesets, ranged ammunition, spell tools, status
+  buildup and somber weapon skills where source metadata indicates them.
+- An absent reinforcement step (e.g. a somber +10 entry compared at +25) is
+  **unavailable, not zero**: no interpolation or guessed weapon value is used.
+- Malformed source rows are labeled `source-conversion-blocked`, not
+  silently omitted. Rows remain in original source affinity order, **not
+  sorted as an actual-damage ranking**.
+- Changing weapon, attributes, reinforcement, source file or comparison grip
+  invalidates old matrix results. Late Worker replies cannot publish results
+  for a previous input revision.
+- Synthetic tests cover all thirteen fabricated affinities, source +0/+25
+  and mixed +10/+25 upgrade paths and missing weapon requirements. They
+  are **not** independent game-client goldens.
+
+**Verification unchanged:** zero current App 1.17.2 / Regulation 1.17.3
+game-client screenshot goldens have been independently reviewed. All
+outputs remain research-only; site-wide `noindex` remains enabled.
+Numerical nominal AR does not include movesets, enemy defenses,
+status buildup, ammunition or weapon skills.
+
 ## Outstanding release blockers
 
 - No independently inspected, current-version game-menu screenshot samples are claimed here.
