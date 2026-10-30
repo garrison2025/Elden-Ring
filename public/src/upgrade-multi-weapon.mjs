@@ -10,7 +10,7 @@ const TRACKS=['regular','somber'];
 const catalog=[...materialCatalog('regular'),...materialCatalog('somber')];
 const keys=new Set(catalog.map(row=>row.key));
 const safeName=name=>typeof name==='string'&&name.trim().length>0&&
- name.trim().length<=100&&!/[\u0000-\u001f\u007f]/.test(name);
+ name.trim().length<=120&&!/[\u0000-\u001f\u007f]/.test(name);
 
 export function planWeaponUpgradeBasket(weapons,inventory={}){
  if(!Array.isArray(weapons)||weapons.length<1||weapons.length>8)
