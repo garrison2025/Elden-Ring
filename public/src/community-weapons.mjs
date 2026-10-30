@@ -23,20 +23,28 @@ export function validateCommunityCatalog(catalog){
     typeof w.category!=='string'||!w.category.trim())fail('Malformed weapon entry '+i);
   if(ids.has(w.id))fail('Duplicate weapon ID '+i);
   ids.add(w.id);
-  const partial=w.dataCoverage==='requirements-only';
-  if(partial){
-   if(w.attack!==null||w.weight!==null||w.critical!==null||w.scaling!==null||
-      w.expansion!=='Shadow of the Erdtree'||typeof w.sourceUrl!=='string'||
-      !w.sourceUrl.startsWith('https://'))
-    fail('Partial DLC rows must keep unverified numeric fields null: '+i);
-  }else if(!Number.isFinite(w.weight)||w.weight<0||w.weight>200||
-     !Number.isInteger(w.critical)||w.critical<0||w.critical>300)
+  const dlc=w.expansion==='Shadow of the Erdtree';
+  const coverage=w.dataCoverage??'base-community';
+  if(dlc&&!['requirements-only','name-category-only','base-reference'].includes(coverage))
+   fail('Unknown DLC data coverage at row '+i);
+  if(dlc&&(!w.sourceUrl?.startsWith('https://')||w.arParameters!==undefined&&w.arParameters!==null))
+   fail('DLC provenance missing or unchecked AR parameters inserted at row '+i);
+  const missingNumeric=coverage==='requirements-only'||coverage==='name-category-only';
+  if(missingNumeric&&(w.attack!==null||w.weight!==null||w.critical!==null||w.scaling!==null))
+   fail('Partial DLC rows must keep unverified numeric fields null: '+i);
+  if(coverage==='name-category-only'&&w.requirements!==null)
+   fail('Unknown DLC requirements must be null: '+i);
+  if(coverage==='base-reference'&&(!dlc||!w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')))
+   fail('DLC +0 reference requires named numeric source: '+i);
+  if(!missingNumeric&&(!Number.isFinite(w.weight)||w.weight<0||w.weight>200||
+    !Number.isInteger(w.critical)||w.critical<0||w.critical>300))
    fail('Invalid weight or critical at row '+i);
-  if(!partial&&(!Array.isArray(w.attack)||w.attack.length!==5||
-    w.attack.some(v=>!Number.isInteger(v)||v<0||v>5000)))fail('Invalid base damage '+i);
-  if(!Array.isArray(w.requirements)||w.requirements.length!==5||
-    w.requirements.some(v=>!Number.isInteger(v)||v<0||v>99))fail('Invalid requirements '+i);
-  if(!partial&&(!Array.isArray(w.scaling)||w.scaling.length!==5||
+  if(!missingNumeric&&(!Array.isArray(w.attack)||w.attack.length!==5||
+    w.attack.some(v=>!Number.isInteger(v)||v<0||v>5000)||!w.attack.some(v=>v>0)))
+   fail('Invalid base damage '+i);
+  if(coverage!=='name-category-only'&&(!Array.isArray(w.requirements)||w.requirements.length!==5||
+    w.requirements.some(v=>!Number.isInteger(v)||v<0||v>99)))fail('Invalid requirements '+i);
+  if(!missingNumeric&&(!Array.isArray(w.scaling)||w.scaling.length!==5||
     w.scaling.some(v=>typeof v!=='string'||!/^(?:S|A|B|C|D|E|-|\?)$/i.test(v))))
    fail('Invalid scaling-letter metadata '+i);
   if(w.flags!==undefined&&(!Array.isArray(w.flags)||w.flags.some(x=>typeof x!=='string'||x.length>65)))
@@ -53,7 +61,8 @@ const NO_STANDARD_TWO_HAND=new Set([
  'Ballista','Bow','Crossbow','Greatbow','Light Bow',
  'Glintstone Staff','Sacred Seal','Fist','Claw',
  'Backhand Blade','Beast Claw','Perfume Bottle','Hand-to-Hand Art',
- 'Thrusting Shield','Throwing Blade'
+ 'Thrusting Shield','Throwing Blade','Small Shield','Medium Shield',
+ 'Greatshield','Torch'
 ]);
 const SPECIAL_PAIRED_NAMES=new Set([
  "Rellana's Twin Blades","Death Knight's Twin Axes","Falx",
@@ -63,7 +72,8 @@ export function standardTwoHandAssumption(weapon){
  return !NO_STANDARD_TWO_HAND.has(weapon.category)&&!SPECIAL_PAIRED_NAMES.has(weapon.name);
 }
 export function weaponRequirementComparison(weapon,stats){
- if(!weapon||!Array.isArray(weapon.requirements))fail('Weapon selection is missing.');
+ if(!weapon)fail('Weapon selection is missing.');
+ if(!Array.isArray(weapon.requirements))fail('Weapon attribute requirements are not documented; comparison is unavailable.');
  return compareWeaponRequirements(stats,weapon.requirements,{
   applyTwoHandBonus:standardTwoHandAssumption(weapon)});
 }
@@ -93,14 +103,15 @@ export function searchCatalog(weapons,{
  const q=term.trim().toLocaleLowerCase('en-US');
  const damageIndex={physical:0,magic:1,fire:2,lightning:3,holy:4}[damage];
  const matches=weapons.filter(w=>{
-  if(coverage==='dlc'&&w.dataCoverage!=='requirements-only')return false;
-  if(coverage==='base'&&w.dataCoverage==='requirements-only')return false;
+  if(coverage==='dlc'&&w.expansion!=='Shadow of the Erdtree')return false;
+  if(coverage==='base'&&w.expansion==='Shadow of the Erdtree')return false;
   if(category!=='all'&&w.category!==category)return false;
   if(q&&!w.name.toLocaleLowerCase('en-US').includes(q)&&
     !w.category.toLocaleLowerCase('en-US').includes(q))return false;
   if(maxWeight!==null&&(w.weight===null||w.weight>maxWeight))return false;
   if(damage!=='any'&&!(Array.isArray(w.attack)&&w.attack[damageIndex]>0))return false;
   if(wield!=='any'){
+   if(!Array.isArray(w.requirements))return false;
    const result=weaponRequirementComparison(w,stats);
    if(wield==='one'&&!result.oneHanded.canWield)return false;
    if(wield==='standard-two'&&!result.twoHanded.canWield)return false;
@@ -128,7 +139,11 @@ export function cautionForWeapon(w){
  const flags=new Set(w.flags??[]);
  const warnings=[];
  if(w.dataCoverage==='requirements-only')warnings.push(
-   'Shadow of the Erdtree entry: name, weapon category and attribute requirements are reference-only. Base damage, weight, critical and scaling remain UNVERIFIED (not zero).');
+   'DLC reference: attribute requirements listed, but +0 attack, weight, critical and scaling are UNVERIFIED (not zero).');
+ if(w.dataCoverage==='name-category-only')warnings.push(
+   'DLC roster only: attribute requirements, base attack, weight, critical, reinforcement and scaling are UNVERIFIED. Wield checks are unavailable.');
+ if(w.dataCoverage==='base-reference')warnings.push(
+   'DLC +0 reference facts cross-checked against the linked community wiki; current regulation not independently tested. Exact AR is UNSUPPORTED without reinforcement, affinity and full numeric scaling parameters.');
  if(flags.has('duplicate-name-in-source'))warnings.push('Community source contains duplicate entries with this name; confirm the correct item.');
  if(flags.has('suspicious-critical-in-source'))warnings.push('Critical value in the upstream source is suspicious. Treat it as unverified.');
  if(flags.has('malformed-physical-field-in-source'))warnings.push('Upstream physical attack field is malformed. Do not rely on this number.');
