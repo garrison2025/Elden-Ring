@@ -44,7 +44,12 @@ test('search, category filtering, numeric sort and pagination work',()=>{
  assert.ok(q.results.some(x=>x.name==='Greatsword'));
  const k=searchCatalog(catalog.weapons,{category:'Katana',sort:'weight'});
  assert.ok(k.results.every(x=>x.category==='Katana'));
- for(let i=1;i<k.results.length;i++)assert.ok(k.results[i].weight>=k.results[i-1].weight);
+ for(let i=1;i<k.results.length;i++){
+  const previous=k.results[i-1].weight,current=k.results[i].weight;
+  // Missing DLC weight sorts after known values; null must never mean zero.
+  assert.ok(previous===null||current===null||current>=previous);
+  if(previous===null)assert.equal(current,null);
+ }
  const a=searchCatalog(catalog.weapons,{limit:40,offset:0});
  const b=searchCatalog(catalog.weapons,{limit:40,offset:40});
  assert.equal(a.results.length,40);assert.equal(b.results.length,40);
