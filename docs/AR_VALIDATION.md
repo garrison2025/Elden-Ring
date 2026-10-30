@@ -152,3 +152,12 @@ persistent database.** Missing graph IDs, missing upgrades, invalid JSON,
 duplicate names and invalid attributes cause explicit errors. All output
 is research-only; matching imported parameters is not independently checked
 in-game and does not grant game-data redistribution rights.
+
+
+#### Research importer hardening
+
+Imported attack/scaling pair keys are now allowlisted (known attack-power
+IDs and STR/DEX/INT/FAI/ARC), and lookup uses own-properties only.
+Prototype-like keys and inherited table IDs are not accepted. Worker message
+contract tests use synthetic JSON to prove load/search/select/compare/clear
+behavior and missing-level rejection; they are not in-game AR tests.

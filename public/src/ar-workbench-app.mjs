@@ -28,7 +28,7 @@ const setOptions=(records)=>{
  for(const name of records){const option=new Option(name,name);select.add(option);}
  select.disabled=records.length===0;
  selected=false;clear();get('arw-upgrade').replaceChildren();
- get('arw-results-count').textContent=records.length?'Choose a result to calculate.':'No matching weapon names.';
+ if(!records.length)get('arw-results-count').textContent='No matching weapon names.';
 };
 function selectCurrent(){
  if(!fileLoaded||get('arw-select').disabled||!get('arw-select').value)return;

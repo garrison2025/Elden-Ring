@@ -14,7 +14,7 @@ function object(v,key){if(!v||typeof v!=='object'||Array.isArray(v))err(key+' mu
 function finite(v,key,low=0,high=10000){if(typeof v!=='number'||!Number.isFinite(v)||v<low||v>high)err(key+' out of allowed range.');return v}
 function short(v,key,max=120){if(typeof v!=='string'||!v.trim()||v.length>max)err(key+' must be a short nonempty string.');return v}
 function choose(records,id,label){
- const out=records[String(id)];
+ const out=Object.hasOwn(records,String(id))?records[String(id)]:undefined;
  if(out===undefined||out===null)err('Missing '+label+' table '+id);
  return out;
 }
@@ -48,12 +48,13 @@ function correctionCurve(stages){
  values[149]=values[148];values[150]=values[148];
  return values;
 }
-function fromPairs(pairs,label){
+function fromPairs(pairs,label,allowed){
  if(!Array.isArray(pairs))err(label+' must be array pairs.');
- const found={};
+ const found=Object.create(null),valid=new Set(allowed);
  for(const entry of pairs){
   if(!Array.isArray(entry)||entry.length!==2)err(label+' contains an invalid pair.');
   const key=String(entry[0]);
+  if(!valid.has(key))err('Unexpected '+label+' key: '+key);
   if(Object.hasOwn(found,key))err('Duplicate '+label+' key: '+key);
   found[key]=entry[1];
  }
@@ -70,8 +71,8 @@ export function convertCompactRegulation(regulation,{weaponName,gameVersion,sour
  const selected=root.weapons.filter(w=>w&&w.name===name);
  if(selected.length!==1)err('An exact, unique weapon/affinity name is required; matches: '+selected.length);
  const weapon=selected[0];
- const attack=fromPairs(weapon.attack,'weapon attack');
- const baseScale=fromPairs(weapon.attributeScaling,'weapon attribute scaling');
+ const attack=fromPairs(weapon.attack,'weapon attack',Array.from({length:12},(_,i)=>String(i)));
+ const baseScale=fromPairs(weapon.attributeScaling,'weapon attribute scaling',attrs);
  const requirements=object(weapon.requirements??{},'weapon requirements');
  const corrections=object(choose(root.attackElementCorrects,weapon.attackElementCorrectId,'attack-element-correction'),'attack element correction');
  const reinforcement=choose(root.reinforceTypes,weapon.reinforceTypeId,'reinforcement');

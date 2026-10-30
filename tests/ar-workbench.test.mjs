@@ -57,3 +57,12 @@ test('missing or out-of-range attributes and reinforcement levels fail closed',(
  assert.throws(()=>compareLocalGrips(profile,stats,2),/no supplied data/);
  assert.throws(()=>describeLocalWeapon(data(),'Unknown','v1','manual'),/matches: 0/);
 });
+
+test('malicious prototype-like field names in imported pair lists are rejected',()=>{
+ const root=data();
+ root.weapons[0].attack.push(['__proto__',123]);
+ assert.throws(()=>describeLocalWeapon(root,'Fictional Cold Blade','v1','local'),/Unexpected weapon attack key/);
+ const corrupted=data();
+ corrupted.weapons[0].attributeScaling.push(['constructor',1]);
+ assert.throws(()=>describeLocalWeapon(corrupted,'Fictional Cold Blade','v1','local'),/Unexpected weapon attribute scaling key/);
+});

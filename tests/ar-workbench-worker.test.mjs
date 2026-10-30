@@ -1,0 +1,39 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+const data=()=>{
+ const stats={str:1,dex:1,int:1,fai:1,arc:1};
+ return {
+  weapons:[{name:'Imaginary Starter Sword',weaponName:'Fictional',weaponType:13,
+   attack:[[0,100]],attributeScaling:[['str',0.8],['dex',0.2]],
+   requirements:{str:10,dex:10},attackElementCorrectId:1,reinforceTypeId:1,
+   calcCorrectGraphIds:{0:1}}],
+  calcCorrectGraphs:{1:[{maxVal:0,maxGrowVal:0,adjPt:1},{maxVal:148,maxGrowVal:1.48,adjPt:1}]},
+  attackElementCorrects:{1:{0:{str:true,dex:true}}},
+  reinforceTypes:{1:[{attack:{0:1},attributeScaling:stats}]}
+ };
+};
+// The worker message contract is tested in a real Node module environment,
+// with a mock for the browser worker's self.postMessage transport.
+const sent=[];
+globalThis.self={postMessage:m=>sent.push(m)};
+await import('../public/src/ar-workbench-worker.mjs');
+const command=m=>{sent.length=0;globalThis.self.onmessage({data:m});return sent[0]};
+test('worker loads local synthetic compact JSON, searches and calculates without remote calls',()=>{
+ let r=command({op:'load',text:JSON.stringify(data()),version:'synthetic-v1',reference:'invented local input'});
+ assert.equal(r.op,'loaded');assert.equal(r.count,1);
+ assert.equal(r.preview.names[0],'Imaginary Starter Sword');
+ r=command({op:'search',term:'starter'});
+ assert.equal(r.op,'search-results');assert.equal(r.result.matches,1);
+ r=command({op:'select',name:'Imaginary Starter Sword'});
+ assert.equal(r.op,'selected');assert.deepEqual(r.description.upgradeLevels,[0]);
+ r=command({op:'compare',stats:{str:40,dex:20,int:10,fai:10,arc:10},upgrade:0});
+ assert.equal(r.op,'compared');assert.equal(r.result.oneHand.total,136);assert.equal(r.result.twoHand.total,152);
+});
+test('worker rejects missing upgrade and clears previously loaded weapon dataset',()=>{
+ let r=command({op:'compare',stats:{str:40,dex:20,int:10,fai:10,arc:10},upgrade:25});
+ assert.equal(r.op,'error');assert.match(r.message,/no supplied data/);
+ r=command({op:'clear'});assert.equal(r.op,'cleared');
+ r=command({op:'search',term:''});assert.equal(r.op,'error');assert.match(r.message,/Import a local/);
+ r=command({op:'load',text:'not-json',version:'synthetic-v1',reference:'invented test'});
+ assert.equal(r.op,'error');assert.equal(r.phase,'load');
+});
