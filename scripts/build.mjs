@@ -20,4 +20,5 @@ for(const file of await pages(dist)){
 let robots=url?`User-agent: *\nAllow: /\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n';
 await writeFile(path.join(dist,'robots.txt'),robots);
 if(url){const body=indexed.sort().map(p=>`  <url><loc>${url+p}</loc></url>`).join('\n');await writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`)}
+if(!url)console.warn('[SEO GATE] SITE_URL is not configured: this is a nonindexable preview. Robots disallows all crawling, ordinary pages receive noindex, and sitemap.xml is not generated. Do not enable production indexing until page verification gates pass.');
 console.log(`Built ${indexed.length} indexable pages; ${url||'preview noindex'}. Output: dist/`);
