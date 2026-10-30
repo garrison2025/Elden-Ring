@@ -149,3 +149,11 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .workbench-pair-metrics .metric strong{overflow-wrap:anywhere}
 #arw-compare-results[hidden]{display:none!important}
 @media(max-width:760px){.workbench-pair-panel .input-two{grid-template-columns:1fr}.workbench-pair-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* In-browser complete dataset review, research-only */
+.workbench-audit-panel{margin:18px 0 24px}
+.workbench-audit-metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin:18px 0}
+.workbench-audit-metrics strong{overflow-wrap:anywhere}
+.workbench-audit-panel button:disabled{opacity:.48;cursor:not-allowed}
+#arw-audit-results[hidden]{display:none!important}
+@media(max-width:740px){.workbench-audit-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -206,3 +206,14 @@ a one-record view of the source tables. No download, upload, or new dependency.
 official version compatibility, independently reviewed in-game samples and
 unsupported spell/status mechanics remain outstanding. This is a structural
 triage utility only, not a license grant, gameplay certification, or SEO launch.
+
+
+### One-click workbench dataset audit
+
+The local Weapon Data Workbench now exposes **Audit entire dataset** after
+loading your JSON file or the fictional demo. An isolated Worker scans every
+entry, displays conversion coverage, duplicate/missing-table blockers, and
+allows downloading an anonymous, aggregated JSON report. No game-derived
+names or source parameter values are included in the export; no uploaded
+data or ongoing API costs. The report is never a real-world game validation,
+license grant or publication approval.

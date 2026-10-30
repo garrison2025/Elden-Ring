@@ -24,6 +24,16 @@ try{worker=new Worker(new URL('./ar-workbench-worker.mjs',import.meta.url),{type
 catch(e){feedback('Your browser does not support the local research worker: '+e.message,true);}
 let fileLoaded=false,selected=false,upgrades=[],syntheticMode=false;
 let selectedB=false,bUpgrades=[],comparisonRevision=0,gripRevision=0;
+let auditReport=null;
+const clearAudit=()=>{
+ auditReport=null;
+ get('arw-audit-run').disabled=true;get('arw-audit-download').disabled=true;
+ get('arw-audit-results').hidden=true;
+ get('arw-audit-reasons').replaceChildren();
+ for(const id of ['arw-audit-total','arw-audit-converted','arw-audit-blocked','arw-audit-coverage'])
+  get(id).textContent='—';
+ get('arw-audit-feedback').textContent='Load data or the fictional demo to run a full structural audit.';
+};
 const clearPair=()=>{
  comparisonRevision++;
  get('arw-compare-results').hidden=true;
@@ -88,6 +98,11 @@ function requestComparison(){
 }
 if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='error'){
+  if(m.phase==='audit'){
+   get('arw-audit-run').disabled=false;
+   get('arw-audit-feedback').textContent='Audit failed: '+m.message;
+   return;
+  }
   if(m.phase==='compare-weapons'||m.phase==='selectB'){
    if(m.phase==='selectB')selectedB=false;
    clearPair();get('arw-pair-feedback').textContent=m.message;return;
@@ -97,6 +112,7 @@ if(worker)worker.onmessage=({data:m})=>{
   gripRevision++;clear();clearPair();feedback(m.message,true);return;
  }
  if(m.op==='cleared'){
+  clearAudit();
   fileLoaded=false;selected=false;selectedB=false;upgrades=[];bUpgrades=[];syntheticMode=false;
   gripRevision++;clearPair();get('arw-compare-select').replaceChildren();
   get('arw-compare-upgrade').replaceChildren();
@@ -106,6 +122,7 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-results-count').textContent='—';clear();feedback('Local file cleared from worker memory.');return;
  }
  if(m.op==='loaded'){
+  clearAudit();get('arw-audit-run').disabled=false;
   fileLoaded=true;syntheticMode=Boolean(m.synthetic);
   get('arw-file-status').textContent=m.count.toLocaleString('en-US')+
     (syntheticMode?' FICTIONAL demo entries (not game weapons).':' locally imported weapon names in memory.');
@@ -113,6 +130,29 @@ if(worker)worker.onmessage=({data:m})=>{
   setOptions(m.preview.names);
   feedback(syntheticMode?'FICTIONAL DEMO: all computed AR values are invented.':'Loaded local JSON. Nothing was uploaded.');
   if(m.preview.names.length){selectCurrent();selectSecond();}
+  return;
+ }
+ if(m.op==='audit-complete'){
+  auditReport=m.report;get('arw-audit-run').disabled=false;
+  get('arw-audit-download').disabled=false;
+  get('arw-audit-results').hidden=false;
+  get('arw-audit-total').textContent=String(m.report.totals.records);
+  get('arw-audit-converted').textContent=String(m.report.totals.convertible);
+  get('arw-audit-blocked').textContent=String(m.report.totals.blocked);
+  get('arw-audit-coverage').textContent=m.report.conversionCoverage+'%';
+  const tbody=get('arw-audit-reasons');tbody.replaceChildren();
+  for(const [reason,count] of Object.entries(m.report.invalidByReason)){
+   const row=make('tr','');
+   row.append(make('td',reason),make('td',count));tbody.append(row);
+  }
+  if(!tbody.childElementCount){
+   const row=make('tr','');const cell=make('td','No structural conversion failures detected.');
+   cell.colSpan=2;row.append(cell);tbody.append(row);
+  }
+  get('arw-audit-feedback').textContent=(syntheticMode?'FICTIONAL DEMO · ':'')+
+   'Structure audit complete. Not certified for distribution or game accuracy. '+
+   m.report.excludedMechanics.statusEffectEntries+' records include unsupported status effects; '+
+   m.report.excludedMechanics.spellToolEntries+' involve spell tools.';
   return;
  }
  if(m.op==='search-results'){
@@ -194,7 +234,7 @@ get('arw-load').addEventListener('click',async()=>{
  if(!version||version.length>60||!reference||reference.length>300){
   feedback('Enter an explicit game version and data provenance before loading.',true);return;
  }
- gripRevision++;clear();clearPair();selected=false;selectedB=false;fileLoaded=false;
+ gripRevision++;clear();clearPair();clearAudit();selected=false;selectedB=false;fileLoaded=false;
  get('arw-file-status').textContent='Reading local file…';
  try{
   send({op:'clear'});send({op:'load',text:await file.text(),version,reference});
@@ -202,6 +242,19 @@ get('arw-load').addEventListener('click',async()=>{
  }catch(e){feedback(e.message,true);}
 });
 get('arw-clear').addEventListener('click',()=>{get('arw-file').value='';send({op:'clear'});});
+get('arw-audit-run').addEventListener('click',()=>{
+ if(!fileLoaded)return;
+ clearAudit();get('arw-audit-feedback').textContent='Checking every entry in a background worker…';
+ send({op:'audit'});
+});
+get('arw-audit-download').addEventListener('click',()=>{
+ if(!auditReport)return;
+ const data=JSON.stringify(auditReport,null,2)+'\n';
+ const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));
+ const node=make('a','');node.href=url;node.download='ar-structure-audit.json';
+ document.body.append(node);node.click();node.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),3000);
+});
 get('arw-demo').addEventListener('click',()=>{get('arw-file').value='';send({op:'demo'});});
 get('arw-search').addEventListener('input',()=>{if(fileLoaded)send({op:'search',term:get('arw-search').value});});
 get('arw-select').addEventListener('change',selectCurrent);

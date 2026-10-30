@@ -1,6 +1,7 @@
 import {listCompactWeaponNames,searchLocalWeapons,describeLocalWeapon,compareLocalGrips} from './ar-workbench-core.mjs';
 import {COMPACT_SYNTHETIC_REGULATION} from '../data/ar-compact-synthetic.mjs';
 import {compareWeaponPair} from './ar-weapon-compare.mjs';
+import {auditCompactRegulation} from './regulation-audit.mjs';
 
 /**
  * Worker holds the loaded JSON only in memory, not in localStorage, caches,
@@ -33,6 +34,11 @@ self.onmessage=event=>{
     self.postMessage({op:'loaded',count:names.length,synthetic:false,preview:searchLocalWeapons(names,'')});
     break;
    }
+   case 'audit':
+    if(!source)throw new RangeError('Import a local regulation JSON file first.');
+    self.postMessage({op:'audit-complete',report:auditCompactRegulation(source,{
+      gameVersion:version,sourceReference:reference,maxExamples:40})});
+    break;
    case 'search':
     if(!source)throw new RangeError('Import a local regulation JSON file first.');
     self.postMessage({op:'search-results',result:searchLocalWeapons(names,m.term??'')});

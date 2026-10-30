@@ -83,3 +83,17 @@ test('comparison and grip worker responses return request IDs for UI stale-resul
  answer=command({op:'compare-weapons',requestId:2002,stats,leftUpgrade:0,rightUpgrade:0,twoHanded:true});
  assert.equal(answer.op,'compared-weapons');assert.equal(answer.requestId,2002);
 });
+
+test('research worker audits the entire synthetic dataset and never approves publication',()=>{
+ let r=command({op:'demo'});assert.equal(r.op,'loaded');
+ r=command({op:'audit'});
+ assert.equal(r.op,'audit-complete');
+ assert.equal(r.report.totals.records,4);
+ assert.equal(r.report.totals.convertible,4);
+ assert.equal(r.report.totals.blocked,0);
+ assert.equal(r.report.publishable,false);
+ assert.ok(!JSON.stringify(r.report).includes('Fictional Bronze Sword'));
+ assert.equal(command({op:'clear'}).op,'cleared');
+ r=command({op:'audit'});
+ assert.equal(r.op,'error');assert.equal(r.phase,'audit');
+});
