@@ -15,7 +15,7 @@ for(const file of await pages(dist)){
  if(url&&!intentionallyNoindex)indexed.push(pathname);
  await writeFile(file,html,'utf8');
 }
-let robots=url?`User-agent: *\nAllow: /\nDisallow: /weapon-ar-lab/\nDisallow: /validation-status/\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n';
+let robots=url?`User-agent: *\nAllow: /\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n';
 await writeFile(path.join(dist,'robots.txt'),robots);
 if(url){const body=indexed.sort().map(p=>`  <url><loc>${url+p}</loc></url>`).join('\n');await writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`)}
 console.log(`Built ${indexed.length} indexable pages; ${url||'preview noindex'}. Output: dist/`);
