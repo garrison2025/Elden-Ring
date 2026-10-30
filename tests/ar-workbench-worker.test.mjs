@@ -17,7 +17,7 @@ const data=()=>{
 const sent=[];
 globalThis.self={postMessage:m=>sent.push(m)};
 await import('../public/src/ar-workbench-worker.mjs');
-const command=m=>{sent.length=0;globalThis.self.onmessage({data:m});return sent[0]};
+const command=m=>{sent.length=0;globalThis.self.onmessage({data:m});return sent.at(-1)};
 test('worker loads local synthetic compact JSON, searches and calculates without remote calls',()=>{
  let r=command({op:'load',text:JSON.stringify(data()),version:'synthetic-v1',reference:'invented local input'});
  assert.equal(r.op,'loaded');assert.equal(r.count,1);
