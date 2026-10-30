@@ -148,3 +148,12 @@ The local workbench includes a one-click **fictional demo** with four invented
 weapons. This is UI and formula regression test data, NOT Elden Ring item data,
 and remains strictly `noindex`. It permits testing the whole workflow without
 uploading or redistributing any real-game dataset.
+
+
+## Eight-tool discovery and shared navigation
+
+The homepage now has eight equal-weight tool cards rather than four plus
+repetitive feature banners. The static build calls `scripts/navigation.mjs`
+to place four additional tool links into desktop and mobile headers on every
+indexable and research HTML page. No client-side navigation runtime, API,
+server or new npm dependency is introduced. All links remain static HTML.

@@ -1,5 +1,6 @@
 import {cp,mkdir,rm,readFile,writeFile,readdir} from 'node:fs/promises';
 import path from 'node:path';
+import {injectToolNavigation} from './navigation.mjs';
 const root=process.cwd(),dist=path.join(root,'dist'),source=path.join(root,'public');
 const url=(process.env.SITE_URL||'').trim().replace(/\/$/,'');
 if(url&&!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(url))throw Error('SITE_URL must be an HTTPS origin, e.g. https://example.com');
@@ -13,6 +14,7 @@ for(const file of await pages(dist)){
  html=html.replace('</head>',`${meta}</head>`);
  // Never index the developer-only synthetic AR fixture or verification test status.
  if(url&&!intentionallyNoindex)indexed.push(pathname);
+ html=injectToolNavigation(html,uri);
  await writeFile(file,html,'utf8');
 }
 let robots=url?`User-agent: *\nAllow: /\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n';
