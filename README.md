@@ -2,9 +2,9 @@
 
 A free, static, privacy-conscious calculator website. No API keys, backend, payments or database.
 
-**Implemented interactive tools (deployment pending):** Build Stat Planner, Starting Class Optimizer, Level/Rune Calculator, Equip Load Checker.
+**Cloudflare preview deployed:** https://elden-ring-5i9.pages.dev/. Eight standalone calculators/planners are implemented, with some research-stage pages deliberately noindexed. Public indexing is not yet enabled.
 
-**Not production-validated:** Weapon AR research lab (synthetic test data only), real opponent damage, armor optimizer, spell scaling and full equipment simulation. The AR test fixture is explicitly fictional and the page is `noindex`.
+**Not production-validated:** Real Weapon AR (research profiles only), real opponent damage, actual in-game armor optimization, spell scaling and full equipment simulation. The AR test fixture is explicitly fictional and the page is `noindex`.
 
 ## Run locally
 
@@ -28,7 +28,7 @@ Visit `http://localhost:8080` and try every calculator. Viewing the HTML directl
 - While testing, omit `SITE_URL`; the build adds `noindex` and disallows crawling.
 - Before public launch, set `SITE_URL=https://your-real-https-domain.example` in Cloudflare's build environment and rebuild. Use the final canonical origin, without a trailing slash. This emits canonical URLs, a sitemap and public robots directives. Verify the deployed output and GSC before announcing it.
 
-**Do not use the example domain as your SITE_URL.** The repo does not choose or register a domain. No Cloudflare deployment has been performed from this handoff.
+**Do not use the example domain as your SITE_URL.** The repo does not choose or register a domain. Cloudflare Pages is connected to `main` and is serving the preview at `https://elden-ring-5i9.pages.dev/`. Do not change indexing until production release checks pass.
 
 ## Accuracy and game-data rules
 
@@ -41,7 +41,7 @@ Visit `http://localhost:8080` and try every calculator. Viewing the HTML directl
 
 ## Keywords / content architecture
 
-The product specification and keyword study are in `docs/BUILD_SPEC_V2.md` and `docs/keyword-research.xlsx`. These are research inputs, **not permission to publish a page per keyword**. Four public tool routes are implemented; additional routes require accurate new capabilities and unique search intent.
+The product specification and keyword study are in `docs/BUILD_SPEC_V2.md` and `docs/keyword-research.xlsx`. These are research inputs, **not permission to publish a page per keyword**. Multiple calculator routes are implemented; several are `noindex` previews. Additional indexed routes require accurate capabilities, validated unique search intent, and production QA.
 
 ## Tests
 

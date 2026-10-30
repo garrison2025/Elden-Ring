@@ -131,3 +131,12 @@ interpolation. The regression fixtures are entirely fictional.
 
 **Production gate remains blocked** until independently sourced data rights
 and actual game-client golden vectors are documented and reviewed.
+
+
+### CLI integration coverage
+
+Automated regression now actually spawns the local importer, lists names, writes a
+SHA-256-traceable candidate profile from independent fictional JSON, and checks
+that JavaScript payloads and unknown names fail. All imported values remain
+\`manual-unverified\`; there are still **zero** independent current-game weapon
+AR golden vectors.
