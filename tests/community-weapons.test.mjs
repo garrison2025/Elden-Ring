@@ -121,12 +121,12 @@ test('DLC roster has 102 sourced unique weapons/shields and three explicit data 
  assert.equal(new Set(dlc.map(w=>w.name)).size,102);
  assert.equal(catalog.meta.baseCommunityCount,307);
  assert.equal(catalog.meta.dlcCatalogCount,102);
- assert.equal(catalog.meta.dlcBaseFactCount,18);
+ assert.equal(catalog.meta.dlcBaseFactCount,21);
  assert.equal(catalog.meta.dlcRequirementOnlyCount,52);
- assert.equal(catalog.meta.dlcNameOnlyCount,32);
- assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,18);
+ assert.equal(catalog.meta.dlcNameOnlyCount,29);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,21);
  assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,52);
- assert.equal(dlc.filter(w=>w.dataCoverage==='name-category-only').length,32);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='name-category-only').length,29);
  assert.ok(dlc.every(w=>w.sourceUrl?.startsWith('https://')&&w.arParameters===undefined));
  for(const name of ["Rellana's Twin Blades","Rakshasa's Great Katana","Smithscript Dagger",
   "Smithscript Cirque","Spear of the Impaler","Staff of the Great Beyond","Verdigris Greatshield",
@@ -211,9 +211,10 @@ test('three +0–+10 somber published BASE attack tables never imply exact AR pa
  const expected={
   'Sword of Night':[[110,33,0,0,0],[269,80,0,0,0]],
   "Rakshasa's Great Katana":[[155,0,0,0,0],[379,0,0,0,0]],
-  'Repeating Crossbow':[[74,0,0,0,0],[259,0,0,0,0]]
+  'Repeating Crossbow':[[74,0,0,0,0],[259,0,0,0,0]],
+  'Tooth Whip':[[109,0,0,0,0],[267,0,0,0,0]]
  };
- assert.equal(catalog.meta.dlcUpgradeReferenceCount,3);
+ assert.equal(catalog.meta.dlcUpgradeReferenceCount,4);
  for(const [name,[first,last]] of Object.entries(expected)){
   const w=find(name);
   assert.equal(w.upgradeReference.path,'somber');
@@ -233,6 +234,24 @@ test('three +0–+10 somber published BASE attack tables never imply exact AR pa
  const truncated=structuredClone(catalog);
  truncated.weapons.find(x=>x.name==='Sword of Night').upgradeReference.attackByLevel.pop();
  assert.throws(()=>validateCommunityCatalog(truncated),/Upgrade reference requires/);
+});
+test('three further source-linked DLC weapons are safely available for base attack and requirement lookup',()=>{
+ const reference=[
+  ['Spread Crossbow',[68,0,0,0,0],5,[11,17,0,0,0]],
+  ['Spirit Sword',[92,59,0,0,0],2.5,[8,16,16,0,0]],
+  ['Tooth Whip',[109,0,0,0,0],3,[10,24,0,0,0]]
+ ];
+ for(const [name,attack,weight,requirements] of reference){
+  const row=find(name);assert.equal(row.dataCoverage,'base-reference');
+  assert.deepEqual(row.attack,attack);assert.equal(row.weight,weight);
+  assert.deepEqual(row.requirements,requirements);
+  assert.equal(row.critical,100);
+  assert.ok(row.checkedWith.startsWith('https://eldenring.wiki.gg/wiki/'));
+  assert.equal(Object.hasOwn(row,'arParameters'),false);
+ }
+ assert.deepEqual(find('Tooth Whip').upgradeReference.attackByLevel.map(x=>x[0]),
+  [109,124,140,156,172,188,203,219,235,251,267]);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Spirit Sword',damage:'magic'}).total,1);
 });
 test('conservative 2H calculations do not grant strength boost to new paired/special DLC types',()=>{
  const stats=[9,20,10,10,10];
