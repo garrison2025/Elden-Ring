@@ -15,12 +15,27 @@ const get=(table,id,label)=>{
  return table[String(id)];
 };
 const ATTRS=POWER_STATS;
-const statsCases=[
- {str:20,dex:18,int:12,fai:12,arc:12},
- {str:55,dex:45,int:35,fai:35,arc:30},
- {str:9,dex:9,int:9,fai:9,arc:9}
-];
-const sourceNames=['LOW-STATS +0 ONE-HAND','HIGH-STATS MAX ONE-HAND','HIGH-STATS MAX TWO-HAND','LOW-STATS +0 TWO-HAND'];
+// This matrix deliberately probes additional reinforcement points and each
+// damage-related attribute independently; no test is a game-client golden.
+const statsCases={
+ low:{str:9,dex:9,int:9,fai:9,arc:9},
+ mid:{str:40,dex:40,int:40,fai:40,arc:40},
+ high:{str:55,dex:45,int:35,fai:35,arc:30},
+ str:{str:99,dex:10,int:10,fai:10,arc:10},
+ dex:{str:10,dex:99,int:10,fai:10,arc:10},
+ int:{str:10,dex:10,int:99,fai:10,arc:10},
+ fai:{str:10,dex:10,int:10,fai:99,arc:10},
+ arc:{str:10,dex:10,int:10,fai:10,arc:99},
+ all:{str:99,dex:99,int:99,fai:99,arc:99}
+};
+export const PARITY_SCENARIO_LABELS=Object.freeze([
+ 'low +0 one-hand','low +0 two-hand',
+ 'high max one-hand','high max two-hand',
+ 'midpoint one-hand','midpoint two-hand',
+ 'STR-focused max two-hand','DEX-focused max one-hand',
+ 'INT-focused max one-hand','FAI-focused max one-hand',
+ 'ARC-focused max one-hand','all-99 max two-hand'
+]);
 
 /**
  * Evaluate the original correction stages directly at one stat, without
@@ -85,13 +100,21 @@ export function calculateRawV117Reference(root,item,stats,{upgrade=0,twoHanded=f
  return {parts,total:parts.reduce((t,x)=>t+x.floored,0),actualStrength:actual.str,
   strengthBonusApplied:bonus};
 }
-const scenariosFor=item=>{
- const maxLevel=Number.isInteger(item)?item:0;
+const scenariosFor=maxLevel=>{
+ const midLevel=Math.floor(maxLevel/2);
  return [
-  {stats:statsCases[0],upgrade:0,twoHanded:false},
-  {stats:statsCases[1],upgrade:maxLevel,twoHanded:false},
-  {stats:statsCases[1],upgrade:maxLevel,twoHanded:true},
-  {stats:statsCases[2],upgrade:0,twoHanded:true}
+  {stats:statsCases.low,upgrade:0,twoHanded:false},
+  {stats:statsCases.low,upgrade:0,twoHanded:true},
+  {stats:statsCases.high,upgrade:maxLevel,twoHanded:false},
+  {stats:statsCases.high,upgrade:maxLevel,twoHanded:true},
+  {stats:statsCases.mid,upgrade:midLevel,twoHanded:false},
+  {stats:statsCases.mid,upgrade:midLevel,twoHanded:true},
+  {stats:statsCases.str,upgrade:maxLevel,twoHanded:true},
+  {stats:statsCases.dex,upgrade:maxLevel,twoHanded:false},
+  {stats:statsCases.int,upgrade:maxLevel,twoHanded:false},
+  {stats:statsCases.fai,upgrade:maxLevel,twoHanded:false},
+  {stats:statsCases.arc,upgrade:maxLevel,twoHanded:false},
+  {stats:statsCases.all,upgrade:maxLevel,twoHanded:true}
  ];
 };
 /** Compare all supplied source records (up to 5000), report no source names or parameters. */
@@ -138,7 +161,8 @@ export function auditRawMathParity(root,{
    onProgress({processed:index+1,total});
  }
  return {schemaVersion:1,auditType:'RAW-TO-CONVERTED FORMULA PARITY — NOT GAME VALIDATION',
-  gameVersion,totalRows:total,converted,compared,mismatched,unsupported,
+  gameVersion,totalRows:total,scenarioCount:PARITY_SCENARIO_LABELS.length,
+  scenarioLabels:PARITY_SCENARIO_LABELS,converted,compared,mismatched,unsupported,
   errorsByReason:Object.fromEntries([...failures].sort((a,b)=>b[1]-a[1])),
   examples:samples,sourceParametersExported:false,
   parityPass:converted===total&&unsupported===0&&mismatched===0,
