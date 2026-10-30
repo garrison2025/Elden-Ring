@@ -3,18 +3,20 @@ import {COMPACT_SYNTHETIC_REGULATION} from '../data/ar-compact-synthetic.mjs';
 import {compareWeaponPair} from './ar-weapon-compare.mjs';
 import {auditCompactRegulation} from './regulation-audit.mjs';
 import {auditRawMathParity} from './regulation-parity.mjs';
+import {calculateSourceUpgradeProgression} from './ar-upgrade-progression.mjs';
+import {recheckUnreviewedArDraft} from './ar-observation-recheck.mjs';
 
 /**
  * Worker holds the loaded JSON only in memory, not in localStorage, caches,
  * service workers, IndexedDB or on a server. No fetch / network calls.
  */
-let source=null,names=[],version='',reference='',selected=null,selectedB=null;
+let source=null,names=[],version='',reference='',selected=null,selectedB=null,synthetic=false;
 self.onmessage=event=>{
  const m=event.data||{};
  try{
   switch(m.op){
    case 'demo':{
-    source=structuredClone(COMPACT_SYNTHETIC_REGULATION);
+    source=structuredClone(COMPACT_SYNTHETIC_REGULATION);synthetic=true;
     version='SYNTHETIC-EXAMPLE-NOT-GAME';
     reference='Invented regression fixture. Not a game weapon database.';
     names=listCompactWeaponNames(source);selected=null;selectedB=null;
@@ -31,7 +33,7 @@ self.onmessage=event=>{
     const next=JSON.parse(m.text);
     const indexed=listCompactWeaponNames(next);
     if(!indexed.length)throw new RangeError('The file contains no weapon entries.');
-    source=next;names=indexed;selected=null;selectedB=null;
+    source=next;names=indexed;selected=null;selectedB=null;synthetic=false;
     self.postMessage({op:'loaded',count:names.length,synthetic:false,preview:searchLocalWeapons(names,'')});
     break;
    }
@@ -67,6 +69,22 @@ self.onmessage=event=>{
     if(!selected)throw new RangeError('Choose a weapon and reinforcement level first.');
     self.postMessage({op:'compared',requestId:m.requestId,result:compareLocalGrips(selected,m.stats,m.upgrade)});
     break;
+   case 'upgrade-progression':{
+    if(!selected)throw new RangeError('Select an exact source weapon first.');
+    self.postMessage({op:'upgrade-progression-result',requestId:m.requestId,
+     result:calculateSourceUpgradeProgression(selected,m.stats)});
+    break;
+   }
+   case 'recheck-observation':{
+    if(!source)throw new RangeError('Load the candidate parameter source first.');
+    if(typeof m.text!=='string'||m.text.length>120000)
+     throw new RangeError('Observation JSON must be smaller than 120 kB.');
+    const draft=JSON.parse(m.text);
+    const result=recheckUnreviewedArDraft(source,{
+     gameVersion:version,sourceReference:reference,draft,synthetic});
+    self.postMessage({op:'recheck-observation-result',requestId:m.requestId,result});
+    break;
+   }
    case 'family-compare':{
      if(!source)throw new RangeError('Load a local regulation source first.');
      const result=compareLocalFamilyAffinities(source,m.name,version,reference,m.stats,
@@ -89,7 +107,7 @@ self.onmessage=event=>{
     break;
    }
    case 'clear':
-    source=null;names=[];version='';reference='';selected=null;selectedB=null;
+    source=null;names=[];version='';reference='';selected=null;selectedB=null;synthetic=false;
     self.postMessage({op:'cleared'});
     break;
    default:throw new RangeError('Unknown workbench command.');
