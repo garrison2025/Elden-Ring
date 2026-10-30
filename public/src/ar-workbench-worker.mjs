@@ -1,4 +1,4 @@
-import {listCompactWeaponNames,searchLocalWeapons,describeLocalWeapon,compareLocalGrips} from './ar-workbench-core.mjs';
+import {listCompactWeaponNames,searchLocalWeapons,findLocalWeaponFamily,describeLocalWeapon,compareLocalGrips} from './ar-workbench-core.mjs';
 import {COMPACT_SYNTHETIC_REGULATION} from '../data/ar-compact-synthetic.mjs';
 import {compareWeaponPair} from './ar-weapon-compare.mjs';
 import {auditCompactRegulation} from './regulation-audit.mjs';
@@ -47,15 +47,20 @@ self.onmessage=event=>{
       gameVersion:version,sourceReference:reference,maxExamples:20,
       onProgress:progress=>self.postMessage({op:'math-audit-progress',progress})})});
     break;
+   case 'family':
+    if(!source)throw new RangeError('Import a local regulation JSON file first.');
+    self.postMessage({op:'family-results',requestId:m.requestId,
+      result:findLocalWeaponFamily(source,m.name)});
+    break;
    case 'search':
     if(!source)throw new RangeError('Import a local regulation JSON file first.');
-    self.postMessage({op:'search-results',result:searchLocalWeapons(names,m.term??'')});
+    self.postMessage({op:'search-results',requestId:m.requestId,result:searchLocalWeapons(names,m.term??'')});
     break;
    case 'select':{
     if(!source)throw new RangeError('Import a local regulation JSON file first.');
     const found=describeLocalWeapon(source,m.name,version,reference);
     selected=found.profile;
-    self.postMessage({op:'selected',description:found.description});
+    self.postMessage({op:'selected',requestId:m.requestId,description:found.description});
     break;
    }
    case 'compare':
@@ -66,7 +71,7 @@ self.onmessage=event=>{
     if(!source)throw new RangeError('Import a local file before choosing weapon B.');
     const found=describeLocalWeapon(source,m.name,version,reference);
     selectedB=found.profile;
-    self.postMessage({op:'selectedB',description:found.description});
+    self.postMessage({op:'selectedB',requestId:m.requestId,description:found.description});
     break;
    }
    case 'compare-weapons':{
@@ -86,6 +91,6 @@ self.onmessage=event=>{
   if(m.op==='load'){source=null;names=[];selected=null;}
   if(m.op==='select')selected=null;
   if(m.op==='selectB')selectedB=null;
-  self.postMessage({op:'error',phase:m.op||'unknown',message:String(error?.message??error).slice(0,350)});
+  self.postMessage({op:'error',phase:m.op||'unknown',requestId:m.requestId,message:String(error?.message??error).slice(0,350)});
  }
 };

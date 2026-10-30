@@ -29,9 +29,12 @@
 <section class="panel"><h2>2. Search weapon and affinity</h2>
 <label class="field">Search names<input id="arw-search" type="search" maxlength="100" placeholder="Filter loaded weapon entries" autocomplete="off"></label>
 <p class="note" id="arw-results-count">—</p>
-<label class="field">Weapon / variant<select id="arw-select" disabled></select></label>
+<p class="note" id="arw-handoff-context" role="status" aria-live="polite">Open this tool from a weapon record to carry your character stats into the private research calculator.</p>
+<label class="field">Affinity / weapon variant<select id="arw-select" disabled></select></label>
 <label class="field">Upgrade level<select id="arw-upgrade"></select></label>
+<div class="workbench-actions"><button class="btn alt" id="arw-upgrade-max" type="button" disabled>Use highest supplied upgrade</button><button class="btn alt" id="arw-apply-requirements" type="button" disabled>Use weapon minimum requirements</button></div>
 <p class="note" id="arw-description">—</p>
+<p class="note">When opened from a weapon record, the matching base weapon and its source-defined affinities are grouped together. No affinity is inferred from the weapon's display name. Imported values and comparisons stay in local worker memory.</p>
 </section>
 </div>
 <section class="panel workbench-audit-panel" aria-labelledby="arw-audit-title">

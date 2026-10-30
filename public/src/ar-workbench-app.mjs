@@ -1,4 +1,6 @@
 import {POWER_STATS} from './weapon-ar.mjs';
+import {parseArWorkbenchHandoff} from './ar-workbench-navigation.mjs';
+const handoff=parseArWorkbenchHandoff(location.search);
 import {downloadV117Source,V117_PROVENANCE} from './upstream-regulation-v117.mjs';
 const get=id=>document.getElementById(id);
 const feedback=(s,bad=false)=>{
@@ -17,17 +19,19 @@ for(const stat of POWER_STATS){
  const label=make('label',labels[stat]);label.className='stat-field';
  const input=make('input','');input.type='number';input.min='1';input.max='99';input.step='1';
  input.inputMode='numeric';input.dataset.arwStat=stat;
- input.value=stat==='str'?'40':stat==='dex'?'20':'10';
+ input.value=String(handoff.stats?.[POWER_STATS.indexOf(stat)]??(stat==='str'?40:stat==='dex'?20:10));
  label.append(input);get('arw-stats').append(label);
 }
 let worker;
 try{worker=new Worker(new URL('./ar-workbench-worker.mjs',import.meta.url),{type:'module'});}
 catch(e){feedback('Your browser does not support the local research worker: '+e.message,true);}
 let fileLoaded=false,selected=false,upgrades=[],syntheticMode=false;
+let currentRequirements=null,searchRevision=0,selectRevision=0,selectBRevision=0;
+let pendingUpgradeFromLink=handoff.upgrade;
 let selectedB=false,bUpgrades=[],comparisonRevision=0,gripRevision=0;
 let auditReport=null,mathReport=null;
 let sourceLoadRevision=0,sourceLoadController=null;
-const initialWeaponQuery=(()=>{const value=new URLSearchParams(location.search).get('weapon');return value&&value.length<=100?value:'';})();
+const initialWeaponQuery=handoff.weapon;
 const cancelPinnedLoad=()=>{sourceLoadRevision++;sourceLoadController?.abort();sourceLoadController=null;get('arw-load-upstream').disabled=false;};
 const clearMathAudit=()=>{
  mathReport=null;
@@ -67,28 +71,31 @@ const readStats=()=>{
  return stats;
 };
 const send=(message)=>{if(!worker)throw new Error('Browser worker unavailable.');worker.postMessage(message);};
-const setOptions=(records)=>{
+const setOptions=(records,preferred='')=>{
  const select=get('arw-select');select.replaceChildren();
  for(const name of records){const option=new Option(name,name);select.add(option);}
  select.disabled=records.length===0;
+ if(preferred&&records.includes(preferred))select.value=preferred;
  const second=get('arw-compare-select');second.replaceChildren();
  for(const name of records)second.add(new Option(name,name));
  second.disabled=records.length===0;
  if(records.length>1)second.selectedIndex=1;
- selected=false;selectedB=false;bUpgrades=[];
+ selected=false;selectedB=false;bUpgrades=[];currentRequirements=null;
+ get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
  gripRevision++;clear();clearPair();get('arw-upgrade').replaceChildren();get('arw-compare-upgrade').replaceChildren();
  if(!records.length)get('arw-results-count').textContent='No matching weapon names.';
 };
 function selectCurrent(){
  if(!fileLoaded||get('arw-select').disabled||!get('arw-select').value)return;
  selected=false;gripRevision++;clear();clearPair();
- send({op:'select',name:get('arw-select').value});
+ get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
+ send({op:'select',requestId:++selectRevision,name:get('arw-select').value});
 }
 function selectSecond(){
  const second=get('arw-compare-select');
  selectedB=false;bUpgrades=[];clearPair();get('arw-compare-upgrade').replaceChildren();
  if(!fileLoaded||second.disabled||!second.value)return;
- send({op:'selectB',name:second.value});
+ send({op:'selectB',requestId:++selectBRevision,name:second.value});
 }
 function requestCalculation(){
  gripRevision++;
@@ -114,6 +121,13 @@ function requestComparison(){
 }
 if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='error'){
+  if(m.phase==='search'||m.phase==='family'){
+   if(m.requestId!==searchRevision)return;
+   get('arw-results-count').textContent='Search error: '+m.message;
+   return;
+  }
+  if(m.phase==='select'&&m.requestId!==selectRevision)return;
+  if(m.phase==='selectB'&&m.requestId!==selectBRevision)return;
   if(m.phase==='math-audit'){
    get('arw-parity-run').disabled=false;
    get('arw-parity-feedback').textContent='Math parity check failed: '+m.message;
@@ -130,11 +144,14 @@ if(worker)worker.onmessage=({data:m})=>{
   }
   if(m.phase==='load'){fileLoaded=false;get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-file-status').textContent='No file loaded';}
   if(m.phase==='select')selected=false;
+  if(m.phase==='select')currentRequirements=null;
   gripRevision++;clear();clearPair();feedback(m.message,true);return;
  }
  if(m.op==='cleared'){
   clearAudit();
   fileLoaded=false;selected=false;selectedB=false;upgrades=[];bUpgrades=[];syntheticMode=false;
+  currentRequirements=null;searchRevision++;selectRevision++;selectBRevision++;
+  get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
   gripRevision++;clearPair();get('arw-compare-select').replaceChildren();
   get('arw-compare-upgrade').replaceChildren();
   get('arw-file-status').textContent='No file loaded';
@@ -153,7 +170,7 @@ if(worker)worker.onmessage=({data:m})=>{
     'Third-party parameter JSON loaded into local worker memory. NO independent in-game AR certification.');
   if(initialWeaponQuery&&!syntheticMode){
     get('arw-search').value=initialWeaponQuery;
-    send({op:'search',term:initialWeaponQuery});
+    send({op:'family',requestId:++searchRevision,name:initialWeaponQuery});
   }else if(m.preview.names.length){selectCurrent();selectSecond();}
   return;
  }
@@ -225,19 +242,46 @@ if(worker)worker.onmessage=({data:m})=>{
    'This is NOT current-game validation or a data-distribution authorization.';
   return;
  }
+ if(m.op==='family-results'){
+  if(m.requestId!==searchRevision)return;
+  if(!m.result.found){
+   setOptions([]);
+   get('arw-results-count').textContent='Exact weapon family not found in imported source. Search a source-defined name instead.';
+   get('arw-handoff-context').textContent='Requested catalog weapon: '+initialWeaponQuery+'. No matching source family; values are not guessed.';
+   return;
+  }
+  setOptions(m.result.names,m.result.defaultName);
+  get('arw-results-count').textContent=m.result.matches+' sourced variants for '+m.result.family+
+   '; selected: '+m.result.defaultName+'.';
+  get('arw-handoff-context').textContent='Linked weapon: '+m.result.family+
+   ' · '+m.result.matches+' source-defined affinity/weapon variants. Player stats '+(handoff.stats?'carried from weapon database.':'use local defaults.')+
+   ' Still NOT certified current-game AR.';
+  selectCurrent();selectSecond();return;
+ }
  if(m.op==='search-results'){
+  if(m.requestId!==searchRevision)return;
   get('arw-results-count').textContent=m.result.matches+' matching names; first '+m.result.names.length+' shown.';
   setOptions(m.result.names);if(m.result.names.length){selectCurrent();selectSecond();}return;
  }
  if(m.op==='selected'){
-  selected=true;upgrades=m.description.upgradeLevels;
+  if(m.requestId!==selectRevision)return;
+  selected=true;upgrades=m.description.upgradeLevels;currentRequirements=m.description.requirements;
   get('arw-description').textContent=m.description.name+' · '+m.description.gripMode+
-   ' grip · '+m.description.damageTypes.join(' + ')+' damage types · '+m.description.provenance.gameVersion;
-  const u=get('arw-upgrade');u.replaceChildren();
+   ' grip · '+m.description.damageTypes.join(' + ')+' damage types · source '+m.description.provenance.gameVersion+
+   ' · Required: '+POWER_STATS.map(a=>a.toUpperCase()+' '+currentRequirements[a]).join(', ')+
+   '. Exact game-version parity unverified.';
+  const u=get('arw-upgrade');
+  const previous=u.value===''?null:Number(u.value);
+  u.replaceChildren();
   for(const n of upgrades)u.add(new Option('+'+n,String(n)));
+  const preferred=pendingUpgradeFromLink!==null?pendingUpgradeFromLink:previous;
+  if(preferred!==null&&upgrades.includes(preferred))u.value=String(preferred);
+  pendingUpgradeFromLink=null;
+  get('arw-upgrade-max').disabled=false;get('arw-apply-requirements').disabled=false;
   requestCalculation();requestComparison();return;
  }
  if(m.op==='selectedB'){
+  if(m.requestId!==selectBRevision)return;
   selectedB=true;bUpgrades=m.description.upgradeLevels;
   const select=get('arw-compare-upgrade');select.replaceChildren();
   for(const n of bUpgrades)select.add(new Option('+'+n,String(n)));
@@ -294,6 +338,21 @@ if(worker)worker.onmessage=({data:m})=>{
  'Calculated with your imported parameters. Results remain UNVERIFIED game AR.');
  }
 };
+get('arw-upgrade-max').addEventListener('click',()=>{
+ if(!selected||!upgrades.length)return;
+ const max=Math.max(...upgrades),field=get('arw-upgrade');field.value=String(max);
+ clear();requestCalculation();requestComparison();
+});
+get('arw-apply-requirements').addEventListener('click',()=>{
+ if(!selected||!currentRequirements)return;
+ for(const field of get('arw-stats').querySelectorAll('input[data-arw-stat]')){
+  const required=currentRequirements[field.dataset.arwStat];
+  field.value=String(Math.max(10,required??0));
+ }
+ clear();requestCalculation();requestComparison();
+ feedback('Applied this weapon\'s minimum attribute requirements (at least 10 in other stats). '+ 
+  'The linked catalog values were not changed; use higher stats if desired.');
+});
 get('arw-load-upstream').addEventListener('click',async()=>{
  if(!worker){feedback('This browser cannot start the local AR worker.',true);return;}
  cancelPinnedLoad();
@@ -369,7 +428,7 @@ get('arw-audit-download').addEventListener('click',()=>{
  setTimeout(()=>URL.revokeObjectURL(url),3000);
 });
 get('arw-demo').addEventListener('click',()=>{cancelPinnedLoad();get('arw-file').value='';send({op:'demo'});});
-get('arw-search').addEventListener('input',()=>{if(fileLoaded)send({op:'search',term:get('arw-search').value});});
+get('arw-search').addEventListener('input',()=>{if(fileLoaded)send({op:'search',requestId:++searchRevision,term:get('arw-search').value});});
 get('arw-select').addEventListener('change',selectCurrent);
 get('arw-compare-select').addEventListener('change',selectSecond);
 get('arw-upgrade').addEventListener('change',()=>{clear();requestCalculation();requestComparison();});
@@ -378,4 +437,8 @@ get('arw-compare-grip').addEventListener('change',requestComparison);
 get('arw-compare-run').addEventListener('click',requestComparison);
 get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();requestComparison();});
 get('arw-compare').addEventListener('click',requestCalculation);
+get('arw-handoff-context').textContent=initialWeaponQuery?
+ 'From weapon database: '+initialWeaponQuery+(handoff.stats?' · 5 character stats were transferred.':' · using default character stats.')+
+ '. Click Load public v1.17 dataset or import local JSON; no external source auto-downloads.':
+ 'Open this tool from a weapon record to carry your five character attributes into the private research calculator.';
 feedback('Click to load pinned public 1.17 data in your browser, or supply a local JSON file. No regulation dataset ships with the site.');

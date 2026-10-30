@@ -1,6 +1,7 @@
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
  baseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl} from './community-weapons.mjs';
 import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
+import {makeArWorkbenchUrl} from './ar-workbench-navigation.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -197,7 +198,12 @@ function renderDetails(){
  if(params.get('sote')==='1')buildUrl.searchParams.set('sote','1');
  buildLink.href=buildUrl.pathname+buildUrl.search;
  const arLink=$('catalog-ar-source-link');
- arLink.href='../weapon-data-workbench/?weapon='+encodeURIComponent(chosen.name);
+ // Carry exactly the current five combat stats, not the full build sheet.
+ // Both the external v1.17 source download and local import remain opt-in.
+ let arStats=null;
+ try{arStats=readStats();}catch{ /* invalid stats: send only weapon name */ }
+ arLink.href=makeArWorkbenchUrl(chosen.name,arStats,
+  chosen.upgradeReference?Number($('catalog-upgrade-level').value):null);
 
  try{
   const stats=readStats();

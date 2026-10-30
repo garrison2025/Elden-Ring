@@ -1,6 +1,6 @@
 # Community weapon data – provenance and exact-AR boundary
 
-Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community reference rows and 102 `Shadow of the Erdtree` weapon/shield entries.
+Snapshot updated 2026-10-30. **408 unique-ID records:** 306 base-game community reference rows and 102 `Shadow of the Erdtree` weapon/shield entries.
 
 ## Evidence tiers
 
@@ -20,7 +20,7 @@ Six individual weapons (Sword of Night, Rakshasa's Great Katana, Repeating Cross
 
 ## Sources and rights
 
-- Base-game factual sample: https://github.com/deliton/eldenring-api/blob/main/api/public/data/weapons.json (source commit `1d2626ceda5eb8c08997e345e303344a64edc106`), 307 entries. Upstream software license MIT applies to its software, **not necessarily to all game-derived data or media**.
+- Base-game factual sample: https://github.com/deliton/eldenring-api/blob/main/api/public/data/weapons.json (source commit `1d2626ceda5eb8c08997e345e303344a64edc106`), 306 launch-game entries after excluding the original CNT-only Winged Spear. Upstream software license MIT applies to its software, **not necessarily to all game-derived data or media**.
 - 57 original DLC names/types/requirements: https://consolepulse.com/multiplatform/elden-ring/guides/elden-ring-dlc-weapon-shield-locations . Its listed scaling is at MAX upgrade, not valid +0 scaling.
 - Additional 45 DLC name/class references: https://eldenring.fandom.com/wiki/Weapons_(Shadow_of_the_Erdtree) . Its list includes shields. This snapshot tracks 102 entries and does not claim completeness of separate Tarnished Pack content.
 - Individually checked factual +0 statistics and published integer base-attack tables where available: each record's `checkedWith` URL on https://eldenring.wiki.gg/ . The accessible wiki has CC BY-SA 4.0 licensing for page content; this repository does not copy artwork, descriptions, source layouts or prose.
@@ -88,7 +88,7 @@ Euporia alone receives a source-published +0–+10 somber **BASE** attack progre
 
 ### Additional 14 weapon-specific source reconciliations (2026-10-30)
 
-Leda's Sword; Dryleaf Arts; Sword of Darkness; Sword of Light; Thiollier's Hidden Needle; Velvet Sword of St Trina; Spirit Glaive; Staff of the Great Beyond; Golem Fist; Golden Lion Shield; Moonrithyll's Knight Sword; Sword Lance; Greatsword of Radahn (Light); Greatsword of Radahn (Lord). Each now contains per-item Eldenpedia +0 attack, single weight, critical, requirements, scaling letters and source URL. The secondary dataset incorrectly reports weight 2.5 (Staff of the Great Beyond), 5 (Golem Fist), and 20 (Radahn Light); individual wiki evidence updates these to **2, 6, and 19** respectively. In addition, wiki.gg explicitly states the Radahn paired Greatswords retain a standard two-hand STR boost; those named exceptions are enabled while unrelated paired weapons remain conservative.
+Leda's Sword; Dryleaf Arts; Sword of Darkness; Sword of Light; Thiollier's Hidden Needle; Velvet Sword of St. Trina; Spirit Glaive; Staff of the Great Beyond; Golem Fist; Golden Lion Shield; Moonrithyll's Knight Sword; Sword Lance; Greatsword of Radahn (Light); Greatsword of Radahn (Lord). Each now contains per-item Eldenpedia +0 attack, single weight, critical, requirements, scaling letters and source URL. The secondary dataset incorrectly reports weight 2.5 (Staff of the Great Beyond), 5 (Golem Fist), and 20 (Radahn Light); individual wiki evidence updates these to **2, 6, and 19** respectively. In addition, wiki.gg explicitly states the Radahn paired Greatswords retain a standard two-hand STR boost; those named exceptions are enabled while unrelated paired weapons remain conservative.
 
 Stone-Sheathed Sword wiki presents inconsistent +0 physical numbers (119 infobox vs 89 upgrade table). This is deliberately retained as a weight/requirement-only record with attack **null**, quality-warning flag and a conflict source URL; do not publish either unreviewed attack number as accurate.
 
@@ -113,3 +113,14 @@ Bloodfiend's Sacred Spear has source-published *rounded* somber base physical 11
 - **One** record, Stone-Sheathed Sword, remains null for attack because the cited weapon article's physical +0 infobox gives 119 while its upgraded base table shows 89 at +0; the underlying evidence cannot be reconciled confidently.
 - Corrected **Madding Hand** requirement FAI 20→13 and **Main-gauche** weight 2.5→2 using exact per-weapon pages. For **Falx** the class table/infobox Strength grade D disagrees with +0 upgrade row E, so STR grade is '?'. **Messmer Soldier's Spear** and **Swift Spear** have malformed Faith scaling '0' in sources, stored as '?', not assumed '-'.
 - Six source-published somber integer BASE attack tables exist, **zero exact AR profiles are game/regulation-certified**. Source grade and patch caution are visible in weapon details. Historic section counts above reflect sequential audits; this section is the current snapshot.
+
+## 2026-10-31: Released-game name corrections before the catalog → AR source link
+
+Full source-family coverage check against the **pinned ThomasJClark v1.17** regulation: 405 / 409 of the original catalog rows had exact released names (case/apostrophe normalization only). The four unmatched were:
+
+- `Prince Of Death's Star`: original community feed typo; corrected to **Prince of Death's Staff**, same original stable ID. Source: https://eldenring.wiki.gg/wiki/Prince_of_Death%27s_Staff .
+- `Sword Of St Trina`: standardized to **Sword of St. Trina**, original ID unchanged.
+- `Velvet Sword of St Trina`: standardized to **Velvet Sword of St. Trina**, original ID unchanged.
+- `Winged Spear`: Closed Network Test historical title, which became the separately listed **Spear** in the released game. A network-test +0 base of 78 is not the released Spear's +0 physical 114. This CNT-only duplicate was removed rather than falsely merged or labeled as another present-day weapon. Source: https://eldenring.wiki.gg/wiki/Spear .
+
+Result: **408 / 408 retained community rows** match a normalized exact `weaponName` family from the independently pinned v1.17 source. All new matching is for *name and variant selection*, not a proof of source attack numbers, current 1.17.3 game behavior, or redistribution rights. Stable IDs for three renamed rows remain unchanged. Original CNT-only Winged Spear ID is now invalid; a saved build link referencing it will show missing-reference feedback rather than silently substituting a non-identical released item. The existing seven DLC source conflicts are unaffected.
