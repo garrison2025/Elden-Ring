@@ -11,6 +11,8 @@ on:
       - public/src/regulation-parity.mjs
       - public/src/regulation-import.mjs
       - public/src/weapon-ar.mjs
+      - public/src/v117-catalog-crosscheck.mjs
+      - public/data/community-weapon-catalog.json
 permissions:
   contents: read
 jobs:
@@ -29,6 +31,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: public-v117-ar-math-audit
-          path: .audit/v117-math-audit.json
+          path: .audit/*.json
           if-no-files-found: warn
           retention-days: 7

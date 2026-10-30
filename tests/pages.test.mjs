@@ -189,6 +189,14 @@ test('AR workbench includes local whole-dataset audit and anonymous report expor
  assert.match(html,/Not a publication pass/);
 });
 
+test('DLC source disagreements are visible, attributed and still noindex',async()=>{
+ const app=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
+ const html=await readFile(join(root,'weapon-database/index.html'),'utf8');
+ assert.match(app,/v117-community-attack-conflict/);
+ assert.match(app,/v117-community-requirement-conflict/);
+ assert.match(app,/View pinned Regulation 1\.17 conflicting source/);
+ assert.match(html,/noindex,follow/);
+});
 test('real community weapon database ships a sourced, partly complete dataset but never AR certification',async()=>{
  const html=await readFile(join(root,'weapon-database/index.html'),'utf8');
  const app=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
