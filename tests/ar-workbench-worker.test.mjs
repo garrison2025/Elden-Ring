@@ -49,3 +49,26 @@ test('one-click fictional demo loads, compares and can be cleared without upload
  assert.equal(command({op:'clear'}).op,'cleared');
  assert.equal(command({op:'compare',stats:{str:40,dex:20,int:10,fai:10,arc:10},upgrade:0}).op,'error');
 });
+
+test('worker compares two invented weapon profiles with separate reinforcement levels',()=>{
+ let res=command({op:'demo'});assert.equal(res.op,'loaded');
+ res=command({op:'select',name:'Fictional Bronze Sword — QA ONLY'});
+ assert.equal(res.op,'selected');
+ res=command({op:'selectB',name:'Fictional Heavy Sword — QA ONLY'});
+ assert.equal(res.op,'selectedB');
+ assert.deepEqual(res.description.upgradeLevels,[0,1]);
+ res=command({op:'compare-weapons',requestId:27,
+  stats:{str:40,dex:20,int:10,fai:10,arc:10},leftUpgrade:0,rightUpgrade:1,twoHanded:false});
+ assert.equal(res.op,'compared-weapons');assert.equal(res.requestId,27);
+ assert.equal(res.result.left.total,136);
+ assert.ok(res.result.right.total>res.result.left.total);
+ assert.ok(res.result.components.length>0);
+ assert.match(res.result.note,/NOT in-game certified/);
+});
+test('worker rejects unprovided enhancement or missing B and clears both profiles',()=>{
+ assert.equal(command({op:'compare-weapons',
+  stats:{str:40,dex:20,int:10,fai:10,arc:10},leftUpgrade:0,rightUpgrade:25,twoHanded:false}).op,'error');
+ assert.equal(command({op:'clear'}).op,'cleared');
+ const r=command({op:'compare-weapons',stats:{str:40,dex:20,int:10,fai:10,arc:10},leftUpgrade:0,rightUpgrade:0});
+ assert.equal(r.op,'error');assert.match(r.message,/Choose two weapon entries/);
+});

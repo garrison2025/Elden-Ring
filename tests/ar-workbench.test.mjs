@@ -66,3 +66,21 @@ test('malicious prototype-like field names in imported pair lists are rejected',
  corrupted.weapons[0].attributeScaling.push(['constructor',1]);
  assert.throws(()=>describeLocalWeapon(corrupted,'Fictional Cold Blade','v1','local'),/Unexpected weapon attribute scaling key/);
 });
+
+test('pair comparison uses same player stats, independent upgrade levels and split components',async()=>{
+ const {compareWeaponPair}=await import('../public/src/ar-weapon-compare.mjs');
+ const left=build('Fictional Cold Blade').profile,right=build('Fictional Heavy Blade').profile;
+ const out=compareWeaponPair(left,right,stats,{leftUpgrade:0,rightUpgrade:1,twoHanded:true});
+ assert.equal(out.left.effectiveStats.str,60);
+ assert.equal(out.right.effectiveStats.str,60);
+ assert.equal(out.delta,out.right.total-out.left.total);
+ assert.equal(out.components[0].type,'physical');
+ assert.match(out.note,/not necessarily higher actual damage/);
+});
+test('pair comparison refuses missing reinforcement and different declared game versions',async()=>{
+ const {compareWeaponPair}=await import('../public/src/ar-weapon-compare.mjs');
+ const left=build('Fictional Cold Blade').profile,right=build('Fictional Heavy Blade').profile;
+ assert.throws(()=>compareWeaponPair(left,right,stats,{leftUpgrade:0,rightUpgrade:20}),/no supplied data/);
+ right.provenance.gameVersion='different';
+ assert.throws(()=>compareWeaponPair(left,right,stats,{leftUpgrade:0,rightUpgrade:0}),/different declared game versions/);
+});

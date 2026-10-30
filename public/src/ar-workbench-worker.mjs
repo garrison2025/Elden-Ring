@@ -1,11 +1,12 @@
 import {listCompactWeaponNames,searchLocalWeapons,describeLocalWeapon,compareLocalGrips} from './ar-workbench-core.mjs';
 import {COMPACT_SYNTHETIC_REGULATION} from '../data/ar-compact-synthetic.mjs';
+import {compareWeaponPair} from './ar-weapon-compare.mjs';
 
 /**
  * Worker holds the loaded JSON only in memory, not in localStorage, caches,
  * service workers, IndexedDB or on a server. No fetch / network calls.
  */
-let source=null,names=[],version='',reference='',selected=null;
+let source=null,names=[],version='',reference='',selected=null,selectedB=null;
 self.onmessage=event=>{
  const m=event.data||{};
  try{
@@ -14,7 +15,7 @@ self.onmessage=event=>{
     source=structuredClone(COMPACT_SYNTHETIC_REGULATION);
     version='SYNTHETIC-EXAMPLE-NOT-GAME';
     reference='Invented regression fixture. Not a game weapon database.';
-    names=listCompactWeaponNames(source);selected=null;
+    names=listCompactWeaponNames(source);selected=null;selectedB=null;
     self.postMessage({op:'loaded',count:names.length,synthetic:true,preview:searchLocalWeapons(names,'')});
     break;
    }
@@ -28,7 +29,7 @@ self.onmessage=event=>{
     const next=JSON.parse(m.text);
     const indexed=listCompactWeaponNames(next);
     if(!indexed.length)throw new RangeError('The file contains no weapon entries.');
-    source=next;names=indexed;selected=null;
+    source=next;names=indexed;selected=null;selectedB=null;
     self.postMessage({op:'loaded',count:names.length,synthetic:false,preview:searchLocalWeapons(names,'')});
     break;
    }
@@ -45,10 +46,24 @@ self.onmessage=event=>{
    }
    case 'compare':
     if(!selected)throw new RangeError('Choose a weapon and reinforcement level first.');
-    self.postMessage({op:'compared',result:compareLocalGrips(selected,m.stats,m.upgrade)});
+    self.postMessage({op:'compared',requestId:m.requestId,result:compareLocalGrips(selected,m.stats,m.upgrade)});
     break;
+   case 'selectB':{
+    if(!source)throw new RangeError('Import a local file before choosing weapon B.');
+    const found=describeLocalWeapon(source,m.name,version,reference);
+    selectedB=found.profile;
+    self.postMessage({op:'selectedB',description:found.description});
+    break;
+   }
+   case 'compare-weapons':{
+    if(!selected||!selectedB)throw new RangeError('Choose two weapon entries first.');
+    const result=compareWeaponPair(selected,selectedB,m.stats,{
+      leftUpgrade:m.leftUpgrade,rightUpgrade:m.rightUpgrade,twoHanded:m.twoHanded});
+    self.postMessage({op:'compared-weapons',requestId:m.requestId,result});
+    break;
+   }
    case 'clear':
-    source=null;names=[];version='';reference='';selected=null;
+    source=null;names=[];version='';reference='';selected=null;selectedB=null;
     self.postMessage({op:'cleared'});
     break;
    default:throw new RangeError('Unknown workbench command.');
@@ -56,6 +71,7 @@ self.onmessage=event=>{
  }catch(error){
   if(m.op==='load'){source=null;names=[];selected=null;}
   if(m.op==='select')selected=null;
+  if(m.op==='selectB')selectedB=null;
   self.postMessage({op:'error',phase:m.op||'unknown',message:String(error?.message??error).slice(0,350)});
  }
 };
