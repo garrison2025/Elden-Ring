@@ -6,9 +6,9 @@ This report audits the **102** Shadow of the Erdtree weapon/shield entries refer
 | --- | ---: | ---: |
 | Weapon/shield name and category | 102 | 0 within selected reference roster |
 | All five attribute requirements | 102 | 0 |
-| +0 physical/elemental attack arrays | 43 | 59 |
-| Weight (43 weapon-specific wiki + 59 secondary CSV) | 102 | 0 |
-| Critical and +0 letter grades | 43 | 59 |
+| +0 physical/elemental attack arrays | 57 | 45 |
+| Weight (57 weapon-specific wiki + 45 secondary CSV) | 102 | 0 |
+| Critical and +0 letter grades | 57 | 45 |
 | Community-published +0–+10 integer BASE attack tables | **5** | **97** |
 | Exact reinforcement attack/scaling multipliers | **0** | **102** |
 | Exact affinity/infusion parameter profiles | **0** | **102** |
@@ -71,3 +71,7 @@ Spread Crossbow (physical 68, weight 5.0), Spirit Sword (physical 92 + magic 59,
 ### Later 2026-10-30 completion note
 
 The table above is the current snapshot: **102/102 DLC five-stat requirements and single-item weights**, **43 source-linked complete +0 base records**, **59 requirements-and-weight-only records**, with unknown attack/critical/scaling deliberately null; **5** published somber base attack progressions, and **0** exact AR regulation parameter profiles. Sources and individual links are described in `docs/COMMUNITY_WEAPON_DATA.md`. The sections above this note record earlier incremental work and their old counts should not be taken as current.
+
+### Second individual source reconciliation, 2026-10-30
+
+57 of 102 DLC have per-item +0 reference facts; remaining 45 retain null attack/critical/scaling, but sourced weight and requirements. Three per-item weight corrections and the Stone-Sheathed Sword source conflict are detailed in `docs/COMMUNITY_WEAPON_DATA.md`. Do not interpret second-source fields or infobox attack as full AR under Regulation 1.17.3.
