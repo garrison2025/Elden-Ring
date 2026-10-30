@@ -6,10 +6,10 @@ This report audits the **102** Shadow of the Erdtree weapon/shield entries refer
 | --- | ---: | ---: |
 | Weapon/shield name and category | 102 | 0 within selected reference roster |
 | All five attribute requirements | 102 | 0 |
-| +0 physical/elemental attack arrays | 57 | 45 |
-| Weight (57 weapon-specific wiki + 45 secondary CSV) | 102 | 0 |
-| Critical and +0 letter grades | 57 | 45 |
-| Community-published +0–+10 integer BASE attack tables | **5** | **97** |
+| +0 physical/elemental attack arrays | 64 | 38 |
+| Weight (64 individual wiki + 38 secondary/wiki references) | 102 | 0 |
+| Critical and +0 letter grades | 64 | 38 |
+| Community-published +0–+10 integer BASE attack tables | **6** | **96** |
 | Exact reinforcement attack/scaling multipliers | **0** | **102** |
 | Exact affinity/infusion parameter profiles | **0** | **102** |
 | Current regulation validated exact AR | **0** | **102** |
@@ -75,3 +75,7 @@ The table above is the current snapshot: **102/102 DLC five-stat requirements an
 ### Second individual source reconciliation, 2026-10-30
 
 57 of 102 DLC have per-item +0 reference facts; remaining 45 retain null attack/critical/scaling, but sourced weight and requirements. Three per-item weight corrections and the Stone-Sheathed Sword source conflict are detailed in `docs/COMMUNITY_WEAPON_DATA.md`. Do not interpret second-source fields or infobox attack as full AR under Regulation 1.17.3.
+
+### Late 2026-10-30: seven more individually cited +0 records
+
+64 of 102 DLC have linked individual +0 facts; 38 retain unknown attack/critical/scaling. All 102 have community-sourced requirements and weight; six source-published somber integer base tables, **zero current regulation AR verified**. See `docs/COMMUNITY_WEAPON_DATA.md` for exact sources.

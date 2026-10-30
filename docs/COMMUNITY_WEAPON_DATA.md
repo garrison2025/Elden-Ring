@@ -6,17 +6,17 @@ Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community 
 
 | Tier | DLC rows | Available | Unavailable |
 | --- | ---: | --- | --- |
-| `base-reference` | 57 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
-| `requirements-weight-only` | 45 | Name, class, five-stat requirements, and secondary community-sourced single-weapon weight | +0 attack, critical, scaling, upgrades, affinities, AR; independent current-patch verification |
+| `base-reference` | 64 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
+| `requirements-weight-only` | 38 | Name, class, five-stat requirements, and secondary community-sourced single-weapon weight | +0 attack, critical, scaling, upgrades, affinities, AR; independent current-patch verification |
 | `requirements-only` / `name-category-only` | 0 | Legacy parser tiers kept for compatibility | Not used in this snapshot |
 
-**Every missing numeric field is null, not zero.** All 102 DLC entries have sourced requirement arrays and community-reported single-item weight; do not confuse this with independently game-validated patch values. The 57 wiki +0 values are reference facts, **not** current patch game-tested AR.
+**Every missing numeric field is null, not zero.** All 102 DLC entries have sourced requirement arrays and community-reported single-item weight; do not confuse this with independently game-validated patch values. The 64 wiki +0 values are reference facts, **not** current patch game-tested AR.
 
 Original nine sourced +0 references: Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
 
 Additional nine sourced +0 references: Spear of the Impaler, Sword of Night, Star-Lined Sword, Obsidian Lamina, Poleblade of the Bud, Queelign's Greatsword, Shadow Sunflower Blossom, Pata, and Repeating Crossbow. Each provides its individual `checkedWith` source URL.
 
-Five individual weapons (Sword of Night, Rakshasa's Great Katana, Repeating Crossbow, Tooth Whip and Euporia) also contain community-published rounded **base-attack tables** for their somber +0–+10 path, each with its individual source. Their rows do **not** reveal the underlying exact reinforcement multipliers or scaling values and are never used to compute AR.
+Six individual weapons (Sword of Night, Rakshasa's Great Katana, Repeating Crossbow, Tooth Whip, Euporia and Bloodfiend's Sacred Spear) also contain community-published rounded **base-attack tables** for their somber +0–+10 path, each with its individual source. Their rows do **not** reveal the underlying exact reinforcement multipliers or scaling values and are never used to compute AR.
 
 ## Sources and rights
 
@@ -93,3 +93,15 @@ Leda's Sword; Dryleaf Arts; Sword of Darkness; Sword of Light; Thiollier's Hidde
 Stone-Sheathed Sword wiki presents inconsistent +0 physical numbers (119 infobox vs 89 upgrade table). This is deliberately retained as a weight/requirement-only record with attack **null**, quality-warning flag and a conflict source URL; do not publish either unreviewed attack number as accurate.
 
 Current overall DLC coverage **57 cited +0, 45 weight+requirements only; 102/102 have attributed weight and requirements, 0 precise certified AR**. Prior totals in historical sections reflect earlier increments.
+
+### Seven additional named wiki.gg +0 profiles (2026-10-30)
+
+- Dancing Blade of Ranah: attack 88,0,0,0,0, weight 3.5, critical 100, requirements 9,20,0,0,0, grade -,B,-,-,- — https://eldenring.wiki.gg/wiki/Dancing_Blade_of_Ranah
+- Curseblade's Cirque: attack 108,0,0,0,0, weight 4.5, critical 100, requirements 9,22,0,0,0, grade E,C,-,-,- — https://eldenring.wiki.gg/wiki/Curseblade%27s_Cirque
+- Death Knight's Longhaft Axe: attack 113,0,0,73,0, weight 11.5, critical 100, requirements 23,10,0,18,0, grade D,E,-,D,- — https://eldenring.wiki.gg/wiki/Death_Knight%27s_Longhaft_Axe
+- Death Knight's Twin Axes: attack 101,0,0,65,0, weight 5.5, critical 100, requirements 14,12,0,16,0, grade D,D,-,D,- — https://eldenring.wiki.gg/wiki/Death_Knight%27s_Twin_Axes
+- Bloodfiend's Sacred Spear: attack 115,0,0,0,0, weight 8, critical 100, requirements 22,12,0,0,13, grade E,E,-,-,C — https://eldenring.wiki.gg/wiki/Bloodfiend%27s_Sacred_Spear
+- Horned Warrior's Greatsword: attack 130,0,0,0,0, weight 13, critical 100, requirements 19,16,0,13,0, grade D,D,-,D,- — https://eldenring.wiki.gg/wiki/Horned_Warrior%27s_Greatsword
+- Flowerstone Gavel: attack 121,0,0,0,0, weight 6, critical 100, requirements 14,8,0,0,15, grade D,D,-,-,D — https://eldenring.wiki.gg/wiki/Flowerstone_Gavel
+
+Bloodfiend's Sacred Spear has source-published *rounded* somber base physical 115,131,148,165,181,198,215,231,248,265,281 for +0..+10 (NOT AR). Stone-Sheathed Sword community secondary weight 5 corrected to the wiki class table's 3.5; attack remains null due contradictory sources. Current DLC tiers: 64 +0, 38 requirements/weight only, 6 somber base tables, zero game-verified AR.
