@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {findLocalWeaponFamily,describeLocalWeapon,compareLocalGrips} from '../public/src/ar-workbench-core.mjs';
+import {findLocalWeaponFamily,describeLocalWeapon,compareLocalGrips,compareLocalFamilyAffinities} from '../public/src/ar-workbench-core.mjs';
 
 const baseline={str:1,dex:1,int:1,fai:1,arc:1};
 function source(){
@@ -56,4 +56,43 @@ test('separate special-weapon scope limitations remain disclosed (not certified 
  const bow={...root.weapons[0],name:'Fictional bow',weaponType:50,paired:false};
  const flag=describeLocalWeapon({...root,weapons:[bow]},'Fictional bow','TEST-v1','fictional parameters').description.scopeFlags;
  assert.ok(flag.includes('ranged-ammunition-and-motion-not-modeled'));
+});
+
+test('batch affinity matrix uses exact family and never invents absent +25 somber rows',()=>{
+ const root=source();root.weapons[0].reinforceTypeId=2;
+ const attrs={str:35,dex:20,int:30,fai:10,arc:10};
+ const out=compareLocalFamilyAffinities(root,'Invented Sword','TEST-v1','fictional parameters',
+  attrs,{upgrade:25,twoHanded:true});
+ assert.equal(out.sourceVariantCount,13);assert.equal(out.available,12);
+ assert.equal(out.unavailable,1);assert.equal(out.gameClientVerified,false);
+ assert.equal(out.rows[0].status,'upgrade-unavailable');
+ assert.match(out.rows[0].reason,/No source upgrade/);
+ assert.equal(out.rows[0].total,null);assert.equal(out.rows[0].components,null);
+ const computed=out.rows[1];
+ const direct=compareLocalGrips(describeLocalWeapon(root,computed.name,'TEST-v1',
+  'fictional parameters').profile,attrs,25).twoHand;
+ assert.equal(computed.total,direct.total);
+ assert.equal(computed.components.physical,
+  direct.perElement.find(x=>x.element==='physical').displayed);
+ assert.equal(computed.components.magic,
+  direct.perElement.find(x=>x.element==='magic').displayed);
+ assert.equal(out.rows[1].effectiveStrength,52);
+ assert.match(out.note,/UNCERTIFIED/);
+});
+test('family AR batch compares +0 somber and normal, preserves unmet requirements',()=>{
+ const root=source();root.weapons[0].reinforceTypeId=2;
+ const input={str:1,dex:1,int:1,fai:1,arc:1};
+ const out=compareLocalFamilyAffinities(root,'Fictional affinity 0','TEST-v1',
+  'fictional parameters',input,{upgrade:0,twoHanded:false});
+ assert.equal(out.available,13);
+ assert.deepEqual(out.rows[0].missingRequirements,['str','dex','int']);
+ assert.equal(out.rows[0].status,'calculated-unverified');
+ assert.deepEqual(out.stats,input);
+ assert.throws(()=>compareLocalFamilyAffinities(root,'nonexistent','TEST-v1',
+  'fictional parameters',input),/No exact/);
+ for(const options of [{upgrade:-1},{upgrade:26},{twoHanded:'true'}])
+  assert.throws(()=>compareLocalFamilyAffinities(root,'Invented Sword','TEST-v1',
+   'fictional parameters',input,options),RangeError);
+ assert.throws(()=>compareLocalFamilyAffinities(root,'Invented Sword','TEST-v1',
+  'fictional parameters',{...input,arc:100}),/five player attributes/);
 });
