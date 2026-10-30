@@ -161,3 +161,39 @@ IDs and STR/DEX/INT/FAI/ARC), and lookup uses own-properties only.
 Prototype-like keys and inherited table IDs are not accepted. Worker message
 contract tests use synthetic JSON to prove load/search/select/compare/clear
 behavior and missing-level rejection; they are not in-game AR tests.
+
+
+## AR policy reconciliation: requirement penalties and rounding (2026-10-30)
+
+A source audit identified two legitimate reference conventions. The ERDB
+Python attack-power reference computes a per-attribute requirement penalty
+and floors the sum of unrounded element values. Its code/wikilink remains
+in this document. Newer compact regulation calculators (including
+ThomasJClark's implementation and the published 1.17.3 Almanauts
+methodology) treat an unmet scaling requirement as a **40% reduction for
+that entire damage type**; Almanauts also reports flooring each damage
+type before summing displayed AR.
+
+To keep all differences visible and avoid silent changes:
+
+- The previously authored synthetic/manual profile defaults to
+  \`{requirements:'per-attribute',rounding:'floor-total'}\`, preserving
+  historical regression values.
+- New compact data imports explicitly declare
+  \`calculationRules:{requirements:'damage-type-60',rounding:'floor-components'}\`.
+- Every AR result exposes \`floorComponents\`, \`floorTotal\`,
+  \`roundingDifference\` and \`calculationRules\`; the local workbench
+  displays both variants when exploring locally imported data.
+- Neither reference convention has been independently validated here
+  against current in-game screenshots; imported parameter data remains
+  \`manual-unverified\`. Any differences must be resolved with golden
+  observations for each relevant damage type, version and stat boundary.
+
+Comparative public explanations:
+- https://almanauts.com/eldenring/ar-calculator/
+- https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/master/src/calculator/calculator.ts
+- https://github.com/EldenRingDatabase/erdb/blob/master/src/erdb/utils/attack_power.py
+
+Crucially, numeric scaling overrides already applied reinforcement
+multipliers in this project. No unsupported rewrite of that scaling
+relationship was introduced.

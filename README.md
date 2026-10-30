@@ -169,3 +169,13 @@ AR does NOT imply greater enemy damage, particularly with split damage.
 Both profile versions must match, missing upgrade data is refused and UI
 request revisions prevent stale async comparisons overriding newer changes.
 All numbers remain **UNVERIFIED**, and the workbench is noindex.
+
+
+### AR source-policy audit
+
+Latest AR engine research records explicit policies for per-damage-type
+requirement penalties versus the legacy per-stat formulation, and shows both
+rounding conventions for mixed elemental AR. Compact imports select the
+damage-type-60 / sum-of-floored-components convention, while the old manual
+fixture retains its existing behavior. Nothing is labelled game-certified;
+see \`docs/AR_VALIDATION.md\` for the source disagreement and golden tests.

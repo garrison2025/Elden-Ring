@@ -19,6 +19,13 @@ export function validateArProfile(input){
   const p=record(input,'Profile');
   if(p.schemaVersion!==1)fail('Only schemaVersion: 1 is supported.');
   shortText(p.label,'Profile label');
+  if(p.calculationRules!==undefined){
+    const rules=record(p.calculationRules,'calculationRules');
+    if(!['per-attribute','damage-type-60'].includes(rules.requirements))
+      fail('calculationRules.requirements must be per-attribute or damage-type-60.');
+    if(!['floor-total','floor-components'].includes(rules.rounding))
+      fail('calculationRules.rounding must be floor-total or floor-components.');
+  }
   if(p.gripMode!==undefined&&!['standard','paired','forced-two-hand'].includes(p.gripMode))
     fail('gripMode must be standard, paired, or forced-two-hand.');
   const provenance=record(p.provenance,'provenance');
@@ -84,10 +91,25 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
   const strengthBonus=gripMode==='forced-two-hand'||(twoHanded&&gripMode==='standard');
   const effective={...stats,str:effectiveStrength(stats.str,strengthBonus)};
   const missing=POWER_STATS.filter(s=>effective[s]<p.requirements[s]);
+  const requirementsPolicy=p.calculationRules?.requirements??'per-attribute';
+  const roundingPolicy=p.calculationRules?.rounding??'floor-total';
   const result=[];
   for(const d of DAMAGE_TYPES){
     if(a.baseDamage[d]===0)continue;
     const base=a.baseDamage[d]*u.damageMultipliers[d];
+    // Modern compact-data references apply a single 40% penalty to a damage
+    // component if any attribute contributing to that component is unmet.
+    // Keep the historical per-attribute path for old manually-authored profiles
+    // so earlier research samples do not silently change their results.
+    const elementUnmet=requirementsPolicy==='damage-type-60'&&
+      POWER_STATS.some(s=>a.elementScaling[d][s].enabled&&effective[s]<p.requirements[s]);
+    if(elementUnmet){
+      const raw=base*0.6;
+      result.push({element:d,base,scaling:raw-base,raw,displayed:Math.floor(raw),
+        attributes:POWER_STATS.map(s=>({stat:s,multiplier:0,reason:'damage-type-requirement-penalty'})),
+        penaltyApplied:true});
+      continue;
+    }
     const attr=[];
     for(const s of POWER_STATS){
       const rule=a.elementScaling[d][s];
@@ -108,6 +130,11 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
     const raw=base+scaling;
     result.push({element:d,base,scaling,raw,displayed:Math.floor(raw),attributes:attr});
   }
-  const total= Math.floor(result.reduce((s,e)=>s+e.raw,0));
-  return {label:p.label,affinity:affinity??Object.keys(p.affinities)[0],upgrade,twoHanded,gripMode,strengthBonusApplied:strengthBonus,stats:{...stats},effectiveStats:effective,missingRequirements:missing,perElement:result,total,provenance:p.provenance,status:'UNVERIFIED — parameter-driven research output; not an in-game prediction'};
+  // Both values are returned until independent in-game golden vectors settle
+  // the difference for mixed physical/elemental attacks.
+  const floorTotal=Math.floor(result.reduce((s,e)=>s+e.raw,0));
+  const floorComponents=result.reduce((s,e)=>s+e.displayed,0);
+  const total=roundingPolicy==='floor-components'?floorComponents:floorTotal;
+  return {floorTotal,floorComponents,roundingDifference:floorTotal-floorComponents,
+    calculationRules:{requirements:requirementsPolicy,rounding:roundingPolicy},label:p.label,affinity:affinity??Object.keys(p.affinities)[0],upgrade,twoHanded,gripMode,strengthBonusApplied:strengthBonus,stats:{...stats},effectiveStats:effective,missingRequirements:missing,perElement:result,total,provenance:p.provenance,status:'UNVERIFIED — parameter-driven research output; not an in-game prediction'};
 }

@@ -71,3 +71,43 @@ test('research AR respects paired and forced-two-hand grip modes',()=>{
  f.gripMode='not-a-mode';
  assert.throws(()=>validateArProfile(f),/gripMode/);
 });
+
+test('explicit damage-type 60% rule differs from historical per-attribute penalty for mixed scaling',()=>{
+ const f=clone(demo);
+ const legacy=calculateAr(f,stats(5,20));
+ assert.equal(legacy.total,64);
+ f.calculationRules={requirements:'damage-type-60',rounding:'floor-components'};
+ const now=calculateAr(f,stats(5,20));
+ assert.equal(now.total,60);
+ assert.equal(now.perElement[0].penaltyApplied,true);
+ assert.equal(now.perElement[0].displayed,60);
+ assert.deepEqual(now.calculationRules,f.calculationRules);
+});
+test('display both rounding variants for split damage, no hidden cross-element carry',()=>{
+ const f=clone(demo),a=f.affinities['TEST ONLY'];
+ a.baseDamage.magic=50;
+ a.elementScaling.magic=Object.fromEntries(['str','dex','int','fai','arc'].map(s=>[s,s==='int'?
+  {enabled:true,impactRatio:1,overrideScaling:null}:{enabled:false}]));
+ a.correctionCurves.magic=Array.from({length:151},(_,i)=>i/100);
+ a.baseScaling.int=0.5;
+ a.upgrades.forEach(u=>{u.damageMultipliers.magic=1});
+ f.calculationRules={requirements:'damage-type-60',rounding:'floor-components'};
+ const one=calculateAr(f,{str:40,dex:23,int:11,fai:10,arc:10});
+ assert.equal(one.floorComponents,188);
+ assert.equal(one.floorTotal,189);
+ assert.equal(one.total,188);
+ assert.equal(one.roundingDifference,1);
+ f.calculationRules.rounding='floor-total';
+ const other=calculateAr(f,{str:40,dex:23,int:11,fai:10,arc:10});
+ assert.equal(other.total,189);
+});
+test('reject malformed AR policy rather than silently choosing a formula',()=>{
+ for(const rules of [
+   {requirements:'unknown',rounding:'floor-total'},
+   {requirements:'damage-type-60',rounding:'unknown'},
+   {requirements:'damage-type-60'}
+ ]){
+  const f=clone(demo);f.calculationRules=rules;
+  assert.throws(()=>validateArProfile(f),/calculationRules/);
+ }
+});

@@ -8,6 +8,7 @@ const clear=()=>{
  get('arw-onehand').textContent='—';get('arw-twohand').textContent='—';
  get('arw-delta').textContent='—';get('arw-effective').textContent='—';
  get('arw-components').replaceChildren();get('arw-comparison').hidden=true;
+ get('arw-rounding-summary').textContent='—';
 };
 const make=(tag,value)=>{const e=document.createElement(tag);e.textContent=String(value);return e;};
 const labels={str:'Strength',dex:'Dexterity',int:'Intelligence',fai:'Faith',arc:'Arcane'};
@@ -27,6 +28,7 @@ const clearPair=()=>{
  comparisonRevision++;
  get('arw-compare-results').hidden=true;
  get('arw-pair-rows').replaceChildren();
+ get('arw-pair-rounding-summary').textContent='—';
  for(const key of ['arw-pair-a','arw-pair-b','arw-pair-delta'])get(key).textContent='—';
 };
 const readStats=()=>{
@@ -146,6 +148,10 @@ if(worker)worker.onmessage=({data:m})=>{
    tbody.append(row);
   }
   get('arw-compare-results').hidden=false;
+  get('arw-pair-rounding-summary').textContent=
+   'Rounding variants (sum of component floors / floor raw sum): A '+left.floorComponents+
+   ' / '+left.floorTotal+', B '+right.floorComponents+' / '+right.floorTotal+
+   '. Active rule: '+left.calculationRules.rounding+'.';
   get('arw-pair-feedback').textContent=syntheticMode?
    'FICTIONAL TEST — both weapon AR values are invented.':
    'UNVERIFIED nominal AR. A higher total does not establish higher real damage.';
@@ -168,6 +174,12 @@ if(worker)worker.onmessage=({data:m})=>{
    tbody.append(row);
   }
   get('arw-comparison').hidden=false;
+  get('arw-rounding-summary').textContent=
+    'Rounding variants (sum of floored components / floor total raw AR): 1H '+
+    oneHand.floorComponents+' / '+oneHand.floorTotal+', 2H '+
+    twoHand.floorComponents+' / '+twoHand.floorTotal+
+    '. Applied: '+oneHand.calculationRules.rounding+'; requirement rule: '+
+    oneHand.calculationRules.requirements+'.';
   feedback(syntheticMode?'FICTIONAL DEMO ONLY — values are invented, NOT Elden Ring AR.':
  'Calculated with your imported parameters. Results remain UNVERIFIED game AR.');
  }
