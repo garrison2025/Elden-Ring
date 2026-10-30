@@ -247,3 +247,6 @@ affinity rules, and game-client verification. The new page remains
 \`noindex\` for now; do not index its stats until current-patch validation.
 The browse page is pure static JSON + JS; no paid APIs and no third-party
 requests are required at runtime.
+
+
+Data provenance, source MIT license and targeted corrections: docs/COMMUNITY_WEAPON_DATA.md and docs/UPSTREAM_API_MIT_LICENSE.txt.

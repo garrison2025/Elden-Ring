@@ -41,6 +41,12 @@ function renderDetails(){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',part.name),el('strong',part.amount));damage.append(row);
  }
+ const required=$('catalog-required');required.replaceChildren();
+ for(let i=0;i<5;i++){
+  const row=el('div');row.className='catalog-value';
+  row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',chosen.requirements[i]));
+  required.append(row);
+ }
  const scaling=$('catalog-scaling');scaling.replaceChildren();
  for(let i=0;i<5;i++){
   const row=el('div');row.className='catalog-value';
@@ -77,7 +83,17 @@ function showList(reset=false){
  const term=$('catalog-search').value,category=$('catalog-category').value,sort=$('catalog-sort').value;
  const data=searchCatalog(catalog.weapons,{term,category,sort,limit:40,offset});
  const list=$('catalog-list');
- if(reset)list.replaceChildren();
+ if(reset){
+  list.replaceChildren();
+  const check=searchCatalog(catalog.weapons,{term,category,sort,limit:100,offset:0});
+  if(chosen&&!check.results.some(w=>w.id===chosen.id)&&
+    !catalog.weapons.some(w=>w.id===chosen.id&&
+      (category==='all'||w.category===category)&&
+      (!term.trim()||w.name.toLowerCase().includes(term.trim().toLowerCase())||
+       w.category.toLowerCase().includes(term.trim().toLowerCase()))))
+   chosen=null;
+ }
+ if(!chosen&&data.results.length)chosen=data.results[0];
  const fragment=document.createDocumentFragment();
  for(const w of data.results){
   const btn=el('button');btn.type='button';btn.className='catalog-row';
@@ -101,7 +117,7 @@ function showList(reset=false){
  offset+=data.results.length;
  $('catalog-results').textContent=data.total+' matching entries · '+offset+' shown';
  $('catalog-more').hidden=offset>=data.total;
- if(!chosen&&data.results.length){chosen=data.results[0];renderDetails();}
+ if(chosen)renderDetails();else $('catalog-details').hidden=true;
 }
 $('catalog-search').addEventListener('input',()=>showList(true));
 $('catalog-category').addEventListener('change',()=>showList(true));

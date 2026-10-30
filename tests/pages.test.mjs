@@ -162,9 +162,9 @@ test('real community weapon database ships a source-attributed dataset but never
  const app=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
  const build=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');
  assert.match(html,/noindex,follow/);
- for(const id of ['catalog-search','catalog-category','catalog-list','catalog-details','catalog-requirements-link'])
+ for(const id of ['catalog-search','catalog-category','catalog-list','catalog-details','catalog-required','catalog-requirements-link'])
   assert.ok(html.includes('id="'+id+'"'));
- assert.match(html,/NOT verified for Regulation 1.17.3/);
+ assert.match(html,/not verified for Regulation 1.17.3/i);
  assert.match(html,/community dataset/);
  assert.match(app,/community-weapon-catalog\.json/);
  assert.match(build,/uri==='weapon-database'/);
