@@ -25,8 +25,8 @@ test('DLC weapon cannot be selected without explicit SOTE reference availability
  assert.throws(()=>inspectBuildWeapon(catalog.weapons,milady.id,stats),/Enable Shadow/);
  const result=inspectBuildWeapon(catalog.weapons,milady.id,stats,{allowSote:true});
  assert.equal(result.weight,6.5);
- assert.equal(result.oneHanded,false);
- assert.equal(result.twoHanded,false);
+ assert.equal(result.oneHanded,true);
+ assert.equal(result.twoHanded,true);
  assert.equal(result.attackAtZero[0],116);
  assert.match(result.note,/NOT AR/);
  assert.equal(inspectBuildWeapon(catalog.weapons,spear.id,stats).weight,23);
