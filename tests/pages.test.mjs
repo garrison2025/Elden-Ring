@@ -26,3 +26,19 @@ test('research-only AR cannot be indexed',async()=>{
  const p=await readFile(join(root,'weapon-ar-lab/index.html'),'utf8');
  assert.match(p,/noindex/);assert.match(p,/SYNTHETIC DATA/);
 });
+
+test('cross-tool links and optional budgets have wired inputs and outputs',async()=>{
+ const read=async p=>readFile(join(root,p,'index.html'),'utf8');
+ const build=await read('build-planner');
+ const rune=await read('level-rune-calculator');
+ const origin=await read('class-optimizer');
+ const equip=await read('equip-load-calculator');
+ for(const id of ['class-compare-link','rune-plan-link'])assert.ok(build.includes(`id="${id}"`));
+ for(const id of ['farm-runs','runes-per-run'])assert.ok(rune.includes(`id="${id}"`));
+ assert.ok(origin.includes('id="edit-build-link"'));
+ assert.ok(equip.includes('id="load-guidance"'));
+ const app=await readFile(join(root,'src/app.mjs'),'utf8');
+ assert.match(app,/farmingRunsNeeded\(/);
+ assert.match(app,/parseSharedStats\(/);
+ assert.match(app,/function clearValues\(/);
+});

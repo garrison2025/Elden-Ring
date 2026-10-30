@@ -26,3 +26,19 @@ test('boundary conditions follow Bandai Namco',()=>{
 test('input validation prevents misleading results',()=>{
  assert.throws(()=>runeRange(100,50));assert.throws(()=>runeCostForLevel(0));assert.throws(()=>runeRange(1,714));assert.throws(()=>loadTier(-2,100));assert.throws(()=>targetFromRunes(1,-1));
 });
+
+test('rune farming runs use exact target cost less existing budget',async()=>{
+ const {farmingRunsNeeded,runeRange}=await import('../public/src/core.mjs');
+ const need=runeRange(10,20);
+ assert.equal(farmingRunsNeeded(10,20,0,need),1);
+ assert.equal(farmingRunsNeeded(10,20,need,100),0);
+ assert.equal(farmingRunsNeeded(10,20,0,Math.max(1,Math.floor(need/2))),3);
+ assert.throws(()=>farmingRunsNeeded(10,20,0,0));
+ assert.throws(()=>farmingRunsNeeded(10,20,-1,100));
+ assert.throws(()=>farmingRunsNeeded(10,20,0,1.5));
+});
+test('share links parse eight bounded attributes only',async()=>{
+ const {parseSharedStats}=await import('../public/src/core.mjs');
+ assert.deepEqual(parseSharedStats('40,20,25,30,30,10,10,10'),[40,20,25,30,30,10,10,10]);
+ for(const value of [null,'40,20,25','40,20,25,30,30,10,10,100','40,20,25,30,30,10,10,<svg>','40,20,25,30,30,10,10,0','40,20,25,30,30,10,10,10,9'])assert.equal(parseSharedStats(value),null);
+});

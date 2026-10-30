@@ -53,3 +53,19 @@ export function loadTier(weight,maxWeight){
   lightMargin:0.3*max-w,mediumMargin:0.7*max-w};
 }
 export function commas(n){return new Intl.NumberFormat('en-US').format(n)}
+
+/** Number of whole farming runs needed, using only a user-supplied yield per run. */
+export function farmingRunsNeeded(from,to,budget,perRun){
+  const spent=runeRange(from,to);
+  if(!Number.isSafeInteger(budget)||budget<0)throw new RangeError('Available runes must be a non-negative whole number.');
+  if(!Number.isSafeInteger(perRun)||perRun<=0)throw new RangeError('Runes per run must be a positive whole number.');
+  return Math.ceil(Math.max(0,spent-budget)/perRun);
+}
+/** Shared links intentionally contain only eight bounded numeric attributes. */
+export function parseSharedStats(str){
+  if(typeof str!=='string'||str.length>100)return null;
+  const parts=str.split(',');
+  if(parts.length!==8||parts.some(s=>!/^\d{1,2}$/.test(s)))return null;
+  const values=parts.map(Number);
+  return values.every(n=>n>=1&&n<=99)?values:null;
+}

@@ -48,3 +48,7 @@ The product specification and keyword study are in `docs/BUILD_SPEC_V2.md` and `
 `npm test` runs the core, class, rune, load and synthetic AR engine tests. These tests do **not** prove parity with current in-game AR or opponent damage. Run browser smoke checks and current data validations before production indexing.
 
 This is an unofficial fan project unaffiliated with FromSoftware or Bandai Namco Entertainment.
+
+## Latest usability work (2026-10-30)
+
+The Build Planner can send its eight stats to the Class Optimizer and its level plan to the Rune Calculator. Rune farming yield is an optional, user-supplied estimate, not a measured farm rate. Equip Load now gives action-oriented reduction thresholds. Invalid inputs clear stale displayed results. See `docs/ITERATION_20261030.md`.
