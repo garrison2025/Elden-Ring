@@ -105,6 +105,55 @@ all 15 per-attribute probes, 99 caps and partial investments, requirement
 threshold crossings, split physical/magic results and paired weapons.
 **Zero new independent game-client screenshots were reviewed.**
 
+## 2026-10-31 continuation: in-game screenshot test plan and batch arithmetic recheck
+
+The local `/weapon-data-workbench/` now has a **manual game-client
+AR test planner** for one exact source-defined weapon/affinity.
+
+1. The player explicitly loads the pinned v1.17 research snapshot or their
+   own permission-reviewed JSON, selects the exact weapon, and enters five
+   combat attributes. No source is downloaded merely by opening the page.
+2. Click **Generate manual test cases**. The Worker generates at most 24
+   deduplicated condition vectors: low/middle/high *actually supplied*
+   reinforcement levels, 1H and 2H grip, raw stat requirement boundaries,
+   standard-grip effective two-hand STR thresholds, and attribute-99
+   boundary probes. Paired or forced-grip profiles do **not** get a
+   fictional ordinary-two-hand STR breakpoint.
+3. Each condition displays the exact five stats, +level, grip and
+   **parameter-derived candidate AR**, with its current research source
+   version and any recognized excluded-mechanic flags. The empty actual
+   AR and screenshot-reference fields are intentionally never populated
+   with generated values. Players must use the **real equipment menu**
+   for each test condition and save genuine screenshots separately.
+4. Fill any subset of actual integer game-menu AR values and local screenshot
+   filenames. Reuse the App version, Regulation version, platform and
+   observation date from the adjacent evidence form. Click
+   **Export completed observations** to download a local JSON batch of
+   `UNREVIEWED` drafts, or **Download checklist JSON** to keep the test
+   cases without claiming observations.
+5. The offline **Recheck a saved game-menu observation** panel accepts
+   either a single previous JSON draft or the new batch format and
+   recomputes each draft against the currently imported source. It reports
+   arithmetic drift, version mismatch, malformed/misrepresented drafts
+   and numerical discrepancy from the manually reported game value.
+   Any rejected batch row is explicitly reported rather than discarded.
+
+This workflow does not inspect screenshots, access game processes,
+authenticate sources, assign independent reviewers, or grant data rights.
+Even a batch of all numerical matches remains
+`reviewStatus: UNREVIEWED`, `gameClientVerified: false` and
+`publicationApproved: false` with **0 independently reviewed screenshots**.
+The pinned v1.17 candidate source must not be represented as proven
+Regulation 1.17.3 client data. The per-case records contain separately
+typed game App and Regulation versions, not inferred ones. The fictional
+demo can show a plan, but cannot export real-game observation batches.
+
+All handling is local to the browser. No screenshots are uploaded,
+no game-owned asset pack or dataset is bundled, and no API/backend is
+introduced. This is **data collection and arithmetic reproducibility
+tooling**, not special-weapon skill-damage or status-effect modeling.
+The site stays research-only `noindex`.
+
 ## Outstanding release blockers
 
 - No independently inspected, current-version game-menu screenshot samples are claimed here.
