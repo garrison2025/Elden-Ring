@@ -157,7 +157,7 @@ test('AR workbench includes local whole-dataset audit and anonymous report expor
  assert.match(html,/Not a publication pass/);
 });
 
-test('real community weapon database ships a source-attributed dataset but never AR certification',async()=>{
+test('real community weapon database ships a sourced, partly complete dataset but never AR certification',async()=>{
  const html=await readFile(join(root,'weapon-database/index.html'),'utf8');
  const app=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
  const build=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');

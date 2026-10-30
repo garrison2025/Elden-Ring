@@ -33,10 +33,14 @@ function renderDetails(){
  if(!chosen){box.hidden=true;return;}
  box.hidden=false;
  $('catalog-title').textContent=chosen.name;
- $('catalog-class').textContent=chosen.category+' · Base (+0) · Community source, patch unknown';
- $('catalog-weight').textContent=String(chosen.weight);
- $('catalog-critical').textContent=chosen.critical===0?'Not confirmed':String(chosen.critical);
+ const partial=chosen.dataCoverage==='requirements-only';
+ $('catalog-class').textContent=chosen.category+' · '+(partial?
+  'Shadow of the Erdtree · requirements documented; base stats unavailable':
+  'Community-reported +0 base data · patch unknown');
+ $('catalog-weight').textContent=chosen.weight===null?'Not verified':String(chosen.weight);
+ $('catalog-critical').textContent=chosen.critical===null||chosen.critical===0?'Not verified':String(chosen.critical);
  const damage=$('catalog-damage');damage.replaceChildren();
+ if(partial)damage.append(el('p','Base attack not yet verified; no values are guessed.'));
  for(const part of baseDamageParts(chosen)){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',part.name),el('strong',part.amount));damage.append(row);
@@ -48,13 +52,19 @@ function renderDetails(){
   required.append(row);
  }
  const scaling=$('catalog-scaling');scaling.replaceChildren();
- for(let i=0;i<5;i++){
+ if(partial)scaling.append(el('p','Base scaling grades not yet verified for this DLC weapon.'));
+ for(let i=0;!partial&&i<5;i++){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',chosen.scaling[i]));scaling.append(row);
  }
  const concerns=$('catalog-warnings');concerns.replaceChildren();
  for(const warning of cautionForWeapon(chosen))concerns.append(el('p',warning));
  $('catalog-verified').replaceChildren();
+ if(chosen.sourceUrl){
+  const a=el('a','View named DLC weapon and requirements source ↗');
+  a.href=chosen.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';
+  $('catalog-verified').append(a);
+ }
  if(chosen.checkedWith){
   const a=el('a','View independent numeric cross-check ↗');
   a.href=chosen.checkedWith;a.target='_blank';a.rel='noopener noreferrer';
@@ -88,6 +98,7 @@ function showList(reset=false,keepSelected=false){
  const sort=$('catalog-sort').value;
  const wield=$('catalog-wield').value;
  const damage=$('catalog-damage-filter').value;
+ const coverage=$('catalog-coverage').value;
  const rawWeight=$('catalog-max-weight').value.trim();
  let maxWeight=null;
  if(rawWeight!==''){
@@ -102,7 +113,7 @@ function showList(reset=false,keepSelected=false){
  let data;
  try{
   data=searchCatalog(catalog.weapons,{
-   term,category,sort,limit:40,offset,wield,damage,maxWeight,
+   term,category,sort,limit:40,offset,wield,damage,maxWeight,coverage,
    stats:wield==='any'?null:readStats()
   });
  }catch(error){
@@ -123,9 +134,10 @@ function showList(reset=false,keepSelected=false){
   btn.setAttribute('aria-label','View '+w.name+' weapon details');
   if(w.id===chosen?.id)btn.classList.add('selected');
   const title=el('span',w.name);title.className='catalog-row-title';
-  const detail=el('span',w.category+' · Wt '+w.weight+' · +0 community base stats');
+  const detail=el('span',w.category+' · '+(w.dataCoverage==='requirements-only'?
+   'DLC attribute requirements only':'Wt '+w.weight+' · reported +0 base'));
   detail.className='catalog-row-desc';
-  const tag=el('span',w.flags?.length?'Check data':'View details');
+  const tag=el('span',w.dataCoverage==='requirements-only'?'DLC · partial':(w.flags?.length?'Review data':'View details'));
   tag.className='catalog-row-tag';
   btn.append(title,detail,tag);
   btn.addEventListener('click',()=>{
@@ -147,6 +159,7 @@ $('catalog-category').addEventListener('change',()=>showList(true));
 $('catalog-sort').addEventListener('change',()=>showList(true));
 $('catalog-wield').addEventListener('change',()=>showList(true));
 $('catalog-damage-filter').addEventListener('change',()=>showList(true));
+$('catalog-coverage').addEventListener('change',()=>showList(true));
 $('catalog-max-weight').addEventListener('input',()=>showList(true));
 $('catalog-more').addEventListener('click',()=>showList(false));
 $('catalog-stats').addEventListener('input',()=>{
@@ -165,7 +178,9 @@ try{
  if(preferred){chosen=catalog.weapons.find(w=>w.id===preferred)||null;}
  showList(true,Boolean(chosen));
  if(chosen)renderDetails();
- status('Loaded '+catalog.weapons.length+' community weapon entries from this site. Data remains patch-unverified; base stats are NOT calculated AR.');
+ status('Loaded '+catalog.weapons.length+' weapon references ('+
+  catalog.weapons.filter(w=>w.dataCoverage==='requirements-only').length+
+  ' DLC requirements-only). Partial rows have NO base attack or weight values. All current-patch numbers remain unverified.');
 }catch(e){
  status('Could not load weapon records: '+e.message,true);
  $('catalog-results').textContent='No data loaded';
