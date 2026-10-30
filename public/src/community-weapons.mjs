@@ -41,26 +41,63 @@ export function validateCommunityCatalog(catalog){
 export function catalogCategories(weapons){
  return [...new Set(weapons.map(x=>x.category))].sort((a,b)=>a.localeCompare(b));
 }
-export function searchCatalog(weapons,{term='',category='all',sort='name',limit=50,offset=0}={}){
- if(!Array.isArray(weapons)||typeof term!=='string'||term.length>100||
+// A list of categories whose grip is not the ordinary two-handing melee
+// assumption. This is intentionally conservative and never verifies game AR.
+const NO_STANDARD_TWO_HAND=new Set([
+ 'Ballista','Bow','Crossbow','Greatbow','Light Bow',
+ 'Glintstone Staff','Sacred Seal','Fist','Claw'
+]);
+export function standardTwoHandAssumption(weapon){
+ return !NO_STANDARD_TWO_HAND.has(weapon.category);
+}
+export function weaponRequirementComparison(weapon,stats){
+ if(!weapon||!Array.isArray(weapon.requirements))fail('Weapon selection is missing.');
+ return compareWeaponRequirements(stats,weapon.requirements,{
+  applyTwoHandBonus:standardTwoHandAssumption(weapon)});
+}
+function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,stats}){
+ if(typeof term!=='string'||term.length>100||
     typeof category!=='string'||category.length>100||
-    !['name','weight','base'].includes(sort)||!Number.isInteger(limit)||limit<1||limit>100||
-    !Number.isInteger(offset)||offset<0)fail('Invalid catalog search parameters.');
+    !['name','weight','base'].includes(sort)||
+    !Number.isInteger(limit)||limit<1||limit>100||
+    !Number.isInteger(offset)||offset<0||
+    !['any','one','standard-two'].includes(wield)||
+    !['any','physical','magic','fire','lightning','holy'].includes(damage)||
+    !(maxWeight===null||(typeof maxWeight==='number'&&Number.isFinite(maxWeight)&&maxWeight>=0&&maxWeight<=200)))
+  fail('Invalid catalog search parameters.');
+ if(wield!=='any'){
+  // Reject corrupt filters; never turn missing character values into 0.
+  compareWeaponRequirements(stats,[0,0,0,0,0]);
+ }
+}
+export function searchCatalog(weapons,{
+ term='',category='all',sort='name',limit=50,offset=0,
+ wield='any',damage='any',maxWeight=null,stats=null
+}={}){
+ if(!Array.isArray(weapons))fail('Invalid weapon catalog.');
+ const options={term,category,sort,limit,offset,wield,damage,maxWeight,stats};
+ validateSearch(options);
  const q=term.trim().toLocaleLowerCase('en-US');
- const matches=weapons.filter(w=>
-    (category==='all'||w.category===category)&&
-    (!q||w.name.toLocaleLowerCase('en-US').includes(q)||
-      w.category.toLocaleLowerCase('en-US').includes(q)));
+ const damageIndex={physical:0,magic:1,fire:2,lightning:3,holy:4}[damage];
+ const matches=weapons.filter(w=>{
+  if(category!=='all'&&w.category!==category)return false;
+  if(q&&!w.name.toLocaleLowerCase('en-US').includes(q)&&
+    !w.category.toLocaleLowerCase('en-US').includes(q))return false;
+  if(maxWeight!==null&&w.weight>maxWeight)return false;
+  if(damage!=='any'&&!(w.attack[damageIndex]>0))return false;
+  if(wield!=='any'){
+   const result=weaponRequirementComparison(w,stats);
+   if(wield==='one'&&!result.oneHanded.canWield)return false;
+   if(wield==='standard-two'&&!result.twoHanded.canWield)return false;
+  }
+  return true;
+ });
  matches.sort((a,b)=>{
   if(sort==='weight')return a.weight-b.weight||a.name.localeCompare(b.name);
   if(sort==='base')return b.attack.reduce((n,v)=>n+v,0)-a.attack.reduce((n,v)=>n+v,0)||a.name.localeCompare(b.name);
   return a.name.localeCompare(b.name)||a.id.localeCompare(b.id);
  });
  return {total:matches.length,results:matches.slice(offset,offset+limit)};
-}
-export function weaponRequirementComparison(weapon,stats){
- if(!weapon||!Array.isArray(weapon.requirements))fail('Weapon selection is missing.');
- return compareWeaponRequirements(stats,weapon.requirements);
 }
 export function baseDamageParts(weapon){
  return DAMAGE_LABELS.map((name,i)=>({name,amount:weapon.attack[i]})).filter(x=>x.amount>0);

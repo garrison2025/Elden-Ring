@@ -77,3 +77,35 @@ test('12 upstream unknown scaling grades are explicitly flagged and never guesse
  assert.ok(marked.every(x=>x.scaling.includes('?')));
  assert.match(cautionForWeapon(marked[0]).join(' '),/unknown/);
 });
+
+test('character requirement filter returns only current wieldable weapons',()=>{
+ const stats=[21,12,10,10,10];
+ const one=searchCatalog(catalog.weapons,{wield:'one',stats,limit:100});
+ const two=searchCatalog(catalog.weapons,{wield:'standard-two',stats,limit:100});
+ assert.ok(two.total>=one.total);
+ assert.ok(one.results.every(w=>weaponRequirementComparison(w,stats).oneHanded.canWield));
+ assert.ok(two.results.every(w=>weaponRequirementComparison(w,stats).twoHanded.canWield));
+ assert.ok(!one.results.some(w=>w.name==='Greatsword'));
+ assert.ok(two.results.some(w=>w.name==='Greatsword')||
+  searchCatalog(catalog.weapons,{term:'Greatsword',wield:'standard-two',stats}).results.some(w=>w.name==='Greatsword'));
+});
+test('do not apply a guaranteed ordinary melee two-hand bonus to bows, fists or staves',()=>{
+ const stats=[12,20,10,10,10];
+ const bow=catalog.weapons.find(w=>w.category==='Bow'&&w.requirements[0]>12);
+ if(bow){
+  const {oneHanded,twoHanded}=weaponRequirementComparison(bow,stats);
+  assert.equal(twoHanded.effectiveStrength,12);
+  assert.equal(twoHanded.canWield,oneHanded.canWield);
+ }
+ const fist=catalog.weapons.find(w=>w.category==='Fist');
+ assert.ok(fist);
+ assert.equal(weaponRequirementComparison(fist,stats).twoHanded.effectiveStrength,12);
+});
+test('filters combine class, damage and weight without treating raw base as AR',()=>{
+ const q=searchCatalog(catalog.weapons,{category:'Katana',damage:'physical',maxWeight:7,sort:'weight'});
+ assert.ok(q.results.length>0);
+ assert.ok(q.results.every(w=>w.category==='Katana'&&w.weight<=7&&w.attack[0]>0));
+ assert.throws(()=>searchCatalog(catalog.weapons,{wield:'one'}),/Character/);
+ assert.throws(()=>searchCatalog(catalog.weapons,{maxWeight:-1}),/Invalid catalog search/);
+ assert.throws(()=>searchCatalog(catalog.weapons,{damage:'bleed'}),/Invalid catalog search/);
+});
