@@ -121,10 +121,34 @@ export function weaponRequirementComparison(weapon,stats){
  return compareWeaponRequirements(stats,weapon.requirements,{
   applyTwoHandBonus:standardTwoHandAssumption(weapon)});
 }
+/**
+ * Source-reported requirements only. Missing requirements remain UNKNOWN;
+ * no actual game-client wield test or AR values are inferred.
+ */
+export function weaponWieldShortfall(weapon,stats){
+ if(!Array.isArray(stats)||stats.length!==5||
+  !stats.every(n=>Number.isInteger(n)&&n>=1&&n<=99))
+  throw new RangeError('Five integer character attributes from 1 to 99 are required.');
+ if(!Array.isArray(weapon?.requirements))return {
+  known:false,oneHandPoints:null,twoHandPoints:null,
+  oneHandMissing:[],twoHandMissing:[],twoHandAssumption:false
+ };
+ const result=weaponRequirementComparison(weapon,stats);
+ const missing=grip=>grip.rows.filter(x=>x.missing>0).map(x=>({
+  stat:x.key.toUpperCase(),points:x.missing
+ }));
+ return {
+  known:true,oneHandPoints:result.oneHanded.totalMissing,
+  twoHandPoints:result.twoHanded.totalMissing,
+  oneHandMissing:missing(result.oneHanded),
+  twoHandMissing:missing(result.twoHanded),
+  twoHandAssumption:result.applyTwoHandBonus
+ };
+}
 function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,stats,coverage}){
  if(typeof term!=='string'||term.length>100||
     typeof category!=='string'||category.length>100||
-    !['name','weight','base'].includes(sort)||
+    !['name','weight','base','requirements'].includes(sort)||
     !Number.isInteger(limit)||limit<1||limit>100||
     !Number.isInteger(offset)||offset<0||
     !['any','one','standard-two'].includes(wield)||
@@ -132,8 +156,8 @@ function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,
     !['any','physical','magic','fire','lightning','holy'].includes(damage)||
     !(maxWeight===null||(typeof maxWeight==='number'&&Number.isFinite(maxWeight)&&maxWeight>=0&&maxWeight<=200)))
   fail('Invalid catalog search parameters.');
- if(wield!=='any'){
-  // Reject corrupt filters; never turn missing character values into 0.
+ if(wield!=='any'||sort==='requirements'){
+  // Requirement sorting also needs valid character stats, even without a wield filter.
   compareWeaponRequirements(stats,[0,0,0,0,0]);
  }
 }
@@ -163,6 +187,14 @@ export function searchCatalog(weapons,{
   return true;
  });
  matches.sort((a,b)=>{
+  if(sort==='requirements'){
+   const left=weaponWieldShortfall(a,stats),right=weaponWieldShortfall(b,stats);
+   if(!left.known||!right.known)
+    return left.known?-1:right.known?1:a.name.localeCompare(b.name)||a.id.localeCompare(b.id);
+   return left.oneHandPoints-right.oneHandPoints||
+    left.twoHandPoints-right.twoHandPoints||
+    a.name.localeCompare(b.name)||a.id.localeCompare(b.id);
+  }
   if(sort==='weight'){
    if(a.weight===null||b.weight===null)return a.weight===null?(b.weight===null?0:1):-1;
    return a.weight-b.weight||a.name.localeCompare(b.name);

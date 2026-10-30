@@ -25,7 +25,7 @@
 <label class="field">Weapon name or class<input type="search" id="catalog-search" maxlength="100" placeholder="Try Greatsword, Uchigatana, Katana…" autocomplete="off"></label>
 <div class="input-two">
 <label class="field">Weapon class<select id="catalog-category"><option value="all">All classes</option></select></label>
-<label class="field">Sort by<select id="catalog-sort"><option value="name">Name (A–Z)</option><option value="weight">Weight (lightest first)</option><option value="base">Sum of base damage (not actual AR)</option></select></label>
+<label class="field">Sort by<select id="catalog-sort"><option value="name">Name (A–Z)</option><option value="weight">Weight (lightest first)</option><option value="base">Sum of base damage (not actual AR)</option><option value="requirements">Fewest missing attribute points (1H)</option></select></label>
 </div>
 <div class="catalog-filter-grid">
  <label class="field">Data coverage
@@ -53,7 +53,8 @@
   <input type="number" id="catalog-max-weight" min="0" max="200" step="0.5" placeholder="No limit">
  </label>
 </div>
-<p class="note">* Two-hand filter uses a conservative ordinary melee Strength assumption, not a guarantee for paired/special grips. Damage and weight filters exclude records with unknown values; the 101 sourced DLC +0 references can be filtered but are NOT confirmed for the current regulation and cannot calculate AR. Base damage types do not imply final AR or actual damage.</p>
+<p class="note">* Two-hand filter uses a conservative ordinary melee Strength assumption, not a guarantee for paired/special grips. Requirement-shortfall sorting puts records with unknown requirements last and uses the source-reported one-handed rule. Damage and weight filters exclude records with unknown values; the 101 sourced DLC +0 references can be filtered but are NOT confirmed for the current regulation and cannot calculate AR. Base damage types do not imply final AR or actual damage.</p>
+<div class="workbench-actions"><button type="button" id="catalog-clear-filters" class="btn alt">Clear all filters</button></div>
 <p id="catalog-results" class="note" role="status">Loading weapon records…</p>
 <div id="catalog-list" class="catalog-list" aria-label="Weapon search results"></div>
 <button type="button" id="catalog-more" class="btn alt" hidden>Show more weapons</button>
@@ -84,12 +85,17 @@
 <h3>Can your character wield it?</h3>
 <div class="catalog-detail-grid"><div><span class="metric-label">One-handed</span><strong id="catalog-one">—</strong></div>
 <div><span class="metric-label">Standard two-hand assumption</span><strong id="catalog-two">—</strong></div></div>
+<p id="catalog-shortfall" class="note" role="status" aria-live="polite">Select a weapon and enter character attributes.</p>
 <div id="catalog-warnings" class="catalog-warnings" role="note"></div>
 <button type="button" id="catalog-compare-add" class="btn alt" aria-pressed="false">Add to reference comparison</button>
 <div id="catalog-verified" class="note"></div>
 <a class="btn alt catalog-check-button" id="catalog-requirements-link" href="../weapon-requirements/" hidden>Open detailed requirement checker ↗</a>
 <a class="btn alt catalog-check-button" id="catalog-build-link" href="../build-planner/">Use this weapon in Build Planner ↗</a>
 <a class="btn alt catalog-check-button" id="catalog-ar-source-link" href="../weapon-data-workbench/">Research this weapon with v1.17 source data ↗</a>
+<div class="compare-controls"><button type="button" class="btn alt" id="catalog-weapon-copy">Copy this weapon + stat link</button></div>
+<label class="field compare-share">Direct link to this exact weapon
+<input id="catalog-weapon-link" type="text" readonly aria-label="Shareable weapon reference URL" autocomplete="off"></label>
+<p id="catalog-weapon-share-feedback" class="note" role="status" aria-live="polite">Weapon names, requirements and base stats are community references, not game-certified values.</p>
 <p class="note">For paired, ranged and special weapons, the normal two-hand Strength rule may not apply. Check the weapon's actual in-game behavior. Real AR, reinforcement, buffs and damage are not computed here.</p>
 </section>
 </section>

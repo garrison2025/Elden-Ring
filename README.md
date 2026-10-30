@@ -292,3 +292,27 @@ On batch reimport, choose a recorded case and the original screenshot to check
 whether file bytes match the stored hash. Older filename-only batches remain
 supported. A matching file hash is **not** independent screenshot authenticity
 or in-game AR validation. See `docs/AR_CLIENT_EVIDENCE_20261031.md`.
+
+## Weapon database: closest-to-wield shortlist and deep links (2026-10-31)
+
+At `/weapon-database/`, the 408 existing community weapon/shield references
+can now be ranked by **fewest additional player attribute points for
+one-handed wielding**, using the five combat stats entered on the page.
+Each weapon card lists the currently missing STR/DEX/INT/FAI/ARC amounts.
+Weapon details show separate one- and two-handed requirement gaps and label
+the standard `floor(1.5 × STR)` assumption when applicable. Rows lacking
+source-reported requirements are **unknown**, not free-to-equip; they sort
+after entries with known requirements.
+
+The **Copy this weapon + stat link** control shares an exact weapon ID and
+five numerical character attributes without accounts, cookies or server
+storage. Opening such a link locates and displays that specific weapon,
+including a direct path to the separate local AR research workbench.
+**Clear all filters** returns to the complete list. These links do not
+contain or certify player AR or true combat damage.
+
+These are **community-reported requirement facts** with documented source
+disagreements, not App 1.17.2 / Regulation 1.17.3 independently checked
+in-game outcomes. Special grips remain research assumptions and the
+entire site retains research-only `noindex`. This adds no new redistributed
+game-derived data, paid API or backend service.
