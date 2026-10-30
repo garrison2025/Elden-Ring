@@ -144,11 +144,24 @@
  <p class="note" id="arw-observation-feedback" role="status" aria-live="polite">No game-client observation has been entered or independently reviewed.</p>
  <div class="safe-banner"><strong>Verification gate unchanged.</strong> A matching number is not proof of regulation-wide accuracy, screenshot authenticity, rights clearance, special weapon-skill damage, status effects or actual enemy damage.</div>
 </section>
+<section class="panel workbench-audit-panel" aria-labelledby="arw-plan-title">
+ <div class="eyebrow">Game-client test plan · Manual evidence collection · Browser only</div>
+ <h2 id="arw-plan-title">Generate game-menu AR screenshot checklist</h2>
+ <p>Create up to 24 reproducible manual check cases for the selected exact weapon: low/mid/high source reinforcement, one- and two-hand grip, equipment requirement thresholds and 99-stat boundary states. Candidate totals use the loaded <strong>research source version</strong>, not an independently verified App/Regulation build. Special-weapon limits appear separately; no weapon skill or status values are invented.</p>
+ <div class="workbench-actions"><button class="btn alt" id="arw-plan-run" type="button" disabled>Generate manual test cases</button><button class="btn alt" id="arw-plan-download" type="button" disabled>Download checklist JSON</button><button class="btn" id="arw-plan-export" type="button" disabled>Export completed observations</button></div>
+ <p class="note" id="arw-plan-feedback" role="status" aria-live="polite">Select a sourced weapon and enter your five combat stats to create a local test plan.</p>
+ <div id="arw-plan-results" hidden>
+  <p class="note" id="arw-plan-summary"></p>
+  <p class="note">For each completed case, enter the <strong>actual integer AR displayed in the game</strong> and a separately saved <strong>screenshot filename</strong>. Partial batches are allowed. Use the game App version, Regulation version, platform and observation date in the preceding single-observation form. Actual screenshots remain on your device and are not uploaded.</p>
+  <div class="table-wrap"><table class="datatable"><thead><tr><th>Case</th><th>Test condition</th><th>Upgrade</th><th>Grip</th><th>STR</th><th>DEX</th><th>INT</th><th>FAI</th><th>ARC</th><th>Candidate AR</th><th>Actual game-menu AR</th><th>Screenshot reference</th></tr></thead><tbody id="arw-plan-rows"></tbody></table></div>
+ </div>
+ <div class="safe-banner"><strong>Independent review is a separate step.</strong> Exported numeric matches remain UNREVIEWED. No screenshot authenticity, client version, game-data rights, somber skill, ammo, spell-tool, status or enemy damage is certified here. FICTIONAL demo plans cannot be exported as real observations.</div>
+</section>
 <section class="panel workbench-audit-panel" aria-labelledby="arw-recheck-title">
  <div class="eyebrow">Independent observation draft · Recompute only · No upload</div>
  <h2 id="arw-recheck-title">Recheck a saved game-menu observation</h2>
- <p>Load one <strong>UNREVIEWED</strong> JSON draft exported above. The browser recalculates the same exact weapon, reinforcement, grip and five attributes from the <strong>currently imported local source</strong>. Detect candidate arithmetic drift, version mismatch or inconsistent draft fields. Reproduced numbers are <strong>not</strong> independent game-client verification.</p>
- <label class="field">Observation JSON (max 120 kB)<input type="file" id="arw-recheck-file" accept="application/json,.json"></label>
+ <p>Load one <strong>UNREVIEWED</strong> JSON draft or an exported <strong>UNREVIEWED batch</strong>. The browser recalculates the same exact weapon, reinforcement, grip and five attributes from the <strong>currently imported local source</strong>. Detect candidate arithmetic drift, version mismatch or inconsistent draft fields. Reproduced numbers are <strong>not</strong> independent game-client verification.</p>
+ <label class="field">Single or batch observation JSON (max 120 kB)<input type="file" id="arw-recheck-file" accept="application/json,.json"></label>
  <div class="workbench-actions"><button class="btn alt" id="arw-recheck-run" type="button" disabled>Recompute observation locally</button></div>
  <p class="note" role="status" aria-live="polite" id="arw-recheck-feedback">Load source parameters and a locally saved UNREVIEWED JSON observation.</p>
  <div id="arw-recheck-results" hidden>
@@ -157,6 +170,9 @@
    <div class="metric"><div class="metric-label">Fresh minus game-menu entry</div><strong id="arw-recheck-game-gap">—</strong></div>
   </div>
   <p class="note" id="arw-recheck-summary"></p>
+  <div id="arw-recheck-batch" hidden>
+   <div class="table-wrap"><table class="datatable"><thead><tr><th>Case</th><th>Recheck status</th><th>Fresh minus stored</th><th>Fresh minus reported game AR</th><th>Fields consistent</th></tr></thead><tbody id="arw-recheck-batch-rows"></tbody></table></div>
+  </div>
  </div>
  <div class="safe-banner"><strong>Always unreviewed:</strong> This function does not see a screenshot or read a running game. It cannot establish app/regulation version, authenticity, data rights, skill damage or overall AR accuracy.</div>
 </section>

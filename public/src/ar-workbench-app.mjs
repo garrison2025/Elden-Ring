@@ -1,5 +1,6 @@
 import {POWER_STATS} from './weapon-ar.mjs';
 import {makeUnreviewedArObservation} from './ar-observation.mjs';
+import {makeUnreviewedArObservationBatch} from './ar-game-validation-plan.mjs';
 import {parseArWorkbenchHandoff} from './ar-workbench-navigation.mjs';
 const handoff=parseArWorkbenchHandoff(location.search);
 import {downloadV117Source,V117_PROVENANCE} from './upstream-regulation-v117.mjs';
@@ -7,6 +8,14 @@ const get=id=>document.getElementById(id);
 const feedback=(s,bad=false)=>{
  get('arw-feedback').textContent=s;
  get('arw-feedback').className=bad?'feedback bad':'feedback';
+};
+let gamePlanRevision=0,gamePlan=null;
+const clearGamePlan=()=>{
+ gamePlanRevision++;gamePlan=null;
+ get('arw-plan-results').hidden=true;
+ get('arw-plan-rows').replaceChildren();
+ get('arw-plan-summary').textContent='';
+ get('arw-plan-download').disabled=true;get('arw-plan-export').disabled=true;
 };
 let sensitivityRevision=0;
 const clearSensitivity=()=>{
@@ -28,6 +37,8 @@ const clearRecheck=()=>{
  get('arw-recheck-summary').textContent='';
  get('arw-recheck-drift').textContent='—';
  get('arw-recheck-game-gap').textContent='—';
+ get('arw-recheck-batch').hidden=true;
+ get('arw-recheck-batch-rows').replaceChildren();
 };
 let familyRevision=0;
 const clearFamily=()=>{
@@ -38,7 +49,7 @@ const clearFamily=()=>{
 };
 let latestGripResults=null;
 const clear=()=>{
- clearFamily();clearProgression();clearRecheck();clearSensitivity();
+ clearFamily();clearProgression();clearRecheck();clearSensitivity();clearGamePlan();
  latestGripResults=null;
  get('arw-onehand').textContent='—';get('arw-twohand').textContent='—';
  get('arw-delta').textContent='—';get('arw-effective').textContent='—';
@@ -115,7 +126,7 @@ const setOptions=(records,preferred='')=>{
  selected=false;selectedB=false;bUpgrades=[];currentRequirements=null;
  get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
  get('arw-family-run').disabled=true;
- get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;
+ get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;get('arw-plan-run').disabled=true;
  gripRevision++;clear();clearPair();get('arw-upgrade').replaceChildren();get('arw-compare-upgrade').replaceChildren();
  if(!records.length)get('arw-results-count').textContent='No matching weapon names.';
 };
@@ -123,7 +134,7 @@ function selectCurrent(){
  if(!fileLoaded||get('arw-select').disabled||!get('arw-select').value)return;
  selected=false;gripRevision++;clear();clearPair();
  get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
- get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;
+ get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;get('arw-plan-run').disabled=true;
  send({op:'select',requestId:++selectRevision,name:get('arw-select').value});
 }
 function selectSecond(){
@@ -156,6 +167,10 @@ function requestComparison(){
 }
 if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='error'){
+  if(m.phase==='game-validation-plan'){
+   if(m.requestId!==gamePlanRevision)return;
+   get('arw-plan-feedback').textContent='Could not create a test plan: '+m.message;return;
+  }
   if(m.phase==='stat-sensitivity'){
    if(m.requestId!==sensitivityRevision)return;
    get('arw-sensitivity-feedback').textContent='Attribute sensitivity failed: '+m.message;return;
@@ -203,9 +218,9 @@ if(worker)worker.onmessage=({data:m})=>{
   fileLoaded=false;selected=false;selectedB=false;upgrades=[];bUpgrades=[];syntheticMode=false;
   currentRequirements=null;searchRevision++;selectRevision++;selectBRevision++;
   get('arw-upgrade-max').disabled=true;get('arw-apply-requirements').disabled=true;
-  get('arw-family-run').disabled=true;get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;
+  get('arw-family-run').disabled=true;get('arw-progression-run').disabled=true;get('arw-sensitivity-run').disabled=true;get('arw-plan-run').disabled=true;
   get('arw-recheck-run').disabled=true;
-  gripRevision++;clearPair();clearFamily();clearProgression();clearRecheck();clearSensitivity();get('arw-compare-select').replaceChildren();
+  gripRevision++;clearPair();clearFamily();clearProgression();clearRecheck();clearSensitivity();clearGamePlan();get('arw-compare-select').replaceChildren();
   get('arw-compare-upgrade').replaceChildren();
   get('arw-file-status').textContent='No file loaded';
   get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-search').value='';
@@ -317,6 +332,42 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-results-count').textContent=m.result.matches+' matching names; first '+m.result.names.length+' shown.';
   setOptions(m.result.names);if(m.result.names.length){selectCurrent();selectSecond();}return;
  }
+ if(m.op==='game-validation-plan-result'){
+  if(m.requestId!==gamePlanRevision)return;
+  gamePlan=m.result;
+  const rows=get('arw-plan-rows');rows.replaceChildren();
+  get('arw-plan-summary').textContent=gamePlan.weaponName+' · '+gamePlan.totalCases+
+   ' manual cases · candidate source '+gamePlan.sourceVersion+
+   ' · rounding-difference cases: '+gamePlan.roundingRiskCases+
+   ' · scope flags: '+(gamePlan.scopeFlags.join(', ')||'none specifically detected')+
+   '. Enter target game App and Regulation versions separately.';
+  for(const item of gamePlan.cases){
+   const tr=make('tr','');tr.dataset.caseId=item.caseId;
+   for(const value of [item.caseId,item.scenario,'+'+item.upgrade,
+    item.twoHanded?'Two-hand':'One-hand',
+    ...POWER_STATS.map(stat=>item.stats[stat]),item.candidateTotal])
+    tr.append(make('td',value));
+   const observedCell=make('td',''),observed=make('input','');
+   observed.type='number';observed.min='0';observed.max='20000';observed.step='1';
+   observed.inputMode='numeric';observed.placeholder='Game AR';
+   observed.dataset.arwPlanTotal=item.caseId;
+   observed.setAttribute('aria-label',item.caseId+' actual game-menu AR');
+   observedCell.append(observed);tr.append(observedCell);
+   const screenshotCell=make('td',''),reference=make('input','');
+   reference.type='text';reference.maxLength=300;
+   reference.placeholder='menu-screen.png';
+   reference.dataset.arwPlanReference=item.caseId;
+   reference.setAttribute('aria-label',item.caseId+' screenshot filename');
+   screenshotCell.append(reference);tr.append(screenshotCell);
+   rows.append(tr);
+  }
+  get('arw-plan-results').hidden=false;get('arw-plan-download').disabled=false;
+  get('arw-plan-export').disabled=syntheticMode||gamePlan.synthetic;
+  get('arw-plan-feedback').textContent=syntheticMode?
+   'FICTIONAL DEMO: UI example only; real observation export disabled.':
+   'Test checklist ready. Enter actual menu values and screenshot references; no files are uploaded.';
+  return;
+ }
  if(m.op==='stat-sensitivity-result'){
   if(m.requestId!==sensitivityRevision)return;
   const out=m.result,body=get('arw-sensitivity-rows');body.replaceChildren();
@@ -376,6 +427,26 @@ if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='recheck-observation-result'){
   if(m.requestId!==recheckRevision)return;
   const item=m.result;
+  if(item.recordType==='unreviewed-ar-batch-recheck-report'){
+   const rows=get('arw-recheck-batch-rows');rows.replaceChildren();
+   for(const result of item.rows){
+    const tr=make('tr','');
+    for(const text of [result.caseId,result.status,
+     result.differenceFreshMinusStored??'—',
+     result.differenceFreshMinusGame??'—',
+     result.storedFieldsConsistent?'Yes':'No'])tr.append(make('td',text));
+    rows.append(tr);
+   }
+   get('arw-recheck-drift').textContent='Per case';
+   get('arw-recheck-game-gap').textContent='Per case';
+   get('arw-recheck-batch').hidden=false;
+   get('arw-recheck-summary').textContent=item.note;
+   get('arw-recheck-feedback').textContent='Checked '+item.submittedCases+
+    ' UNREVIEWED records. Status counts: '+JSON.stringify(item.statusCounts)+
+    '. Independently inspected screenshots: 0.';
+   get('arw-recheck-results').hidden=false;
+   return;
+  }
   get('arw-recheck-drift').textContent=
    item.differenceFreshMinusStored??'—';
   get('arw-recheck-game-gap').textContent=
@@ -428,7 +499,7 @@ if(worker)worker.onmessage=({data:m})=>{
   if(preferred!==null&&upgrades.includes(preferred))u.value=String(preferred);
   pendingUpgradeFromLink=null;
   get('arw-upgrade-max').disabled=false;get('arw-apply-requirements').disabled=false;
-  get('arw-family-run').disabled=false;get('arw-progression-run').disabled=false;get('arw-sensitivity-run').disabled=false;
+  get('arw-family-run').disabled=false;get('arw-progression-run').disabled=false;get('arw-sensitivity-run').disabled=false;get('arw-plan-run').disabled=false;
   requestCalculation();requestComparison();return;
  }
  if(m.op==='selectedB'){
@@ -589,6 +660,56 @@ get('arw-compare-grip').addEventListener('change',requestComparison);
 get('arw-compare-run').addEventListener('click',requestComparison);
 get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();requestComparison();});
 get('arw-compare').addEventListener('click',requestCalculation);
+get('arw-plan-run').addEventListener('click',()=>{
+ clearGamePlan();
+ if(!fileLoaded||!selected)return;
+ try{
+  const stats=readStats();
+  get('arw-plan-feedback').textContent='Preparing source-defined manual game-menu cases locally…';
+  send({op:'game-validation-plan',requestId:gamePlanRevision,stats});
+ }catch(error){get('arw-plan-feedback').textContent=error.message;}
+});
+get('arw-plan-download').addEventListener('click',()=>{
+ if(!gamePlan)return;
+ const url=URL.createObjectURL(new Blob([JSON.stringify(gamePlan,null,2)+'\n'],
+  {type:'application/json'}));
+ const anchor=make('a','');anchor.href=url;
+ anchor.download='game-menu-AR-test-plan-UNREVIEWED.json';
+ document.body.append(anchor);anchor.click();anchor.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),3000);
+});
+get('arw-plan-export').addEventListener('click',()=>{
+ if(!gamePlan||syntheticMode||gamePlan.synthetic){
+  get('arw-plan-feedback').textContent='Fictional data cannot be exported as real observations.';return;
+ }
+ try{
+  const observations=[];
+  for(const row of get('arw-plan-rows').querySelectorAll('tr[data-case-id]')){
+   const actual=row.querySelector('input[data-arw-plan-total]').value.trim();
+   const evidence=row.querySelector('input[data-arw-plan-reference]').value.trim();
+   if(actual===''&&evidence==='')continue;
+   if(!/^(?:0|[1-9][0-9]{0,4})$/.test(actual))
+    throw new RangeError('Case '+row.dataset.caseId+' needs a whole-number actual game AR.');
+   observations.push({caseId:row.dataset.caseId,observedTotal:Number(actual),
+    evidenceReference:evidence});
+  }
+  const batch=makeUnreviewedArObservationBatch(gamePlan,{
+   observations,gameAppVersion:get('arw-observation-app').value,
+   regulationVersion:get('arw-observation-reg').value,
+   platform:get('arw-observation-platform').value,
+   observedAt:get('arw-observation-date').value
+  });
+  const url=URL.createObjectURL(new Blob([JSON.stringify(batch,null,2)+'\n'],
+   {type:'application/json'}));
+  const anchor=make('a','');anchor.href=url;
+  anchor.download='game-menu-AR-batch-UNREVIEWED.json';
+  document.body.append(anchor);anchor.click();anchor.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+  get('arw-plan-feedback').textContent='Exported '+batch.submittedCases+
+   ' UNREVIEWED observation drafts; '+batch.numericalMatches+
+   ' numeric matches. Screenshot-reviewed: 0. Keep image files for independent review.';
+ }catch(error){get('arw-plan-feedback').textContent='Cannot export batch: '+error.message;}
+});
 get('arw-sensitivity-grip').addEventListener('change',clearSensitivity);
 get('arw-sensitivity-run').addEventListener('click',()=>{
  clearSensitivity();
