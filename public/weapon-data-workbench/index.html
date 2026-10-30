@@ -10,18 +10,21 @@
 <section class="hero">
 <div class="eyebrow">Developer research · Not indexed · Private local file</div>
 <h1>Weapon Data Workbench</h1>
-<p>Explore a locally provided compact regulation JSON file, find a specific weapon-and-affinity name, and compare preliminary one-handed and two-handed attack ratings across reinforcement levels.</p>
-<div class="safe-banner"><strong>NOT CURRENT-GAME VERIFIED.</strong> No real weapon dataset is bundled or downloaded by this site. A conversion that computes values does not establish source-data rights, formula parity or patch accuracy. Do not use the results as confirmed in-game AR.</div></section>
+<p>Optionally load a pinned public v1.17 community regulation snapshot into your browser, or provide your own compact JSON. Search weapon variants, upgrades, affinities and compare preliminary one-handed and two-handed attack ratings without a server.</p>
+<div class="safe-banner"><strong>RESEARCH — NOT VERIFIED GAME AR.</strong> No game-regulation dataset is bundled. Only clicking the external-source button downloads the public, pinned 1.17 community JSON into this browser; no third-party script runs. Extracted game parameters are third-party derived: the upstream project's MIT code license does not independently settle the rights to game-derived data. Structural conversion does not prove current patch parity, spell/status support or precise damage.</div></section>
 <div class="workbench-grid">
-<section class="panel"><h2>1. Import your own data</h2>
-<p>Choose a compact regulation <code>.json</code> file containing <code>weapons</code>, <code>calcCorrectGraphs</code>, <code>attackElementCorrects</code> and <code>reinforceTypes</code>. Arbitrary JavaScript files and game binaries are not supported.</p>
+<section class="panel"><h2>1. Load v1.17 public data, or import your own</h2>
+<p>You control whether to fetch the public data. This optional operation downloads approximately 1.1 MB directly from the pinned Tom Clark GitHub commit; it does not use a paid API, send your build to a server, execute remote JavaScript or cache game data on this site. Its version is <strong>1.17</strong>, not a verified 1.17.3 game dataset.</p>
+<div class="workbench-actions"><button class="btn" id="arw-load-upstream" type="button">Load public v1.17 dataset</button></div>
+<p class="note" role="status" aria-live="polite" id="arw-upstream-status">No remote source loaded. Source: <a href="https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js" target="_blank" rel="noopener noreferrer">pinned upstream JSON</a> · <a href="https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/COPYING" target="_blank" rel="noopener noreferrer">software license</a>.</p>
+<p>Alternatively choose a compact local <code>.json</code> file containing <code>weapons</code>, <code>calcCorrectGraphs</code>, <code>attackElementCorrects</code> and <code>reinforceTypes</code>. If cross-origin access fails, download the raw upstream JSON and rename its <code>.js</code> extension to <code>.json</code> before importing; the app still parses it as JSON only, never executes it.</p>
 <label class="field">Local .json file (max 16 MB)<input id="arw-file" type="file" accept="application/json,.json"></label>
 <div class="input-two">
 <label class="field">Data version, as supplied<input id="arw-version" type="text" maxlength="60" value="local-unverified" autocomplete="off"></label>
 <label class="field">Source / rights note<input id="arw-source" type="text" maxlength="300" placeholder="Where data came from; rights not yet certified" autocomplete="off"></label>
 </div>
 <div class="workbench-actions"><button class="btn" id="arw-load" type="button">Load locally</button><button class="btn alt" id="arw-demo" type="button">Try fictional demo</button><button class="btn alt" id="arw-clear" type="button">Clear from memory</button></div>
-<p class="note" id="arw-file-status">No file loaded</p><p class="note">No local JSON? Select <strong>Try fictional demo</strong> to test search, reinforcement and grip comparison using four clearly invented weapons—not actual game AR.</p>
+<p class="note" id="arw-file-status">No file loaded</p><p class="note">You can also use <strong>Try fictional demo</strong> for four invented weapons. Downloaded or local regulation data is stored only in in-memory browser worker state, not in localStorage or uploaded to our servers. Clear the dataset when finished.</p>
 </section>
 <section class="panel"><h2>2. Search weapon and affinity</h2>
 <label class="field">Search names<input id="arw-search" type="search" maxlength="100" placeholder="Filter loaded weapon entries" autocomplete="off"></label>

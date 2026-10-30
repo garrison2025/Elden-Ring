@@ -116,6 +116,24 @@ test('weapon material planner has input controls, local engine and dedicated noi
  assert.match((await readFile(join(root,'index.html'),'utf8')),/href="weapon-upgrade-calculator\/"/);
 });
 
+test('pinned community v1.17 source is explicitly opt-in and AR remains noindex',async()=>{
+ const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
+ const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
+ const source=await readFile(join(root,'src/upstream-regulation-v117.mjs'),'utf8');
+ const catalog=await readFile(join(root,'weapon-database/index.html'),'utf8');
+ const catalogApp=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
+ assert.match(html,/id="arw-load-upstream"/);
+ assert.match(html,/noindex,nofollow/);
+ assert.match(html,/COPYING/);
+ assert.match(app,/downloadV117Source\(fetch/);
+ assert.match(app,/cancelPinnedLoad/);
+ assert.match(app,/if\(initialWeaponQuery&&!syntheticMode\)/);
+ assert.match(catalog,/id="catalog-ar-source-link"/);
+ assert.match(catalogApp,/encodeURIComponent\(chosen.name\)/);
+ assert.match(source,/JSON\.parse\(text\)/);
+ assert.doesNotMatch(source,/eval\(|new Function\(/);
+ assert.doesNotMatch(app,/eval\(|new Function\(/);
+});
 test('local AR workbench is noindexed, worker-based and reachable only as research',async()=>{
  const page=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
  const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
