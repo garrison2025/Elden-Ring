@@ -48,12 +48,12 @@ const setOptions=(records)=>{
  second.disabled=records.length===0;
  if(records.length>1)second.selectedIndex=1;
  selected=false;selectedB=false;bUpgrades=[];
- clear();clearPair();get('arw-upgrade').replaceChildren();get('arw-compare-upgrade').replaceChildren();
+ gripRevision++;clear();clearPair();get('arw-upgrade').replaceChildren();get('arw-compare-upgrade').replaceChildren();
  if(!records.length)get('arw-results-count').textContent='No matching weapon names.';
 };
 function selectCurrent(){
  if(!fileLoaded||get('arw-select').disabled||!get('arw-select').value)return;
- selected=false;clear();
+ selected=false;gripRevision++;clear();clearPair();
  send({op:'select',name:get('arw-select').value});
 }
 function selectSecond(){

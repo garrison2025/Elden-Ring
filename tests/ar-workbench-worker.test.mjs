@@ -72,3 +72,14 @@ test('worker rejects unprovided enhancement or missing B and clears both profile
  const r=command({op:'compare-weapons',stats:{str:40,dex:20,int:10,fai:10,arc:10},leftUpgrade:0,rightUpgrade:0});
  assert.equal(r.op,'error');assert.match(r.message,/Choose two weapon entries/);
 });
+
+test('comparison and grip worker responses return request IDs for UI stale-result filtering',()=>{
+ command({op:'demo'});
+ command({op:'select',name:'Fictional Bronze Sword — QA ONLY'});
+ command({op:'selectB',name:'Fictional Heavy Sword — QA ONLY'});
+ const stats={str:40,dex:20,int:10,fai:10,arc:10};
+ let answer=command({op:'compare',requestId:1001,stats,upgrade:0});
+ assert.equal(answer.op,'compared');assert.equal(answer.requestId,1001);
+ answer=command({op:'compare-weapons',requestId:2002,stats,leftUpgrade:0,rightUpgrade:0,twoHanded:true});
+ assert.equal(answer.op,'compared-weapons');assert.equal(answer.requestId,2002);
+});
