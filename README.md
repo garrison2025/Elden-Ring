@@ -217,3 +217,6 @@ allows downloading an anonymous, aggregated JSON report. No game-derived
 names or source parameter values are included in the export; no uploaded
 data or ongoing API costs. The report is never a real-world game validation,
 license grant or publication approval.
+
+
+The web-based audit now displays both structural and scope-review counts, including separate incomplete upgrade, spell-tool and status-effect warnings. It receives anonymous processed/total progress from the in-memory worker. The exported report omits raw provenance notes and remains unverified, with publishable always false.

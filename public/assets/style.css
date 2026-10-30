@@ -157,3 +157,9 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .workbench-audit-panel button:disabled{opacity:.48;cursor:not-allowed}
 #arw-audit-results[hidden]{display:none!important}
 @media(max-width:740px){.workbench-audit-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Structural vs limited-model audit coverage, mobile friendly. */
+.workbench-audit-panel h3{font-size:15px;margin:20px 0 9px}
+.workbench-audit-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:760px){.workbench-audit-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:390px){.workbench-audit-metrics{grid-template-columns:1fr}}

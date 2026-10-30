@@ -34,7 +34,7 @@
 <section class="panel workbench-audit-panel" aria-labelledby="arw-audit-title">
  <div class="eyebrow">Whole dataset · Local structural review</div>
  <h2 id="arw-audit-title">Audit all imported weapon entries</h2>
- <p>Check every row for missing reinforcement tables, correction graphs, duplicate names and invalid parameters. The report contains aggregate statistics and failing row indices, not weapon names or game parameters.</p>
+ <p>Check every row for missing reinforcement tables, correction graphs, duplicate names and invalid parameters. Convertible entries with incomplete upgrades, status buildup or spell-tool behavior are separately flagged for review. The report contains aggregate statistics and failing row indices, not weapon names or game parameters.</p>
  <div class="workbench-actions">
   <button class="btn alt" type="button" id="arw-audit-run" disabled>Audit entire dataset</button>
   <button class="btn alt" type="button" id="arw-audit-download" disabled>Export anonymous report</button>
@@ -45,9 +45,15 @@
    <div class="metric"><div class="metric-label">Rows checked</div><strong id="arw-audit-total">—</strong></div>
    <div class="metric"><div class="metric-label">Convertible</div><strong id="arw-audit-converted">—</strong></div>
    <div class="metric"><div class="metric-label">Blocked</div><strong id="arw-audit-blocked">—</strong></div>
-   <div class="metric"><div class="metric-label">Coverage</div><strong id="arw-audit-coverage">—</strong></div>
+   <div class="metric"><div class="metric-label">Structural coverage</div><strong id="arw-audit-coverage">—</strong></div>
+   <div class="metric"><div class="metric-label">Need scope review</div><strong id="arw-audit-review">—</strong></div>
+   <div class="metric"><div class="metric-label">Limited-model candidates</div><strong id="arw-audit-limited">—</strong></div>
   </div>
+  <h3>Structural conversion failures</h3>
   <div class="table-wrap"><table class="datatable"><thead><tr><th>Structural failure type</th><th>Entries</th></tr></thead><tbody id="arw-audit-reasons"></tbody></table></div>
+ <h3>Convertible entries requiring additional model support</h3>
+ <div class="table-wrap"><table class="datatable"><thead><tr><th>Missing model coverage</th><th>Entries</th></tr></thead>
+ <tbody id="arw-audit-scope-reasons"></tbody></table></div>
  </div>
  <p class="note"><strong>Not a publication pass:</strong> Even 100% conversion coverage cannot establish game accuracy, supported status/spell effects or permission to redistribute weapon data.</p>
 </section>

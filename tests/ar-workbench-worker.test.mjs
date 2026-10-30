@@ -91,9 +91,28 @@ test('research worker audits the entire synthetic dataset and never approves pub
  assert.equal(r.report.totals.records,4);
  assert.equal(r.report.totals.convertible,4);
  assert.equal(r.report.totals.blocked,0);
+ assert.equal(r.report.scopeReview.needsReview,4);
+ assert.equal(r.report.scopeReview.partialUpgradeRows,4);
+ assert.equal(r.report.candidateModelScopeComplete,false);
  assert.equal(r.report.publishable,false);
  assert.ok(!JSON.stringify(r.report).includes('Fictional Bronze Sword'));
  assert.equal(command({op:'clear'}).op,'cleared');
  r=command({op:'audit'});
  assert.equal(r.op,'error');assert.equal(r.phase,'audit');
+});
+
+test('worker sends anonymous audit progress and never reveals original item names in report',()=>{
+ const all=[];
+ const original=self.postMessage;
+ self.postMessage=m=>all.push(m);
+ try{
+  self.onmessage({data:{op:'demo'}});
+  all.length=0;
+  self.onmessage({data:{op:'audit'}});
+  assert.equal(all[0].op,'audit-progress');
+  assert.deepEqual(all[0].progress,{processed:4,total:4});
+  assert.equal(all[1].op,'audit-complete');
+  assert.ok(!JSON.stringify(all[1].report).includes('Fictional Bronze Sword'));
+  assert.ok(!JSON.stringify(all[1].report).includes('Invented regression fixture'));
+ }finally{self.postMessage=original;}
 });

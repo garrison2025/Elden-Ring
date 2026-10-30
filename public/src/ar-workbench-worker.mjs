@@ -37,7 +37,8 @@ self.onmessage=event=>{
    case 'audit':
     if(!source)throw new RangeError('Import a local regulation JSON file first.');
     self.postMessage({op:'audit-complete',report:auditCompactRegulation(source,{
-      gameVersion:version,sourceReference:reference,maxExamples:40})});
+      gameVersion:version,sourceReference:reference,maxExamples:40,
+      onProgress:progress=>self.postMessage({op:'audit-progress',progress})})});
     break;
    case 'search':
     if(!source)throw new RangeError('Import a local regulation JSON file first.');

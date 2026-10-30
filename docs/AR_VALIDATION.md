@@ -225,3 +225,6 @@ and stores SHA-256 provenance of the local JSON. No game files are uploaded,
 bundled or automatically downloaded. **Every report has publishable:false**
 because this audit is not a game-client AR test, data-rights determination, or
 certification of spell/status damage formulas.
+
+
+Audit UI policy: structural convertibility and limited-model candidate coverage are displayed separately. A converted row can still require review for unsupported status, spell catalysts, or incomplete reinforcement. Progress messages contain counts only; anonymous reports omit raw sourceReference text. CLI strict mode exits nonzero if either structural failures or detectable model-scope flags remain. These are not current-game parity or rights certifications.

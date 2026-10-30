@@ -30,7 +30,9 @@ const clearAudit=()=>{
  get('arw-audit-run').disabled=true;get('arw-audit-download').disabled=true;
  get('arw-audit-results').hidden=true;
  get('arw-audit-reasons').replaceChildren();
- for(const id of ['arw-audit-total','arw-audit-converted','arw-audit-blocked','arw-audit-coverage'])
+ get('arw-audit-scope-reasons').replaceChildren();
+ for(const id of ['arw-audit-total','arw-audit-converted','arw-audit-blocked','arw-audit-coverage',
+  'arw-audit-review','arw-audit-limited'])
   get(id).textContent='—';
  get('arw-audit-feedback').textContent='Load data or the fictional demo to run a full structural audit.';
 };
@@ -132,6 +134,12 @@ if(worker)worker.onmessage=({data:m})=>{
   if(m.preview.names.length){selectCurrent();selectSecond();}
   return;
  }
+ if(m.op==='audit-progress'){
+  get('arw-audit-feedback').textContent=
+   'Checked '+m.progress.processed.toLocaleString('en-US')+' of '+
+   m.progress.total.toLocaleString('en-US')+' records in local worker…';
+  return;
+ }
  if(m.op==='audit-complete'){
   auditReport=m.report;get('arw-audit-run').disabled=false;
   get('arw-audit-download').disabled=false;
@@ -140,6 +148,16 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-audit-converted').textContent=String(m.report.totals.convertible);
   get('arw-audit-blocked').textContent=String(m.report.totals.blocked);
   get('arw-audit-coverage').textContent=m.report.conversionCoverage+'%';
+  get('arw-audit-review').textContent=String(m.report.scopeReview.needsReview);
+  get('arw-audit-limited').textContent=m.report.scopeReview.limitedModelCoverage+'%';
+  const scope=get('arw-audit-scope-reasons');scope.replaceChildren();
+  for(const [reason,count] of Object.entries(m.report.scopeReview.byReason)){
+   const tr=make('tr','');tr.append(make('td',reason),make('td',count));scope.append(tr);
+  }
+  if(!scope.childElementCount){
+   const tr=make('tr',''),cell=make('td','No detectable limited-model scope flags.');
+   cell.colSpan=2;tr.append(cell);scope.append(tr);
+  }
   const tbody=get('arw-audit-reasons');tbody.replaceChildren();
   for(const [reason,count] of Object.entries(m.report.invalidByReason)){
    const row=make('tr','');
@@ -150,9 +168,9 @@ if(worker)worker.onmessage=({data:m})=>{
    cell.colSpan=2;row.append(cell);tbody.append(row);
   }
   get('arw-audit-feedback').textContent=(syntheticMode?'FICTIONAL DEMO · ':'')+
-   'Structure audit complete. Not certified for distribution or game accuracy. '+
-   m.report.excludedMechanics.statusEffectEntries+' records include unsupported status effects; '+
-   m.report.excludedMechanics.spellToolEntries+' involve spell tools.';
+   'Structural conversion: '+m.report.conversionCoverage+'%; '+
+   m.report.scopeReview.needsReview+' convertible record(s) still require scope review. '+
+   'This is NOT current-game validation or a data-distribution authorization.';
   return;
  }
  if(m.op==='search-results'){

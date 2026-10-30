@@ -147,9 +147,12 @@ test('AR workbench includes local whole-dataset audit and anonymous report expor
  const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
  const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
  const worker=await readFile(join(root,'src/ar-workbench-worker.mjs'),'utf8');
- for(const id of ['arw-audit-run','arw-audit-download','arw-audit-results','arw-audit-reasons','arw-audit-feedback'])
+ for(const id of ['arw-audit-run','arw-audit-download','arw-audit-results','arw-audit-reasons',
+  'arw-audit-feedback','arw-audit-review','arw-audit-limited','arw-audit-scope-reasons'])
   assert.ok(html.includes('id="'+id+'"'));
  assert.match(worker,/case 'audit'/);
+ assert.match(worker,/audit-progress/);
+ assert.match(app,/scopeReview/);
  assert.match(app,/arw-audit-download/);
  assert.match(html,/Not a publication pass/);
 });
