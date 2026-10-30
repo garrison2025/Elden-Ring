@@ -230,3 +230,26 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .build-weapon-panel .btn.alt{margin-left:0}
 .build-weapon-panel input:disabled,.build-weapon-panel select:disabled{opacity:.55;cursor:wait}
 @media(max-width:570px){.build-weapon-panel{padding:14px 12px}.build-weapon-panel .btn{width:100%}}
+
+
+/* Manual multi-weapon smithing planner: compact, touch-friendly, mobile scrollable. */
+.multi-upgrade-table{min-width:670px}
+.multi-upgrade-table td{vertical-align:middle}
+.multi-upgrade-table td:first-child{min-width:185px}
+.multi-upgrade-table input,.multi-upgrade-table select{
+ height:41px;width:100%;min-width:70px;font-size:13px;padding:0 9px
+}
+.multi-upgrade-table input[type="number"]{width:88px;max-width:100%}
+.multi-upgrade-table td:nth-child(2){min-width:132px}
+.multi-upgrade-table td:last-child{min-width:92px}
+.multi-upgrade-table .btn{padding:10px 12px;font-size:12px}
+#multi-upgrade-results{margin-top:21px}
+#multi-upgrade-results[hidden]{display:none!important}
+#multi-upgrade-results .metric-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+#multi-upgrade-results .metric strong{font-size:clamp(20px,2.7vw,30px)}
+#multi-upgrade-results h3{margin-top:24px}
+#multi-upgrade-feedback{min-height:22px}
+@media(max-width:680px){
+ #multi-upgrade-results .metric-grid{grid-template-columns:1fr 1fr}
+ #multi-upgrade-results .metric strong{font-size:23px}
+}
