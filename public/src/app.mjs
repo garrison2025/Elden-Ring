@@ -39,9 +39,10 @@ function initBuild(){
     $('#rune-plan-link').href=queryURL('../level-rune-calculator/',{from:current.level,to:level});
     $('#respec-link').href=queryURL('../respec-planner/',{origin:current.name,stats:v.join(',')});
     $('#weapon-req-link').href=queryURL('../weapon-requirements/',{stats:v.join(',')});
-    $('#class-compare-link').hidden=false;$('#rune-plan-link').hidden=false;$('#respec-link').hidden=false;$('#weapon-req-link').hidden=false;
+    $('#weapon-catalog-link').href=queryURL('../weapon-database/',{stats:v.join(',')});
+    $('#class-compare-link').hidden=false;$('#rune-plan-link').hidden=false;$('#respec-link').hidden=false;$('#weapon-req-link').hidden=false;$('#weapon-catalog-link').hidden=false;
     status('Plan valid. Send this build to the class optimizer or rune planner below.');
-  }catch(e){clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);$('#class-compare-link').hidden=true;$('#rune-plan-link').hidden=true;$('#respec-link').hidden=true;$('#weapon-req-link').hidden=true;status(e.message,true)}}
+  }catch(e){clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);$('#class-compare-link').hidden=true;$('#rune-plan-link').hidden=true;$('#respec-link').hidden=true;$('#weapon-req-link').hidden=true;$('#weapon-catalog-link').hidden=true;status(e.message,true)}}
   sel.addEventListener('change',()=>{current=classForName(sel.value);statInputs(grid,current.stats);render()});grid.addEventListener('input',render);
   $('#reset-build').addEventListener('click',()=>{statInputs(grid,current.stats);render()});
   const savedKey='buildlab:local-build:v1';

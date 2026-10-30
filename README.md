@@ -250,3 +250,6 @@ requests are required at runtime.
 
 
 Data provenance, source MIT license and targeted corrections: docs/COMMUNITY_WEAPON_DATA.md and docs/UPSTREAM_API_MIT_LICENSE.txt.
+
+
+The Character Build Planner now links directly to the real community Weapon Database with the player's five weapon-related stats carried through. Clicking a specific weapon there passes its reported requirements and character stats to the independent Requirements Calculator.

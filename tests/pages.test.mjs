@@ -170,3 +170,14 @@ test('real community weapon database ships a source-attributed dataset but never
  assert.match(build,/uri==='weapon-database'/);
  assert.match((await readFile(join(root,'index.html'),'utf8')),/href="weapon-database\/"/);
 });
+
+test('character build seamlessly passes five combat stats to real community weapon database',async()=>{
+ const html=await readFile(join(root,'build-planner/index.html'),'utf8');
+ const app=await readFile(join(root,'src/app.mjs'),'utf8');
+ const catalog=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
+ assert.match(html,/id="weapon-catalog-link"/);
+ assert.match(app,/weapon-catalog-link/);
+ assert.match(app,/queryURL\('\.\.\/weapon-database\/',\{stats:v\.join\(','\)\}\)/);
+ assert.match(catalog,/params\.get\('stats'\)/);
+ assert.match(catalog,/slice\(3\)/);
+});
