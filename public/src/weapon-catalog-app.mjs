@@ -1,5 +1,5 @@
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
- baseDamageParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl} from './community-weapons.mjs';
+ baseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl} from './community-weapons.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -16,7 +16,26 @@ for(let i=0;i<5;i++){
  input.inputMode='numeric';input.value=String(buildStats[i]);input.dataset.stat=String(i);
  label.append(input);$('catalog-stats').append(label);
 }
-let catalog=null,chosen=null,offset=0;
+let catalog=null,chosen=null,offset=0,lastUpgradeWeaponId=null;
+function renderPublishedUpgrade(){
+ const parent=$('catalog-upgrade-reference'),level=$('catalog-upgrade-level');
+ if(!chosen?.upgradeReference){parent.hidden=true;lastUpgradeWeaponId=null;return;}
+ parent.hidden=false;
+ if(lastUpgradeWeaponId!==chosen.id){
+  lastUpgradeWeaponId=chosen.id;
+  level.replaceChildren();
+  for(let value=0;value<=10;value++){
+   const option=el('option','+'+value);option.value=String(value);level.append(option);
+  }
+  level.value='0';
+ }
+ const display=$('catalog-upgrade-damage');display.replaceChildren();
+ for(const part of publishedUpgradeParts(chosen,Number(level.value))){
+  const row=el('div');row.className='catalog-value';
+  row.append(el('span',part.name+' base'),el('strong',part.amount));display.append(row);
+ }
+}
+$('catalog-upgrade-level').addEventListener('change',renderPublishedUpgrade);
 const readStats=()=>{
  const fields=[...$('catalog-stats').querySelectorAll('input[data-stat]')];
  const numbers=fields.map(x=>Number(x.value));
@@ -49,6 +68,7 @@ function renderDetails(){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',part.name),el('strong',part.amount));damage.append(row);
  }
+ renderPublishedUpgrade();
  const required=$('catalog-required');required.replaceChildren();
  if(chosen.requirements===null)required.append(el('p','Requirements not sourced yet. Wieldability cannot be determined.'));
  else for(let i=0;i<5;i++){
@@ -190,7 +210,8 @@ try{
   catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree').length+
   ' DLC: '+catalog.meta.dlcBaseFactCount+' with sourced +0 facts, '+
   catalog.meta.dlcRequirementOnlyCount+' requirements-only, '+
-  catalog.meta.dlcNameOnlyCount+' names-only). No precise DLC AR is available.');
+  catalog.meta.dlcNameOnlyCount+' names-only, '+catalog.meta.dlcUpgradeReferenceCount+
+  ' with source-published upgraded BASE attacks). No precise DLC AR is available.');
 }catch(e){
  status('Could not load weapon records: '+e.message,true);
  $('catalog-results').textContent='No data loaded';
