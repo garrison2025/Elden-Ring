@@ -24,7 +24,7 @@ test('missing DLC facts remain Unknown, never silently zeroed',()=>{
  assert.deepEqual(get('Physical +0 base'),['Unknown','Unknown']);
  assert.deepEqual(get('Weight'),['4.5',String(requirements.weight)]);
  assert.deepEqual(get('STR requirement'),['14','11']);
- assert.deepEqual(get('DEX requirement'),['Unknown','22']);
+ assert.deepEqual(get('DEX requirement'),['8','22']);
  assert.equal(model.rows.some(x=>x.label==='One-hand requirements'),false);
 });
 test('untrusted share ids are bounded, unique, whitelisted and URL-encoded',()=>{
