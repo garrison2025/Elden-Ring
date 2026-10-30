@@ -88,3 +88,51 @@ export function compareLocalGrips(profile,stats,upgrade){
  };
 }
 export {listCompactWeaponNames};
+
+/**
+ * Compare all exact source-defined affinities for one weapon family.
+ * Nominal AR totals are not actual-damage rankings or game-client verification.
+ * Absent somber / normal reinforcement levels are never interpolated.
+ */
+export function compareLocalFamilyAffinities(regulation,requestedName,gameVersion,sourceReference,
+ stats,{upgrade=0,twoHanded=false}={}){
+ if(!Number.isInteger(upgrade)||upgrade<0||upgrade>25)
+  throw new RangeError('Choose a source-supported upgrade from +0 to +25.');
+ if(typeof twoHanded!=='boolean')
+  throw new RangeError('Grip selection must be one or two hands.');
+ if(!stats||typeof stats!=='object'||Array.isArray(stats)||
+  !POWER_STATS.every(s=>Number.isInteger(stats[s])&&stats[s]>=1&&stats[s]<=99))
+  throw new RangeError('Enter all five player attributes from 1 to 99.');
+ const family=findLocalWeaponFamily(regulation,requestedName);
+ if(!family.found)throw new RangeError('No exact source-defined weapon family found.');
+ const rows=[];
+ for(const name of family.names){
+  try{
+   const {profile,description}=describeLocalWeapon(regulation,name,gameVersion,sourceReference);
+   if(!description.upgradeLevels.includes(upgrade)){
+    rows.push({name,status:'upgrade-unavailable',upgrade,total:null,components:null,
+     missingRequirements:[],scopeFlags:description.scopeFlags,
+     gripMode:description.gripMode,
+     reason:'No source upgrade +'+upgrade+' for this variant (available through +'+
+      Math.max(...description.upgradeLevels)+').'});
+    continue;
+   }
+   const result=calculateAr(profile,stats,{affinity:'SOURCE AFFINITY',upgrade,twoHanded});
+   rows.push({name,status:'calculated-unverified',upgrade,total:result.total,
+    components:Object.fromEntries(result.perElement.map(item=>[item.element,item.displayed])),
+    missingRequirements:result.missingRequirements,
+    scopeFlags:description.scopeFlags,gripMode:description.gripMode,
+    effectiveStrength:result.effectiveStats.str,roundingDifference:result.roundingDifference,
+    reason:''});
+  }catch(error){
+   rows.push({name,status:'source-conversion-blocked',upgrade,total:null,components:null,
+    missingRequirements:[],scopeFlags:[],gripMode:null,
+    reason:String(error?.message??error).slice(0,180)});
+  }
+ }
+ const available=rows.filter(row=>row.status==='calculated-unverified').length;
+ return {family:family.family,sourceVariantCount:rows.length,available,
+  unavailable:rows.length-available,upgrade,twoHanded,stats:{...stats},
+  rows,gameClientVerified:false,
+  note:'UNCERTIFIED nominal parameter AR; physical and elemental totals do not rank actual damage. Missing upgrade rows are not interpolated.'};
+}
