@@ -22,3 +22,5 @@ Test plan: exact reference facts, unknown-as-null, entitlement separation, inval
 ### Current DLC snapshot (later 2026-10-30)
 
 43 individual per-weapon +0 profiles, 59 attributed requirements+individual-weight profiles, 0 names-only; every DLC record has reported weight and requirements. **Reported single-weapon weight is not game-patch-verified and does not mean total equipped load.** Full AR and infusion remain unavailable.
+
+**Later completion milestone:** 101/102 DLC community +0 attacks sourced (68 individual wiki weapon pages, 33 class comparison rows), 102/102 attributed requirements and weights. Stone-Sheathed Sword intentionally remains unknown. Three '?' grade letters prevent fake precision; precise AR remains 0 game-golden-verified profiles.

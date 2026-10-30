@@ -18,12 +18,12 @@ test('three distinct armaments compare factual base attack, weight and attribute
  assert.equal(model.rows.some(x=>x.label==='Total AR'),false);
 });
 test('missing DLC facts remain Unknown, never silently zeroed',()=>{
- const partial=find("Bloodfiend's Fork"),requirements=find("Anvil Hammer");
+ const partial=find('Stone-Sheathed Sword'),requirements=find('Anvil Hammer');
  const model=compareWeaponReferences(catalog.weapons,[partial.id,requirements.id]);
  const get=name=>model.rows.find(x=>x.label===name).values;
- assert.deepEqual(get('Physical +0 base'),['Unknown','Unknown']);
- assert.deepEqual(get('Weight'),['4.5','22']);
- assert.deepEqual(get('STR requirement'),['14','39']);
+ assert.deepEqual(get('Physical +0 base'),['Unknown','131']);
+ assert.deepEqual(get('Weight'),['3.5','22']);
+ assert.deepEqual(get('STR requirement'),['16','39']);
  assert.deepEqual(get('DEX requirement'),['8','10']);
  assert.equal(model.rows.some(x=>x.label==='One-hand requirements'),false);
 });

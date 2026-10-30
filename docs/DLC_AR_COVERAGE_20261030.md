@@ -6,9 +6,9 @@ This report audits the **102** Shadow of the Erdtree weapon/shield entries refer
 | --- | ---: | ---: |
 | Weapon/shield name and category | 102 | 0 within selected reference roster |
 | All five attribute requirements | 102 | 0 |
-| +0 physical/elemental attack arrays | 64 | 38 |
-| Weight (64 individual wiki + 38 secondary/wiki references) | 102 | 0 |
-| Critical and +0 letter grades | 64 | 38 |
+| Source-reported +0 physical/elemental base attack arrays | 101 | 1 |
+| Individual-weapon weights (community sourced, not game certified) | 102 | 0 |
+| Critical and +0 grades (three disputed grade letters marked '?') | 101 | 1 |
 | Community-published +0–+10 integer BASE attack tables | **6** | **96** |
 | Exact reinforcement attack/scaling multipliers | **0** | **102** |
 | Exact affinity/infusion parameter profiles | **0** | **102** |
@@ -79,3 +79,7 @@ The table above is the current snapshot: **102/102 DLC five-stat requirements an
 ### Late 2026-10-30: seven more individually cited +0 records
 
 64 of 102 DLC have linked individual +0 facts; 38 retain unknown attack/critical/scaling. All 102 have community-sourced requirements and weight; six source-published somber integer base tables, **zero current regulation AR verified**. See `docs/COMMUNITY_WEAPON_DATA.md` for exact sources.
+
+### Latest DLC numeric sourcing scope
+
+**101/102** DLC items now have community-sourced +0 BASE physical/elemental attack integers; **68** are named weapon-page sourced and **33** class comparison-table sourced, with item name/weight/requirements matched. The remaining Stone-Sheathed Sword has *conflicting* +0 observations and stays null. Three other items keep a disputed scaling grade as '?'. This does not constitute full reinforcement data, infusions, current-patch game testing or correct final AR. See `docs/DLC_BASE_SOURCE_AUDIT_20261030.md` for row-by-row source links.
