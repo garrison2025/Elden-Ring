@@ -8,6 +8,7 @@ import {COMPACT_SYNTHETIC_REGULATION} from '../public/data/ar-compact-synthetic.
 import {convertCompactRegulation} from '../public/src/regulation-import.mjs';
 import {createLocalArValidationPlan,makeUnreviewedArObservationBatch}
  from '../public/src/ar-game-validation-plan.mjs';
+import {recheckUnreviewedArBatch} from '../public/src/ar-observation-batch-recheck.mjs';
 
 const opts={subtle:webcrypto.subtle};
 const png=Uint8Array.from([137,80,78,71,13,10,26,10,0,1,2,3,4,5,6,7]);
@@ -83,4 +84,35 @@ test('optional screenshot SHA-256 joins legacy UNREVIEWED batch without image by
  assert.equal(legacy.observations[0].observation.sourceEvidence.screenshotFingerprint,undefined);
  assert.throws(()=>makeUnreviewedArObservationBatch(draftPlan,{
   ...options,observations:[{...input,evidenceReference:'another.png'}]}),/must match/);
+});
+
+test('batch recheck validates fingerprint shape, keeps legacy entries and refuses malformed metadata',async()=>{
+ const profile=convertCompactRegulation(COMPACT_SYNTHETIC_REGULATION,{
+  weaponName:'Fictional Bronze Sword — QA ONLY',gameVersion:'TEST',
+  sourceReference:'invented fixture'});
+ const plan={...createLocalArValidationPlan(profile,{str:40,dex:20,int:10,fai:10,arc:10}),
+  synthetic:false};
+ const c=plan.cases[0],fp=await finger();
+ const options={gameAppVersion:'1.17.2',regulationVersion:'1.17.3',
+  platform:'PC',observedAt:'2026-10-31'};
+ const make=(include)=>makeUnreviewedArObservationBatch(plan,{
+  ...options,observations:[{caseId:c.caseId,observedTotal:c.candidateTotal,
+   evidenceReference:fp.filename,...(include?{screenshotFingerprint:fp}:{})}]
+ });
+ const check=batch=>recheckUnreviewedArBatch(COMPACT_SYNTHETIC_REGULATION,{
+  batch,gameVersion:'TEST',sourceReference:'invented fixture'});
+ const fresh=check(make(true));
+ assert.equal(fresh.storedFingerprintCount,1);
+ assert.equal(fresh.rows[0].screenshotFingerprintRecorded,true);
+ assert.equal(fresh.rows[0].status,'candidate-reproduced-unreviewed');
+ assert.equal(fresh.reviewedScreenshotCount,0);
+ const legacy=check(make(false));
+ assert.equal(legacy.storedFingerprintCount,0);
+ assert.equal(legacy.rows[0].status,'candidate-reproduced-unreviewed');
+ const modified=structuredClone(make(true));
+ modified.observations[0].observation.sourceEvidence.screenshotFingerprint.sha256='invalid';
+ const rejected=check(modified);
+ assert.equal(rejected.statusCounts['recheck-rejected'],1);
+ assert.equal(rejected.storedFingerprintCount,0);
+ assert.equal(rejected.gameClientVerified,false);
 });
