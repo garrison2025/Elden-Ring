@@ -220,3 +220,30 @@ license grant or publication approval.
 
 
 The web-based audit now displays both structural and scope-review counts, including separate incomplete upgrade, spell-tool and status-effect warnings. It receives anonymous processed/total progress from the in-memory worker. The exported report omits raw provenance notes and remains unverified, with publishable always false.
+
+
+## Real community weapon reference: 307 named weapons
+
+\`/weapon-database/\` now serves a **bundled, version-unverified source snapshot**
+of 307 actual named weapons from deliton/eldenring-api's MIT-declared API
+project, SHA \`1d2626ceda5eb8c08997e345e303344a64edc106\`. We import only
+factual names, category, weight, required attributes, basic scaling *letters*
+and reported +0 base attack/critical values. We do NOT bundle API item
+descriptions, screenshots, images, lore, skills, locations or extracted game
+regulation files. Source: https://github.com/deliton/eldenring-api .
+MIT project license: https://github.com/deliton/eldenring-api/blob/main/api/LICENSE .
+Code rights do not establish rights over independent game material.
+
+Three obvious source anomalies were manually corrected with independent
+references: Royal Greatsword physical 112 and critical 100
+(https://eldenring.wiki.gg/wiki/Royal_Greatsword), Serpentbone Blade
+physical 120 and critical 100 (https://eldenring.wiki.gg/wiki/Serpentbone_Blade),
+and Star Fist critical 100 (Push Square weapon guide).
+Other suspicious records and name collisions remain flagged. This
+data **does not claim game version 1.17.3**, completeness (e.g. recent DLC),
+or full gameplay parity. **Base (+0) weapon values are NOT character AR**:
+true AR requires regulation-strength coefficients, reinforcement and
+affinity rules, and game-client verification. The new page remains
+\`noindex\` for now; do not index its stats until current-patch validation.
+The browse page is pure static JSON + JS; no paid APIs and no third-party
+requests are required at runtime.

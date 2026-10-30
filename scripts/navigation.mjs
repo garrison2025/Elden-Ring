@@ -1,13 +1,14 @@
 /**
  * Build-time navigation enhancement: avoids maintaining 14 near-identical
- * headers. Every static HTML page receives links to all eight tools.
+ * headers. Every static HTML page receives links to all calculators and weapon references.
  * The public/ source files remain simple and the output is crawlable HTML.
  */
 const additional=[
  ['respec-planner/','Respec Planner'],
  ['weapon-requirements/','Weapon Requirements'],
  ['armor-optimizer/','Armor Optimizer'],
- ['weapon-upgrade-calculator/','Smithing Stones']
+ ['weapon-upgrade-calculator/','Smithing Stones'],
+ ['weapon-database/','Weapon Database']
 ];
 export function injectToolNavigation(html,uri=''){
  if(typeof html!=='string')throw new TypeError('Expected HTML string.');

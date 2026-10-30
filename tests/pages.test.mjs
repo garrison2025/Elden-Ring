@@ -4,7 +4,7 @@ import {readdir,readFile,stat} from 'node:fs/promises';
 import {join,resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../public');
-const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','armor-optimizer','weapon-upgrade-calculator','weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','validation-status','about','privacy'];
+const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','armor-optimizer','weapon-upgrade-calculator','weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-database','validation-status','about','privacy'];
 for (const slug of paths){
   test(`static page ${slug||'/'} has usable metadata and local assets`,async()=>{
     const p=join(root,slug,'index.html'),html=await readFile(p,'utf8');
@@ -155,4 +155,18 @@ test('AR workbench includes local whole-dataset audit and anonymous report expor
  assert.match(app,/scopeReview/);
  assert.match(app,/arw-audit-download/);
  assert.match(html,/Not a publication pass/);
+});
+
+test('real community weapon database ships a source-attributed dataset but never AR certification',async()=>{
+ const html=await readFile(join(root,'weapon-database/index.html'),'utf8');
+ const app=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
+ const build=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');
+ assert.match(html,/noindex,follow/);
+ for(const id of ['catalog-search','catalog-category','catalog-list','catalog-details','catalog-requirements-link'])
+  assert.ok(html.includes('id="'+id+'"'));
+ assert.match(html,/NOT verified for Regulation 1.17.3/);
+ assert.match(html,/community dataset/);
+ assert.match(app,/community-weapon-catalog\.json/);
+ assert.match(build,/uri==='weapon-database'/);
+ assert.match((await readFile(join(root,'index.html'),'utf8')),/href="weapon-database\/"/);
 });
