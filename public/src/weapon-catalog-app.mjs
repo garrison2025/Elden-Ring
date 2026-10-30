@@ -177,6 +177,11 @@ function renderDetails(){
   a.href=chosen.patchCorrection.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';
   $('catalog-verified').append(a);
  }
+ if(chosen.flags?.some(f=>f==='v117-community-attack-conflict'||f==='v117-community-requirement-conflict')){
+  const a=el('a','View pinned Regulation 1.17 conflicting source ↗');
+  a.href='https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js';
+  a.target='_blank';a.rel='noopener noreferrer';$('catalog-verified').append(a);
+ }
  if(chosen.checkedWith){
   const a=el('a',chosen.flags?.includes('wiki-category-table-base-observation')?'View weapon-class comparison source ↗':'View per-weapon numeric reference ↗');
   a.href=chosen.checkedWith;a.target='_blank';a.rel='noopener noreferrer';

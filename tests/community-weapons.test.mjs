@@ -474,3 +474,20 @@ test('101 source-reported DLC base +0 records are separated by per-item vs categ
  bad.weapons.find(w=>w.name==='Falx').scaling=['D','D','-','-','-'];
  assert.doesNotThrow(()=>validateCommunityCatalog(bad)); // grades pass schema; conflict status remains a provenance requirement, not a certified numeric validation
 });
+
+test('seven independently observed 1.17 conflicts stay review-flagged without overwriting community stats',()=>{
+ const attack=["Fire Knight's Shortsword","Greatsword of Radahn (Light)","Greatsword of Radahn (Lord)","Queelign's Greatsword","Smithscript Axe","Smithscript Dagger"];
+ const req='Madding Hand';
+ assert.equal(catalog.meta.v117SourceConflictCount,7);
+ for(const name of attack){
+  const w=find(name);
+  assert.ok(w.flags.includes('v117-community-attack-conflict'),name);
+  assert.match(cautionForWeapon(w).join(' '),/SOURCE CONFLICT/);
+ }
+ const m=find(req);
+ assert.deepEqual(m.requirements,[8,8,13,13,0]); // source 1.17 reports 20 FAI; do not overwrite
+ assert.ok(m.flags.includes('v117-community-requirement-conflict'));
+ assert.match(cautionForWeapon(m).join(' '),/SOURCE CONFLICT/);
+ const broken=structuredClone(catalog);broken.meta.v117SourceConflictCount=0;
+ assert.throws(()=>validateCommunityCatalog(broken),/metadata mismatch/);
+});
