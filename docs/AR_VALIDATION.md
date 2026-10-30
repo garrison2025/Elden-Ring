@@ -68,3 +68,14 @@ Source references explain the general algorithm; neither reference proves that t
 - Real weapon data included: **none**.
 - Source asset licence/data distribution gate: **open**, not certified.
 - Real game version supported by AR output: **none**, irrespective of the site-wide game reference marker.
+
+
+## Offline evidence comparator — added 2026-10-30
+
+Research-only route: \`/weapon-ar-validation/\` (\`noindex,nofollow\`). The route accepts candidate parameter JSON using the existing schema and a separate v1 observation file. No game files, image uploads, credentials, or external APIs are sent to a server. It compares total AR and optional individual damage components across strength/dexterity/intelligence/faith/arcane, grip, affinity and reinforcement. JSON/CSV audit output can be saved locally.
+
+Observation schema: \`{schemaVersion:1,profileLabel:string,gameVersion:string,cases:[{id,affinity,upgrade,twoHanded,stats:{str,dex,int,fai,arc},observedTotal,observedElements?,evidence:{kind:'synthetic-test'|'manual-transcription',reference,note?}}]}\`.
+
+**Matching numbers are NOT certification**: all records remain \`UNREVIEWED\`, even with zero error. A real client screenshot, confirmed version, rights provenance, formula edge tests and independent review are still mandatory. A mismatched \`profile.provenance.gameVersion\`, if supplied, blocks calculations. The bundled example is **entirely synthetic**, with no game AR data.
+
+A separate open-source calculator \`nyedr/elden-ring-ar-calculator\` provides an MIT-licensed code reference, but its public bundled regulation file refers to **vanilla 1.14**, and does not establish rights for rebundling game-derived parameters or accuracy against current patch. Do not import that data into the public site as 2026 current numbers.

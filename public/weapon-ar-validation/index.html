@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,nofollow">
+<title>Weapon AR Evidence Comparator | Build Lab</title>
+<meta name="description" content="Developer-only local AR evidence comparison tool; synthetic fixtures and user-entered readings are not verified game data.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css">
+</head><body data-page="ar-verification">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="../"><span class="brand-mark">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a href="../">Tools</a><a href="../build-planner/">Build Planner</a><a href="../level-rune-calculator/">Rune Calculator</a><a href="../weapon-ar-lab/">AR Research</a></nav></div></header>
+<main class="container"><section class="hero">
+<div class="eyebrow">Developer-only · noindex · 100% local</div><h1>Weapon AR evidence comparator</h1>
+<p>Compare candidate parameter profiles against separately recorded weapon AR readings. Test exact values, reinforcement levels, one-hand/two-hand and damage components without using an API.</p>
+<div class="safe-banner"><strong>Not in-game verified.</strong> The initial example is completely fictional. Entered observations may be wrong; matching them is not proof of current regulation accuracy, licensing, or safe publication.</div>
+</section>
+<div class="verification-layout">
+<section class="panel"><h2>1. Candidate parameter profile</h2><p class="note">Uses the research engine's existing v1 schema. Missing reinforcement rows or correction curves are refused.</p><label class="field">Load profile JSON (local)<input id="profile-upload" type="file" accept=".json,application/json"></label>
+<label class="field" for="verification-profile">Profile JSON</label><textarea rows="12" spellcheck="false" id="verification-profile"></textarea></section>
+<section class="panel"><h2>2. Independent AR observations</h2><p class="note">Each row includes player STR/DEX/INT/FAI/ARC, affinity, reinforcement, grip, observed AR and a reference. Manual observations require independent screenshot/version review.</p><label class="field">Load observations JSON (local)<input id="cases-upload" type="file" accept=".json,application/json"></label>
+<label class="field" for="verification-cases">Observations JSON</label><textarea rows="12" spellcheck="false" id="verification-cases"></textarea></section>
+</div>
+<div class="verification-controls"><button type="button" class="btn" id="run-verification">Run comparisons</button><button type="button" class="btn alt" id="restore-example">Restore fictional demo</button><button type="button" class="btn alt" id="download-report" disabled>Export JSON report</button><button type="button" class="btn alt" id="download-csv" disabled>Export CSV</button></div>
+<div id="validation-feedback" class="feedback" aria-live="polite" role="status"></div>
+<section class="panel results" style="margin:22px 0"><h2>Comparison results</h2>
+<div class="metric-grid verification-metrics">
+<div class="metric"><div class="metric-label">Cases</div><strong id="verification-total">—</strong></div>
+<div class="metric"><div class="metric-label">Exact matches</div><strong id="verification-matches">—</strong></div>
+<div class="metric"><div class="metric-label">Mismatches</div><strong id="verification-mismatches">—</strong></div>
+<div class="metric"><div class="metric-label">Errors</div><strong id="verification-errors">—</strong></div>
+</div><div class="table-wrap"><table class="datatable"><thead><tr><th>Case</th><th>Result</th><th>Computed</th><th>Observed</th><th>Delta</th><th>Review</th></tr></thead><tbody id="verification-rows"></tbody></table></div></section>
+<section class="panel info"><h2>Release rules</h2><p>Every case remains unreviewed until evidence and its game version are independently checked. Real weapon AR publication still requires documented data rights, complete affinity/upgrade information, current regulation support, in-game golden results and mobile usability QA.</p><p>This tool is never a substitute for client screenshots or rights review. Reports export directly to your computer; no server receives any file or value.</p><p>Read <a href="../weapon-ar-lab/">the AR research lab</a> and <a href="../validation-status/">current validation status</a>.</p></section>
+</main><footer class="site-footer"><div class="container footer-flex"><a href="../">✧ BUILD LAB</a><p>Unofficial fan project. Not affiliated with FromSoftware or Bandai Namco.</p></div></footer>
+<script type="module" src="../src/ar-validation-app.mjs"></script>
+</body></html>

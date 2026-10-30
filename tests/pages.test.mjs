@@ -4,7 +4,7 @@ import {readdir,readFile,stat} from 'node:fs/promises';
 import {join,resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../public');
-const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-ar-lab','validation-status','about','privacy'];
+const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-ar-lab','weapon-ar-validation','validation-status','about','privacy'];
 for (const slug of paths){
   test(`static page ${slug||'/'} has usable metadata and local assets`,async()=>{
     const p=join(root,slug,'index.html'),html=await readFile(p,'utf8');
@@ -62,4 +62,16 @@ test('build-local save is explicitly user initiated and has erase control',async
  for(const id of ['save-build','load-build','delete-build'])assert.match(build,new RegExp('id="'+id+'"'));
  assert.match(app,/localStorage\.removeItem\(savedKey\)/);
  assert.match(app,/localStorage\.setItem\(savedKey/);
+});
+
+test('AR evidence comparison remains noindex with offline data inputs',async()=>{
+ const p=await readFile(join(root,'weapon-ar-validation/index.html'),'utf8');
+ const build=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');
+ assert.match(p,/<meta name="robots" content="noindex,nofollow">/);
+ for(const id of ['verification-profile','verification-cases','run-verification','download-report','download-csv'])
+   assert.ok(p.includes('id="'+id+'"'));
+ assert.match(build,/uri==='weapon-ar-validation'/);
+ const s=await readFile(join(root,'src/ar-validation-app.mjs'),'utf8');
+ assert.match(s,/compareArObservations/);
+ assert.match(s,/URL\.createObjectURL/);
 });
