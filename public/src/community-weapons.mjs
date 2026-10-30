@@ -47,6 +47,21 @@ export function validateCommunityCatalog(catalog){
   if(!missingNumeric&&(!Array.isArray(w.scaling)||w.scaling.length!==5||
     w.scaling.some(v=>typeof v!=='string'||!/^(?:S|A|B|C|D|E|-|\?)$/i.test(v))))
    fail('Invalid scaling-letter metadata '+i);
+  if(w.upgradeReference!==undefined){
+   const ref=w.upgradeReference;
+   if(!dlc||coverage!=='base-reference'||!ref||ref.path!=='somber'||
+      ref.status!=='community-published-base-attack'||ref.sourceUrl!==w.checkedWith||
+      !Array.isArray(ref.attackByLevel)||ref.attackByLevel.length!==11)
+    fail('Upgrade reference requires sourced DLC somber rows at '+i);
+   for(const [level,attack] of ref.attackByLevel.entries()){
+    if(!Array.isArray(attack)||attack.length!==5||
+       attack.some((v,j)=>!Number.isInteger(v)||v<0||v>5000||
+       (level>0&&v<ref.attackByLevel[level-1][j])))
+      fail('Invalid published upgrade attack +'+level+' at row '+i);
+   }
+   if(ref.attackByLevel[0].some((v,j)=>v!==w.attack[j]))
+    fail('Upgrade +0 must match original source base attack at row '+i);
+  }
   if(w.flags!==undefined&&(!Array.isArray(w.flags)||w.flags.some(x=>typeof x!=='string'||x.length>65)))
    fail('Invalid quality flags '+i);
  }
@@ -135,6 +150,14 @@ export function baseDamageParts(weapon){
  if(!Array.isArray(weapon.attack))return [];
  return DAMAGE_LABELS.map((name,i)=>({name,amount:weapon.attack[i]})).filter(x=>x.amount>0);
 }
+/** Only observed, published base attack integers; never AR or a numeric multiplier. */
+export function publishedUpgradeParts(weapon,level){
+ if(!Number.isInteger(level)||level<0||level>10)fail('Invalid published upgrade level.');
+ if(!weapon?.upgradeReference)return null;
+ const parts=weapon.upgradeReference.attackByLevel[level];
+ if(!Array.isArray(parts)||parts.length!==5)fail('Missing published upgrade row; interpolation prohibited.');
+ return DAMAGE_LABELS.map((name,i)=>({name,amount:parts[i]})).filter(x=>x.amount>0);
+}
 export function cautionForWeapon(w){
  const flags=new Set(w.flags??[]);
  const warnings=[];
@@ -144,6 +167,8 @@ export function cautionForWeapon(w){
    'DLC roster only: attribute requirements, base attack, weight, critical, reinforcement and scaling are UNVERIFIED. Wield checks are unavailable.');
  if(w.dataCoverage==='base-reference')warnings.push(
    'DLC +0 reference facts cross-checked against the linked community wiki; current regulation not independently tested. Exact AR is UNSUPPORTED without reinforcement, affinity and full numeric scaling parameters.');
+ if(w.upgradeReference)warnings.push(
+   'The +0 to +10 values are published rounded BASE attacks only, not precise reinforcement multipliers, infusion data, or AR.');
  if(flags.has('duplicate-name-in-source'))warnings.push('Community source contains duplicate entries with this name; confirm the correct item.');
  if(flags.has('suspicious-critical-in-source'))warnings.push('Critical value in the upstream source is suspicious. Treat it as unverified.');
  if(flags.has('malformed-physical-field-in-source'))warnings.push('Upstream physical attack field is malformed. Do not rely on this number.');

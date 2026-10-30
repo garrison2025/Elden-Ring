@@ -6,18 +6,24 @@ Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community 
 
 | Tier | DLC rows | Available | Unavailable |
 | --- | ---: | --- | --- |
-| `base-reference` | 9 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
+| `base-reference` | 18 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
 | `requirements-only` | 52 | Name, class and community-reported 5-stat requirements | +0 attack, critical, weight, scaling, upgrades, affinities, AR |
-| `name-category-only` | 41 | Name and class, checked against DLC roster | Requirements and all numerical combat properties |
+| `name-category-only` | 32 | Name and class, checked against DLC roster | Requirements and all numerical combat properties |
 
-**Every missing numeric field is null, not zero.** The 9 wiki +0 values are reference facts and are **not** current patch game-tested AR. These 9 are Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
+**Every missing numeric field is null, not zero.** The 18 wiki +0 values are reference facts, **not** current patch game-tested AR.
+
+Original nine sourced +0 references: Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
+
+Additional nine sourced +0 references: Spear of the Impaler, Sword of Night, Star-Lined Sword, Obsidian Lamina, Poleblade of the Bud, Queelign's Greatsword, Shadow Sunflower Blossom, Pata, and Repeating Crossbow. Each provides its individual `checkedWith` source URL.
+
+Three individual weapons (Sword of Night, Rakshasa's Great Katana, Repeating Crossbow) also contain community-published rounded **base-attack tables** for their somber +0–+10 path, each with its individual source. Their rows do **not** reveal the underlying exact reinforcement multipliers or scaling values and are never used to compute AR.
 
 ## Sources and rights
 
 - Base-game factual sample: https://github.com/deliton/eldenring-api/blob/main/api/public/data/weapons.json (source commit `1d2626ceda5eb8c08997e345e303344a64edc106`), 307 entries. Upstream software license MIT applies to its software, **not necessarily to all game-derived data or media**.
 - 57 original DLC names/types/requirements: https://consolepulse.com/multiplatform/elden-ring/guides/elden-ring-dlc-weapon-shield-locations . Its listed scaling is at MAX upgrade, not valid +0 scaling.
 - Additional 45 DLC name/class references: https://eldenring.fandom.com/wiki/Weapons_(Shadow_of_the_Erdtree) . Its list includes shields. This snapshot tracks 102 entries and does not claim completeness of separate Tarnished Pack content.
-- Individually checked factual +0 statistics: each record's `checkedWith` URL on https://eldenring.wiki.gg/ . The accessible wiki has CC BY-SA 4.0 licensing for page content; this repository does not copy artwork, descriptions, source layouts or prose.
+- Individually checked factual +0 statistics and published integer base-attack tables where available: each record's `checkedWith` URL on https://eldenring.wiki.gg/ . The accessible wiki has CC BY-SA 4.0 licensing for page content; this repository does not copy artwork, descriptions, source layouts or prose.
 - Existing base-game cross checks: Royal Greatsword, Serpentbone Blade, Star Fist. Twelve unverified '?' grades remain unknown. Erdtree Seal upstream duplicate remains flagged.
 
 ## AR validation gate
