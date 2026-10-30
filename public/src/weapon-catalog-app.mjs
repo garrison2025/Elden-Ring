@@ -107,7 +107,8 @@ function renderPublishedUpgrade(){
   row.append(el('span',part.name+' base'),el('strong',part.amount));display.append(row);
  }
 }
-$('catalog-upgrade-level').addEventListener('change',renderPublishedUpgrade);
+// Refresh both the visible +level reference and its AR workbench handoff URL.
+$('catalog-upgrade-level').addEventListener('change',renderDetails);
 const readStats=()=>{
  const fields=[...$('catalog-stats').querySelectorAll('input[data-stat]')];
  const numbers=fields.map(x=>Number(x.value));
