@@ -7,6 +7,7 @@ import {calculateSourceUpgradeProgression} from './ar-upgrade-progression.mjs';
 import {recheckUnreviewedArDraft} from './ar-observation-recheck.mjs';
 import {calculateStatInvestmentSensitivity} from './ar-stat-sensitivity.mjs';
 import {createLocalArValidationPlan} from './ar-game-validation-plan.mjs';
+import {recheckUnreviewedArBatch} from './ar-observation-batch-recheck.mjs';
 
 /**
  * Worker holds the loaded JSON only in memory, not in localStorage, caches,
@@ -97,8 +98,11 @@ self.onmessage=event=>{
     if(typeof m.text!=='string'||m.text.length>120000)
      throw new RangeError('Observation JSON must be smaller than 120 kB.');
     const draft=JSON.parse(m.text);
-    const result=recheckUnreviewedArDraft(source,{
-     gameVersion:version,sourceReference:reference,draft,synthetic});
+    const result=draft?.recordType==='unreviewed-game-menu-AR-observation-batch'?
+     recheckUnreviewedArBatch(source,{gameVersion:version,sourceReference:reference,
+      batch:draft,synthetic}):
+     recheckUnreviewedArDraft(source,{gameVersion:version,sourceReference:reference,
+      draft,synthetic});
     self.postMessage({op:'recheck-observation-result',requestId:m.requestId,result});
     break;
    }
