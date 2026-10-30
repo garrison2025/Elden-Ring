@@ -27,12 +27,17 @@ function run(){
   const tbody=byId('verification-rows');
   for(const item of report.items){
     const tr=document.createElement('tr');
-    const values=[item.id,item.status,item.computed??'—',item.expected,item.delta??'—',item.error||'Unreviewed'];
+    const values=[item.id,item.status,item.computed??'—',item.expected,item.delta??'—',
+      item.roundingAlternative??'—',item.error||
+       (item.alternateWouldMatch?'Alternative rounding matches; still unreviewed.':'Unreviewed')];
     for(const value of values){const td=document.createElement('td');td.textContent=String(value);tr.append(td);}
     tbody.append(tr);
   }
   setDownload(true);
-  status('Comparison complete. All entered observations remain UNREVIEWED; even exact matches are NOT game-client certification.');
+  const roundingCases=report.items.filter(item=>item.alternateWouldMatch).length;
+  status('Comparison complete. '+(roundingCases?roundingCases+
+    ' case(s) match only under the alternative rounding convention. ':'')+
+    'All entered observations remain UNREVIEWED; even exact matches are NOT game-client certification.');
  }catch(e){clear();status('Validation rejected: '+e.message,true);}
 }
 function download(text,name,type){

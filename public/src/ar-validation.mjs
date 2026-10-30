@@ -64,17 +64,27 @@ export function compareArObservations(profile,observations){
       expected:c.observedTotal,observedElementCount:Object.keys(c.observedElements||{}).length,
       evidenceKind:c.evidence.kind,evidenceReference:c.evidence.reference,
       reviewStatus:'UNREVIEWED — requires independent evidence inspection',
-      status:'error',delta:null,computed:null,elementMismatches:[]};
+      status:'error',delta:null,computed:null,elementMismatches:[],
+      roundingPolicy:null,requirementsPolicy:null,roundingAlternative:null,
+      roundingAlternativeDelta:null,roundingDisagreement:false,alternateWouldMatch:false};
     try{
       if(versionMismatch)throw new RangeError('Game version differs from the profile provenance gameVersion.');
       const result=calculateAr(profile,c.stats,{affinity:c.affinity,upgrade:c.upgrade,twoHanded:c.twoHanded});
       item.computed=result.total;
       item.delta=result.total-c.observedTotal;
+      item.roundingPolicy=result.calculationRules.rounding;
+      item.requirementsPolicy=result.calculationRules.requirements;
+      item.roundingAlternative=result.calculationRules.rounding==='floor-components'?
+        result.floorTotal:result.floorComponents;
+      item.roundingAlternativeDelta=item.roundingAlternative-c.observedTotal;
+      item.roundingDisagreement=result.floorTotal!==result.floorComponents;
       for(const [element,expected] of Object.entries(c.observedElements||{})){
         const got=result.perElement.find(v=>v.element===element)?.displayed??0;
         if(expected!==got)item.elementMismatches.push({element,expected,computed:got,delta:got-expected});
       }
       item.status=(item.delta===0&&item.elementMismatches.length===0)?'match':'mismatch';
+      item.alternateWouldMatch=item.roundingDisagreement&&
+        item.roundingAlternativeDelta===0&&item.elementMismatches.length===0;
     }catch(e){item.error=e.message;}
     items.push(item);
   }
@@ -93,6 +103,8 @@ export function compareArObservations(profile,observations){
 }
 export function arReportCsv(report){
   const quote=value=>'"'+String(value===null||value===undefined?'':value).replace(/"/g,'""')+'"';
-  const cols=['id','status','computed','expected','delta','evidenceKind','evidenceReference','reviewStatus','error'];
+  const cols=['id','status','computed','expected','delta','roundingPolicy','requirementsPolicy',
+    'roundingAlternative','roundingAlternativeDelta','alternateWouldMatch',
+    'evidenceKind','evidenceReference','reviewStatus','error'];
   return [cols.join(','),...report.items.map(item=>cols.map(c=>quote(item[c])).join(','))].join('\r\n')+'\r\n';
 }

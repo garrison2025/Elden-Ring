@@ -43,3 +43,29 @@ test('CSV exports escaped values without losing identifiers',()=>{
  assert.ok(csv.includes('evidenceKind'));
  assert.equal(csv.trim().split('\r\n').length,4);
 });
+
+test('AR observation report isolates disagreements caused only by rounding convention',()=>{
+ const f=clone(source),a=f.affinities['TEST ONLY'];
+ a.baseDamage.magic=50;
+ a.baseScaling.int=0.5;
+ a.correctionCurves.magic=Array.from({length:151},(_,i)=>i/100);
+ a.elementScaling.magic=Object.fromEntries(['str','dex','int','fai','arc'].map(k=>[
+  k,k==='int'?{enabled:true,impactRatio:1,overrideScaling:null}:{enabled:false}]));
+ a.upgrades.forEach(u=>{u.damageMultipliers.magic=1});
+ f.calculationRules={requirements:'damage-type-60',rounding:'floor-components'};
+ const evidence=clone(inputs);
+ evidence.cases=[{...evidence.cases[0],id:'rounding-difference',stats:{str:40,dex:23,int:11,fai:10,arc:10},observedTotal:189}];
+ const report=compareArObservations(f,evidence);
+ const item=report.items[0];
+ assert.equal(item.status,'mismatch');
+ assert.equal(item.computed,188);
+ assert.equal(item.roundingAlternative,189);
+ assert.equal(item.roundingAlternativeDelta,0);
+ assert.equal(item.roundingDisagreement,true);
+ assert.equal(item.alternateWouldMatch,true);
+ assert.equal(item.roundingPolicy,'floor-components');
+ const csv=arReportCsv(report);
+ assert.match(csv,/alternateWouldMatch/);
+ assert.match(csv,/"true"/);
+ assert.match(report.assessment,/RESEARCH ONLY/);
+});

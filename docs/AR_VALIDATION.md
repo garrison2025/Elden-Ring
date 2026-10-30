@@ -197,3 +197,16 @@ Comparative public explanations:
 Crucially, numeric scaling overrides already applied reinforcement
 multipliers in this project. No unsupported rewrite of that scaling
 relationship was introduced.
+
+
+### AR evidence report: alternate rounding diagnosis
+
+The local JSON and CSV reports now include the selected
+\`requirementsPolicy\` and \`roundingPolicy\`, the alternative rounded total,
+its delta from the transcribed observation, and an
+\`alternateWouldMatch\` flag. This helps identify cases where the computed
+total differs only because two published reference conventions round
+mixed damage types differently. This flag is **NOT** a success, does not
+override the primary mismatch status, and never implies the observation is
+a verified game-client golden vector. Every observation remains
+\`UNREVIEWED\` until independently reviewed.
