@@ -15,6 +15,20 @@ For each source variant, four scenarios are exercised:
 
 The check compares raw physical/magic/fire/lightning/holy component amounts (tolerance 1e-6), floored nominal total and effective STR. The report gives **conversion coverage, cases executed, mismatches, unsupported cases, anonymous source indices**, and optional downloadable aggregated JSON. Source names, original parameter records and golden AR values are *not exported*. Runtime is in a Worker, no paid API. The audit must run only after the user clicks its button; external pinned v1.17 loading remains explicitly opt-in.
 
+## First external historical AR observations — 2026-10-31
+
+Three externally posted, numeric **Heavy Greatsword +25** AR claims from 2024 were checked against the same pinned 1.17 compact source, using our actual `convertCompactRegulation → calculateAr` implementation:
+
+| User-reported setup | Player-reported AR | Public report |
+| --- | ---: | --- |
+| 54 STR, two-handed | 826 | https://www.reddit.com/r/Eldenring/comments/1ahuhm4/ |
+| 66 STR, two-handed | 853 | https://www.reddit.com/r/Eldenring/comments/1ahuhm4/ |
+| 91 STR, one-handed | 841 | https://www.reddit.com/r/Eldenring/comments/1dxyvfs/ |
+
+The posts do not fully specify all non-Strength attributes; DEX was conservatively set to 12 (the Heavy Greatsword's requirement), and INT/FAI/ARC to 10. In this affinity those have no attack scaling and no AR effect when requirements are met. They are **not quoted character sheets** and **not screenshot-certified game observations**. The 2024 client version may differ from 1.17. Test results are properly called **historical reported AR parity**. The model, not the posts, determines the exact source-version calculation. The distinct external observations are **not** the same as the 13,184 raw-vs-converted math cases that share one source. This evidence strengthens regression confidence, but **does not** permit current-patch game-certification or public search release.
+
+The CI `npm run audit:real-v117` now checks all three against the pinned 1.17 JSON and emits `.audit/v117-historical-player-reports.json` containing only aggregate counts and sample IDs for failures, never source data or per-weapon calculated AR values. If a future calculation differs it fails rather than silently editing external evidence. Official patch note for 2026-10-20 says **App 1.17.2 / Regulation 1.17.3** (https://en.bandainamcoent.eu/elden-ring/news/elden-ring-patch-notes-version-1172). Community parameter comparison reports no tracked attack-numeric differences between the 1.17.1 and 1.17.3 variants (https://almanauts.com/eldenring/patches/1-17-3/), but it does not certify this project's tool against in-game visual values.
+
 A report with zero mismatches verifies **arithmetic parity between implementations using the SAME source**, not independent game correctness. Do not claim this proves current Regulation 1.17.3 values, patches, infusion parameter fidelity, status buildup, sorcery/incantation scaling, hidden effects, real enemy damage, legal redistribution of third-party/game-derived data, or in-game parity. All calculation results remain noindex/research-only until matched against independent game-menu observations.
 
 ## Evidence status

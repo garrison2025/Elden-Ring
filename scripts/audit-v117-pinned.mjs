@@ -9,6 +9,7 @@ import {compareDlcWithV117} from '../public/src/v117-catalog-crosscheck.mjs';
 import {dirname,resolve} from 'node:path';
 import {downloadV117Source,V117_UPSTREAM_COMMIT} from '../public/src/upstream-regulation-v117.mjs';
 import {auditRawMathParity} from '../public/src/regulation-parity.mjs';
+import {auditHistoricalPlayerAr} from '../public/src/external-ar-evidence.mjs';
 
 const output=resolve(process.cwd(),'.audit/v117-math-audit.json');
 async function main(){
@@ -45,6 +46,24 @@ async function main(){
   ' requirement-conflicts='+crossReport.requirementConflicts+
   ' unreviewed='+crossReport.unreviewedCount+
   ' stale-flags='+crossReport.obsoleteFlagCount);
+ const historical=auditHistoricalPlayerAr(params,{
+  gameVersion:'1.17',sourceReference:'Public pinned source @ '+V117_UPSTREAM_COMMIT
+ });
+ const historicalSummary={
+  auditType:historical.auditType,checked:historical.checked,matched:historical.matched,
+  failed:historical.failed,failures:historical.failures,
+  evidenceTier:historical.sourceCategory,gameClientVerified:false,
+  screenshotEvidenceCount:0,releaseGatePassed:false
+ };
+ await writeFile(resolve(process.cwd(),'.audit/v117-historical-player-reports.json'),
+  JSON.stringify(historicalSummary,null,2)+'\n','utf8');
+ console.log('[EXTERNAL PLAYER AR] checked='+historical.checked+
+  ' matched='+historical.matched+' failed='+historical.failed+
+  ' evidence=public player posts from 2024; no 2026 in-game screenshots.');
+ if(historical.failed>0){
+  console.error('[EXTERNAL PLAYER AR] Reported values no longer match this source snapshot. Never auto-correct the reports.');
+  process.exitCode=1;
+ }
  const report=auditRawMathParity(params,{
   gameVersion:'1.17',sourceReference:'Public pinned source @ '+V117_UPSTREAM_COMMIT,
   maxRows:5000,maxExamples:25,

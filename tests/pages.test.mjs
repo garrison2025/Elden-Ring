@@ -161,6 +161,12 @@ test('two-weapon AR workbench exposes paired selectors with stale-result revisio
  assert.match(html,/Higher total AR is not necessarily higher damage/);
 });
 
+test('the AR workbench displays historical player cross-check caveat without claiming certification',async()=>{
+ const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
+ assert.match(html,/historical player-reported Heavy Greatsword/);
+ assert.match(html,/not current-patch game screenshots/);
+ assert.match(html,/noindex,nofollow/);
+});
 test('source math audit has worker integration, export and noindex gate',async()=>{
  const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
  const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
