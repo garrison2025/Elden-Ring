@@ -60,6 +60,28 @@
  </div>
  <p class="note"><strong>Not a publication pass:</strong> Even 100% conversion coverage cannot establish game accuracy, supported status/spell effects or permission to redistribute weapon data.</p>
 </section>
+<section class="panel workbench-audit-panel" aria-labelledby="arw-parity-title">
+ <div class="eyebrow">Parameter formulas · Independent calculation comparison</div>
+ <h2 id="arw-parity-title">Audit AR math against raw source tables</h2>
+ <p>Compare source-table arithmetic with the converted AR engine for every loaded weapon/affinity row. Test base and maximum reinforcement, low/high stats and one- or two-handed strength. Failures are grouped by anonymous row index, without exporting weapon data.</p>
+ <div class="workbench-actions">
+  <button class="btn alt" id="arw-parity-run" type="button" disabled>Audit AR math for all weapon variants</button>
+  <button class="btn alt" id="arw-parity-download" type="button" disabled>Export anonymous math audit</button>
+ </div>
+ <p class="note" id="arw-parity-feedback" role="status" aria-live="polite">Load a source dataset to compare raw parameter arithmetic against the converter.</p>
+ <div id="arw-parity-results" hidden>
+ <div class="metric-grid">
+  <div class="metric"><div class="metric-label">Rows checked</div><strong id="arw-parity-total">—</strong></div>
+  <div class="metric"><div class="metric-label">Converted</div><strong id="arw-parity-converted">—</strong></div>
+  <div class="metric"><div class="metric-label">Compared cases</div><strong id="arw-parity-cases">—</strong></div>
+  <div class="metric"><div class="metric-label">Math mismatches</div><strong id="arw-parity-mismatches">—</strong></div>
+  <div class="metric"><div class="metric-label">Unsupported cases</div><strong id="arw-parity-unsupported">—</strong></div>
+ </div>
+ <h3>Differences and converter blockers</h3>
+ <div class="table-wrap"><table class="datatable"><thead><tr><th>Reason</th><th>Count</th></tr></thead><tbody id="arw-parity-reasons"></tbody></table></div>
+ </div>
+ <p class="note"><strong>Not a publication pass:</strong> Passing only proves internal formula agreement for the same community source. It does not prove patch correctness, data distribution rights, actual in-game AR, status/spell coverage or real damage.</p>
+</section>
 <section class="panel workbench-stats-panel"><h2>3. Player attributes</h2>
 <div id="arw-stats" class="ar-stat-grid"></div>
 <div class="workbench-actions"><button class="btn" id="arw-compare" type="button">Compare grips</button></div>

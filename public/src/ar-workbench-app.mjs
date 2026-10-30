@@ -25,12 +25,22 @@ try{worker=new Worker(new URL('./ar-workbench-worker.mjs',import.meta.url),{type
 catch(e){feedback('Your browser does not support the local research worker: '+e.message,true);}
 let fileLoaded=false,selected=false,upgrades=[],syntheticMode=false;
 let selectedB=false,bUpgrades=[],comparisonRevision=0,gripRevision=0;
-let auditReport=null;
+let auditReport=null,mathReport=null;
 let sourceLoadRevision=0,sourceLoadController=null;
 const initialWeaponQuery=(()=>{const value=new URLSearchParams(location.search).get('weapon');return value&&value.length<=100?value:'';})();
 const cancelPinnedLoad=()=>{sourceLoadRevision++;sourceLoadController?.abort();sourceLoadController=null;get('arw-load-upstream').disabled=false;};
+const clearMathAudit=()=>{
+ mathReport=null;
+ get('arw-parity-run').disabled=true;get('arw-parity-download').disabled=true;
+ get('arw-parity-results').hidden=true;
+ for(const id of ['arw-parity-total','arw-parity-converted','arw-parity-cases',
+  'arw-parity-mismatches','arw-parity-unsupported'])
+  get(id).textContent='—';
+ get('arw-parity-reasons').replaceChildren();
+ get('arw-parity-feedback').textContent='Load a source dataset to compare raw parameter arithmetic against the converter.';
+};
 const clearAudit=()=>{
- auditReport=null;
+ auditReport=null;clearMathAudit();
  get('arw-audit-run').disabled=true;get('arw-audit-download').disabled=true;
  get('arw-audit-results').hidden=true;
  get('arw-audit-reasons').replaceChildren();
@@ -104,6 +114,11 @@ function requestComparison(){
 }
 if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='error'){
+  if(m.phase==='math-audit'){
+   get('arw-parity-run').disabled=false;
+   get('arw-parity-feedback').textContent='Math parity check failed: '+m.message;
+   return;
+  }
   if(m.phase==='audit'){
    get('arw-audit-run').disabled=false;
    get('arw-audit-feedback').textContent='Audit failed: '+m.message;
@@ -128,7 +143,7 @@ if(worker)worker.onmessage=({data:m})=>{
   get('arw-results-count').textContent='—';clear();feedback('Local file cleared from worker memory.');return;
  }
  if(m.op==='loaded'){
-  clearAudit();get('arw-audit-run').disabled=false;
+  clearAudit();get('arw-audit-run').disabled=false;get('arw-parity-run').disabled=false;
   fileLoaded=true;syntheticMode=Boolean(m.synthetic);
   get('arw-file-status').textContent=m.count.toLocaleString('en-US')+
     (syntheticMode?' FICTIONAL demo entries (not game weapons).':' locally imported weapon names in memory.');
@@ -140,6 +155,35 @@ if(worker)worker.onmessage=({data:m})=>{
     get('arw-search').value=initialWeaponQuery;
     send({op:'search',term:initialWeaponQuery});
   }else if(m.preview.names.length){selectCurrent();selectSecond();}
+  return;
+ }
+ if(m.op==='math-audit-progress'){
+  get('arw-parity-feedback').textContent=
+   'Compared '+m.progress.processed+' of '+m.progress.total+' weapon/affinity rows in local worker…';
+  return;
+ }
+ if(m.op==='math-audit-complete'){
+  mathReport=m.report;
+  get('arw-parity-run').disabled=false;get('arw-parity-download').disabled=false;
+  get('arw-parity-results').hidden=false;
+  for(const [id,value] of Object.entries({
+   'arw-parity-total':m.report.totalRows,
+   'arw-parity-converted':m.report.converted,
+   'arw-parity-cases':m.report.compared,
+   'arw-parity-mismatches':m.report.mismatched,
+   'arw-parity-unsupported':m.report.unsupported
+  }))get(id).textContent=String(value);
+  const reasons=get('arw-parity-reasons');reasons.replaceChildren();
+  for(const [key,count] of Object.entries(m.report.errorsByReason)){
+   const row=make('tr','');row.append(make('td',key),make('td',count));reasons.append(row);
+  }
+  if(!reasons.childElementCount){
+   const row=make('tr',''),cell=make('td','No arithmetic differences or conversion failures found.');
+   cell.colSpan=2;row.append(cell);reasons.append(row);
+  }
+  get('arw-parity-feedback').textContent=m.report.parityPass?
+   'Source arithmetic agrees with our converted AR across audited cases. NOT independently game verified.':
+   'Differences or unsupported cases found. See anonymous audit report. NOT game validated.';
   return;
  }
  if(m.op==='audit-progress'){
@@ -297,6 +341,20 @@ get('arw-load').addEventListener('click',async()=>{
  }catch(e){feedback(e.message,true);}
 });
 get('arw-clear').addEventListener('click',()=>{cancelPinnedLoad();get('arw-file').value='';send({op:'clear'});get('arw-upstream-status').textContent='No remote source loaded.';});
+get('arw-parity-run').addEventListener('click',()=>{
+ if(!fileLoaded)return;
+ clearMathAudit();
+ get('arw-parity-feedback').textContent='Checking raw source arithmetic against converted AR in memory…';
+ send({op:'math-audit'});
+});
+get('arw-parity-download').addEventListener('click',()=>{
+ if(!mathReport)return;
+ const raw=JSON.stringify(mathReport,null,2)+'\n';
+ const url=URL.createObjectURL(new Blob([raw],{type:'application/json'}));
+ const node=make('a','');node.href=url;node.download='v117-ar-parity-report.json';
+ document.body.append(node);node.click();node.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),3000);
+});
 get('arw-audit-run').addEventListener('click',()=>{
  if(!fileLoaded)return;
  clearAudit();get('arw-audit-feedback').textContent='Checking every entry in a background worker…';
