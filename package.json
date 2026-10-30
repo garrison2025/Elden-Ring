@@ -9,7 +9,8 @@
     "test": "node --test tests/*.test.mjs",
     "check": "npm run test && npm run verify:ar && npm run build",
     "verify:ar": "node scripts/verify-ar.mjs --example",
-    "import:regulation": "node scripts/import-regulation.mjs --help"
+    "import:regulation": "node scripts/import-regulation.mjs --help",
+    "audit:regulation": "node scripts/audit-regulation.mjs --help"
   },
   "engines": {
     "node": ">=20"

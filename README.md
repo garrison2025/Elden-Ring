@@ -179,3 +179,30 @@ rounding conventions for mixed elemental AR. Compact imports select the
 damage-type-60 / sum-of-floored-components convention, while the old manual
 fixture retains its existing behavior. Nothing is labelled game-certified;
 see \`docs/AR_VALIDATION.md\` for the source disagreement and golden tests.
+
+
+## Whole-weapon-dataset conversion audit (local, 2026-10-30)
+
+Before evaluating an independently obtained JSON dataset for AR research, run:
+
+\`\`\`bash
+node scripts/audit-regulation.mjs \
+  --input local-ar-data/regulation.json \
+  --version "1.17" \
+  --source "local source, acquisition date, and rights status" \
+  --out local-ar-data/audit-report.json
+\`\`\`
+
+This verifies **every record** independently instead of assuming that one
+working weapon proves the entire dataset is convertible. The aggregate report
+counts invalid data, duplicates, missing correction graphs, missing upgrade
+tables, grip categories, reinforcement length and unsupported status/spell
+mechanics. It includes source SHA-256 and anonymous failing row indices;
+it excludes weapon names and parameter values. An invalid row gives a nonzero
+CLI exit code. To avoid O(N²) rescanning of names, each entry is converted in
+a one-record view of the source tables. No download, upload, or new dependency.
+
+**Crucial: a 100% conversion score does NOT mean publishable.** Data rights,
+official version compatibility, independently reviewed in-game samples and
+unsupported spell/status mechanics remain outstanding. This is a structural
+triage utility only, not a license grant, gameplay certification, or SEO launch.

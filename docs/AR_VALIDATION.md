@@ -210,3 +210,18 @@ mixed damage types differently. This flag is **NOT** a success, does not
 override the primary mismatch status, and never implies the observation is
 a verified game-client golden vector. Every observation remains
 \`UNREVIEWED\` until independently reviewed.
+
+
+## Full compact-dataset coverage gate
+
+Use \`scripts/audit-regulation.mjs\` to scan every user-provided weapon/affinity
+entry independently (maximum 50,000 entries from a local JSON file at most
+16 MB). Results distinguish convertible rows, duplicates, missing tables,
+invalid reinforcement and correction curves; aggregate damage type, grip
+mode, upgrade lengths, and missing AR scope (status/spell catalysts).
+Reports contain row indices and reason classes **without any game-derived
+weapon names or parameter values**. CLI exits nonzero on structural failures
+and stores SHA-256 provenance of the local JSON. No game files are uploaded,
+bundled or automatically downloaded. **Every report has publishable:false**
+because this audit is not a game-client AR test, data-rights determination, or
+certification of spell/status damage formulas.
