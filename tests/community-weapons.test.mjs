@@ -178,7 +178,7 @@ test('partial rows keep missing data null; cannot compare unknown requirements',
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc',limit:100}).total,102);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,307);
  const invalid=structuredClone(catalog);
- invalid.weapons.find(w=>w.name==='Bloodfiend's Fork').requirements=[0,0,0,0,0];
+ invalid.weapons.find(w=>w.name==="Bloodfiend\u0027s Fork").requirements=[0,0,0,0,0];
  assert.throws(()=>validateCommunityCatalog(invalid),/must be null/);
  const invalidAttack=structuredClone(catalog);
  invalidAttack.weapons.find(w=>w.name==="Leda's Sword").attack=[0,0,0,0,0];
