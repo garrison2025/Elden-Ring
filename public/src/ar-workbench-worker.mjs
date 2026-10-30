@@ -6,12 +6,13 @@ import {auditRawMathParity} from './regulation-parity.mjs';
 import {calculateSourceUpgradeProgression} from './ar-upgrade-progression.mjs';
 import {recheckUnreviewedArDraft} from './ar-observation-recheck.mjs';
 import {calculateStatInvestmentSensitivity} from './ar-stat-sensitivity.mjs';
+import {createLocalArValidationPlan} from './ar-game-validation-plan.mjs';
 
 /**
  * Worker holds the loaded JSON only in memory, not in localStorage, caches,
  * service workers, IndexedDB or on a server. No fetch / network calls.
  */
-let source=null,names=[],version='',reference='',selected=null,selectedB=null,synthetic=false;
+let source=null,names=[],version='',reference='',selected=null,selectedB=null,selectedScopeFlags=[],synthetic=false;
 self.onmessage=event=>{
  const m=event.data||{};
  try{
@@ -20,7 +21,7 @@ self.onmessage=event=>{
     source=structuredClone(COMPACT_SYNTHETIC_REGULATION);synthetic=true;
     version='SYNTHETIC-EXAMPLE-NOT-GAME';
     reference='Invented regression fixture. Not a game weapon database.';
-    names=listCompactWeaponNames(source);selected=null;selectedB=null;
+    names=listCompactWeaponNames(source);selected=null;selectedB=null;selectedScopeFlags=[];
     self.postMessage({op:'loaded',count:names.length,synthetic:true,preview:searchLocalWeapons(names,'')});
     break;
    }
@@ -34,7 +35,7 @@ self.onmessage=event=>{
     const next=JSON.parse(m.text);
     const indexed=listCompactWeaponNames(next);
     if(!indexed.length)throw new RangeError('The file contains no weapon entries.');
-    source=next;names=indexed;selected=null;selectedB=null;synthetic=false;
+    source=next;names=indexed;selected=null;selectedB=null;selectedScopeFlags=[];synthetic=false;
     self.postMessage({op:'loaded',count:names.length,synthetic:false,preview:searchLocalWeapons(names,'')});
     break;
    }
@@ -62,7 +63,7 @@ self.onmessage=event=>{
    case 'select':{
     if(!source)throw new RangeError('Import a local regulation JSON file first.');
     const found=describeLocalWeapon(source,m.name,version,reference);
-    selected=found.profile;
+    selected=found.profile;selectedScopeFlags=found.description.scopeFlags;
     self.postMessage({op:'selected',requestId:m.requestId,description:found.description});
     break;
    }
@@ -70,6 +71,14 @@ self.onmessage=event=>{
     if(!selected)throw new RangeError('Choose a weapon and reinforcement level first.');
     self.postMessage({op:'compared',requestId:m.requestId,result:compareLocalGrips(selected,m.stats,m.upgrade)});
     break;
+   case 'game-validation-plan':{
+    if(!selected)throw new RangeError('Select an exact source weapon first.');
+    const plan=createLocalArValidationPlan(selected,m.stats,{
+     maxCases:24,scopeFlags:selectedScopeFlags});
+    plan.synthetic=synthetic;
+    self.postMessage({op:'game-validation-plan-result',requestId:m.requestId,result:plan});
+    break;
+   }
    case 'stat-sensitivity':{
     if(!selected)throw new RangeError('Select an exact source weapon before probing stats.');
     const result=calculateStatInvestmentSensitivity(selected,m.stats,{
@@ -115,14 +124,14 @@ self.onmessage=event=>{
     break;
    }
    case 'clear':
-    source=null;names=[];version='';reference='';selected=null;selectedB=null;synthetic=false;
+    source=null;names=[];version='';reference='';selected=null;selectedB=null;selectedScopeFlags=[];synthetic=false;
     self.postMessage({op:'cleared'});
     break;
    default:throw new RangeError('Unknown workbench command.');
   }
  }catch(error){
   if(m.op==='load'){source=null;names=[];selected=null;}
-  if(m.op==='select')selected=null;
+  if(m.op==='select'){selected=null;selectedScopeFlags=[];}
   if(m.op==='selectB')selectedB=null;
   self.postMessage({op:'error',phase:m.op||'unknown',requestId:m.requestId,message:String(error?.message??error).slice(0,350)});
  }
