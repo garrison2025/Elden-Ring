@@ -6,6 +6,7 @@
  */
 import {mkdir,writeFile,readFile} from 'node:fs/promises';
 import {compareDlcWithV117} from '../public/src/v117-catalog-crosscheck.mjs';
+import {auditSourceFamilyCoverage} from '../public/src/regulation-catalog-family-audit.mjs';
 import {dirname,resolve} from 'node:path';
 import {downloadV117Source,V117_UPSTREAM_COMMIT} from '../public/src/upstream-regulation-v117.mjs';
 import {auditRawMathParity} from '../public/src/regulation-parity.mjs';
@@ -20,6 +21,21 @@ async function main(){
  // The file is strict JSON despite having a .js filename.
  const params=JSON.parse(text);
  const community=JSON.parse(await readFile(resolve(process.cwd(),'public/data/community-weapon-catalog.json'),'utf8'));
+ const coverage=auditSourceFamilyCoverage(community,params);
+ const coverageSummary={
+  catalogRows:coverage.catalogRows,matchedRows:coverage.matchedRows,
+  missingRows:coverage.missingRows,missingIndices:coverage.missingIndices,
+  uniqueSourceFamilies:coverage.uniqueSourceFamilies,gameVerified:false,
+  sourceParametersExported:false
+ };
+ await mkdir(dirname(output),{recursive:true});
+ await writeFile(resolve(process.cwd(),'.audit/v117-catalog-family-coverage.json'),
+  JSON.stringify(coverageSummary,null,2)+'\n','utf8');
+ console.log('[CATALOG SOURCE FAMILIES] matched='+coverage.matchedRows+
+  ' of '+coverage.catalogRows+', unmatched='+coverage.missingRows);
+ if(!coverage.allMatched){console.error('[CATALOG SOURCE FAMILIES] Broken catalog handoff: exact source family missing.');
+  process.exitCode=1;
+ }
  const cross=compareDlcWithV117(community,params);
  const tagged=community.weapons.filter(w=>w.expansion==='Shadow of the Erdtree').filter(w=>
   w.flags?.includes('v117-community-attack-conflict')||w.flags?.includes('v117-community-requirement-conflict'));
