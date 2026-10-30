@@ -37,6 +37,8 @@ const clearRecheck=()=>{
  get('arw-recheck-summary').textContent='';
  get('arw-recheck-drift').textContent='—';
  get('arw-recheck-game-gap').textContent='—';
+ get('arw-recheck-batch').hidden=true;
+ get('arw-recheck-batch-rows').replaceChildren();
 };
 let familyRevision=0;
 const clearFamily=()=>{
@@ -425,6 +427,26 @@ if(worker)worker.onmessage=({data:m})=>{
  if(m.op==='recheck-observation-result'){
   if(m.requestId!==recheckRevision)return;
   const item=m.result;
+  if(item.recordType==='unreviewed-ar-batch-recheck-report'){
+   const rows=get('arw-recheck-batch-rows');rows.replaceChildren();
+   for(const result of item.rows){
+    const tr=make('tr','');
+    for(const text of [result.caseId,result.status,
+     result.differenceFreshMinusStored??'—',
+     result.differenceFreshMinusGame??'—',
+     result.storedFieldsConsistent?'Yes':'No'])tr.append(make('td',text));
+    rows.append(tr);
+   }
+   get('arw-recheck-drift').textContent='Per case';
+   get('arw-recheck-game-gap').textContent='Per case';
+   get('arw-recheck-batch').hidden=false;
+   get('arw-recheck-summary').textContent=item.note;
+   get('arw-recheck-feedback').textContent='Checked '+item.submittedCases+
+    ' UNREVIEWED records. Status counts: '+JSON.stringify(item.statusCounts)+
+    '. Independently inspected screenshots: 0.';
+   get('arw-recheck-results').hidden=false;
+   return;
+  }
   get('arw-recheck-drift').textContent=
    item.differenceFreshMinusStored??'—';
   get('arw-recheck-game-gap').textContent=
