@@ -53,7 +53,8 @@ test('importer rejects unknown, duplicate or incomplete game data, not guessing 
 });
 test('physical and split scaling maps independent elements',()=>{
  const data=fixture(),a=data.weapons[0];
- a.attack.push([1,50]);data.attackElementCorrects[5][1]={int:true};
+ a.attack.push([1,50]);a.calcCorrectGraphIds[1]=1;data.attackElementCorrects[5][1]={int:true};
+ data.reinforceTypes[2].forEach(row=>{row.attack[1]=1;});
  a.attributeScaling.push(['int',0.5]);
  const p=convertCompactRegulation(data,opts('Invented Alpha Sword'));
  assert.equal(calculateAr(p,stats,{affinity:'SOURCE AFFINITY'}).perElement.length,2);
