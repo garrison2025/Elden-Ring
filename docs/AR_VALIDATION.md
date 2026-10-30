@@ -79,3 +79,8 @@ Observation schema: \`{schemaVersion:1,profileLabel:string,gameVersion:string,ca
 **Matching numbers are NOT certification**: all records remain \`UNREVIEWED\`, even with zero error. A real client screenshot, confirmed version, rights provenance, formula edge tests and independent review are still mandatory. A mismatched \`profile.provenance.gameVersion\`, if supplied, blocks calculations. The bundled example is **entirely synthetic**, with no game AR data.
 
 A separate open-source calculator \`nyedr/elden-ring-ar-calculator\` provides an MIT-licensed code reference, but its public bundled regulation file refers to **vanilla 1.14**, and does not establish rights for rebundling game-derived parameters or accuracy against current patch. Do not import that data into the public site as 2026 current numbers.
+
+
+### CLI and CI regression gate
+
+\`npm run verify:ar\` runs synthetic, deliberately fictional observation cases and is included in \`npm run check\`/GitHub Actions. For candidate data, call \`node scripts/verify-ar.mjs --profile candidate.json --observations observations.json --out report.json\`. A mismatch, missing upgrade, invalid schema, version disagreement, or missing file fails with a nonzero process exit. An exact comparison means **calculation consistency only**, not independently established in-game correctness or permission to distribute underlying game data.

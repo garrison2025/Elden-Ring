@@ -64,3 +64,14 @@ The Build Planner can send its eight stats to the Class Optimizer and its level 
 ## Weapon AR evidence comparator (2026-10-30)
 
 Research-only \`/weapon-ar-validation/\`: locally import candidate weapon parameters and independent AR observations, compare totals and per-element values, then export CSV or JSON regression reports. 3 bundled reference observations are synthetic and deliberately fictional. All user-entered observations remain \`UNREVIEWED\` until real game screenshots, data rights, game version and gold tests have been checked. This is an accuracy-tooling milestone, **not** publication of a real Weapon AR calculator.
+
+
+### Automated AR comparison gate
+
+Run \`npm run verify:ar\` for the **fictional** fixture regression used by GitHub CI. To compare candidate parameters with separately recorded observations offline:
+
+\`\`\`bash
+node scripts/verify-ar.mjs --profile ./candidate.json --observations ./observations.json --out ./ar-report.json
+\`\`\`
+
+The command exits nonzero when any recorded total or element differs, when data is incomplete, or when versions conflict. An exit code of zero means **only** that supplied numbers matched; it never proves in-game accuracy, data reuse rights, or a supported regulation. Never publish manually transcribed data without independent review.
