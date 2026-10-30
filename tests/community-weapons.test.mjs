@@ -145,13 +145,13 @@ test('DLC roster has 102 sourced unique weapons/shields and three explicit data 
  assert.equal(new Set(dlc.map(w=>w.name)).size,102);
  assert.equal(catalog.meta.baseCommunityCount,307);
  assert.equal(catalog.meta.dlcCatalogCount,102);
- assert.equal(catalog.meta.dlcBaseFactCount,57);
- assert.equal(catalog.meta.dlcWeightOnlyCount,45);
+ assert.equal(catalog.meta.dlcBaseFactCount,64);
+ assert.equal(catalog.meta.dlcWeightOnlyCount,38);
  assert.equal(catalog.meta.dlcRequirementOnlyCount,0);
  assert.equal(catalog.meta.dlcNameOnlyCount,0);
- assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,57);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,64);
  assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,0);
- assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-weight-only').length,45);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-weight-only').length,38);
  assert.ok(dlc.every(w=>w.sourceUrl?.startsWith('https://')&&w.arParameters===undefined));
  for(const name of ["Rellana's Twin Blades","Rakshasa's Great Katana","Smithscript Dagger",
   "Smithscript Cirque","Spear of the Impaler","Staff of the Great Beyond","Verdigris Greatshield",
@@ -189,7 +189,7 @@ test('102 DLC records have attributed requirements and weights without inventing
  assert.ok(dlc.every(w=>Array.isArray(w.requirements)&&w.requirements.length===5));
  assert.ok(dlc.every(w=>Number.isFinite(w.weight)&&w.weight>=0));
  const partial=dlc.filter(w=>w.dataCoverage==='requirements-weight-only');
- assert.equal(partial.length,45);
+ assert.equal(partial.length,38);
  assert.ok(partial.every(w=>w.attack===null&&w.critical===null&&w.scaling===null&&w.weightSourceUrl));
  const fork=find("Bloodfiend's Fork"),leda=find("Anvil Hammer");
  assert.deepEqual(fork.requirements,[14,8,0,0,13]);
@@ -242,9 +242,10 @@ test('three +0–+10 somber published BASE attack tables never imply exact AR pa
   "Rakshasa's Great Katana":[[155,0,0,0,0],[379,0,0,0,0]],
   'Repeating Crossbow':[[74,0,0,0,0],[259,0,0,0,0]],
   'Tooth Whip':[[109,0,0,0,0],[267,0,0,0,0]],
-  'Euporia':[[84,0,0,0,100],[205,0,0,0,245]]
+  'Euporia':[[84,0,0,0,100],[205,0,0,0,245]],
+  "Bloodfiend's Sacred Spear":[[115,0,0,0,0],[281,0,0,0,0]]
  };
- assert.equal(catalog.meta.dlcUpgradeReferenceCount,5);
+ assert.equal(catalog.meta.dlcUpgradeReferenceCount,6);
  for(const [name,[first,last]] of Object.entries(expected)){
   const w=find(name);
   assert.equal(w.upgradeReference.path,'somber');
@@ -311,7 +312,7 @@ test('Euporia published split somber base attack progression preserves holy comp
    [100,114,129,143,158,172,187,201,216,230,245]);
  assert.deepEqual(publishedUpgradeParts(weapon,10),
    [{name:'Physical',amount:205},{name:'Holy',amount:245}]);
- assert.equal(catalog.meta.dlcUpgradeReferenceCount,5);
+ assert.equal(catalog.meta.dlcUpgradeReferenceCount,6);
  assert.match(cautionForWeapon(weapon).join(' '),/not precise reinforcement multipliers/);
 });
 test('sourced Ansbach Longbow exception permits only documented 2H Strength requirements',()=>{
@@ -417,5 +418,32 @@ test('special paired and fist 2H requirements follow named published exceptions 
   const stats=[Math.ceil(req[0]*2/3),...req.slice(1).map(n=>Math.max(1,n))];
   assert.equal(weaponRequirementComparison(w,stats).twoHanded.canWield,true,name);
   assert.equal(weaponRequirementComparison(w,stats).applyTwoHandBonus,true,name);
+ }
+});
+
+test('seven further per-weapon wiki sourced DLC +0 records and Bloodfiend somber base data',()=>{
+ const data=[["Dancing Blade of Ranah",[88,0,0,0,0],3.5,100,[9,20,0,0,0],["-","B","-","-","-"]],["Curseblade's Cirque",[108,0,0,0,0],4.5,100,[9,22,0,0,0],["E","C","-","-","-"]],["Death Knight's Longhaft Axe",[113,0,0,73,0],11.5,100,[23,10,0,18,0],["D","E","-","D","-"]],["Death Knight's Twin Axes",[101,0,0,65,0],5.5,100,[14,12,0,16,0],["D","D","-","D","-"]],["Bloodfiend's Sacred Spear",[115,0,0,0,0],8,100,[22,12,0,0,13],["E","E","-","-","C"]],["Horned Warrior's Greatsword",[130,0,0,0,0],13,100,[19,16,0,13,0],["D","D","-","D","-"]],["Flowerstone Gavel",[121,0,0,0,0],6,100,[14,8,0,0,15],["D","D","-","-","D"]]];
+ for(const [name,attack,weight,critical,requirements,scale] of data){
+  const w=find(name);assert.equal(w.dataCoverage,'base-reference',name);
+  assert.deepEqual(w.attack,attack,name);assert.equal(w.weight,weight,name);
+  assert.equal(w.critical,critical,name);assert.deepEqual(w.requirements,requirements,name);
+  assert.deepEqual(w.scaling,scale,name);assert.match(w.checkedWith,/^https:\/\/eldenring\.wiki\.gg/);
+ }
+ const w=find("Bloodfiend's Sacred Spear");
+ assert.deepEqual(w.upgradeReference.attackByLevel.map(x=>x[0]),
+  [115,131,148,165,181,198,215,231,248,265,281]);
+ assert.deepEqual(publishedUpgradeParts(w,10),[{name:'Physical',amount:281}]);
+ assert.equal(catalog.meta.dlcUpgradeReferenceCount,6);
+ const stone=find('Stone-Sheathed Sword');
+ assert.equal(stone.weight,3.5);assert.equal(stone.attack,null);
+ assert.equal(stone.dataCoverage,'requirements-weight-only');
+ assert.equal(stone.weightSourceUrl,'https://eldenring.wiki.gg/wiki/Straight_Swords');
+});
+test('named 2H paired/backhand exceptions have per-item requirement evidence',()=>{
+ for(const name of ['Dancing Blade of Ranah',"Curseblade's Cirque","Death Knight's Twin Axes"]){
+  const w=find(name),stats=[Math.ceil(w.requirements[0]*2/3),...w.requirements.slice(1).map(n=>Math.max(1,n))];
+  const result=weaponRequirementComparison(w,stats);
+  assert.equal(result.oneHanded.canWield,false);
+  assert.equal(result.twoHanded.canWield,true);
  }
 });

@@ -36,7 +36,7 @@ export function validateCommunityCatalog(catalog){
    fail('Unavailable DLC weight must be null: '+i);
   if(coverage==='requirements-weight-only'&&
      (!Number.isFinite(w.weight)||w.weight<0||w.weight>200||
-      !w.weightSourceUrl?.startsWith('https://github.com/hakkache/Elden-Ring-Dataset-API/blob/')))
+      !(w.weightSourceUrl?.startsWith('https://github.com/hakkache/Elden-Ring-Dataset-API/blob/')||w.weightSourceUrl?.startsWith('https://eldenring.wiki.gg/wiki/'))))
    fail('Source and weight required for DLC partial weighted entry '+i);
   if(w.requirementsSourceUrl!==undefined&&
      !w.requirementsSourceUrl.startsWith('https://github.com/hakkache/Elden-Ring-Dataset-API/blob/'))
@@ -103,6 +103,7 @@ const NO_STANDARD_TWO_HAND=new Set([
 ]);
 const SOURCE_VERIFIED_TWO_HAND_EXCEPTION_NAMES=new Set([
  "Ansbach's Longbow","Beast Claw","Nanaya's Torch",
+ "Dancing Blade of Ranah","Curseblade's Cirque","Death Knight's Twin Axes",
  "Golem Fist","Golden Lion Shield","Thiollier's Hidden Needle"
 ]);
 const SPECIAL_PAIRED_NAMES=new Set([
