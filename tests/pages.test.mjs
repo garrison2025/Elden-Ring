@@ -4,7 +4,7 @@ import {readdir,readFile,stat} from 'node:fs/promises';
 import {join,resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../public');
-const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','armor-optimizer','weapon-ar-lab','weapon-ar-validation','validation-status','about','privacy'];
+const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','armor-optimizer','weapon-upgrade-calculator','weapon-ar-lab','weapon-ar-validation','validation-status','about','privacy'];
 for (const slug of paths){
   test(`static page ${slug||'/'} has usable metadata and local assets`,async()=>{
     const p=join(root,slug,'index.html'),html=await readFile(p,'utf8');
@@ -102,4 +102,16 @@ test('armor optimizer has dedicated manual input page and noindex gate',async()=
  assert.match(app,/optimizeArmor/);
  assert.match((await readFile(join(root,'index.html'),'utf8')),/href="armor-optimizer\/"/);
  assert.match((await readFile(join(root,'equip-load-calculator/index.html'),'utf8')),/href="\.\.\/armor-optimizer\/"/);
+});
+
+test('weapon material planner has input controls, local engine and dedicated noindex',async()=>{
+ const html=await readFile(join(root,'weapon-upgrade-calculator/index.html'),'utf8');
+ const js=await readFile(join(root,'src/upgrade-materials-app.mjs'),'utf8');
+ const build=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');
+ for(const id of ['upgrade-track','upgrade-from','upgrade-to','inventory-input','material-rows','upgrade-steps','export-list'])
+  assert.ok(html.includes('id="'+id+'"'));
+ assert.match(html,/noindex,follow/);
+ assert.match(build,/uri==='weapon-upgrade-calculator'/);
+ assert.match(js,/planUpgradeMaterials/);
+ assert.match((await readFile(join(root,'index.html'),'utf8')),/href="weapon-upgrade-calculator\/"/);
 });

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
+<meta name="description" content="Plan Elden Ring Smithing Stone and Somber Smithing Stone requirements from your current to target weapon upgrade level, with inventory shortfalls.">
+<title>Elden Ring Smithing Stone Calculator | Build Lab</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css">
+</head><body data-page="upgrade">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="active" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="active" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
+<main class="container">
+<section class="hero"><div class="eyebrow">Weapon upgrades · Material planning</div>
+<h1>Smithing Stone Calculator</h1>
+<p>Find exactly which Smithing Stones are needed to upgrade a weapon from its current level to your target. Choose regular (+25) or somber (+10), and optionally enter stones you already own to see what's missing.</p>
+<span class="pill">Free · Browser only · No game file upload · Preview/noindex</span></section>
+<div class="tool-layout upgrade-layout">
+<section class="panel"><h2>Weapon upgrade plan</h2>
+<label class="field">Upgrade track<select id="upgrade-track">
+<option value="regular">Regular weapon (+0 to +25)</option>
+<option value="somber">Somber / special weapon (+0 to +10)</option>
+</select></label>
+<div class="input-two">
+<label class="field">Current upgrade level<input type="number" id="upgrade-from" min="0" max="25" step="1" value="0" inputmode="numeric"></label>
+<label class="field">Target upgrade level<input type="number" id="upgrade-to" min="0" max="25" step="1" value="25" inputmode="numeric"></label>
+</div><p class="note">Different weapons use different upgrade tracks. Choose the one shown in your inventory or smithing menu. This calculator does not determine a weapon's track automatically.</p>
+<details class="upgrade-inventory">
+<summary>Optional: subtract stones you already have</summary>
+<p class="note">Enter how many of each material you currently own. Values stay in this page while you use it, and are not sent to a server.</p>
+<div id="inventory-input" class="inventory-grid"></div>
+<button type="button" class="btn alt" id="reset-owned">Clear owned quantities</button>
+</details><p class="note">The final Ancient Dragon stones are tracked separately from regular numbered stones.</p></section>
+<section class="panel results"><div class="metric-label">Materials required</div><div class="kpi" id="upgrade-total">—</div>
+<div class="metric-grid"><div class="metric"><div class="metric-label">Still missing</div><strong id="upgrade-missing">—</strong></div>
+<div class="metric"><div class="metric-label">Upgrade steps</div><strong id="upgrade-count">—</strong></div></div>
+<p class="note">Material quantities only. Actual weapon-specific smithing rune costs are intentionally not estimated.</p>
+<div class="feedback" id="upgrade-feedback" role="status" aria-live="polite"></div>
+<button class="btn alt" id="export-list" type="button" disabled>Export material checklist CSV</button>
+</section></div>
+<section class="panel info">
+<h2>Materials checklist</h2><div class="table-wrap"><table class="datatable"><thead><tr><th>Stone type</th><th>Required</th><th>Owned</th><th>Missing</th></tr></thead>
+<tbody id="material-rows"></tbody></table></div>
+<details class="upgrade-steps"><summary>Show each reinforcement step</summary><ol id="upgrade-steps"></ol></details>
+</section>
+<section class="editorial-grid">
+<article class="panel info"><div class="eyebrow">Regular weapon upgrades</div><h2>+0 to +25</h2>
+<p>For each grade from Smithing Stone [1] to [8], the three upgrade steps use 2, 4 and 6 stones. For +0 to +24 that's 12 stones per grade (96 total). The final +24 to +25 step uses one Ancient Dragon Smithing Stone.</p>
+</article>
+<article class="panel info"><div class="eyebrow">Special weapon upgrades</div><h2>+0 to +10</h2>
+<p>Somber weapons use one Somber Smithing Stone per level from [1] through [9], followed by one Somber Ancient Dragon Smithing Stone for +10. Regular and somber upgrade tracks are not interchangeable.</p>
+</article></section>
+<section class="panel info"><h2>Source, scope and maintenance</h2><p>This schedule is based on published Smithing Stone and Somber Smithing Stone mechanics. See <a href="https://eldenring.wiki.gg/wiki/Smithing_Stones" rel="noopener noreferrer" target="_blank">regular upgrade materials</a>, <a href="https://eldenring.wiki.gg/wiki/Somber_Smithing_Stone" rel="noopener noreferrer" target="_blank">somber upgrade materials</a> and the <a href="https://www.gamerguides.com/elden-ring/guide/npcs/smithing-master-hewg/where-is-smithing-master-hewg-and-how-to-upgrade-weapons" rel="noopener noreferrer" target="_blank">upgrade-level reference</a>.</p>
+<p>The tool does not calculate rune costs, where to obtain stones, game-specific drop rates, weapon stats, attack ratings or unavailable upgrades. Check official patches before relying on the schedule after major future game updates.</p></section>
+<nav class="related-tools"><span class="eyebrow">Related tools</span>
+<a href="../weapon-requirements/">Weapon requirements ↗</a>
+<a href="../build-planner/">Build Planner ↗</a>
+<a href="../level-rune-calculator/">Rune Calculator ↗</a>
+<a href="../validation-status/">Accuracy record ↗</a></nav>
+</main><footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy & sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
+<script type="module" src="../src/upgrade-materials-app.mjs"></script>
+</body></html>
