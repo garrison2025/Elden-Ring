@@ -18,3 +18,7 @@ This change adds an **optional** local source-reported weapon reference to the e
 The source-reported numbers are not validated for current game regulation, so this is an explicitly labeled *reference preview* within the preexisting planner and not proof of finished AR/Equip Load functionality. Do not claim full inventory load, precise attack rating or equipment simulation. Existing weapon database and AR research noindex gates remain unchanged.
 
 Test plan: exact reference facts, unknown-as-null, entitlement separation, invalid URL IDs, stored draft migration, selected option preservation, cross-tool URLs, and CI build. Real device/E2E and game-version golden sample checks remain separate release blockers.
+
+### Current DLC snapshot (later 2026-10-30)
+
+43 individual per-weapon +0 profiles, 59 attributed requirements+individual-weight profiles, 0 names-only; every DLC record has reported weight and requirements. **Reported single-weapon weight is not game-patch-verified and does not mean total equipped load.** Full AR and infusion remain unavailable.

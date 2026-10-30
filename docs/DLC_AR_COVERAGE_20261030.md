@@ -5,10 +5,10 @@ This report audits the **102** Shadow of the Erdtree weapon/shield entries refer
 | Field / gate | Source-backed rows | Still unknown |
 | --- | ---: | ---: |
 | Weapon/shield name and category | 102 | 0 within selected reference roster |
-| All five attribute requirements | 74 | 28 |
-| +0 physical/elemental attack arrays | 30 | 72 |
-| Weight | 30 | 72 |
-| Critical and +0 letter grades | 30 | 72 |
+| All five attribute requirements | 102 | 0 |
+| +0 physical/elemental attack arrays | 43 | 59 |
+| Weight (43 weapon-specific wiki + 59 secondary CSV) | 102 | 0 |
+| Critical and +0 letter grades | 43 | 59 |
 | Community-published +0–+10 integer BASE attack tables | **5** | **97** |
 | Exact reinforcement attack/scaling multipliers | **0** | **102** |
 | Exact affinity/infusion parameter profiles | **0** | **102** |
@@ -67,3 +67,7 @@ Spread Crossbow (physical 68, weight 5.0), Spirit Sword (physical 92 + magic 59,
 - **Ansbach's Longbow** — +0 [74, 0, 0, 0, 0], weight 4.5, critical 100, requirements [9, 43, 0, 0, 0], scaling [E, D, -, -, -] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Ansbach%27s_Longbow)
 
 **Euporia somber +0–+10 source-published integer base attack:** physical [84,96,108,120,132,144,157,169,181,193,205]; holy [100,114,129,143,158,172,187,201,216,230,245]. These are NOT exact reinforcement coefficients, current version AR, or game golden samples. The Ancient Meteoric Ore Greatsword table is not imported because of an inconsistent +3 magic attack observation in the reference. Ansbach's Longbow per-weapon wiki contradicts previous list DEX 18: corrected to **DEX 43** with primary per-item source.
+
+### Later 2026-10-30 completion note
+
+The table above is the current snapshot: **102/102 DLC five-stat requirements and single-item weights**, **43 source-linked complete +0 base records**, **59 requirements-and-weight-only records**, with unknown attack/critical/scaling deliberately null; **5** published somber base attack progressions, and **0** exact AR regulation parameter profiles. Sources and individual links are described in `docs/COMMUNITY_WEAPON_DATA.md`. The sections above this note record earlier incremental work and their old counts should not be taken as current.
