@@ -257,3 +257,8 @@ The Character Build Planner now links directly to the real community Weapon Data
 ## Find wieldable real weapons
 
 The community weapon database now combines five-attribute requirements, weapon category, physical/elemental base type and weight filters. The conservative two-hand model excludes ranged, casting, fist and claw categories from the ordinary bonus, while warning that other special grips can still differ. This is an equipment **requirements** filter, not real AR or enemy DPS; numbers remain source- and version-unverified. No runtime paid APIs.
+
+
+### Sourced Shadow of the Erdtree requirements-only expansion
+
+The static Weapon Database includes 364 named entries: 307 legacy community rows plus 57 DLC name/class/requirement references. Unknown DLC base damage, weight, critical and scaling are NULL, not guessed. A coverage filter selects base, DLC or all data. Source and numeric limitations: docs/COMMUNITY_WEAPON_DATA.md. This is not a complete DLC catalog and does not certify game version 1.17.3 AR.

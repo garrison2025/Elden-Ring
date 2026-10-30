@@ -67,13 +67,14 @@ export function weaponRequirementComparison(weapon,stats){
  return compareWeaponRequirements(stats,weapon.requirements,{
   applyTwoHandBonus:standardTwoHandAssumption(weapon)});
 }
-function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,stats}){
+function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,stats,coverage}){
  if(typeof term!=='string'||term.length>100||
     typeof category!=='string'||category.length>100||
     !['name','weight','base'].includes(sort)||
     !Number.isInteger(limit)||limit<1||limit>100||
     !Number.isInteger(offset)||offset<0||
     !['any','one','standard-two'].includes(wield)||
+    !['all','base','dlc'].includes(coverage)||
     !['any','physical','magic','fire','lightning','holy'].includes(damage)||
     !(maxWeight===null||(typeof maxWeight==='number'&&Number.isFinite(maxWeight)&&maxWeight>=0&&maxWeight<=200)))
   fail('Invalid catalog search parameters.');
@@ -84,14 +85,16 @@ function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,
 }
 export function searchCatalog(weapons,{
  term='',category='all',sort='name',limit=50,offset=0,
- wield='any',damage='any',maxWeight=null,stats=null
+ wield='any',damage='any',maxWeight=null,stats=null,coverage='all'
 }={}){
  if(!Array.isArray(weapons))fail('Invalid weapon catalog.');
- const options={term,category,sort,limit,offset,wield,damage,maxWeight,stats};
+ const options={term,category,sort,limit,offset,wield,damage,maxWeight,stats,coverage};
  validateSearch(options);
  const q=term.trim().toLocaleLowerCase('en-US');
  const damageIndex={physical:0,magic:1,fire:2,lightning:3,holy:4}[damage];
  const matches=weapons.filter(w=>{
+  if(coverage==='dlc'&&w.dataCoverage!=='requirements-only')return false;
+  if(coverage==='base'&&w.dataCoverage==='requirements-only')return false;
   if(category!=='all'&&w.category!==category)return false;
   if(q&&!w.name.toLocaleLowerCase('en-US').includes(q)&&
     !w.category.toLocaleLowerCase('en-US').includes(q))return false;

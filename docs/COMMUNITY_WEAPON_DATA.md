@@ -22,3 +22,8 @@ Base weapon attack is not player AR. Letter-grade scaling is insufficient for tr
 Research route remains noindex until independent current-patch validation and data-rights review.
 
 Twelve source weapons have unknown '?' scaling grades. They remain '?' (not guessed) and are flagged in the UI; this is not a current-patch-verified scaling database.
+
+
+## Shadow of the Erdtree partial factual additions (2026-10-30)
+
+Added 57 named DLC armaments with categories and five minimum attributes, from https://consolepulse.com/multiplatform/elden-ring/guides/elden-ring-dlc-weapon-shield-locations . This is a PARTIAL selection, not a complete DLC list. All new DLC rows retain null weight, attack, critical and base scaling; their source supplies scaling for a different upgrade level and thus is not a valid +0 replacement. All new rows carry a source link and a prominent warning. They are searchable by name/category/requirements, while damage-type and weight filtering properly EXCLUDES unknown data. Totals: 307 base community numeric entries + 57 DLC requirements-only entries = 364. Never infer current-patch AR from any of them. All preview routes remain noindex.

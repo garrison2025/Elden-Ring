@@ -67,7 +67,7 @@ test('reject invalid values, duplicate IDs, corrupted stats and unsupported sort
  bad.weapons[0].attack[0]='invalid';
  assert.throws(()=>validateCommunityCatalog(bad),/Invalid base damage/);
  assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:10}}),/record count/);
- assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:308},weapons:[...catalog.weapons,catalog.weapons[0]]}),/Duplicate weapon ID/);
+ assert.throws(()=>validateCommunityCatalog({...catalog,meta:{...catalog.meta,count:365},weapons:[...catalog.weapons,catalog.weapons[0]]}),/Duplicate weapon ID/);
  assert.throws(()=>searchCatalog(catalog.weapons,{sort:'unknown'}),/Invalid catalog search/);
 });
 
