@@ -83,7 +83,11 @@ function initBuild(){
     $('#rune-plan-link').href=queryURL('../level-rune-calculator/',{from:current.level,to:level});
     $('#respec-link').href=queryURL('../respec-planner/',{origin:current.name,stats:v.join(',')});
     $('#weapon-req-link').href=queryURL('../weapon-requirements/',{stats:v.join(',')});
-    $('#weapon-catalog-link').href=queryURL('../weapon-database/',{stats:v.join(','),...(selectedWeaponId?{weapon:selectedWeaponId}:{})});
+    $('#weapon-catalog-link').href=queryURL('../weapon-database/',{
+      origin:current.name,stats:v.join(','),
+      ...(extra.checked?{tarnished:'1'}:{}),...(sote.checked?{sote:'1'}:{}),
+      ...(selectedWeaponId?{weapon:selectedWeaponId}:{})
+    });
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=false;
     renderWeapon(v);
     status(sharedProblem||'Plan valid. Attribute level is calculated locally; selected weapons are community references only.');
@@ -99,8 +103,14 @@ function initBuild(){
     classOptions(sel,extra.checked);sel.value=current.name;render();
   });
   sote.addEventListener('change',()=>{
-    if(!sote.checked&&selectedWeaponId&&weaponCatalog?.weapons.find(w=>w.id===selectedWeaponId)?.expansion==='Shadow of the Erdtree')
-      selectedWeaponId=null;
+    if(!sote.checked&&selectedWeaponId&&weaponCatalog?.weapons.find(w=>w.id===selectedWeaponId)?.expansion==='Shadow of the Erdtree'){
+      requestedWeapon=selectedWeaponId;selectedWeaponId=null;
+    }
+    if(sote.checked&&requestedWeapon&&weaponCatalog){
+      try{inspectBuildWeapon(weaponCatalog.weapons,requestedWeapon,read(),{allowSote:true});
+        selectedWeaponId=requestedWeapon;requestedWeapon=null;sharedProblem=null;}
+      catch(e){sharedProblem='Cannot restore weapon: '+e.message;requestedWeapon=null;}
+    }
     refreshWeaponChoices();render();
   });
   grid.addEventListener('input',render);
@@ -166,8 +176,12 @@ function initBuild(){
     weaponCatalog=catalog;search.disabled=false;weaponSelect.disabled=false;
     if(requestedWeapon!==null){
       try{inspectBuildWeapon(catalog.weapons,requestedWeapon,read(),{allowSote:sote.checked});
-        selectedWeaponId=requestedWeapon;}
-      catch(e){sharedProblem='Shared weapon not available: '+e.message;}
+        selectedWeaponId=requestedWeapon;requestedWeapon=null;}
+      catch(e){
+        if(e.message.startsWith('Enable Shadow of the Erdtree'))sharedProblem=
+          'This shared weapon requires Shadow of the Erdtree. Enable the weapon reference option to select it.';
+        else{sharedProblem='Shared weapon not available: '+e.message;requestedWeapon=null;}
+      }
     }
     refreshWeaponChoices();render();
   }).catch(e=>{weaponLoadError=e.message;search.disabled=true;weaponSelect.disabled=true;render();});

@@ -71,5 +71,12 @@ test('build and weapon catalogue retain separate pack gates and local draft safe
  assert.match(app,/parsed\.version!==1&&parsed\.version!==2/);
  assert.match(app,/localStorage\.removeItem\(savedKey\)/);
  assert.match(app,/parseBuildWeaponId\(query\.get\('weapon'\)\)/);
+ assert.match(app,/if\(sote\.checked&&requestedWeapon&&weaponCatalog\)/);
+ const catalogApp=await readFile('public/src/weapon-catalog-app.mjs','utf8');
+ const catalogHtml=await readFile('public/weapon-database/index.html','utf8');
+ assert.match(catalogHtml,/id="catalog-build-link"/);
+ assert.match(catalogApp,/origin=params\.get\('origin'\)/);
+ assert.match(catalogApp,/buildUrl\.searchParams\.set\('weapon',chosen\.id\)/);
+ assert.match(app,/origin:current\.name,stats:v\.join\(','\)/);
  assert.doesNotMatch(app,/eval\(/);
 });
