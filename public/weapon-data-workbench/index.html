@@ -101,6 +101,23 @@
 <p class="note" id="arw-rounding-summary" aria-live="polite">Rounding variants are displayed when local data is loaded.</p>
 <p class="note">AR is not actual damage against an enemy. Missing game parameters and unsupported versions may be rejected. Final game parity requires independent golden samples and rights checks.</p>
 </section>
+<section class="panel workbench-audit-panel" aria-labelledby="arw-observation-title">
+ <div class="eyebrow">Independent game-menu evidence · Manual entry · Local export</div>
+ <h2 id="arw-observation-title">Record a real game-client AR observation</h2>
+ <p>After calculating a sourced weapon above, open the same weapon, affinity and upgrade in your game equipment menu. Enter its displayed total AR here. This exports an <strong>UNREVIEWED</strong> JSON draft; the site does not capture, verify, upload or retain screenshots. Save your own game-menu screenshot separately for an independent reviewer.</p>
+ <div class="input-two">
+  <label class="field">Game App version<input id="arw-observation-app" maxlength="60" placeholder="Enter displayed app version" autocomplete="off"></label>
+  <label class="field">Game Regulation version<input id="arw-observation-reg" maxlength="60" placeholder="Enter displayed regulation version" autocomplete="off"></label>
+  <label class="field">Game platform<select id="arw-observation-platform"><option value="">Choose platform</option><option value="PC">PC</option><option value="PlayStation 5">PlayStation 5</option><option value="PlayStation 4">PlayStation 4</option><option value="Xbox Series X|S">Xbox Series X|S</option><option value="Xbox One">Xbox One</option><option value="Other">Other</option></select></label>
+  <label class="field">Date shown in game<input id="arw-observation-date" type="date"></label>
+  <label class="field">Grip in equipment menu<select id="arw-observation-grip"><option value="one">One-handed</option><option value="two">Two-handed</option></select></label>
+  <label class="field">Observed total AR (in-game integer)<input id="arw-observed-total" type="number" min="0" max="20000" step="1" inputmode="numeric" placeholder="Not the calculator's value"></label>
+ </div>
+ <label class="field">Evidence reference (local screenshot filename or reviewer reference)<input id="arw-observation-reference" type="text" maxlength="300" placeholder="e.g. my_game_menu_001.png — keep image on your device" autocomplete="off"></label>
+ <div class="workbench-actions"><button class="btn alt" id="arw-observation-export" type="button">Export unreviewed observation JSON</button></div>
+ <p class="note" id="arw-observation-feedback" role="status" aria-live="polite">No game-client observation has been entered or independently reviewed.</p>
+ <div class="safe-banner"><strong>Verification gate unchanged.</strong> A matching number is not proof of regulation-wide accuracy, screenshot authenticity, rights clearance, special weapon-skill damage, status effects or actual enemy damage.</div>
+</section>
 <section class="panel workbench-pair-panel" aria-labelledby="arw-pair-title">
  <div class="eyebrow">Two-weapon analysis · Unverified</div>
  <h2 id="arw-pair-title">Compare two weapon entries</h2>
