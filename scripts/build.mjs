@@ -8,7 +8,7 @@ async function pages(dir){const arr=[];for(const entry of await readdir(dir,{wit
 let indexed=[];
 for(const file of await pages(dist)){
  let html=await readFile(file,'utf8');const uri=path.relative(dist,path.dirname(file)).split(path.sep).filter(Boolean).join('/');const pathname=uri?`/${uri}/`:'/';
- const intentionallyNoindex=uri==='weapon-ar-lab'||uri==='weapon-ar-validation'||uri==='validation-status'||uri==='respec-planner'||uri==='weapon-requirements'||uri==='armor-optimizer'||uri==='weapon-upgrade-calculator';
+ const intentionallyNoindex=uri==='weapon-ar-lab'||uri==='weapon-ar-validation'||uri==='weapon-data-workbench'||uri==='validation-status'||uri==='respec-planner'||uri==='weapon-requirements'||uri==='armor-optimizer'||uri==='weapon-upgrade-calculator';
  const meta=intentionallyNoindex?'':(url?`<link rel="canonical" href="${url+pathname}">`:'<meta name="robots" content="noindex,follow">');
  html=html.replace('</head>',`${meta}</head>`);
  // Never index the developer-only synthetic AR fixture or verification test status.

@@ -140,3 +140,15 @@ SHA-256-traceable candidate profile from independent fictional JSON, and checks
 that JavaScript payloads and unknown names fail. All imported values remain
 \`manual-unverified\`; there are still **zero** independent current-game weapon
 AR golden vectors.
+
+
+### Live local-file workbench
+
+\`public/weapon-data-workbench/index.html\` uses a module Web Worker to parse
+a user-supplied compact regulation JSON (under 16 MB), search exact
+weapon/affinity names and compare preliminary 1H/2H values. All operations
+remain in memory in the user's browser: **no upload, remote fetch or
+persistent database.** Missing graph IDs, missing upgrades, invalid JSON,
+duplicate names and invalid attributes cause explicit errors. All output
+is research-only; matching imported parameters is not independently checked
+in-game and does not grant game-data redistribution rights.

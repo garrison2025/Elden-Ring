@@ -127,3 +127,16 @@ Conversion runs no JavaScript from third-party data, downloads no game files,
 does not import commercial rights, and produces **UNVERIFIED** profiles.
 The converter's tests use entirely invented parameters. See
 \`docs/AR_VALIDATION.md\` before using actual data or publishing AR results.
+
+
+## Local Weapon Data Workbench (research only)
+
+Route: \`/weapon-data-workbench/\`, explicitly \`noindex,nofollow\`. This is a
+browser-based partner to the existing versioned regulation importer. Users
+select their **own** compact-format JSON file (max 16 MB), provide version and
+source/rights context, search weapon/affinity names, and compare preliminary
+one-hand and two-hand AR at only the reinforcement levels actually supplied.
+It runs in a dedicated Web Worker to keep UI responsive. The data is never
+uploaded, automatically fetched, stored in browser storage, or bundled.
+The page includes neither a public game-derived database nor a certification
+claim. Regression tests use independently authored invented weapon entries.

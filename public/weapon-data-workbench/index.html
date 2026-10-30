@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#10161d">
+<meta name="description" content="Research-only local Elden Ring weapon parameter workbench. Import your own structured JSON, search weapon affinities, compare 1H/2H and reinforcement.">
+<title>Local Weapon Data Workbench | Build Lab</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css">
+</head><body data-page="ar-workbench">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
+<main class="container">
+<section class="hero">
+<div class="eyebrow">Developer research · Not indexed · Private local file</div>
+<h1>Weapon Data Workbench</h1>
+<p>Explore a locally provided compact regulation JSON file, find a specific weapon-and-affinity name, and compare preliminary one-handed and two-handed attack ratings across reinforcement levels.</p>
+<div class="safe-banner"><strong>NOT CURRENT-GAME VERIFIED.</strong> No real weapon dataset is bundled or downloaded by this site. A conversion that computes values does not establish source-data rights, formula parity or patch accuracy. Do not use the results as confirmed in-game AR.</div></section>
+<div class="workbench-grid">
+<section class="panel"><h2>1. Import your own data</h2>
+<p>Choose a compact regulation <code>.json</code> file containing <code>weapons</code>, <code>calcCorrectGraphs</code>, <code>attackElementCorrects</code> and <code>reinforceTypes</code>. Arbitrary JavaScript files and game binaries are not supported.</p>
+<label class="field">Local .json file (max 16 MB)<input id="arw-file" type="file" accept="application/json,.json"></label>
+<div class="input-two">
+<label class="field">Data version, as supplied<input id="arw-version" type="text" maxlength="60" value="local-unverified" autocomplete="off"></label>
+<label class="field">Source / rights note<input id="arw-source" type="text" maxlength="300" placeholder="Where data came from; rights not yet certified" autocomplete="off"></label>
+</div>
+<div class="workbench-actions"><button class="btn" id="arw-load" type="button">Load locally</button><button class="btn alt" id="arw-clear" type="button">Clear from memory</button></div>
+<p class="note" id="arw-file-status">No file loaded</p>
+</section>
+<section class="panel"><h2>2. Search weapon and affinity</h2>
+<label class="field">Search names<input id="arw-search" type="search" maxlength="100" placeholder="Filter loaded weapon entries" autocomplete="off"></label>
+<p class="note" id="arw-results-count">—</p>
+<label class="field">Weapon / variant<select id="arw-select" disabled></select></label>
+<label class="field">Upgrade level<select id="arw-upgrade"></select></label>
+<p class="note" id="arw-description">—</p>
+</section>
+</div>
+<section class="panel workbench-stats-panel"><h2>3. Player attributes</h2>
+<div id="arw-stats" class="ar-stat-grid"></div>
+<div class="workbench-actions"><button class="btn" id="arw-compare" type="button">Compare grips</button></div>
+<div class="feedback" id="arw-feedback" role="status" aria-live="polite"></div>
+</section>
+<section class="panel results" id="arw-comparison" hidden><div class="eyebrow">Research comparison — values not certified</div><h2>Calculated AR from imported parameters</h2>
+<div class="metric-grid workbench-metrics">
+<div class="metric"><div class="metric-label">One-handed</div><strong id="arw-onehand">—</strong></div>
+<div class="metric"><div class="metric-label">Two-handed</div><strong id="arw-twohand">—</strong></div>
+<div class="metric"><div class="metric-label">Difference</div><strong id="arw-delta">—</strong></div>
+<div class="metric"><div class="metric-label">Effective STR: 1H / 2H</div><strong id="arw-effective">—</strong></div>
+</div>
+<div class="table-wrap"><table class="datatable"><thead><tr><th>Damage component</th><th>1H</th><th>2H</th></tr></thead><tbody id="arw-components"></tbody></table></div>
+<p class="note">AR is not actual damage against an enemy. Missing game parameters and unsupported versions may be rejected. Final game parity requires independent golden samples and rights checks.</p>
+</section>
+<section class="editorial-grid">
+<article class="panel info"><h2>What happens to the file?</h2><p>It is parsed in a local Web Worker. This site does not upload it, persist its contents, or execute code inside it. Clearing memory or closing this page removes the in-memory copy. Network requests for ordinary website files still occur.</p></article>
+<article class="panel info"><h2>Release gate</h2><p>Exact numerical match in a synthetic test is not game-client verification. For actual AR publication, an authorized versioned dataset, documented formula mapping and independent in-game measurements are still required. Read the <a href="../weapon-ar-validation/">evidence comparator</a> and <a href="../validation-status/">accuracy record</a>.</p></article>
+</section>
+<nav class="related-tools" aria-label="AR research links"><span class="eyebrow">Research tools</span><a href="../weapon-ar-lab/">Single profile AR lab ↗</a><a href="../weapon-ar-validation/">Evidence comparator ↗</a><a href="../build-planner/">Build Planner ↗</a></nav>
+</main><footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy & sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
+<script type="module" src="../src/ar-workbench-app.mjs"></script>
+</body></html>

@@ -1,0 +1,125 @@
+import {POWER_STATS} from './weapon-ar.mjs';
+const get=id=>document.getElementById(id);
+const feedback=(s,bad=false)=>{
+ get('arw-feedback').textContent=s;
+ get('arw-feedback').className=bad?'feedback bad':'feedback';
+};
+const clear=()=>{
+ get('arw-onehand').textContent='—';get('arw-twohand').textContent='—';
+ get('arw-delta').textContent='—';get('arw-effective').textContent='—';
+ get('arw-components').replaceChildren();get('arw-comparison').hidden=true;
+};
+const make=(tag,value)=>{const e=document.createElement(tag);e.textContent=String(value);return e;};
+const labels={str:'Strength',dex:'Dexterity',int:'Intelligence',fai:'Faith',arc:'Arcane'};
+for(const stat of POWER_STATS){
+ const label=make('label',labels[stat]);label.className='stat-field';
+ const input=make('input','');input.type='number';input.min='1';input.max='99';input.step='1';
+ input.inputMode='numeric';input.dataset.arwStat=stat;
+ input.value=stat==='str'?'40':stat==='dex'?'20':'10';
+ label.append(input);get('arw-stats').append(label);
+}
+let worker;
+try{worker=new Worker(new URL('./ar-workbench-worker.mjs',import.meta.url),{type:'module'});}
+catch(e){feedback('Your browser does not support the local research worker: '+e.message,true);}
+let fileLoaded=false,selected=false,upgrades=[];
+const send=(message)=>{if(!worker)throw new Error('Browser worker unavailable.');worker.postMessage(message);};
+const setOptions=(records)=>{
+ const select=get('arw-select');select.replaceChildren();
+ for(const name of records){const option=new Option(name,name);select.add(option);}
+ select.disabled=records.length===0;
+ selected=false;clear();get('arw-upgrade').replaceChildren();
+ get('arw-results-count').textContent=records.length?'Choose a result to calculate.':'No matching weapon names.';
+};
+function selectCurrent(){
+ if(!fileLoaded||get('arw-select').disabled||!get('arw-select').value)return;
+ selected=false;clear();
+ send({op:'select',name:get('arw-select').value});
+}
+function requestCalculation(){
+ if(!selected)return;
+ try{
+  const stats={};
+  for(const control of get('arw-stats').querySelectorAll('input[data-arw-stat]')){
+   if(!/^(?:[1-9]|[1-9][0-9])$/.test(control.value.trim()))
+    throw new RangeError('All attributes must be whole numbers from 1 to 99.');
+   stats[control.dataset.arwStat]=Number(control.value);
+  }
+  const upgrade=Number(get('arw-upgrade').value);
+  if(!upgrades.includes(upgrade))throw new RangeError('Selected upgrade level has no source data.');
+  send({op:'compare',stats,upgrade});
+ }catch(e){clear();feedback(e.message,true);}
+}
+if(worker)worker.onmessage=({data:m})=>{
+ if(m.op==='error'){
+  if(m.phase==='load'){fileLoaded=false;get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-file-status').textContent='No file loaded';}
+  if(m.phase==='select')selected=false;
+  clear();feedback(m.message,true);return;
+ }
+ if(m.op==='cleared'){
+  fileLoaded=false;selected=false;upgrades=[];get('arw-file-status').textContent='No file loaded';
+  get('arw-select').replaceChildren();get('arw-select').disabled=true;get('arw-search').value='';
+  get('arw-upgrade').replaceChildren();get('arw-description').textContent='—';
+  get('arw-results-count').textContent='—';clear();feedback('Local file cleared from worker memory.');return;
+ }
+ if(m.op==='loaded'){
+  fileLoaded=true;get('arw-file-status').textContent=m.count.toLocaleString('en-US')+' unique weapon/affinity names loaded in browser memory.';
+  get('arw-search').value='';get('arw-results-count').textContent=m.preview.matches+' results; only first '+m.preview.names.length+' shown.';
+  setOptions(m.preview.names);feedback('Loaded local JSON. No content has been uploaded.');
+  if(m.preview.names.length)selectCurrent();
+  return;
+ }
+ if(m.op==='search-results'){
+  get('arw-results-count').textContent=m.result.matches+' matching names; first '+m.result.names.length+' shown.';
+  setOptions(m.result.names);if(m.result.names.length)selectCurrent();return;
+ }
+ if(m.op==='selected'){
+  selected=true;upgrades=m.description.upgradeLevels;
+  get('arw-description').textContent=m.description.name+' · '+m.description.gripMode+
+   ' grip · '+m.description.damageTypes.join(' + ')+' damage types · '+m.description.provenance.gameVersion;
+  const u=get('arw-upgrade');u.replaceChildren();
+  for(const n of upgrades)u.add(new Option('+'+n,String(n)));
+  requestCalculation();return;
+ }
+ if(m.op==='compared'){
+  const {oneHand,twoHand,difference}=m.result;
+  get('arw-onehand').textContent=oneHand.total;
+  get('arw-twohand').textContent=twoHand.total;
+  get('arw-delta').textContent=(difference>=0?'+':'')+difference;
+  get('arw-effective').textContent=oneHand.effectiveStats.str+' / '+twoHand.effectiveStats.str;
+  const tbody=get('arw-components');tbody.replaceChildren();
+  for(const before of oneHand.perElement){
+   const after=twoHand.perElement.find(x=>x.element===before.element);
+   const row=make('tr','');
+   for(const value of [before.element,before.displayed,after?.displayed??0]){
+    row.append(make('td',value));
+   }
+   tbody.append(row);
+  }
+  get('arw-comparison').hidden=false;
+  feedback('Calculated with your imported parameters. These results are UNVERIFIED and must not be used as confirmed game AR.');
+ }
+};
+get('arw-load').addEventListener('click',async()=>{
+ const file=get('arw-file').files?.[0];
+ if(!file){feedback('Choose a .json file first.',true);return;}
+ if(!file.name.toLowerCase().endsWith('.json')||file.size>16_000_000){
+  feedback('Only a local .json file smaller than 16 MB is supported. No .js execution.',true);return;
+ }
+ const version=get('arw-version').value.trim(),reference=get('arw-source').value.trim();
+ if(!version||version.length>60||!reference||reference.length>300){
+  feedback('Enter an explicit game version and data provenance before loading.',true);return;
+ }
+ clear();selected=false;fileLoaded=false;
+ get('arw-file-status').textContent='Reading local file…';
+ try{
+  send({op:'clear'});send({op:'load',text:await file.text(),version,reference});
+  feedback('Parsing and checking names in a dedicated browser worker…');
+ }catch(e){feedback(e.message,true);}
+});
+get('arw-clear').addEventListener('click',()=>{get('arw-file').value='';send({op:'clear'});});
+get('arw-search').addEventListener('input',()=>{if(fileLoaded)send({op:'search',term:get('arw-search').value});});
+get('arw-select').addEventListener('change',selectCurrent);
+get('arw-upgrade').addEventListener('change',requestCalculation);
+get('arw-stats').addEventListener('input',()=>{clear();requestCalculation();});
+get('arw-compare').addEventListener('click',requestCalculation);
+feedback('Choose a local compact regulation JSON file. No game data is bundled.');

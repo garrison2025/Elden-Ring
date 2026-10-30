@@ -1,0 +1,59 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {searchLocalWeapons,describeLocalWeapon,compareLocalGrips} from '../public/src/ar-workbench-core.mjs';
+const data=()=>{
+ const graph=[{maxVal:0,maxGrowVal:0,adjPt:1},{maxVal:148,maxGrowVal:1.48,adjPt:1}];
+ const stats={str:1,dex:1,int:1,fai:1,arc:1};
+ return {
+  weapons:[
+   {name:'Fictional Cold Blade',weaponName:'Blade',weaponType:13,paired:false,attack:[[0,100]],
+    attributeScaling:[['str',0.8],['dex',0.2]],requirements:{str:10,dex:10},
+    attackElementCorrectId:4,reinforceTypeId:2,calcCorrectGraphIds:{0:1}},
+   {name:'Fictional Heavy Blade',weaponName:'Blade',weaponType:13,paired:false,attack:[[0,100]],
+    attributeScaling:[['str',0.8],['dex',0.2]],requirements:{str:10,dex:10},
+    attackElementCorrectId:4,reinforceTypeId:2,calcCorrectGraphIds:{0:1}},
+   {name:'Fictional Paired Blades',weaponName:'Blades',weaponType:35,paired:true,attack:[[0,100]],
+    attributeScaling:[['str',0.8],['dex',0.2]],requirements:{str:10,dex:10},
+    attackElementCorrectId:4,reinforceTypeId:2,calcCorrectGraphIds:{0:1}}
+  ],calcCorrectGraphs:{1:graph},
+  attackElementCorrects:{4:{0:{str:true,dex:true}}},
+  reinforceTypes:{2:[{attack:{0:1},attributeScaling:stats},
+   {attack:{0:1.1},attributeScaling:{...stats,str:1.05,dex:1.05}}]}
+ };
+};
+const opts=name=>[data(),name,'synthetic-v1','independently made fictional test'];
+const build=name=>describeLocalWeapon(...opts(name));
+const stats={str:40,dex:20,int:10,fai:10,arc:10};
+test('local research name filter is case insensitive, bounded and does not interpolate or inject HTML',()=>{
+ const all=['Fictional Cold Blade','Fictional Heavy Blade','Fictional Paired Blades'];
+ assert.deepEqual(searchLocalWeapons(all,'BLade',2),{matches:3,names:all.slice(0,2)});
+ assert.deepEqual(searchLocalWeapons(all,'none'),{matches:0,names:[]});
+ assert.throws(()=>searchLocalWeapons(all,'x'.repeat(101)),/too long/);
+ assert.throws(()=>searchLocalWeapons(all,'',1000),/Invalid weapon/);
+});
+test('local selected profile compares 1H and 2H for two upgrade levels without bundling game data',()=>{
+ const {profile,description}=build('Fictional Heavy Blade');
+ assert.equal(description.gripMode,'standard');
+ assert.deepEqual(description.upgradeLevels,[0,1]);
+ assert.deepEqual(description.damageTypes,['physical']);
+ const out=compareLocalGrips(profile,stats,0);
+ assert.equal(out.oneHand.total,136);
+ assert.equal(out.twoHand.total,152);
+ assert.equal(out.difference,16);
+ assert.match(out.note,/UNCERTIFIED/);
+ const enhanced=compareLocalGrips(profile,stats,1);
+ assert.equal(enhanced.oneHand.total,151);
+});
+test('paired grip does not gain 1.5x effective STR',()=>{
+ const {profile}=build('Fictional Paired Blades');
+ const r=compareLocalGrips(profile,stats,0);
+ assert.equal(r.oneHand.total,r.twoHand.total);
+ assert.equal(r.oneHand.effectiveStats.str,40);
+ assert.equal(r.twoHand.effectiveStats.str,40);
+});
+test('missing or out-of-range attributes and reinforcement levels fail closed',()=>{
+ const {profile}=build('Fictional Cold Blade');
+ assert.throws(()=>compareLocalGrips(profile,{...stats,str:100},0),/Invalid str/);
+ assert.throws(()=>compareLocalGrips(profile,stats,2),/no supplied data/);
+ assert.throws(()=>describeLocalWeapon(data(),'Unknown','v1','manual'),/matches: 0/);
+});

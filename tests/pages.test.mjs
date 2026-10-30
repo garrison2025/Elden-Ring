@@ -4,7 +4,7 @@ import {readdir,readFile,stat} from 'node:fs/promises';
 import {join,resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../public');
-const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','armor-optimizer','weapon-upgrade-calculator','weapon-ar-lab','weapon-ar-validation','validation-status','about','privacy'];
+const paths=['','build-planner','class-optimizer','level-rune-calculator','equip-load-calculator','respec-planner','weapon-requirements','armor-optimizer','weapon-upgrade-calculator','weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','validation-status','about','privacy'];
 for (const slug of paths){
   test(`static page ${slug||'/'} has usable metadata and local assets`,async()=>{
     const p=join(root,slug,'index.html'),html=await readFile(p,'utf8');
@@ -114,4 +114,19 @@ test('weapon material planner has input controls, local engine and dedicated noi
  assert.match(build,/uri==='weapon-upgrade-calculator'/);
  assert.match(js,/planUpgradeMaterials/);
  assert.match((await readFile(join(root,'index.html'),'utf8')),/href="weapon-upgrade-calculator\/"/);
+});
+
+test('local AR workbench is noindexed, worker-based and reachable only as research',async()=>{
+ const page=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
+ const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
+ const worker=await readFile(join(root,'src/ar-workbench-worker.mjs'),'utf8');
+ const build=await readFile(resolve(root,'../scripts/build.mjs'),'utf8');
+ assert.match(page,/noindex,nofollow/);
+ for(const id of ['arw-file','arw-source','arw-search','arw-select','arw-upgrade','arw-comparison','arw-components'])
+  assert.ok(page.includes('id="'+id+'"'));
+ assert.match(app,/new Worker/);
+ assert.match(worker,/JSON\.parse/);
+ assert.doesNotMatch(worker,/fetch\(/);
+ assert.match(build,/uri==='weapon-data-workbench'/);
+ assert.match((await readFile(join(root,'weapon-ar-lab/index.html'),'utf8')),/weapon-data-workbench/);
 });
