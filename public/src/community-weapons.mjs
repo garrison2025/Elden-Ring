@@ -65,6 +65,17 @@ export function validateCommunityCatalog(catalog){
   if(w.flags!==undefined&&(!Array.isArray(w.flags)||w.flags.some(x=>typeof x!=='string'||x.length>65)))
    fail('Invalid quality flags '+i);
  }
+ const dlcRows=catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree');
+ const totals={
+  baseCommunityCount:catalog.weapons.length-dlcRows.length,
+  dlcCatalogCount:dlcRows.length,
+  dlcBaseFactCount:dlcRows.filter(w=>w.dataCoverage==='base-reference').length,
+  dlcRequirementOnlyCount:dlcRows.filter(w=>w.dataCoverage==='requirements-only').length,
+  dlcNameOnlyCount:dlcRows.filter(w=>w.dataCoverage==='name-category-only').length,
+  dlcUpgradeReferenceCount:dlcRows.filter(w=>w.upgradeReference!==undefined).length
+ };
+ for(const [key,value] of Object.entries(totals))
+  if(catalog.meta[key]!==value)fail('Catalog coverage metadata mismatch: '+key);
  return catalog;
 }
 export function catalogCategories(weapons){
@@ -73,7 +84,7 @@ export function catalogCategories(weapons){
 // A list of categories whose grip is not the ordinary two-handing melee
 // assumption. This is intentionally conservative and never verifies game AR.
 const NO_STANDARD_TWO_HAND=new Set([
- 'Ballista','Bow','Crossbow','Greatbow','Light Bow',
+ 'Ballista','Bow','Greatbow','Light Bow',
  'Glintstone Staff','Sacred Seal','Fist','Claw',
  'Backhand Blade','Beast Claw','Perfume Bottle','Hand-to-Hand Art',
  'Thrusting Shield','Throwing Blade','Small Shield','Medium Shield',

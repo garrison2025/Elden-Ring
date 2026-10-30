@@ -52,3 +52,11 @@ On each official patch, mark affected rows for re-check, verify relevant param c
 - Tooth Whip: +0 physical 109, weight 3, STR 10, DEX 24; published somber +0 to +10 physical base attack 109,124,140,156,172,188,203,219,235,251,267 — https://eldenring.wiki.gg/wiki/Tooth_Whip
 
 All numbers are community reference facts, not game-certified current-regulation AR.
+
+### Independent base-game error correction and 2H usability gate
+
+Eldenpedia's [Spiked Spear](https://eldenring.wiki.gg/wiki/Spiked_Spear) +0 record confirms DEX requirement **16**, not the malformed upstream 0, and critical **100**, not 0. Record updated with source and old suspicious flag removed. The community catalog's 307 base-game row count is unchanged.
+
+Two-handing a Crossbow **can** satisfy reduced Strength requirements where a documented weapon displays the 1H/2H requirements: [Repeating Crossbow](https://eldenring.wiki.gg/wiki/Repeating_Crossbow) 13 STR (1H), 9 STR (2H); [Spread Crossbow](https://eldenring.wiki.gg/wiki/Spread_Crossbow) 11 STR (1H), 8 STR (2H). The requirement checker now permits the standard 1.5× effective STR rule for Crossbow; this is **not** a claim that crossbows gain Strength damage scaling or can fire without bolts. Bows and other categories remain conservative until independently checked.
+
+New catalog integrity validation compares declared coverage counts against actual DLC tiers and published attack tables; mismatches fail the build. Neither corrected weapon facts nor new validation constitutes current regulation AR certification.

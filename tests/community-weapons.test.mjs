@@ -29,6 +29,10 @@ test('real weapon facts and independently checked corrections are present',()=>{
  assert.match(royal.checkedWith,/wiki.gg/);
  assert.equal(find('Serpentbone Blade').attack[0],120);
  assert.equal(find('Star Fist').critical,100);
+ const spiked=find('Spiked Spear');
+ assert.equal(spiked.critical,100);
+ assert.deepEqual(spiked.requirements,[14,16,0,0,0]);
+ assert.match(spiked.checkedWith,/wiki\.gg\/wiki\/Spiked_Spear/);
  assert.deepEqual(baseDamageParts(royal),[
   {name:'Physical',amount:112},{name:'Magic',amount:134}]);
 });
@@ -76,6 +80,26 @@ test('reject invalid values, duplicate IDs, corrupted stats and unsupported sort
  assert.throws(()=>searchCatalog(catalog.weapons,{sort:'unknown'}),/Invalid catalog search/);
 });
 
+test('catalog coverage counts cannot silently drift from actual referenced facts',()=>{
+ const corrupt=structuredClone(catalog);
+ corrupt.meta.dlcBaseFactCount++;
+ assert.throws(()=>validateCommunityCatalog(corrupt),/Catalog coverage metadata mismatch/);
+ const corruptUpgrades=structuredClone(catalog);
+ corruptUpgrades.meta.dlcUpgradeReferenceCount=0;
+ assert.throws(()=>validateCommunityCatalog(corruptUpgrades),/Catalog coverage metadata mismatch/);
+});
+test('crossbows allow sourced standard two-hand Strength requirement reduction, not damage scaling',()=>{
+ const bow=find('Repeating Crossbow'),spread=find('Spread Crossbow');
+ const a=weaponRequirementComparison(bow,[9,15,10,10,10]);
+ assert.equal(a.oneHanded.canWield,false);
+ assert.equal(a.twoHanded.canWield,true);
+ assert.equal(a.twoHanded.effectiveStrength,13);
+ assert.equal(a.applyTwoHandBonus,true);
+ const b=weaponRequirementComparison(spread,[8,17,10,10,10]);
+ assert.equal(b.oneHanded.canWield,false);
+ assert.equal(b.twoHanded.canWield,true);
+ assert.equal(b.twoHanded.effectiveStrength,12);
+});
 test('12 upstream unknown scaling grades are explicitly flagged and never guessed',()=>{
  const marked=catalog.weapons.filter(x=>x.flags?.includes('unknown-scaling-letter'));
  assert.equal(marked.length,12);
