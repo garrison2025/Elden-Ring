@@ -6,11 +6,11 @@ Snapshot updated 2026-10-30. **409 unique-ID records:** 307 base-game community 
 
 | Tier | DLC rows | Available | Unavailable |
 | --- | ---: | --- | --- |
-| `base-reference` | 64 | Name, weapon class, requirements, +0 physical/elemental attack, critical, weight and scaling **letters** cross-checked against individually linked Eldenpedia entries | Exact reinforcement table, affinity parameters, numeric stat curves, current-regulation game parity, AR |
-| `requirements-weight-only` | 38 | Name, class, five-stat requirements, and secondary community-sourced single-weapon weight | +0 attack, critical, scaling, upgrades, affinities, AR; independent current-patch verification |
+| `base-reference` | 101 | 68 individual per-weapon references and 33 wiki category-comparison rows for +0 five-type base attack, weight, critical and attribute requirements; three scaling grade positions explicitly unknown (?) | Patch-level game parity, numeric scaling curves, affinities, precise AR |
+| `requirements-weight-only` | 1 | Stone-Sheathed Sword named item and sourced requirements/weight | Contradictory +0 base attack 119 vs 89 is intentionally UNKNOWN, along with critical/scaling in this tier |
 | `requirements-only` / `name-category-only` | 0 | Legacy parser tiers kept for compatibility | Not used in this snapshot |
 
-**Every missing numeric field is null, not zero.** All 102 DLC entries have sourced requirement arrays and community-reported single-item weight; do not confuse this with independently game-validated patch values. The 64 wiki +0 values are reference facts, **not** current patch game-tested AR.
+**Every missing numeric field is null, not zero.** All 102 DLC entries have sourced requirement arrays and community-reported single-item weight; do not confuse this with independently game-validated patch values. The 101 wiki +0 values are reference facts, **not** current patch game-tested AR.
 
 Original nine sourced +0 references: Milady, Backhand Blade, Great Katana, Dragon-Hunter's Great Katana, Dueling Shield, Rellana's Twin Blades, Rakshasa's Great Katana, Smithscript Dagger and Smithscript Cirque.
 
@@ -105,3 +105,11 @@ Current overall DLC coverage **57 cited +0, 45 weight+requirements only; 102/102
 - Flowerstone Gavel: attack 121,0,0,0,0, weight 6, critical 100, requirements 14,8,0,0,15, grade D,D,-,-,D — https://eldenring.wiki.gg/wiki/Flowerstone_Gavel
 
 Bloodfiend's Sacred Spear has source-published *rounded* somber base physical 115,131,148,165,181,198,215,231,248,265,281 for +0..+10 (NOT AR). Stone-Sheathed Sword community secondary weight 5 corrected to the wiki class table's 3.5; attack remains null due contradictory sources. Current DLC tiers: 64 +0, 38 requirements/weight only, 6 somber base tables, zero game-verified AR.
+
+### Final source-graded DLC base-attack audit (2026-10-30)
+
+- Total 102 DLC records with five attribute requirements and single-weapon weight.
+- **101** now have community **+0 BASE attack** fact arrays, of which **68** point to named per-weapon wiki.gg pages and **33** to exact weapon-class comparison rows whose weight + five requirements independently match existing entries. These class rows are *not* independent current-regulation gameplay verification.
+- **One** record, Stone-Sheathed Sword, remains null for attack because the cited weapon article's physical +0 infobox gives 119 while its upgraded base table shows 89 at +0; the underlying evidence cannot be reconciled confidently.
+- Corrected **Madding Hand** requirement FAI 20→13 and **Main-gauche** weight 2.5→2 using exact per-weapon pages. For **Falx** the class table/infobox Strength grade D disagrees with +0 upgrade row E, so STR grade is '?'. **Messmer Soldier's Spear** and **Swift Spear** have malformed Faith scaling '0' in sources, stored as '?', not assumed '-'.
+- Six source-published somber integer BASE attack tables exist, **zero exact AR profiles are game/regulation-certified**. Source grade and patch caution are visible in weapon details. Historic section counts above reflect sequential audits; this section is the current snapshot.

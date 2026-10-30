@@ -33,17 +33,17 @@ test('DLC weapon cannot be selected without explicit SOTE reference availability
  assert.equal(inspectBuildWeapon(catalog.weapons,null,stats),null);
 });
 test('partially sourced weapon has nonzero weight but still unknown attack and scaling',()=>{
- const nameOnly=find("Bloodfiend's Fork");
- const requirementsOnly=find("Anvil Hammer");
+ const nameOnly=find('Stone-Sheathed Sword');
+ const requirementsOnly=find('Anvil Hammer');
  const onlyName=inspectBuildWeapon(catalog.weapons,nameOnly.id,stats,{allowSote:true});
- assert.equal(onlyName.weight,4.5);
- assert.deepEqual(onlyName.requirements,[14,8,0,0,13]);
- assert.equal(onlyName.oneHanded,false);
+ assert.equal(onlyName.weight,3.5);
+ assert.deepEqual(onlyName.requirements,[16,8,0,0,0]);
+ assert.equal(onlyName.oneHanded,true);
  assert.equal(onlyName.attackAtZero,null);
  const onlyRequirements=inspectBuildWeapon(catalog.weapons,requirementsOnly.id,stats,{allowSote:true});
  assert.ok(onlyRequirements.weight>0);
  assert.ok(Array.isArray(onlyRequirements.requirements));
- assert.equal(onlyRequirements.attackAtZero,null);
+ assert.deepEqual(onlyRequirements.attackAtZero,[131,0,85,0,0]);
  for(const invalid of [[1,1,1],[40,20,25,16,17,16,16,100],[40,20,25,16,17,16,16,0]])
    assert.throws(()=>inspectBuildWeapon(catalog.weapons,find('Greatsword').id,invalid),/eight-attribute/);
 });

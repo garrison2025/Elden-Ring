@@ -178,7 +178,7 @@ function renderDetails(){
   $('catalog-verified').append(a);
  }
  if(chosen.checkedWith){
-  const a=el('a','View independent numeric cross-check ↗');
+  const a=el('a',chosen.flags?.includes('wiki-category-table-base-observation')?'View weapon-class comparison source ↗':'View per-weapon numeric reference ↗');
   a.href=chosen.checkedWith;a.target='_blank';a.rel='noopener noreferrer';
   $('catalog-verified').append(a);
  }
