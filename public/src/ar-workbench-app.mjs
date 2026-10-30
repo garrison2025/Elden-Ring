@@ -1,6 +1,7 @@
 import {POWER_STATS} from './weapon-ar.mjs';
 import {makeUnreviewedArObservation} from './ar-observation.mjs';
 import {makeUnreviewedArObservationBatch} from './ar-game-validation-plan.mjs';
+import {fingerprintLocalScreenshot,compareLocalScreenshotToFingerprint} from './ar-screenshot-fingerprint.mjs';
 import {parseArWorkbenchHandoff} from './ar-workbench-navigation.mjs';
 const handoff=parseArWorkbenchHandoff(location.search);
 import {downloadV117Source,V117_PROVENANCE} from './upstream-regulation-v117.mjs';
@@ -10,6 +11,7 @@ const feedback=(s,bad=false)=>{
  get('arw-feedback').className=bad?'feedback bad':'feedback';
 };
 let gamePlanRevision=0,gamePlan=null;
+let importedRecheckDraft=null;
 const clearGamePlan=()=>{
  gamePlanRevision++;gamePlan=null;
  get('arw-plan-results').hidden=true;
@@ -32,7 +34,11 @@ const clearProgression=()=>{
  get('arw-progression-summary').textContent='';
 };
 const clearRecheck=()=>{
- recheckRevision++;
+ recheckRevision++;importedRecheckDraft=null;
+ get('arw-fingerprint-verify').hidden=true;
+ get('arw-fingerprint-case').replaceChildren();
+ get('arw-fingerprint-file').value='';
+ get('arw-fingerprint-feedback').textContent='No screenshot bytes checked. No images leave this browser.';
  get('arw-recheck-results').hidden=true;
  get('arw-recheck-summary').textContent='';
  get('arw-recheck-drift').textContent='—';
@@ -359,6 +365,11 @@ if(worker)worker.onmessage=({data:m})=>{
    reference.dataset.arwPlanReference=item.caseId;
    reference.setAttribute('aria-label',item.caseId+' screenshot filename');
    screenshotCell.append(reference);tr.append(screenshotCell);
+   const imageCell=make('td',''),imageInput=make('input','');
+   imageInput.type='file';imageInput.accept='.png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp';
+   imageInput.dataset.arwPlanScreenshot=item.caseId;
+   imageInput.setAttribute('aria-label',item.caseId+' optional local screenshot');
+   imageCell.append(imageInput);tr.append(imageCell);
    rows.append(tr);
   }
   get('arw-plan-results').hidden=false;get('arw-plan-download').disabled=false;
@@ -428,6 +439,13 @@ if(worker)worker.onmessage=({data:m})=>{
   if(m.requestId!==recheckRevision)return;
   const item=m.result;
   if(item.recordType==='unreviewed-ar-batch-recheck-report'){
+   const cases=importedRecheckDraft?.observations??[];
+   const hashCases=cases.filter(entry=>
+    entry?.observation?.sourceEvidence?.screenshotFingerprint&&
+    entry?.caseId&&typeof entry.caseId==='string');
+   const chooser=get('arw-fingerprint-case');chooser.replaceChildren();
+   for(const entry of hashCases)chooser.add(new Option(entry.caseId,entry.caseId));
+   get('arw-fingerprint-verify').hidden=hashCases.length===0;
    const rows=get('arw-recheck-batch-rows');rows.replaceChildren();
    for(const result of item.rows){
     const tr=make('tr','');
@@ -678,22 +696,35 @@ get('arw-plan-download').addEventListener('click',()=>{
  document.body.append(anchor);anchor.click();anchor.remove();
  setTimeout(()=>URL.revokeObjectURL(url),3000);
 });
-get('arw-plan-export').addEventListener('click',()=>{
+get('arw-plan-export').addEventListener('click',async()=>{
  if(!gamePlan||syntheticMode||gamePlan.synthetic){
   get('arw-plan-feedback').textContent='Fictional data cannot be exported as real observations.';return;
  }
+ const planAtStart=gamePlan,revisionAtStart=gamePlanRevision;
+ const exportButton=get('arw-plan-export');exportButton.disabled=true;
  try{
   const observations=[];
   for(const row of get('arw-plan-rows').querySelectorAll('tr[data-case-id]')){
    const actual=row.querySelector('input[data-arw-plan-total]').value.trim();
-   const evidence=row.querySelector('input[data-arw-plan-reference]').value.trim();
-   if(actual===''&&evidence==='')continue;
+   let evidence=row.querySelector('input[data-arw-plan-reference]').value.trim();
+   const file=row.querySelector('input[data-arw-plan-screenshot]').files?.[0];
+   if(actual===''&&evidence===''&&!file)continue;
    if(!/^(?:0|[1-9][0-9]{0,4})$/.test(actual))
     throw new RangeError('Case '+row.dataset.caseId+' needs a whole-number actual game AR.');
+   let screenshotFingerprint;
+   if(file){
+    if(evidence&&evidence!==file.name)
+     throw new RangeError('Case '+row.dataset.caseId+
+      ': evidence filename must equal the chosen screenshot filename.');
+    screenshotFingerprint=await fingerprintLocalScreenshot(file);
+    evidence=file.name;
+   }
+   if(revisionAtStart!==gamePlanRevision||planAtStart!==gamePlan||!fileLoaded)
+    throw new RangeError('Weapon/source/stats changed during screenshot hashing. Regenerate the plan.');
    observations.push({caseId:row.dataset.caseId,observedTotal:Number(actual),
-    evidenceReference:evidence});
+    evidenceReference:evidence,screenshotFingerprint});
   }
-  const batch=makeUnreviewedArObservationBatch(gamePlan,{
+  const batch=makeUnreviewedArObservationBatch(planAtStart,{
    observations,gameAppVersion:get('arw-observation-app').value,
    regulationVersion:get('arw-observation-reg').value,
    platform:get('arw-observation-platform').value,
@@ -706,9 +737,16 @@ get('arw-plan-export').addEventListener('click',()=>{
   document.body.append(anchor);anchor.click();anchor.remove();
   setTimeout(()=>URL.revokeObjectURL(url),3000);
   get('arw-plan-feedback').textContent='Exported '+batch.submittedCases+
-   ' UNREVIEWED observation drafts; '+batch.numericalMatches+
-   ' numeric matches. Screenshot-reviewed: 0. Keep image files for independent review.';
- }catch(error){get('arw-plan-feedback').textContent='Cannot export batch: '+error.message;}
+   ' UNREVIEWED observation drafts; '+batch.fingerprintedCases+
+   ' screenshots fingerprinted locally; '+batch.numericalMatches+
+   ' numeric matches. Screenshot-reviewed: 0. Keep original image files.';
+ }catch(error){
+  if(revisionAtStart===gamePlanRevision)
+   get('arw-plan-feedback').textContent='Cannot export batch: '+error.message;
+ }finally{
+  if(revisionAtStart===gamePlanRevision&&gamePlan&&!syntheticMode)
+   exportButton.disabled=false;
+ }
 });
 get('arw-sensitivity-grip').addEventListener('change',clearSensitivity);
 get('arw-sensitivity-run').addEventListener('click',()=>{
@@ -747,10 +785,43 @@ get('arw-recheck-run').addEventListener('click',async()=>{
  try{
   const text=await file.text();
   if(id!==recheckRevision||!fileLoaded)return;
+  const draft=JSON.parse(text);
+  if(id!==recheckRevision||!fileLoaded)return;
+  importedRecheckDraft=draft;
   send({op:'recheck-observation',requestId:id,text});
  }catch(error){
   if(id===recheckRevision)get('arw-recheck-feedback').textContent=error.message;
  }
+});
+get('arw-fingerprint-run').addEventListener('click',async()=>{
+ const id=recheckRevision,button=get('arw-fingerprint-run');
+ const chosen=get('arw-fingerprint-case').value;
+ const draft=importedRecheckDraft;
+ const item=draft?.observations?.find(entry=>entry.caseId===chosen);
+ const expected=item?.observation?.sourceEvidence?.screenshotFingerprint;
+ const file=get('arw-fingerprint-file').files?.[0];
+ if(!file||!expected){
+  get('arw-fingerprint-feedback').textContent='Choose a fingerprinted case and an original screenshot.';return;
+ }
+ button.disabled=true;
+ try{
+  const result=await compareLocalScreenshotToFingerprint(file,expected);
+  if(id!==recheckRevision)return;
+  get('arw-fingerprint-feedback').textContent=
+   (result.status==='bytes-match'?'SHA-256 MATCH: same file bytes. ':
+    'SHA-256 MISMATCH: selected screenshot differs from the saved evidence. ')+
+   'This is NOT game-client screenshot authenticity or content verification.';
+ }catch(error){
+  if(id===recheckRevision)get('arw-fingerprint-feedback').textContent=
+   'Could not compare screenshot: '+error.message;
+ }finally{if(id===recheckRevision)button.disabled=false;}
+});
+get('arw-plan-rows').addEventListener('change',event=>{
+ const input=event.target;
+ if(!input?.matches?.('input[data-arw-plan-screenshot]'))return;
+ const row=input.closest('tr[data-case-id]');
+ const filename=row?.querySelector('input[data-arw-plan-reference]');
+ if(input.files?.[0]&&filename)filename.value=input.files[0].name;
 });
 get('arw-family-grip').addEventListener('change',clearFamily);
 get('arw-family-run').addEventListener('click',()=>{
