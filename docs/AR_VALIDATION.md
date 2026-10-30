@@ -84,3 +84,50 @@ A separate open-source calculator \`nyedr/elden-ring-ar-calculator\` provides an
 ### CLI and CI regression gate
 
 \`npm run verify:ar\` runs synthetic, deliberately fictional observation cases and is included in \`npm run check\`/GitHub Actions. For candidate data, call \`node scripts/verify-ar.mjs --profile candidate.json --observations observations.json --out report.json\`. A mismatch, missing upgrade, invalid schema, version disagreement, or missing file fails with a nonzero process exit. An exact comparison means **calculation consistency only**, not independently established in-game correctness or permission to distribute underlying game data.
+
+
+## Local 1.17-compatible compact regulation import (2026-10-30)
+
+Research-only developer workflow added: \`scripts/import-regulation.mjs\` and
+\`public/src/regulation-import.mjs\`. Supports the compact JSON structure with
+\`weapons\`, \`reinforceTypes\`, \`calcCorrectGraphs\`,
+\`attackElementCorrects\` and per-weapon table IDs, as described by
+[ThomasJClark/elden-ring-weapon-calculator](https://github.com/ThomasJClark/elden-ring-weapon-calculator).
+This is a separately implemented converter; **no external source code, weapon data
+or extracted game assets are included**.
+
+The public repository declares MIT licensing for its software, but its README
+explicitly states that its regulation data is extracted from game files with
+WitchyBND. GitHub software licensing is **not itself** a determination that
+redistribution of game-derived parameters is commercially authorized.
+No source is assumed verified merely because it is tagged \`v1.17\`.
+Almanauts' independent change history reports no tracked param-table changes
+in 1.17.1 or 1.17.2/Regulation 1.17.3, but this is not an official game-client
+AR validation for every weapon and effect.
+
+Only local \`.json\` input is accepted; external \`.js\` files are never evaluated.
+Use an explicitly permission-reviewed JSON representation of the compact
+regulation object and run:
+
+\`\`\`bash
+node scripts/import-regulation.mjs --input local-ar-data/regulation.json --list
+node scripts/import-regulation.mjs \
+  --input local-ar-data/regulation.json \
+  --weapon "Exact weapon+affinity name" \
+  --version "1.17" \
+  --source "source URI, rights check and extraction date" \
+  --out local-ar-data/candidate.json
+node scripts/verify-ar.mjs --profile local-ar-data/candidate.json --observations local-ar-data/observations.json --out local-ar-data/report.json
+\`\`\`
+
+One exact weapon/affinity at a time. The output remains \`manual-unverified\`,
+with a SHA-256 hash of the local input. It handles stat scaling graphs,
+base damage, explicit upgrade multipliers, corrections, and paired-vs-standard
+two-handing behavior. Bows/ballistae are tagged \`forced-two-hand\`. Status
+buildup, attack motions, buffs, player-vs-enemy final damage and licensed
+multi-weapon distribution remain out of scope. An unknown graph, missing
+reinforcement multiplier, or ambiguous item name is a hard failure, not an
+interpolation. The regression fixtures are entirely fictional.
+
+**Production gate remains blocked** until independently sourced data rights
+and actual game-client golden vectors are documented and reviewed.

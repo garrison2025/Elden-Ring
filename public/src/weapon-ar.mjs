@@ -19,6 +19,8 @@ export function validateArProfile(input){
   const p=record(input,'Profile');
   if(p.schemaVersion!==1)fail('Only schemaVersion: 1 is supported.');
   shortText(p.label,'Profile label');
+  if(p.gripMode!==undefined&&!['standard','paired','forced-two-hand'].includes(p.gripMode))
+    fail('gripMode must be standard, paired, or forced-two-hand.');
   const provenance=record(p.provenance,'provenance');
   if(!['synthetic-test','manual-unverified'].includes(provenance.status))fail('Profile status must be synthetic-test or manual-unverified; game-verified status is not supported by this preview.');
   shortText(provenance.note,'provenance.note');
@@ -78,7 +80,9 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
   if(!u)fail(`Upgrade +${upgrade} has no supplied data; cannot interpolate missing game parameters.`);
   for(const s of POWER_STATS)integer(stats[s],`Player ${s}`,1,99);
   if(typeof twoHanded!=='boolean')fail('twoHanded must be boolean.');
-  const effective={...stats,str:effectiveStrength(stats.str,twoHanded)};
+  const gripMode=p.gripMode??'standard';
+  const strengthBonus=gripMode==='forced-two-hand'||(twoHanded&&gripMode==='standard');
+  const effective={...stats,str:effectiveStrength(stats.str,strengthBonus)};
   const missing=POWER_STATS.filter(s=>effective[s]<p.requirements[s]);
   const result=[];
   for(const d of DAMAGE_TYPES){
@@ -105,5 +109,5 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
     result.push({element:d,base,scaling,raw,displayed:Math.floor(raw),attributes:attr});
   }
   const total= Math.floor(result.reduce((s,e)=>s+e.raw,0));
-  return {label:p.label,affinity:affinity??Object.keys(p.affinities)[0],upgrade,twoHanded,stats:{...stats},effectiveStats:effective,missingRequirements:missing,perElement:result,total,provenance:p.provenance,status:'UNVERIFIED — parameter-driven research output; not an in-game prediction'};
+  return {label:p.label,affinity:affinity??Object.keys(p.affinities)[0],upgrade,twoHanded,gripMode,strengthBonusApplied:strengthBonus,stats:{...stats},effectiveStats:effective,missingRequirements:missing,perElement:result,total,provenance:p.provenance,status:'UNVERIFIED — parameter-driven research output; not an in-game prediction'};
 }

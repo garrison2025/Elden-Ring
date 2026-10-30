@@ -3,3 +3,6 @@ dist/
 .DS_Store
 .env
 *.log
+
+# Keep local game-derived data and player observations out of Git.
+local-ar-data/

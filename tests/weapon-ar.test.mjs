@@ -58,3 +58,16 @@ test('supports impact correction overrides and unmet requirement penalty based o
  let r=calculateAr(f,stats());assert.equal(r.total,136); // 0.1 + 0.5*.4*1.1 + 0.04 = 0.36
  r=calculateAr(f,stats(5));assert.ok(r.perElement[0].attributes.some(a=>a.stat==='str'&&Math.abs(a.multiplier+0.34)<1e-8));
 });
+
+test('research AR respects paired and forced-two-hand grip modes',()=>{
+ const f=clone(demo);f.gripMode='paired';
+ const paired=calculateAr(f,stats(),{twoHanded:true});
+ assert.equal(paired.effectiveStats.str,40);
+ assert.equal(paired.total,136);
+ f.gripMode='forced-two-hand';
+ const forced=calculateAr(f,stats(),{twoHanded:false});
+ assert.equal(forced.effectiveStats.str,60);
+ assert.equal(forced.total,152);
+ f.gripMode='not-a-mode';
+ assert.throws(()=>validateArProfile(f),/gripMode/);
+});
