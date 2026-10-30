@@ -10,6 +10,7 @@ import {dirname,resolve} from 'node:path';
 import {downloadV117Source,V117_UPSTREAM_COMMIT} from '../public/src/upstream-regulation-v117.mjs';
 import {auditRawMathParity} from '../public/src/regulation-parity.mjs';
 import {auditHistoricalPlayerAr} from '../public/src/external-ar-evidence.mjs';
+import {auditCurrentReferenceAr,CURRENT_REFERENCE_URL} from '../public/src/current-reference-ar.mjs';
 
 const output=resolve(process.cwd(),'.audit/v117-math-audit.json');
 async function main(){
@@ -62,6 +63,30 @@ async function main(){
   ' evidence=public player posts from 2024; no 2026 in-game screenshots.');
  if(historical.failed>0){
   console.error('[EXTERNAL PLAYER AR] Reported values no longer match this source snapshot. Never auto-correct the reports.');
+  process.exitCode=1;
+ }
+ const current=auditCurrentReferenceAr(params,{
+  sourceVersion:'1.17',sourceReference:'Pinned public 1.17 community snapshot'
+ });
+ const currentReport={
+  auditType:current.auditType,
+  benchmarkRegulation:current.benchmarkRegulation,
+  benchmarkGameBuild:current.benchmarkGameBuild,
+  sourceUrl:CURRENT_REFERENCE_URL,
+  benchmarkCount:current.benchmarkCount,
+  compared:current.compared,matched:current.matched,
+  failed:current.failed,failures:current.failures,
+  allMatched:current.allMatched,gameClientVerified:false,
+  screenshotEvidenceCount:0,releaseGatePassed:false,
+  olderSourceFullPatchParityVerified:false
+ };
+ await writeFile(resolve(process.cwd(),'.audit/v117-vs-current-1173.json'),
+  JSON.stringify(currentReport,null,2)+'\n','utf8');
+ console.log('[CURRENT 1.17.3 CROSS-SOURCE] checked='+current.benchmarkCount+
+  ' matched='+current.matched+' failed='+current.failed+
+  ' evidence=independent game-param-derived website, NOT real-game screenshot.');
+ if(!current.allMatched){
+  console.error('[CURRENT 1.17.3 CROSS-SOURCE] Reference disagreement; review patch changes and calculation model.');
   process.exitCode=1;
  }
  const report=auditRawMathParity(params,{

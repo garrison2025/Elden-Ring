@@ -10,6 +10,7 @@ on:
       - scripts/audit-v117-pinned.mjs
       - public/src/regulation-parity.mjs
       - public/src/external-ar-evidence.mjs
+      - public/src/current-reference-ar.mjs
       - .github/workflows/v117-ar-math-audit.yml
   push:
     branches:
@@ -22,6 +23,7 @@ on:
       - public/src/regulation-import.mjs
       - public/src/weapon-ar.mjs
       - public/src/external-ar-evidence.mjs
+      - public/src/current-reference-ar.mjs
       - public/src/v117-catalog-crosscheck.mjs
       - public/data/community-weapon-catalog.json
 permissions:
