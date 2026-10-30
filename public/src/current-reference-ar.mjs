@@ -8,7 +8,7 @@ import {calculateAr,POWER_STATS} from './weapon-ar.mjs';
  *
  * Table: https://almanauts.com/eldenring/weapons/
  * It labels results "AR at min. stats" / fully upgraded. The comparator uses
- * a documented baseline of 10 for non-required or sub-10 attributes; this
+ * a documented baseline of 10 for non-required or sub-10 attributes; Reduvia is deliberately EXCLUDED because its reference of 265 corresponds to STR 10 while its actual minimum required STR 5 would produce 262 under the pinned older source; this
  * keeps the full modeled character stat vector explicit rather than inferred.
  */
 export const CURRENT_REFERENCE_VERSION='1.17.3';
@@ -27,7 +27,7 @@ export const CURRENT_REFERENCE_SAMPLES=Object.freeze([
  Object.freeze({id:'build-25827938-09',name:"Fire Knight's Greatsword",expectedTotal:584,requirements:Object.freeze([22,18,0,12,0])}),
  Object.freeze({id:'build-25827938-10',name:"Great Club",expectedTotal:715,requirements:Object.freeze([35,0,0,0,0])}),
  Object.freeze({id:'build-25827938-11',name:"Longsword",expectedTotal:308,requirements:Object.freeze([10,10,0,0,0])}),
- Object.freeze({id:'build-25827938-12',name:"Reduvia",expectedTotal:265,requirements:Object.freeze([5,13,0,0,13])}),
+ Object.freeze({id:'build-25827938-12',name:"Cinquedea",expectedTotal:277,requirements:Object.freeze([10,10,0,0,0])}),
  Object.freeze({id:'build-25827938-13',name:"Rabbath's Cannon",expectedTotal:756,requirements:Object.freeze([28,16,0,0,0])}),
  Object.freeze({id:'build-25827938-14',name:"Jar Cannon",expectedTotal:672,requirements:Object.freeze([34,12,0,0,0])})
 ]);

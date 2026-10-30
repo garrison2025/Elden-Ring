@@ -20,6 +20,8 @@ test('all 14 2026 independent-publication benchmark observations include names, 
  assert.equal(new Set(CURRENT_REFERENCE_SAMPLES.map(x=>x.name)).size,14);
  assert.ok(CURRENT_REFERENCE_SAMPLES.some(x=>x.name==="Rellana's Twin Blades"&&x.expectedTotal===700));
  assert.ok(CURRENT_REFERENCE_SAMPLES.some(x=>x.name==="Rabbath's Cannon"));
+ assert.ok(CURRENT_REFERENCE_SAMPLES.some(x=>x.name==='Cinquedea'&&x.expectedTotal===277));
+ assert.ok(!CURRENT_REFERENCE_SAMPLES.some(x=>x.name==='Reduvia'));
  assert.equal(CURRENT_REFERENCE_VERSION,'1.17.3');
  assert.equal(CURRENT_REFERENCE_BUILD,'25827938');
  assert.match(CURRENT_REFERENCE_URL,/almanauts\.com\/eldenring\/weapons/);
