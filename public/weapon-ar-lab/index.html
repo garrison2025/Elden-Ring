@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="theme-color" content="#10161d"><link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Weapon Attack Rating Formula Research Lab | Build Lab</title>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="description" content="Unverified research workspace for parameter-driven Elden Ring attack rating formulas. Synthetic demonstration, no game weapon data."/>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body data-page="ar-research">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
+<main class="container">
+<section class="hero"><div class="eyebrow">Developer preview · Not indexed · No game data bundled</div><h1>Weapon AR research lab</h1><p>Test a parameter-driven attack-rating engine before real weapon data is licensed and checked in-game. The example below is a <strong>fictional weapon</strong>, not a playable Elden Ring item.</p><div class="safe-banner"><strong id="ar-provenance">SYNTHETIC DATA — NOT GAME AR</strong><div class="note">Do not use numbers from this page to choose game equipment. This is a test harness, not the finished Weapon Calculator.</div></div></section>
+<div class="tool-layout">
+<section class="panel">
+<h2>Research input</h2><p class="note" id="profile-label"></p><p class="note" id="profile-note"></p>
+<div class="input-two"><label class="field">Affinity in input dataset<select id="ar-affinity"></select></label><label class="field">Upgrade level with supplied parameters<select id="ar-upgrade"></select></label></div>
+<h3>Player attributes</h3><div class="ar-stat-grid" id="ar-stats"></div>
+<label class="ar-check"><input type="checkbox" id="ar-twohand"/> Treat weapon as two-handed (1.5× effective STR)</label>
+<div id="ar-feedback" class="feedback" aria-live="polite" role="status"></div>
+</section>
+<section class="panel results">
+<div class="metric-label">Computed research value · NOT real weapon AR</div><div class="kpi" id="ar-total">—</div>
+<div class="metric-grid"><div class="metric"><div class="metric-label">Strength</div><strong style="font-size:18px" id="ar-strength">—</strong></div><div class="metric"><div class="metric-label">Requirements</div><strong style="font-size:17px" id="ar-missing">—</strong></div></div>
+<h3>Damage component breakdown</h3><div class="table-wrap"><table class="datatable"><thead><tr><th>Type</th><th>Base</th><th>Scaling</th><th>Displayed*</th></tr></thead><tbody id="ar-breakdown"></tbody></table></div>
+<p class="note">*Displayed components are floored independently; total is floored after summing the non-rounded components. Real game parity is unverified.</p>
+</section>
+</div>
+<section class="panel info">
+<h2>Bring your own parameters (research only)</h2><p>Load a local JSON file or edit the profile. Required fields: per-affinity base damage; five attribute coefficients; exact 151-point correction curves; attribute/element impact and override rules; reinforcement damage and scaling multipliers. Missing levels are rejected rather than guessed.</p>
+<div class="input-two"><label class="field">Import local JSON (< 950 KB)<input type="file" id="ar-file" accept="application/json,.json"/></label><div class="ar-button-pair"><button class="btn" type="button" id="ar-apply">Validate & calculate JSON</button><button class="btn alt" type="button" id="ar-reset">Restore fictional test</button></div></div>
+<label class="field" for="ar-editor">Parameter JSON editor</label><textarea id="ar-editor" spellcheck="false" aria-label="Weapon AR parameter JSON" rows="12"></textarea>
+<p class="note">The full JSON is read locally in your browser. This preview rejects profiles claiming verified status; real data publication requires independent licence review, actual game-version check and golden tests.</p>
+</section>
+<section class="panel info"><h2>What's implemented — and what's not</h2><ul><li><strong>Implemented:</strong> 5 separate damage types, stat scaling, two-hand strength adjustment, minimum-attribute penalties, scaling overrides, affinity and upgrade selection, JSON validation, final rounding, and missing-parameter refusal.</li><li><strong>Not implemented:</strong> actual game weapon profiles, ashes of war, status effects, enemy defenses, motion values, buffs or end-to-end in-game AR accuracy.</li><li><strong>Current regulation reference:</strong> App 1.17.2 / Regulation 1.17.3; <strong>this demo does not reflect any regulation's real numbers.</strong></li></ul><p class="source-links">Algorithm reference: <a href="https://github.com/EldenRingDatabase/erdb/wiki/Calculating-Attack-Power-in-Elden-Ring" target="_blank" rel="noopener noreferrer">ERDB AR calculation documentation</a>. Full validation gate is in <a href="../validation-status/index.html">verification status</a>.</p></section>
+</main>
+<footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy & sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
+<script type="module" src="../src/ar-app.mjs"></script>
+</body></html>
