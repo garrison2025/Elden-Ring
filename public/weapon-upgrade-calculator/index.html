@@ -47,6 +47,36 @@
 <tbody id="material-rows"></tbody></table></div>
 <details class="upgrade-steps"><summary>Show each reinforcement step</summary><ol id="upgrade-steps"></ol></details>
 </section>
+<section class="panel info" aria-labelledby="multi-upgrade-title">
+ <div class="eyebrow">Multiple weapons · Shared stone inventory · Manual tracks</div>
+ <h2 id="multi-upgrade-title">Plan several weapon upgrades together</h2>
+ <p>Plan up to <strong>8</strong> weapons, including multiple copies of the same weapon. Choose the real smithing track and your actual current/target level for <strong>each</strong>. The total material requirements are added together first; stones you own are deducted <strong>once</strong> from the shared inventory, not separately for every weapon.</p>
+ <div class="workbench-actions">
+  <button class="btn alt" id="multi-add-current" type="button">Add current single-weapon plan</button>
+  <button class="btn alt" id="multi-add-blank" type="button">Add another weapon</button>
+  <button class="btn alt" id="multi-clear" type="button">Clear multi-weapon list</button>
+ </div>
+ <p class="note" id="multi-upgrade-feedback" role="status" aria-live="polite">Start by adding your current single-weapon settings or another manual weapon. No data is saved or uploaded.</p>
+ <div class="table-wrap"><table class="datatable multi-upgrade-table"><thead><tr><th>Weapon label (editable)</th><th>Stone track</th><th>Current +</th><th>Target +</th><th>Actions</th></tr></thead><tbody id="multi-weapon-rows"></tbody></table></div>
+ <details class="upgrade-inventory">
+  <summary>Shared inventory for all weapons (optional)</summary>
+  <p class="note">Enter actual quantities of both regular and Somber stones once. This is independent of the single-weapon inventory above; it stays in this page only and is never uploaded.</p>
+  <div id="multi-owned-inputs" class="inventory-grid"></div>
+  <button class="btn alt" type="button" id="multi-reset-owned">Clear shared inventory</button>
+ </details>
+ <div id="multi-upgrade-results" hidden>
+  <div class="metric-grid workbench-metrics">
+   <div class="metric"><div class="metric-label">Weapons planned</div><strong id="multi-count">—</strong></div>
+   <div class="metric"><div class="metric-label">Stones required</div><strong id="multi-total">—</strong></div>
+   <div class="metric"><div class="metric-label">Still missing after shared inventory</div><strong id="multi-missing">—</strong></div>
+  </div>
+  <p class="note" id="multi-upgrade-summary"></p>
+  <h3>Aggregate material checklist</h3>
+  <div class="table-wrap"><table class="datatable"><thead><tr><th>Track</th><th>Material</th><th>Total required</th><th>Owned once</th><th>Still missing</th><th>Left over</th></tr></thead><tbody id="multi-material-rows"></tbody></table></div>
+  <div class="workbench-actions"><button class="btn alt" id="multi-export" type="button" disabled>Download combined plan CSV</button></div>
+ </div>
+ <div class="safe-banner"><strong>Manual-only weapon data.</strong> Weapon names are editable labels, not verified identities. No assumed upgrade track or level is treated as a game observation. These quantities do not include smithing rune costs, real attack ratings, weapon eligibility, acquisition locations or special effects.</div>
+</section>
 <section class="editorial-grid">
 <article class="panel info"><div class="eyebrow">Regular weapon upgrades</div><h2>+0 to +25</h2>
 <p>For each grade from Smithing Stone [1] to [8], the three upgrade steps use 2, 4 and 6 stones. For +0 to +24 that's 12 stones per grade (96 total). The final +24 to +25 step uses one Ancient Dragon Smithing Stone.</p>
