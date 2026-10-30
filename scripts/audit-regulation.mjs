@@ -42,8 +42,10 @@ async function main(){
   console.log('Local anonymized audit saved to '+output);
  }else console.log(serialized);
  console.log('Records:',report.totals.records,'| convertible:',report.totals.convertible,
-  '| blocked:',report.totals.blocked,'| coverage:',report.conversionCoverage+'%');
+  '| blocked:',report.totals.blocked,'| structural coverage:',report.conversionCoverage+'%');
+ console.log('Limited-model scope review:',report.scopeReview.needsReview,
+  '| provisional candidate coverage:',report.scopeReview.limitedModelCoverage+'%');
  console.log('NOT PUBLISHABLE: structural success never certifies rights, game parity or unsupported effects.');
- if(report.totals.blocked>0)process.exitCode=1;
+ if(report.totals.blocked>0||report.scopeReview.needsReview>0)process.exitCode=1;
 }
 main().catch(e=>{console.error('Audit failed:',e.message);usage();process.exitCode=2;});

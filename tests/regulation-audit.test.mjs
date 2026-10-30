@@ -30,6 +30,14 @@ test('whole dataset structural report is aggregate-only and NEVER a release appr
  assert.equal(report.byDamageType.physical,3);
  assert.equal(report.excludedMechanics.spellToolEntries,1);
  assert.equal(report.excludedMechanics.statusEffectEntries,1);
+ assert.equal(report.scopeReview.needsReview,3);
+ assert.equal(report.scopeReview.partialUpgradeRows,3);
+ assert.equal(report.scopeReview.byReason['status-buildup-not-modeled'],1);
+ assert.equal(report.scopeReview.byReason['spell-tool-formula-not-modeled'],1);
+ assert.equal(report.scopeReview.byReason['incomplete-or-unknown-upgrade-coverage'],3);
+ assert.equal(report.scopeReview.limitedModelCandidates,0);
+ assert.equal(report.candidateModelScopeComplete,false);
+ assert.ok(!Object.hasOwn(report,'sourceReference'));
  assert.ok(!JSON.stringify(report).includes('Invented Alpha Sword'));
 });
 test('invalid correction tables, reinforcement rows and duplicate names are classified individually',()=>{
@@ -65,4 +73,30 @@ test('batch audit examines valid subset and refuses hidden inherited table IDs',
  assert.equal(r.totals.blocked,1);
  assert.equal(r.totals.convertible,2);
  assert.equal(r.invalidByReason['missing-reinforcement-table'],1);
+});
+
+test('full reinforcement tables yield limited-model candidates without claiming real-game validity',()=>{
+ const data=fixture();
+ data.weapons=[data.weapons[0]];
+ data.reinforceTypes[2]=Array.from({length:11},(_,i)=>({
+  attack:{0:1+i/10},attributeScaling:{str:1,dex:1,int:1,fai:1,arc:1}
+ }));
+ const progress=[];
+ const report=auditCompactRegulation(data,{...opts,onProgress:v=>progress.push(v)});
+ assert.equal(report.totals.convertible,1);
+ assert.equal(report.scopeReview.needsReview,0);
+ assert.equal(report.scopeReview.limitedModelCandidates,1);
+ assert.equal(report.candidateModelScopeComplete,true);
+ assert.equal(report.publishable,false);
+ assert.deepEqual(progress,[{processed:1,total:1}]);
+});
+test('progress and anonymized report exclude raw provenance',()=>{
+ const data=fixture(),progress=[];
+ const report=auditCompactRegulation(data,{...opts,
+  sourceReference:'Secret local path and private weapon list',
+  onProgress:v=>progress.push(v),maxExamples:0});
+ assert.equal(report.sourceReferenceProvided,true);
+ assert.ok(!JSON.stringify(report).includes('Secret local path'));
+ assert.deepEqual(progress,[{processed:3,total:3}]);
+ assert.throws(()=>auditCompactRegulation(data,{...opts,onProgress:'wrong'}),/onProgress/);
 });
