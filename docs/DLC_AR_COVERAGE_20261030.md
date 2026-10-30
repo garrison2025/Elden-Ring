@@ -5,11 +5,11 @@ This report audits the **102** Shadow of the Erdtree weapon/shield entries refer
 | Field / gate | Source-backed rows | Still unknown |
 | --- | ---: | ---: |
 | Weapon/shield name and category | 102 | 0 within selected reference roster |
-| All five attribute requirements | 73 | 29 |
-| +0 physical/elemental attack arrays | 21 | 81 |
-| Weight | 21 | 81 |
-| Critical and +0 letter grades | 21 | 81 |
-| Community-published +0–+10 integer BASE attack tables | **4** | **98** |
+| All five attribute requirements | 74 | 28 |
+| +0 physical/elemental attack arrays | 30 | 72 |
+| Weight | 30 | 72 |
+| Critical and +0 letter grades | 30 | 72 |
+| Community-published +0–+10 integer BASE attack tables | **5** | **97** |
 | Exact reinforcement attack/scaling multipliers | **0** | **102** |
 | Exact affinity/infusion parameter profiles | **0** | **102** |
 | Current regulation validated exact AR | **0** | **102** |
@@ -53,3 +53,17 @@ The wiki +0 values are community-reported; do not silently claim official 1.17.3
 ### Later 2026-10-30 addition: 3 further cited weapons
 
 Spread Crossbow (physical 68, weight 5.0), Spirit Sword (physical 92 + magic 59, weight 2.5), and Tooth Whip (physical 109, weight 3.0) have individualized source links and base stats. Tooth Whip also has an 11-level source-published somber attack table. No accuracy upgrade for AR is claimed.
+
+### Nine additional individually sourced DLC base reference rows
+
+- **Ancient Meteoric Ore Greatsword** — +0 [154, 46, 0, 0, 0], weight 22, critical 100, requirements [35, 10, 0, 0, 19], scaling [D, E, -, -, D] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Ancient_Meteoric_Ore_Greatsword)
+- **Greatsword of Solitude** — +0 [120, 0, 0, 0, 0], weight 15.5, critical 100, requirements [27, 13, 0, 0, 0], scaling [B, E, -, -, -] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Greatsword_of_Solitude)
+- **Black Steel Greathammer** — +0 [140, 0, 0, 0, 42], weight 12, critical 100, requirements [25, 11, 0, 17, 0], scaling [C, E, -, D, -] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Black_Steel_Greathammer)
+- **Bloodfiend's Arm** — +0 [147, 0, 0, 0, 0], weight 20, critical 100, requirements [28, 11, 0, 0, 16], scaling [D, E, -, -, D] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Bloodfiend%27s_Arm)
+- **Euporia** — +0 [84, 0, 0, 0, 100], weight 8.5, critical 100, requirements [16, 16, 0, 24, 0], scaling [D, D, -, D, -] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Euporia)
+- **Greatsword of Damnation** — +0 [123, 0, 0, 0, 79], weight 8, critical 100, requirements [20, 15, 0, 20, 0], scaling [D, E, -, D, -] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Greatsword_of_Damnation)
+- **Black Steel Greatshield** — +0 [119, 0, 0, 0, 0], weight 18, critical 100, requirements [35, 0, 0, 0, 0], scaling [D, -, -, -, -] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Black_Steel_Greatshield)
+- **Carian Sorcery Sword** — +0 [69, 69, 0, 0, 0], weight 2.5, critical 110, requirements [10, 19, 16, 0, 0], scaling [E, D, D, -, -] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Carian_Sorcery_Sword)
+- **Ansbach's Longbow** — +0 [74, 0, 0, 0, 0], weight 4.5, critical 100, requirements [9, 43, 0, 0, 0], scaling [E, D, -, -, -] — [per-weapon reference](https://eldenring.wiki.gg/wiki/Ansbach%27s_Longbow)
+
+**Euporia somber +0–+10 source-published integer base attack:** physical [84,96,108,120,132,144,157,169,181,193,205]; holy [100,114,129,143,158,172,187,201,216,230,245]. These are NOT exact reinforcement coefficients, current version AR, or game golden samples. The Ancient Meteoric Ore Greatsword table is not imported because of an inconsistent +3 magic attack observation in the reference. Ansbach's Longbow per-weapon wiki contradicts previous list DEX 18: corrected to **DEX 43** with primary per-item source.
