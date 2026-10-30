@@ -161,6 +161,20 @@ test('two-weapon AR workbench exposes paired selectors with stale-result revisio
  assert.match(html,/Higher total AR is not necessarily higher damage/);
 });
 
+test('source math audit has worker integration, export and noindex gate',async()=>{
+ const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
+ const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
+ const worker=await readFile(join(root,'src/ar-workbench-worker.mjs'),'utf8');
+ for(const id of ['arw-parity-run','arw-parity-download','arw-parity-results','arw-parity-total',
+  'arw-parity-converted','arw-parity-cases','arw-parity-mismatches','arw-parity-unsupported',
+  'arw-parity-reasons'])assert.match(html,new RegExp('id="'+id+'"'));
+ assert.match(html,/noindex,nofollow/);
+ assert.match(app,/send\(\{op:'math-audit'\}\)/);
+ assert.match(app,/math-audit-progress/);
+ assert.match(app,/math-audit-complete/);
+ assert.match(worker,/case 'math-audit'/);
+ assert.match(worker,/auditRawMathParity/);
+});
 test('AR workbench includes local whole-dataset audit and anonymous report export',async()=>{
  const html=await readFile(join(root,'weapon-data-workbench/index.html'),'utf8');
  const app=await readFile(join(root,'src/ar-workbench-app.mjs'),'utf8');
