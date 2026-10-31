@@ -110,3 +110,24 @@ test('all result rows explicitly carry source gap and cannot invent real in-game
   row.total===Object.values(row.components).reduce((a,b)=>a+b,0)));
  assert.ok(r.rows.every(row=>row.reinforcement==='regular'||row.reinforcement==='somber'));
 });
+
+test('exact comma-separated names rank different families together and reject missing or duplicate names',()=>{
+ const r=rankLocalWeaponVariants(COMPACT_SYNTHETIC_REGULATION,{
+  ...opts,term:'Invented Bronze Sword, Invented Knives'
+ });
+ assert.equal(r.status,'complete-query');
+ assert.equal(r.queryMode,'exact-name-list');
+ assert.equal(r.rankedCount,2);
+ assert.deepEqual(new Set(r.rows.map(x=>x.family)),
+  new Set(['Invented Bronze Sword','Invented Knives']));
+ const exactVariants=rankLocalWeaponVariants(COMPACT_SYNTHETIC_REGULATION,{
+  ...opts,term:'Fictional Bronze Sword — QA ONLY, Fictional Magic Sword — QA ONLY'
+ });
+ assert.equal(exactVariants.rankedCount,2);
+ assert.throws(()=>rankLocalWeaponVariants(COMPACT_SYNTHETIC_REGULATION,{
+  ...opts,term:'Invented Bronze Sword, Not A Source Family'
+ }),/No exact source weapon\/family/);
+ assert.throws(()=>rankLocalWeaponVariants(COMPACT_SYNTHETIC_REGULATION,{
+  ...opts,term:'Invented Bronze Sword, invented bronze sword'
+ }),/unique exact weapon names/);
+});
