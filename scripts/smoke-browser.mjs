@@ -733,6 +733,25 @@ try{
  await send('Emulation.setDeviceMetricsOverride',{
   width:1280,height:850,deviceScaleFactor:1,mobile:false
  });
+ await navigate('/weapon-database/');
+ await waitFor("document.querySelector('#catalog-quality-summary')?.textContent.includes('without flagged source conflicts')",
+  'Weapon catalog displays computed source-availability totals');
+ assert.ok((await evaluate("document.querySelector('#catalog-quality-summary').textContent"))
+  .includes('does NOT establish current game accuracy'),'Never label source completeness as game certification');
+ await evaluate("(()=>{const q=document.querySelector('#catalog-quality');q.value='conflict';q.dispatchEvent(new Event('change',{bubbles:true}));const search=document.querySelector('#catalog-search');search.value='Stone-Sheathed';search.dispatchEvent(new Event('input',{bubbles:true}));})()");
+ await waitFor("document.querySelector('#catalog-results').textContent.includes('1 matching entries')",
+  'Source conflict filter must expose disputed Stone-Sheathed Sword');
+ assert.ok((await evaluate("document.querySelector('#catalog-list').textContent"))
+  .includes('Disputed source fields'),'Source dispute is obvious in search result');
+ await evaluate("(()=>{document.querySelector('#catalog-search').value='';const q=document.querySelector('#catalog-quality');q.value='source-only';q.dispatchEvent(new Event('change',{bubbles:true}));})()");
+ await waitFor("document.querySelector('#catalog-results').textContent.includes('72 matching entries')",
+  'Source-only category uses exact 72 recovered primary-unknown records');
+ await evaluate("document.querySelector('#catalog-clear-filters').click()");
+ assert.equal(await evaluate("document.querySelector('#catalog-quality').value"),'all',
+  'Clear all resets quality filtering');
+ await evaluate("(()=>{const sort=document.querySelector('#catalog-sort');sort.value='requirements';sort.dispatchEvent(new Event('change',{bubbles:true}));window.catalogFirstSortedRow=document.querySelector('#catalog-list .catalog-row');const stat=document.querySelector('#catalog-stats input[data-stat=\\\"0\\\"]');stat.value='40';stat.dispatchEvent(new Event('input',{bubbles:true}));})()");
+ assert.equal(await evaluate("document.querySelector('#catalog-list .catalog-row')!==window.catalogFirstSortedRow"),
+  true,'Requirement-based sorting must refresh when stats change even with no wield filter');
  await navigate('/weapon-database/?weapon=sote-reference-051&player=20,20,20,15,10');
  await waitFor("document.querySelector('#catalog-one')?.textContent.includes('SOURCE CONFLICT')",
   'Disputed Madding Hand no longer claims requirements met');
