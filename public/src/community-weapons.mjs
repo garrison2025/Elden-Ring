@@ -5,9 +5,11 @@ export const ATTRIBUTE_LABELS=Object.freeze(['STR','DEX','INT','FAI','ARC']);
 const fail=m=>{throw new RangeError(m);};
 const ATTACK_CONFLICT='v117-community-attack-conflict';
 const REQUIREMENT_CONFLICT='v117-community-requirement-conflict';
+const WEIGHT_CONFLICT='v117-community-weight-conflict';
 /** Distinguish documented community values from unresolved patch disagreements. */
 export const hasDisputedAttack=w=>(w?.flags??[]).includes(ATTACK_CONFLICT);
 export const hasDisputedRequirements=w=>(w?.flags??[]).includes(REQUIREMENT_CONFLICT);
+export const hasDisputedWeight=w=>(w?.flags??[]).includes(WEIGHT_CONFLICT);
 
 /**
  * Validates a 2026-10-30 snapshot of factual community weapon properties.
@@ -89,7 +91,7 @@ export function validateCommunityCatalog(catalog){
   dlcRequirementOnlyCount:dlcRows.filter(w=>w.dataCoverage==='requirements-only').length,
   dlcNameOnlyCount:dlcRows.filter(w=>w.dataCoverage==='name-category-only').length,
   dlcUpgradeReferenceCount:dlcRows.filter(w=>w.upgradeReference!==undefined).length,
-  v117SourceConflictCount:dlcRows.filter(w=>(w.flags??[]).some(s=>s==='v117-community-attack-conflict'||s==='v117-community-requirement-conflict')).length
+  v117SourceConflictCount:dlcRows.filter(w=>(w.flags??[]).some(s=>s===ATTACK_CONFLICT||s===REQUIREMENT_CONFLICT||s===WEIGHT_CONFLICT)).length
  };
  for(const [key,value] of Object.entries(totals))
   if(catalog.meta[key]!==value)fail('Catalog coverage metadata mismatch: '+key);
@@ -184,7 +186,7 @@ export function searchCatalog(weapons,{
   if(category!=='all'&&w.category!==category)return false;
   if(q&&!w.name.toLocaleLowerCase('en-US').includes(q)&&
     !w.category.toLocaleLowerCase('en-US').includes(q))return false;
-  if(maxWeight!==null&&(w.weight===null||w.weight>maxWeight))return false;
+  if(maxWeight!==null&&(w.weight===null||hasDisputedWeight(w)||w.weight>maxWeight))return false;
   if(damage!=='any'&&
    (hasDisputedAttack(w)||!(Array.isArray(w.attack)&&w.attack[damageIndex]>0)))
    return false;
@@ -206,8 +208,10 @@ export function searchCatalog(weapons,{
     a.name.localeCompare(b.name)||a.id.localeCompare(b.id);
   }
   if(sort==='weight'){
-   if(a.weight===null||b.weight===null)return a.weight===null?(b.weight===null?0:1):-1;
-   return a.weight-b.weight||a.name.localeCompare(b.name);
+   const left=hasDisputedWeight(a)?null:a.weight;
+   const right=hasDisputedWeight(b)?null:b.weight;
+   if(left===null||right===null)return left===null?(right===null?0:1):-1;
+   return left-right||a.name.localeCompare(b.name);
   }
   if(sort==='base'){
    const left=hasDisputedAttack(a)?null:a.attack;
@@ -219,14 +223,20 @@ export function searchCatalog(weapons,{
  });
  return {total:matches.length,results:matches.slice(offset,offset+limit)};
 }
-export function baseDamageParts(weapon){
- if(!Array.isArray(weapon.attack))return [];
+/** Attribution-only: may expose disputed community numbers, never use for calculations. */
+export function reportedBaseDamageParts(weapon){
+ if(!Array.isArray(weapon?.attack))return [];
  return DAMAGE_LABELS.map((name,i)=>({name,amount:weapon.attack[i]})).filter(x=>x.amount>0);
+}
+/** Fail closed: missing or source-disputed +0 attack has NO numeric result. */
+export function baseDamageParts(weapon){
+ if(hasDisputedAttack(weapon)||!Array.isArray(weapon?.attack))return null;
+ return reportedBaseDamageParts(weapon);
 }
 /** Only observed, published base attack integers; never AR or a numeric multiplier. */
 export function publishedUpgradeParts(weapon,level){
  if(!Number.isInteger(level)||level<0||level>10)fail('Invalid published upgrade level.');
- if(!weapon?.upgradeReference)return null;
+ if(hasDisputedAttack(weapon)||!weapon?.upgradeReference)return null;
  const parts=weapon.upgradeReference.attackByLevel[level];
  if(!Array.isArray(parts)||parts.length!==5)fail('Missing published upgrade row; interpolation prohibited.');
  return DAMAGE_LABELS.map((name,i)=>({name,amount:parts[i]})).filter(x=>x.amount>0);
@@ -250,6 +260,8 @@ export function cautionForWeapon(w){
  if(flags.has('zero-physical-mixed-entry-check'))warnings.push('Physical attack needs independent cross-check.');
  if(flags.has('v117-community-attack-conflict'))warnings.push(
   'SOURCE CONFLICT: the wiki +0 base attack differs from game-derived Regulation 1.17 parameters after its +0 reinforcement multiplier. Exact version/patch parity has NOT been verified; treat this +0 number as disputed.');
+ if(flags.has(WEIGHT_CONFLICT))warnings.push(
+  'SOURCE CONFLICT: weapon weight disagrees between sources. Do not compute a complete equipped load or roll tier from this disputed weight.');
  if(flags.has('v117-community-requirement-conflict'))warnings.push(
   'SOURCE CONFLICT: the wiki attribute requirement differs from public game-derived Regulation 1.17 parameters. Current regulation and independent gameplay evidence are needed before selecting a definitive requirement.');
  if(flags.has('wiki-category-table-base-observation'))warnings.push('Base +0 figures sourced from a named row in a wiki category comparison table; not independently tested in the current regulation. See source link.');

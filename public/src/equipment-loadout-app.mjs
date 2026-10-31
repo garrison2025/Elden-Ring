@@ -155,7 +155,7 @@ function renderEquipmentCompare(){
   const rows=byId('equipment-ab-rows');rows.replaceChildren();
   const describeSlot=slot=>slot.label+
    (slot.label==='Empty'?'':slot.weight===null?
-    ' · weight UNKNOWN':' · '+slot.weight.toFixed(3));
+    ' · weight '+(slot.sourceDisputed?'SOURCE CONFLICT':'UNKNOWN'):' · '+slot.weight.toFixed(3));
   for(const item of cmp.rows){
    const tr=make('tr');
    if(item.changed)tr.className='equipment-ab-changed';

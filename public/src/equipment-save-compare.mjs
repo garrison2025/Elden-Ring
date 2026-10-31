@@ -1,6 +1,7 @@
 import {
  LOADOUT_WEAPON_SLOTS,LOADOUT_MANUAL_SLOTS,planEquipmentLoadout
 } from './equipment-loadout.mjs';
+import {hasDisputedWeight} from './community-weapons.mjs';
 
 export const EQUIPMENT_SAVE_KEY='buildlab:equipment-plan:v1';
 export const EQUIPMENT_SAVE_VERSION=1;
@@ -76,7 +77,8 @@ export function compareEquipmentSnapshots(baseline,current,weapons){
     const weapon=id?byId.get(id):null;
     return {identity:id||'empty',
      label:weapon?.name??'Empty',
-     weight:weapon?(weapon.weight??null):0};
+     weight:weapon?(hasDisputedWeight(weapon)?null:weapon.weight??null):0,
+      sourceDisputed:weapon?hasDisputedWeight(weapon):false};
    };
    return {slot:slot.label,kind:'weapon',A:describe(A),B:describe(B)};
   }),

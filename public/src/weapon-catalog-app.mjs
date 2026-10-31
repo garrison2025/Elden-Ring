@@ -1,5 +1,5 @@
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
- baseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall,hasDisputedRequirements,hasDisputedAttack} from './community-weapons.mjs';
+ reportedBaseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall,hasDisputedRequirements,hasDisputedAttack,hasDisputedWeight} from './community-weapons.mjs';
 import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
 import {makeArWorkbenchUrl} from './ar-workbench-navigation.mjs';
 import {makeWeaponCatalogShareUrl} from './weapon-catalog-navigation.mjs';
@@ -104,7 +104,12 @@ function renderPublishedUpgrade(){
   level.value='0';
  }
  const display=$('catalog-upgrade-damage');display.replaceChildren();
- for(const part of publishedUpgradeParts(chosen,Number(level.value))){
+ const parts=publishedUpgradeParts(chosen,Number(level.value));
+ if(parts===null){
+  display.append(el('p','SOURCE CONFLICT or missing reference: upgraded base attack is unavailable. No numbers are inferred.'));
+  return;
+ }
+ for(const part of parts){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',part.name+' base'),el('strong',part.amount));display.append(row);
  }
@@ -142,13 +147,14 @@ function renderDetails(){
    coverage==='requirements-only'?'Shadow of the Erdtree · requirements only':
    'Shadow of the Erdtree · name/category only'):
   'Community-reported +0 base data · patch unknown');
- $('catalog-weight').textContent=chosen.weight===null?'Not verified':String(chosen.weight);
+ $('catalog-weight').textContent=hasDisputedWeight(chosen)?'SOURCE CONFLICT — unavailable':
+   chosen.weight===null?'Not verified':String(chosen.weight);
  $('catalog-critical').textContent=chosen.critical===null||chosen.critical===0?'Not verified':String(chosen.critical);
  const damage=$('catalog-damage');damage.replaceChildren();
  if(partial)damage.append(el('p','Base attack unavailable; no values are guessed.'));
  if(hasDisputedAttack(chosen))
   damage.append(el('p','SOURCE CONFLICT: values below are disputed COMMUNITY +0 readings, NOT confirmed in-game figures. See accuracy dossier.'));
- for(const part of baseDamageParts(chosen)){
+ for(const part of reportedBaseDamageParts(chosen)){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',part.name),el('strong',
    String(part.amount)+(hasDisputedAttack(chosen)?' (DISPUTED)':'')));damage.append(row);
