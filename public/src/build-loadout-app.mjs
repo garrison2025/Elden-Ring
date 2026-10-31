@@ -4,6 +4,7 @@ import {
 } from './build-loadout.mjs';
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {loadPinnedArmorSource,findExactArmor} from './armor-source-optin.mjs';
+import {summarizeEquippedArmorMetrics} from './build-armor-metrics.mjs';
 const byId=id=>document.getElementById(id);
 const status=(message,error=false)=>{
  const el=byId('build-loadout-status');el.textContent=message;el.dataset.state=error?'error':'ready';
@@ -83,6 +84,42 @@ function render(){
     const tr=make('tr',{},tb);
     for(const v of [item.slot,item.name,item.weight===null?'UNKNOWN':String(item.weight),item.provenance])
      make('td',{text:v},tr);
+   }
+  }
+  // The separate opt-in armor roster can also populate Build's armor-only
+  // negations/resistances/poise; unknown entries never turn into zero.
+  const armorStats=summarizeEquippedArmorMetrics(evaluated.state,armorReference?.armors??null);
+  if(armorStats.equipped>0){
+   const panel=make('section',{className:'build-armor-metric-panel',
+    id:'build-armor-metric-summary'},result);
+   make('h3',{text:'Equipped armor reference · 13 source metrics'},panel);
+   if(!armorStats.sourceLoaded){
+    make('p',{text:'Load the optional 568-piece pinned armor reference above to calculate '+
+     'armor-only Poise, resistance and damage negation. Selected names alone do not prove game values.'},panel);
+   }else{
+    make('p',{text:armorStats.matched+' of '+armorStats.equipped+
+     ' equipped armor names uniquely matched to the pinned community source. '+
+     'Missing or malformed source fields remain UNKNOWN; these totals exclude weapon, '+
+     'talisman, Rune, Physick and active-effect modifiers.'},panel);
+    if(armorStats.missingNames.length)
+     make('p',{text:'Unmatched equipped armor: '+armorStats.missingNames.join(' · ')},panel);
+    const wrap=make('div',{className:'table-wrap'},panel);
+    const table=make('table',{className:'loadout-equipment-table'},wrap);
+    const head=make('tr',{},make('thead',{},table));
+    for(const col of ['Armor-only metric','Result','Data coverage'])
+     make('th',{text:col,scope:'col'},head);
+    const body=make('tbody',{},table);
+    for(const field of Object.values(armorStats.metrics)){
+     const row=make('tr',{},body);
+     for(const label of [field.label,
+      field.value===null?'UNKNOWN':
+       field.kind==='negation'?field.value.toFixed(2)+'%':String(field.value)+' points',
+      field.known+'/'+field.total+' matching pieces'])
+      make('td',{text:label},row);
+    }
+    make('p',{text:'Armor-source model only. Negation percentages combine multiplicatively '+
+     'from rounded community fields; poise and resistance points add. '+
+     'Not a separate Tarnished.dev v1.17 same-input numeric validation.'},panel);
    }
   }
   const opts=contentOpts();
@@ -214,7 +251,7 @@ byId('build-loadout-load-armor').addEventListener('click',async()=>{
     ref.weight.value=String(found.weight);ref.weight.dataset.source='community';
    }
   }
-  p.textContent=source.count+' pinned community armor names with reported weights loaded locally. Underlying game version and redistribution rights are unverified; use your game screen to confirm.';
+  p.textContent=source.count+' pinned community armor names, weights and 13 armor-only combat metrics loaded locally. Versioned Tarnished.dev v1.17 numerical parity remains untested for this separate community dataset.';
   button.hidden=true;
   render();
  }catch(error){
