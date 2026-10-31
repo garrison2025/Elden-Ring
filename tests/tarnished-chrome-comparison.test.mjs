@@ -57,3 +57,22 @@ test('no source or incomplete capture is rejected rather than recorded as refere
  assert.equal(compareTarnishedChromeObservations(snap([{id:'broken'}]),source())
   .results[0].status,'malformed-observation');
 });
+
+test('SPA may remove its query after parsing, but verified inputs and exact HTTPS host/path are mandatory',()=>{
+ const canonical={...observation(),url:'https://www.tarnished.dev/build-planner'};
+ const valid=compareTarnishedChromeObservations(snap([canonical]),source());
+ assert.equal(valid.results[0].status,'matched-unpromoted');
+ for(const unsafe of [
+  'https://tarnished.app/build-planner',
+  'http://www.tarnished.dev/build-planner',
+  'https://www.tarnished.dev.evil.invalid/build-planner',
+  'https://www.tarnished.dev/other-route',
+  'https://www.tarnished.dev/build-planner#untrusted'
+ ]){
+  const result=compareTarnishedChromeObservations(snap([{...canonical,url:unsafe}]),source());
+  assert.equal(result.results[0].status,'unverified-live-input',unsafe);
+ }
+ const unknown={...canonical,request:{...canonical.request,affinity:'Invented Affinity'}};
+ assert.equal(compareTarnishedChromeObservations(snap([unknown]),source())
+  .results[0].status,'unverified-live-input');
+});
