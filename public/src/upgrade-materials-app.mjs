@@ -3,6 +3,7 @@ import {parseCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
 import {planWeaponUpgradeBasket,weaponUpgradeBasketCsv} from './upgrade-multi-weapon.mjs';
 import {parseBuildSmithingIds,resolveBuildSmithingWeapons} from './build-smithing-handoff.mjs';
 import {validateCommunityCatalog} from './community-weapons.mjs';
+import {SMITHING_BASKET_STORAGE_KEY,makeSmithingBasketSnapshot,parseSmithingBasketSnapshot} from './upgrade-basket-storage.mjs';
 const el=id=>document.getElementById(id);
 const store={regular:{},somber:{}};
 let latest=null;
@@ -222,6 +223,55 @@ el('multi-add-blank').addEventListener('click',()=>addMultiPlan({
 }));
 el('multi-clear').addEventListener('click',()=>{
  multiRows.replaceChildren();calculateMulti();
+});
+// Only explicit clicks access localStorage. Never overwrite a saved basket
+// when the current rows are incomplete or shared inventory is invalid.
+const storageFeedback=(message,error=false)=>{
+ const field=el('multi-storage-feedback');
+ field.textContent=message;
+ field.className=error?'note feedback bad':'note';
+};
+el('multi-save-local').addEventListener('click',()=>{
+ try{
+  const snapshot=makeSmithingBasketSnapshot(readMultiRows(),readMultiInventory());
+  localStorage.setItem(SMITHING_BASKET_STORAGE_KEY,JSON.stringify(snapshot));
+  storageFeedback('Saved '+snapshot.weapons.length+
+   ' confirmed weapon plan(s) and shared stone counts on this device only.');
+ }catch(error){
+  storageFeedback('Could not save: '+error.message+
+   '. Correct each weapon track, current/target level, and inventory first.',true);
+ }
+});
+el('multi-load-local').addEventListener('click',()=>{
+ try{
+  const raw=localStorage.getItem(SMITHING_BASKET_STORAGE_KEY);
+  if(raw===null){
+   storageFeedback('No saved multi-weapon checklist exists on this device.');
+   return;
+  }
+  // Fully validate and build detached DOM BEFORE replacing current rows.
+  const saved=parseSmithingBasketSnapshot(raw);
+  const detached=document.createDocumentFragment();
+  for(const weapon of saved.weapons)detached.append(makeMultiRow(weapon));
+  const inputs=[...multiInventory.querySelectorAll('input[data-multi-owned]')];
+  multiRows.replaceChildren(detached);
+  for(const node of inputs)
+   node.value=String(saved.inventory[node.dataset.multiOwned]??0);
+  calculateMulti();
+  storageFeedback('Restored '+saved.weapons.length+
+   ' manually confirmed weapon plan(s). Current multi-weapon rows were replaced; verify in-game data before use.');
+ }catch(error){
+  storageFeedback('Saved checklist could not be restored: '+error.message+
+   '. Current on-screen plans have not been replaced.',true);
+ }
+});
+el('multi-delete-local').addEventListener('click',()=>{
+ try{
+  localStorage.removeItem(SMITHING_BASKET_STORAGE_KEY);
+  storageFeedback('Saved checklist deleted from this browser. On-screen weapon plans were kept.');
+ }catch(error){
+  storageFeedback('Unable to delete local save: '+error.message,true);
+ }
 });
 el('multi-reset-owned').addEventListener('click',()=>{
  for(const n of multiInventory.querySelectorAll('input[data-multi-owned]'))n.value='0';
