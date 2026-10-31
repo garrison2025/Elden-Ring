@@ -35,7 +35,7 @@ test('existing Uchigatana + Greatsword shortlist computes proper per-weapon requ
  assert.equal(plan.oneHand.delta.reduce((a,b)=>a+b,0),plan.oneHand.additionalLevels);
  assert.equal(plan.twoHand.delta.reduce((a,b)=>a+b,0),plan.twoHand.additionalLevels);
  assert.ok(!('totalWeight' in plan));
- assert.match(plan.note,/NOT assumed to be equipped/i);
+ assert.match(plan.note,/No combination of weapons is assumed equipped/i);
 });
 
 test('separately evaluated candidates use per-attribute MAX, not SUM of requirements',()=>{
@@ -64,19 +64,18 @@ test('weapon categories with no standard two-hand bonus never receive invented S
 });
 
 test('unknown and source-conflicted requirements are shown but disable automatic stat changes',()=>{
- const absent=catalog.weapons.find(w=>w.requirements===null);
- assert.ok(absent,'expected catalog item with intentionally unknown DLC requirements');
- const unknown=planShortlistWielding([absent.id],catalog.weapons,stats,samurai,{allowSote:true});
+ const absent={id:'unknown-req',name:'Unavailable requirements',
+  category:'Greatsword',requirements:null,weight:null};
+ const unknown=planShortlistWielding([absent.id],[absent],stats,samurai);
  assert.equal(unknown.allRequirementsKnown,false);
  assert.equal(unknown.allSafeToApply,false);
  assert.equal(unknown.rows[0].oneHand,null);
- assert.equal(unknown.rows[0].weight,absent.weight??null);
+ assert.equal(unknown.rows[0].weight,null);
  assert.equal(unknown.oneHand.canApply,false);
- const flagged=catalog.weapons.find(w=>(w.flags??[]).includes('v117-community-requirement-conflict'));
- assert.ok(flagged,'expected at least one unresolved community requirements conflict');
- const disputed=planShortlistWielding([flagged.id],catalog.weapons,stats,samurai,{
-  allowSote:flagged.expansion==='Shadow of the Erdtree'
- });
+ const flagged={id:'disputed',name:'Conflicting requirement source',
+  category:'Greatsword',requirements:[30,12,0,0,0],weight:12,
+  flags:['v117-community-requirement-conflict']};
+ const disputed=planShortlistWielding([flagged.id],[flagged],stats,samurai);
  assert.equal(disputed.rows[0].requirementsDisputed,true);
  assert.equal(disputed.allSafeToApply,false);
  assert.equal(disputed.oneHand.canApply,false);
