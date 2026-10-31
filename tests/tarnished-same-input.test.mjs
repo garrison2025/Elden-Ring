@@ -5,12 +5,13 @@ import {makeTarnishedSameInputUrl,compareUserEnteredReferenceAr,
  TARNISHED_V117_AFFINITIES} from '../public/src/tarnished-same-input.mjs';
 import {TARNISHED_REFERENCE_AR_CASES} from '../public/src/tarnished-reference-benchmark.mjs';
 const stats={str:40,dex:40,int:10,fai:10,arc:10};
-test('all fifteen previously input-verified reference cases map to identical public controls',()=>{
+test('all fifty independently repeat-observed public v1.17 reference cases map to identical public controls',()=>{
  assert.equal(TARNISHED_REFERENCE_AR_CASES.length,50);
  for(const c of TARNISHED_REFERENCE_AR_CASES){
   const url=new URL(makeTarnishedSameInputUrl({
    weaponName:c.weaponName,affinityId:c.affinityId,upgrade:c.upgrade,
-   stats:c.playerStats,twoHanded:c.twoHanded,reinforcement:'smithing'
+   stats:c.playerStats,twoHanded:c.twoHanded,
+   reinforcement:c.affinityId===-1?'somber':'smithing'
   }));
   const source=new URL(c.sourceUrl);
   assert.equal(url.origin,'https://www.tarnished.dev');
