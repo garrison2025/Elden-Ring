@@ -1,0 +1,54 @@
+name: Monitor Tarnished.dev updates (read-only)
+on:
+  schedule:
+    # Twice daily at 08:17 and 20:17 Asia/Shanghai (UTC+8).
+    # GitHub Actions cron may be delayed; not real-time monitoring.
+    - cron: '17 0,12 * * *'
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/monitor_tarnished_updates.py
+      - monitoring/tarnished-dev-baseline.json
+      - tests/test_tarnished_monitor.py
+      - .github/workflows/monitor-tarnished.yml
+permissions:
+  contents: read
+  issues: write
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test parser and false-positive safety
+        run: python3 -m unittest discover -s tests -p test_tarnished_monitor.py -v
+      - name: Check public change log and version, fail closed on markup/network errors
+        id: compare
+        run: python3 scripts/monitor_tarnished_updates.py
+      - name: Publish comparison evidence for troubleshooting
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-update-monitor-review
+          path: .monitor/*
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Create one GitHub review issue per unique observation (not a code release)
+        if: steps.compare.outputs.changed == 'true' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          id="$(python3 -c 'import json; print(json.load(open(".monitor/tarnished-dev-result.json"))["fingerprint"])')"
+          marker="<!-- tarnished-monitor:$id -->"
+          if gh issue list --repo "$GH_REPO" --state all --limit 500 --json body --jq '.[].body' | grep -Fq "$marker"; then
+            echo "[MONITOR] Already reported observation $id; avoiding duplicate issue."
+            exit 0
+          fi
+          version="$(python3 -c 'import json; print(json.load(open(".monitor/tarnished-dev-result.json"))["new_version"])')"
+          gh issue create --repo "$GH_REPO" \
+            --title "Tarnished.dev changed ($version): independently review impacted Elden Ring tools" \
+            --body-file .monitor/tarnished-dev-review.md
