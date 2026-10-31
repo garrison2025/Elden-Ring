@@ -1013,6 +1013,30 @@
           "attackAtPlusZero",
           "scalingAtPlusZero"
         ]
+      },
+      "thirdSource": {
+        "sourceName": "ESO-UI named page",
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3ABuckler",
+        "sourceVersion": "not authenticated against App 1.17.2 / Regulation 1.17.3",
+        "checks": [
+          {
+            "field": "attackAtPlusZero",
+            "componentIndex": 0,
+            "value": 68,
+            "agreesWith": "tarnished-app",
+            "gameClientVerified": false
+          },
+          {
+            "field": "scalingAtPlusZero",
+            "componentIndex": 1,
+            "value": "D",
+            "agreesWith": "tarnished-app",
+            "gameClientVerified": false
+          }
+        ],
+        "sourceLineageIndependenceEstablished": false,
+        "gameClientVerified": false,
+        "publicationApproved": false
       }
     },
     {
@@ -1167,6 +1191,23 @@
         "fieldDisagreements": [
           "attackAtPlusZero"
         ]
+      },
+      "thirdSource": {
+        "sourceName": "ESO-UI named page",
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3ACarian_Knight%27s_Shield",
+        "sourceVersion": "not authenticated against App 1.17.2 / Regulation 1.17.3",
+        "checks": [
+          {
+            "field": "attackAtPlusZero",
+            "componentIndex": 1,
+            "value": 40,
+            "agreesWith": "tarnished-app",
+            "gameClientVerified": false
+          }
+        ],
+        "sourceLineageIndependenceEstablished": false,
+        "gameClientVerified": false,
+        "publicationApproved": false
       }
     },
     {
@@ -1696,6 +1737,23 @@
         "fieldDisagreements": [
           "attackAtPlusZero"
         ]
+      },
+      "thirdSource": {
+        "sourceName": "ESO-UI named page",
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3ADragonclaw_Shield",
+        "sourceVersion": "not authenticated against App 1.17.2 / Regulation 1.17.3",
+        "checks": [
+          {
+            "field": "attackAtPlusZero",
+            "componentIndex": 3,
+            "value": 76,
+            "agreesWith": "eldenpedia",
+            "gameClientVerified": false
+          }
+        ],
+        "sourceLineageIndependenceEstablished": false,
+        "gameClientVerified": false,
+        "publicationApproved": false
       }
     },
     {
@@ -1925,6 +1983,27 @@
         "fieldDisagreements": [
           "scalingAtPlusZero"
         ]
+      },
+      "thirdSource": {
+        "sourceName": "ESO-UI named page",
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AErdtree_Greatshield",
+        "sourceVersion": "not authenticated against App 1.17.2 / Regulation 1.17.3",
+        "checks": [
+          {
+            "field": "scalingAtPlusZero",
+            "componentIndex": 0,
+            "value": "D",
+            "agreesWith": "tarnished-app",
+            "gameClientVerified": false
+          }
+        ],
+        "patchWeightCaveat": {
+          "esoWeight": 13.5,
+          "post117ReferenceWeight": 11.5
+        },
+        "sourceLineageIndependenceEstablished": false,
+        "gameClientVerified": false,
+        "publicationApproved": false
       }
     },
     {
@@ -2004,6 +2083,23 @@
         "fieldDisagreements": [
           "attackAtPlusZero"
         ]
+      },
+      "thirdSource": {
+        "sourceName": "ESO-UI named page",
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AFingerprint_Stone_Shield",
+        "sourceVersion": "not authenticated against App 1.17.2 / Regulation 1.17.3",
+        "checks": [
+          {
+            "field": "attackAtPlusZero",
+            "componentIndex": 0,
+            "value": 139,
+            "agreesWith": "tarnished-app",
+            "gameClientVerified": false
+          }
+        ],
+        "sourceLineageIndependenceEstablished": false,
+        "gameClientVerified": false,
+        "publicationApproved": false
       }
     },
     {
@@ -2383,6 +2479,23 @@
         "fieldDisagreements": [
           "attackAtPlusZero"
         ]
+      },
+      "thirdSource": {
+        "sourceName": "ESO-UI named page",
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AGolden_Greatshield",
+        "sourceVersion": "not authenticated against App 1.17.2 / Regulation 1.17.3",
+        "checks": [
+          {
+            "field": "attackAtPlusZero",
+            "componentIndex": 0,
+            "value": 113,
+            "agreesWith": "tarnished-app",
+            "gameClientVerified": false
+          }
+        ],
+        "sourceLineageIndependenceEstablished": false,
+        "gameClientVerified": false,
+        "publicationApproved": false
       }
     },
     {
@@ -3084,6 +3197,23 @@
         "fieldDisagreements": [
           "scalingAtPlusZero"
         ]
+      },
+      "thirdSource": {
+        "sourceName": "ESO-UI named page",
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AInseparable_Sword",
+        "sourceVersion": "not authenticated against App 1.17.2 / Regulation 1.17.3",
+        "checks": [
+          {
+            "field": "scalingAtPlusZero",
+            "componentIndex": 3,
+            "value": "C",
+            "agreesWith": "eldenpedia",
+            "gameClientVerified": false
+          }
+        ],
+        "sourceLineageIndependenceEstablished": false,
+        "gameClientVerified": false,
+        "publicationApproved": false
       }
     },
     {
@@ -5433,6 +5563,23 @@
         "gameClientVerified": false,
         "publicationApproved": false,
         "fieldDisagreements": []
+      },
+      "thirdSource": {
+        "sourceName": "ESO-UI named page",
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AVisage_Shield",
+        "sourceVersion": "not authenticated against App 1.17.2 / Regulation 1.17.3",
+        "checks": [
+          {
+            "field": "requirements",
+            "componentIndex": 0,
+            "value": 44,
+            "agreesWith": "pinned-v117",
+            "gameClientVerified": false
+          }
+        ],
+        "sourceLineageIndependenceEstablished": false,
+        "gameClientVerified": false,
+        "publicationApproved": false
       }
     },
     {
@@ -5514,5 +5661,8 @@
   "attackConflictCount": 5,
   "scalingConflictCount": 3,
   "requirementConflictCount": 1,
-  "crosscheckCoverageCount": 72
+  "crosscheckCoverageCount": 72,
+  "thirdSourceCorroborationGroups": 8,
+  "thirdSourceCorroboratedDisputedFields": 9,
+  "thirdSourceAgreementVersion": "unknown; two-site agreement is source evidence only"
 }
