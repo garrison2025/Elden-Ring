@@ -70,6 +70,15 @@
  <h3>Compare catalog facts against pinned Regulation v1.17</h3>
  <p class="note">On request, fetch the fixed public v1.17 parameter snapshot used by our reference AR calculator. See +0 physical/elemental base and minimum attributes for the selected weapon, including the 72 catalog entries without primary attack and the source-disputed entries. This is a <strong>source-to-source</strong> comparison, not 487 independently observed Tarnished.dev weapon pages. The current site has 50 independently checked same-input AR examples. This source does <strong>not</strong> establish weapon weight, so no weight, equip-load, damage filters or original catalog numbers are overridden.</p>
  <button type="button" class="btn alt" id="catalog-v117-load">Load pinned public v1.17 source · compare 487 entries</button>
+ <label class="field" for="catalog-v117-filter">Browse versioned source differences
+ <select id="catalog-v117-filter" disabled>
+  <option value="all">All original catalog entries</option>
+  <option value="source-only">72 source-only entries: now with v1.17 +0 reference</option>
+  <option value="flagged">Nine previously flagged source disputes</option>
+  <option value="attack-difference">Community +0 attack differs from v1.17</option>
+  <option value="requirement-difference">Community requirements differ from v1.17</option>
+  <option value="any-difference">Any newly detected attack / requirement difference</option>
+ </select></label>
  <p id="catalog-v117-status" class="note" role="status" aria-live="polite">Not loaded. No remote source downloaded automatically.</p>
 </section>
 <p class="note">“Complete” means +0 base attack, minimum requirements and individual weapon weight are present without a flagged catalog source conflict. It does <strong>not</strong> mean verified against the current game or cleared for third-party redistribution. “Partial” includes unknown and disputed fields; the research-only 72-item preview is not used to fill original catalog numbers.</p>
