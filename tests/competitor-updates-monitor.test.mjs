@@ -10,7 +10,7 @@ test('our changelog contains only shipped first-party release evidence and exclu
  assert.match(page,/<h1>Recent Updates<\/h1>/);
  assert.match(page,/our actual shipped changes/);
  for(const n of [66,67,68,72,73])assert.match(page,new RegExp('pull\\/'+n));
- assert.match(page,/not automatically shipped/);
+ assert.match(page,/not an automatic game-data change or a claim that the feature has shipped here/);
  assert.match(page,/v1\.17 reference/);
  assert.match(home,/id="home-recent-updates"/);
  assert.match(home,/href="updates\/"/);
