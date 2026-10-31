@@ -1,6 +1,13 @@
 const fail=m=>{throw new RangeError(m)};
 const normalizedName=s=>String(s).replace(/[\u2018\u2019]/g,"'").trim();
 const equal=(a,b)=>Array.isArray(a)&&Array.isArray(b)&&a.length===b.length&&a.every((x,i)=>x===b[i]);
+const expectedFexUrl=name=>'https://eldenring.wiki.fextralife.com/'+name.replace(/ /g,'+');
+const extraExplicitSources=Object.freeze({
+ 'Marred Leather Shield':['https://eldenring.fandom.com/wiki/Marred_Leather_Shield','Fandom Elden Ring Wiki (historical unversioned Standard +0 table)','Standard'],
+ 'Marred Wooden Shield':['https://eldenring.fandom.com/wiki/Marred_Wooden_Shield','Fandom Elden Ring Wiki (historical unversioned Standard +0 table)','Standard'],
+ 'Shield of the Guilty':['https://eldenring.fandom.com/wiki/Shield_of_the_Guilty','Fandom Elden Ring Wiki (historical unversioned Standard +0 table)','Standard'],
+ 'Spiralhorn Shield':['https://www.pureeldenring.com/weapon/spiralhorn-shield',"PureEldenRing (unversioned unupgraded '-' scaling row)",'Unupgraded (-)']
+});
 const expectedNameUrl=name=>'https://tarnished.app/weapons/'+name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const impactName=['Physical','Magic','Fire','Lightning','Holy'];
 export function validateRecoveredSourceReferences(ledger,catalog){
@@ -14,6 +21,7 @@ export function validateRecoveredSourceReferences(ledger,catalog){
  const seen=new Set(),conflictIds=[];
  let attackCount=0,weightCount=0,criticalCount=0,scalingCount=0,unknownGrades=0;
  let attackConflictCount=0,scalingConflictCount=0,requirementConflictCount=0;
+ let explicitRows=0,explicitCells=0;
  const allowedCategories=new Set(['Small Shield','Medium Shield','Greatshield','Sacred Seal','Curved Sword','Greatsword']);
  const conflicts=[];
  for(const record of ledger.records){
@@ -50,6 +58,32 @@ export function validateRecoveredSourceReferences(ledger,catalog){
     record.requirementsFromReference.some(v=>v!==null&&(!Number.isInteger(v)||v<0||v>99))||
     !Array.isArray(record.disputedFields))
     fail('Source requirements missing or malformed.');
+  const pendingCount=e.scalingAtPlusZero.filter(x=>x==='?').length;
+  const namedGradeSource=record.explicitInitialScalingSource;
+  if(namedGradeSource){
+   const identity=extraExplicitSources[record.name]||[
+    expectedFexUrl(record.name),'Fextralife Elden Ring Wiki (unversioned public upgrade table)','Standard'
+   ];
+   if(pendingCount===0||namedGradeSource.sourceName!==identity[1]||
+     namedGradeSource.sourceUrl!==identity[0]||
+     namedGradeSource.standardRowLabel!==identity[2]||
+     namedGradeSource.reinforcement!==0||namedGradeSource.affinity!=='default'||
+     namedGradeSource.sourceGameVersion!=='not authenticated against App 1.17.2 / Regulation 1.17.3'||
+     !Array.isArray(namedGradeSource.gradesAtPlusZero)||namedGradeSource.gradesAtPlusZero.length!==5||
+     namedGradeSource.gradesAtPlusZero.some(g=>! /^[SABCDE-]$/.test(g))||
+     namedGradeSource.gradesAtPlusZero.some((g,i)=>e.scalingAtPlusZero[i]!=='?'&&e.scalingAtPlusZero[i]!==g)||
+     namedGradeSource.originallyUnreportedGradeCells!==pendingCount||
+     namedGradeSource.attackPhysicalCorroboration!==e.attackAtPlusZero[0]||
+     namedGradeSource.gameClientVerified!==false||namedGradeSource.publicationApproved!==false||
+     namedGradeSource.independentlyReviewedScreenshot!==false)
+     fail('Explicit +0 Standard grades require exact named source and cannot imply game verification.');
+   if(record.name==='Shield of the Guilty'&&(
+     namedGradeSource.historicalRequirementCaveat?.sourceStrengthRequirement!==6||
+     namedGradeSource.historicalRequirementCaveat?.pinnedCurrentReferenceStrengthRequirement!==8||
+     record.requirementsPinned117[0]!==8))
+     fail('Historical third source STR 6 versus pinned STR 8 caveat must be retained.');
+   explicitRows++;explicitCells+=pendingCount;
+  }else if(pendingCount)fail('Unreported grade still lacks an explicit named initial source.');
   const reqDiff=record.requirementsFromReference.some((v,i)=>v!==null&&v!==original.requirements[i]);
   const atkDiff=e.attackAtPlusZero.some((v,i)=>Math.abs(v-other.attackAtPlusZero[i])>1.01);
   const gradeDiff=e.scalingAtPlusZero.some((v,i)=>other.scalingGradesAsReported[i]!==null&&
@@ -133,12 +167,21 @@ export function validateRecoveredSourceReferences(ledger,catalog){
     attackConflictCount!==ledger.attackConflictCount||
     scalingConflictCount!==ledger.scalingConflictCount||
     requirementConflictCount!==ledger.requirementConflictCount||
-    ledger.thirdSourceCorroborationGroups!==8||ledger.thirdSourceCorroboratedDisputedFields!==9)
+    ledger.thirdSourceCorroborationGroups!==8||ledger.thirdSourceCorroboratedDisputedFields!==9||
+    explicitRows!==33||explicitCells!==126||
+    ledger.explicitInitialScalingThirdSourceCount!==33||
+    ledger.explicitInitialScalingAdditionalCells!==126||
+    ledger.explicitScalingSourceBreakdown?.fextralifeStandardRows!==29||
+    ledger.explicitScalingSourceBreakdown?.fandomHistoricalStandardRows!==3||
+    ledger.explicitScalingSourceBreakdown?.pureEldenRingUnupgradedRows!==1||
+    ledger.remainingUnreportedScalingGradeCount!==unknownGrades-explicitCells)
   fail('Cross-source completion or conflict audit totals drifted.');
  return {total:72,attackReferences:attackCount,weightReferences:weightCount,
   criticalReferences:criticalCount,scalingReferences:scalingCount,unknownScalingGrades:unknownGrades,
   crosscheckedReferences:72,sourceConflicts:conflictIds.length,conflictIds,conflicts,
   attackConflicts:attackConflictCount,scalingConflicts:scalingConflictCount,
   requirementConflicts:requirementConflictCount,thirdSourceGroups:8,thirdSourceFields:9,
+  explicitDefaultScalingSourceRows:explicitRows,newlySourcedScalingCells:explicitCells,
+  remainingUnreportedScalingCells:unknownGrades-explicitCells,
   currentGameVerified:0,readyForExactAr:0};
 }

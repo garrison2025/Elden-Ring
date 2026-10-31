@@ -22,8 +22,10 @@ export function buildRecoveredWeaponPreview(weapon,row){
  });
  const scalings=ATTRIBUTE_LABELS.map((label,index)=>{
   const primary=reference.scalingAtPlusZero[index],other=secondary.scalingGradesAsReported[index];
-  return {label,primary:primary==='?'?null:primary,secondary:other,
-   evidence:primary==='?'&&other===null?'UNREPORTED':
+  const third=row.explicitInitialScalingSource?.gradesAtPlusZero[index]??null;
+  return {label,primary:primary==='?'?null:primary,secondary:other,explicitThird:third,
+   evidence:primary==='?'&&other===null&&third===null?'UNREPORTED':
+    primary==='?'&&other===null?'EXPLICIT_THIRD_SOURCE':
     primary==='?'?'SECONDARY_ONLY':
     other!==null&&primary!==other?'SOURCE_CONFLICT':
     other===null?'PRIMARY_ONLY':'SOURCE_COMPARISON'};
@@ -42,7 +44,9 @@ export function buildRecoveredWeaponPreview(weapon,row){
   critical:reference.critical,
   sourceAUrl:reference.sourceUrl,sourceBUrl:secondary.sourceUrl,
   sourceCUrl:row.thirdSource?.sourceUrl??null,
+  sourceScalingUrl:row.explicitInitialScalingSource?.sourceUrl??null,
   unknownScalingCells:scalings.filter(x=>x.evidence==='UNREPORTED').length,
+  thirdSourcedScalingCells:scalings.filter(x=>x.primary===null&&x.explicitThird!==null).length,
   warning:'Unversioned published +0 source readings, not certified current-game values. The canonical attack, weight, critical and scaling remain unknown. No AR or accurate equip-load claim.'
  };
 }

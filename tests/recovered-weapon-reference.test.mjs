@@ -100,3 +100,41 @@ test('third-source evidence cannot be tampered to imply official current patch g
   assert.throws(()=>validateRecoveredSourceReferences(cloned,original),RangeError);
  }
 });
+
+
+test('33 individually cited unupgraded source tables resolve all 126 original source blanks without changing source A',()=>{
+ const s=validateRecoveredSourceReferences(ledger,original);
+ assert.equal(s.unknownScalingGrades,126);
+ assert.equal(s.newlySourcedScalingCells,126);
+ assert.equal(s.explicitDefaultScalingSourceRows,33);
+ assert.equal(s.remainingUnreportedScalingCells,0);
+ assert.equal(ledger.records.filter(x=>x.explicitInitialScalingSource).length,33);
+ const a=ledger.records.find(x=>x.name==='Albinauric Shield');
+ assert.equal(a.reference.scalingAtPlusZero[1],'?');
+ assert.equal(a.explicitInitialScalingSource.gradesAtPlusZero[1],'-');
+ const seal=ledger.records.find(x=>x.name==='Gravel Stone Seal');
+ assert.deepEqual(seal.explicitInitialScalingSource.gradesAtPlusZero,['E','-','-','C','-']);
+ const unresolved=ledger.records.filter(x=>x.reference.scalingAtPlusZero.includes('?')&&
+  !x.explicitInitialScalingSource).map(x=>x.name).sort();
+ assert.deepEqual(unresolved,[]);
+ const historical=ledger.records.find(x=>x.name==='Shield of the Guilty');
+ assert.equal(historical.explicitInitialScalingSource.historicalRequirementCaveat.sourceStrengthRequirement,6);
+ assert.equal(historical.requirementsPinned117[0],8);
+ assert.equal(historical.reference.scalingAtPlusZero[1],'?');
+ assert.equal(historical.explicitInitialScalingSource.gradesAtPlusZero[1],'-');
+});
+test('third-site source-grade cell cannot be counterfeited or asserted current-game approved',()=>{
+ for(const change of [
+  d=>{d.explicitInitialScalingAdditionalCells=127},
+  d=>{d.records.find(x=>x.name==='Albinauric Shield').explicitInitialScalingSource.sourceUrl='https://example.org/'},
+  d=>{d.records.find(x=>x.name==='Albinauric Shield').explicitInitialScalingSource.gradesAtPlusZero[0]='S'},
+  d=>{d.records.find(x=>x.name==='Gravel Stone Seal').explicitInitialScalingSource.reinforcement=25},
+  d=>{d.records.find(x=>x.name==='Albinauric Shield').explicitInitialScalingSource.gameClientVerified=true},
+  d=>{delete d.records.find(x=>x.name==='Albinauric Shield').explicitInitialScalingSource},
+  d=>{d.records.find(x=>x.name==='Shield of the Guilty').explicitInitialScalingSource.historicalRequirementCaveat.sourceStrengthRequirement=8},
+  d=>{d.records.find(x=>x.name==='Spiralhorn Shield').explicitInitialScalingSource.standardRowLabel='Standard'}
+ ]){
+  const copy=structuredClone(ledger);change(copy);
+  assert.throws(()=>validateRecoveredSourceReferences(copy,original),RangeError);
+ }
+});
