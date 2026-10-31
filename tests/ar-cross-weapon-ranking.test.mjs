@@ -80,3 +80,33 @@ test('CSV rows are exact displayed ranking order, UTF-8 BOM, sourced, and formul
  assert.ok(guarded.includes('"\'-Risky CSV label"'));
  assert.throws(()=>rankingToCsv({status:'too-broad',rows:[]}),RangeError);
 });
+
+test('realistic Somber +0..10 and regular +0..25 never mix reinforcement paths',()=>{
+ const source=structuredClone(COMPACT_SYNTHETIC_REGULATION);
+ const regular=source.weapons[0];
+ const somber={...regular,name:'Fictional Somber Sword — QA ONLY',
+  weaponName:'Invented Somber Sword',affinityId:-1,reinforceTypeId:99};
+ source.weapons.push(somber);
+ const original=source.reinforceTypes[1][0];
+ source.reinforceTypes[99]=Array.from({length:11},(_,i)=>({
+  attack:{0:1+i*0.08},attributeScaling:original.attributeScaling
+ }));
+ const r=rankLocalWeaponVariants(source,{...opts,regularUpgrade:25,somberUpgrade:10});
+ assert.equal(r.totalMatches,5);
+ assert.equal(r.rankedCount,1);
+ assert.equal(r.rows[0].reinforcement,'somber');
+ assert.equal(r.rows[0].upgrade,10);
+ assert.equal(r.rows[0].affinityId,-1);
+ assert.equal(r.excludedCount,4);
+ const early=rankLocalWeaponVariants(source,{...opts,regularUpgrade:0,somberUpgrade:0});
+ assert.equal(early.rankedCount,5);
+ assert.equal(early.rows.find(w=>w.name===somber.name).upgrade,0);
+});
+test('all result rows explicitly carry source gap and cannot invent real in-game certification',()=>{
+ const r=rankLocalWeaponVariants(COMPACT_SYNTHETIC_REGULATION,opts);
+ assert.equal(r.status,'complete-query');
+ assert.match(r.note,/not game-client certified/i);
+ assert.ok(r.rows.every(row=>Number.isInteger(row.total)&&
+  row.total===Object.values(row.components).reduce((a,b)=>a+b,0)));
+ assert.ok(r.rows.every(row=>row.reinforcement==='regular'||row.reinforcement==='somber'));
+});
