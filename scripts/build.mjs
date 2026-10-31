@@ -15,7 +15,7 @@ const RELEASE_INDEX_ROUTES=Object.freeze([
 const productionDeployment=process.env.CF_PAGES==='1'&&process.env.CF_PAGES_BRANCH==='main';
 const indexApproved=process.env.RELEASE_INDEX_APPROVED==='1';
 const url=(productionDeployment?PRODUCTION_ORIGIN:(process.env.SITE_URL||'')).trim().replace(/\/$/,'');
-const releaseEnabled=!!url&&(productionDeployment||indexApproved);
+const releaseEnabled=!!url&&(productionDeployment||(process.env.CF_PAGES!=='1'&&indexApproved));
 if(url&&!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(url))throw Error('SITE_URL must be an HTTPS origin, e.g. https://example.com');
 await rm(dist,{force:true,recursive:true});await cp(source,dist,{recursive:true});
 const catalog=JSON.parse(await readFile(path.join(source,'data/community-weapon-catalog.json'),'utf8'));
