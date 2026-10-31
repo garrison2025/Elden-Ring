@@ -80,3 +80,12 @@ test('main weapon database now uses validated, preview-only field evidence; no s
  assert.ok(page.includes('not used by weight, damage, AR or sort'));
  assert.ok(source.includes('chosen.weight===null'));
 });
+
+
+test('game screenshot QA link only appears for dispute cases and uses exact valid weapon deep links',()=>{
+ const app=read('src/weapon-catalog-app.mjs'),qa=read('src/current-game-qa-app.mjs');
+ assert.ok(app.includes("record.sourceConflicts.length===0"));
+ assert.ok(app.includes("url.searchParams.set('weapon',chosen.id)"));
+ assert.ok(qa.includes("new URLSearchParams(location.search).get('weapon')"));
+ assert.ok(qa.includes("queue.cases.find(x=>x.weaponId===requested)"));
+});
