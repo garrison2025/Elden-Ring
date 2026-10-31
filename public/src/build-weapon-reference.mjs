@@ -1,4 +1,4 @@
-import {weaponRequirementComparison,hasDisputedRequirements,hasDisputedAttack} from './community-weapons.mjs';
+import {weaponRequirementComparison,hasDisputedRequirements,hasDisputedAttack,hasDisputedWeight} from './community-weapons.mjs';
 
 const fail=message=>{throw new RangeError(message);};
 
@@ -49,7 +49,9 @@ export function inspectBuildWeapon(weapons,rawId,stats8,{allowSote=false}={}){
   id:weapon.id,name:weapon.name,category:weapon.category,
   expansion:weapon.expansion??'Base game',
   referenceTier:weapon.dataCoverage??'base-community',
-  weight:weapon.weight??null,
+  weight:hasDisputedWeight(weapon)?null:weapon.weight??null,
+  weightDisputed:hasDisputedWeight(weapon),
+  reportedWeight:weapon.weight??null,
   requirements:requirementsDisputed?null:weapon.requirements??null,
   reportedRequirements:weapon.requirements??null,
   requirementsDisputed,attackDisputed,
@@ -63,6 +65,7 @@ export function inspectBuildWeapon(weapons,rawId,stats8,{allowSote=false}={}){
   note:'Community weapon reference, NOT current-patch validated. '+
    (requirementsDisputed?'Wield requirements DISPUTED; no met/not-met claim. ':'')+
    (attackDisputed?'Base attack DISPUTED; no trusted attack amount. ':'')+
+   (hasDisputedWeight(weapon)?'Weapon weight DISPUTED; no trusted load contribution. ':'')+
    'Weight is for this single weapon only, not full equipment. +0 attack is NOT AR. No scaling, affinity, reinforcement or damage is calculated.'
  };
 }
