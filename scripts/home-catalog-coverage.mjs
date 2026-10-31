@@ -13,10 +13,12 @@ export function getCatalogCoverage(catalog){
  const tarnished=all.filter(w=>w?.expansion==='Tarnished Pack');
  const result={weapons:all.length,dlc:dlc.length,dlcBaseFacts:baseDlc.length,
   tarnishedPack:tarnished.length,
+  pinnedBaseRequirementsOnly:all.filter(w=>w.flags?.includes('source-v117-neutral-requirements-only')).length,
   tarnishedPackBaseFacts:tarnished.filter(w=>w.dataCoverage==='base-reference').length,
   tarnishedPackSecondaryConflicts:tarnished.filter(w=>w.secondarySourceDisagreement!==undefined).length};
  if(!Number.isInteger(catalog.meta.count)||catalog.meta.count!==result.weapons||
   catalog.meta.dlcCatalogCount!==result.dlc||
+  catalog.meta.basePinnedRequirementsOnlyCount!==result.pinnedBaseRequirementsOnly||
   catalog.meta.dlcBaseFactCount!==result.dlcBaseFacts||
   catalog.meta.tarnishedPackCount!==result.tarnishedPack||
   catalog.meta.tarnishedPackBaseFactCount!==result.tarnishedPackBaseFacts||
@@ -26,14 +28,18 @@ export function getCatalogCoverage(catalog){
  return result;
 }
 export function catalogCoverageCopy(c){
- if(!c||![c.weapons,c.dlc,c.dlcBaseFacts,c.tarnishedPack,c.tarnishedPackBaseFacts,c.tarnishedPackSecondaryConflicts].every(Number.isInteger)||
+ if(!c||![c.weapons,c.dlc,c.dlcBaseFacts,c.tarnishedPack,c.tarnishedPackBaseFacts,c.tarnishedPackSecondaryConflicts,c.pinnedBaseRequirementsOnly].every(Number.isInteger)||
   c.weapons<1||c.dlc<0||c.dlc>c.weapons||
+  c.pinnedBaseRequirementsOnly<0||c.pinnedBaseRequirementsOnly>c.weapons-c.dlc-c.tarnishedPack||
   c.dlcBaseFacts<0||c.dlcBaseFacts>c.dlc||
   c.tarnishedPack<0||c.tarnishedPack+c.dlc>c.weapons||
   c.tarnishedPackBaseFacts<0||c.tarnishedPackBaseFacts>c.tarnishedPack||
   c.tarnishedPackSecondaryConflicts<0||c.tarnishedPackSecondaryConflicts>c.tarnishedPack)
   fail('Invalid source-derived catalog coverage.');
- return 'Search '+c.weapons+' community-reported weapon and shield references, including '+
+ return 'Search '+c.weapons+' uniquely named weapon and shield references ('+
+  (c.weapons-c.dlc-c.tarnishedPack)+' base-game, '+c.dlc+' Shadow of the Erdtree, '+
+  c.tarnishedPack+' Tarnished Pack). '+c.pinnedBaseRequirementsOnly+
+  ' base-game entries were recovered by reverse matching pinned Regulation 1.17: their minimum attributes are sourced but attack/weight/critical/scaling remain unknown. Including '+
   c.dlc+' Shadow of the Erdtree entries ('+c.dlcBaseFacts+
   ' with sourced +0 base-attack facts) and '+c.tarnishedPack+
   ' Tarnished Pack armaments ('+c.tarnishedPackBaseFacts+
