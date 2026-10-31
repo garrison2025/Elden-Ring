@@ -3,6 +3,7 @@ import {
  validateBuildLoadout,evaluateBuildLoadout,encodeBuildLoadout,decodeBuildLoadout
 } from './build-loadout.mjs';
 import {validateCommunityCatalog} from './community-weapons.mjs';
+import {loadPinnedArmorSource,findExactArmor} from './armor-source-optin.mjs';
 const byId=id=>document.getElementById(id);
 const status=(message,error=false)=>{
  const el=byId('build-loadout-status');el.textContent=message;el.dataset.state=error?'error':'ready';
@@ -26,7 +27,8 @@ const field=(parent,label,type='text',attrs={})=>{
 const state=()=>({
  schemaVersion:1,
  weaponSlots:weaponEntries.map(r=>({id:r.select.value,manualWeight:r.weight.value.trim()})),
- armorSlots:armorEntries.map(r=>({name:r.name.value,weight:r.weight.value.trim()})),
+ armorSlots:armorEntries.map(r=>({name:r.name.value,weight:r.weight.value.trim(),
+  weightSource:r.weight.dataset.source==='community'?'community':'manual'})),
  talismans:talismanEntries.map(x=>x.value),
  spells:spellEntries.map(x=>x.value),
  crystalTears:tearEntries.map(x=>x.value),
@@ -34,7 +36,7 @@ const state=()=>({
  maxEquipLoad:byId('build-loadout-maximum').value.trim()
 });
 let catalog=null,weaponEntries=[],armorEntries=[],talismanEntries=[],spellEntries=[],tearEntries=[];
-let active=false,latestResult=null;
+let active=false,latestResult=null,armorReference=null;
 const savedKey='buildlab:equipment-loadout:v1';
 const topStats=()=>{
  const values=[...document.querySelectorAll('#stat-grid [data-stat]')].map(x=>Number(x.value));
@@ -51,7 +53,7 @@ function render(){
  const result=byId('build-loadout-results');result.replaceChildren();
  latestResult=null;
  try{
-  const evaluated=evaluateBuildLoadout(state(),catalog,contentOpts());
+  const evaluated=evaluateBuildLoadout(state(),catalog,{...contentOpts(),armorReference:armorReference?.armors??null});
   latestResult=evaluated;
   const heading=make('h3',{text:evaluated.exactTotal===null?
    'Partial loadout — exact equip load withheld':
@@ -120,7 +122,10 @@ function fill(stateInput){
    throw new RangeError('Imported weapon ID is not in the current catalog: '+id);
  }
  weaponEntries.forEach((r,i)=>{r.select.value=v.weaponSlots[i].id;r.weight.value=v.weaponSlots[i].manualWeight;});
- armorEntries.forEach((r,i)=>{r.name.value=v.armorSlots[i].name;r.weight.value=v.armorSlots[i].weight;});
+ armorEntries.forEach((r,i)=>{
+  r.name.value=v.armorSlots[i].name;r.weight.value=v.armorSlots[i].weight;
+  r.weight.dataset.source=v.armorSlots[i].weightSource;
+ });
  talismanEntries.forEach((x,i)=>{x.value=v.talismans[i];});
  spellEntries.forEach((x,i)=>{x.value=v.spells[i];});
  tearEntries.forEach((x,i)=>{x.value=v.crystalTears[i];});
@@ -154,6 +159,15 @@ function createInputs(){
   const weight=field(box,'In-game item weight','number',{
    placeholder:'Unknown until provided',min:'0',max:'999',step:'0.001',inputmode:'decimal'
   });
+  weight.dataset.source='manual';
+  name.addEventListener('input',()=>{
+   if(weight.dataset.source==='community'){weight.value='';weight.dataset.source='manual';}
+   const match=findExactArmor(armorReference?.armors,slot,name.value);
+   if(match&&weight.value.trim()===''){
+    weight.value=String(match.weight);weight.dataset.source='community';
+   }
+  });
+  weight.addEventListener('input',()=>{weight.dataset.source='manual';});
   armorEntries.push({name,weight});
  }
  const talismans=byId('build-loadout-talismans');
@@ -179,6 +193,35 @@ function createInputs(){
  byId('stat-grid')?.addEventListener('input',render);
  void rune;
 }
+byId('build-loadout-load-armor').addEventListener('click',async()=>{
+ if(!active){status('Open equipment planner before downloading armor data.',true);return;}
+ const button=byId('build-loadout-load-armor'),p=byId('build-loadout-armor-source-status');
+ button.disabled=true;p.textContent='Reading pinned public armor reference on your request…';
+ try{
+  const source=await loadPinnedArmorSource(fetch);
+  armorReference=source;
+  const categorySlots=['Head','Chest','Arms','Legs'];
+  for(let i=0;i<4;i++){
+   const ref=armorEntries[i];
+   const list=document.createElement('datalist');list.id='build-loadout-armor-options-'+i;
+   for(const item of source.armors.filter(a=>a.slot===categorySlots[i])){
+    const option=document.createElement('option');option.value=item.name;list.append(option);
+   }
+   ref.name.parentElement.append(list);
+   ref.name.setAttribute('list',list.id);
+   const found=findExactArmor(source.armors,categorySlots[i],ref.name.value);
+   if(found&&ref.weight.value.trim()==='' ){
+    ref.weight.value=String(found.weight);ref.weight.dataset.source='community';
+   }
+  }
+  p.textContent=source.count+' pinned community armor names with reported weights loaded locally. Underlying game version and redistribution rights are unverified; use your game screen to confirm.';
+  button.hidden=true;
+  render();
+ }catch(error){
+  p.textContent='Armor reference unavailable: '+error.message+'. You can still enter your own item weights.';
+  button.disabled=false;armorReference=null;render();
+ }
+});
 const activate=async()=>{
  if(active)return;
  byId('build-loadout-start').disabled=true;
