@@ -3,6 +3,11 @@ import {compareWeaponRequirements} from './requirements.mjs';
 export const DAMAGE_LABELS=Object.freeze(['Physical','Magic','Fire','Lightning','Holy']);
 export const ATTRIBUTE_LABELS=Object.freeze(['STR','DEX','INT','FAI','ARC']);
 const fail=m=>{throw new RangeError(m);};
+const ATTACK_CONFLICT='v117-community-attack-conflict';
+const REQUIREMENT_CONFLICT='v117-community-requirement-conflict';
+/** Distinguish documented community values from unresolved patch disagreements. */
+export const hasDisputedAttack=w=>(w?.flags??[]).includes(ATTACK_CONFLICT);
+export const hasDisputedRequirements=w=>(w?.flags??[]).includes(REQUIREMENT_CONFLICT);
 
 /**
  * Validates a 2026-10-30 snapshot of factual community weapon properties.
@@ -117,6 +122,8 @@ export function standardTwoHandAssumption(weapon){
 }
 export function weaponRequirementComparison(weapon,stats){
  if(!weapon)fail('Weapon selection is missing.');
+ if(hasDisputedRequirements(weapon))
+  fail('Weapon requirements have an unresolved community-versus-Regulation source conflict; wieldability is unavailable.');
  if(!Array.isArray(weapon.requirements))fail('Weapon attribute requirements are not documented; comparison is unavailable.');
  return compareWeaponRequirements(stats,weapon.requirements,{
   applyTwoHandBonus:standardTwoHandAssumption(weapon)});
@@ -129,8 +136,9 @@ export function weaponWieldShortfall(weapon,stats){
  if(!Array.isArray(stats)||stats.length!==5||
   !stats.every(n=>Number.isInteger(n)&&n>=1&&n<=99))
   throw new RangeError('Five integer character attributes from 1 to 99 are required.');
- if(!Array.isArray(weapon?.requirements))return {
-  known:false,oneHandPoints:null,twoHandPoints:null,
+ if(!Array.isArray(weapon?.requirements)||hasDisputedRequirements(weapon))return {
+  known:false,sourceDisputed:hasDisputedRequirements(weapon),
+  oneHandPoints:null,twoHandPoints:null,
   oneHandMissing:[],twoHandMissing:[],twoHandAssumption:false
  };
  const result=weaponRequirementComparison(weapon,stats);
@@ -138,7 +146,7 @@ export function weaponWieldShortfall(weapon,stats){
   stat:x.key.toUpperCase(),points:x.missing
  }));
  return {
-  known:true,oneHandPoints:result.oneHanded.totalMissing,
+  known:true,sourceDisputed:false,oneHandPoints:result.oneHanded.totalMissing,
   twoHandPoints:result.twoHanded.totalMissing,
   oneHandMissing:missing(result.oneHanded),
   twoHandMissing:missing(result.twoHanded),
@@ -177,9 +185,11 @@ export function searchCatalog(weapons,{
   if(q&&!w.name.toLocaleLowerCase('en-US').includes(q)&&
     !w.category.toLocaleLowerCase('en-US').includes(q))return false;
   if(maxWeight!==null&&(w.weight===null||w.weight>maxWeight))return false;
-  if(damage!=='any'&&!(Array.isArray(w.attack)&&w.attack[damageIndex]>0))return false;
+  if(damage!=='any'&&
+   (hasDisputedAttack(w)||!(Array.isArray(w.attack)&&w.attack[damageIndex]>0)))
+   return false;
   if(wield!=='any'){
-   if(!Array.isArray(w.requirements))return false;
+   if(!Array.isArray(w.requirements)||hasDisputedRequirements(w))return false;
    const result=weaponRequirementComparison(w,stats);
    if(wield==='one'&&!result.oneHanded.canWield)return false;
    if(wield==='standard-two'&&!result.twoHanded.canWield)return false;
@@ -200,8 +210,10 @@ export function searchCatalog(weapons,{
    return a.weight-b.weight||a.name.localeCompare(b.name);
   }
   if(sort==='base'){
-   if(!a.attack||!b.attack)return !a.attack?(!b.attack?0:1):-1;
-   return b.attack.reduce((n,v)=>n+v,0)-a.attack.reduce((n,v)=>n+v,0)||a.name.localeCompare(b.name);
+   const left=hasDisputedAttack(a)?null:a.attack;
+   const right=hasDisputedAttack(b)?null:b.attack;
+   if(!left||!right)return !left?(!right?0:1):-1;
+   return right.reduce((n,v)=>n+v,0)-left.reduce((n,v)=>n+v,0)||a.name.localeCompare(b.name);
   }
   return a.name.localeCompare(b.name)||a.id.localeCompare(b.id);
  });
@@ -252,6 +264,8 @@ export function cautionForWeapon(w){
  return warnings;
 }
 export function requirementsUrl(weapon,player,base='../'){
+ if(hasDisputedRequirements(weapon))
+  fail('Disputed source requirements cannot be shared as definitive weapon requirements.');
  const url=new URL(base+'weapon-requirements/', 'https://buildlab.example/');
  url.searchParams.set('player',player.join(','));
  url.searchParams.set('req',weapon.requirements.join(','));
