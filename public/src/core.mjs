@@ -45,7 +45,15 @@ export function optimizeClasses(target,allowDlc=true){
   return CLASSES.filter(c=>allowDlc||!c.dlc).map(c=>({className:c.name,dlc:c.dlc,level:c.level+c.stats.reduce((sum,v,i)=>sum+Math.max(0,Number(target[i])-v),0),stats:c.stats})).sort((a,b)=>a.level-b.level||a.className.localeCompare(b.className));
 }
 export function loadTier(weight,maxWeight){
- const w=Number(weight),max=Number(maxWeight);if(!Number.isFinite(w)||!Number.isFinite(max)||w<0||max<=0||w>100000||max>100000)throw new RangeError('Enter non-negative weight and a positive maximum load.');
+ // Missing input is UNKNOWN, never the implicit zero produced by Number('') or Number(null).
+ // Accept only explicit decimal values; 0 is valid for a genuinely empty loadout.
+ const explicit=value=>typeof value==='number'||
+   (typeof value==='string'&&/^(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)$/.test(value.trim()));
+ if(!explicit(weight)||!explicit(maxWeight))
+  throw new RangeError('Enter both actual weight and a positive maximum load; blank values are unknown.');
+ const w=Number(weight),max=Number(maxWeight);
+ if(!Number.isFinite(w)||!Number.isFinite(max)||w<0||max<=0||w>100000||max>100000)
+  throw new RangeError('Enter non-negative weight and a positive maximum load.');
  const pct=100*w/max;
  return {percent:pct,tier:pct<30?'Light':pct<70?'Medium':pct<100?'Heavy':'Overloaded',
  // The game treats exactly 30/70/100 percent as the heavier tier.
