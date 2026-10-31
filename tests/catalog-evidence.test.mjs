@@ -21,10 +21,14 @@ test('data-quality audit derives all exact observed counts and conflict types fr
  assert.equal(c.versionedRequirementCorroborations,1);
  assert.equal(c.unversionedBaseCrosschecks,6);
  assert.equal(c.total,416);
- assert.equal(c.dlcBaseAttackSourced,101);
+ assert.equal(c.dlcBaseAttackSourced,102);
  assert.equal(c.requirementsPresent,416);
  assert.equal(c.weaponWeightsPresent,416);
- assert.equal(c.baseAttackPresent,415);
+ assert.equal(c.baseAttackPresent,416);
+ assert.equal(c.baseAttackSourceUncontested,409);
+ assert.equal(c.stoneSheathedSourceAttackDisputes,1);
+ assert.equal(c.stoneSheathedSourceWeightDisputes,1);
+ assert.ok(c.disputedWeightReferences>=2);
  assert.equal(c.publishedRoundedUpgradeTables,6);
  assert.equal(c.completeArProfiles,0);
  assert.equal(c.attackSourceConflicts,6);

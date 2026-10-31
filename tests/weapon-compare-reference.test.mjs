@@ -17,12 +17,12 @@ test('three distinct armaments compare factual base attack, weight and attribute
  assert.ok(model.warning.includes('No total AR'));
  assert.equal(model.rows.some(x=>x.label==='Total AR'),false);
 });
-test('missing DLC facts remain Unknown, never silently zeroed',()=>{
+test('Stone-Sheathed +0 and weight conflicts are displayed as DISPUTED source figures',()=>{
  const partial=find('Stone-Sheathed Sword'),requirements=find('Anvil Hammer');
  const model=compareWeaponReferences(catalog.weapons,[partial.id,requirements.id]);
  const get=name=>model.rows.find(x=>x.label===name).values;
- assert.deepEqual(get('Physical +0 base'),['Unknown','131']);
- assert.deepEqual(get('Weight'),['3.5','22']);
+ assert.deepEqual(get('Physical +0 base'),['DISPUTED (community 89)','131']);
+ assert.deepEqual(get('Weight'),['DISPUTED (community 3.5)','22']);
  assert.deepEqual(get('STR requirement'),['16','39']);
  assert.deepEqual(get('DEX requirement'),['8','10']);
  assert.equal(model.rows.some(x=>x.label==='One-hand requirements'),false);

@@ -7,8 +7,8 @@
     "source": "https://github.com/deliton/eldenring-api/blob/main/api/public/data/weapons.json",
     "sourceRevision": "1d2626ceda5eb8c08997e345e303344a64edc106",
     "licenseNote": "Source API project declares MIT for software; game-derived facts and materials retain their respective owners' rights.",
-    "includedFields": "306 base-game community +0 references; 101 DLC +0 source-backed base records (both individual pages and category-comparison table records); only Stone-Sheathed Sword retains source-conflicted unknown +0 attack; all 102 DLC have cited requirements and weight; 6 published rounded somber base attack progressions, zero precise current-regulation AR profiles. Added 8 Tarnished Pack/Tarnished Edition source-named armaments in 1.17 with patch-labelled 1.17.3 community requirement/weight facts; +0 attack, critical, scaling and AR deliberately UNKNOWN. Added 3 individual 2026 Tarnished Pack published +0 wiki base figures; not independently patch-verified. Madding Hand still has community FAI 13 vs pinned V1.17 FAI 20, now independently corroborated as FAI 20 in current Regulation 1.17.3 secondary reference; no game menu screenshot. Four more Pack +0 community table references (Reverse-Bladed Sword, Hefty Scimitar, Leontiel's Greatsword, Golden Order Flail). Ritual Thrusting Shield +0 remains unknown and secondary source weight/requirements differ; wield and equipped-weight functions block its disputed fields. Six existing source-disputed +0 attack rows now carry separate unversioned third-party Base vectors matching pinned v1.17, strictly as provisional evidence; not changed as authoritative attacks or unlocked for AR. The final Tarnished Pack partial +0 weapon Ritual Thrusting Shield now has source-attributed Physical 135, critical 100, STR D and DEX D from named public pages, independently unverified in 1.17.3 game menus. Disputed shield weight and requirements remain blocked for calculations.",
-    "corrections": "Royal Greatsword, Serpentbone Blade and Star Fist have individually cross-checked numeric corrections; all other records are community source values. Twelve entries retain '?' scaling grades from the source and are flagged rather than guessed. DLC records have no invented attack/weight/scaling. This is a partial selection of DLC armaments, not a complete expansion catalog. Expanded Shadow of the Erdtree list to 102 entries (weapons and shields) using an attributed expansion roster; 9 individual +0 records separately checked with Eldenpedia. DLC upgrade factors, elemental correction curves and affinity profiles are not supplied or verified; zero AR-calculable DLC records. Sourced 9 additional DLC +0 rows from their exact wiki.gg weapon pages; three published +0–+10 base-attack tables are saved separately. These rounded tables do not imply precise reinforcement multipliers. Added three source-attributed +0 facts: Spread Crossbow, Spirit Sword and Tooth Whip; Tooth Whip's 11-step somber integer base-attack progression is independently linked. These do not imply full AR verification. Corrected Spiked Spear's malformed upstream Dexterity 0 to required 16 and critical 0 to 100, independently sourced against Eldenpedia's base-game weapon page; ranged crossbow two-hand Strength requirement handling updated with source examples. Added nine individually source-checked DLC +0 records (including 1.17 Black Steel Greatshield weight, Carian Sorcery Sword critical, and corrected Ansbach Longbow DEX 43) and Euporia +0..+10 reported somber BASE attack. No AR multiplier inferred. Ancient Meteoric Ore Greatsword source upgrade row +3 has an anomalous magic value, so no reinforcement table is imported for it. 2026-10-30: Added 13 individually sourced DLC +0 records including patch-1.17 perfume values; all 102 DLC requirements and source-reported weapon weights now populated. The remaining 59 weight/requirements records are secondary-source observations, not game-verified current regulation. Carian Sorcery Sword physical +0 corrected from 69 to 38 per independent regulation 1.17 patch diff. Barbed Staff-Spear and Claws of Night source-published upgrade tables contain nonmonotonic/conflicting values and were deliberately not imported. 2026-10-30 later: 14 further individually cited DLC +0 facts. Secondary weight mismatch corrected against per-weapon wiki.gg for Staff of the Great Beyond and Golem Fist. Radahn paired greatsword two-hand STR requirement may receive documented 1.5x bonus while player AR remains unverified. Stone-Sheathed Sword wiki infobox physical 119 conflicts with its upgrading table +0 89; this record remains attack UNKNOWN pending a better primary/reference cross-check. Added seven per-weapon wiki.gg +0 records (Dancing Blade of Ranah, Curseblade's Cirque, both Death Knight Axes, Bloodfiend's Sacred Spear, Horned Warrior's Greatsword and Flowerstone Gavel), and Bloodfiend's Sacred Spear sourced +0..+10 base progression. Stone-Sheathed Sword weight corrected 5 to 3.5 from wiki.gg Straight Swords list; its contradictory base attack remains UNKNOWN. Additional 37 DLC +0 entries sourced from wiki.gg category comparison tables or named weapon pages; explicit source URL and category-table source-quality flag per record. Fixed Madding Hand Faith requirement 20 to source 13, Main-gauche weight 2.5 to sourced 2. Messmer Soldier's Spear and Swift Spear list malformed Faith grade 0 (left as '?' not guessed); Falx wiki +0 Strength scaling disagrees between stat display and somber table (left '?' with conflict flag). Only Stone-Sheathed Sword remains unknown attack because wiki +0 physical base 119 versus upgrade table 89. No claimed AR or infusions. Separate independent source-vs-source audit against pinned ThomasJClark 1.17 regulation finds 6 +0 attack conflicts and 1 Madding Hand FAI requirement conflict. Corrected +0 interpretation multiplies raw attack by level-0 reinforce attack multiplier; the wiki values and 1.17 values are NOT silently reconciled. These seven records have prominent caution flags pending game-version-specific verification. 2026-10-31 catalog source-name normalization: corrected three original community labels (Prince of Death's Staff, Sword of St. Trina, Velvet Sword of St. Trina) while preserving stable weapon IDs. Dropped original Closed Network Test-only Winged Spear as a separate record: its finished-game equivalent is Spear (already represented), and its 78 physical base should NOT be mapped to released Spear's 114. Independent pinned 1.17 weapon-family audit finds all 408 retained community records have a normalized exact base-family name in the 3296-variant source. This is name coverage, not stat/patch validation. 2026-10-31: Source-backed Tarnished Pack/Tarnished Edition 8-armament roster added: seven weapons and Silver Grooved Shield. Requirements and weights attributed to Almanauts build 25827938, Regulation 1.17.3, not individually authenticated in game. +0 base attacks/crit/scaling remain null. New item names corroborated by GamesRadar and player-oriented references. 2026-10-31: Idus Sword, Reed Great Katana, Silver Grooved Shield +0 attacks/critical/base scaling cited to individually named wiki.gg weapon pages; original source-not-game-certified, and patch-labelled 1.17.3 weights/requirements retained. Separate current patch 1.17.3 secondary Madding Hand requirements STR8/DEX8/INT13/FAI20/ARC0 corroborate pinned V1.17 but legacy wiki gives FAI13, so unresolved-game flag retained. 2026-10-31: Added exact class-table +0 numbers from wiki.gg for Reverse-Bladed Sword (115 physical), Hefty Scimitar (135 physical), Leontiel's Greatsword (130 physical), Golden Order Flail (75 physical, 92 holy). Ritual Thrusting Shield remains +0 unknown; cross-publication disagreement in STR requirement (13 vs 15) and weight (10 vs 9) explicitly blocks computation while retaining attributed source values. This is one additional *secondary source* dispute beyond the seven pinned 1.17-vs-community source disputes; no in-game proof. 2026-10-31 six disputed +0 attack vectors checked against tarnished.app individual unversioned Base columns; all six match pinned v1.17 raw report, but source lineage/version unsupported; original conflicts remain and site does not treat them as game-verified. 2026-10-31: Ritual Thrusting Shield +0 physical 135, critical 100, D/D base letter grades from ESO-UI, allthings.how and OyunDijital named pages. These values are unversioned community-source corroboration, not certified current-game data. STR requirement 13/15 and weight 9/10 cross-source disputes remain unchanged and continue to block roll-tier/wieldability calculations. Tarnished Pack +0 source coverage now 8/8.",
+    "includedFields": "306 base-game community +0 references; 101 DLC +0 source-backed base records (both individual pages and category-comparison table records); only Stone-Sheathed Sword retains source-conflicted unknown +0 attack; all 102 DLC have cited requirements and weight; 6 published rounded somber base attack progressions, zero precise current-regulation AR profiles. Added 8 Tarnished Pack/Tarnished Edition source-named armaments in 1.17 with patch-labelled 1.17.3 community requirement/weight facts; +0 attack, critical, scaling and AR deliberately UNKNOWN. Added 3 individual 2026 Tarnished Pack published +0 wiki base figures; not independently patch-verified. Madding Hand still has community FAI 13 vs pinned V1.17 FAI 20, now independently corroborated as FAI 20 in current Regulation 1.17.3 secondary reference; no game menu screenshot. Four more Pack +0 community table references (Reverse-Bladed Sword, Hefty Scimitar, Leontiel's Greatsword, Golden Order Flail). Ritual Thrusting Shield +0 remains unknown and secondary source weight/requirements differ; wield and equipped-weight functions block its disputed fields. Six existing source-disputed +0 attack rows now carry separate unversioned third-party Base vectors matching pinned v1.17, strictly as provisional evidence; not changed as authoritative attacks or unlocked for AR. The final Tarnished Pack partial +0 weapon Ritual Thrusting Shield now has source-attributed Physical 135, critical 100, STR D and DEX D from named public pages, independently unverified in 1.17.3 game menus. Disputed shield weight and requirements remain blocked for calculations. Stone-Sheathed Sword now has candidate +0 physical 89, critical100, C/D grades sourced to wiki +0, Japanese initial-value table and AtlasForge; conflicting 119 headline and 3.5-vs-5 weight remain flagged and excluded from definitive damage and weight calculations.",
+    "corrections": "Royal Greatsword, Serpentbone Blade and Star Fist have individually cross-checked numeric corrections; all other records are community source values. Twelve entries retain '?' scaling grades from the source and are flagged rather than guessed. DLC records have no invented attack/weight/scaling. This is a partial selection of DLC armaments, not a complete expansion catalog. Expanded Shadow of the Erdtree list to 102 entries (weapons and shields) using an attributed expansion roster; 9 individual +0 records separately checked with Eldenpedia. DLC upgrade factors, elemental correction curves and affinity profiles are not supplied or verified; zero AR-calculable DLC records. Sourced 9 additional DLC +0 rows from their exact wiki.gg weapon pages; three published +0–+10 base-attack tables are saved separately. These rounded tables do not imply precise reinforcement multipliers. Added three source-attributed +0 facts: Spread Crossbow, Spirit Sword and Tooth Whip; Tooth Whip's 11-step somber integer base-attack progression is independently linked. These do not imply full AR verification. Corrected Spiked Spear's malformed upstream Dexterity 0 to required 16 and critical 0 to 100, independently sourced against Eldenpedia's base-game weapon page; ranged crossbow two-hand Strength requirement handling updated with source examples. Added nine individually source-checked DLC +0 records (including 1.17 Black Steel Greatshield weight, Carian Sorcery Sword critical, and corrected Ansbach Longbow DEX 43) and Euporia +0..+10 reported somber BASE attack. No AR multiplier inferred. Ancient Meteoric Ore Greatsword source upgrade row +3 has an anomalous magic value, so no reinforcement table is imported for it. 2026-10-30: Added 13 individually sourced DLC +0 records including patch-1.17 perfume values; all 102 DLC requirements and source-reported weapon weights now populated. The remaining 59 weight/requirements records are secondary-source observations, not game-verified current regulation. Carian Sorcery Sword physical +0 corrected from 69 to 38 per independent regulation 1.17 patch diff. Barbed Staff-Spear and Claws of Night source-published upgrade tables contain nonmonotonic/conflicting values and were deliberately not imported. 2026-10-30 later: 14 further individually cited DLC +0 facts. Secondary weight mismatch corrected against per-weapon wiki.gg for Staff of the Great Beyond and Golem Fist. Radahn paired greatsword two-hand STR requirement may receive documented 1.5x bonus while player AR remains unverified. Stone-Sheathed Sword wiki infobox physical 119 conflicts with its upgrading table +0 89; this record remains attack UNKNOWN pending a better primary/reference cross-check. Added seven per-weapon wiki.gg +0 records (Dancing Blade of Ranah, Curseblade's Cirque, both Death Knight Axes, Bloodfiend's Sacred Spear, Horned Warrior's Greatsword and Flowerstone Gavel), and Bloodfiend's Sacred Spear sourced +0..+10 base progression. Stone-Sheathed Sword weight corrected 5 to 3.5 from wiki.gg Straight Swords list; its contradictory base attack remains UNKNOWN. Additional 37 DLC +0 entries sourced from wiki.gg category comparison tables or named weapon pages; explicit source URL and category-table source-quality flag per record. Fixed Madding Hand Faith requirement 20 to source 13, Main-gauche weight 2.5 to sourced 2. Messmer Soldier's Spear and Swift Spear list malformed Faith grade 0 (left as '?' not guessed); Falx wiki +0 Strength scaling disagrees between stat display and somber table (left '?' with conflict flag). Only Stone-Sheathed Sword remains unknown attack because wiki +0 physical base 119 versus upgrade table 89. No claimed AR or infusions. Separate independent source-vs-source audit against pinned ThomasJClark 1.17 regulation finds 6 +0 attack conflicts and 1 Madding Hand FAI requirement conflict. Corrected +0 interpretation multiplies raw attack by level-0 reinforce attack multiplier; the wiki values and 1.17 values are NOT silently reconciled. These seven records have prominent caution flags pending game-version-specific verification. 2026-10-31 catalog source-name normalization: corrected three original community labels (Prince of Death's Staff, Sword of St. Trina, Velvet Sword of St. Trina) while preserving stable weapon IDs. Dropped original Closed Network Test-only Winged Spear as a separate record: its finished-game equivalent is Spear (already represented), and its 78 physical base should NOT be mapped to released Spear's 114. Independent pinned 1.17 weapon-family audit finds all 408 retained community records have a normalized exact base-family name in the 3296-variant source. This is name coverage, not stat/patch validation. 2026-10-31: Source-backed Tarnished Pack/Tarnished Edition 8-armament roster added: seven weapons and Silver Grooved Shield. Requirements and weights attributed to Almanauts build 25827938, Regulation 1.17.3, not individually authenticated in game. +0 base attacks/crit/scaling remain null. New item names corroborated by GamesRadar and player-oriented references. 2026-10-31: Idus Sword, Reed Great Katana, Silver Grooved Shield +0 attacks/critical/base scaling cited to individually named wiki.gg weapon pages; original source-not-game-certified, and patch-labelled 1.17.3 weights/requirements retained. Separate current patch 1.17.3 secondary Madding Hand requirements STR8/DEX8/INT13/FAI20/ARC0 corroborate pinned V1.17 but legacy wiki gives FAI13, so unresolved-game flag retained. 2026-10-31: Added exact class-table +0 numbers from wiki.gg for Reverse-Bladed Sword (115 physical), Hefty Scimitar (135 physical), Leontiel's Greatsword (130 physical), Golden Order Flail (75 physical, 92 holy). Ritual Thrusting Shield remains +0 unknown; cross-publication disagreement in STR requirement (13 vs 15) and weight (10 vs 9) explicitly blocks computation while retaining attributed source values. This is one additional *secondary source* dispute beyond the seven pinned 1.17-vs-community source disputes; no in-game proof. 2026-10-31 six disputed +0 attack vectors checked against tarnished.app individual unversioned Base columns; all six match pinned v1.17 raw report, but source lineage/version unsupported; original conflicts remain and site does not treat them as game-verified. 2026-10-31: Ritual Thrusting Shield +0 physical 135, critical 100, D/D base letter grades from ESO-UI, allthings.how and OyunDijital named pages. These values are unversioned community-source corroboration, not certified current-game data. STR requirement 13/15 and weight 9/10 cross-source disputes remain unchanged and continue to block roll-tier/wieldability calculations. Tarnished Pack +0 source coverage now 8/8. 2026-10-31 Stone-Sheathed Sword 89 +0 physical from explicit wiki upgrade +0, independent Japanese 初期値 and AtlasForge base attack. Same wiki headline and separate guides say 119; no proof of patch provenance. Source-reported 3.5 weight conflicts with Japanese/AtlasForge 5. Preserve BOTH disputes and block trusted attack and load; no original screenshot provided.",
     "reviewStatus": "Community-sourced +0 facts: 68 individual weapon-page references, 33 category-table comparisons; zero game-certified AR.",
     "importedDate": "2026-10-30",
     "count": 416,
@@ -179,22 +179,30 @@
         "url": "https://wiki.eso-ui.com/index.php/Elden_Ring%3ARitual_Thrusting_Shield",
         "checkedDate": "2026-10-31",
         "coverage": "Weapon +0 physical 135, critical 100, STR/DEX D/D; separately supported by two named public guides. Source disagreement on STR/weight intentionally preserved, no independent game-menu proof."
+      },
+      {
+        "label": "Stone-Sheathed Sword cross-source +0 attack and weight discrepancy",
+        "url": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword",
+        "checkedDate": "2026-10-31",
+        "coverage": "Wiki Upgrade +0 89 vs wiki header 119; Japanese initial-value 89 / max-upgrade 218; AtlasForge base 89; community weight 3.5 vs independent sources 5.0. Both fields source disputed; no game-client verification."
       }
     ],
     "baseCommunityCount": 306,
     "dlcRequirementOnlyCount": 0,
     "dlcNameOnlyCount": 0,
-    "dlcBaseFactCount": 101,
+    "dlcBaseFactCount": 102,
     "dlcCatalogCount": 102,
     "dlcUpgradeReferenceCount": 6,
-    "dlcWeightOnlyCount": 1,
+    "dlcWeightOnlyCount": 0,
     "v117SourceConflictCount": 7,
     "tarnishedPackCount": 8,
     "tarnishedPackWeightedRequirementsCount": 0,
     "tarnishedPackBaseFactCount": 8,
     "currentPatchRequirementsCorroborationCount": 1,
     "tarnishedPackSecondarySourceConflictCount": 1,
-    "unversionedThirdPartyPlusZeroMatchesCount": 6
+    "unversionedThirdPartyPlusZeroMatchesCount": 6,
+    "stoneSheathedPlusZeroSourceConflictCount": 1,
+    "stoneSheathedWeightSourceConflictCount": 1
   },
   "weapons": [
     {
@@ -12093,9 +12101,21 @@
       "name": "Stone-Sheathed Sword",
       "category": "Straight Sword",
       "weight": 3.5,
-      "attack": null,
-      "critical": null,
-      "scaling": null,
+      "attack": [
+        89,
+        0,
+        0,
+        0,
+        0
+      ],
+      "critical": 100,
+      "scaling": [
+        "C",
+        "D",
+        "-",
+        "-",
+        "-"
+      ],
       "requirements": [
         16,
         8,
@@ -12105,17 +12125,69 @@
       ],
       "expansion": "Shadow of the Erdtree",
       "sourceUrl": "https://eldenring.fandom.com/wiki/Weapons_(Shadow_of_the_Erdtree)",
-      "dataCoverage": "requirements-weight-only",
+      "dataCoverage": "base-reference",
       "flags": [
         "dlc-requirements-unverified",
         "dlc-base-stats-unverified",
         "secondary-sourced-weight-not-patch-verified",
         "conflicting-weapon-plus-zero-observation",
-        "secondary-weight-overridden-by-individual-wiki"
+        "secondary-weight-overridden-by-individual-wiki",
+        "stone-sheathed-attack-source-conflict",
+        "stone-sheathed-weight-source-conflict"
       ],
       "weightSourceUrl": "https://eldenring.wiki.gg/wiki/Straight_Swords",
       "requirementsSourceUrl": "https://github.com/hakkache/Elden-Ring-Dataset-API/blob/main/data/weapons.csv",
-      "conflictSourceUrl": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword"
+      "conflictSourceUrl": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword",
+      "checkedWith": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword",
+      "sourceAttackDisagreement": {
+        "status": "PUBLISHED_PLUS_ZERO_CONFLICT_NOT_GAME_VERIFIED",
+        "chosenSourceLabel": "community-upgrade-table-plus-zero",
+        "chosenAttack": [
+          89,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chosenSourceUrl": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword",
+        "supports": [
+          {
+            "url": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword",
+            "field": "Upgrade +0",
+            "physical": 89
+          },
+          {
+            "url": "https://kamigame.jp/eldenring/page/324734066194679699.html",
+            "field": "初期値",
+            "physical": 89
+          },
+          {
+            "url": "https://atlasforge.gg/elden-ring/database/weapons",
+            "field": "Weapon database physical",
+            "physical": 89
+          }
+        ],
+        "conflict": {
+          "url": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword",
+          "field": "Stats headline physical",
+          "physical": 119,
+          "independentlyGameVerified": false
+        },
+        "sourceIndependenceEstablished": false,
+        "clientRegulationVerified": false,
+        "publicationApproved": false,
+        "conclusion": "Named +0 89 supported by detailed upgrade and initial-value references, but same wiki headline says 119; game-client current patch not independently checked."
+      },
+      "sourceWeightDisagreement": {
+        "status": "PUBLISHED_WEIGHT_CONFLICT_NOT_GAME_VERIFIED",
+        "retainedCommunityWeight": 3.5,
+        "firstSourceUrl": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword",
+        "alternativeWeight": 5,
+        "secondSourceUrl": "https://kamigame.jp/eldenring/page/324734066194679699.html",
+        "additionalSourceUrl": "https://atlasforge.gg/elden-ring/database/weapons",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      }
     },
     {
       "id": "17f69b8f9edl0i1oitj4z0mizqfmf7",

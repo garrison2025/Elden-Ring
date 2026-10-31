@@ -3,7 +3,7 @@
  * Source records are not game-client goldens. Field availability is NOT
  * proof of current-regulation accuracy or copyright redistribution rights.
  */
-import {validateCommunityCatalog} from '../public/src/community-weapons.mjs';
+import {validateCommunityCatalog,hasDisputedAttack,hasDisputedWeight} from '../public/src/community-weapons.mjs';
 import {getCatalogCoverage} from './home-catalog-coverage.mjs';
 
 const fail=message=>{throw new RangeError(message);};
@@ -36,6 +36,10 @@ export function getCatalogEvidence(catalog){
   requirementsPresent:weapons.filter(w=>Array.isArray(w.requirements)).length,
   weaponWeightsPresent:weapons.filter(w=>Number.isFinite(w.weight)).length,
   baseAttackPresent:weapons.filter(w=>Array.isArray(w.attack)).length,
+  baseAttackSourceUncontested:weapons.filter(w=>Array.isArray(w.attack)&&!hasDisputedAttack(w)).length,
+  disputedWeightReferences:weapons.filter(w=>hasDisputedWeight(w)).length,
+  stoneSheathedSourceAttackDisputes:weapons.filter(w=>w.sourceAttackDisagreement!==undefined).length,
+  stoneSheathedSourceWeightDisputes:weapons.filter(w=>w.sourceWeightDisagreement!==undefined).length,
   publishedRoundedUpgradeTables:weapons.filter(w=>w.upgradeReference!==undefined).length,
   completeArProfiles:weapons.filter(w=>w.arParameters!==undefined&&w.arParameters!==null).length,
   attackSourceConflicts:weapons.filter(w=>hit(w,ATTACK)).length,
@@ -66,7 +70,8 @@ export function catalogEvidenceRow(evidence){
   c.tarnishedPack+' Tarnished Pack armaments; '+
   c.dlcBaseAttackSourced+' Shadow of the Erdtree entries have attributed +0 base-attack facts. '+
   c.recordsWithSourceConflicts+' entries have unresolved v1.17 source conflicts; '+
-  c.tarnishedPackSecondaryConflicts+' additional Tarnished Pack shield has independent secondary source disputes. '+
+  c.tarnishedPackSecondaryConflicts+' additional Tarnished Pack shield has independent secondary source disputes; '+
+  c.stoneSheathedSourceAttackDisputes+' Stone-Sheathed Sword has a separate 89 vs 119 +0 and 3.5 vs 5 weight dispute. '+
   'No precise, current-game-client-certified AR profiles are bundled. '+
   '<a href="#catalog-evidence">See the live data-quality audit</a>.</td></tr>';
 }
@@ -81,10 +86,14 @@ export function catalogEvidencePanel(evidence){
   row('Tarnished Pack secondary-source disagreements',c.tarnishedPackSecondaryConflicts,'Ritual Thrusting Shield: version-labelled 10 weight / STR 13 vs other public 9 weight / STR 15; both calculations blocked pending original game evidence'),
   row('Current 1.17.3 requirement-source corroborations',c.versionedRequirementCorroborations,'Madding Hand FAI 20 supports pinned v1.17 against unversioned wiki FAI 13; no reviewed in-game screenshot'),
   row('Unversioned third-party +0 Base matches',c.unversionedBaseCrosschecks,'Six individually linked Base rows match pinned v1.17, but current game version/source lineage are unverified and no AR is released'),
-  row('DLC with attributed +0 base-attack figures',c.dlcBaseAttackSourced,'Published +0 base attack is not final weapon Attack Rating'),
+  row('DLC with attributed +0 base-attack figures',c.dlcBaseAttackSourced,'Includes a disputed Stone-Sheathed +0 candidate 89; not certified current-game attack or AR'),
+  row('Stone-Sheathed +0 source disagreement',c.stoneSheathedSourceAttackDisputes,'Published +0 89 versus competing 119 headline; numeric source reference shown, trusted attack calculation BLOCKED'),
+  row('Stone-Sheathed weight disagreement',c.stoneSheathedSourceWeightDisputes,'3.5 versus 5 from named sources; weight and final roll-tier calculations BLOCKED'),
   row('Attribute requirement fields present',c.requirementsPresent+' / '+c.total,'Data availability only; conflicts may remain'),
   row('Individual weapon weight fields present',c.weaponWeightsPresent+' / '+c.total,'Data availability only; never imply actual equipped loadout'),
-  row('Published +0 base-attack arrays present',c.baseAttackPresent+' / '+c.total,'Missing means UNKNOWN, not zero'),
+  row('Published +0 base-attack arrays present',c.baseAttackPresent+' / '+c.total,'Source-reported availability includes source-disputed values, NOT certified current game attacks'),
+  row('Source-attack arrays without flagged attack conflicts',c.baseAttackSourceUncontested+' / '+c.total,'Even unflagged community values are NOT independently verified against current game-client AR'),
+  row('Source-disputed weapon weight references',c.disputedWeightReferences,'Source reports conflict; weight filter and complete equipped-load calculation exclude these records'),
   row('Published rounded upgrade base-attack tables',c.publishedRoundedUpgradeTables,'Not exact strengthening, infusion, scaling or AR'),
   row('Complete precise AR parameter profiles',c.completeArProfiles,'Without these and current game goldens, precise weapon AR remains unavailable'),
   row('v1.17 reported +0 attack conflicts',c.attackSourceConflicts,'Open upstream/game-derived source disagreements; not resolved by automated tests'),
