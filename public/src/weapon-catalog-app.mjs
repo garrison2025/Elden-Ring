@@ -184,6 +184,7 @@ function renderRecoveredSourcePreview(){
  const url=new URL('../game-evidence-queue/',location.href);
  url.searchParams.set('weapon',chosen.id);
  $('catalog-source-qa').href=url.pathname+url.search;
+ $('catalog-source-qa').hidden=record.sourceConflicts.length===0;
 }
 
 function renderDetails(){
