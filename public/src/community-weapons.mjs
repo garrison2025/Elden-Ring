@@ -8,6 +8,8 @@ const REQUIREMENT_CONFLICT='v117-community-requirement-conflict';
 const WEIGHT_CONFLICT='v117-community-weight-conflict';
 const PACK_WEIGHT_CONFLICT='tarnished-pack-weight-secondary-conflict';
 const PACK_REQUIREMENT_CONFLICT='tarnished-pack-requirement-secondary-conflict';
+const STONE_ATTACK_CONFLICT='stone-sheathed-attack-source-conflict';
+const STONE_WEIGHT_CONFLICT='stone-sheathed-weight-source-conflict';
 const THIRD_UNVERSIONED_BASE=Object.freeze({
  'sote-reference-032':['https://tarnished.app/weapons/fire-knight-s-shortsword',[75,0,22,0,0]],
  'sote-reference-041':['https://tarnished.app/weapons/greatsword-of-radahn--light-',[127,82,0,0,0]],
@@ -28,9 +30,9 @@ const PACK_ZERO_REFERENCES=Object.freeze({
 });
 
 /** Distinguish documented community values from unresolved patch disagreements. */
-export const hasDisputedAttack=w=>(w?.flags??[]).includes(ATTACK_CONFLICT);
+export const hasDisputedAttack=w=>(w?.flags??[]).some(f=>f===ATTACK_CONFLICT||f===STONE_ATTACK_CONFLICT);
 export const hasDisputedRequirements=w=>(w?.flags??[]).some(flag=>flag===REQUIREMENT_CONFLICT||flag===PACK_REQUIREMENT_CONFLICT);
-export const hasDisputedWeight=w=>(w?.flags??[]).some(flag=>flag===WEIGHT_CONFLICT||flag===PACK_WEIGHT_CONFLICT);
+export const hasDisputedWeight=w=>(w?.flags??[]).some(flag=>flag===WEIGHT_CONFLICT||flag===PACK_WEIGHT_CONFLICT||flag===STONE_WEIGHT_CONFLICT);
 
 /**
  * Validates a 2026-10-30 snapshot of factual community weapon properties.
@@ -88,6 +90,39 @@ export function validateCommunityCatalog(catalog){
       ].join('|'))
      fail('Ritual +0 source claims or reviewed-game status have drifted.');
   }
+  if(w.sourceAttackDisagreement!==undefined||w.sourceWeightDisagreement!==undefined){
+   const a=w.sourceAttackDisagreement,z=w.sourceWeightDisagreement;
+   if(w.id!=='sote-reference-059'||w.name!=='Stone-Sheathed Sword'||!dlc||
+      coverage!=='base-reference'||!w.flags?.includes('conflicting-weapon-plus-zero-observation')||
+      !w.flags?.includes(STONE_ATTACK_CONFLICT)||!w.flags?.includes(STONE_WEIGHT_CONFLICT)||
+      w.attack?.join(',')!=='89,0,0,0,0'||w.critical!==100||
+      w.scaling?.join(',')!=='C,D,-,-,-'||w.weight!==3.5||
+      w.checkedWith!=='https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword'||
+      a?.status!=='PUBLISHED_PLUS_ZERO_CONFLICT_NOT_GAME_VERIFIED'||
+      a.chosenAttack?.join(',')!=='89,0,0,0,0'||
+      a.chosenSourceUrl!==w.checkedWith||
+      a.chosenSourceLabel!=='community-upgrade-table-plus-zero'||
+      a.sourceIndependenceEstablished!==false||a.clientRegulationVerified!==false||
+      a.publicationApproved!==false||
+      a.supports?.length!==3||
+      a.supports[0]?.url!==w.checkedWith||a.supports[0]?.field!=='Upgrade +0'||a.supports[0]?.physical!==89||
+      a.supports[1]?.url!=='https://kamigame.jp/eldenring/page/324734066194679699.html'||
+      a.supports[1]?.field!=='初期値'||a.supports[1]?.physical!==89||
+      a.supports[2]?.url!=='https://atlasforge.gg/elden-ring/database/weapons'||
+      a.supports[2]?.physical!==89||
+      a.conflict?.url!==w.checkedWith||a.conflict?.physical!==119||
+      a.conflict?.field!=='Stats headline physical'||a.conflict?.independentlyGameVerified!==false||
+      z?.status!=='PUBLISHED_WEIGHT_CONFLICT_NOT_GAME_VERIFIED'||
+      z.retainedCommunityWeight!==3.5||z.alternativeWeight!==5||
+      z.firstSourceUrl!==w.checkedWith||
+      z.secondSourceUrl!=='https://kamigame.jp/eldenring/page/324734066194679699.html'||
+      z.additionalSourceUrl!=='https://atlasforge.gg/elden-ring/database/weapons'||
+      z.gameClientVerified!==false||z.publicationApproved!==false)
+     fail('Stone-Sheathed Sword +0/weight source discrepancy changed or falsely verified.');
+  }
+  if((w.flags??[]).some(x=>x===STONE_ATTACK_CONFLICT||x===STONE_WEIGHT_CONFLICT)&&
+    (!w.sourceAttackDisagreement||!w.sourceWeightDisagreement))
+   fail('Stone-Sheathed Sword conflicting source flags require original evidence.');
   if(w.secondarySourceDisagreement!==undefined){
    const e=w.secondarySourceDisagreement,primary=e.currentVersionLabelled;
    const alt=e.alternatives;
@@ -198,6 +233,8 @@ export function validateCommunityCatalog(catalog){
   unversionedThirdPartyPlusZeroMatchesCount:catalog.weapons.filter(w=>w.thirdPartyBasePlusZero!==undefined).length,
   dlcCatalogCount:dlcRows.length,
   dlcBaseFactCount:dlcRows.filter(w=>w.dataCoverage==='base-reference').length,
+  stoneSheathedPlusZeroSourceConflictCount:dlcRows.filter(w=>w.sourceAttackDisagreement!==undefined).length,
+  stoneSheathedWeightSourceConflictCount:dlcRows.filter(w=>w.sourceWeightDisagreement!==undefined).length,
   dlcWeightOnlyCount:dlcRows.filter(w=>w.dataCoverage==='requirements-weight-only').length,
   dlcRequirementOnlyCount:dlcRows.filter(w=>w.dataCoverage==='requirements-only').length,
   dlcNameOnlyCount:dlcRows.filter(w=>w.dataCoverage==='name-category-only').length,
@@ -389,7 +426,11 @@ export function cautionForWeapon(w){
  if(flags.has('conflicting-or-malformed-zero-grade'))warnings.push('At least one +0 scaling letter is inconsistent or malformed across community tables and is deliberately UNKNOWN (?).');
  if(flags.has('secondary-requirements-or-weight-corrected'))warnings.push('An earlier community dataset requirement or weight was corrected using the individual weapon page.');
  if(flags.has('unknown-scaling-letter'))warnings.push('One or more base scaling grades are unknown (?) in the source. They are NOT estimated.');
- if(flags.has('conflicting-weapon-plus-zero-observation'))warnings.push('Conflicting +0 source observations; attack, scaling and critical intentionally remain UNKNOWN. Source requires manual reconciliation.');
+ if(flags.has('conflicting-weapon-plus-zero-observation'))warnings.push(w.sourceAttackDisagreement?
+   'STONE-SHEATHED +0 CONFLICT: explicit community upgrade table, Japanese initial-value table and AtlasForge report 89 physical, but the wiki headline reports 119. A provisional +0 attack 89, critical 100 and C/D grades are displayed for SOURCE REFERENCE ONLY; trusted attack/AR and upgrade calculations remain blocked until current-client review.':
+   'Conflicting +0 source observations; attack, scaling and critical intentionally remain UNKNOWN. Source requires manual reconciliation.');
+ if(flags.has(STONE_WEIGHT_CONFLICT))warnings.push(
+   'STONE-SHEATHED WEIGHT CONFLICT: retained community 3.5 conflicts with Japanese/AtlasForge 5.0. Equipment load and roll tier MUST remain unavailable for this weapon.');
  if(flags.has('secondary-weight-overridden-by-individual-wiki'))warnings.push('Secondary community weight disagreed; individual wiki source is used instead. Not current-regulation game-certified.');
  if(flags.has('1.17-physical-attack-corrected'))warnings.push('Physical +0 base attack corrected using a documented Regulation 1.17 change; other fields are not game-certified.');
  if(flags.has('published-upgrade-table-conflict-not-imported'))warnings.push('Community published upgrade rows contain contradictions; +1..+10 attack values deliberately withheld.');
