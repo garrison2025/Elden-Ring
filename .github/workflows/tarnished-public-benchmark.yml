@@ -1,10 +1,11 @@
-name: Live Tarnished.dev public AR browser probe
+name: Live Tarnished.dev public v1.17 AR comparator input probe
 on:
   pull_request:
     branches:
       - main
     paths:
       - scripts/probe-tarnished-ui.mjs
+      - scripts/tarnished-v117-extra-candidates.mjs
       - .github/workflows/tarnished-public-benchmark.yml
   workflow_dispatch:
 permissions:
@@ -12,7 +13,7 @@ permissions:
 jobs:
   public-ar-probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,5 +29,5 @@ jobs:
         with:
           name: tarnished-public-browser-observation
           path: .audit/tarnished-chrome-ui.json
-          retention-days: 3
+          retention-days: 7
           if-no-files-found: warn
