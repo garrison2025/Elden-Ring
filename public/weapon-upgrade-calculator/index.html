@@ -56,7 +56,14 @@
   <button class="btn alt" id="multi-add-blank" type="button">Add another weapon</button>
   <button class="btn alt" id="multi-clear" type="button">Clear multi-weapon list</button>
  </div>
- <p class="note" id="multi-upgrade-feedback" role="status" aria-live="polite">Start by adding your current single-weapon settings or another manual weapon. No data is saved or uploaded.</p>
+ <div class="workbench-actions" aria-label="Save Smithing Stone checklist on this device">
+  <button class="btn alt" id="multi-save-local" type="button">Save checklist on this device</button>
+  <button class="btn alt" id="multi-load-local" type="button">Restore saved checklist</button>
+  <button class="btn alt" id="multi-delete-local" type="button">Delete saved checklist</button>
+ </div>
+ <p class="note">Saving is optional. Only manually entered weapon labels, confirmed tracks, selected reinforcement levels and shared stone counts are saved in this browser. Restore replaces the current multi-weapon list after validating the saved data. Clear list does not delete a previous save. Browser storage may be unavailable in private browsing.</p>
+ <p class="note" id="multi-upgrade-feedback" role="status" aria-live="polite">Start by adding your current single-weapon settings or another manual weapon. No data is saved or uploaded unless you choose Save.</p>
+ <p class="note" id="multi-storage-feedback" role="status" aria-live="polite">No saved checklist loaded.</p>
  <div class="table-wrap"><table class="datatable multi-upgrade-table"><thead><tr><th>Weapon label (editable)</th><th>Stone track</th><th>Current +</th><th>Target +</th><th>Actions</th></tr></thead><tbody id="multi-weapon-rows"></tbody></table></div>
  <details class="upgrade-inventory">
   <summary>Shared inventory for all weapons (optional)</summary>
