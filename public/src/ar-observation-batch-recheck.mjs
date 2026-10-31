@@ -17,9 +17,26 @@ export function recheckUnreviewedArBatch(root,{
   batch.reviewStatus!=='UNREVIEWED'||batch.gameClientVerified!==false||
   batch.publicationApproved!==false||batch.screenshotReviewedCount!==0||
   !Array.isArray(batch.observations)||!batch.observations.length||
-  batch.observations.length>30||batch.submittedCases!==batch.observations.length)
+  batch.observations.length>30||batch.submittedCases!==batch.observations.length||
+  !Number.isInteger(batch.plannedCases)||batch.plannedCases<batch.submittedCases||
+  batch.plannedCases>30||
+  typeof batch.weaponName!=='string'||!batch.weaponName.trim()||
+  typeof batch.sourceVersion!=='string'||!batch.sourceVersion.trim()||
+  !Number.isInteger(batch.numericalMatches)||batch.numericalMatches<0||
+  !Number.isInteger(batch.fingerprintedCases)||batch.fingerprintedCases<0||
+  batch.numericalMatches>batch.submittedCases||
+  batch.fingerprintedCases>batch.submittedCases)
   fail('Expected one unmodified UNREVIEWED observation batch with up to 30 cases.');
- const used=new Set(),rows=[];
+ // Summary counts are not evidence. Reject them if they disagree with the
+ // individual rows instead of displaying a forged number of numeric matches.
+ const declaredMatches=batch.observations.filter(item=>
+  item?.observation?.candidateCalculation?.numericMatch===true).length;
+ const declaredFingerprints=batch.observations.filter(item=>
+  item?.observation?.sourceEvidence?.screenshotFingerprint!=null).length;
+ if(batch.numericalMatches!==declaredMatches||
+    batch.fingerprintedCases!==declaredFingerprints)
+  fail('Batch summary counts disagree with the submitted observations.');
+ const used=new Set(),references=new Set(),hashes=new Set(),rows=[];
  for(const item of batch.observations){
   if(!item||typeof item!=='object'||Array.isArray(item)||
    typeof item.caseId!=='string'||!/^AR-[0-9]{2}$/.test(item.caseId)||
@@ -27,16 +44,29 @@ export function recheckUnreviewedArBatch(root,{
    fail('Duplicate or malformed batch case id.');
   used.add(item.caseId);
   try{
+   if(item.observation?.exactInputs?.weaponName!==batch.weaponName||
+      item.observation?.candidateCalculation?.parameterSourceVersion!==batch.sourceVersion)
+    fail('Observation weapon identity or parameter source version differs from batch metadata.');
+   const ref=item.observation?.sourceEvidence?.reference;
+   if(typeof ref!=='string'||!ref.trim())
+    fail('Observation evidence reference is missing.');
+   const refKey=ref.trim().toLocaleLowerCase('en-US');
+   if(references.has(refKey))
+    fail('Duplicate evidence reference across AR test cases.');
    const fp=item.observation?.sourceEvidence?.screenshotFingerprint;
-   let hasFingerprint=false;
+   let hasFingerprint=false,hashKey=null;
    if(fp!==undefined&&fp!==null){
     const valid=validateLocalScreenshotFingerprint(fp);
     if(valid.filename!==item.observation?.sourceEvidence?.reference)
      fail('Screenshot fingerprint filename must match observation evidence reference.');
-    hasFingerprint=true;
+    if(hashes.has(valid.sha256))
+     fail('Duplicate screenshot bytes claimed for distinct AR test cases.');
+    hashKey=valid.sha256;hasFingerprint=true;
    }
    const result=recheckUnreviewedArDraft(root,{
     gameVersion,sourceReference,draft:item.observation,synthetic});
+   references.add(refKey);
+   if(hashKey)hashes.add(hashKey);
    rows.push({caseId:item.caseId,status:result.status,
     differenceFreshMinusStored:result.differenceFreshMinusStored??null,
     differenceFreshMinusGame:result.differenceFreshMinusGame??null,
