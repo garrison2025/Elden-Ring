@@ -14,7 +14,17 @@ const cases=[
  {id:'standard-12-15-0-1h',str:12,dex:15,affinity:'Standard',upgrade:0,twoHanded:false},
  {id:'standard-40-40-25-1h',str:40,dex:40,affinity:'Standard',upgrade:25,twoHanded:false},
  {id:'keen-40-40-25-1h',str:40,dex:40,affinity:'Keen',upgrade:25,twoHanded:false},
- {id:'standard-40-40-0-2h',str:40,dex:40,affinity:'Standard',upgrade:0,twoHanded:true}
+ {id:'standard-40-40-0-2h',str:40,dex:40,affinity:'Standard',upgrade:0,twoHanded:true},
+ {id:'longsword-standard-plus0-min',weaponName:'Longsword',str:10,dex:10,affinity:'Standard',upgrade:0,twoHanded:false},
+ {id:'longsword-standard-plus25-40-40',weaponName:'Longsword',str:40,dex:40,affinity:'Standard',upgrade:25,twoHanded:false},
+ {id:'longsword-heavy-plus25-60-20',weaponName:'Longsword',str:60,dex:20,affinity:'Heavy',upgrade:25,twoHanded:false},
+ {id:'greatsword-standard-plus0-min',weaponName:'Greatsword',str:31,dex:12,affinity:'Standard',upgrade:0,twoHanded:false},
+ {id:'greatsword-heavy-plus25-60-12',weaponName:'Greatsword',str:60,dex:12,affinity:'Heavy',upgrade:25,twoHanded:false},
+ {id:'greatsword-heavy-plus25-60-12-2h',weaponName:'Greatsword',str:60,dex:12,affinity:'Heavy',upgrade:25,twoHanded:true},
+ {id:'claymore-quality-plus12-30-30',weaponName:'Claymore',str:30,dex:30,affinity:'Quality',upgrade:12,twoHanded:false},
+ {id:'dismounter-keen-plus25-19-72',weaponName:'Dismounter',str:19,dex:72,affinity:'Keen',upgrade:25,twoHanded:false},
+ {id:'fire-knights-greatsword-standard-plus0',weaponName:"Fire Knight's Greatsword",str:30,dex:25,fai:20,affinity:'Standard',upgrade:0,twoHanded:false},
+ {id:'fire-knights-greatsword-standard-plus25',weaponName:"Fire Knight's Greatsword",str:30,dex:25,fai:20,affinity:'Standard',upgrade:25,twoHanded:false}
 ];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let browser,profile,socket,id=0;
@@ -91,9 +101,10 @@ async function main(){
  const results=[];
  try{
   for(const c of cases){
+   const desiredWeapon=c.weaponName||'Uchigatana';
    const params=new URLSearchParams({
-    str:String(c.str),dex:String(c.dex),int:'10',fai:'10',arc:'10',
-    rh1:'Uchigatana',aRh1:c.affinity,
+    str:String(c.str),dex:String(c.dex),int:String(c.int??10),fai:String(c.fai??10),arc:String(c.arc??10),
+    rh1:desiredWeapon,aRh1:c.affinity,
     smith:String(c.upgrade),somber:'0',twoHanded:String(c.twoHanded)
    });
    const url='https://www.tarnished.dev/build-planner?'+params;
@@ -101,7 +112,7 @@ async function main(){
     await send('Page.navigate',{url});
     await sleep(3500);
     let snap=await evaluate('('+browserSnapshot.toString()+')()');
-    if(!snap.weaponBlock.includes('Uchigatana')){
+    if(!snap.weaponBlock.includes('\n'+desiredWeapon+'\n')){
      await sleep(5000);snap=await evaluate('('+browserSnapshot.toString()+')()');
     }
     const ar=snap.weaponBlock.match(/Total AR\s*:\s*(\d+)/i);
@@ -109,14 +120,14 @@ async function main(){
     const verifiedInputs=Boolean(
      get('strength')?.value===String(c.str)&&
      get('dexterity')?.value===String(c.dex)&&
-     get('intelligence')?.value==='10'&&
-     get('faith')?.value==='10'&&
-     get('arcane')?.value==='10'&&
+     get('intelligence')?.value===String(c.int??10)&&
+     get('faith')?.value===String(c.fai??10)&&
+     get('arcane')?.value===String(c.arc??10)&&
      get('smithinglevel')?.value===String(c.upgrade)&&
      get('somberlevel')?.value==='0'&&
      get('twohand')?.checked===c.twoHanded&&
      snap.version.includes('v1.17')&&
-     snap.weaponBlock.includes('Uchigatana')&&
+     snap.weaponBlock.includes('\n'+desiredWeapon+'\n')&&
      snap.weaponBlock.includes('\n'+c.affinity+'\n')&&
      get('activate-rune')?.checked===false&&
      get('activate-physick')?.checked===false
@@ -124,7 +135,7 @@ async function main(){
     const result={
      id:c.id,request:c,
      observedAr:ar?Number(ar[1]):null,
-     displayedWeapon:snap.weaponBlock.includes('Uchigatana')?'Uchigatana':null,
+     displayedWeapon:snap.weaponBlock.includes('\n'+desiredWeapon+'\n')?desiredWeapon:null,
      version:snap.version,url:snap.page,title:snap.title,
      browserWeaponBlock:snap.weaponBlock,
      controls:snap.controls,
