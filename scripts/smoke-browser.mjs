@@ -888,6 +888,9 @@ try{
    'Pinned source does not supply weapon weight');
   assert.ok(catalogSourceText.includes('41 attack and 25 requirement differences'),
    'All 41 existing community attack and 25 requirement disagreements must be visible');
+  // The deep-linked item prepopulates the global name search. Clear it to
+  // verify totals across the full 487-row corpus, then apply source filters.
+  await evaluate("document.querySelector('#catalog-search').value=''");
   for(const [filter,expected] of [
    ['source-only',72],['flagged',9],['attack-difference',41],
    ['requirement-difference',25]
