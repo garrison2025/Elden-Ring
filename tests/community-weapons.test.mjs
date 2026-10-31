@@ -6,9 +6,9 @@ import {validateCommunityCatalog,catalogCategories,searchCatalog,baseDamageParts
  cautionForWeapon,weaponRequirementComparison,requirementsUrl,publishedUpgradeParts} from '../public/src/community-weapons.mjs';
 const catalog=validateCommunityCatalog(JSON.parse(await readFile(resolve('public/data/community-weapon-catalog.json'),'utf8')));
 const find=name=>catalog.weapons.find(w=>w.name===name);
-test('source-attributed 408 launch-game references with 102 DLC weapons and shields, stripped of images and prose',()=>{
- assert.equal(catalog.weapons.length,408);
- assert.equal(catalog.meta.count,408);
+test('source-attributed 416 armaments with 102 Shadow of the Erdtree and 8 Tarnished Pack and shields, stripped of images and prose',()=>{
+ assert.equal(catalog.weapons.length,416);
+ assert.equal(catalog.meta.count,416);
  assert.match(catalog.meta.version,/not established/);
  assert.match(catalog.meta.sourceRevision,/^[a-f0-9]{40}$/);
  for(const row of catalog.weapons){
