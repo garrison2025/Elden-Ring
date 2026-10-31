@@ -6,6 +6,7 @@ on:
     paths:
       - scripts/probe-tarnished-ui.mjs
       - scripts/tarnished-v117-extra-candidates.mjs
+      - scripts/compare-tarnished-chrome-ui.mjs
       - .github/workflows/tarnished-public-benchmark.yml
   workflow_dispatch:
 permissions:
@@ -23,11 +24,15 @@ jobs:
         run: command -v google-chrome || command -v google-chrome-stable || command -v chromium
       - name: Probe public calculator (no paid API or login)
         run: node scripts/probe-tarnished-ui.mjs
+      - name: Compare captured v1.17 AR against independent pinned-source math
+        run: node scripts/compare-tarnished-chrome-ui.mjs
       - name: Upload bounded public UI observations
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tarnished-public-browser-observation
-          path: .audit/tarnished-chrome-ui.json
+          path: |
+            .audit/tarnished-chrome-ui.json
+            .audit/tarnished-chrome-comparison.json
           retention-days: 7
           if-no-files-found: warn
