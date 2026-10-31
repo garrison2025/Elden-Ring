@@ -12,6 +12,7 @@ import {spawn} from 'node:child_process';
 import {join,resolve,sep,extname} from 'node:path';
 import {tmpdir} from 'node:os';
 import assert from 'node:assert/strict';
+import {waitForChromePage} from './browser-cdp-startup.mjs';
 
 const root=resolve('dist');
 const contentTypes={
@@ -42,34 +43,66 @@ const chromePath=process.env.CHROME_BIN||
 assert.ok(chromePath,'Browser acceptance requires the preinstalled Chrome/Chromium binary');
 await new Promise((yes,no)=>{server.once('error',no);server.listen(0,'127.0.0.1',yes);});
 const site='http://127.0.0.1:'+server.address().port;
-const profile=await mkdtemp(join(tmpdir(),'elden-browser-'));
-const chrome=spawn(chromePath,[
- '--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
- '--disable-background-networking','--disable-extensions','--no-first-run',
- '--remote-debugging-address=127.0.0.1','--remote-debugging-port=9227',
- '--remote-allow-origins=*','--user-data-dir='+profile,'about:blank'
-],{stdio:'ignore'});
-let socket=null,serial=0;
+let chrome=null,profile=null,socket=null,serial=0;
 const pending=new Map();
 const pageErrors=[];
+const maxDiagnostics=1000;
+async function stopChrome(child){
+ if(child.exitCode!==null||child.signalCode!==null)return;
+ const stopped=new Promise(resolve=>child.once('close',resolve));
+ child.kill('SIGTERM');
+ await Promise.race([stopped,sleep(1200)]);
+ if(child.exitCode===null&&child.signalCode===null)child.kill('SIGKILL');
+}
 async function connect(){
- let endpoint=null;
- for(let i=0;i<90;i++){
-  if(chrome.exitCode!==null)throw Error('Chrome exited before CDP was ready');
+ const failures=[];
+ // Retry only Chrome startup; a failed game-tool assertion is NEVER retried
+ // or suppressed. Ephemeral debugging port avoids collisions in shared CI.
+ for(let attempt=1;attempt<=2;attempt++){
+  const dir=await mkdtemp(join(tmpdir(),'elden-browser-'));
+  const candidate=spawn(chromePath,[
+   '--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
+   '--disable-background-networking','--disable-extensions','--no-first-run',
+   '--remote-debugging-address=127.0.0.1','--remote-debugging-port=0',
+   '--remote-allow-origins=*','--user-data-dir='+dir,'about:blank'
+  ],{stdio:['ignore','ignore','pipe']});
+  let stderr='',spawnError=null;
+  candidate.stderr?.on('data',data=>{
+   stderr=(stderr+String(data)).slice(-maxDiagnostics);
+  });
+  candidate.on('error',error=>{spawnError=error;});
   try{
-   const resp=await fetch('http://127.0.0.1:9227/json/list');
-   const list=await resp.json();
-   endpoint=list.find(x=>x.type==='page')?.webSocketDebuggerUrl;
-   if(endpoint)break;
-  }catch{/* browser still starting */}
-  await sleep(150);
+   const endpoint=await waitForChromePage({
+    profile:dir,readText:readFile,request:fetch,
+    getExitReason:()=>spawnError?.message||
+     (candidate.exitCode!==null?'exit code '+candidate.exitCode:null)||
+     (candidate.signalCode?'signal '+candidate.signalCode:null)
+   });
+   socket=new WebSocket(endpoint);
+   let timer;
+   try{
+    await new Promise((yes,no)=>{
+     timer=setTimeout(()=>no(Error('Chrome CDP WebSocket open timeout')),10000);
+     socket.addEventListener('open',yes,{once:true});
+     socket.addEventListener('error',()=>no(Error('Chrome CDP WebSocket error')),{once:true});
+     socket.addEventListener('close',()=>no(Error('Chrome CDP WebSocket closed early')),{once:true});
+    });
+   }finally{clearTimeout(timer);}
+   chrome=candidate;profile=dir;
+   console.log('[BROWSER SMOKE] Chrome CDP started on assigned ephemeral port (attempt '+attempt+').');
+   break;
+  }catch(error){
+   const note='attempt '+attempt+': '+String(error?.message??error).slice(0,250)+
+    (stderr?' | Chrome stderr: '+stderr.replace(/\\s+/g,' ').slice(-700):'');
+   failures.push(note);
+   console.warn('[BROWSER SMOKE] Startup retry diagnostic: '+note);
+   try{socket?.close();}catch{}
+   socket=null;
+   await stopChrome(candidate);
+   await rm(dir,{recursive:true,force:true}).catch(()=>{});
+   if(attempt===2)throw Error('Chrome startup failed after two bounded attempts: '+failures.join(' || '));
+  }
  }
- assert.ok(endpoint,'Chrome CDP failed to open');
- socket=new WebSocket(endpoint);
- await new Promise((yes,no)=>{
-  socket.addEventListener('open',yes,{once:true});
-  socket.addEventListener('error',no,{once:true});
- });
  socket.addEventListener('message',event=>{
   const msg=JSON.parse(event.data);
   if(msg.method==='Runtime.exceptionThrown')
@@ -685,7 +718,7 @@ try{
  for(const {timer,reject} of pending.values()){clearTimeout(timer);reject(Error('Browser terminated'));}
  pending.clear();
  try{socket?.close();}catch{}
- chrome.kill('SIGTERM');
+ if(chrome)await stopChrome(chrome);
  server.close();
- await rm(profile,{recursive:true,force:true}).catch(()=>{});
+ if(profile)await rm(profile,{recursive:true,force:true}).catch(()=>{});
 }
