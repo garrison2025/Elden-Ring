@@ -93,7 +93,7 @@ async function connect(){
    break;
   }catch(error){
    const note='attempt '+attempt+': '+String(error?.message??error).slice(0,250)+
-    (stderr?' | Chrome stderr: '+stderr.replace(/\\s+/g,' ').slice(-700):'');
+    (stderr?' | Chrome stderr: '+stderr.replace(/\s+/g,' ').slice(-700):'');
    failures.push(note);
    console.warn('[BROWSER SMOKE] Startup retry diagnostic: '+note);
    try{socket?.close();}catch{}
