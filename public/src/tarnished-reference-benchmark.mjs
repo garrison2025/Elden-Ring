@@ -17,7 +17,7 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Standard&smith=0&somber=0&twoHanded=false',
   observedDisplay:'Equipped Right Hand 1 / Uchigatana / Standard / Scaling D-D / Total AR : 172',
   referenceObservedOnce:true,sourceRepeatable:true,
-  note:'Observed in public rendered page and independently repeated by free GitHub-hosted Chrome. Requires final checkbox/input verification in the live browser probe before benchmark release.'
+  note:'Crosschecked independently with real Chrome input verification in public CI runs 41180413857 and 41180592038.'
  }),
  Object.freeze({
   id:'tarnished-v117-uchigatana-standard-plus0-min12-15-1h',
@@ -27,8 +27,8 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
   sourceUrl:'https://www.tarnished.dev/build-planner?str=12&dex=15&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Standard&smith=0&somber=0&twoHanded=false',
   observedDisplay:'Equipped Right Hand 1 / Uchigatana / Standard / Scaling D/D/-/-/- / Total AR : 133',
-  referenceObservedOnce:true,sourceRepeatable:false,
-  note:'Observed as rendered site AR by GitHub-hosted Chromium #41180413857. Requires an additional independently input-verified live Chrome pass.'
+  referenceObservedOnce:true,sourceRepeatable:true,
+  note:'First observed in Chrome run 41180413857, later independently repeated with exact input/grip/buff checks in run 41180592038.'
  }),
  Object.freeze({
   id:'tarnished-v117-uchigatana-standard-plus25-40str40dex-1h',
@@ -38,8 +38,8 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
   sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Standard&smith=25&somber=0&twoHanded=false',
   observedDisplay:'Equipped Right Hand 1 / Uchigatana / Standard / Scaling D/C/-/-/- / Total AR : 491',
-  referenceObservedOnce:true,sourceRepeatable:false,
-  note:'Observed as rendered site AR by GitHub-hosted Chromium #41180413857. Requires an additional independently input-verified live Chrome pass.'
+  referenceObservedOnce:true,sourceRepeatable:true,
+  note:'First observed in Chrome run 41180413857, later independently repeated with exact input/grip/buff checks in run 41180592038.'
  }),
  Object.freeze({
   id:'tarnished-v117-uchigatana-keen-plus25-40str40dex-1h',
@@ -49,8 +49,8 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
   sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Keen&smith=25&somber=0&twoHanded=false',
   observedDisplay:'Equipped Right Hand 1 / Uchigatana / Keen / Scaling E/A/-/-/- / Total AR : 488',
-  referenceObservedOnce:true,sourceRepeatable:false,
-  note:'Observed as rendered site AR by GitHub-hosted Chromium #41180413857. Requires an additional independently input-verified live Chrome pass.'
+  referenceObservedOnce:true,sourceRepeatable:true,
+  note:'First observed in Chrome run 41180413857, later independently repeated with exact input/grip/buff checks in run 41180592038.'
  }),
  Object.freeze({
   id:'tarnished-v117-uchigatana-standard-plus0-40str40dex-2h',
@@ -60,8 +60,108 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
   sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Standard&smith=0&somber=0&twoHanded=true',
   observedDisplay:'Equipped Right Hand 1 / Uchigatana / Standard / Scaling D/D/-/-/- / Total AR : 180',
+  referenceObservedOnce:true,sourceRepeatable:true,
+  note:'First observed in Chrome run 41180413857, later independently repeated with exact input/grip/buff checks in run 41180592038.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-longsword-standard-plus0-min',weaponName:"Longsword",affinity:'Standard',affinityId:0,
+  playerStats:Object.freeze({str:10,dex:10,int:10,fai:10,arc:10}),
+  upgrade:0,twoHanded:false,expectedTotal:120,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=10&dex=10&int=10&fai=10&arc=10&rh1=Longsword&aRh1=Standard&smith=0&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Longsword / Standard / Scaling D/D/-/-/- / Total AR : 120',
   referenceObservedOnce:true,sourceRepeatable:false,
-  note:'Observed as rendered site AR by GitHub-hosted Chromium #41180413857. Requires an additional independently input-verified live Chrome pass.'
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-longsword-standard-plus25-40-40',weaponName:"Longsword",affinity:'Standard',affinityId:0,
+  playerStats:Object.freeze({str:40,dex:40,int:10,fai:10,arc:10}),
+  upgrade:25,twoHanded:false,expectedTotal:452,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Longsword&aRh1=Standard&smith=25&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Longsword / Standard / Scaling C/D/-/-/- / Total AR : 452',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-longsword-heavy-plus25-60-20',weaponName:"Longsword",affinity:'Heavy',affinityId:1,
+  playerStats:Object.freeze({str:60,dex:20,int:10,fai:10,arc:10}),
+  upgrade:25,twoHanded:false,expectedTotal:495,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=60&dex=20&int=10&fai=10&arc=10&rh1=Longsword&aRh1=Heavy&smith=25&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Longsword / Heavy / Scaling B/-/-/-/- / Total AR : 495',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-greatsword-standard-plus0-min',weaponName:"Greatsword",affinity:'Standard',affinityId:0,
+  playerStats:Object.freeze({str:31,dex:12,int:10,fai:10,arc:10}),
+  upgrade:0,twoHanded:false,expectedTotal:211,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=31&dex=12&int=10&fai=10&arc=10&rh1=Greatsword&aRh1=Standard&smith=0&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Greatsword / Standard / Scaling C/E/-/-/- / Total AR : 211',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-greatsword-heavy-plus25-60-12',weaponName:"Greatsword",affinity:'Heavy',affinityId:1,
+  playerStats:Object.freeze({str:60,dex:12,int:10,fai:10,arc:10}),
+  upgrade:25,twoHanded:false,expectedTotal:745,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=60&dex=12&int=10&fai=10&arc=10&rh1=Greatsword&aRh1=Heavy&smith=25&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Greatsword / Heavy / Scaling A/-/-/-/- / Total AR : 745',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-greatsword-heavy-plus25-60-12-2h',weaponName:"Greatsword",affinity:'Heavy',affinityId:1,
+  playerStats:Object.freeze({str:60,dex:12,int:10,fai:10,arc:10}),
+  upgrade:25,twoHanded:true,expectedTotal:839,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=60&dex=12&int=10&fai=10&arc=10&rh1=Greatsword&aRh1=Heavy&smith=25&somber=0&twoHanded=true',
+  observedDisplay:'Equipped Right Hand 1 / Greatsword / Heavy / Scaling A/-/-/-/- / Total AR : 839',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-claymore-quality-plus12-30-30',weaponName:"Claymore",affinity:'Quality',affinityId:3,
+  playerStats:Object.freeze({str:30,dex:30,int:10,fai:10,arc:10}),
+  upgrade:12,twoHanded:false,expectedTotal:337,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=30&dex=30&int=10&fai=10&arc=10&rh1=Claymore&aRh1=Quality&smith=12&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Claymore / Quality / Scaling C/C/-/-/- / Total AR : 337',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-dismounter-keen-plus25-19-72',weaponName:"Dismounter",affinity:'Keen',affinityId:2,
+  playerStats:Object.freeze({str:19,dex:72,int:10,fai:10,arc:10}),
+  upgrade:25,twoHanded:false,expectedTotal:666,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=19&dex=72&int=10&fai=10&arc=10&rh1=Dismounter&aRh1=Keen&smith=25&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Dismounter / Keen / Scaling E/B/-/-/- / Total AR : 666',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-fire-knights-greatsword-standard-plus0',weaponName:"Fire Knight's Greatsword",affinity:'Standard',affinityId:0,
+  playerStats:Object.freeze({str:30,dex:25,int:10,fai:20,arc:10}),
+  upgrade:0,twoHanded:false,expectedTotal:235,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=30&dex=25&int=10&fai=20&arc=10&rh1=Fire+Knight's+Greatsword&aRh1=Standard&smith=0&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Fire Knight\'s Greatsword / Standard / Scaling D/D/-/D/- / Total AR : 235',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-fire-knights-greatsword-standard-plus25',weaponName:"Fire Knight's Greatsword",affinity:'Standard',affinityId:0,
+  playerStats:Object.freeze({str:30,dex:25,int:10,fai:20,arc:10}),
+  upgrade:25,twoHanded:false,expectedTotal:632,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=30&dex=25&int=10&fai=20&arc=10&rh1=Fire+Knight's+Greatsword&aRh1=Standard&smith=25&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Fire Knight\'s Greatsword / Standard / Scaling D/C/-/D/- / Total AR : 632',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
  })
 ]);
 const fail=s=>{throw new RangeError(s)};
