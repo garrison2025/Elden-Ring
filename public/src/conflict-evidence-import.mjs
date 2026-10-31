@@ -1,5 +1,6 @@
 import {bundleConflictCaptureDrafts} from './conflict-game-capture.mjs';
 import {compareLocalScreenshotToFingerprint} from './ar-screenshot-fingerprint.mjs';
+import {sameJsonStructure} from './json-structure-equal.mjs';
 
 const fail=m=>{throw new RangeError(m);};
 export const CONFLICT_BUNDLE_MAX_BYTES=110_000;
