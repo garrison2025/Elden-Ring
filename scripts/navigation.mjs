@@ -8,7 +8,8 @@ const additional=[
  ['weapon-requirements/','Weapon Requirements'],
  ['armor-optimizer/','Armor Optimizer'],
  ['weapon-upgrade-calculator/','Smithing Stones'],
- ['weapon-database/','Weapon Database']
+ ['weapon-database/','Weapon Database'],
+ ['weapon-ar-calculator/','Weapon AR Calculator']
 ];
 export function injectToolNavigation(html,uri=''){
  if(typeof html!=='string')throw new TypeError('Expected HTML string.');

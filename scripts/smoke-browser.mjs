@@ -753,6 +753,76 @@ try{
  assert.ok(disputesMobile.scroll<=disputesMobile.width+5,
   'Mobile disputed Build output overflow '+JSON.stringify(disputesMobile));
 
+ // Accessible reference AR calculator must not auto-download the optional
+ // upstream game-derived source. Exercise the actual shared AR Worker with a
+ // visibly FICTIONAL local fixture; never confuse this demo with real AR.
+ await navigate('/weapon-ar-calculator/?weapon=Fictional%20Bronze%20Sword%20%E2%80%94%20QA%20ONLY&player=40%2C20%2C10%2C10%2C10&upgrade=0');
+ assert.equal(await evaluate("document.querySelector('#qar-workspace').hidden"),true,
+  'Source must stay opt-in; no automatic external source download');
+ await evaluate("document.querySelector('#qar-demo').click()");
+ await waitFor("document.querySelector('#qar-workspace')?.hidden===false",
+  'Fictional AR source loads inside Worker');
+ await waitFor("document.querySelector('#qar-onehand')?.textContent==='136'",
+  'Independent local demo AR 1H matches known fictional fixture');
+ assert.equal(await evaluate("document.querySelector('#qar-twohand-total')?.textContent"),'152',
+  'Two-hand fixture has distinct scaling');
+ assert.ok((await evaluate("document.querySelector('#qar-source-status')?.textContent"))
+  .includes('FICTIONAL DEMO'),'No game-data accuracy claim for synthetic worker data');
+ await evaluate("document.querySelector('#qar-twohand').click()");
+ await waitFor("document.querySelector('#qar-total')?.textContent==='152'",
+  'Switching grip recomputes selected v1.17-style AR');
+ const qaMobile=await evaluate("({width:window.innerWidth,scroll:document.documentElement.scrollWidth})");
+ assert.ok(qaMobile.scroll<=qaMobile.width+5,
+  '375px reference AR calculator must not overflow: '+JSON.stringify(qaMobile));
+ console.log('[BROWSER SMOKE] Weapon AR calculator loads only on click, matches fictional 136/152 Worker outputs, changes grip, and fits mobile.');
+ // Optional real external-parameter end-to-end check, isolated from the
+ // deterministic browser smoke. CI performs the explicit user click; the
+ // production calculator NEVER fetches third-party data on page load.
+ if(process.env.RUN_REAL_V117_BROWSER==='1'){
+  await navigate('/weapon-ar-calculator/?weapon=Uchigatana&player=40%2C40%2C10%2C10%2C10&upgrade=0');
+  assert.equal(await evaluate("document.querySelector('#qar-workspace').hidden"),true,
+   'Pinned source must not be fetched before explicit user action');
+  await evaluate("document.querySelector('#qar-load-source').click()");
+  try{
+   await waitFor("document.querySelector('#qar-source-status')?.textContent.includes('3,296')||document.querySelector('#qar-source-status')?.textContent.includes('Checked 3296')||document.querySelector('#qar-source-status')?.dataset.state==='error'||document.querySelector('#qar-onehand')?.textContent==='172'",
+    'Actual opt-in public v1.17 source data or meaningful error status');
+  }catch(error){
+   const diagnostic=await evaluate("({source:document.querySelector('#qar-source-status')?.textContent,feedback:document.querySelector('#qar-feedback')?.textContent,loaded:document.querySelector('#qar-workspace')?.hidden,ar:document.querySelector('#qar-onehand')?.textContent})");
+   throw Error(error.message+': '+JSON.stringify(diagnostic));
+  }
+  const sourceStatus=await evaluate("document.querySelector('#qar-source-status').textContent");
+  assert.ok(!sourceStatus.includes('Unable to load')&&!sourceStatus.includes('cannot')&&
+   !sourceStatus.includes('Could not'), 'Pinned source fetch failed in real Chrome: '+sourceStatus);
+  await waitFor("document.querySelector('#qar-onehand')?.textContent==='172'",
+   'Real pinned v1.17 source AR matches verified Tarnished.dev Uchigatana Standard +0 40/40');
+  const chromeInfo=await evaluate("({stats:[...['str','dex','int','fai','arc'].map(x=>document.querySelector('#qar-'+x).value)],variant:document.querySelector('#qar-affinity').value,upgrade:document.querySelector('#qar-upgrade').value})");
+  assert.deepEqual(chromeInfo.stats,['40','40','10','10','10']);
+  assert.equal(chromeInfo.upgrade,'0');
+  assert.equal(chromeInfo.variant,'Uchigatana');
+  await evaluate("document.querySelector('#qar-twohand').click()");
+  await waitFor("document.querySelector('#qar-total')?.textContent==='180'",
+   'Real source computes 180 two-handed Uchigatana +0 at 40/40');
+  await evaluate("document.querySelector('#qar-twohand').click()");
+  await waitFor("document.querySelector('#qar-total')?.textContent==='172'",
+   'Switching back to one-handed reverts to 172');
+  await evaluate("(()=>{const el=document.querySelector('#qar-upgrade');el.value='25';el.dispatchEvent(new Event('change',{bubbles:true}))})()");
+  await waitFor("document.querySelector('#qar-onehand')?.textContent==='491'",
+   'Real source calculates Standard +25 at STR40 DEX40 = 491');
+  const keen=await evaluate("(()=>{const e=document.querySelector('#qar-affinity');const o=[...e.options].find(x=>x.value.includes('Keen'));if(!o)return null;e.value=o.value;e.dispatchEvent(new Event('change',{bubbles:true}));return o.value})()");
+  assert.ok(keen,'Keen Uchigatana must exist in pinned source variant family');
+  await waitFor("document.querySelector('#qar-upgrade')?.options.length===26",
+   'Keen Uchigatana uses normal +0..+25 reinforcement');
+  await evaluate("(()=>{const el=document.querySelector('#qar-upgrade');el.value='25';el.dispatchEvent(new Event('change',{bubbles:true}))})()");
+  await waitFor("document.querySelector('#qar-onehand')?.textContent==='488'",
+   'Real source calculates Keen +25 STR40 DEX40 = 488');
+  await evaluate("(()=>{const x=document.querySelector('#qar-search');x.value='Blasphemous Blade';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor("document.querySelector('#qar-upgrade')?.options.length===11",
+   'Somber-only Blasphemous Blade has +0..+10, never fabricated +25');
+  assert.equal(await evaluate("document.querySelector('#qar-upgrade').options[10].value"),'10');
+  const arMobile=await evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth})");
+  assert.ok(arMobile.scroll<=arMobile.width+5,'Real v1.17 source calculator mobile overflow '+JSON.stringify(arMobile));
+  console.log('[REAL V1.17 BROWSER] PASS: user-clicked public source, Uchigatana 172 / 180 (2H) / 491 (+25) / Keen 488, Somber +10 cap, 375px mobile');
+ }
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
  console.log('[BROWSER SMOKE] PASS: disputed weapon requirement/attack fail-closed UI + local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){

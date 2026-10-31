@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,nofollow">
+<title>Elden Ring Weapon AR Calculator | v1.17 Reference · Build Lab</title>
+<meta name="description" content="Calculate v1.17 reference weapon Attack Rating for Elden Ring: weapon, affinity, upgrade, attributes and two-handing. No game install, login or paid API.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css"><link rel="stylesheet" href="../assets/weapon-ar-calculator.css">
+</head>
+<body data-page="weapon-ar-calculator">
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a>
+<nav class="nav" aria-label="Main navigation"><a href="../">Tools</a><a href="../build-planner/">Build Planner</a><a href="../class-optimizer/">Class Optimizer</a><a href="../level-rune-calculator/">Rune Calculator</a><a href="../equip-load-calculator/">Equip Load</a></nav>
+<details class="mobile-menu"><summary aria-label="Open mobile navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a href="../">Tools</a><a href="../build-planner/">Build Planner</a><a href="../class-optimizer/">Class Optimizer</a><a href="../weapon-database/">Weapons</a><a href="../weapon-ar-calculator/">AR Calculator</a></nav></details>
+<a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a>
+</div></header>
+<main class="container qar-page">
+<section class="hero qar-hero">
+<div class="eyebrow">Weapon Intelligence / v1.17 Reference</div>
+<h1>Every weapon.<br><em>One clear number.</em></h1>
+<p>See how your attributes, upgrade level, affinity and two-handing change nominal Attack Rating. Your build stays in this browser.</p>
+<div class="qar-proof"><span>15 / 15 matched reference checks</span><span>One-hand &amp; two-hand</span><span>Regular &amp; Somber levels</span><span>Free · No account</span></div>
+</section>
+<div class="qar-layout">
+<div class="qar-main">
+<section class="panel qar-load-panel" aria-labelledby="qar-source-heading">
+<div class="qar-heading"><span class="qar-step">01</span><div><div class="eyebrow">Source data</div><h2 id="qar-source-heading">Load reference values</h2></div></div>
+<p>Our independent calculation engine needs v1.17 numerical parameters. Click once to retrieve the pinned public community dataset directly from GitHub. No scripts from other sites run, and no weapon data is sent to our server.</p>
+<button id="qar-load-source" class="btn" type="button">Load public v1.17 data <span aria-hidden="true">↗</span></button>
+<p id="qar-source-status" class="qar-status" role="status" aria-live="polite">Ready. The external source is not downloaded until you click.</p>
+<details class="qar-alternatives"><summary>Other ways to load data</summary>
+<p>Import a JSON regulation file locally if the public download is unavailable. Its data will be labelled unverified. You can also explore an unmistakably fictional demo.</p>
+<label class="field">Local parameter JSON (max 16 MB)<input id="qar-file" type="file" accept=".json,application/json"></label>
+<button id="qar-load-file" class="btn alt" type="button">Use local JSON</button>
+<button id="qar-demo" class="btn alt" type="button">Try fictional demo</button>
+</details>
+<p class="qar-fineprint">Source: <a href="https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js" target="_blank" rel="noopener noreferrer">pinned community v1.17 snapshot</a>. Third-party game-derived data rights and Regulation 1.17.3 parity are not independently established.</p>
+</section>
+<div id="qar-workspace" hidden>
+<section class="panel qar-work-panel" aria-labelledby="qar-weapon-heading">
+<div class="qar-heading"><span class="qar-step">02</span><div><div class="eyebrow">Choose your armament</div><h2 id="qar-weapon-heading">Weapon &amp; affinity</h2></div></div>
+<label class="field">Search weapon names
+<input id="qar-search" type="search" maxlength="100" autocomplete="off" placeholder="Try Uchigatana, Greatsword, Blasphemous Blade…"></label>
+<div class="qar-picks">
+<label class="field">Weapon matches <select id="qar-weapon" aria-label="Select matching weapon" disabled></select></label>
+<label class="field">Source-defined affinity <select id="qar-affinity" aria-label="Select exact affinity variant" disabled></select></label>
+</div>
+<p id="qar-matches" class="qar-fineprint">Load the dataset to search weapons.</p>
+</section>
+<section class="panel qar-work-panel" aria-labelledby="qar-attributes-heading">
+<div class="qar-heading"><span class="qar-step">03</span><div><div class="eyebrow">Tune your build</div><h2 id="qar-attributes-heading">Stats &amp; reinforcement</h2></div></div>
+<div class="qar-stat-grid">
+<label>STR<input id="qar-str" type="number" min="1" max="99" step="1" inputmode="numeric" value="40"></label>
+<label>DEX<input id="qar-dex" type="number" min="1" max="99" step="1" inputmode="numeric" value="40"></label>
+<label>INT<input id="qar-int" type="number" min="1" max="99" step="1" inputmode="numeric" value="10"></label>
+<label>FAI<input id="qar-fai" type="number" min="1" max="99" step="1" inputmode="numeric" value="10"></label>
+<label>ARC<input id="qar-arc" type="number" min="1" max="99" step="1" inputmode="numeric" value="10"></label>
+</div>
+<div class="qar-options">
+<label class="field">Upgrade level <select id="qar-upgrade" aria-label="Source-supported upgrade level" disabled></select></label>
+<label class="qar-toggle"><input id="qar-twohand" type="checkbox"><span>Two-handed grip <small>1.5× effective STR where applicable</small></span></label>
+</div>
+<p id="qar-requirements" class="qar-fineprint">Minimum requirements appear after choosing a weapon.</p>
+<div class="qar-actions"><button class="btn" id="qar-calculate" type="button" disabled>Calculate Attack Rating</button><button class="btn alt" id="qar-share" type="button" disabled>Copy build link</button></div>
+<p id="qar-feedback" class="qar-status" role="status" aria-live="polite">Choose a source-defined weapon and upgrade level to calculate.</p>
+</section>
+</div>
+</div>
+<aside class="qar-side" aria-label="Weapon AR outputs and evidence">
+<section class="panel qar-result-panel" id="qar-result-panel">
+<div class="eyebrow">Calculated Attack Rating</div>
+<p id="qar-result-name" class="qar-result-name">Select an armament</p>
+<div class="qar-total" id="qar-total" aria-live="polite">—</div>
+<p class="qar-total-label">Nominal AR · <span id="qar-grip-label">One-handed</span></p>
+<div class="qar-stat-pair">
+<div><span>One-handed</span><strong id="qar-onehand">—</strong></div>
+<div><span>Two-handed</span><strong id="qar-twohand-total">—</strong></div>
+</div>
+<h3>Damage types</h3><div id="qar-damage" class="qar-damage"><p>Values will appear after calculation.</p></div>
+<p id="qar-caveat" class="qar-caveat">No parameters loaded. These outputs are not certified Regulation 1.17.3 game-menu values or actual enemy damage.</p>
+</section>
+<section class="panel qar-evidence-panel"><div class="eyebrow">Evidence, not an unqualified guarantee</div><h2>Measured against Tarnished.dev</h2>
+<p>15 / 15 same-input v1.17 AR checks matched across six weapon families, four affinities, +0/+12/+25, one- and two-handed grips, and DLC. Other combinations are community-source estimates, not individually compared against the live game.</p>
+<a href="../validation-status/">View the 15 original comparison cases ↗</a>
+</section>
+</aside>
+</div>
+<section class="panel info qar-information">
+<h2>What does Attack Rating mean?</h2>
+<p>AR adds the weapon's physical and elemental attack components before a target's defense and negation. A higher combined AR does not always mean higher damage per hit, especially for split damage types. This calculator does not simulate motion values, buffs, status buildup, weapon skills, spell scaling, or enemy defenses.</p>
+<p><strong>Version distinction:</strong> these calculations use opt-in v1.17 community parameters. The 15 matching Tarnished.dev examples validate representative input/output behavior; they do not certify all weapons or the newer Regulation 1.17.3. For research exports and raw-math audits, use the <a href="../weapon-data-workbench/">advanced local weapon data workbench</a>.</p>
+</section>
+</main>
+<footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy &amp; sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
+<script type="module" src="../src/weapon-ar-calculator-app.mjs"></script>
+</body></html>
