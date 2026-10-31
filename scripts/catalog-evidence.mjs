@@ -30,6 +30,7 @@ export function getCatalogEvidence(catalog){
   dlc:coverage.dlc,dlcBaseAttackSourced:coverage.dlcBaseFacts,
   tarnishedPack:coverage.tarnishedPack,
   tarnishedPackBaseFacts:coverage.tarnishedPackBaseFacts,
+  tarnishedPackSecondaryConflicts:coverage.tarnishedPackSecondaryConflicts,
   versionedRequirementCorroborations:weapons.filter(w=>w.currentPatchRequirementCorroboration!==undefined).length,
   requirementsPresent:weapons.filter(w=>Array.isArray(w.requirements)).length,
   weaponWeightsPresent:weapons.filter(w=>Number.isFinite(w.weight)).length,
@@ -63,7 +64,8 @@ export function catalogEvidenceRow(evidence){
   c.baseGame+' legacy/base-game references, '+c.dlc+' Shadow of the Erdtree references and '+
   c.tarnishedPack+' Tarnished Pack armaments; '+
   c.dlcBaseAttackSourced+' Shadow of the Erdtree entries have attributed +0 base-attack facts. '+
-  c.recordsWithSourceConflicts+' entries have unresolved v1.17 source conflicts. '+
+  c.recordsWithSourceConflicts+' entries have unresolved v1.17 source conflicts; '+
+  c.tarnishedPackSecondaryConflicts+' additional Tarnished Pack shield has independent secondary source disputes. '+
   'No precise, current-game-client-certified AR profiles are bundled. '+
   '<a href="#catalog-evidence">See the live data-quality audit</a>.</td></tr>';
 }
@@ -74,7 +76,8 @@ export function catalogEvidencePanel(evidence){
   row('Base-game / legacy community entries',c.baseGame,'Community snapshot; individual current-regulation verification is incomplete'),
   row('Shadow of the Erdtree entries',c.dlc,'Roster subset; not a certified complete DLC armament list'),
   row('Tarnished Pack / Tarnished Edition entries',c.tarnishedPack,'All have version-labelled requirements/weights; +0 stats require separate per-weapon citations'),
-  row('Tarnished Pack per-weapon +0 base facts',c.tarnishedPackBaseFacts,'Named community weapon pages only; not game client/Regulation 1.17.3 validated'),
+  row('Tarnished Pack source-attributed +0 base facts',c.tarnishedPackBaseFacts,'Three individually named wiki pages and four class comparison tables; not current-game-client certified'),
+  row('Tarnished Pack secondary-source disagreements',c.tarnishedPackSecondaryConflicts,'Ritual Thrusting Shield: version-labelled 10 weight / STR 13 vs other public 9 weight / STR 15; both calculations blocked pending original game evidence'),
   row('Current 1.17.3 requirement-source corroborations',c.versionedRequirementCorroborations,'Madding Hand FAI 20 supports pinned v1.17 against unversioned wiki FAI 13; no reviewed in-game screenshot'),
   row('DLC with attributed +0 base-attack figures',c.dlcBaseAttackSourced,'Published +0 base attack is not final weapon Attack Rating'),
   row('Attribute requirement fields present',c.requirementsPresent+' / '+c.total,'Data availability only; conflicts may remain'),

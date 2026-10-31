@@ -59,6 +59,18 @@ export function validateConflictEvidence(catalog,ledger){
     fail('Current-patch Madding Hand corroboration missing, stale or falsely game-verified.');
   }else if(p!==undefined||q!==undefined)
    fail('Unexpected unsupported current-patch corroboration on another weapon.');
+  const internal=row.withinPageZeroContradiction;
+  if(row.id==='sote-reference-032'){
+   if(!internal||
+      internal.sourceUrl!=='https://eldenring.wiki.gg/wiki/Fire_Knight%27s_Shortsword'||
+      internal.category!=='unreconciled-published-source-internal-base-attack-contradiction'||
+      internal.samePageStats?.join(',')!=='75,0,32,0,0'||
+      internal.samePageStandardZero?.join(',')!=='72,0,22,0,0'||
+      internal.pinnedV117?.join(',')!=='75,0,22,0,0'||
+      internal.gameClientVerified!==false)
+    fail('Fire Knight Shortsword within-page source contradiction was lost or tampered with.');
+  }else if(internal!==undefined)
+   fail('Unexpected within-page contradiction on another weapon ID.');
   const current=row.field==='baseAttack'?weapon.attack:weapon.requirements;
   if(!Array.isArray(current)||current.length!==5||
    !Array.isArray(row.community)||row.community.length!==5||
@@ -74,6 +86,11 @@ export function validateConflictEvidence(catalog,ledger){
    id:row.id,name:weapon.name,field:row.field,
    sourceCommunity:[...row.community],sourcePinned:[...row.pinned],
    priority:row.priority,sourceUrl:row.wiki,otherSourceUrl:row.other,
+   withinPageZeroContradiction:row.id==='sote-reference-032'?{
+    sourceUrl:internal.sourceUrl,samePageStats:[...internal.samePageStats],
+    samePageStandardZero:[...internal.samePageStandardZero],
+    pinnedV117:[...internal.pinnedV117],gameClientVerified:false
+   }:null,
    currentPatchCorroboration:madding?{
     sourceUrl:p.sourceUrl,observedValues:[...p.observedValues],
     regulation:p.regulation,gameBuild:p.gameBuild,
@@ -133,6 +150,11 @@ export function conflictDossierHtml(data){
   '<th scope="col">Review status</th></tr></thead><tbody>'+
   rows+'</tbody></table></div>'+
   '<p><strong>Current-patch corroboration: 1 of 7 historical disagreements.</strong> '+
+  'Fire Knight\'s Shortsword also has a <strong>contradiction inside the same wiki page</strong>: '+ 
+  'its basic Stats section says PHY 75 / FIRE 32, while the Standard +0 row says PHY 72 / FIRE 22. '+ 
+  'The pinned Regulation 1.17 source says PHY 75 / FIRE 22. These three different published '+ 
+  'readings are shown for provenance, not spliced into a manufactured answer. '+ 
+  'See <a href="https://eldenring.wiki.gg/wiki/Fire_Knight%27s_Shortsword" rel="noopener noreferrer">the original article</a>. '+ 
   'Madding Hand FAI 20 in an independently published Regulation 1.17.3-labelled '+
   'parameter reference agrees with pinned Regulation 1.17; unversioned wiki reports FAI 13. '+
   'This supports 20 as a <strong>version-labelled source reading</strong>, not an original '+

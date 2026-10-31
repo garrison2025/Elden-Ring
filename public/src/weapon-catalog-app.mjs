@@ -210,6 +210,16 @@ function renderDetails(){
   a.href='https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js';
   a.target='_blank';a.rel='noopener noreferrer';$('catalog-verified').append(a);
  }
+ if(chosen.secondarySourceDisagreement){
+  const problem=chosen.secondarySourceDisagreement;
+  const note=el('p','Ritual Thrusting Shield secondary sources disagree on weight (10 vs 9) and required Strength (13 vs 15). The version-labelled figures are only attributed readings. Weight and wield calculations remain BLOCKED pending independent game-menu verification.');
+  $('catalog-verified').append(note);
+  for(const item of [problem.currentVersionLabelled,...problem.alternatives]){
+   const a=el('a','View conflicting public equipment source ↗');
+   a.href=item.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';
+   $('catalog-verified').append(a);
+  }
+ }
  if(chosen.currentPatchRequirementCorroboration){
   const q=chosen.currentPatchRequirementCorroboration;
   const evidence=el('p','Current Regulation 1.17.3-labelled secondary reference supports FAI 20 (pinned v1.17); other community source reports 13. Not game screenshot verified; automatic wield verdict remains unavailable.');
@@ -277,6 +287,7 @@ function renderDetails(){
   $('catalog-two').textContent='—';
   $('catalog-requirements-link').hidden=true;
   $('catalog-shortfall').textContent=hasDisputedRequirements(chosen)?
+   chosen.secondarySourceDisagreement?'Secondary references disagree on Ritual Thrusting Shield STR requirement; no definitive wieldability verdict is available.':
    'Community and Regulation requirements disagree. No definitive wieldability verdict or numeric requirements handoff is available; see the accuracy dossier.':
    chosen.requirements===null?
    'Source-reported requirements unknown; missing stats cannot be calculated.':

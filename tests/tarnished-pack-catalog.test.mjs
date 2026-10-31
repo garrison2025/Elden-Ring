@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
  validateCommunityCatalog,searchCatalog,baseDamageParts,
- reportedBaseDamageParts,weaponWieldShortfall,cautionForWeapon
+ reportedBaseDamageParts,weaponWieldShortfall,cautionForWeapon,hasDisputedWeight,hasDisputedRequirements
 } from '../public/src/community-weapons.mjs';
 import {getCatalogCoverage} from '../scripts/home-catalog-coverage.mjs';
 import {LOADOUT_WEAPON_SLOTS,LOADOUT_MANUAL_SLOTS,planEquipmentLoadout}
@@ -24,7 +24,11 @@ const pack=catalog.weapons.filter(w=>w.expansion==='Tarnished Pack');
 const plusZero=new Map([
  ['Idus Sword',{attack:[124,0,0,0,0],grades:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Idus_Sword'}],
  ['Reed Great Katana',{attack:[158,0,0,0,0],grades:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Reed_Great_Katana'}],
- ['Silver Grooved Shield',{attack:[61,0,0,0,0],grades:['D','-','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Silver_Grooved_Shield'}]
+ ['Silver Grooved Shield',{attack:[61,0,0,0,0],grades:['D','-','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Silver_Grooved_Shield'}],
+ ['Reverse-Bladed Sword',{attack:[115,0,0,0,0],grades:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Backhand_Blades'}],
+ ['Hefty Scimitar',{attack:[135,0,0,0,0],grades:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Curved_Greatswords'}],
+ ["Leontiel's Greatsword",{attack:[130,0,0,0,0],grades:['E','C','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Greatswords'}],
+ ['Golden Order Flail',{attack:[75,0,0,0,92],grades:['E','E','-','C','-'],url:'https://eldenring.wiki.gg/wiki/Flails'}]
 ]);
 
 test('full 2026 Tarnished Pack armament set is present with traceable requirements/weight, not fictional +0 attack',()=>{
@@ -34,8 +38,9 @@ test('full 2026 Tarnished Pack armament set is present with traceable requiremen
  assert.equal(catalog.meta.baseCommunityCount,306);
  assert.equal(catalog.meta.dlcCatalogCount,102);
  assert.equal(catalog.meta.tarnishedPackCount,8);
- assert.equal(catalog.meta.tarnishedPackWeightedRequirementsCount,5);
- assert.equal(catalog.meta.tarnishedPackBaseFactCount,3);
+ assert.equal(catalog.meta.tarnishedPackWeightedRequirementsCount,1);
+ assert.equal(catalog.meta.tarnishedPackBaseFactCount,7);
+ assert.equal(catalog.meta.tarnishedPackSecondarySourceConflictCount,1);
  assert.equal(catalog.meta.currentPatchRequirementsCorroborationCount,1);
  assert.equal(catalog.meta.v117SourceConflictCount,7);
  assert.equal(new Set(catalog.weapons.map(w=>w.id)).size,416);
@@ -52,7 +57,7 @@ test('full 2026 Tarnished Pack armament set is present with traceable requiremen
    assert.equal(w.critical,100);
    assert.deepEqual(w.scaling,ref.grades);
    assert.equal(w.checkedWith,ref.url);
-   assert.deepEqual(baseDamageParts(w),[{name:'Physical',amount:ref.attack[0]}]);
+   assert.deepEqual(baseDamageParts(w),ref.attack.map((x,i)=>({name:['Physical','Magic','Fire','Lightning','Holy'][i],amount:x})).filter(x=>x.amount>0));
    assert.equal(w.baseFactsProvenance.versionVerified,false);
   }else{
    assert.equal(w.dataCoverage,'requirements-weight-only');
@@ -73,11 +78,12 @@ test('source-separated filter does not misclassify Tarnished Pack weapons as ori
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc'}).total,102);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished'}).total,8);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',term:'Silver Grooved'}).total,1);
- assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'physical'}).total,3,
-  'Only the three individually sourced wiki +0 rows, not max-upgrade figures, may match');
+ assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'physical'}).total,7,
+  'Only seven wiki-sourced +0 rows, not max-upgrade figures, may match');
+ assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'holy'}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',maxWeight:3}).total,2);
  assert.deepEqual(getCatalogCoverage(catalog),{
-  weapons:416,dlc:102,dlcBaseFacts:101,tarnishedPack:8,tarnishedPackBaseFacts:3
+  weapons:416,dlc:102,dlcBaseFacts:101,tarnishedPack:8,tarnishedPackBaseFacts:7,tarnishedPackSecondaryConflicts:1
  });
 });
 
@@ -117,6 +123,34 @@ test('version/attribute/source tampering and fabricated +0 numbers are refused',
  ]){
   const copy=structuredClone(base);mutate(copy.weapons.find(w=>w.name==='Idus Sword'));
   assert.throws(()=>validateCommunityCatalog(copy),RangeError);
+ }
+ const ritual=base.weapons.find(w=>w.name==='Ritual Thrusting Shield');
+ assert.equal(ritual.attack,null,'Conflicting shield stays without verified wiki +0 figures');
+ assert.equal(ritual.secondarySourceDisagreement.status,'SECONDARY_SOURCE_DISAGREEMENT_NOT_GAME_VERIFIED');
+ assert.equal(hasDisputedWeight(ritual),true);
+ assert.equal(hasDisputedRequirements(ritual),true);
+ const excludedSlots=Object.fromEntries(LOADOUT_WEAPON_SLOTS.map(x=>[x.id,'']));
+ excludedSlots.rh1=ritual.id;
+ const allEmpty=Object.fromEntries(LOADOUT_MANUAL_SLOTS.map(x=>[x.id,{mode:'empty',weight:''}]));
+ const blocked=planEquipmentLoadout({
+  weaponSlots:excludedSlots,manualSlots:allEmpty,maxLoad:'75',confirmed:true
+ },base.weapons);
+ assert.equal(blocked.complete,false);
+ assert.equal(blocked.load,null);
+ assert.equal(blocked.knownSubtotal,0);
+ assert.ok(blocked.disputedWeights.some(s=>s.includes('Ritual Thrusting Shield')));
+ assert.ok(cautionForWeapon(ritual).some(s=>s.includes('weight 10 in a version-labelled source versus 9')));
+ assert.equal(weaponWieldShortfall(ritual,[99,99,99,99,99]).known,false);
+ assert.equal(searchCatalog(base.weapons,{coverage:'tarnished',wield:'one',stats:[99,99,99,99,99]}).total,7);
+ for(const mutate of [
+  w=>{w.secondarySourceDisagreement.alternatives[0].weight=10;},
+  w=>{w.secondarySourceDisagreement.alternatives[1].requirements[0]=13;},
+  w=>{w.secondarySourceDisagreement.gameClientVerified=true;},
+  w=>{w.flags=w.flags.filter(s=>s!=='tarnished-pack-weight-secondary-conflict');}
+ ]){
+  const testCatalog=structuredClone(base);
+  mutate(testCatalog.weapons.find(w=>w.name==='Ritual Thrusting Shield'));
+  assert.throws(()=>validateCommunityCatalog(testCatalog),RangeError);
  }
  const badCount=structuredClone(base);badCount.meta.tarnishedPackCount=7;
  assert.throws(()=>validateCommunityCatalog(badCount),/metadata mismatch/);

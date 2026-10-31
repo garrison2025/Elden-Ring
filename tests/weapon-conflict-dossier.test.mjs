@@ -14,6 +14,7 @@ const copy=()=>structuredClone(ledger);
 test('seven independently attributable source disputes stay UNREVIEWED',()=>{
  const result=validateConflictEvidence(catalog,ledger);
  assert.equal(result.entries.length,7);
+ assert.deepEqual(result.entries.find(e=>e.id==='sote-reference-032').withinPageZeroContradiction.samePageStandardZero,[72,0,22,0,0]);
  assert.equal(result.currentPatchCorroborationCount,1);
  assert.equal(result.entries.filter(x=>x.field==='baseAttack').length,6);
  assert.equal(result.entries.filter(x=>x.field==='requirements').length,1);
@@ -45,6 +46,8 @@ test('source dossier contains both readings, exact mismatched component and manu
  assert.ok(html.includes('not character AR'));
  assert.ok(html.includes('source disagreement')||html.includes('source disagreements'));
  assert.ok(html.includes('Current accepted game screenshot count: 0'));
+ assert.ok(html.includes('contradiction inside the same wiki page'));
+ assert.ok(html.includes('PHY 72 / FIRE 22'));
  assert.ok(html.includes('data/weapon-conflict-evidence.json'));
  assert.ok(html.includes('weapon-data-workbench'));
  assert.equal((html.match(/<tr><th scope="row"><a href="..\/weapon-database/g)||[]).length,7);
@@ -69,6 +72,8 @@ test('build rejects missing or added source flags, changed references, stale IDs
   d=>{d.cases[0].screenshotCount=1;},
   d=>{d.requiredGameVersion.regulation='1.17';},
   d=>{d.status='CONFIRMED';},
+  d=>{d.cases.find(c=>c.id==='sote-reference-032').withinPageZeroContradiction.samePageStandardZero[0]=75;},
+  d=>{d.cases.find(c=>c.id==='sote-reference-032').withinPageZeroContradiction.gameClientVerified=true;},
   d=>{d.cases.find(c=>c.id==='sote-reference-051').currentPatchCorroboration.observedValues[3]=13;},
   d=>{d.cases.find(c=>c.id==='sote-reference-051').currentPatchCorroboration.notVerifiedByGameClient=false;}
  ];
