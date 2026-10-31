@@ -5,17 +5,31 @@
 import {readFile,stat} from 'node:fs/promises';
 import path from 'node:path';
 import {getCatalogCoverage,catalogCoverageCopy} from './home-catalog-coverage.mjs';
+import {getCatalogEvidence,catalogEvidenceRow,catalogEvidencePanel} from './catalog-evidence.mjs';
 const read=async f=>readFile(path.join(process.cwd(),'dist',f),'utf8');
 const assert=(pass,label)=>{if(!pass)throw Error('[DEPLOYMENT ARTIFACT] '+label);};
 const main=async()=>{
- const [home,build,smithing,equipment,infoText,catalogText]=await Promise.all([
+ const [home,build,smithing,equipment,verification,evidenceText,infoText,catalogText]=await Promise.all([
   read('index.html'),read('build-planner/index.html'),
   read('weapon-upgrade-calculator/index.html'),read('equip-load-calculator/index.html'),
+  read('validation-status/index.html'),read('catalog-evidence.json'),
   read('deployment-info.json'),
   read('data/community-weapon-catalog.json')
  ]);
  const source=getCatalogCoverage(JSON.parse(catalogText));
  const deployment=JSON.parse(infoText);
+ const expectedEvidence=getCatalogEvidence(JSON.parse(catalogText));
+ const actualEvidence=JSON.parse(evidenceText);
+ assert(JSON.stringify(actualEvidence)===JSON.stringify(expectedEvidence),
+  'Public evidence JSON does not match exact bundled weapon source');
+ assert(verification.includes(catalogEvidenceRow(expectedEvidence))&&
+  verification.includes(catalogEvidencePanel(expectedEvidence)),
+  'Visible accuracy page missing source-derived counts or unresolved conflict rows');
+ assert(!verification.includes('Community weapon catalog (364, partial)')&&
+  !verification.includes('57 DLC names/categories/requirements'),
+  'Stale, hand-maintained historical catalog counts in deployed validation page');
+ assert(verification.includes('<meta name="robots" content="noindex,nofollow">'),
+  'Research/accuracy status page must remain noindex');
  assert(deployment.schemaVersion===1,'Unexpected build manifest schema');
  assert(deployment.product==='Elden Ring Build Lab','Unexpected product ID');
  assert(deployment.catalog?.weapons===source.weapons&&
@@ -71,6 +85,6 @@ const main=async()=>{
    throw Error('[DEPLOYMENT ARTIFACT] Research sitemap unexpectedly published');
   }catch(err){if(err.code!=='ENOENT')throw err;}
  }
- console.log('[DEPLOYMENT ARTIFACT] PASS: catalog copy, source coverage, deployed features, revision provenance, and SEO gate');
+ console.log('[DEPLOYMENT ARTIFACT] PASS: catalog copy, source-derived evidence, unresolved conflicts, deployed features, revision provenance, and SEO gate');
 };
 await main();

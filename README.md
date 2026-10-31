@@ -681,3 +681,44 @@ pin A from saved plan → change two equipped slots → verify diff and
 375px overflow → delete stored copy without clearing the comparison.
 The deployment artifact audit checks that the controls and module
 are included in Cloudflare's built output.
+
+## Source-derived, fail-closed weapon evidence dashboard (2026-10-31)
+
+`/validation-status/` now contains an audit dashboard generated at build
+time from the exact `public/data/community-weapon-catalog.json` included
+in the deployment artifact. A public `/catalog-evidence.json` captures
+the same evidence in a machine-readable, schema-versioned summary.
+`scripts/catalog-evidence.mjs` validates original catalog schema and
+metadata, then computes live counts (base/DLC records; known weapon
+requirement, weight and +0 fields; published base-attack upgrade tables;
+absence of full AR parameter profiles), plus an ID-specific list of
+unresolved community source attack/requirement conflicts. The conflict
+list links to the existing weapon database for inspection.
+
+**This is a source consistency audit, not a gameplay certification.**
+Even where all records have community weapon weights or requirements,
+source accuracy and patch compatibility are not independently proven.
+Conflicts are NOT resolved by replacing them with game-derived guesses.
+The public page explicitly differentiates derived calculations,
+community reference coverage, uncertain source values and unavailable
+precise AR. The in-browser equipment planner is correctly identified as
+available for manually confirmed loadouts; it is not described as a
+published/verified full armor/talisman item database.
+
+The build script replaces one explicit catalog-audit row and section
+in the validation source HTML, and emits evidence JSON from exactly
+the same local catalog as the homepage. `npm run check` now fails the
+deployment artifact audit if either dashboard or JSON differs from the
+bundled weapon file, if historical `364/57` claims return, or if the
+research-mode noindex is missing. Pure tests additionally check
+HTML escaping, error paths and automatic response to changed source
+flags. The free real-Chrome smoke visits the rendered
+`/validation-status/` page and compares its counts and conflict rows
+against `/catalog-evidence.json`. This workflow adds no runtime API,
+paid service, database, or external monitoring.
+
+**Release blocker remains**: provenance and current-game client goldens
+must still be validated independently before enabling indexing or
+marketing a precise Attack Rating / damage calculator. Resolving a
+source disagreement requires archived original evidence and independently
+reproducible observations; merely removing a flag is not validation.
