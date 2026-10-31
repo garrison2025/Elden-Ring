@@ -49,7 +49,7 @@ export function resolveBuildSmithingWeapons(ids,weapons){
    ref.sourceUrl===weapon.checkedWith&&
    typeof weapon.checkedWith==='string'&&weapon.checkedWith.startsWith('https://');
   return {id,name:weapon.name,expansion:weapon.expansion??'Base game',
-   track:suggestedSomber?'somber':'',
+   track:'',suggestedTrack:suggestedSomber?'somber':null,
    from:'',to:'',
    trackHint:suggestedSomber?'Unverified community Somber reference; confirm in game.':
     'Unknown track. Choose Regular or Somber from your game menu.'};
