@@ -60,11 +60,11 @@ test('approved indexing exposes only reviewed public routes; research pages rema
    assert.equal((html.match(/<meta name="robots" content="noindex,follow">/g)||[]).length,1,
     'Not all public pages are released in wave 1: '+slug);
    assert.ok(!html.includes('<link rel="canonical"'),'No accidental canonical '+slug);
-   assert.ok(headers.includes('/'+slug+'/*\\n  X-Robots-Tag: noindex'),'HTTP noindex '+slug);
+   assert.ok(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),'HTTP noindex '+slug);
   }
   const root=await readFile(join(dist,'index.html'),'utf8');
-  const normal=await readFile(join(dist,'build-planner/index.html'),'utf8');
-  for(const [path,html] of [['/',root],['/build-planner/',normal]]){
+  const normal=await readFile(join(dist,'class-optimizer/index.html'),'utf8');
+  for(const [path,html] of [['/',root],['/class-optimizer/',normal]]){
    assert.equal((html.match(/<meta name="robots" content="index,follow">/g)||[]).length,1);
    assert.ok(html.includes('<link rel="canonical" href="'+site+path+'">'));
   }
@@ -99,7 +99,7 @@ test('Cloudflare production main auto-publishes exactly the four audited first-w
   const dist=join(tmp,'dist');
   const sitemap=await readFile(join(dist,'sitemap.xml'),'utf8');
   const origin='https://elden-ring-5i9.pages.dev';
-  assert.deepEqual([...sitemap.matchAll(/<loc>([^<]+)<\\/loc>/g)].map(x=>x[1]).sort(),
+  assert.deepEqual([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]).sort(),
    INDEXABLE.map(p=>origin+p).sort());
   const info=JSON.parse(await readFile(join(dist,'deployment-info.json'),'utf8'));
   assert.equal(info.researchNoindex,false);
@@ -109,7 +109,7 @@ test('Cloudflare production main auto-publishes exactly the four audited first-w
    '<link rel="canonical" href="'+origin+'/">'));
   const headers=await readFile(join(dist,'_headers'),'utf8');
   for(const slug of [...WITHHELD,...PUBLIC_BUT_WITHHELD])
-   assert.ok(headers.includes('/'+slug+'/*\\n  X-Robots-Tag: noindex'),
+   assert.ok(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),
     'Noindex header for non-approved production route '+slug);
  }finally{await rm(tmp,{recursive:true,force:true});}
 });
@@ -120,7 +120,7 @@ test('Cloudflare preview or unapproved CI remains wholly noindex even if SITE_UR
   assert.match(html,/noindex,follow/);
   assert.ok(!html.includes('<link rel="canonical"'));
   assert.equal(await readFile(join(dist,'_headers'),'utf8'),
-   '/*\\n  X-Robots-Tag: noindex\\n');
+   '/*\n  X-Robots-Tag: noindex\n');
   await assert.rejects((await import('node:fs/promises')).access(join(dist,'sitemap.xml')));
   const info=JSON.parse(await readFile(join(dist,'deployment-info.json'),'utf8'));
   assert.equal(info.researchNoindex,true);
