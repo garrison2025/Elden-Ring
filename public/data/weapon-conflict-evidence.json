@@ -130,7 +130,24 @@
       "screenshotCount": 0,
       "sourceClass": "community-vs-pinned-regulation",
       "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
-      "doNotAutoCorrect": true
+      "doNotAutoCorrect": true,
+      "currentPatchCorroboration": {
+        "sourceUrl": "https://almanauts.com/eldenring/tiers/weapons-fist/",
+        "patchChangeUrl": "https://almanauts.com/eldenring/patches/1-17-3/",
+        "sourceClass": "independent-version-labelled-secondary-game-parameter-reference",
+        "observedValues": [
+          8,
+          8,
+          13,
+          20,
+          0
+        ],
+        "regulation": "1.17.3",
+        "gameBuild": "25827938",
+        "agreesWith": "pinned-v117",
+        "notVerifiedByGameClient": true,
+        "note": "This supports the pinned source's FAI 20 against unversioned wiki FAI 13; no independently reviewed +0 game menu screenshot exists."
+      }
     },
     {
       "id": "sote-reference-064",
@@ -213,5 +230,6 @@
       "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
       "doNotAutoCorrect": true
     }
-  ]
+  ],
+  "currentPatchCrosscheckSummary": "Madding Hand requirement FAI 20 corroborated by an additional Regulation 1.17.3-labelled source; 6 +0 base attack discrepancies lack comparable current-patch +0 screenshot data. Original seven published source differences remain in the evidence ledger and all seven client captures remain unreviewed."
 }
