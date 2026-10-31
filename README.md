@@ -722,3 +722,43 @@ must still be validated independently before enabling indexing or
 marketing a precise Attack Rating / damage calculator. Resolving a
 source disagreement requires archived original evidence and independently
 reproducible observations; merely removing a flag is not validation.
+
+## Source-conflicted weapon values fail closed in player tools (2026-10-31)
+
+The seven documented v1.17 **source disagreements are more than a badge
+in the accuracy dashboard**: their uncertainty now reaches every
+downstream player decision that consumes the disputed fields.
+
+- **Madding Hand:** The community list reports FAI **13**, but the
+  independent pinned v1.17 parameter reference reports FAI **20**.
+  `weaponRequirementComparison()`, Build Planner's one-/two-hand
+  checks, Build A/B, shortlist minimum-stat planning and weapon
+  comparison cannot claim requirements met/not met or a precise point
+  deficit for this disputed weapon. The source-only value can still be
+  read in Weapon Database, clearly labelled **DISPUTED community
+  reading**, with its provenance and link to the accuracy dossier.
+  "Wieldable" filters omit disputed-requirement rows rather than count
+  them as satisfied. Numeric requirement links cannot silently shed
+  their dispute flags.
+- **Six disputed +0 attack references:** The Weapon Database visibly
+  labels the community reading as **DISPUTED**, and comparison tables
+  carry a dedicated source-conflict row and mark all attack components
+  as community readings. Build inspection does not present a disputed
+  value as accepted base attack; damage-type searches omit
+  dispute-flagged values and the numerical base-attack ranking puts
+  such sources after known uncontested ones. None of this confers
+  valid Attack Rating or current-game accuracy.
+- **Unflagged source references:** Existing five-component community
+  numbers, individual weapon weight, class character stats and
+  explicit equipment load remain unchanged. A disputed attack flag
+  does not imply a disputed weight; a disputed requirements flag does
+  not prevent a user from examining its community source reading.
+
+Automated coverage tests actual flagged catalog entries and negative
+control weapons with no flags, including the Build → comparison →
+shortlist and Weapon Database pathways. The free Chrome smoke visits
+Madding Hand and Smithscript Axe directly, verifies disputed labels
+and disabled requirements handoff, and tests the mobile Build preview.
+**No source flags were cleared or patched**: all seven cases still need
+independent App/Regulation game-client evidence. Research `noindex`
+remains enabled.
