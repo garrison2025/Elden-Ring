@@ -17,7 +17,7 @@ test('research site requires explicit indexing approval and has noindex-readable
 test('catalog level change refreshes the actual AR handoff link',async()=>{
  const app=await read('public/src/weapon-catalog-app.mjs');
  assert.match(app,/catalog-upgrade-level'\)\.addEventListener\('change',renderDetails\)/);
- assert.match(app,/makeArWorkbenchUrl\(chosen.name,arStats,/);
+ assert.match(app,/makeQuickArCalculatorUrl\(chosen.name,arStats,/);
 });
 test('game client observation UI is offline and blocks demo evidence masquerading as real',async()=>{
  const html=await read('public/weapon-data-workbench/index.html');
