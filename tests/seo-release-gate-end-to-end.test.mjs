@@ -114,7 +114,7 @@ test('Cloudflare production main auto-publishes exactly the four audited first-w
  }finally{await rm(tmp,{recursive:true,force:true});}
 });
 test('Cloudflare preview or unapproved CI remains wholly noindex even if SITE_URL is available',async()=>{
- const tmp=await fixture(false,'feat/seo-first-wave-production-allowlist-20261031');
+ const tmp=await fixture(true,'feat/seo-first-wave-production-allowlist-20261031');
  try{
   const dist=join(tmp,'dist'),html=await readFile(join(dist,'index.html'),'utf8');
   assert.match(html,/noindex,follow/);
