@@ -439,6 +439,20 @@ function showList(reset=false,keepSelected=false){
  const damage=$('catalog-damage-filter').value;
  const coverage=$('catalog-coverage').value;
  const quality=$('catalog-quality').value;
+ const sourceFilter=$('catalog-v117-filter').value;
+ // Source-view filtering only affects candidate IDs; never feed reference-only
+ // attack or weight into canonical catalog sort, damage, and wield rules.
+ const filteredWeapons=!v117Overlay||sourceFilter==='all'?catalog.weapons:
+  catalog.weapons.filter(w=>{
+   const row=v117Overlay.rows.get(w.id);
+   if(!row||row.status!=='pinned-v117-neutral-reference')return false;
+   if(sourceFilter==='source-only')return row.sourceOnly;
+   if(sourceFilter==='flagged')return row.flaggedSourceDispute;
+   if(sourceFilter==='attack-difference')return row.attackDiff;
+   if(sourceFilter==='requirement-difference')return row.requirementDiff;
+   if(sourceFilter==='any-difference')return row.attackDiff||row.requirementDiff;
+   return false;
+  });
  const rawWeight=$('catalog-max-weight').value.trim();
  let maxWeight=null;
  if(rawWeight!==''){
@@ -452,7 +466,7 @@ function showList(reset=false,keepSelected=false){
  }
  let data;
  try{
-  data=searchCatalog(catalog.weapons,{
+  data=searchCatalog(filteredWeapons,{
    term,category,sort,limit:40,offset,wield,damage,maxWeight,coverage,quality,
    stats:wield==='any'&&sort!=='requirements'?null:readStats()
   });
@@ -522,6 +536,7 @@ $('catalog-clear-filters').addEventListener('click',()=>{
  $('catalog-damage-filter').value='any';
  $('catalog-coverage').value='all';
  $('catalog-quality').value='all';
+ $('catalog-v117-filter').value='all';
  $('catalog-max-weight').value='';
  showList(true);
  $('catalog-search').focus();
@@ -547,6 +562,7 @@ $('catalog-wield').addEventListener('change',()=>showList(true));
 $('catalog-damage-filter').addEventListener('change',()=>showList(true));
 $('catalog-coverage').addEventListener('change',()=>showList(true));
 $('catalog-quality').addEventListener('change',()=>showList(true));
+$('catalog-v117-filter').addEventListener('change',()=>showList(true));
 $('catalog-max-weight').addEventListener('input',()=>showList(true));
 $('catalog-more').addEventListener('click',()=>showList(false));
 $('catalog-v117-load').addEventListener('click',async()=>{
@@ -564,9 +580,12 @@ $('catalog-v117-load').addEventListener('click',async()=>{
    ' of the 72 source-only catalog records now show pinned +0 reference; '+
    counts.flaggedDisputesMapped+' flagged source disputes have side-by-side evidence; '+
    counts.neutralAttackDifferences+' attack and '+counts.neutralRequirementDifferences+
-   ' requirement differences. Source weight remains unavailable. '+
+   ' requirement differences across '+counts.anyNumericalDifferences+' distinct weapons ('+
+   counts.unflaggedNumericalDifferences+' not previously flagged). Source weight remains unavailable. '+
    'These are NOT '+counts.total+' independently checked Tarnished.dev page results.';
   button.hidden=true;
+  $('catalog-v117-filter').disabled=false;
+  showList(true,true);
   renderV117SourceFacts();
  }catch(error){
   statusText.textContent='Source comparison unavailable: '+String(error?.message??error).slice(0,250)+
