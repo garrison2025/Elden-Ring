@@ -460,9 +460,33 @@ try{
  assert.equal(evidenceStatus.pageMatches,true,
   'Accuracy page should explain counts and game-client verification limits');
  assert.equal(evidenceStatus.robots,'noindex,nofollow');
+ const conflictStatus=await evaluate(`(async()=>{
+  const evidence=await(await fetch('../data/weapon-conflict-evidence.json')).json();
+  const panel=document.querySelector('#conflict-dossier');
+  const rows=[...panel.querySelectorAll('tbody tr')].map(t=>t.textContent);
+  return {
+   present:!!panel,number:rows.length,sourceCount:evidence.cases.length,
+   unverified:evidence.verification.gameClientVerified===false&&
+    evidence.verification.acceptedCurrentGameScreenshots===0,
+   madding:rows.find(s=>s.includes('Madding Hand'))?.includes('FAI: 13 / 20'),
+   smithscript:rows.find(s=>s.includes('Smithscript Axe'))?.includes('PHY: 133 / 131'),
+   sourceLinks:panel.querySelectorAll('a[href^="https://"]').length,
+   explicitDisclaimer:panel.textContent.includes('not character AR')&&
+    panel.textContent.includes('UNREVIEWED')
+  };
+ })()`);
+ assert.equal(conflictStatus.present,true);
+ assert.equal(conflictStatus.number,7);
+ assert.equal(conflictStatus.sourceCount,7);
+ assert.equal(conflictStatus.unverified,true);
+ assert.equal(conflictStatus.madding,true);
+ assert.equal(conflictStatus.smithscript,true);
+ assert.ok(conflictStatus.sourceLinks>=15,'Seven per-weapon source links must be rendered');
+ assert.equal(conflictStatus.explicitDisclaimer,true);
+
 
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;
