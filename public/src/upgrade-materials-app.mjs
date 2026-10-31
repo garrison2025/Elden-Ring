@@ -257,15 +257,17 @@ try{
     const row=makeMultiRow(entry);
     const track=row.querySelector('[data-multi-field="track"]');
     track.title=entry.trackHint;
-    row.querySelector('[data-multi-field="name"]').title=
-     entry.trackHint+' Weapon name comes from the local source catalog.';
+    const hint=make('small',entry.suggestedTrack==='somber'?
+     'Community Somber hint only — confirm in game': 'Track unknown — choose from game menu');
+    hint.className='multi-weapon-hint';
+    row.children[0].append(hint);
     multiRows.append(row);
    }
    calculateMulti();
    multiFeedback('Imported '+found.length+
-    ' verified local catalog identities from Build Planner. Smithing track and actual current/target +levels are intentionally BLANK and MUST be entered manually.'+
+    ' source-matched catalog identities from Build Planner. Smithing track and actual current/target +levels are intentionally BLANK and MUST be entered manually.'+
     (found.some(x=>x.suggestedTrack==='somber')?
-     ' Some linked weapons have community-sourced Somber hints (hover their track field), not game certification.':''));
+     ' Some linked weapons display an unverified community Somber hint, not game certification.':''));
   }).catch(error=>{
    multiFeedback('Unable to import Build shortlist: '+error.message+
     ' No unsupported weapon information was inserted.',true);
