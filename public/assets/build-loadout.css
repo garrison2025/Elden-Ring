@@ -1,0 +1,26 @@
+/* Build Planner equipment model; all additional user-provided fields are optional */
+.build-loadout-panel{margin:26px 0;border:1px solid #617365;background:linear-gradient(150deg,rgba(27,41,39,.87),rgba(18,25,33,.9))}
+.build-loadout-panel>h2{font-size:clamp(25px,3vw,35px)}
+.build-loadout-panel>p{line-height:1.7;max-width:880px}
+.build-loadout-panel h3{margin-top:25px;margin-bottom:12px}
+.build-loadout-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.build-loadout-item{border:1px solid #506159;border-radius:12px;padding:13px;background:rgba(14,27,26,.55);min-width:0}
+.build-loadout-item .field+.field{margin-top:8px}
+.build-loadout-panel .field{display:block;min-width:0}
+.build-loadout-panel .field input,.build-loadout-panel .field select{display:block;width:100%;min-width:0;margin-top:7px}
+.build-loadout-actions{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.build-loadout-actions .btn{font-size:12px}
+.build-loadout-spells{margin-top:18px;border:1px solid #4b6156;border-radius:12px;padding:15px}
+.build-loadout-spells summary{cursor:pointer;font-weight:700;margin-bottom:12px}
+.build-loadout-results{margin-top:20px;padding:14px;background:rgba(15,30,28,.8);border:1px solid #607364;border-radius:12px;overflow-x:auto}
+.build-loadout-results h3{margin-top:0}
+.build-loadout-results h3[data-quality=partial]{color:#f0ca87}
+.build-loadout-results ul{padding-left:20px}
+.loadout-equipment-table{width:100%;min-width:520px;border-collapse:collapse;margin-top:15px}
+.loadout-equipment-table th,.loadout-equipment-table td{padding:9px 8px;border-bottom:1px solid #506157;text-align:left;font-size:12px}
+.build-loadout-ar-links{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.build-loadout-ar-links p{flex-basis:100%}
+#build-loadout-status[data-state=error]{color:#ffb5a6}
+#build-loadout-container[hidden]{display:none!important}
+@media(max-width:600px){.build-loadout-grid{grid-template-columns:1fr}.build-loadout-panel{padding:17px}.build-loadout-actions .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){.build-loadout-panel *{transition:none!important;animation:none!important}}
