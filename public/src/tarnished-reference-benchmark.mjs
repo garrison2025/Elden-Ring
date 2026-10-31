@@ -148,7 +148,7 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   playerStats:Object.freeze({str:30,dex:25,int:10,fai:20,arc:10}),
   upgrade:0,twoHanded:false,expectedTotal:235,
   sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
-  sourceUrl:'https://www.tarnished.dev/build-planner?str=30&dex=25&int=10&fai=20&arc=10&rh1=Fire+Knight's+Greatsword&aRh1=Standard&smith=0&somber=0&twoHanded=false',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=30&dex=25&int=10&fai=20&arc=10&rh1=Fire+Knight%27s+Greatsword&aRh1=Standard&smith=0&somber=0&twoHanded=false',
   observedDisplay:'Equipped Right Hand 1 / Fire Knight\'s Greatsword / Standard / Scaling D/D/-/D/- / Total AR : 235',
   referenceObservedOnce:true,sourceRepeatable:false,
   note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
@@ -158,7 +158,7 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   playerStats:Object.freeze({str:30,dex:25,int:10,fai:20,arc:10}),
   upgrade:25,twoHanded:false,expectedTotal:632,
   sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
-  sourceUrl:'https://www.tarnished.dev/build-planner?str=30&dex=25&int=10&fai=20&arc=10&rh1=Fire+Knight's+Greatsword&aRh1=Standard&smith=25&somber=0&twoHanded=false',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=30&dex=25&int=10&fai=20&arc=10&rh1=Fire+Knight%27s+Greatsword&aRh1=Standard&smith=25&somber=0&twoHanded=false',
   observedDisplay:'Equipped Right Hand 1 / Fire Knight\'s Greatsword / Standard / Scaling D/C/-/D/- / Total AR : 632',
   referenceObservedOnce:true,sourceRepeatable:false,
   note:'Verified exact rendered stats, affinity, upgrade, grip, disabled buffs, and v1.17 in public GitHub Chromium run 41180592038; awaiting independent rerun.'
