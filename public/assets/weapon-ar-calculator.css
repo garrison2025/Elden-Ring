@@ -41,3 +41,15 @@
 #qar-rank-panel[hidden],#qar-rank-results[hidden]{display:none!important}
 @media(max-width:980px){.qar-ranking-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.qar-ranking-grid{grid-template-columns:1fr}.qar-ranking-panel .qar-actions .btn{width:100%}.qar-ranking-table-wrap{width:100%}}
+
+/* Complete opt-in source scan: filter clarity and no page-wide horizontal overflow */
+.qar-source-filters{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(150px,1fr) minmax(0,1.55fr);gap:15px;align-items:center;margin:12px 0 17px;padding:13px;border:1px solid #526357;border-radius:12px;background:rgba(25,42,39,.5)}
+.qar-source-filters .qar-toggle{min-width:0;align-items:flex-start}
+.qar-source-filters .qar-toggle span{line-height:1.35;overflow-wrap:break-word}
+.qar-source-filters .qar-toggle small{line-height:1.35}
+.qar-source-filters .field{min-width:0}
+.qar-source-filters .field select{width:100%;min-width:0}
+#qar-rank-visible-count{margin-top:10px}
+#qar-rank-more{margin-top:10px}
+@media(max-width:900px){.qar-source-filters{grid-template-columns:1fr 1fr}.qar-source-filters .qar-toggle:last-child{grid-column:1/-1}}
+@media(max-width:520px){.qar-source-filters{grid-template-columns:1fr}.qar-source-filters .qar-toggle:last-child{grid-column:auto}}
