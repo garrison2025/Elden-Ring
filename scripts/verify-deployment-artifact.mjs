@@ -39,7 +39,11 @@ const main=async()=>{
   verification.includes('id="conflict-evidence-recheck"')&&
   verification.includes('id="conflict-recheck-json"')&&
   verification.includes('id="conflict-recheck-hashes"')&&
-  verification.includes('src="../src/conflict-evidence-import-app.mjs"'),
+  verification.includes('src="../src/conflict-evidence-import-app.mjs"')&&
+  verification.includes('id="reg-seven-audit"')&&
+  verification.includes('id="reg-seven-file"')&&
+  verification.includes('id="reg-seven-table"')&&
+  verification.includes('src="../src/current-regulation-conflict-audit-app.mjs"'),
   'Seven-case local screenshot capture and original-image recheck forms missing in research accuracy page');
   assert(verification.includes(catalogEvidenceRow(expectedEvidence))&&
   verification.includes(catalogEvidencePanel(expectedEvidence)),
@@ -84,7 +88,10 @@ const main=async()=>{
    'src/equipment-save-compare.mjs',
    'src/conflict-game-capture.mjs','src/conflict-game-capture-app.mjs',
    'src/conflict-evidence-import.mjs','src/conflict-evidence-import-app.mjs',
-   'src/ar-screenshot-fingerprint.mjs'])
+   'src/ar-screenshot-fingerprint.mjs',
+   'src/current-regulation-conflict-audit.mjs',
+   'src/current-regulation-conflict-audit-worker.mjs',
+   'src/current-regulation-conflict-audit-app.mjs'])
   assert((await stat(path.join(process.cwd(),'dist',sourceFile))).size>300,
    'Missing application source in deployed artifact: '+sourceFile);
  const sha=process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'';
