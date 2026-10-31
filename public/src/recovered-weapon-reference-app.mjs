@@ -14,6 +14,12 @@ function render(){
   tr.append(make('td',w.category),make('td',w.reference.weight),
    make('td',w.reference.attackAtPlusZero.join(' / ')),make('td',w.reference.critical),
    make('td',w.reference.scalingAtPlusZero.join(' / ')));
+  const other=make('td');
+  other.append(make('div','Base: '+w.crosscheck.attackAtPlusZero.join(' / ')));
+  other.append(make('div','Scaling: '+w.crosscheck.scalingGradesAsReported.map(x=>x??'not listed').join(' / ')));
+  const linkOther=make('a','Individual source');linkOther.href=w.crosscheck.sourceUrl;
+  linkOther.rel='noopener noreferrer';linkOther.target='_blank';other.append(linkOther);
+  tr.append(other);
   const td=make('td'),link=make('a','Source +0');link.href=w.reference.sourceUrl;
   link.rel='noopener noreferrer';link.target='_blank';td.append(link);
   if(w.disputedFields.length){
@@ -32,7 +38,9 @@ Promise.all([
  records=ledger.records;
  status.textContent=counts.total+'/72 source candidates; '+counts.attackReferences+' +0 attacks, '+counts.weightReferences+
   ' weights, '+counts.criticalReferences+' criticals; '+counts.unknownScalingGrades+' unknown individual scaling grades; '+
-  counts.sourceConflicts+' unresolved source-conflict weapons; 0 in-game verified.';
+  counts.crosscheckedReferences+' second-source pages read; '+counts.sourceConflicts+' disputed weapons ('+
+  counts.attackConflicts+' attack, '+counts.scalingConflicts+' scaling, '+counts.requirementConflicts+
+  ' requirements); 0 in-game verified.';
  render();search.disabled=false;
 }).catch(error=>{status.textContent='SOURCE REFERENCE AUDIT BLOCKED: '+error.message;status.className='feedback bad';});
 search.disabled=true;search.addEventListener('input',render);
