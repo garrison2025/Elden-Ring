@@ -2,6 +2,7 @@ import {STATS,CLASSES,classForName,validateStats,buildLevel,optimizeClasses,rune
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
 import {makeBuildSmithingUrl} from './build-smithing-handoff.mjs';
+import {planShortlistWielding} from './build-shortlist-feasibility.mjs';
 import {compareBuildSnapshots,normalizeBuildComparisonSnapshot} from './build-compare.mjs';
 import {makeBuildAbShareUrl,validateSharedBuildAb} from './build-compare-share.mjs';
 const $=s=>document.querySelector(s);const page=document.body.dataset.page;const fmt=commas;
@@ -76,7 +77,75 @@ function initBuild(){
     $('#build-smithing-feedback').textContent=message||
       (smithingIds.length?smithingIds.length+' of 8 weapons selected. Confirm every smithing track and +level after opening the planner.':
         'No weapons added. Choose a weapon above, then add it.');
+    renderWieldPlan();
   }
+  const wieldPlan=()=>planShortlistWielding(smithingIds,weaponCatalog?.weapons,read(),current,{
+    allowSote:sote.checked
+  });
+  function renderWieldPlan(){
+    const root=$('#build-wield-plan'),rows=$('#build-wield-rows');
+    root.hidden=smithingIds.length===0;rows.replaceChildren();
+    const oneButton=$('#build-wield-apply-one'),twoButton=$('#build-wield-apply-two');
+    oneButton.disabled=true;twoButton.disabled=true;
+    if(!smithingIds.length)return;
+    try{
+      const plan=wieldPlan();
+      const status=grip=>{
+        if(grip===null)return 'Unknown requirements';
+        if(grip.canWield)return 'Meets requirements';
+        return '+'+grip.totalMissing+' points · '+
+          grip.missing.map(x=>x.stat+' +'+x.points).join(', ');
+      };
+      for(const item of plan.rows){
+        const row=document.createElement('tr');
+        const heading=document.createElement('th');heading.scope='row';
+        heading.textContent=item.name+' · '+item.category+
+          (item.requirementsDisputed?' · SOURCE CONFLICT':'');
+        row.append(heading);
+        for(const value of [
+          status(item.oneHand),
+          status(item.twoHand)+(item.requirementsKnown&&!item.standardTwoHandBonus?
+            ' (no 2H STR bonus assumed)':''),
+          item.weight===null?'Unknown':String(item.weight)
+        ]){
+          const cell=document.createElement('td');cell.textContent=value;row.append(cell);
+        }
+        rows.append(row);
+      }
+      const summary=target=>{
+        const upgrades=target.shortfalls.map(x=>x.stat+' +'+x.points).join(', ');
+        return target.additionalLevels+' added level(s) · '+
+          fmt(target.additionalRunes)+' incremental runes · '+
+          (upgrades||'Already meets the known requirements.');
+      };
+      $('#build-wield-one-summary').textContent=summary(plan.oneHand);
+      $('#build-wield-two-summary').textContent=summary(plan.twoHand);
+      oneButton.disabled=!plan.allSafeToApply;
+      twoButton.disabled=!plan.allSafeToApply;
+      $('#build-wield-note').textContent=plan.allSafeToApply?
+        'All '+plan.weaponCount+' candidates have documented, non-conflicting requirement values. '+
+        'The stat targets are cumulative requirements for individually wielding each candidate, NOT simultaneous equipment load.':
+        'Some weapon requirements are missing or source-disputed. Showing supported details, but automatic stat targets are disabled to avoid false precision.';
+    }catch(error){
+      $('#build-wield-one-summary').textContent='Unavailable';
+      $('#build-wield-two-summary').textContent='Unavailable';
+      $('#build-wield-note').textContent='Correct the current Build or shortlist: '+error.message;
+    }
+  }
+  function applyWieldStats(grip){
+    try{
+      const plan=wieldPlan();
+      if(!plan.allSafeToApply)throw new RangeError('Unknown or disputed requirements prevent automatic stat allocation.');
+      const target=plan[grip];
+      for(const [index,field] of [...grid.querySelectorAll('[data-stat]')].entries())
+        field.value=String(target.targetStats[index]);
+      render();
+      $('#build-wield-note').textContent='Applied the minimum known '+(grip==='oneHand'?'one-hand':'eligible two-hand')+
+        ' attributes for separately wielding all shortlisted candidates. Confirm every weapon in game.';
+    }catch(error){$('#build-wield-note').textContent='Could not apply stat target: '+error.message;}
+  }
+  $('#build-wield-apply-one').addEventListener('click',()=>applyWieldStats('oneHand'));
+  $('#build-wield-apply-two').addEventListener('click',()=>applyWieldStats('twoHand'));
   $('#build-smithing-add').addEventListener('click',()=>{
     if(!weaponCatalog||!selectedWeaponId)return;
     if(smithingIds.includes(selectedWeaponId)||smithingIds.length>=8)return;

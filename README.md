@@ -552,3 +552,44 @@ reconstruction of A and B with the expected +1 VIG delta, and
 backward compatibility for old one-Build URLs. Source facts are still
 community references: no independent current-patch game-client
 verification or AR guarantee is implied. Research `noindex` stays.
+
+## Per-weapon wieldability for Build Planner shortlist (2026-10-31)
+
+The existing `/build-planner/` **Smithing shortlist** is also a live
+**weapon requirement planning** panel. Up to eight source-linked weapon
+candidates are each evaluated against the same character's selected
+class and all eight attributes. For each candidate the planner shows
+source-reported one-hand and ordinary two-hand minimums/shortfalls in
+STR, DEX, INT, FAI and ARC, and its *individual* weight if sourced.
+Unreported data remains UNKNOWN. The check does not mean these weapons
+are equipped simultaneously, so weights are **never added together** as
+a pretend total equip load.
+
+Two optional controls can **apply the minimal known stat increases**
+to make the character meet all candidates' one-hand requirements, or
+each eligible candidate's standard two-hand requirements. The planner
+takes the componentwise maximum of individual requirements, **not their
+sum**, and never decreases current stat values. It computes the added
+character levels and incremental rune upgrade costs from the existing
+canonical Build and rune formulas. Two-handing has the usual 1.5× STR
+assumption **only for supported source weapon categories**; paired
+weapons, staffs, seals and special grips get no invented discount.
+Each button only changes the current on-screen Build when explicitly
+clicked, leaving any pinned Build A comparison intact.
+
+An absent requirements table, disputed v1.17 source requirement flag,
+missing/DLC-inaccessible weapon, or invalid Build stat prevents automatic
+allocation. Partial source results and reasons remain visible, but the
+app does not invent AR, full equipment load, actual combat damage,
+item acquisition or respec costs. The original shortlist → Smithing
+Stone workflow, A/B share links, browser-local storage and research
+`noindex` stay intact. The computation is source-backed community
+research, not independent current-patch game-client validation.
+
+Test coverage includes 1H/2H individual minimums, the componentwise
+stat target and incremental rune costs, exceptions to two-hand STR,
+unknown/disputed requirements, SOTE gating and malformed Build fields.
+The existing zero-paid-dependency Chrome workflow also clicks the
+One-Hand and Two-Hand allocation buttons, verifies STR 31 / level 28
+versus STR 21 / level 18 for the Samurai + Uchigatana/Greatsword case,
+and checks the shortlist table at a 375px mobile viewport.

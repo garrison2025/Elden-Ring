@@ -136,6 +136,28 @@ try{
   'Build Planner catalog ready');
  await selectWeapon('Uchigatana');
  await selectWeapon('Greatsword');
+ await waitFor('document.querySelectorAll("#build-wield-rows tr").length===2',
+  'Build shortlist must display per-candidate wield checks');
+ assert.equal(await evaluate('document.querySelector("#build-wield-apply-one").disabled'),
+  false,'Sourced shortlist should allow manual one-hand stat target');
+ assert.equal(await evaluate(`document.querySelector('#stat-grid [data-stat="3"]').value`),
+  '12','Samurai starting STR before wield target');
+ await evaluate('document.querySelector("#build-wield-apply-one").click()');
+ await waitFor(`document.querySelector('#stat-grid [data-stat="3"]').value==="31"`,
+  'One-hand Greatsword requirement raised STR to 31');
+ assert.equal(await evaluate('document.querySelector("#build-level").textContent'),
+  '28','One-hand shortlist target should add 19 levels');
+ await evaluate('document.querySelector("#reset-build").click()');
+ await waitFor(`document.querySelector('#stat-grid [data-stat="3"]').value==="12"`,
+  'Reset baseline before two-hand test');
+ await evaluate('document.querySelector("#build-wield-apply-two").click()');
+ await waitFor(`document.querySelector('#stat-grid [data-stat="3"]').value==="21"`,
+  'Standard two-hand Greatsword target should only need STR 21');
+ assert.equal(await evaluate('document.querySelector("#build-level").textContent'),
+  '18','Two-hand shortlist target should add 9 levels');
+ await evaluate('document.querySelector("#reset-build").click()');
+ await waitFor('document.querySelector("#build-level").textContent==="9"',
+  'Restore Samurai base Build for A/B test');
  // Real browser: pin A and compare live B without mutating saved Builds.
  await evaluate('document.querySelector("#build-ab-pin").click()');
  await waitFor('document.querySelector("#build-ab-results").hidden===false',
@@ -168,11 +190,15 @@ try{
   documentWidth:document.documentElement.scrollWidth,
   tableScrollable:document.querySelector('.build-ab-table')
    ?.closest('.table-wrap')?.scrollWidth>=
-   document.querySelector('.build-ab-table')?.closest('.table-wrap')?.clientWidth
+   document.querySelector('.build-ab-table')?.closest('.table-wrap')?.clientWidth,
+  wieldScrollable:document.querySelector('.build-wield-table')
+   ?.closest('.table-wrap')?.scrollWidth>=
+   document.querySelector('.build-wield-table')?.closest('.table-wrap')?.clientWidth
  })`);
  assert.ok(buildMobile.documentWidth<=buildMobile.viewport+5,
   'Mobile Build comparison overflows page: '+JSON.stringify(buildMobile));
  assert.equal(buildMobile.tableScrollable,true);
+ assert.equal(buildMobile.wieldScrollable,true);
  await send('Emulation.setDeviceMetricsOverride',{
   width:1280,height:850,deviceScaleFactor:1,mobile:false
  });
@@ -298,7 +324,7 @@ try{
   true,'Legacy Build URL must not import a stale pinned baseline');
 
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;

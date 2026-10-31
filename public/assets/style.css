@@ -289,3 +289,19 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
  .build-ab-table{min-width:485px}
  .build-ab-panel .workbench-actions{display:grid;grid-template-columns:1fr}
 }
+
+
+/* Build shortlist wield planning: independently evaluated weapon candidates. */
+.build-wield-panel{margin:18px 0;padding:16px;border:1px solid #495f55;border-radius:14px;background:#152328}
+.build-wield-panel h4{font-size:16px;margin:0 0 8px;color:#efd4a8}
+.build-wield-panel h5{font-size:13px;margin:0 0 8px;color:#f0d49d}
+.build-wield-table{min-width:650px}
+.build-wield-table td,.build-wield-table th{vertical-align:top;line-height:1.55}
+.build-wield-table th:first-child{min-width:160px}
+.build-wield-table td:last-child,.build-wield-table th:last-child{text-align:right}
+.build-wield-targets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+.build-wield-targets>div{border:1px solid #425c52;background:#112127;padding:14px;border-radius:12px;min-width:0}
+.build-wield-targets p{font-size:12px;line-height:1.65;min-height:44px}
+.build-wield-targets button{width:100%;white-space:normal}
+#build-wield-plan[hidden]{display:none!important}
+@media(max-width:670px){.build-wield-targets{grid-template-columns:1fr}.build-wield-targets p{min-height:0}.build-wield-panel{padding:12px}}

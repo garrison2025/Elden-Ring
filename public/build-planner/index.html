@@ -21,7 +21,23 @@
   <button type="button" class="btn alt" id="build-smithing-clear" disabled>Clear shortlist</button>
  </div>
  <ol id="build-smithing-list" class="build-smithing-list"></ol>
- <p id="build-smithing-feedback" class="note" role="status" aria-live="polite">No weapons added.</p>
+ <div id="build-wield-plan" class="build-wield-panel" hidden aria-labelledby="build-wield-title">
+ <h4 id="build-wield-title">Can this Build wield these weapons?</h4>
+ <p class="note">Each shortlist item is evaluated <strong>separately</strong> using the same character's current stats. Two-handing is a category-limited Strength assumption, not evidence that all listed weapons can be equipped at once. Weapon weights are individual reference weights, NOT your combined equipment load.</p>
+ <div class="table-wrap"><table class="datatable build-wield-table">
+  <thead><tr><th scope="col">Candidate weapon</th><th scope="col">One hand</th><th scope="col">Two hands*</th><th scope="col">Weight†</th></tr></thead>
+  <tbody id="build-wield-rows"></tbody>
+ </table></div>
+ <div class="build-wield-targets">
+  <div><h5>Meet all one-hand requirements</h5><p id="build-wield-one-summary">—</p>
+   <button type="button" class="btn alt" id="build-wield-apply-one" disabled>Apply one-hand stat target</button></div>
+  <div><h5>Meet all eligible two-hand requirements</h5><p id="build-wield-two-summary">—</p>
+   <button type="button" class="btn alt" id="build-wield-apply-two" disabled>Apply two-hand stat target</button></div>
+ </div>
+ <p class="note" id="build-wield-note" role="status" aria-live="polite">Select candidate weapons to plan required attributes.</p>
+ <p class="note">* Two-hand STR bonus is only assumed for weapon types supported by this reference rule. Other requirements do not get a bonus. † Unknown weight remains unknown. If any requirement is missing or disputed, automatic stat application is disabled. Current character levels and rune costs are local formulas; this is not a respec-cost estimate or verified combat simulator.</p>
+</div>
+<p id="build-smithing-feedback" class="note" role="status" aria-live="polite">No weapons added.</p>
  <a id="build-smithing-open" class="btn" href="../weapon-upgrade-calculator/" hidden>Plan stones for selected weapons ↗</a>
 </div>
 </section><p style="margin-top:23px"><button class="btn" id="share-build" type="button">Copy build URL</button><button class="btn alt" id="reset-build" type="button">Reset stats</button></p><div class="save-actions" aria-label="Save build on this device"><button type="button" id="save-build">Save locally</button><button type="button" id="load-build">Load saved</button><button type="button" id="delete-build">Delete saved</button></div><p class="note">Saving is optional, stays in this browser, and never uploads your build. Shared links include your origin, stats, optional weapon ID and explicit extra-content settings. Unavailable weapons and outdated IDs are rejected rather than substituted.</p><div class="feedback" id="feedback" role="status" aria-live="polite"></div></section><section class="panel results"><div class="metric-label">Resulting character level</div><div class="kpi" id="build-level">—</div><div class="metric-grid"><div class="metric"><div class="metric-label">Allocated points</div><strong id="spent-points">—</strong></div><div class="metric"><div class="metric-label">Runes since origin</div><strong id="build-runecost">—</strong></div></div><p class="note" id="build-summary" style="margin-top:24px">—</p><div class="result-actions"><a id="class-compare-link" class="btn alt" href="../class-optimizer/" hidden>Find best starting class ↗</a><a id="rune-plan-link" class="btn alt" href="../level-rune-calculator/" hidden>Plan rune costs ↗</a><a id="respec-link" class="btn alt" href="../respec-planner/" hidden>Compare respec ↗</a><a id="weapon-req-link" class="btn alt" href="../weapon-requirements/" hidden>Check weapon requirements ↗</a><a id="weapon-catalog-link" class="btn alt" href="../weapon-database/" hidden>Find real weapons for this build ↗</a></div></section></div><section class="panel info build-ab-panel" aria-labelledby="build-ab-title">
