@@ -1,4 +1,4 @@
-name: Monitor Tarnished.dev updates (read-only)
+name: Monitor Tarnished.dev updates (graded safe sync)
 on:
   schedule:
     # Twice daily at 08:17 and 20:17 Asia/Shanghai (UTC+8).
@@ -11,10 +11,15 @@ on:
       - scripts/monitor_tarnished_updates.py
       - monitoring/tarnished-dev-baseline.json
       - tests/test_tarnished_monitor.py
+      - tests/test_tarnished_safe_sync.py
+      - scripts/stage_tarnished_safe_sync.py
+      - public/src/tarnished-watch-widget.mjs
+      - public/data/tarnished-dev-watch.json
       - .github/workflows/monitor-tarnished.yml
 permissions:
-  contents: read
+  contents: write
   issues: write
+  pull-requests: write
 jobs:
   monitor:
     runs-on: ubuntu-latest
@@ -22,7 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Test parser and false-positive safety
-        run: python3 -m unittest discover -s tests -p test_tarnished_monitor.py -v
+        run: |
+          python3 -m unittest discover -s tests -p test_tarnished_monitor.py -v
+          python3 -m unittest discover -s tests -p test_tarnished_safe_sync.py -v
       - name: Check public change log and version, fail closed on markup/network errors
         id: compare
         run: python3 scripts/monitor_tarnished_updates.py
@@ -52,3 +59,68 @@ jobs:
           gh issue create --repo "$GH_REPO" \
             --title "Tarnished.dev changed ($version): independently review impacted Elden Ring tools" \
             --body-file .monitor/tarnished-dev-review.md
+
+      # Only an attributed external reference JSON + six-item baseline are staged.
+      # Never write game regulation data, calculations, page code, or OUR release log.
+      - name: Prepare allowlisted safe reference sync (JSON only)
+        if: steps.compare.outputs.changed == 'true' && github.event_name != 'pull_request'
+        run: python3 scripts/stage_tarnished_safe_sync.py
+      - name: Full static regression before any candidate auto-merge
+        if: steps.compare.outputs.changed == 'true' && github.event_name != 'pull_request'
+        run: |
+          python3 -m unittest discover -s tests -p test_tarnished_safe_sync.py -v
+          npm run check
+          # GitHub's built-in GITHUB_TOKEN may suppress downstream push-triggered CI.
+          # Therefore also run the full real-Chrome smoke before any bot merge.
+          node scripts/smoke-browser.mjs
+      - name: Open safe JSON-only PR and attempt automatic merge
+        if: steps.compare.outputs.changed == 'true' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Both files must change: anything else fails closed.
+          actual="$(git diff --name-only | sort)"
+          expected="$(printf '%s\n' 'monitoring/tarnished-dev-baseline.json' 'public/data/tarnished-dev-watch.json' | sort)"
+          if [[ "$actual" != "$expected" ]]; then
+            echo "::error::Refusing unsafe file diff: $actual"
+            exit 1
+          fi
+          git diff --check
+          sha="$(python3 -c 'import json; print(json.load(open(".monitor/tarnished-dev-result.json"))["fingerprint"][:16])')"
+          version="$(python3 -c 'import json; print(json.load(open(".monitor/tarnished-dev-result.json"))["new_version"])')"
+          priority="$(python3 -c 'import json; print(json.load(open("public/data/tarnished-dev-watch.json"))["reviewPriority"])')"
+          branch="automated/tarnished-watch-$sha"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$branch"
+          git add -- monitoring/tarnished-dev-baseline.json public/data/tarnished-dev-watch.json
+          git diff --cached --check
+          git commit -m "chore(external): sync Tarnished.dev $version observation ($priority)"
+          git push origin "HEAD:refs/heads/$branch"
+          pr="$(gh pr list --repo "$GH_REPO" --head "$branch" --state open --json number --jq '.[0].number // empty')"
+          if [[ -z "$pr" ]]; then
+            printf 'Safely update only the external reference JSON and monitoring baseline.\n\n' > .monitor/safe-pr.md
+            printf 'Priority: %s. The monitor already filed a separate independent-review Issue.\n\n' "$priority" >> .monitor/safe-pr.md
+            printf '**Not a feature sync:** no game data, formulas, authored code, official version claim, SEO setting, or first-party changelog was changed.\n\n' >> .monitor/safe-pr.md
+            printf 'All local Python and npm regression checks passed before the PR was opened.\n' >> .monitor/safe-pr.md
+            if gh pr create --repo "$GH_REPO" --base main --head "$branch" --title "chore(external): sync published Tarnished.dev $version watch metadata" --body-file .monitor/safe-pr.md; then
+              pr="$(gh pr view "$branch" --repo "$GH_REPO" --json number --jq '.number')"
+            else
+              pr=""
+            fi
+            if [[ -z "$pr" ]]; then
+              # Some repositories disable GitHub Actions PR creation.
+              # Retain pushed branch and review Issue rather than deploying anything.
+              echo "::warning::GitHub Actions cannot create PRs with current repository settings; enable Actions-created PRs. The allowlisted branch remains unmerged."
+              exit 0
+            fi
+          fi
+          echo "[SAFE AUTO-SYNC] bounded PR #$pr created. Attempting merge only for metadata."
+          if gh pr merge "$pr" --repo "$GH_REPO" --squash --delete-branch; then
+            echo "[SAFE AUTO-SYNC] Metadata-only change merged and normal Cloudflare deployment may proceed."
+          else
+            echo "::warning::Branch protections/merge permissions prevented automatic merge; PR #$pr remains for review. No site code was changed."
+          fi
