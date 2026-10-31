@@ -219,6 +219,21 @@ function renderDetails(){
   link.href=t.sourceUrl;link.target='_blank';link.rel='noopener noreferrer';
   $('catalog-verified').append(link);
  }
+ if(chosen.sourceAttackDisagreement&&chosen.sourceWeightDisagreement){
+  const atk=chosen.sourceAttackDisagreement,wt=chosen.sourceWeightDisagreement;
+  $('catalog-verified').append(el('p',
+    'Stone-Sheathed Sword published +0 discrepancy: the named +0 and Japanese initial-value tables and AtlasForge show PHYSICAL 89, whereas the same wiki page headline shows 119. Candidate +0 89, critical 100 and C/D scaling are visible as DISPUTED SOURCE FACTS ONLY. Source version is not game-client verified. This weapon is withheld from trusted attack, upgrade and AR calculations.'));
+  $('catalog-verified').append(el('p',
+    'Source weight discrepancy: wiki reports '+wt.retainedCommunityWeight+
+    ', Japanese and AtlasForge references report '+wt.alternativeWeight+
+    '. The weight and any complete equipment-load/roll-tier result remain BLOCKED.'));
+  for(const s of [...atk.supports,atk.conflict,
+   {url:wt.secondSourceUrl,field:'Alternative weight 5'}]){
+   const a=el('a','Inspect published '+s.field+' ↗');
+   a.href=s.url;a.target='_blank';a.rel='noopener noreferrer';
+   $('catalog-verified').append(a);
+  }
+ }
  if(chosen.secondarySourceDisagreement){
   const problem=chosen.secondarySourceDisagreement;
   const note=el('p','Ritual Thrusting Shield secondary sources disagree on weight (10 vs 9) and required Strength (13 vs 15). The version-labelled figures are only attributed readings. Weight and wield calculations remain BLOCKED pending independent game-menu verification.');
