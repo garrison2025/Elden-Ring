@@ -41,7 +41,9 @@ function describe(state,catalog){
   weapon={
    id:model.id,name:model.name,category:model.category,
    weight:model.weight,oneHanded:model.oneHanded,twoHanded:model.twoHanded,
-   missingOneHanded:model.missingOneHanded,sourceTier:model.referenceTier
+   missingOneHanded:model.missingOneHanded,
+   requirementsDisputed:model.requirementsDisputed,
+   attackDisputed:model.attackDisputed,sourceTier:model.referenceTier
   };
  }
  return {

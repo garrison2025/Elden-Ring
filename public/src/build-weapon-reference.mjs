@@ -1,4 +1,4 @@
-import {weaponRequirementComparison} from './community-weapons.mjs';
+import {weaponRequirementComparison,hasDisputedRequirements,hasDisputedAttack} from './community-weapons.mjs';
 
 const fail=message=>{throw new RangeError(message);};
 
@@ -41,20 +41,28 @@ export function inspectBuildWeapon(weapons,rawId,stats8,{allowSote=false}={}){
     stats8.some(v=>!Number.isInteger(v)||v<1||v>99))
   fail('A valid eight-attribute build is required.');
  const stats5=stats8.slice(3);
- const hasRequirements=Array.isArray(weapon.requirements);
+ const requirementsDisputed=hasDisputedRequirements(weapon);
+ const attackDisputed=hasDisputedAttack(weapon);
+ const hasRequirements=Array.isArray(weapon.requirements)&&!requirementsDisputed;
  const comparison=hasRequirements?weaponRequirementComparison(weapon,stats5):null;
  return {
   id:weapon.id,name:weapon.name,category:weapon.category,
   expansion:weapon.expansion??'Base game',
   referenceTier:weapon.dataCoverage??'base-community',
   weight:weapon.weight??null,
-  requirements:weapon.requirements??null,
-  attackAtZero:weapon.attack??null,
+  requirements:requirementsDisputed?null:weapon.requirements??null,
+  reportedRequirements:weapon.requirements??null,
+  requirementsDisputed,attackDisputed,
+  attackAtZero:attackDisputed?null:weapon.attack??null,
+  reportedAttackAtZero:weapon.attack??null,
   oneHanded:comparison?.oneHanded.canWield??null,
   twoHanded:comparison?.twoHanded.canWield??null,
   applyTwoHandBonus:comparison?.applyTwoHandBonus??null,
   missingOneHanded:comparison?.oneHanded.totalMissing??null,
   sourceUrl:weapon.checkedWith??weapon.sourceUrl??null,
-  note:'Community weapon reference, NOT current-patch validated. Weight is for this single weapon only, not full equipment. +0 attack is NOT AR. No scaling, affinity, reinforcement or damage is calculated.'
+  note:'Community weapon reference, NOT current-patch validated. '+
+   (requirementsDisputed?'Wield requirements DISPUTED; no met/not-met claim. ':'')+
+   (attackDisputed?'Base attack DISPUTED; no trusted attack amount. ':'')+
+   'Weight is for this single weapon only, not full equipment. +0 attack is NOT AR. No scaling, affinity, reinforcement or damage is calculated.'
  };
 }

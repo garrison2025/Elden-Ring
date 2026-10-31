@@ -1,10 +1,9 @@
 import {CLASSES,validateStats,buildLevel,runeRange} from './core.mjs';
-import {weaponRequirementComparison,standardTwoHandAssumption} from './community-weapons.mjs';
+import {weaponRequirementComparison,standardTwoHandAssumption,hasDisputedRequirements} from './community-weapons.mjs';
 import {validateBuildSmithingIds} from './build-smithing-handoff.mjs';
 
 const fail=message=>{throw new RangeError(message);};
 const KEYS=['STR','DEX','INT','FAI','ARC'];
-const CONFLICT='v117-community-requirement-conflict';
 
 /**
  * Preview-only, source-scoped feasibility for a *shortlist* of individual
@@ -33,10 +32,9 @@ export function planShortlistWielding(ids,weapons,rawStats,origin,{allowSote=fal
   if(!w)fail('Shortlist contains an unknown source weapon ID.');
   if(w.expansion==='Shadow of the Erdtree'&&!allowSote)
    fail('Enable Shadow of the Erdtree references to plan this DLC weapon.');
-  const conflict=(w.flags??[]).includes(CONFLICT);
-  const known=Array.isArray(w.requirements);
+  const conflict=hasDisputedRequirements(w);
+  const known=Array.isArray(w.requirements)&&!conflict;
   if(!known){fullySourced=false;allSafeToApply=false;}
-  if(conflict)allSafeToApply=false;
   let one=null,two=null,twoBonus=false;
   if(known){
    const comparison=weaponRequirementComparison(w,player);

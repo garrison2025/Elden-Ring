@@ -1,5 +1,5 @@
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
- baseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall} from './community-weapons.mjs';
+ baseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall,hasDisputedRequirements,hasDisputedAttack} from './community-weapons.mjs';
 import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
 import {makeArWorkbenchUrl} from './ar-workbench-navigation.mjs';
 import {makeWeaponCatalogShareUrl} from './weapon-catalog-navigation.mjs';
@@ -146,17 +146,26 @@ function renderDetails(){
  $('catalog-critical').textContent=chosen.critical===null||chosen.critical===0?'Not verified':String(chosen.critical);
  const damage=$('catalog-damage');damage.replaceChildren();
  if(partial)damage.append(el('p','Base attack unavailable; no values are guessed.'));
+ if(hasDisputedAttack(chosen))
+  damage.append(el('p','SOURCE CONFLICT: values below are disputed COMMUNITY +0 readings, NOT confirmed in-game figures. See accuracy dossier.'));
  for(const part of baseDamageParts(chosen)){
   const row=el('div');row.className='catalog-value';
-  row.append(el('span',part.name),el('strong',part.amount));damage.append(row);
+  row.append(el('span',part.name),el('strong',
+   String(part.amount)+(hasDisputedAttack(chosen)?' (DISPUTED)':'')));damage.append(row);
  }
  renderPublishedUpgrade();
  const required=$('catalog-required');required.replaceChildren();
- if(chosen.requirements===null)required.append(el('p','Requirements not sourced yet. Wieldability cannot be determined.'));
- else for(let i=0;i<5;i++){
-  const row=el('div');row.className='catalog-value';
-  row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',chosen.requirements[i]));
-  required.append(row);
+ if(chosen.requirements===null){
+  required.append(el('p','Requirements not sourced yet. Wieldability cannot be determined.'));
+ }else{
+  if(hasDisputedRequirements(chosen))
+   required.append(el('p','SOURCE CONFLICT: these are disputed COMMUNITY values, not confirmed game requirements. No definitive meets/does-not-meet verdict.'));
+  for(let i=0;i<5;i++){
+   const row=el('div');row.className='catalog-value';
+   row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',
+    String(chosen.requirements[i])+(hasDisputedRequirements(chosen)?' (DISPUTED)':'')));
+   required.append(row);
+  }
  }
  const scaling=$('catalog-scaling');scaling.replaceChildren();
  if(partial)scaling.append(el('p','Base scaling grades not available for this DLC entry.'));
@@ -245,10 +254,14 @@ function renderDetails(){
     ' (ordinary 1.5× STR assumption; not independently game-tested)':
     ' (no ordinary 1.5× STR bonus assumed)')+'.';
  }catch(e){
-  $('catalog-one').textContent=chosen.requirements===null?'Requirements unavailable':'Invalid character attributes';
+  $('catalog-one').textContent=hasDisputedRequirements(chosen)?
+   'SOURCE CONFLICT — requirements not confirmed':
+   chosen.requirements===null?'Requirements unavailable':'Invalid character attributes';
   $('catalog-two').textContent='—';
   $('catalog-requirements-link').hidden=true;
-  $('catalog-shortfall').textContent=chosen.requirements===null?
+  $('catalog-shortfall').textContent=hasDisputedRequirements(chosen)?
+   'Community and Regulation requirements disagree. No definitive wieldability verdict or numeric requirements handoff is available; see the accuracy dossier.':
+   chosen.requirements===null?
    'Source-reported requirements unknown; missing stats cannot be calculated.':
    'Enter five valid character attributes to calculate missing points.';
  }
