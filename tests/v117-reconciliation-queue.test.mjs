@@ -57,7 +57,7 @@ test('source review is user-triggered and CSV download is disabled until the sou
  const page=readFileSync(new URL('../public/weapon-database/index.html',import.meta.url),'utf8');
  const app=readFileSync(new URL('../public/src/weapon-catalog-app.mjs',import.meta.url),'utf8');
  assert.match(page,/id="catalog-v117-export"[^>]*disabled/);
- assert.match(app,/buildV117ReconciliationQueue\(catalog,v117Overlay\)/);
+ assert.match(app,/buildV117ReconciliationQueue\(originalCatalog\?\?catalog,v117Overlay\)/);
  assert.match(app,/catalog-v117-export'\)\.disabled=false/);
  assert.match(app,/v117ReconciliationCsv\(rows\)/);
  assert.match(app,/URL\.revokeObjectURL\(url\)/);
