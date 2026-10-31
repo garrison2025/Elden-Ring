@@ -43,30 +43,51 @@ export function summarizeWeaponParity(catalog,benchmarks){
  if(counts.primaryThreeFieldsWithNoKnownConflict+counts.sourceConflicts+
     counts.sourceOnlyMissingPrimaryAttackWeight>counts.total)
   throw new RangeError('Overlapping source-quality categories cannot be reported as disjoint.');
+ // Benchmark parity is assessed ONLY against observable Tarnished.dev v1.17.
+ // Gameplay client / Regulation 1.17.3 testing is explicitly not a completion gate.
  const gates=[
-  {id:'catalog-source-candidates',title:'Review 72 research-only primary attack/weight gaps',
+  {id:'catalog-source-candidates',
+   title:'Reconcile missing primary fields against observable Tarnished.dev v1.17 reference or mark unsupported',
    pass:counts.sourceOnlyMissingPrimaryAttackWeight===0,
    observed:counts.sourceOnlyMissingPrimaryAttackWeight,target:0},
-  {id:'known-source-conflicts',title:'Resolve 9 explicitly known community numerical source disagreements',
+  {id:'known-source-conflicts',
+   title:'Reconcile source differences against observable Tarnished.dev v1.17 values while retaining alternate-source warnings',
    pass:counts.sourceConflicts===0,observed:counts.sourceConflicts,target:0},
-  {id:'pinned-v117-50-reference-cases',title:'Reach at least 50 externally observed, exact-input v1.17 cases across stated coverage',
+  {id:'pinned-v117-50-reference-cases',
+   title:'At least 50 independently observed same-input Tarnished.dev v1.17 UI cases over different calculation branches',
    pass:counts.v117ReferenceUiObservations>=50,
    observed:counts.v117ReferenceUiObservations,target:50},
-  {id:'independent-v117-ar-ranking',title:'Verified multi-weapon same-build AR ranking rather than only one selected AR or +0 fact comparisons',
-   pass:false,observed:'NOT_IMPLEMENTED',target:'IMPLEMENTED_AND_BROWSER_TESTED'},
-  {id:'dataset-rights-and-version-review',title:'Document source rights and version scope for each release dataset; v1.17 is not Regulation 1.17.3 certification',
-   pass:false,observed:'NOT_APPROVED',target:'REVIEWED_WITH_EVIDENCE'},
-  {id:'v117-patch-client-certification',title:'Separate current-game-client goldens from third-party v1.17 UI observations',
-   pass:false,observed:'NO_CERTIFIED_SUITE_RECOVERED_IN_THIS_AUDIT',
-   target:'VERSIONED_INDEPENDENT_GAME_EVIDENCE'}
+  {id:'independent-v117-ar-ranking',
+   title:'Implement and browser-test same-build multiweapon nominal AR ranking and full source scan',
+   pass:true,observed:'IMPLEMENTED_AND_BROWSER_TESTED_PR_84_85',
+   target:'IMPLEMENTED_AND_BROWSER_TESTED',
+   evidence:['https://github.com/garrison2025/Elden-Ring/pull/84',
+    'https://github.com/garrison2025/Elden-Ring/pull/85']}
  ];
+ // These are separately managed deployment/publication checks, NEVER blockers
+ // for declaring Tarnished.dev v1.17 functional/numeric parity.
+ const publicationGates=[
+  {id:'third-party-data-rights',pass:false,status:'NOT_APPROVED',
+   title:'Independently review redistribution rights for any bundled third-party dataset'},
+  {id:'seo-index-review',pass:false,status:'RESEARCH_ROUTES_NOINDEX',
+   title:'Separately approve SEO indexing on a per-route basis'}
+ ];
+ const outOfScope=Object.freeze([
+  'Official client/game-menu screenshots',
+  'Regulation 1.17.3 current-patch golden cases',
+  'Installation or playtesting of Elden Ring'
+ ]);
  return {
   schemaVersion:1,project:'Elden Ring Build Lab',comparison:'Tarnished.dev public v1.17',
   intendedReleaseScope:'weapon-database-plus-reference-ar-not-full-game-damage-simulator',
   upstreamCatalogVersion:catalog.meta.version,
-  counts,gates,
+  counts,gates,publicationGates,outOfScope,
+  comparatorOnly:true,
+  acceptancePolicy:'docs/TARNISHED_V117_COMPARATOR_ONLY_ACCEPTANCE_20261031.md',
   readyForFullWeaponParity:gates.every(x=>x.pass),
-  qualification:'SOURCE FIELD COVERAGE IS NOT ACCURACY, COPYRIGHT PERMISSION OR CURRENT GAME CERTIFICATION. The 15 observations apply only to exact v1.17 inputs; no new external measurements are performed by this audit.'
+  qualification:'Tarnished.dev v1.17 reference parity ONLY, not official-game certification or reuse permission. '+
+   counts.v117ReferenceUiObservations+
+   ' exact source UI observations currently counted; this report does NOT access Tarnished.dev or generate new comparisons.'
  };
 }
 export async function runWeaponParityAudit(){
@@ -79,5 +100,8 @@ if(process.argv[1]&&new URL('file://'+process.argv[1]).pathname===new URL(import
  console.log('Real catalog counts: '+JSON.stringify(result.counts));
  for(const gate of result.gates)
   console.log((gate.pass?'PASS':'BLOCKED')+' '+gate.id+': '+gate.observed+' / '+gate.target);
+ console.log('Out of scope: no game-client screenshots or Regulation 1.17.3 goldens required.');
+ console.log('Publication/rights gates tracked SEPARATELY: '+
+  result.publicationGates.map(g=>g.id+'='+g.status).join(', '));
  console.log(result.qualification);
 }

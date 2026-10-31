@@ -1,10 +1,13 @@
 # Tarnished.dev v1.17 → Elden Ring Build Lab: final-gap audit and acceptance contract
 
+> **2026-10-31 最新用户验收口径（优先于本文旧版硬门槛）：** 只需与 Tarnished.dev **v1.17 公共界面**进行同条件功能、数据及数值对比，满足覆盖矩阵并通过自动回归即可结束该模块验收；**不需要游戏实机、菜单截图或 Regulation 1.17.3 的独立 game-client golden**。此前出现的“实机验证为必需项”现为非阻塞、非目标。第三方素材/参数使用权与 SEO 发布审批是单独管理事项，不影响 v1.17 功能数值对标的 PASS 判定。详见 [正式基准](./TARNISHED_V117_COMPARATOR_ONLY_ACCEPTANCE_20261031.md)。
+
+
 **Audit date:** 2026-10-31. **Scope:** the weapon database plus weapon AR comparison, **not** a claim to reproduce all of Tarnished.dev or the V2 entire combat simulator. Original PRD: `Elden_Ring_Tools_完整建站方案_V2_强化版_20261030.md`, sections 4.1, 4.2, 4.8, 5 and 6. Public comparison: [Tarnished.dev](https://www.tarnished.dev/) and [Weapon AR Calculator](https://www.tarnished.dev/weapon-calculator), currently labelled **v1.17**. Version scope matters: Tarnished.dev v1.17 observations do **not** verify App 1.17.2 / Regulation 1.17.3 gameplay.
 
 ## Root cause of the delay
 
-Previous PRs added small, individually useful features without enforcing an agreed acceptance matrix or declaring an end to this product slice. There are two different goals: (1) a source-attributed **v1.17 reference tool** and (2) a current-Regulation-1.17.3 **game-certified complete build/damage system**. Those are not equivalent. A local search/filter UI or a few matched examples does not complete either one. From this audit onward, count only acceptance evidence—not number of commits or additional UI controls.
+Previous PRs added small, individually useful features without enforcing an agreed acceptance matrix or declaring an end to this product slice. The sole current acceptance goal is **Tarnished.dev v1.17 reference parity** across observed features/data. Current-Regulation-1.17.3 client certification is not a project acceptance goal. Historical text below may still describe the former gate. A local search/filter UI or a few matched examples does not complete either one. From this audit onward, count only acceptance evidence—not number of commits or additional UI controls.
 
 ## Numbers derived from main source, not manual progress estimates
 
@@ -37,7 +40,7 @@ Previous PRs added small, individually useful features without enforcing an agre
 | Character stats, starting class, two-handed | Build Planner/class optimizer/local calculators, AR handoff | **Implemented as separate workflows** | Browser handoff exact five stats; no stale result after edits |
 | Integrated armor, talismans, spells, active effects | Manual gear/armor tools but no complete game-verified integration | **Not part of this narrow release** | Own separately versioned, licence-reviewed workstream, not a blocker for an explicitly limited *weapon reference* release |
 | Tarnished.dev v1.17 numeric AR examples | `tarnished-reference-benchmark.mjs`; 15 repeated exact-input UI observations | **15 observed** | Minimum **50 distinct source-observed cases** spanning regular/somber, +0/mid/max, elemental/affinities, base/DLC, 1H/2H, requirement-met/not-met; no silently dropped mismatches |
-| Current Regulation 1.17.3 game-client AR | No independently accepted current-game golden suite demonstrated in this audit | **Uncertified** | Separate game-client versioned evidence before any current-patch-certified marketing |
+| Current Regulation 1.17.3 game-client AR | Not independently certified | **Out of scope; NOT a parity blocker** | No real-game validation needed; do not market v1.17 reference values as official current patch |
 | Third-party parameter/weapon-data redistribution rights | Catalog attributes upstream and explicitly warns MIT software licence does not convey all game-data rights | **Not approved** | Review each dataset's permission/rights basis; keep loading voluntary if redistribution right unknown |
 
 ### Why “15/15 matched” is not “all done”
@@ -51,10 +54,10 @@ The existing repeated observations are **15** *specific* cases, not a representa
 3. **P0 external numeric acceptance:** >=50 *distinct* observed exact-input v1.17 reference cases covering regular and somber reinforcement, base/DLC, elemental affinity, 1H/2H, edge stats; store controls, source observation, build SHA, expected and actual per-component/total, differences and screenshot/evidence reference when permissible. Fix mismatches, don't cherry-pick.
 4. **P0 rights and version decision:** separately sign off data redistribution rights; if current patch is unverified, **ship only v1.17 reference-labelled capability**, with strict noindex on research pages until actual page-quality gate.
 5. **P1 UX/SEO:** real 375px desktop/browser smoke, keyboard focus, table export, accurate metadata, human-authored content; review canonical/index per route, not all at once.
-6. **Out of scope for this milestone:** enemy Damage Calculator, full buff/talisman/spell stack, armor catalog rights, patch 1.17.3 gameplay certification. Each must get a distinct, independently testable milestone under the master V2 PRD.
+6. **Out of scope for this weapon milestone:** enemy Damage Calculator, full buff/talisman/spell stack (these remain under the full five-module issue). **Patch 1.17.3 gameplay certification is no longer a required milestone or blocker.**
 
-**Definition of Done:** P0 conditions complete **with evidence**, source legality reviewed, unsupported variants fail closed, browser interaction and regression CI green; *then* the narrow reference milestone may be marked delivered. A public feature being available or having 100 passing unit tests does not by itself meet this criterion. Current verdict: **NOT READY FOR FULL PARITY**.
+**Updated Definition of Done:** v1.17 source-observed functional/numeric coverage and source-data reconciliation gates complete **with evidence**, unsupported variants fail closed, browser interaction and regression CI green; *then* the narrow reference milestone may be marked delivered. Rights/publication approval is separate. No game-client evidence required. A public feature being available or having 100 passing unit tests does not by itself meet this criterion. Current verdict: **NOT READY FOR FULL PARITY**.
 
 ## How to check progress without asking “继续” indefinitely
 
-Run `npm run audit:weapon-parity`. Its output is a **blocker report, not certification**; `NOT_READY` exits successfully so existing Cloudflare deployments keep working. Numerical counts update from source JSON and the checked-in benchmark suite, while rights, current-game validation and global AR ranking remain manually gated. Don't mark those gates green based on a changed string or an external site's release announcement.
+Run `npm run audit:weapon-parity`. Its output is a **blocker report, not certification**; `NOT_READY` exits successfully so existing Cloudflare deployments keep working. Numerical counts update from source JSON and the checked-in benchmark suite, while source rights/publication remain tracked separately; current-game validation is not a gate, and the global AR ranking was implemented in PR #84/#85. Don't mark those gates green based on a changed string or an external site's release announcement.

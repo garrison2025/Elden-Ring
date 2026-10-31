@@ -1,4 +1,7 @@
 # Tarnished.dev public v1.17 — five-module complete-parity audit
+
+> **2026-10-31 最新用户验收口径（优先于本文旧版硬门槛）：** 只需与 Tarnished.dev **v1.17 公共界面**进行同条件功能、数据及数值对比，满足覆盖矩阵并通过自动回归即可结束该模块验收；**不需要游戏实机、菜单截图或 Regulation 1.17.3 的独立 game-client golden**。此前出现的“实机验证为必需项”现为非阻塞、非目标。第三方素材/参数使用权与 SEO 发布审批是单独管理事项，不影响 v1.17 功能数值对标的 PASS 判定。详见 [正式基准](./TARNISHED_V117_COMPARATOR_ONLY_ACCEPTANCE_20261031.md)。
+
 Date: 2026-10-31. Scope: independent, rights-conscious **functional and numerical parity**, NOT visual cloning, not reuse of their source code or game assets.
 
 ## Evidence boundaries
@@ -17,7 +20,7 @@ Date: 2026-10-31. Scope: independent, rights-conscious **functional and numerica
 | Armor Optimizer: true armor roster, defense, resistances, poise, locked pieces and exclusions | Exact solver with CSV/manual research inputs; exclusions tested | Bundled **real versioned full armor dataset is missing**; no certified effect passives |
 | Damage Calculator: enemy defenses/negations/NG+, motion values, buffs, PvP, poise and DPS | Weapon AR is NOT enemy damage; no equivalent verified damage calculator page | Requires licensed/verified enemy+move data, published model and substantial golden suite |
 | Spell Calculator: staff/seal scaling, offensive/support spells, skill buffs | No equivalent complete verified spell calculator | Requires licensed source corpus, catalysts, formulas, effect stacking and golden suite |
-| Current game App 1.17.2 / Regulation 1.17.3 equivalence | Explicitly NOT claimed | Distinct from competitor's public v1.17 reference. Independent game-client evidence required |
+| Current game App 1.17.2 / Regulation 1.17.3 equivalence | Explicitly NOT claimed | **Out of scope; no game-client or in-game verification required for v1.17 comparator parity** |
 | SEO release | Only previously approved **five routes** indexable on Cloudflare main | AR/armor/database experimental pages remain `noindex`; separate accuracy+rights+content release decision required |
 
 ## Definition of full completion
