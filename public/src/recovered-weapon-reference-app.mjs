@@ -23,7 +23,24 @@ function render(){
   const td=make('td'),link=make('a','Source +0');link.href=w.reference.sourceUrl;
   link.rel='noopener noreferrer';link.target='_blank';td.append(link);
   if(w.disputedFields.length){
-   const warning=make('div','SOURCE CONFLICT: '+w.disputedFields.join(' + '));warning.className='note';td.append(warning);
+   const warning=make('div','SOURCE CONFLICT: '+w.disputedFields.join(' + '));
+   warning.className='note';td.append(warning);
+   if(w.thirdSource){
+    const corroboration=make('a','Third published reference (not gameplay)');
+    corroboration.href=w.thirdSource.sourceUrl;
+    corroboration.rel='noopener noreferrer';corroboration.target='_blank';
+    td.append(corroboration);
+    for(const c of w.thirdSource.checks){
+     const line=make('div',c.field+' ['+c.componentIndex+'] = '+c.value+
+      ' (matches '+c.agreesWith+' published reading)');
+     line.className='note';td.append(line);
+    }
+    if(w.thirdSource.patchWeightCaveat){
+     const caveat=make('div','Patch caveat: third source weight '+w.thirdSource.patchWeightCaveat.esoWeight+
+      ' differs from 1.17 reference '+w.thirdSource.patchWeightCaveat.post117ReferenceWeight);
+     caveat.className='note';td.append(caveat);
+    }
+   }
   }else td.append(make('div','Reference only — not game verified'));
   tr.append(td);frag.append(tr);
  }
@@ -40,7 +57,7 @@ Promise.all([
   ' weights, '+counts.criticalReferences+' criticals; '+counts.unknownScalingGrades+' unknown individual scaling grades; '+
   counts.crosscheckedReferences+' second-source pages read; '+counts.sourceConflicts+' disputed weapons ('+
   counts.attackConflicts+' attack, '+counts.scalingConflicts+' scaling, '+counts.requirementConflicts+
-  ' requirements); 0 in-game verified.';
+  ' requirements); '+counts.thirdSourceFields+' field-level third references, not independently verified; 0 in-game verified.';
  render();search.disabled=false;
 }).catch(error=>{status.textContent='SOURCE REFERENCE AUDIT BLOCKED: '+error.message;status.className='feedback bad';});
 search.disabled=true;search.addEventListener('input',render);
