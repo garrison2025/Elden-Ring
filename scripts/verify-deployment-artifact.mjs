@@ -37,11 +37,15 @@ const main=async()=>{
  assert(equipment.includes('id="equipment-weapon-fields"')&&
   equipment.includes('id="equipment-manual-fields"')&&
   equipment.includes('id="equipment-confirm"')&&
-  equipment.includes('src="../src/equipment-loadout-app.mjs"'),
-  'Equipped loadout planner not in deployed HTML');
+  equipment.includes('src="../src/equipment-loadout-app.mjs"')&&
+  equipment.includes('id="equipment-save"')&&
+  equipment.includes('id="equipment-restore"')&&
+  equipment.includes('id="equipment-ab-results"'),
+  'Equipped loadout save/restore and A/B compare controls missing in deployed HTML');
  for(const sourceFile of ['src/app.mjs','src/build-smithing-handoff.mjs',
    'src/upgrade-materials-app.mjs','src/upgrade-multi-weapon.mjs',
-   'src/equipment-loadout.mjs','src/equipment-loadout-app.mjs'])
+   'src/equipment-loadout.mjs','src/equipment-loadout-app.mjs',
+   'src/equipment-save-compare.mjs'])
   assert((await stat(path.join(process.cwd(),'dist',sourceFile))).size>300,
    'Missing application source in deployed artifact: '+sourceFile);
  const sha=process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'';
