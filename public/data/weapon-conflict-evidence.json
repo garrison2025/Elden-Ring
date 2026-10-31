@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_DISAGREEMENT_NOT_GAME_VERIFIED",
+  "checkedDate": "2026-10-31",
+  "communityDefinition": "Existing bundled wiki/community +0 facts; source page is not guaranteed to describe Regulation 1.17.3",
+  "pinnedDefinition": "Pinned public Regulation v1.17 parameter-derived +0 facts after applying exact reinforcement level-0 attack multiplier; neither current Regulation 1.17.3 nor independently inspected game menu",
+  "pinnedSourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+  "officialPatchUrl": "https://en.bandainamcoent.eu/elden-ring/news/elden-ring-patch-notes-version-1172",
+  "requiredGameVersion": {
+    "app": "1.17.2",
+    "regulation": "1.17.3"
+  },
+  "verification": {
+    "acceptedCurrentGameScreenshots": 0,
+    "reviewStatus": "UNREVIEWED",
+    "gameClientVerified": false,
+    "publicationApproved": false
+  },
+  "reviewProcess": [
+    "Open installed title screen and capture App and Regulation versions in the same documented session.",
+    "Open the exact named weapon at reinforcement +0, uninfused/default affinity; capture the individual equipment weapon-details base attack or attribute requirements, not character Status AR.",
+    "For a split-attack weapon record all five displayed base attack components. For the requirement conflict record STR/DEX/INT/FAI/ARC, not effective two-hand STR.",
+    "Retain screenshots locally with platform, date, weapon name, +level, affinity and local SHA-256. Do not commit copyrighted screenshots or personally identifying game/account details.",
+    "Independent reviewer manually inspects original image evidence and version/conditions before accepting a correction or clearing any conflict flag."
+  ],
+  "cases": [
+    {
+      "id": "sote-reference-032",
+      "field": "baseAttack",
+      "community": [
+        75,
+        0,
+        32,
+        0,
+        0
+      ],
+      "pinned": [
+        75,
+        0,
+        22,
+        0,
+        0
+      ],
+      "wiki": "https://eldenring.wiki.gg/wiki/Fire_Knight%27s_Shortsword",
+      "other": "https://eldenring.fandom.com/wiki/Fire_Knight%27s_Shortsword",
+      "priority": 2,
+      "reviewStatus": "UNREVIEWED",
+      "gameClientVerified": false,
+      "screenshotCount": 0,
+      "sourceClass": "community-vs-pinned-regulation",
+      "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
+      "doNotAutoCorrect": true
+    },
+    {
+      "id": "sote-reference-041",
+      "field": "baseAttack",
+      "community": [
+        129,
+        83,
+        0,
+        0,
+        0
+      ],
+      "pinned": [
+        127,
+        82,
+        0,
+        0,
+        0
+      ],
+      "wiki": "https://eldenring.wiki.gg/wiki/Greatsword_of_Radahn_%28Light%29",
+      "other": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AGreatsword_of_Radahn_%28Light%29",
+      "priority": 2,
+      "reviewStatus": "UNREVIEWED",
+      "gameClientVerified": false,
+      "screenshotCount": 0,
+      "sourceClass": "community-vs-pinned-regulation",
+      "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
+      "doNotAutoCorrect": true
+    },
+    {
+      "id": "sote-reference-042",
+      "field": "baseAttack",
+      "community": [
+        129,
+        83,
+        0,
+        0,
+        0
+      ],
+      "pinned": [
+        127,
+        82,
+        0,
+        0,
+        0
+      ],
+      "wiki": "https://eldenring.wiki.gg/wiki/Greatsword_of_Radahn_%28Lord%29",
+      "other": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AGreatsword_of_Radahn_%28Lord%29",
+      "priority": 2,
+      "reviewStatus": "UNREVIEWED",
+      "gameClientVerified": false,
+      "screenshotCount": 0,
+      "sourceClass": "community-vs-pinned-regulation",
+      "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
+      "doNotAutoCorrect": true
+    },
+    {
+      "id": "sote-reference-051",
+      "field": "requirements",
+      "community": [
+        8,
+        8,
+        13,
+        13,
+        0
+      ],
+      "pinned": [
+        8,
+        8,
+        13,
+        20,
+        0
+      ],
+      "wiki": "https://eldenring.wiki.gg/wiki/Madding_Hand",
+      "other": "https://eldenring.fandom.com/wiki/Madding_Hand_%28weapon%29",
+      "priority": 1,
+      "reviewStatus": "UNREVIEWED",
+      "gameClientVerified": false,
+      "screenshotCount": 0,
+      "sourceClass": "community-vs-pinned-regulation",
+      "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
+      "doNotAutoCorrect": true
+    },
+    {
+      "id": "sote-reference-064",
+      "field": "baseAttack",
+      "community": [
+        117,
+        0,
+        35,
+        0,
+        0
+      ],
+      "pinned": [
+        122,
+        0,
+        36,
+        0,
+        0
+      ],
+      "wiki": "https://eldenring.wiki.gg/wiki/Queelign%27s_Greatsword",
+      "other": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AQueelign%27s_Greatsword",
+      "priority": 2,
+      "reviewStatus": "UNREVIEWED",
+      "gameClientVerified": false,
+      "screenshotCount": 0,
+      "sourceClass": "community-vs-pinned-regulation",
+      "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
+      "doNotAutoCorrect": true
+    },
+    {
+      "id": "sote-reference-071",
+      "field": "baseAttack",
+      "community": [
+        133,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pinned": [
+        131,
+        0,
+        0,
+        0,
+        0
+      ],
+      "wiki": "https://eldenring.wiki.gg/wiki/Axe",
+      "other": "https://tarnished.app/weapons/smithscript-axe",
+      "priority": 2,
+      "reviewStatus": "UNREVIEWED",
+      "gameClientVerified": false,
+      "screenshotCount": 0,
+      "sourceClass": "community-vs-pinned-regulation",
+      "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
+      "doNotAutoCorrect": true
+    },
+    {
+      "id": "sote-reference-058",
+      "field": "baseAttack",
+      "community": [
+        67,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pinned": [
+        62,
+        0,
+        0,
+        0,
+        0
+      ],
+      "wiki": "https://eldenring.wiki.gg/wiki/Smithscript_Dagger",
+      "other": "https://wiki.eso-ui.com/index.php/Elden_Ring%3ASmithscript_Dagger",
+      "priority": 2,
+      "reviewStatus": "UNREVIEWED",
+      "gameClientVerified": false,
+      "screenshotCount": 0,
+      "sourceClass": "community-vs-pinned-regulation",
+      "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
+      "doNotAutoCorrect": true
+    }
+  ]
+}
