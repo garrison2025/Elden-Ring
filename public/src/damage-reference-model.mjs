@@ -34,8 +34,14 @@ const negation=(raw,label)=>{
 };
 const round=n=>Math.round(n*1e6)/1e6;
 export function defenseMultiplier(attack,defense){
- const a=number(attack,'Incoming attack after motion value',0,200000);
- const d=number(defense,'Enemy defense',0,100000);
+ // Internal computed AR×motion×buff is often fractional beyond three places.
+ // Validate the resulting finite NUMBER without pretending it is an input field.
+ if(typeof attack!=='number'||!Number.isFinite(attack)||
+  attack<0||attack>1000000||
+  typeof defense!=='number'||!Number.isFinite(defense)||
+  defense<0||defense>100000)
+  fail('Defense formula requires finite, nonnegative attack and defense.');
+ const a=attack,d=defense;
  if(a===0)return 0;
  const ratio=d===0?Infinity:a/d;
  if(ratio<0.125)return 0.1;
