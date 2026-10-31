@@ -7,7 +7,8 @@ import {validateBuildSmithingIds} from './build-smithing-handoff.mjs';
  * Weapon weights are sourced from the bundled community weapon catalog.
  * Armor and talisman weights are entered by players from their game screen.
  * The final roll tier is unavailable unless the player explicitly confirms
- * the equipment loadout and ALL selected slots have known weights.
+ * the equipment loadout, all fourteen slots have explicit statuses, and
+ * ALL selected slots have known weights.
  */
 export const LOADOUT_WEAPON_SLOTS=Object.freeze([
  {id:'rh1',label:'Right hand 1'},{id:'rh2',label:'Right hand 2'},
@@ -55,8 +56,10 @@ export function planEquipmentLoadout({weaponSlots,manualSlots,maxLoad='',confirm
   items.push({slot,name,weight,source,known:true});
  };
  for(const slot of LOADOUT_WEAPON_SLOTS){
+  if(!Object.hasOwn(weaponSlots,slot.id))
+   fail('Explicitly mark '+slot.label+' as Empty or choose an equipped weapon.');
   const id=weaponSlots[slot.id];
-  if(id===null||id===undefined||id==='')continue; // explicit unequipped
+  if(id==='')continue; // only the explicit empty string means unequipped
   if(typeof id!=='string'||! /^[a-z0-9-]{1,80}$/.test(id))
    fail('Invalid equipped weapon reference in '+slot.label+'.');
   const weapon=map.get(id);
@@ -73,9 +76,13 @@ export function planEquipmentLoadout({weaponSlots,manualSlots,maxLoad='',confirm
   }
  }
  for(const slot of LOADOUT_MANUAL_SLOTS){
+  if(!Object.hasOwn(manualSlots,slot.id))
+   fail('Explicitly choose Empty or Equipped in '+slot.label+'.');
   const entry=manualSlots[slot.id];
-  if(entry===null||entry===undefined||entry.mode==='empty')continue; // explicitly not equipped
-  if(typeof entry!=='object'||Array.isArray(entry)||entry.mode!=='equipped')
+  if(!entry||typeof entry!=='object'||Array.isArray(entry))
+   fail('Choose Empty or Equipped in '+slot.label+'.');
+  if(entry.mode==='empty')continue; // only an explicit status means unequipped
+  if(entry.mode!=='equipped')
    fail('Choose Empty or Equipped in '+slot.label+'.');
   if(entry.weight===''||entry.weight===null||entry.weight===undefined){
    unknown.push(slot.label);
