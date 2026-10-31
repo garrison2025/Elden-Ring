@@ -808,7 +808,7 @@ try{
   },'One-click reference opens the exact selected v1.17 build controls');
   await evaluate("(()=>{document.querySelector('#qar-reference-value').value='172';document.querySelector('#qar-reference-compare').click()})()");
   assert.match(await evaluate("document.querySelector('#qar-reference-status').textContent"),
-   /MATCH.*user.entered/i,'Manual same-input matching is explicitly self-entered, not a verified external fact');
+   /MATCH.*self.entered/i,'Manual same-input matching is explicitly self-entered, not a verified external fact');
   await evaluate("document.querySelector('#qar-twohand').click()");
   await waitFor("document.querySelector('#qar-total')?.textContent==='180'",
    'Real source computes 180 two-handed Uchigatana +0 at 40/40');
