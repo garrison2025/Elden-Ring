@@ -2,6 +2,7 @@ import {STATS,CLASSES,classForName,validateStats,buildLevel,optimizeClasses,rune
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
 import {makeBuildSmithingUrl} from './build-smithing-handoff.mjs';
+import {makeEquipCandidatesUrl} from './equipment-loadout.mjs';
 import {planShortlistWielding} from './build-shortlist-feasibility.mjs';
 import {compareBuildSnapshots,normalizeBuildComparisonSnapshot} from './build-compare.mjs';
 import {makeBuildAbShareUrl,validateSharedBuildAb} from './build-compare-share.mjs';
@@ -70,9 +71,12 @@ function initBuild(){
       li.append(name,remove);shortlistList.append(li);
     }
     const link=$('#build-smithing-open');
+    const equipLink=$('#build-equipment-open');
     link.hidden=smithingIds.length===0;
+    equipLink.hidden=smithingIds.length===0;
     if(smithingIds.length){
       link.href=makeBuildSmithingUrl(smithingIds,location.href);
+      equipLink.href=makeEquipCandidatesUrl(smithingIds,location.href);
     }
     $('#build-smithing-feedback').textContent=message||
       (smithingIds.length?smithingIds.length+' of 8 weapons selected. Confirm every smithing track and +level after opening the planner.':
