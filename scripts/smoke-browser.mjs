@@ -167,6 +167,34 @@ try{
  await navigate('/build-planner/');
  await waitFor('document.querySelector("#build-weapon")?.disabled===false',
   'Build Planner catalog ready');
+ await evaluate("document.querySelector('#build-loadout-start').click()");
+ await waitFor("document.querySelector('#build-loadout-container')?.hidden===false&&document.querySelector('#build-loadout-weapons select')?.options.length>480",
+  'Build Planner opens six source weapon slots after local data load');
+ assert.equal(await evaluate("document.querySelectorAll('#build-loadout-weapons select').length"),6);
+ assert.equal(await evaluate("document.querySelectorAll('#build-loadout-armor input[type=text]').length"),4);
+ assert.equal(await evaluate("document.querySelectorAll('#build-loadout-spells input').length"),10);
+ await evaluate("(()=>{const sel=document.querySelector('#build-loadout-weapons select');sel.value=[...sel.options].find(x=>x.textContent.startsWith('Uchigatana'))?.value;sel.dispatchEvent(new Event('change',{bubbles:true}));const max=document.querySelector('#build-loadout-maximum');max.value='75';max.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 5.500'),
+  'Sourced Uchigatana weight enters the build subtotal');
+ await evaluate("(()=>{const sel=document.querySelectorAll('#build-loadout-weapons select')[1];sel.value=[...sel.options].find(x=>x.textContent.startsWith('Albinauric Shield'))?.value;sel.dispatchEvent(new Event('change',{bubbles:true}))})()");
+ const unknownWeight=await evaluate("document.querySelector('#build-loadout-results').textContent");
+ assert.ok(unknownWeight.includes('exact equip load withheld')&&unknownWeight.includes('Roll tier UNSUPPORTED'),
+  'Missing source-only shield weight blocks roll tier');
+ await evaluate("(()=>{const i=document.querySelectorAll('#build-loadout-weapons .build-loadout-item input[type=number]')[1];i.value='3.5';i.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ const known=await evaluate("document.querySelector('#build-loadout-results').textContent");
+ assert.ok(known.includes('Equipped weight: 9.000')&&known.includes('Roll tier: Light'),
+  'Manual source-labelled override enables accurate input-only roll tier');
+ await evaluate("document.querySelector('#build-loadout-save').click()");
+ assert.ok((await evaluate("localStorage.getItem('buildlab:equipment-loadout:v1')")).includes('v117-roster'),
+  'Save includes only bounded equipment identifiers and weights');
+ await evaluate("document.querySelector('#build-loadout-clear').click()");
+ assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 0.000'),
+  'Clearing all equipped gear produces exact zero load');
+ await evaluate("document.querySelector('#build-loadout-restore').click()");
+ assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 9.000'),
+  'Local restore is explicit and exact');
+ await evaluate("document.querySelector('#build-loadout-clear').click()");
+ console.log('[BROWSER SMOKE] Six-slot build equipment and 72 source-only weight fail-closed with local save/restore PASS.');
  await selectWeapon('Uchigatana');
  const buildArHandoff=await evaluate("(()=>{const a=document.querySelector('#build-weapon-ar-link');const u=new URL(a.href);return {hidden:a.hidden,path:u.pathname,weapon:u.searchParams.get('weapon'),stats:u.searchParams.get('player'),upgrade:u.searchParams.get('upgrade')}})()");
  assert.deepEqual(buildArHandoff,{
