@@ -2,6 +2,7 @@ import {POWER_STATS,DAMAGE_TYPES,calculateAr} from './weapon-ar.mjs';
 import {describeLocalWeapon} from './ar-workbench-core.mjs';
 
 export const RANKING_MAX_VARIANTS=240;
+export const RANKING_FULL_SOURCE_LIMIT=50000;
 const fail=message=>{throw new RangeError(message);};
 const nameOf=w=>w.weaponName??w.name;
 const maxUpgrade=w=>w?.reinforceTypeId;
@@ -16,12 +17,16 @@ const affinityAllowed=(w,affinityId)=>affinityId==='all'||w.affinityId===affinit
  * external user-entered AR for a valid source profile.
  */
 export function rankLocalWeaponVariants(regulation,{
- term,affinityId='all',stats,regularUpgrade=0,somberUpgrade=0,twoHanded=false,
+ term='',affinityId='all',stats,regularUpgrade=0,somberUpgrade=0,twoHanded=false,
+ allSource=false,reinforcement='both',wieldableOnly=false,
  gameVersion='v1.17-reference',sourceReference='User-loaded reference data'
 }={}){
  if(!regulation||!Array.isArray(regulation.weapons)||regulation.weapons.length>50000||
-   typeof term!=='string'||term.trim().length<2||term.length>100)
+   typeof term!=='string'||(!allSource&&term.trim().length<2)||term.length>100)
   fail('Enter at least two characters to select a bounded weapon group.');
+ if(typeof allSource!=='boolean'||typeof wieldableOnly!=='boolean'||
+  !['both','regular','somber'].includes(reinforcement))
+  fail('Invalid full-source selection, reinforcement or requirement filter.');
  if(!stats||Array.isArray(stats)||typeof stats!=='object'||
   POWER_STATS.some(s=>!Number.isInteger(stats[s])||stats[s]<1||stats[s]>99))
   fail('Enter five whole character attributes from 1 to 99.');
@@ -32,7 +37,7 @@ export function rankLocalWeaponVariants(regulation,{
   typeof twoHanded!=='boolean')
   fail('Choose legal regular +0..25, somber +0..10, and grip inputs.');
  const needle=term.trim().toLocaleLowerCase('en-US');
- const exactFamilies=term.includes(',')?term.split(',').map(x=>x.trim().toLocaleLowerCase('en-US')):null;
+ const exactFamilies=!allSource&&term.includes(',')?term.split(',').map(x=>x.trim().toLocaleLowerCase('en-US')):null;
  if(exactFamilies){
   if(exactFamilies.length>8||exactFamilies.some(x=>x.length<2||x.length>100)||
    new Set(exactFamilies).size!==exactFamilies.length)
@@ -44,16 +49,17 @@ export function rankLocalWeaponVariants(regulation,{
  }
  const matches=regulation.weapons.filter(w=>w&&typeof w.name==='string'&&
   typeof nameOf(w)==='string'&&
-  (exactFamilies?
-   exactFamilies.includes(w.name.toLocaleLowerCase('en-US'))||
-    exactFamilies.includes(nameOf(w).toLocaleLowerCase('en-US')):
-   w.name.toLocaleLowerCase('en-US').includes(needle)||
-    nameOf(w).toLocaleLowerCase('en-US').includes(needle))&&
+  (allSource||
+   (exactFamilies?
+    exactFamilies.includes(w.name.toLocaleLowerCase('en-US'))||
+     exactFamilies.includes(nameOf(w).toLocaleLowerCase('en-US')):
+    w.name.toLocaleLowerCase('en-US').includes(needle)||
+     nameOf(w).toLocaleLowerCase('en-US').includes(needle)))&&
   affinityAllowed(w,affinityId))
   .sort((a,b)=>nameOf(a).localeCompare(nameOf(b))||
     (a.affinityId??99)-(b.affinityId??99)||a.name.localeCompare(b.name));
  // Never silently rank an alphabetically truncated subset as a global top.
- if(matches.length>RANKING_MAX_VARIANTS)return {
+ if(!allSource&&matches.length>RANKING_MAX_VARIANTS)return {
   status:'too-broad',totalMatches:matches.length,rankedCount:0,
   excludedCount:0,excludedExamples:[],rows:[],
   message:'Found '+matches.length+' source variants; narrow the weapon name or affinity to at most '+
@@ -66,6 +72,7 @@ export function rankLocalWeaponVariants(regulation,{
    const {profile,description}=describeLocalWeapon(regulation,sourceName,gameVersion,sourceReference);
    const available=description.upgradeLevels;
    const somber=available.length===11;
+   if(reinforcement!=='both'&&reinforcement!==(somber?'somber':'regular'))continue;
    const upgrade=somber?somberUpgrade:regularUpgrade;
    if(!available.includes(upgrade)){
     excluded.push({name:sourceName,reason:'Upgrade +'+upgrade+' is absent from source reinforcement path.'});
@@ -74,6 +81,7 @@ export function rankLocalWeaponVariants(regulation,{
    const result=calculateAr(profile,stats,{affinity:'SOURCE AFFINITY',upgrade,twoHanded});
    if(!Number.isInteger(result.total)||result.total<0||!Array.isArray(result.perElement))
     throw new RangeError('Source did not produce a valid integer nominal AR.');
+   if(wieldableOnly&&result.missingRequirements.length)continue;
    rows.push({
     name:sourceName,family:description.referenceFamily,
     affinityId:description.referenceAffinityId,
@@ -91,8 +99,10 @@ export function rankLocalWeaponVariants(regulation,{
  }
  rows.sort(sortable);
  return {
-  status:'complete-query',term:term.trim(),queryMode:exactFamilies?'exact-name-list':'substring',affinityId,regularUpgrade,somberUpgrade,
+  status:'complete-query',term:term.trim(),queryMode:allSource?'whole-loaded-source':exactFamilies?'exact-name-list':'substring',affinityId,regularUpgrade,somberUpgrade,
+  allSource,reinforcement,wieldableOnly,
   totalMatches:matches.length,rankedCount:rows.length,excludedCount:excluded.length,
+  filteredOutCount:matches.length-rows.length-excluded.length,
   excludedExamples:excluded.slice(0,12),rows,gameVersion,
   note:'Nominal AR ranking only; source parameters are not game-client certified. Higher AR is not necessarily higher enemy damage. Out-of-requirement weapons remain visible but flagged.'
  };
