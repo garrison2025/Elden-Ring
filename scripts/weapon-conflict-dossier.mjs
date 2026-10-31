@@ -117,6 +117,7 @@ export function conflictDossierHtml(data){
   'Numerical agreement between websites alone cannot close an item.</p>'+
   '<p class="note">Current accepted game screenshot count: 0 · all seven items UNREVIEWED. '+
   '<a href="../data/weapon-conflict-evidence.json">Download source comparison and manual verification checklist JSON</a> · '+
+  '<a href="#conflict-capture">Record the seven +0 game readings locally</a> · '+
   '<a href="../weapon-data-workbench/">Open existing local AR/observation workbench</a>. '+
   'No game files, screenshots or user identifiers are uploaded.</p>'+
   '</section>';
