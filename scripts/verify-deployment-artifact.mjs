@@ -6,19 +6,28 @@ import {readFile,stat} from 'node:fs/promises';
 import path from 'node:path';
 import {getCatalogCoverage,catalogCoverageCopy} from './home-catalog-coverage.mjs';
 import {getCatalogEvidence,catalogEvidenceRow,catalogEvidencePanel} from './catalog-evidence.mjs';
+import {validateConflictEvidence,conflictDossierHtml} from './weapon-conflict-dossier.mjs';
 const read=async f=>readFile(path.join(process.cwd(),'dist',f),'utf8');
 const assert=(pass,label)=>{if(!pass)throw Error('[DEPLOYMENT ARTIFACT] '+label);};
 const main=async()=>{
- const [home,build,smithing,equipment,verification,evidenceText,infoText,catalogText]=await Promise.all([
+ const [home,build,smithing,equipment,verification,evidenceText,ledgerText,infoText,catalogText]=await Promise.all([
   read('index.html'),read('build-planner/index.html'),
   read('weapon-upgrade-calculator/index.html'),read('equip-load-calculator/index.html'),
   read('validation-status/index.html'),read('catalog-evidence.json'),
-  read('deployment-info.json'),
+  read('data/weapon-conflict-evidence.json'),read('deployment-info.json'),
   read('data/community-weapon-catalog.json')
  ]);
  const source=getCatalogCoverage(JSON.parse(catalogText));
  const deployment=JSON.parse(infoText);
  const expectedEvidence=getCatalogEvidence(JSON.parse(catalogText));
+ const conflictEvidence=validateConflictEvidence(JSON.parse(catalogText),JSON.parse(ledgerText));
+ assert(verification.includes(conflictDossierHtml(conflictEvidence))&&
+  !verification.includes('data-source-conflict-placeholder')&&
+  conflictEvidence.entries.length===expectedEvidence.counts.recordsWithSourceConflicts,
+  'Audited seven-source discrepancy dossier not present or mismatched');
+ assert(conflictEvidence.entries.every(e=>e.reviewStatus==='UNREVIEWED'&&
+  e.gameClientVerified===false),
+  'Unverified conflicting references must not claim gameplay certification');
  const actualEvidence=JSON.parse(evidenceText);
  assert(JSON.stringify(actualEvidence)===JSON.stringify(expectedEvidence),
   'Public evidence JSON does not match exact bundled weapon source');
