@@ -19,6 +19,13 @@ function render(){
   other.append(make('div','Scaling: '+w.crosscheck.scalingGradesAsReported.map(x=>x??'not listed').join(' / ')));
   const linkOther=make('a','Individual source');linkOther.href=w.crosscheck.sourceUrl;
   linkOther.rel='noopener noreferrer';linkOther.target='_blank';other.append(linkOther);
+  if(w.explicitInitialScalingSource){
+   other.append(make('div','Fextralife explicit Standard +0 grades: '+
+    w.explicitInitialScalingSource.gradesAtPlusZero.join(' / ')));
+   const evidence=make('a','Explicit +0 Standard table (not verified game)');
+   evidence.href=w.explicitInitialScalingSource.sourceUrl;evidence.target='_blank';
+   evidence.rel='noopener noreferrer';other.append(evidence);
+  }
   tr.append(other);
   const td=make('td'),link=make('a','Source +0');link.href=w.reference.sourceUrl;
   link.rel='noopener noreferrer';link.target='_blank';td.append(link);
@@ -54,7 +61,9 @@ Promise.all([
  const counts=validateRecoveredSourceReferences(ledger,catalog);
  records=ledger.records;
  status.textContent=counts.total+'/72 source candidates; '+counts.attackReferences+' +0 attacks, '+counts.weightReferences+
-  ' weights, '+counts.criticalReferences+' criticals; '+counts.unknownScalingGrades+' unknown individual scaling grades; '+
+  ' weights, '+counts.criticalReferences+' criticals; '+counts.unknownScalingGrades+' originally unreported scaling cells, '+
+  counts.newlySourcedScalingCells+' explicitly sourced in '+counts.explicitDefaultScalingSourceRows+
+  ' Standard +0 tables, '+counts.remainingUnreportedScalingCells+' still without explicit +0 grades; '+
   counts.crosscheckedReferences+' second-source pages read; '+counts.sourceConflicts+' disputed weapons ('+
   counts.attackConflicts+' attack, '+counts.scalingConflicts+' scaling, '+counts.requirementConflicts+
   ' requirements); '+counts.thirdSourceFields+' field-level third references, not independently verified; 0 in-game verified.';
