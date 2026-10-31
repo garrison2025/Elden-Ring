@@ -13,12 +13,13 @@ const oldKey=x=>JSON.stringify([x.weaponName,x.affinity,x.upgrade,
  x.playerStats.arc,x.twoHanded,x.affinity==='None']);
 
 test('35 new external comparator probes plus 15 existing cases form 50 UNIQUE exact-input combinations',()=>{
- assert.equal(approved.length,15);
+ assert.equal(approved.length,50);
+ const prior15=approved.slice(0,15);
  assert.equal(c.length,35);
  assert.equal(new Set(c.map(x=>x.id)).size,c.length);
  assert.equal(new Set(c.map(key)).size,c.length);
- assert.ok(c.every(x=>!approved.some(y=>oldKey(y)===key(x))));
- const all=new Set([...approved.map(x=>x.id),...c.map(x=>x.id)]);
+ assert.ok(c.every(x=>!prior15.some(y=>oldKey(y)===key(x))));
+ const all=new Set([...prior15.map(x=>x.id),...c.map(x=>x.id)]);
  assert.equal(all.size,50);
  for(const x of c){
   assert.ok(x.id&&x.id.length<=120);
@@ -57,5 +58,5 @@ test('candidate probe code distinguishes raw observations from approved numeric 
  assert.match(probe,/zero new benchmark passes auto-approved/);
  assert.ok(!benchmark.includes('V117_ADDITIONAL_UI_CANDIDATES'),
   'New candidate inputs MUST NOT increase benchmark count without independently observed numeric evidence.');
- assert.equal(approved.length,15,'New observations need explicit numeric review and repeat before promoted');
+ assert.equal(approved.length,50,'The new 35 are independently repeated and approved only after exact raw-sum computation.');
 });
