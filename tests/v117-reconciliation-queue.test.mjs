@@ -48,9 +48,7 @@ test('CSV contains only user-requested audit rows, is Excel-safe and not claim g
  assert.match(csv,/^\uFEFF/);
  const injection=v117ReconciliationCsv([{name:' =HYPERLINK("https://evil")',
   category:'@SUM(1,2)',reviewField:'base_attack'}]);
- assert.ok(injection.includes("' =HYPERLINK")===false);
  assert.ok(injection.includes("'@SUM(1,2)"));
- assert.ok(injection.includes("' =HYPERLINK")===false);
  assert.match(injection,/\"' =HYPERLINK/);
  assert.throws(()=>v117ReconciliationCsv(null),TypeError);
  assert.throws(()=>buildV117ReconciliationQueue(catalog(),null),TypeError);
