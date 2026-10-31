@@ -16,6 +16,7 @@ test('seven independently attributable source disputes stay UNREVIEWED',()=>{
  assert.equal(result.entries.length,7);
  assert.deepEqual(result.entries.find(e=>e.id==='sote-reference-032').withinPageZeroContradiction.samePageStandardZero,[72,0,22,0,0]);
  assert.equal(result.currentPatchCorroborationCount,1);
+ assert.equal(result.unversionedBaseCorroborationCount,6);
  assert.equal(result.entries.filter(x=>x.field==='baseAttack').length,6);
  assert.equal(result.entries.filter(x=>x.field==='requirements').length,1);
  assert.equal(result.gameClientVerified,false);
@@ -39,6 +40,7 @@ test('source dossier contains both readings, exact mismatched component and manu
  assert.ok(html.includes('Seven unresolved weapon-source disagreements'));
  assert.ok(html.includes('Madding Hand'));
  assert.ok(html.includes('Current-patch corroboration: 1 of 7 historical disagreements'));
+ assert.ok(html.includes('Unversioned third-source +0 checks: 6 of 6'));
  assert.ok(html.includes('1.17.3 secondary data supports pinned'));
  assert.ok(html.includes('FAI: 13 / 20'));
  assert.ok(html.includes('PHY: 133 / 131'));
