@@ -1,5 +1,5 @@
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
- reportedBaseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall,hasDisputedRequirements,hasDisputedAttack,hasDisputedWeight} from './community-weapons.mjs';
+ reportedBaseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall,hasDisputedRequirements,hasDisputedAttack,hasDisputedWeight,catalogSourceQuality,catalogQualityCounts} from './community-weapons.mjs';
 import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
 import {makeQuickArCalculatorUrl} from './ar-workbench-navigation.mjs';
 import {makeWeaponCatalogShareUrl} from './weapon-catalog-navigation.mjs';
@@ -393,6 +393,7 @@ function showList(reset=false,keepSelected=false){
  const wield=$('catalog-wield').value;
  const damage=$('catalog-damage-filter').value;
  const coverage=$('catalog-coverage').value;
+ const quality=$('catalog-quality').value;
  const rawWeight=$('catalog-max-weight').value.trim();
  let maxWeight=null;
  if(rawWeight!==''){
@@ -407,7 +408,7 @@ function showList(reset=false,keepSelected=false){
  let data;
  try{
   data=searchCatalog(catalog.weapons,{
-   term,category,sort,limit:40,offset,wield,damage,maxWeight,coverage,
+   term,category,sort,limit:40,offset,wield,damage,maxWeight,coverage,quality,
    stats:wield==='any'&&sort!=='requirements'?null:readStats()
   });
  }catch(error){
@@ -430,6 +431,7 @@ function showList(reset=false,keepSelected=false){
   btn.setAttribute('aria-label','View '+w.name+' weapon details');
   if(w.id===chosen?.id)btn.classList.add('selected');
   const title=el('span',w.name);title.className='catalog-row-title';
+  const sourceState=catalogSourceQuality(w);
   const detail=el('span',w.category+' · '+(referenceOnlyMap.has(w.id)?
     'Sourced +0 preview available (not certified)':w.dataCoverage==='name-category-only'?
    'DLC name/category only':w.expansion==='Tarnished Pack'?
@@ -444,6 +446,10 @@ function showList(reset=false,keepSelected=false){
     missing.oneHandPoints===0?'Ready 1H':
      missing.oneHandMissing.map(x=>x.stat+' +'+x.points).join(', ')+' needed (1H)');
   }
+  detail.textContent+=' · '+(sourceState.conflict?'⚠ Disputed source fields':
+    sourceState.sourceOnly?'Primary attack/weight UNKNOWN':
+    sourceState.complete?'+0 / requirements / weight reported (not patch verified)':
+    'Partial source fields');
   detail.className='catalog-row-desc';
   const tag=el('span',referenceOnlyMap.has(w.id)?'Research-only +0 preview':w.expansion==='Tarnished Pack'?(w.dataCoverage==='base-reference'?'Tarnished Pack · +0 source':'Tarnished Pack · partial'):
    w.expansion==='Shadow of the Erdtree'?(w.dataCoverage==='base-reference'?'DLC · +0 source':'DLC · partial'):(w.flags?.length?'Review data':'View details'));
@@ -470,6 +476,7 @@ $('catalog-clear-filters').addEventListener('click',()=>{
  $('catalog-wield').value='any';
  $('catalog-damage-filter').value='any';
  $('catalog-coverage').value='all';
+ $('catalog-quality').value='all';
  $('catalog-max-weight').value='';
  showList(true);
  $('catalog-search').focus();
@@ -494,11 +501,13 @@ $('catalog-sort').addEventListener('change',()=>showList(true));
 $('catalog-wield').addEventListener('change',()=>showList(true));
 $('catalog-damage-filter').addEventListener('change',()=>showList(true));
 $('catalog-coverage').addEventListener('change',()=>showList(true));
+$('catalog-quality').addEventListener('change',()=>showList(true));
 $('catalog-max-weight').addEventListener('input',()=>showList(true));
 $('catalog-more').addEventListener('click',()=>showList(false));
 $('catalog-stats').addEventListener('input',()=>{
  renderDetails();
- if($('catalog-wield').value!=='any')showList(true);
+ if($('catalog-wield').value!=='any'||$('catalog-sort').value==='requirements')
+  showList(true);
 });
 try{
  const response=await fetch('../data/community-weapon-catalog.json',{cache:'default'});
@@ -517,6 +526,12 @@ try{
  }
 
  $('catalog-count').textContent=String(catalog.weapons.length);
+ const counts=catalogQualityCounts(catalog.weapons);
+ $('catalog-quality-summary').textContent=
+  counts.complete+' of '+counts.total+' entries have +0/requirement/weight fields without flagged source conflicts; '+
+  counts.partial+' are incomplete or disputed, including '+counts.conflict+
+  ' with explicitly flagged source disputes and '+counts.sourceOnly+
+  ' research-only, non-promoted candidate previews. Source-field availability does NOT establish current game accuracy.';
  for(const category of catalogCategories(catalog.weapons)){
   const opt=el('option',category);opt.value=category;$('catalog-category').append(opt);
  }
