@@ -141,3 +141,48 @@ this local client-side export.
 This flow reuses the existing screenshot SHA-256 signature validation and
 adds no paid APIs, external analytics, browser storage, uploaded image
 content, account, or new data-redistribution license.
+
+## Continue a previously exported local collection and recheck original screenshots
+
+The existing `/validation-status/#conflict-evidence-recheck` panel is now
+the **second stage** of the source conflict workflow.
+
+1. Choose the original `elden-ring-seven-conflicts-UNREVIEWED.json`
+   saved from the capture form. Click **Validate and open local JSON**.
+   This is an explicit action, with a 110 KB ceiling. All seven entries,
+   current local catalog weapon IDs, disputed source values, derived
+   numeric-source comparisons and non-certified `UNREVIEWED` status
+   must match. Badly formed or altered source/approval fields fail
+   without replacing an already imported in-memory session.
+2. The page shows how many of seven have player-transcribed values,
+   pending entries and source-match counts. **JSON parsing cannot
+   authenticate who entered the values or whether the original game
+   menu was genuine.** The tool never imports a claim of independent
+   verification or accepts an approval flag.
+3. Pick a recorded weapon (pending cases cannot be fingerprinted).
+   Select the **original** version/title screenshot and the **original**
+   weapon-detail screenshot still present on your local device. Click
+   **Check both screenshot SHA-256 fingerprints**. The form checks both
+   byte digests, sizes and MIME types using existing local Web Crypto
+   logic, with the same 12 MB file size cap and image signatures.
+4. A reported `bytes-match` means **only** that the newly selected file
+   bytes match the hashes stored in the imported JSON. A mismatch is
+   reported explicitly. Hash matches do not establish screenshot
+   authenticity, correct game version, matching weapon or an
+   independent manual review. Any edited digest in an exported JSON
+   could be paired with another file: original bytes and human
+   visual examination are indispensable.
+5. The recheck panel does not write any localStorage, upload the
+   images/JSON, repair disputed source numbers, approve publishing,
+   or change the research `noindex` gate. **Clear imported evidence**
+   drops the local session and file selections.
+
+The pure regression test `tests/conflict-evidence-import.test.mjs`
+checks valid exports, bad/stale/tampered JSON, version/source drift,
+unreviewed flags, actual PNG signatures, matching/mismatching file
+bytes, and pending-case rejection. The dependency-free Chrome smoke
+performs the full explicit import/byte recheck with **synthetic PNG
+signature files only**: these simulate file mechanics, never a real
+game-client screenshot. The deployment artifact gate requires the
+new panel and modules to be shipped. All accepted real-client game
+screenshot goldens remain **zero** until separate visual review.

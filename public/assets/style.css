@@ -367,3 +367,18 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
  #conflict-capture .workbench-actions{display:grid;grid-template-columns:1fr}
  #conflict-capture .workbench-actions button{width:100%}
 }
+
+/* Reopen previously exported seven-case evidence in the browser; no uploads. */
+#conflict-evidence-recheck{margin:24px 0}
+#conflict-evidence-recheck .field{min-width:0}
+#conflict-evidence-recheck input[type=file]{width:100%;font-size:12px;min-width:0}
+#conflict-evidence-recheck select{width:100%;max-width:100%}
+#conflict-evidence-recheck .workbench-actions{margin:14px 0}
+#conflict-recheck-results[hidden]{display:none!important}
+#conflict-recheck-feedback,#conflict-recheck-hash-result,
+#conflict-recheck-summary{overflow-wrap:anywhere;line-height:1.65}
+@media(max-width:540px){
+ #conflict-evidence-recheck{margin:16px 0}
+ #conflict-evidence-recheck .workbench-actions{display:grid;grid-template-columns:1fr}
+ #conflict-evidence-recheck .workbench-actions button{width:100%}
+}

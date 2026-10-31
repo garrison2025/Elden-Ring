@@ -35,8 +35,12 @@ const main=async()=>{
   verification.includes('id="conflict-capture-values"')&&
   verification.includes('id="conflict-capture-title-image"')&&
   verification.includes('id="conflict-capture-weapon-image"')&&
-  verification.includes('src="../src/conflict-game-capture-app.mjs"'),
-  'Seven-case local screenshot capture form not included in research accuracy page');
+  verification.includes('src="../src/conflict-game-capture-app.mjs"')&&
+  verification.includes('id="conflict-evidence-recheck"')&&
+  verification.includes('id="conflict-recheck-json"')&&
+  verification.includes('id="conflict-recheck-hashes"')&&
+  verification.includes('src="../src/conflict-evidence-import-app.mjs"'),
+  'Seven-case local screenshot capture and original-image recheck forms missing in research accuracy page');
   assert(verification.includes(catalogEvidenceRow(expectedEvidence))&&
   verification.includes(catalogEvidencePanel(expectedEvidence)),
   'Visible accuracy page missing source-derived counts or unresolved conflict rows');
@@ -76,6 +80,7 @@ const main=async()=>{
    'src/equipment-loadout.mjs','src/equipment-loadout-app.mjs',
    'src/equipment-save-compare.mjs',
    'src/conflict-game-capture.mjs','src/conflict-game-capture-app.mjs',
+   'src/conflict-evidence-import.mjs','src/conflict-evidence-import-app.mjs',
    'src/ar-screenshot-fingerprint.mjs'])
   assert((await stat(path.join(process.cwd(),'dist',sourceFile))).size>300,
    'Missing application source in deployed artifact: '+sourceFile);

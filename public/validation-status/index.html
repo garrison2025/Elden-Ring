@@ -63,6 +63,40 @@
  </table></div>
  <p class="note">No data is automatically saved or uploaded. The downloadable JSON contains screenshot filenames, SHA-256 digests, and your typed numeric values, but <strong>no screenshot contents</strong>. Keep both original screenshots privately to allow separate human review. Reloading this page discards unsaved session entries.</p>
 </section>
-<script type="module" src="../src/conflict-game-capture-app.mjs"></script><section class="panel info"><h2>Source & licence policy</h2><p>Data in this preview is limited to small published numerical facts and independently implemented rules. The ERDB data parser is MIT-licensed code, but that license does not automatically authorize redistribution of all data/assets extracted from the game. A different comprehensive public calculator repository offers no license declaration; no code, images, or tables have been copied from it.</p><p>Before publishing AR/damage, require a traceable source licence, a versioned data snapshot and in-game comparison samples (base/DLC weapons, upgrades, affinities, 1H/2H, PvE/PvP).</p><div class="source-links"><a href="https://en.bandainamcoent.eu/elden-ring/news/elden-ring-patch-notes-version-1172">Official patch 1.17.2</a> · <a href="https://en.bandainamcoent.eu/elden-ring/news/elden-ring-patch-notes-version-117">Official patch 1.17</a> · <a href="https://github.com/EldenRingDatabase/erdb">ERDB parser</a> · <a href="https://almanauts.com/eldenring/rune-calculator/">Rune cost reference</a></div></section></main>
+<script type="module" src="../src/conflict-game-capture-app.mjs"></script><section class="panel info" id="conflict-evidence-recheck" aria-labelledby="conflict-evidence-recheck-title">
+ <div class="eyebrow">Optional · Import &amp; check original files locally</div>
+ <h2 id="conflict-evidence-recheck-title">Reopen your seven-weapon evidence checklist</h2>
+ <p>Import a JSON checklist exported above. The page checks all seven cases against the <strong>current source catalog</strong>, re-derives the numeric source comparisons and rejects altered approval flags. This checks record consistency, <strong>not screenshot authenticity</strong>.</p>
+ <label class="field">Previously exported UNREVIEWED checklist JSON (max 110 KB)
+  <input id="conflict-recheck-json" type="file" accept=".json,application/json">
+ </label>
+ <div class="workbench-actions">
+  <button type="button" class="btn alt" id="conflict-recheck-import" disabled>Validate and open local JSON</button>
+  <button type="button" class="btn alt" id="conflict-recheck-clear">Clear imported evidence</button>
+ </div>
+ <p id="conflict-recheck-feedback" class="note" role="status" aria-live="polite">Choose an exported checklist to recheck. Nothing is uploaded.</p>
+ <div id="conflict-recheck-results" hidden>
+  <h3>Imported player transcription summary — not verified gameplay</h3>
+  <p id="conflict-recheck-summary" class="note">—</p>
+  <label class="field">Collected weapon to check against original images
+   <select id="conflict-recheck-case" aria-label="Saved observation weapon" disabled></select>
+  </label>
+  <div class="equipment-builder-grid">
+   <label class="field">Original title/version screen image
+    <input id="conflict-recheck-title-file" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp">
+   </label>
+   <label class="field">Original +0 weapon-details image
+    <input id="conflict-recheck-weapon-file" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp">
+   </label>
+  </div>
+  <div class="workbench-actions">
+   <button type="button" class="btn alt" id="conflict-recheck-hashes" disabled>Check both screenshot SHA-256 fingerprints</button>
+  </div>
+  <p id="conflict-recheck-hash-result" class="note" role="status" aria-live="polite">Select both original image files to test whether their bytes match the imported record.</p>
+  <p class="note">A matching hash is only evidence of the <strong>same file bytes</strong>. This tool cannot inspect screenshot pixels, establish genuine game provenance, accept independent review, certify AR, or publish revised weapon data. Every imported observation stays <strong>UNREVIEWED</strong>.</p>
+ </div>
+</section>
+<script type="module" src="../src/conflict-evidence-import-app.mjs"></script>
+<section class="panel info"><h2>Source & licence policy</h2><p>Data in this preview is limited to small published numerical facts and independently implemented rules. The ERDB data parser is MIT-licensed code, but that license does not automatically authorize redistribution of all data/assets extracted from the game. A different comprehensive public calculator repository offers no license declaration; no code, images, or tables have been copied from it.</p><p>Before publishing AR/damage, require a traceable source licence, a versioned data snapshot and in-game comparison samples (base/DLC weapons, upgrades, affinities, 1H/2H, PvE/PvP).</p><div class="source-links"><a href="https://en.bandainamcoent.eu/elden-ring/news/elden-ring-patch-notes-version-1172">Official patch 1.17.2</a> · <a href="https://en.bandainamcoent.eu/elden-ring/news/elden-ring-patch-notes-version-117">Official patch 1.17</a> · <a href="https://github.com/EldenRingDatabase/erdb">ERDB parser</a> · <a href="https://almanauts.com/eldenring/rune-calculator/">Rune cost reference</a></div></section></main>
 <footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy & sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
 <script type="module" src="../src/app.mjs"></script></body></html>

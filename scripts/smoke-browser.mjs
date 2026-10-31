@@ -554,8 +554,92 @@ try{
   true,'Clear collection must delete the in-memory draft');
 
 
+
+ // Fully local synthetic file plumbing: create an UNREVIEWED seven-case
+ // JSON via the same writer, re-import it, and compare two local image byte
+ // digests. This does NOT fabricate real in-game observations.
+ await waitFor("document.querySelector('#conflict-recheck-import')?.disabled===false",
+  'Seven-case source evidence reimport ready');
+ const syntheticJson=await evaluate(`(async()=>{
+  const source=await(await fetch('../data/weapon-conflict-evidence.json')).json();
+  const catalog=await(await fetch('../data/community-weapon-catalog.json')).json();
+  const capture=await import('../src/conflict-game-capture.mjs');
+  const fingerprints=await import('../src/ar-screenshot-fingerprint.mjs');
+  const signature=[137,80,78,71,13,10,26,10];
+  const file=(tag,name)=>new File([new Uint8Array(
+   [...signature,...Array.from({length:22},(_,i)=>i+tag)])],
+   name,{type:'image/png'});
+  const title=file(2,'synthetic-title.png');
+  const weapon=file(7,'synthetic-weapon.png');
+  const [a,b]=await Promise.all([
+   fingerprints.fingerprintLocalScreenshot(title),
+   fingerprints.fingerprintLocalScreenshot(weapon)
+  ]);
+  const draft=capture.makeConflictCaptureDraft(source,catalog,{
+   caseId:'sote-reference-051',observed:[8,8,13,13,0],
+   appVersion:'1.17.2',regulationVersion:'1.17.3',
+   platform:'PC / Windows',observedAt:'2026-10-31',
+   checkedPlusZero:true,checkedDefaultAffinity:true,
+   checkedWeaponDetails:true,titleScreenshot:a,weaponScreenshot:b
+  });
+  return JSON.stringify(capture.bundleConflictCaptureDrafts(source,catalog,[draft]),null,2);
+ })()`);
+ assert.ok(syntheticJson.includes('UNREVIEWED')&&
+  !syntheticJson.includes('"gameClientVerified": true'),
+  'Only unreviewed synthetic file metadata may enter browser smoke');
+ await evaluate(`(()=>{
+  const json=${JSON.stringify(syntheticJson)};
+  const file=new File([json],'synthetic-UNREVIEWED-checklist.json',{type:'application/json'});
+  const dt=new DataTransfer();dt.items.add(file);
+  document.querySelector('#conflict-recheck-json').files=dt.files;
+  document.querySelector('#conflict-recheck-import').click();
+ })()`);
+ await waitFor("document.querySelector('#conflict-recheck-feedback').textContent.includes('structure and source readings revalidated')",
+  'Previously exported seven-case checklist imported and re-derived');
+ assert.equal(await evaluate("document.querySelector('#conflict-recheck-summary').textContent.includes('1 unreviewed player transcription')"),
+  true);
+ assert.equal(await evaluate("document.querySelector('#conflict-recheck-case').options.length"),
+  1,'Only captured case eligible for original image recheck');
+ await evaluate("document.querySelector('#conflict-recheck-hashes').click()");
+ await waitFor("document.querySelector('#conflict-recheck-hash-result').textContent.includes('failed')",
+  'Cannot validate originals when user has not reselected files');
+ await evaluate(`(()=>{
+  const header=[137,80,78,71,13,10,26,10];
+  const attach=(id,tag)=>{
+   const file=new File([new Uint8Array([...header,...Array.from(
+    {length:22},(_,i)=>i+tag)])],'original-'+tag+'.png',{type:'image/png'});
+   const dt=new DataTransfer();dt.items.add(file);
+   document.querySelector('#conflict-recheck-'+id).files=dt.files;
+  };
+  attach('title-file',2);attach('weapon-file',7);
+  document.querySelector('#conflict-recheck-hashes').click();
+ })()`);
+ await waitFor("document.querySelector('#conflict-recheck-hash-result').textContent.includes('Both original files match imported bytes')",
+  'Both reselected synthetic originals match imported SHA256 fingerprints');
+ assert.ok((await evaluate("document.querySelector('#conflict-recheck-hash-result').textContent")).includes('UNREVIEWED'));
+ await evaluate(`(()=>{
+  const header=[137,80,78,71,13,10,26,10];
+  const bad=new File([new Uint8Array([...header,...Array.from(
+   {length:22},(_,i)=>i+23)])],'altered-weapon.png',{type:'image/png'});
+  const dt=new DataTransfer();dt.items.add(bad);
+  document.querySelector('#conflict-recheck-weapon-file').files=dt.files;
+  document.querySelector('#conflict-recheck-hashes').click();
+ })()`);
+ await waitFor("document.querySelector('#conflict-recheck-hash-result').textContent.includes('bytes-mismatch')",
+  'Changed image bytes explicitly reported rather than approved');
+ const importMobile=await evaluate(`({
+  viewport:window.innerWidth,page:document.documentElement.scrollWidth,
+  safe:document.querySelector('#conflict-recheck-hash-result').textContent.includes('UNREVIEWED')
+ })`);
+ assert.ok(importMobile.page<=importMobile.viewport+5,
+  '375px evidence recheck UI overflows: '+JSON.stringify(importMobile));
+ assert.equal(importMobile.safe,true);
+ await evaluate("document.querySelector('#conflict-recheck-clear').click()");
+ assert.equal(await evaluate("document.querySelector('#conflict-recheck-results').hidden"),
+  true,'Imported original file references and summaries clear from UI');
+
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;
