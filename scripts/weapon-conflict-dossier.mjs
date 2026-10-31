@@ -101,7 +101,7 @@ export function validateConflictEvidence(catalog,ledger){
       third.agreement!=='matches-pinned-vector'||
       third.referenceVersion!=='unpublished-on-this-per-weapon-page'||
       third.independenceFromPinnedSource!=='not-demonstrated'||
-      third.conclusion!=='provisional-corroborrated-public-reference-only'||
+      third.conclusion!=='provisional-corroborated-public-reference-only'||
       third.gameClientVerified!==false||third.publicationApproved!==false)
     fail('Third-party +0 source does not match pinned six-case evidence.');
    if(weapon.thirdPartyBasePlusZero?.sourceUrl!==third.sourceUrl||
