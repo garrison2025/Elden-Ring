@@ -159,7 +159,9 @@ function renderRecoveredSourcePreview(){
    const row=el('div');row.className='catalog-value';
    const a=v.primary===null?'NOT REPORTED':String(v.primary);
    const b=v.secondary===null?'NOT REPORTED':String(v.secondary);
-   const text=el('strong','A: '+a+' · B: '+b);
+   const explicit=v.explicitThird===undefined?'':' · C (Standard +0): '+
+    (v.explicitThird===null?'NOT REPORTED':String(v.explicitThird));
+   const text=el('strong','A: '+a+' · B: '+b+explicit);
    if(v.evidence==='SOURCE_CONFLICT'||v.evidence==='SECONDARY_NOT_LISTED')text.textContent+=' ⚠';
    text.title=v.evidence.replaceAll('_',' ');
    row.append(el('span',v.label),text);parent.append(row);
@@ -170,13 +172,15 @@ function renderRecoveredSourcePreview(){
  render('catalog-source-requirements',record.requirements);
  $('catalog-source-weight').textContent=String(record.weight)+' (two public readings, not certified)';
  $('catalog-source-critical').textContent=String(record.critical)+' (Eldenpedia published)';
- $('catalog-source-missing').textContent=record.unknownScalingCells+
-  ' scaling fields have no explicit published grade in either of these two references; '+
-  'NOT REPORTED does not prove an absent "-" grade.';
+ $('catalog-source-missing').textContent=record.thirdSourcedScalingCells+
+  ' formerly blank grades have an explicit third-source Standard +0 reading, '+
+  record.unknownScalingCells+' fields still have no explicit source-grade evidence. '+
+  'A blank original column is not proof of "-"; an explicit "-" shown by C is attributed to Fextralife, not the game client.';
  const links=$('catalog-source-links');
  for(const [label,url] of [['Eldenpedia published data',record.sourceAUrl],
   ['Tarnished.app individual page (different from Tarnished.dev)',record.sourceBUrl],
-  ['Third named corroborating source (does not prove actual game)',record.sourceCUrl]]){
+  ['Third named corroborating source (does not prove actual game)',record.sourceCUrl],
+  ['Fextralife Standard +0 grading source (unversioned)',record.sourceScalingUrl]]){
   if(!url)continue;
   const a=el('a',label+' ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';
   const p=el('p');p.append(a);links.append(p);
