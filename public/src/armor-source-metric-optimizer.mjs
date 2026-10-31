@@ -14,6 +14,7 @@
 import {ARMOR_METRICS} from './armor-source-optin.mjs';
 import {ARMOR_OPT_SLOTS,optimizePinnedArmorPoise} from './armor-full-source-optimizer.mjs';
 import {loadTier} from './core.mjs';
+import {optimizeArmorPoiseConstrainedDP} from './armor-poise-constrained-dp.mjs';
 const fail=s=>{throw new RangeError(s)};
 const scale=1000;
 const signature=pieces=>pieces.map(x=>x?.id??'').join('|');
@@ -79,53 +80,66 @@ export function optimizePinnedArmorMetric(rows,{
    metricUnit:'points',missingMetricExcluded:result.missingPoiseExcluded,
    combination:result.combination?.map(x=>({...x,metricValue:x.poise}))??null};
  }
- if(minPoise!==0)fail(
-  'Set Minimum Poise to 0 for the selected damage-negation/resistance objective; '+
-  'multi-constraint exact optimization is not implemented. Choose Poise objective to enforce Minimum Poise.');
  const excluded=new Set(excludedIds);
  const {valid,missingMetric,excludedCount}=validateRows(rows,metric,excluded);
+ // A missing source Poise is allowed when there is no Poise constraint.
+ // When one is requested, exclude rather than interpreting unknown as 0.
+ const missingPoiseExcluded=minPoise?valid.filter(x=>!Number.isInteger(x.poise)||
+  x.poise<0||x.poise>800).length:0;
+ const eligible=minPoise?valid.filter(x=>Number.isInteger(x.poise)&&
+  x.poise>=0&&x.poise<=800):valid;
  const factor=tier==='light'?.3:tier==='medium'?.7:1;
  const maxArmorUnits=Math.ceil((max*factor-reserved)*scale-1e-9)-1;
  const meta=ARMOR_METRICS[metric];
  if(maxArmorUnits<0)return {
   status:'no-solution',reason:'Reserved gear reaches the strict load threshold.',
   metric,metricLabel:meta.label,metricValue:null,
-  missingMetricExcluded:missingMetric,explicitExcluded:excludedCount,
+  missingMetricExcluded:missingMetric,missingPoiseExcluded,
+  minPoise,explicitExcluded:excludedCount,
   combination:null,stages:[],evaluatedRows:rows.length,sourceVerified:false
  };
  const groups=ARMOR_OPT_SLOTS.map(slot=>[
-  null,...valid.filter(x=>x.slot===slot).sort((a,b)=>a.id.localeCompare(b.id))
+  null,...eligible.filter(x=>x.slot===slot).sort((a,b)=>a.id.localeCompare(b.id))
  ]);
- let states=new Map([[0,{value:0,pieces:[]}]]);
- const stages=[];
- for(let si=0;si<ARMOR_OPT_SLOTS.length;si++){
-  const next=new Map();
-  for(const [weight,state] of states){
-   for(const piece of groups[si]){
-    const total=weight+units(piece?.weight??0);
-    if(total>maxArmorUnits)continue;
-    const candidate={value:state.value+(piece?
-     utility(piece.metrics[metric],meta.kind):0),
-     pieces:[...state.pieces,piece]};
-    if(prefer(candidate,next.get(total)))next.set(total,candidate);
+ let best=null,stages=[],algorithm='exact-weight-dp';
+ if(minPoise>0){
+  const solved=optimizeArmorPoiseConstrainedDP(groups,{
+   maxArmorUnits,minPoise,metric,kind:meta.kind
+  });
+  best=solved.best;stages=solved.stages;algorithm=solved.method;
+ }else{
+  let states=new Map([[0,{value:0,pieces:[]}]]);
+  for(let si=0;si<ARMOR_OPT_SLOTS.length;si++){
+   const next=new Map();
+   for(const [weight,state] of states){
+    for(const piece of groups[si]){
+     const total=weight+units(piece?.weight??0);
+     if(total>maxArmorUnits)continue;
+     const candidate={value:state.value+(piece?
+      utility(piece.metrics[metric],meta.kind):0),
+      pieces:[...state.pieces,piece]};
+     if(prefer(candidate,next.get(total)))next.set(total,candidate);
+    }
    }
+   states=next;
+   stages.push({slot:ARMOR_OPT_SLOTS[si],candidates:groups[si].length,
+    stateCount:states.size});
   }
-  states=next;
-  stages.push({slot:ARMOR_OPT_SLOTS[si],candidates:groups[si].length,
-   stateCount:states.size});
- }
- let best=null;
- for(const [armorUnits,state] of states){
-  if(!best||state.value>best.value+1e-12||
-   Math.abs(state.value-best.value)<=1e-12&&(
-    armorUnits<best.armorUnits||
-    armorUnits===best.armorUnits&&signature(state.pieces)<signature(best.pieces)))
-   best={...state,armorUnits};
+  for(const [armorUnits,state] of states){
+   if(!best||state.value>best.value+1e-12||
+    Math.abs(state.value-best.value)<=1e-12&&(
+     armorUnits<best.armorUnits||
+     armorUnits===best.armorUnits&&signature(state.pieces)<signature(best.pieces)))
+    best={...state,armorUnits};
+  }
  }
  if(!best)return {
-  status:'no-solution',reason:'No source-supported combination fits the strict weight limit.',
+  status:'no-solution',reason:minPoise?
+   'No combination satisfies both the strict weight limit and the minimum source Poise.':
+   'No source-supported combination fits the strict weight limit.',
   metric,metricLabel:meta.label,metricValue:null,
-  missingMetricExcluded:missingMetric,explicitExcluded:excludedCount,
+  missingMetricExcluded:missingMetric,missingPoiseExcluded,
+  minPoise,explicitExcluded:excludedCount,
   combination:null,stages,evaluatedRows:rows.length,sourceVerified:false
  };
  const armorWeight=best.armorUnits/scale;
@@ -148,11 +162,12 @@ export function optimizePinnedArmorMetric(rows,{
    'multiplicative source-percentages':'additive source-points',
   // A missing source Poise is unknown, NOT 0.
   poise:allPoiseKnown?items.reduce((a,x)=>a+x.poise,0):null,
+  minPoise,algorithm,
   armorWeight,totalWeight,maxEquipLoad:max,
   rollTier:loadTier(totalWeight,max).tier,targetTier:tier,
   combination:items,missingMetricExcluded:missingMetric,
-  explicitExcluded:excludedCount,evaluatedRows:rows.length,stages,
-  caveat:'Exact single-metric optimum from rounded or missing pinned community source fields. '+
+  missingPoiseExcluded,explicitExcluded:excludedCount,evaluatedRows:rows.length,stages,
+  caveat:'Exact constrained single-objective optimum from rounded or missing pinned community source fields. '+
    'NOT independently verified Tarnished.dev v1.17 same-input output; '+
    'does not include active buffs, passive equipment effects or game-client accuracy.'
  };
