@@ -8,9 +8,10 @@ import {getCatalogCoverage,catalogCoverageCopy} from './home-catalog-coverage.mj
 const read=async f=>readFile(path.join(process.cwd(),'dist',f),'utf8');
 const assert=(pass,label)=>{if(!pass)throw Error('[DEPLOYMENT ARTIFACT] '+label);};
 const main=async()=>{
- const [home,build,smithing,infoText,catalogText]=await Promise.all([
+ const [home,build,smithing,equipment,infoText,catalogText]=await Promise.all([
   read('index.html'),read('build-planner/index.html'),
-  read('weapon-upgrade-calculator/index.html'),read('deployment-info.json'),
+  read('weapon-upgrade-calculator/index.html'),read('equip-load-calculator/index.html'),
+  read('deployment-info.json'),
   read('data/community-weapon-catalog.json')
  ]);
  const source=getCatalogCoverage(JSON.parse(catalogText));
@@ -31,8 +32,16 @@ const main=async()=>{
  assert(smithing.includes('id="multi-weapon-rows"')&&
   smithing.includes('id="multi-owned-inputs"'),
   'Shared Smithing Stone basket not in deployed HTML');
+ assert(build.includes('id="build-equipment-open"'),
+  'Build candidate-to-equipment handoff missing from Build Planner');
+ assert(equipment.includes('id="equipment-weapon-fields"')&&
+  equipment.includes('id="equipment-manual-fields"')&&
+  equipment.includes('id="equipment-confirm"')&&
+  equipment.includes('src="../src/equipment-loadout-app.mjs"'),
+  'Equipped loadout planner not in deployed HTML');
  for(const sourceFile of ['src/app.mjs','src/build-smithing-handoff.mjs',
-   'src/upgrade-materials-app.mjs','src/upgrade-multi-weapon.mjs'])
+   'src/upgrade-materials-app.mjs','src/upgrade-multi-weapon.mjs',
+   'src/equipment-loadout.mjs','src/equipment-loadout-app.mjs'])
   assert((await stat(path.join(process.cwd(),'dist',sourceFile))).size>300,
    'Missing application source in deployed artifact: '+sourceFile);
  const sha=process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'';
@@ -49,7 +58,8 @@ const main=async()=>{
  assert(deployment.researchNoindex===research,
   'Build manifest index setting does not match build gate');
  if(research){
-  for(const [label,html] of [['home',home],['build planner',build],['smithing planner',smithing]])
+  for(const [label,html] of [['home',home],['build planner',build],['smithing planner',smithing],
+   ['equipment loadout',equipment]])
    assert(html.includes('<meta name="robots" content="noindex,follow">'),
     'Research noindex missing from '+label);
   const {access}=await import('node:fs/promises');
