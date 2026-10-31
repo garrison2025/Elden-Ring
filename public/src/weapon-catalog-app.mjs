@@ -147,7 +147,8 @@ function renderDetails(){
    coverage==='requirements-weight-only'?'Shadow of the Erdtree · requirements + community weight only':
    coverage==='requirements-only'?'Shadow of the Erdtree · requirements only':
    'Shadow of the Erdtree · name/category only'):
-  pack?'Tarnished Pack · version-labelled requirements and weight; +0 attack UNKNOWN':
+  pack?(coverage==='base-reference'?'Tarnished Pack · sourced community +0 base (not AR)':
+  'Tarnished Pack · version-labelled requirements and weight; +0 attack UNKNOWN'):
   'Community-reported +0 base data · patch unknown');
  $('catalog-weight').textContent=hasDisputedWeight(chosen)?'SOURCE CONFLICT — unavailable':
    chosen.weight===null?'Not verified':String(chosen.weight);
@@ -208,6 +209,14 @@ function renderDetails(){
   const a=el('a','View pinned Regulation 1.17 conflicting source ↗');
   a.href='https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js';
   a.target='_blank';a.rel='noopener noreferrer';$('catalog-verified').append(a);
+ }
+ if(chosen.currentPatchRequirementCorroboration){
+  const q=chosen.currentPatchRequirementCorroboration;
+  const evidence=el('p','Current Regulation 1.17.3-labelled secondary reference supports FAI 20 (pinned v1.17); other community source reports 13. Not game screenshot verified; automatic wield verdict remains unavailable.');
+  $('catalog-verified').append(evidence);
+  const a=el('a','View independently published current-patch requirement FAI 20 ↗');
+  a.href=q.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';
+  $('catalog-verified').append(a);
  }
  if(chosen.checkedWith){
   const a=el('a',chosen.flags?.includes('wiki-category-table-base-observation')?'View weapon-class comparison source ↗':'View per-weapon numeric reference ↗');
@@ -323,7 +332,8 @@ function showList(reset=false,keepSelected=false){
   const title=el('span',w.name);title.className='catalog-row-title';
   const detail=el('span',w.category+' · '+(w.dataCoverage==='name-category-only'?
    'DLC name/category only':w.expansion==='Tarnished Pack'?
-   'Tarnished Pack · sourced requirements and weight · +0 attack UNKNOWN':w.dataCoverage==='requirements-weight-only'?
+   (w.dataCoverage==='base-reference'?'Tarnished Pack · separately sourced +0 base (not AR)':
+    'Tarnished Pack · sourced requirements and weight · +0 attack UNKNOWN'):w.dataCoverage==='requirements-weight-only'?
    'DLC requirements + community weight · attack unknown':w.dataCoverage==='requirements-only'?
    'DLC attribute requirements only':w.dataCoverage==='base-reference'?
    'DLC sourced +0 stats · not AR':'Wt '+w.weight+' · reported +0 base'));
@@ -334,7 +344,7 @@ function showList(reset=false,keepSelected=false){
      missing.oneHandMissing.map(x=>x.stat+' +'+x.points).join(', ')+' needed (1H)');
   }
   detail.className='catalog-row-desc';
-  const tag=el('span',w.expansion==='Tarnished Pack'?'Tarnished Pack · sourced partial':
+  const tag=el('span',w.expansion==='Tarnished Pack'?(w.dataCoverage==='base-reference'?'Tarnished Pack · +0 source':'Tarnished Pack · partial'):
    w.expansion==='Shadow of the Erdtree'?(w.dataCoverage==='base-reference'?'DLC · +0 source':'DLC · partial'):(w.flags?.length?'Review data':'View details'));
   tag.className='catalog-row-tag';
   btn.append(title,detail,tag);
@@ -413,7 +423,9 @@ try{
   catalog.meta.dlcRequirementOnlyCount+' requirements-only, '+
   catalog.meta.dlcNameOnlyCount+' names-only, '+catalog.meta.dlcUpgradeReferenceCount+
   ' with source-published upgraded BASE attacks; plus '+
-  catalog.meta.tarnishedPackCount+' Tarnished Pack weapons/shields with independently attributed requirements and weight only). No precise DLC or Tarnished Pack AR is available.');
+  catalog.meta.tarnishedPackCount+' Tarnished Pack weapons/shields ('+
+  catalog.meta.tarnishedPackBaseFactCount+' with cited community +0 base attack; '+
+  catalog.meta.tarnishedPackWeightedRequirementsCount+' requirements/weight only)). No precise DLC or Tarnished Pack AR is available.');
 }catch(e){
  status('Could not load weapon records: '+e.message,true);
  $('catalog-results').textContent='No data loaded';
