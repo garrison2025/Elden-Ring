@@ -73,6 +73,7 @@ worker?.addEventListener('message',event=>{
   $('armor-full-heading').textContent='No feasible armor combination from reported source data';
   $('armor-full-details').textContent=r.reason+' '+
    r.missingMetricExcluded+' items excluded for missing '+r.metricLabel+'; '+
+   (r.missingPoiseExcluded??0)+' additionally excluded due to unknown source Poise; '+
    r.explicitExcluded+' excluded by name.';
   status('No source-supported combination met the selected constraints. No result was invented.',true);
   return;
@@ -84,7 +85,11 @@ worker?.addEventListener('message',event=>{
   r.totalWeight.toFixed(3)+' / max '+r.maxEquipLoad.toFixed(3)+
   '; roll tier '+r.rollTier+'. '+r.missingMetricExcluded+
   ' records excluded due to unavailable '+r.metricLabel+'; '+r.explicitExcluded+
-  ' explicitly excluded. '+(r.metricUnit==='%'?'Rounded per-piece source negation is combined multiplicatively; ':'')+
+  ' explicitly excluded. '+(r.minPoise>0?
+   'Minimum source Poise '+r.minPoise+' satisfied: total '+r.poise+'. ':
+   '')+(r.missingPoiseExcluded?
+   r.missingPoiseExcluded+' pieces missing source Poise excluded. ':'')+
+  (r.metricUnit==='%'?'Rounded per-piece source negation is combined multiplicatively; ':'')+
   'Exact optimum within the supplied values, not a numerically verified Tarnished.dev v1.17 browser result.';
  for(const piece of r.combination){
   const row=document.createElement('tr');
@@ -97,7 +102,7 @@ worker?.addEventListener('message',event=>{
  }
  status('Source metric '+r.metricLabel+' optimization completed in Worker. '+
   r.stages.map(x=>x.slot+': '+x.stateCount+' states').join(' · ')+
-  '. Reported Poise is community data, not v1.17.3 game-proven.');
+  '. Source-data only; not an individually observed Tarnished.dev v1.17 armor result.');
 });
 for(const id of ['maxLoad','reservedWeight','targetTier','minPoise','armor-full-exclude','armor-full-metric']){
  $(id).addEventListener(['targetTier','armor-full-metric'].includes(id)?'change':'input',invalidate);

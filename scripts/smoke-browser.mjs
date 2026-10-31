@@ -908,6 +908,18 @@ try{
    'Expected reproducible 568-item source model reference at 75 max load, 18 reserved, medium tier');
   assert.equal(await evaluate("document.querySelectorAll('#armor-full-rows tr').length"),4);
   assert.equal(await evaluate("document.querySelector('#armor-full-results').hidden"),false);
+  // The v1.17 comparator exposes both Poise Minimum and damage maxima.
+  // Verify the UI now jointly enforces the constraints, rather than
+  // post-filtering the unconstrained best armor set.
+  await evaluate("(()=>{const p=document.querySelector('#minPoise');p.value='51';p.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#armor-full-run').click()})()");
+  await waitFor("document.querySelector('#armor-full-details')?.textContent.includes('Minimum source Poise 51 satisfied')||document.querySelector('#armor-full-status')?.dataset.state==='error'",
+   'Exact source physical-negation optimum under 51 Poise and medium roll');
+  const joint=await evaluate("(()=>({title:document.querySelector('#armor-full-heading').textContent,details:document.querySelector('#armor-full-details').textContent,poise:[...document.querySelectorAll('#armor-full-rows tr')].reduce((s,tr)=>s+Number(tr.children[3].textContent),0)}))()");
+  assert.ok(joint.title.includes('Best Physical negation: 31.2922%'),
+   'Pinned 568-item joint Poise/weight constrained physical optimum must match independent source audit');
+  assert.equal(joint.poise,51);
+  assert.match(joint.details,/Minimum source Poise 51 satisfied: total 51/);
+  console.log('[REAL ARMOR JOINT] PASS: source 568, max physical negation 31.2922%, source Poise 51+, exact medium-roll cap.');
   console.log('[REAL ARMOR SOURCE] 568-item public-source Worker completed independent physical-negation objective; not a competitor UI golden.');
   await navigate('/weapon-database/?weapon=v117-roster-001');
   await waitFor("document.querySelector('#catalog-title')?.textContent==='Albinauric Shield'",

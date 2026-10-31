@@ -23,9 +23,21 @@ for(const [metric,meta] of Object.entries(ARMOR_METRICS)){
   !Number.isFinite(result.metricValue)||result.metricValue<=0||
   result.combination.length!==4||!(result.totalWeight<75*.7))
   throw Error('Real source optimization failed for '+metric);
+ const withPoise=optimizePinnedArmorMetric(source.armors,{
+  metric,maxEquipLoad:75,reservedWeight:18,tier:'medium',minPoise:51
+ });
+ if(withPoise.status!=='optimized-source-reference'||withPoise.poise<51||
+  !Number.isFinite(withPoise.metricValue)||withPoise.metricValue<=0||
+  withPoise.combination.length!==4||!(withPoise.totalWeight<75*.7))
+  throw Error('Pinned-source exact joint optimization failed for '+metric);
+ if(withPoise.metricValue>result.metricValue+1e-5)
+  throw Error('Adding a Poise minimum cannot improve the unconstrained optimum: '+metric);
  summary.objectives[metric]={knownSourceValues:known,
   missingSourceValues:source.count-known,
   optimizedScore:result.metricValue,units:result.metricUnit,
-  rollTier:result.rollTier,elapsedMs:Date.now()-started};
+  rollTier:result.rollTier,elapsedMs:Date.now()-started,
+  atLeast51PoiseScore:withPoise.metricValue,
+  verifiedMinimumPoise:withPoise.poise,
+  constrainedAlgorithm:withPoise.algorithm??'native-poise-exact-dp'};
 }
 console.log(JSON.stringify(summary,null,2));
