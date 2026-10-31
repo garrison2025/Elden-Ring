@@ -8,7 +8,7 @@ test('reference tools no longer require user installation or game client screens
  assert.match(html,/Tarnished\.dev/);
  assert.match(html,/v1\.17 reference calculator/);
  assert.match(html,/Game-client screenshots are needed only for claims of independently game-verified current-patch accuracy/);
- assert.match(html,/pinned v1\.17 reference AR engine now meets the documented representative 15-case external parity matrix/);
+ assert.match(html,/pinned v1\.17 reference AR engine now meets the documented representative 50-case external parity matrix/);
 });
 test('weapon catalog links to free versioned reference workbench without pretending benchmark parity',()=>{
  const html=read('weapon-database/index.html');
@@ -21,23 +21,23 @@ test('weapon catalog links to free versioned reference workbench without pretend
 });
 test('homepage separately labels v1.17 reference AR and unverified current patch AR',()=>{
  const html=read('index.html');
- assert.match(html,/Reference v1\.17 AR passes 15 representative external-site comparisons/);
+ assert.match(html,/Reference v1\.17 AR passes 50 independently repeated same-input external-site comparisons/);
  assert.match(html,/current-patch certified AR/);
  assert.match(html,/no game installation is needed/);
 });
 
-test('accuracy dashboard shows repeatable 15/15 source UI parity, six weapons and distinct 39,552 internal math checks',()=>{
+test('accuracy dashboard shows repeatable 50/50 source UI parity, twelve families and distinct 39,552 internal math checks',()=>{
  const html=read('validation-status/index.html');
- assert.match(html,/15 \/ 15/);
- assert.match(html,/Six weapon families/);
+ assert.match(html,/50 \/ 50/);
+ assert.match(html,/12 weapon families/);
  assert.match(html,/39,552/);
  assert.match(html,/NOT 39,552 external-site comparisons/);
- assert.match(html,/reference benchmark PASS for these 15 cases only/);
+ assert.match(html,/reference benchmark PASS for these 50 cases only/);
  assert.match(html,/41180592038/);
  assert.match(html,/41180757356/);
  assert.match(html,/41180757347/);
  assert.match(html,/Regulation 1\.17\.3 game client/);
  assert.match(html,/Fire Knight&amp;#39;s Greatsword|Fire Knight&#39;s Greatsword/);
  const home=read('index.html');
- assert.match(home,/15 of 15 same-input Tarnished.dev browser results/);
+ assert.match(home,/50 of 50 independently repeated Tarnished.dev v1.17 browser cases/);
 });
