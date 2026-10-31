@@ -26,7 +26,12 @@ async function main(){
   catalogRows:coverage.catalogRows,matchedRows:coverage.matchedRows,
   missingRows:coverage.missingRows,missingIndices:coverage.missingIndices,
   uniqueSourceFamilies:coverage.uniqueSourceFamilies,gameVerified:false,
-  sourceParametersExported:false
+  sourceParametersExported:false,
+  unlistedPlayableCount:coverage.unlistedPlayableCount,
+  excludedNonEquipmentCount:coverage.excludedNonEquipmentCount,
+  uniqueCatalogNames:coverage.uniqueCatalogNames,
+  sourceWearableFamilies:coverage.sourceWearableFamilies,
+  completeForPinnedSource:coverage.completeForPinnedSource
  };
  await mkdir(dirname(output),{recursive:true});
  await writeFile(resolve(process.cwd(),'.audit/v117-catalog-family-coverage.json'),
@@ -36,28 +41,17 @@ async function main(){
  if(!coverage.allMatched){console.error('[CATALOG SOURCE FAMILIES] Broken catalog handoff: exact source family missing.');
   process.exitCode=1;
  }
- // Reverse roster diagnostic: the old one-way 416/416 check cannot prove completeness.
- // Print only names and brief row markers in job logs to classify unused/ammo.
- const normal=s=>String(s??'').trim().replace(/[\\u2018\\u2019]/g,"'").toLowerCase();
- const present=new Set(community.weapons.map(w=>normal(w.name)));
- const bySource=new Map();
- for(const item of params.weapons){
-  const name=item.weaponName||item.name;
-  const key=normal(name);
-  if(!key||present.has(key))continue;
-  const row=bySource.get(key)||{name,variants:0,neutral:0,keys:Object.keys(item).slice(0,18),example:null};
-  row.variants++;
-  if(item.affinityId===0||item.affinityId===-1){
-   row.neutral++;if(!row.example)row.example={
-    affinityId:item.affinityId,weaponType:item.weaponType,requirements:item.requirements,weaponCategory:item.weaponCategory,
-    type:item.type,category:item.category,weaponId:item.weaponId,itemId:item.itemId
-   };
-  }
-  bySource.set(key,row);
+ // Bi-directional pinned-source roster gate: all wearable names now present,
+ // one virtual 'Unarmed' state excluded; no raw regulation rows exported.
+ console.log('[REVERSE ROSTER] unique-pinned-families='+coverage.uniqueSourceFamilies+
+  ' playable='+coverage.sourceWearableFamilies+' catalog-names='+coverage.uniqueCatalogNames+
+  ' unlisted-playable='+coverage.unlistedPlayableCount+
+  ' virtual-Unarmed-excluded='+coverage.excludedNonEquipmentCount+
+  ' complete-for-pinned-1.17='+coverage.completeForPinnedSource);
+ if(!coverage.completeForPinnedSource||community.meta.basePinnedRequirementsOnlyCount!==72){
+  console.error('[REVERSE ROSTER] Unresolved item names or source-derived requirements.');
+  process.exitCode=1;
  }
- console.log('[REVERSE ROSTER] source-only family names='+bySource.size+' vs original catalog '+present.size);
- for(const w of [...bySource.values()].sort((a,b)=>a.name.localeCompare(b.name)))
-  console.log('[REVERSE ROW] '+JSON.stringify(w));
  const cross=compareDlcWithV117(community,params);
  const tagged=community.weapons.filter(w=>w.expansion==='Shadow of the Erdtree').filter(w=>
   w.flags?.includes('v117-community-attack-conflict')||w.flags?.includes('v117-community-requirement-conflict'));
