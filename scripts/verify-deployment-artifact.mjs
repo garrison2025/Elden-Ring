@@ -109,7 +109,7 @@ const main=async()=>{
   'Build manifest index setting does not match build gate');
  const headers=await read('_headers');
  const seoWithheld=[
-  'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench',
+  'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-ar-calculator',
   'weapon-database','validation-status','respec-planner',
   'weapon-requirements','armor-optimizer','weapon-upgrade-calculator'
  ];
