@@ -891,6 +891,14 @@ try{
   await evaluate("(()=>{const el=document.querySelector('#qar-upgrade');el.value='25';el.dispatchEvent(new Event('change',{bubbles:true}))})()");
   await waitFor("document.querySelector('#qar-onehand')?.textContent==='488'",
    'Real source calculates Keen +25 STR40 DEX40 = 488');
+
+  await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Blasphemous Blade';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-somber').value='10';document.querySelector('#qar-rank-regular').value='25';document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
+   'Real Somber +10 source AR ranking opens despite separate Regular +25 input');
+  const somberRank=await evaluate("({results:[...document.querySelectorAll('#qar-rank-rows tr')].map(tr=>tr.children[2].textContent),status:document.querySelector('#qar-rank-status').textContent})");
+  assert.ok(somberRank.results.length>0,'Somber Blasphemous Blade has at least one legal source profile');
+  assert.ok(somberRank.results.every(x=>x.includes('Somber +10')),
+   'Somber profiles must never use the unrelated Regular +25 input');
   await evaluate("(()=>{const x=document.querySelector('#qar-search');x.value='Blasphemous Blade';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor("document.querySelector('#qar-upgrade')?.options.length===11",
    'Somber-only Blasphemous Blade has +0..+10, never fabricated +25');
