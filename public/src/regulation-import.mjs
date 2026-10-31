@@ -73,12 +73,18 @@ export function convertCompactRegulation(regulation,{weaponName,gameVersion,sour
  const weapon=selected[0];
  const attack=fromPairs(weapon.attack,'weapon attack',Array.from({length:12},(_,i)=>String(i)));
  const baseScale=fromPairs(weapon.attributeScaling,'weapon attribute scaling',attrs);
- const requirements=object(weapon.requirements??{},'weapon requirements');
+ // A wholly missing requirements table is UNKNOWN, not five zero requirements.
+ // Sparse *present* requirement objects may omit attributes whose source value is zero.
+ const requirements=object(weapon.requirements,'weapon requirements');
  const corrections=object(choose(root.attackElementCorrects,weapon.attackElementCorrectId,'attack-element-correction'),'attack element correction');
  const reinforcement=choose(root.reinforceTypes,weapon.reinforceTypeId,'reinforcement');
  if(!Array.isArray(reinforcement)||reinforcement.length<1||reinforcement.length>26)err('Invalid reinforcement table length.');
  const graphIds=weapon.calcCorrectGraphIds??{};
  const baseDamage={},scaling={},curves={},rules={};
+ // Resolve source scaling before interpreting per-element numeric overrides.
+ // A positive override with zero/missing source scaling must not silently
+ // produce a zero AR contribution (the raw reference rejects this too).
+ for(const a of attrs)scaling[a]=finite(baseScale[a]??0,'base scaling '+a,0,100);
  let anyAttack=false;
  for(let d=0;d<5;d++){
   const key=types[d],base=finite(attack[String(d)]??0,key+' base damage',0,100000);
@@ -93,12 +99,16 @@ export function convertCompactRegulation(regulation,{weaponName,gameVersion,sour
    if(value===undefined||value===false||value===null||value===0){
     rules[key][attribute]={enabled:false};continue;
    }
-   if(value!==true)finite(value,'override '+key+'/'+attribute,0,100);
+   if(value!==true){
+    finite(value,'override '+key+'/'+attribute,0,100);
+    if(scaling[attribute]===0)
+     err('Nonzero correction override for '+key+'/'+attribute+
+      ' requires positive source attribute scaling; input is incomplete.');
+   }
    rules[key][attribute]={enabled:true,impactRatio:1,overrideScaling:value===true?null:value};
   }
  }
  if(!anyAttack)err('Selected weapon has no physical/magic/fire/lightning/holy damage.');
- for(const a of attrs)scaling[a]=finite(baseScale[a]??0,'base scaling '+a,0,100);
  const upgrades=reinforcement.map((reinf,level)=>{
   object(reinf,'reinforcement step '+level);
   const attackMult=object(reinf.attack,'reinforcement damage multipliers');
