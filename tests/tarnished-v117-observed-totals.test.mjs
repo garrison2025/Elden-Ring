@@ -16,7 +16,7 @@ test('35 additional v1.17 UI AR totals were observed independently in TWO Chrome
  assert.equal(new Set(candidates.map(c=>c.id)).size,35);
  assert.equal(new Set(Object.keys(observed)).size,35);
 });
-test('eight exact comparator differences remain explicit until arithmetic rule is verified',()=>{
+test('eight exact comparator differences remain explicit until arithmetic rule is verified',async()=>{
  const expectedKnownDiffs=['longsword-fire-p12','claymore-magic-p25',
   'greatsword-cold-p25','greatsword-fire-p12-2h',
   'fire-knight-greatsword-flameart-p25','fire-knight-greatsword-fire-p25',
