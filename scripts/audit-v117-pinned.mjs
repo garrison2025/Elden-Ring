@@ -14,6 +14,7 @@ import {auditHistoricalPlayerAr} from '../public/src/external-ar-evidence.mjs';
 import {auditCurrentReferenceAr,CURRENT_REFERENCE_URL} from '../public/src/current-reference-ar.mjs';
 import {auditTarnishedV117ReferenceAR} from '../public/src/tarnished-reference-benchmark.mjs';
 import {buildV117CatalogOverlay} from '../public/src/v117-catalog-overlay.mjs';
+import {buildV117ComparatorCatalog} from '../public/src/v117-comparator-catalog.mjs';
 
 const output=resolve(process.cwd(),'.audit/v117-math-audit.json');
 async function main(){
@@ -25,7 +26,41 @@ async function main(){
  const community=JSON.parse(await readFile(resolve(process.cwd(),'public/data/community-weapon-catalog.json'),'utf8'));
  const versionedOverlay=buildV117CatalogOverlay(community,params);
  const versioned=versionedOverlay.summary;
- console.log('[CATALOG V1.17 SOURCE] neutral='+versioned.sourceMapped+'/'+versioned.total+
+ // This is the user's ONLY reference-data acceptance standard. Check every
+ // neutral catalog family, not one-by-one ad hoc community source decisions.
+ // Only aggregate acceptance metrics are retained; no third-party raw data.
+ const accepted=buildV117ComparatorCatalog(community,versionedOverlay);
+ const acceptedFactsMatch=accepted.catalog.weapons.every(w=>{
+  const row=versionedOverlay.rows.get(w.id);
+  return row.status==='pinned-v117-neutral-reference'&&
+   w.attack.every((v,i)=>v===row.attack[i])&&
+   w.requirements.every((v,i)=>v===row.requirements[i]);
+ });
+ const acceptedReport={
+  comparator:'Tarnished.dev public v1.17; fixed public v1.17 parameter snapshot',
+  checkedFamilies:accepted.summary.mapped,
+  neutralAttackFieldsAccepted:accepted.summary.mapped,
+  minimumRequirementFieldsAccepted:accepted.summary.mapped,
+  sourceOnlyAttackRecovered:accepted.summary.recoveredAttack,
+  previousCommunityAttackDifferences:accepted.summary.overriddenAttack,
+  previousCommunityRequirementDifferences:accepted.summary.overriddenRequirements,
+  remainingUnknownWeights:accepted.summary.weightNotSupplied,
+  remainingDisputedWeights:accepted.summary.weightConflictsRemain,
+  allNeutralAttackAndRequirementsMatchSource:acceptedFactsMatch,
+  independentPublicSiteARExamples:50,
+  mappingIsNotIndividualWebsiteObservation:true,
+  requiresInGameValidation:false,
+  liveDatasetBundled:false,
+  sourceRightsReviewedSeparately:true
+ };
+ await mkdir(dirname(output),{recursive:true});
+ await writeFile(resolve(process.cwd(),'.audit/v117-catalog-comparator-acceptance.json'),
+  JSON.stringify(acceptedReport,null,2)+'\n','utf8');
+ console.log('[ALL-FAMILY V1.17 ACCEPTANCE] '+JSON.stringify(acceptedReport));
+ if(accepted.summary.mapped!==community.weapons.length||!acceptedFactsMatch||
+  accepted.summary.recoveredAttack!==community.meta.basePinnedRequirementsOnlyCount)
+  throw Error('Versioned source comparison did not cover all published neutral weapon families.');
+ console.log('[CATALOG V1.17 SOURCE] neutral=+versioned.sourceMapped+'/'+versioned.total+
   ' source-only='+versioned.sourceOnlyMapped+' flagged='+versioned.flaggedDisputesMapped+
   ' attack-differences='+versioned.neutralAttackDifferences+
   ' requirement-differences='+versioned.neutralRequirementDifferences+
