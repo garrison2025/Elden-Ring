@@ -27,7 +27,7 @@ test('reference-only parity gates retain 50 competitor cases and exclude real-ga
  assert.equal(audit.gates.length,4);
  assert.equal(audit.gates.filter(g=>g.pass).length,1);
  assert.equal(audit.gates.find(g=>g.id==='pinned-v117-50-reference-cases').target,50);
- assert.match(audit.qualification,/NOT ACCURACY/);
+ assert.match(audit.qualification,/reference parity ONLY/);
  assert.equal(audit.comparatorOnly,true);
  assert.equal(audit.outOfScope.length,3);
  assert.ok(audit.outOfScope.some(x=>x.includes('Regulation 1.17.3')));
