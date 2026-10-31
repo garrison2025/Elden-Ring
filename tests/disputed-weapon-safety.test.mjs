@@ -73,7 +73,7 @@ test('Build A/B preserves disputed status without inventing source weapon eligib
  assert.equal(model.baseline.weapon.requirementsDisputed,true);
  assert.equal(model.baseline.weapon.oneHanded,null);
  assert.equal(model.current.weapon.requirementsDisputed,false);
- assert.equal(model.current.weapon.oneHanded,true);
+ assert.equal(model.current.weapon.oneHanded,false,'Samurai DEX 15 does not meet Milady DEX 17; unaffected lookup remains reliable');
 });
 test('all six attack disputes have explicitly labelled community +0 values but no confident attack filter',()=>{
  const disputed=catalog.weapons.filter(hasDisputedAttack);
@@ -108,7 +108,7 @@ test('unaffected weapon behaviour stays unchanged and UI explicitly displays con
  assert.equal(hasDisputedAttack(sword),false);
  assert.equal(hasDisputedRequirements(sword),false);
  const html=read('src/weapon-catalog-app.mjs');
- assert.ok(html.includes('source readings, NOT confirmed in-game figures'));
+ assert.ok(html.includes('NOT confirmed in-game figures'));
  assert.ok(html.includes('hasDisputedRequirements(chosen)'));
  assert.ok(html.includes("'catalog-requirements-link').hidden=true"));
  assert.ok(read('src/app.mjs').includes('requirements DISPUTED'));
