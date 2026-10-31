@@ -1,4 +1,4 @@
-import {DAMAGE_LABELS,ATTRIBUTE_LABELS,weaponRequirementComparison,hasDisputedAttack,hasDisputedRequirements} from './community-weapons.mjs';
+import {DAMAGE_LABELS,ATTRIBUTE_LABELS,weaponRequirementComparison,hasDisputedAttack,hasDisputedRequirements,hasDisputedWeight} from './community-weapons.mjs';
 const fail=message=>{throw new RangeError(message)};
 const unknown=v=>v===null||v===undefined?'Unknown':String(v);
 function validateIds(ids,known){
@@ -42,10 +42,11 @@ export function compareWeaponReferences(weapons,ids,stats=null){
    w.dataCoverage==='requirements-only'?'DLC requirements only':
    w.dataCoverage==='name-category-only'?'DLC name/class only':'Base-game community +0');
  add('Weapon class',w=>w.category);
- add('Weight',w=>unknown(w.weight));
+ add('Weight',w=>hasDisputedWeight(w)?'DISPUTED (community '+unknown(w.weight)+')':unknown(w.weight));
  add('Source dispute',w=>[
   hasDisputedAttack(w)?'Base attack unresolved':'',
-  hasDisputedRequirements(w)?'Requirements unresolved':''
+  hasDisputedRequirements(w)?'Requirements unresolved':'',
+  hasDisputedWeight(w)?'Weight unresolved':''
  ].filter(Boolean).join(' + ')||'No flagged v1.17 dispute (still community data)');
  add('Critical',w=>unknown(w.critical));
  for(let i=0;i<DAMAGE_LABELS.length;i++){
