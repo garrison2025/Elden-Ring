@@ -369,3 +369,35 @@ entries have no sourced track and must be confirmed by the player. No
 published reference reinforcement level is silently used as the player's
 current level. Material math is **not** weapon AR, rune costs, game-client
 parity or special weapon-effect calculation. Research `noindex` remains.
+
+## Build Planner → multi-weapon Smithing Stone shortlist (2026-10-31)
+
+The existing `/build-planner/` optional weapon selector now includes a separate
+**Smithing shortlist**. Add up to **eight distinct** references, remove them,
+or clear the list; disabling Shadow of the Erdtree references discards DLC
+shortlist items, including when restoring a saved Build with DLC disabled.
+The shortlist is deliberately **session-only**: it is separate from the
+single-weapon selection and is NOT stored in the existing saved Build or
+the shared Build attributes link.
+
+**Plan stones for selected weapons** opens
+`/weapon-upgrade-calculator/?weapons=<bounded ids>`. Only the existing
+catalog IDs are carried in the query; no user-provided item name, AR,
+unconfirmed upgrade track, current level, target level, account data or
+full character stats are transferred. The material planner fetches and
+validates its own bundled community catalog, re-resolves **all identities**
+and rejects unknown, malformed, duplicate, >8 or oversized handoffs.
+It does not trust external URL names or item upgrade classifications.
+
+Imported rows intentionally have **no default track, current level or
+target level**. The player must select Regular (+25) or Somber (+10)
+and enter the real +levels for each weapon before the existing
+multi-weapon aggregation produces results. Six explicitly
+community-sourced Somber reinforcement-table weapons display a
+clearly labeled **non-certified** hint, but that track is never
+auto-confirmed. All other tracks remain unknown until selected.
+The combined inventory is subtracted once from aggregated needs;
+no new API, backend or browser persistence is used. This is not
+verified player inventory, game-client current-version data, AR,
+weapon-specific rune costs or actual combat damage. Research
+`noindex` remains unchanged.
