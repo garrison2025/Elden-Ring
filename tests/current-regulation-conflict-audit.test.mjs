@@ -43,11 +43,13 @@ test('pure local audit compares exact 7 original conflicts with synthetic source
 test('compares five +0 components after the source-specific reinforcement factor, not raw attack or AR',()=>{
  const root=base(),axe=root.weapons.find(w=>w.name==='Smithscript Axe');
  axe.attack=[[0,100]];
- const alt=structuredClone(root);alt.reinforceTypes['5'][0].attack['0']=1.31;
+ axe.reinforceTypeId=6;
+ const alt=structuredClone(root);
+ alt.reinforceTypes['6']=[{attack:{0:1.31,1:1,2:1,3:1,4:1}}];
  const out=auditCurrentRegulationConflicts(catalog,ledger,alt,meta);
  assert.deepEqual(out.results.find(x=>x.name==='Smithscript Axe').sourceValues,[131,0,0,0,0]);
  assert.equal(out.counts.pinnedMatches,7);
- const missing=structuredClone(alt);delete missing.reinforceTypes['5'][0].attack['0'];
+ const missing=structuredClone(alt);delete missing.reinforceTypes['6'][0].attack['0'];
  const bad=auditCurrentRegulationConflicts(catalog,ledger,missing,meta);
  assert.equal(bad.results.find(x=>x.name==='Smithscript Axe').sourceStatus,'invalid');
  assert.equal(bad.counts.pinnedMatches,6);
