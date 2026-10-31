@@ -117,8 +117,7 @@ test('seven-case export contains only authentic supplied drafts and non-certifie
   d=>{d.numericComparison='matches-pinned-v117-source';},
   d=>{d.reviewStatus='APPROVED';},
   d=>{d.gameClientVerified=true;},
-  d=>{d.localScreenshots.titleScreen.sha256='c'.repeat(64);},
-  d=>{d.conditions.userAttested=false;},
+  // An opaque fingerprint can be substituted after export; JSON alone cannot\n  // reauthenticate a screenshot without the original file bytes.\n  d=>{d.conditions.userAttested=false;},
   d=>{d.publishedSources.community=[1,2,3,4,5];},
   d=>{d.observedComponents[3]=17;}
  ]){
