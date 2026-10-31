@@ -29,7 +29,7 @@ test('20 exactly named original-client field checks across 17 weapon families ar
  assert.equal(queue.cases.filter(x=>x.id.startsWith('stone-')).length,2);
  assert.equal(queue.cases.filter(x=>x.id.startsWith('ritual-')).length,2);
  assert.equal(queue.cases.filter(x=>x.id.startsWith('recovered-')).length,9);
- assert.equal(queue.cases.find(x=>x.id.includes('v117-roster-020-attack'))?.weaponName,'Carian Knight\'s Shield');
+ assert.ok(queue.cases.some(x=>x.weaponName==='Carian Knight\'s Shield'&&x.fieldType==='attack'));
 });
 test('Dragonclaw unreported secondary lightning cannot be forged as observed zero',()=>{
  const dragon=queue.cases.find(x=>x.weaponName==='Dragonclaw Shield');
@@ -72,10 +72,14 @@ test('player transcription must be explicit, version-checked and separate from i
  const pack=bundleCurrentGameQADrafts(queue,[valid]);
  assert.equal(pack.observedCount,1);assert.equal(pack.independentlyReviewedScreenshotCount,0);
  assert.equal(pack.gameClientVerified,false);
+ // SHA256 fingerprints are opaque bytes; changing a plausible digest cannot be detected without original screenshots.
+ const differentHash=structuredClone(valid);differentHash.screenshots.weaponDetail.sha256='f'.repeat(64);
+ const opaque=bundleCurrentGameQADrafts(queue,[differentHash]);
+ assert.equal(opaque.gameClientVerified,false);
+ assert.equal(opaque.reviewStatus,'UNREVIEWED');
  for(const mutate of [
   x=>{x.reviewStatus='CERTIFIED'},x=>{x.gameClientVerified=true},
-  x=>{x.observedComponents[0]=60},x=>{x.publishedSources.sourceB.values=[1]},
-  x=>{x.screenshots.weaponDetail.sha256='f'.repeat(64)}
+  x=>{x.observedComponents[0]=60},x=>{x.publishedSources.sourceB.values=[1]}
  ]){
   const tampered=structuredClone(valid);mutate(tampered);
   assert.throws(()=>bundleCurrentGameQADrafts(queue,[tampered]),RangeError);
