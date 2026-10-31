@@ -49,7 +49,34 @@
       "screenshotCount": 0,
       "sourceClass": "community-vs-pinned-regulation",
       "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
-      "doNotAutoCorrect": true
+      "doNotAutoCorrect": true,
+      "withinPageZeroContradiction": {
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Fire_Knight%27s_Shortsword",
+        "samePageStats": [
+          75,
+          0,
+          32,
+          0,
+          0
+        ],
+        "samePageStandardZero": [
+          72,
+          0,
+          22,
+          0,
+          0
+        ],
+        "pinnedV117": [
+          75,
+          0,
+          22,
+          0,
+          0
+        ],
+        "category": "unreconciled-published-source-internal-base-attack-contradiction",
+        "gameClientVerified": false,
+        "note": "Wiki.gg's basic Stats section gives Physical 75 / Fire 32; its Standard +0 upgrading table gives Physical 72 / Fire 22. Pinned v1.17 says Physical 75 / Fire 22. Do not auto-select or splice fields into a purported verified vector."
+      }
     },
     {
       "id": "sote-reference-041",
