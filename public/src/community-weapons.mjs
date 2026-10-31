@@ -6,16 +6,22 @@ const fail=m=>{throw new RangeError(m);};
 const ATTACK_CONFLICT='v117-community-attack-conflict';
 const REQUIREMENT_CONFLICT='v117-community-requirement-conflict';
 const WEIGHT_CONFLICT='v117-community-weight-conflict';
+const PACK_WEIGHT_CONFLICT='tarnished-pack-weight-secondary-conflict';
+const PACK_REQUIREMENT_CONFLICT='tarnished-pack-requirement-secondary-conflict';
 const PACK_ZERO_REFERENCES=Object.freeze({
  'Idus Sword':{attack:[124,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Idus_Sword'},
  'Reed Great Katana':{attack:[158,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Reed_Great_Katana'},
- 'Silver Grooved Shield':{attack:[61,0,0,0,0],critical:100,scaling:['D','-','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Silver_Grooved_Shield'}
+ 'Silver Grooved Shield':{attack:[61,0,0,0,0],critical:100,scaling:['D','-','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Silver_Grooved_Shield'},
+ 'Reverse-Bladed Sword':{attack:[115,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Backhand_Blades'},
+ 'Hefty Scimitar':{attack:[135,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Curved_Greatswords'},
+ "Leontiel's Greatsword":{attack:[130,0,0,0,0],critical:100,scaling:['E','C','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Greatswords'},
+ 'Golden Order Flail':{attack:[75,0,0,0,92],critical:100,scaling:['E','E','-','C','-'],url:'https://eldenring.wiki.gg/wiki/Flails'}
 });
 
 /** Distinguish documented community values from unresolved patch disagreements. */
 export const hasDisputedAttack=w=>(w?.flags??[]).includes(ATTACK_CONFLICT);
-export const hasDisputedRequirements=w=>(w?.flags??[]).includes(REQUIREMENT_CONFLICT);
-export const hasDisputedWeight=w=>(w?.flags??[]).includes(WEIGHT_CONFLICT);
+export const hasDisputedRequirements=w=>(w?.flags??[]).some(flag=>flag===REQUIREMENT_CONFLICT||flag===PACK_REQUIREMENT_CONFLICT);
+export const hasDisputedWeight=w=>(w?.flags??[]).some(flag=>flag===WEIGHT_CONFLICT||flag===PACK_WEIGHT_CONFLICT);
 
 /**
  * Validates a 2026-10-30 snapshot of factual community weapon properties.
@@ -48,7 +54,7 @@ export function validateCommunityCatalog(catalog){
    fail('Tarnished Pack entries require attributed 1.17.3 requirements and weight at row '+i);
   if(pack&&coverage==='base-reference'&&(
     !w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')||
-    w.baseFactsProvenance?.type!=='single-community-weapon-page-plus-zero'||
+    !['single-community-weapon-page-plus-zero','wiki-class-comparison-table-plus-zero'].includes(w.baseFactsProvenance?.type)||
     w.baseFactsProvenance?.versionVerified!==false||
     !(w.flags??[]).includes('wiki-pack-pluszero-not-game-version-certified')||
     !PACK_ZERO_REFERENCES[w.name]||
@@ -57,6 +63,27 @@ export function validateCommunityCatalog(catalog){
     w.critical!==PACK_ZERO_REFERENCES[w.name].critical||
     w.scaling?.join(',')!==PACK_ZERO_REFERENCES[w.name].scaling.join(',')))
    fail('Pack +0 base facts must cite one weapon wiki page and remain game-unverified at row '+i);
+  if(w.secondarySourceDisagreement!==undefined){
+   const e=w.secondarySourceDisagreement,primary=e.currentVersionLabelled;
+   const alt=e.alternatives;
+   if(!pack||w.name!=='Ritual Thrusting Shield'||coverage!=='requirements-weight-only'||
+      !w.flags?.includes(PACK_WEIGHT_CONFLICT)||!w.flags?.includes(PACK_REQUIREMENT_CONFLICT)||
+      e.status!=='SECONDARY_SOURCE_DISAGREEMENT_NOT_GAME_VERIFIED'||
+      e.fieldScope?.join(',')!=='weight,requirements'||e.gameClientVerified!==false||
+      e.publicationApproved!==false||primary?.sourceUrl!=='https://almanauts.com/eldenring/weapons/'||
+      primary.regulation!=='1.17.3'||primary.gameBuild!=='25827938'||
+      primary.weight!==10||primary.requirements?.join(',')!=='13,12,0,0,0'||
+      w.weight!==10||w.requirements?.join(',')!=='13,12,0,0,0'||
+      !Array.isArray(alt)||alt.length!==2||
+      alt[0].sourceUrl!=='https://wiki.eso-ui.com/index.php/Elden_Ring%3ARitual_Thrusting_Shield'||
+      alt[0].weight!==9||alt[0].requirements?.join(',')!=='13,12,0,0,0'||
+      alt[1].sourceUrl!=='https://allthings.how/elden-ring-tarnished-edition-ritual-thrusting-shield-location-guide/'||
+      alt[1].weight!==10||alt[1].requirements?.join(',')!=='15,12,0,0,0')
+     fail('Ritual Thrusting Shield secondary source disagreement is stale or falsely verified.');
+  }
+  if((w.flags??[]).some(x=>x===PACK_WEIGHT_CONFLICT||x===PACK_REQUIREMENT_CONFLICT)&&
+     w.secondarySourceDisagreement===undefined)
+   fail('Tarnished Pack secondary source dispute flag requires complete evidence.');
   if(w.currentPatchRequirementCorroboration!==undefined){
    const p=w.currentPatchRequirementCorroboration;
    if(w.id!=='sote-reference-051'||!hasDisputedRequirements(w)||
@@ -126,6 +153,7 @@ export function validateCommunityCatalog(catalog){
   tarnishedPackCount:packRows.length,
   tarnishedPackWeightedRequirementsCount:packRows.filter(w=>w.dataCoverage==='requirements-weight-only').length,
   tarnishedPackBaseFactCount:packRows.filter(w=>w.dataCoverage==='base-reference').length,
+  tarnishedPackSecondarySourceConflictCount:packRows.filter(w=>w.secondarySourceDisagreement!==undefined).length,
   currentPatchRequirementsCorroborationCount:catalog.weapons.filter(w=>w.currentPatchRequirementCorroboration!==undefined).length,
   dlcCatalogCount:dlcRows.length,
   dlcBaseFactCount:dlcRows.filter(w=>w.dataCoverage==='base-reference').length,
@@ -308,6 +336,8 @@ export function cautionForWeapon(w){
   'SOURCE CONFLICT: the wiki +0 base attack differs from game-derived Regulation 1.17 parameters after its +0 reinforcement multiplier. Exact version/patch parity has NOT been verified; treat this +0 number as disputed.');
  if(flags.has(WEIGHT_CONFLICT))warnings.push(
   'SOURCE CONFLICT: weapon weight disagrees between sources. Do not compute a complete equipped load or roll tier from this disputed weight.');
+ if(flags.has(PACK_WEIGHT_CONFLICT)||flags.has(PACK_REQUIREMENT_CONFLICT))warnings.push(
+  'TARNISHED PACK SOURCE CONFLICT: Ritual Thrusting Shield has weight 10 in a version-labelled source versus 9 elsewhere, and STR requirement 13 versus 15 elsewhere. Neither exact equipped weight nor wield eligibility is computed until independently reviewed; source values remain visible for audit.');
  if(flags.has('v117-community-requirement-conflict'))warnings.push(
   'SOURCE CONFLICT: the wiki attribute requirement differs from public game-derived Regulation 1.17 parameters. Current regulation and independent gameplay evidence are needed before selecting a definitive requirement.');
  if(w.currentPatchRequirementCorroboration)warnings.push(
