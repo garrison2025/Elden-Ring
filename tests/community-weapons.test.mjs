@@ -411,7 +411,7 @@ test('another fourteen cited +0 DLC rows use current single-weapon sources, not 
  const stone=find('Stone-Sheathed Sword');
  assert.deepEqual(stone.attack,[89,0,0,0,0]);
  assert.equal(stone.dataCoverage,'base-reference');
- assert.match(cautionForWeapon(stone).join(' '),/Conflicting \+0/);
+ assert.match(cautionForWeapon(stone).join(' '),/STONE-SHEATHED \+0 CONFLICT/);
  assert.match(stone.conflictSourceUrl,/Stone-Sheathed_Sword/);
 });
 test('special paired and fist 2H requirements follow named published exceptions only',()=>{
