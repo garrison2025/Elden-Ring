@@ -886,6 +886,14 @@ try{
    'Every primary-attack-unknown row should show source reference +0');
   assert.ok((await evaluate("document.querySelector('#catalog-v117-attack').textContent")).includes('78'),
    'Real Albinauric Shield has public source +0 physical 78');
+  assert.ok((await evaluate("document.querySelector('#catalog-damage').textContent")).includes('78'),
+   'Accepted v1.17 +0 attack must appear in PRIMARY weapon detail, not just audit overlay');
+  assert.ok((await evaluate("document.querySelector('#catalog-warnings').textContent")).includes('487 neutral attack'),
+   'Page must declare the authoritative version and source-limited scope');
+  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('Not verified'),
+   'Comparator must not fill the 72 unsourced weapon weights');
+  assert.ok(catalogSourceText.includes('All 487 neutral rows now USE v1.17 attack and requirements'),
+   'Full source mapping must actually activate versioned catalog calculations');
   assert.ok((await evaluate("document.querySelector('#catalog-v117-differences').textContent")).includes('WEIGHT UNKNOWN'),
    'Pinned source does not supply weapon weight');
   assert.ok(catalogSourceText.includes('41 attack and 25 requirement differences'),
