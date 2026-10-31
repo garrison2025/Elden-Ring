@@ -886,7 +886,18 @@ try{
    'Real Albinauric Shield has public source +0 physical 78');
   assert.ok((await evaluate("document.querySelector('#catalog-v117-differences').textContent")).includes('WEIGHT UNKNOWN'),
    'Pinned source does not supply weapon weight');
-  console.log('[REAL V1.17 CATALOG] 487 neutral source matches, 72 source-only +0 readings, unknown weapon weight still blocked.');
+  assert.ok(catalogSourceText.includes('41 attack and 25 requirement differences'),
+   'All 41 existing community attack and 25 requirement disagreements must be visible');
+  for(const [filter,expected] of [
+   ['source-only',72],['flagged',9],['attack-difference',41],
+   ['requirement-difference',25]
+  ]){
+   await evaluate("(()=>{const q=document.querySelector('#catalog-v117-filter');q.value='"+filter+"';q.dispatchEvent(new Event('change',{bubbles:true}))})()");
+   assert.ok((await evaluate("document.querySelector('#catalog-results').textContent"))
+    .includes(expected+' matching entries'),filter+' filter must show exact '+expected+' source cases');
+  }
+  assert.equal(await evaluate("document.querySelector('#catalog-v117-filter').disabled"),false);
+  console.log('[REAL V1.17 CATALOG] 487 unique neutral matches, 72 unknown attack preview rows, 9 flagged disputes, 41/25 new cross-source differences, no weight guesses.');
   await navigate('/weapon-ar-calculator/?weapon=Uchigatana&player=40%2C40%2C10%2C10%2C10&upgrade=0');
   assert.equal(await evaluate("document.querySelector('#qar-workspace').hidden"),true,
    'Pinned source must not be fetched before explicit user action');
