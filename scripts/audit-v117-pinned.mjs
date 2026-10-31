@@ -43,8 +43,19 @@ async function main(){
   attack:w.flags.includes('v117-community-attack-conflict'),
   req:w.flags.includes('v117-community-requirement-conflict')
  }]));
- const unreviewed=cross.differences.filter(x=>!expected.has(x.name)||
-  expected.get(x.name).attack!==x.attackConflict||expected.get(x.name).req!==x.requirementConflict);
+ const disputedStone=community.weapons.find(w=>w.id==='sote-reference-059');
+ const acknowledgesStone=Boolean(disputedStone?.flags?.includes('stone-sheathed-attack-source-conflict')&&
+   disputedStone?.sourceAttackDisagreement?.chosenAttack?.join(',')==='89,0,0,0,0'&&
+   disputedStone?.sourceAttackDisagreement?.conflict?.physical===119&&
+   disputedStone?.sourceAttackDisagreement?.clientRegulationVerified===false);
+ const unreviewed=cross.differences.filter(x=>{
+  // The Stone-Sheathed source disagreement is documented separately from
+  // the original 7 older v1.17 source conflicts; never auto-approve 89.
+  if(x.name==='Stone-Sheathed Sword'&&x.attackConflict&&!x.requirementConflict&&
+     acknowledgesStone)return false;
+  return !expected.has(x.name)||
+   expected.get(x.name).attack!==x.attackConflict||expected.get(x.name).req!==x.requirementConflict;
+ });
  const obsolete=tagged.filter(w=>!cross.differences.some(x=>x.name===w.name));
  const crossReport={
   schemaVersion:1,auditType:'INDEPENDENT COMMUNITY +0 vs PINNED 1.17 SOURCE',
@@ -53,6 +64,8 @@ async function main(){
   attackConflicts:cross.attackConflicts,requirementConflicts:cross.requirementConflicts,
   allConflictsAcknowledged:unreviewed.length===0&&obsolete.length===0,
   unreviewedCount:unreviewed.length,obsoleteFlagCount:obsolete.length,
+  separatelyDisputedStoneSheathedAttackAcknowledged:acknowledgesStone,
+  stoneSheathedSourceGameVerified:false,
   sourceNameOrParameterRowsExported:false,gameVerified:false
  };
  await mkdir(dirname(output),{recursive:true});
