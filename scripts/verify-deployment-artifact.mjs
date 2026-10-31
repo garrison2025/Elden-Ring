@@ -54,7 +54,8 @@ const main=async()=>{
  assert(deployment.catalog?.weapons===source.weapons&&
   deployment.catalog?.dlc===source.dlc&&
   deployment.catalog?.dlcBaseFacts===source.dlcBaseFacts&&
-  deployment.catalog?.tarnishedPack===source.tarnishedPack,
+  deployment.catalog?.tarnishedPack===source.tarnishedPack&&
+  deployment.catalog?.tarnishedPackBaseFacts===source.tarnishedPackBaseFacts,
   'Deployment manifest differs from bundled weapon JSON');
  assert(home.includes('<p data-home-weapon-coverage>'+catalogCoverageCopy(source)+'</p>'),
   'Homepage does not match bundled weapon JSON');
