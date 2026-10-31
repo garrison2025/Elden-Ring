@@ -60,6 +60,40 @@ export function validateRecoveredSourceReferences(ledger,catalog){
     !equal(other.fieldDisagreements,expectedDisagreements.filter(x=>x!=='requirements'))||
     record.sourceStatus!==(expectedDisagreements.length?'SOURCE_CONFLICT':'SOURCE_REFERENCE_ONLY'))
     fail('Disputed published fields must never be silently reconciled.');
+  if(expectedDisagreements.length){
+   const third=record.thirdSource;
+   const expectedCount=record.name==='Buckler'?2:1;
+   if(!third||third.sourceName!=='ESO-UI named page'||
+     !third.sourceUrl.startsWith('https://wiki.eso-ui.com/index.php/Elden_Ring%3A')||
+     third.sourceVersion!=='not authenticated against App 1.17.2 / Regulation 1.17.3'||
+     third.sourceLineageIndependenceEstablished!==false||
+     third.gameClientVerified!==false||third.publicationApproved!==false||
+     !Array.isArray(third.checks)||third.checks.length!==expectedCount||
+     third.checks.some(c=>!expectedDisagreements.includes(c.field)||c.gameClientVerified!==false||
+       !Number.isInteger(c.componentIndex)||c.componentIndex<0||c.componentIndex>=5||
+       !['tarnished-app','eldenpedia','pinned-v117'].includes(c.agreesWith)))
+     fail('Every disputed field must have exact third-source evidence, not asserted client proof.');
+   const thirdExpected={
+    'Buckler':[['attackAtPlusZero',0,68,'tarnished-app'],['scalingAtPlusZero',1,'D','tarnished-app']],
+    "Carian Knight's Shield":[['attackAtPlusZero',1,40,'tarnished-app']],
+    'Dragonclaw Shield':[['attackAtPlusZero',3,76,'eldenpedia']],
+    'Fingerprint Stone Shield':[['attackAtPlusZero',0,139,'tarnished-app']],
+    'Golden Greatshield':[['attackAtPlusZero',0,113,'tarnished-app']],
+    'Erdtree Greatshield':[['scalingAtPlusZero',0,'D','tarnished-app']],
+    'Inseparable Sword':[['scalingAtPlusZero',3,'C','eldenpedia']],
+    'Visage Shield':[['requirements',0,44,'pinned-v117']]
+   };
+   const want=thirdExpected[record.name];
+   if(!want||want.length!==third.checks.length||
+     third.checks.some((c,i)=>c.field!==want[i][0]||c.componentIndex!==want[i][1]||
+       c.value!==want[i][2]||c.agreesWith!==want[i][3]))
+     fail('Third-party field-level corroboration differs from recorded named page.');
+   if(record.name==='Erdtree Greatshield'&&(
+     third.patchWeightCaveat?.esoWeight!==13.5||
+     third.patchWeightCaveat?.post117ReferenceWeight!==11.5))
+     fail('Erdtree third source weight is stale against 1.17; version caveat cannot be removed.');
+  }else if(record.thirdSource!==undefined)
+   fail('Non-disputed records must not be promoted by unrelated third-source evidence.');
   if(record.name==='Buckler'&&(!equal(record.additionalAttackSource?.attackAtPlusZero,[68,0,0,0,0])||
       !equal(e.attackAtPlusZero,[60,0,0,0,0])||
       !record.disputedFields.includes('scalingAtPlusZero')))
@@ -98,11 +132,13 @@ export function validateRecoveredSourceReferences(ledger,catalog){
     conflictIds.length!==ledger.sourceConflictItems||
     attackConflictCount!==ledger.attackConflictCount||
     scalingConflictCount!==ledger.scalingConflictCount||
-    requirementConflictCount!==ledger.requirementConflictCount)
+    requirementConflictCount!==ledger.requirementConflictCount||
+    ledger.thirdSourceCorroborationGroups!==8||ledger.thirdSourceCorroboratedDisputedFields!==9)
   fail('Cross-source completion or conflict audit totals drifted.');
  return {total:72,attackReferences:attackCount,weightReferences:weightCount,
   criticalReferences:criticalCount,scalingReferences:scalingCount,unknownScalingGrades:unknownGrades,
   crosscheckedReferences:72,sourceConflicts:conflictIds.length,conflictIds,conflicts,
   attackConflicts:attackConflictCount,scalingConflicts:scalingConflictCount,
-  requirementConflicts:requirementConflictCount,currentGameVerified:0,readyForExactAr:0};
+  requirementConflicts:requirementConflictCount,thirdSourceGroups:8,thirdSourceFields:9,
+  currentGameVerified:0,readyForExactAr:0};
 }
