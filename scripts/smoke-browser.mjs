@@ -816,6 +816,18 @@ try{
  await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Fictional';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
   'Source ranking can be recalculated after input change');
+ await evaluate("(()=>{const cb=document.querySelector('#qar-rank-all');cb.checked=true;cb.dispatchEvent(new Event('change',{bubbles:true}));const q=document.querySelector('#qar-rank-search');q.value='';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+ await waitFor("document.querySelector('#qar-rank-status')?.textContent.includes('4 results over 4 matching')",
+  'Global full-source rank works with no search term and evaluates entire loaded fictional source');
+ assert.equal(await evaluate("document.querySelector('#qar-rank-visible-count').textContent.includes('Showing 4 of 4')"),
+  true,'A globally sorted full-source UI states total evaluated, not just first page');
+ assert.equal(await evaluate("document.querySelector('#qar-rank-more').hidden"),true,
+  'Small global queries do not show extra pages');
+ await evaluate("(()=>{const track=document.querySelector('#qar-rank-track');track.value='somber';track.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+ await waitFor("document.querySelector('#qar-rank-status')?.textContent.includes('0 results over 4 matching')",
+  'Somber-only filter excludes invented regular source paths');
+ assert.equal(await evaluate("document.querySelector('#qar-rank-csv').disabled"),true,
+  'No ranking rows must produce no export');
  await evaluate("document.querySelector('#qar-twohand').click()");
  await waitFor("document.querySelector('#qar-total')?.textContent==='152'",
   'Switching grip recomputes selected v1.17-style AR');
@@ -907,6 +919,20 @@ try{
    'Must rank multiple unrelated exact weapon families together');
   assert.ok(mixed.rows.includes('Regular +25')&&mixed.rows.includes('Somber +10'),
    'Regular and Somber paths remain separate in cross-family ranking');
+  await evaluate("(()=>{const full=document.querySelector('#qar-rank-all');full.checked=true;full.dispatchEvent(new Event('change',{bubbles:true}));const term=document.querySelector('#qar-rank-search');term.value='';term.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-status')?.textContent.includes('matching source variants')&&document.querySelector('#qar-rank-status')?.dataset.state!=='loading'",
+   'Full v1.17 source ranking completed without misleading truncated set');
+  const globalRank=await evaluate("({notice:document.querySelector('#qar-rank-status').textContent,visible:document.querySelectorAll('#qar-rank-rows tr').length,totalText:document.querySelector('#qar-rank-visible-count').textContent,moreHidden:document.querySelector('#qar-rank-more').hidden,csvDisabled:document.querySelector('#qar-rank-csv').disabled,vals:[...document.querySelectorAll('#qar-rank-rows tr')].map(tr=>Number(tr.children[3].textContent))})");
+  assert.match(globalRank.notice,/over 3296 matching source variants/);
+  assert.equal(globalRank.visible,100,'Browser renders only first 100 globally sorted rows');
+  assert.match(globalRank.totalText,/Showing 100 of /);
+  assert.equal(globalRank.moreHidden,false,'Full-source results support progressive pagination');
+  assert.equal(globalRank.csvDisabled,false,'Export covers all calculated source ranks, not just 100 shown');
+  assert.deepEqual(globalRank.vals,[...globalRank.vals].sort((a,b)=>b-a));
+  await evaluate("document.querySelector('#qar-rank-more').click()");
+  assert.equal(await evaluate("document.querySelectorAll('#qar-rank-rows tr').length"),200,
+   'Pagination displays next 100 globally pre-ranked rows');
+
   await evaluate("(()=>{const x=document.querySelector('#qar-search');x.value='Blasphemous Blade';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor("document.querySelector('#qar-upgrade')?.options.length===11",
    'Somber-only Blasphemous Blade has +0..+10, never fabricated +25');

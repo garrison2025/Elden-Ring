@@ -54,7 +54,7 @@ const resetResult=()=>{
  setText('qar-caveat','No calculated result yet. Reference numbers are not game-client certified.');
 };
 
-let rankingRevision=0,rankedResult=null;
+let rankingRevision=0,rankedResult=null,rankingVisible=0;
 const rankingStatus=(message,state='ready')=>{
  $('qar-rank-status').textContent=message;
  $('qar-rank-status').dataset.state=state;
@@ -64,6 +64,8 @@ const invalidateRanking=()=>{
  $('qar-rank-csv').disabled=true;
  $('qar-rank-results').hidden=true;
  $('qar-rank-rows').replaceChildren();
+ $('qar-rank-more').hidden=true;rankingVisible=0;
+ $('qar-rank-visible-count').textContent='';
  rankingStatus('Inputs changed. Run the ranking for these exact settings.');
 };
 const readRankLevel=(id,max)=>{
@@ -82,19 +84,21 @@ const rankWeaponVariants=()=>{
   const af=$('qar-rank-affinity').value;
   request({op:'rank-variants',requestId:rankingRevision,
    term,affinityId:af==='all'?'all':Number(af),
+   allSource:$('qar-rank-all').checked,
+   reinforcement:$('qar-rank-track').value,
+   wieldableOnly:$('qar-rank-wieldable').checked,
    stats,regularUpgrade:readRankLevel('qar-rank-regular',25),
    somberUpgrade:readRankLevel('qar-rank-somber',10),
    twoHanded:$('qar-twohand').checked});
   rankingStatus('Calculating legal source variants locally…','loading');
  }catch(error){rankingStatus(error.message,'error');}
 };
-const renderRanking=result=>{
- rankedResult=null;$('qar-rank-results').hidden=true;$('qar-rank-csv').disabled=true;
- $('qar-rank-rows').replaceChildren();
- if(result.status==='too-broad'){rankingStatus(result.message,'error');return;}
- if(result.status!=='complete-query')throw new RangeError('Unexpected ranking report status.');
+const renderRankingPage=()=>{
+ if(!rankedResult)return;
  const tbody=$('qar-rank-rows');
- for(const [i,item] of result.rows.entries()){
+ const finish=Math.min(rankedResult.rows.length,rankingVisible+100);
+ for(let i=rankingVisible;i<finish;i++){
+  const item=rankedResult.rows[i];
   const tr=document.createElement('tr');
   const affinity=item.affinityId===-1?'Unique / None':
    TARNISHED_V117_AFFINITIES[item.affinityId]??'Unmapped source affinity';
@@ -111,18 +115,31 @@ const renderRanking=result=>{
   if(!item.requirementsMet)tr.classList.add('qar-ranking-unmet');
   tbody.append(tr);
  }
+
+ rankingVisible=finish;
+ $('qar-rank-visible-count').textContent='Showing '+rankingVisible+' of '+
+  rankedResult.rows.length+' source-calculated AR rows, sorted globally across the complete matching set.';
+ $('qar-rank-more').hidden=rankingVisible>=rankedResult.rows.length;
+};
+const renderRanking=result=>{
+ rankedResult=null;$('qar-rank-results').hidden=true;$('qar-rank-csv').disabled=true;
+ $('qar-rank-rows').replaceChildren();
+ if(result.status==='too-broad'){rankingStatus(result.message,'error');return;}
+ if(result.status!=='complete-query')throw new RangeError('Unexpected ranking report status.');
  const sourceNote=sourceKind==='demo'?'FICTIONAL QA DATA — NOT GAME RESULTS. ':
   sourceKind==='pinned'?'Pinned v1.17 reference — NOT Regulation 1.17.3 certified. ':
   'USER-IMPORTED JSON — source/version not verified. ';
  rankingStatus(sourceNote+result.rankedCount+' results over '+result.totalMatches+
-  ' matching source variants; '+result.excludedCount+' unsupported/invalid excluded. '+
+  ' matching source variants; '+result.excludedCount+' unsupported/invalid excluded; '+
+  result.filteredOutCount+' excluded by selected reinforcement/requirement filters. '+
   POWER_STATS.map(s=>s.toUpperCase()+' '+safeStats()[s]).join(' / ')+
   ($('qar-twohand').checked?' · 2H.':' · 1H.'));
  $('qar-rank-exclusions').textContent=result.excludedCount?
   'Excluded examples: '+result.excludedExamples.map(x=>x.name+' ('+x.reason+')').join(' · ')+
   (result.excludedCount>result.excludedExamples.length?' · More excluded cases not shown.':''):
   'No source variants excluded from this query.';
- $('qar-rank-results').hidden=false;rankedResult=result;
+ $('qar-rank-results').hidden=false;rankedResult=result;rankingVisible=0;
+ renderRankingPage();
  $('qar-rank-csv').disabled=result.rows.length===0;
 };
 
@@ -407,6 +424,10 @@ $('qar-twohand').addEventListener('change',invalidateRanking);
 for(const id of ['qar-rank-search','qar-rank-regular','qar-rank-somber'])
  $(id).addEventListener('input',invalidateRanking);
 $('qar-rank-affinity').addEventListener('change',invalidateRanking);
+$('qar-rank-track').addEventListener('change',invalidateRanking);
+$('qar-rank-all').addEventListener('change',invalidateRanking);
+$('qar-rank-wieldable').addEventListener('change',invalidateRanking);
+$('qar-rank-more').addEventListener('click',renderRankingPage);
 $('qar-rank-run').addEventListener('click',rankWeaponVariants);
 $('qar-rank-csv').addEventListener('click',()=>{
  if(!rankedResult||!rankedResult.rows.length)return;

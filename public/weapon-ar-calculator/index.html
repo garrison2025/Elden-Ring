@@ -118,11 +118,17 @@
 <label class="field">Somber upgrade (0–10)
 <input id="qar-rank-somber" type="number" min="0" max="10" value="0" inputmode="numeric" step="1"></label>
 </div>
+<div class="qar-source-filters" role="group" aria-label="Source ranking scope and eligibility filters">
+<label class="qar-toggle"><input id="qar-rank-all" type="checkbox"><span>Rank the entire loaded source <small>All source variants, not the first 240. Calculated in a separate browser Worker.</small></span></label>
+<label class="field">Reinforcement track
+<select id="qar-rank-track"><option value="both">Regular + Somber</option><option value="regular">Regular only</option><option value="somber">Somber only</option></select></label>
+<label class="qar-toggle"><input id="qar-rank-wieldable" type="checkbox"><span>Show only entries meeting minimum attributes <small>Not a simulation of special grip rules.</small></span></label>
+</div>
 <div class="qar-actions">
 <button id="qar-rank-run" class="btn" type="button">Rank matching weapon AR</button>
 <button id="qar-rank-csv" class="btn alt" type="button" disabled>Export displayed AR ranking CSV</button>
 </div>
-<p class="qar-fineprint">Enter one search fragment (e.g. Greatsword) or 2–8 distinct exact weapon/family names separated by commas (e.g. Uchigatana, Greatsword, Blasphemous Blade). Missing names are rejected rather than silently omitted. For safety, queries matching over 240 source variants must be narrowed; no alphabetically truncated result is called a global top ranking. Unsupported +levels and invalid source profiles are excluded with a count and examples. Unmet minimum attributes stay visible as warnings—not as “wieldable.” Paired/forced-grip, status, ammunition, skills and enemy-defense mechanics are not simulated. This is v1.17 <strong>reference AR only</strong>, not game-client-certified 1.17.3 or actual enemy damage.</p>
+<p class="qar-fineprint">Enter one search fragment (e.g. Greatsword) or 2–8 distinct exact weapon/family names separated by commas (e.g. Uchigatana, Greatsword, Blasphemous Blade). Missing names are rejected rather than silently omitted. For ordinary name queries, more than 240 source variants requires narrowing. You can explicitly opt in to rank the complete loaded source; the Worker evaluates every matching source variant, while the browser renders 100 rows at a time to stay responsive. No truncated first-page subset is misrepresented as a global ranking. Unsupported +levels and invalid source profiles are excluded with a count and examples. Unmet minimum attributes stay visible as warnings—not as “wieldable.” Paired/forced-grip, status, ammunition, skills and enemy-defense mechanics are not simulated. This is v1.17 <strong>reference AR only</strong>, not game-client-certified 1.17.3 or actual enemy damage.</p>
 <p id="qar-rank-status" class="qar-status" role="status" aria-live="polite">Load a source to compare weapon AR.</p>
 <div id="qar-rank-results" hidden>
 <div class="table-wrap qar-ranking-table-wrap" tabindex="0" aria-label="Scroll horizontally to view full AR ranking">
@@ -132,6 +138,8 @@
 </table>
 </div>
 <p id="qar-rank-exclusions" class="qar-fineprint"></p>
+<p id="qar-rank-visible-count" class="qar-fineprint" aria-live="polite"></p>
+<button id="qar-rank-more" class="btn alt" type="button" hidden>Show next 100 ranked entries</button>
 </div>
 </section>
 <section class="panel info qar-information">
