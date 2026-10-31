@@ -16,7 +16,7 @@ const find=name=>catalog.weapons.find(w=>w.name===name);
 const sourceConflict='v117-community-weight-conflict';
 
 test('existing seven disputes are NOT changed; only attribution path exposes conflicting attack figures',()=>{
- assert.equal(catalog.weapons.length,416);
+ assert.equal(catalog.weapons.length,487);
  assert.equal(catalog.meta.v117SourceConflictCount,7);
  const six=catalog.weapons.filter(w=>w.flags?.includes('v117-community-attack-conflict'));
  assert.equal(six.length,6);
