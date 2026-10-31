@@ -219,7 +219,7 @@ byId('build-loadout-export').addEventListener('click',()=>{
   const url=URL.createObjectURL(new Blob([data+'\n'],{type:'application/json'}));
   const a=document.createElement('a');a.href=url;a.download='elden-ring-build-equipment.json';
   document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
-  status('JSON exported. Names, slots and manually entered weights only; no secret data or game files.');
+  status('JSON exported. This file contains selected names, IDs and weights; no external game parameter file is included.');
  }catch(e){status('Cannot export equipment: '+e.message,true);}
 });
 byId('build-loadout-import').addEventListener('change',async()=>{
@@ -243,7 +243,7 @@ byId('build-loadout-share').addEventListener('click',async()=>{
   u.searchParams.set('loadout',encodeBuildLoadout(state()));
   if(u.toString().length>8000)throw Error('Link too long; export JSON instead.');
   try{await navigator.clipboard.writeText(u.toString());
-   status('Combined character stats and equipment link copied; only URL data, no upload.');}
+   status('Build and equipment URL copied. It includes selected stats and names; opening the link may expose them to the hosting provider.');}
   catch{status('Clipboard unavailable. Use exported JSON instead.',true);}
  }catch(e){status('Cannot create combined URL: '+e.message,true);}
 });
