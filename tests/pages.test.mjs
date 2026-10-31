@@ -259,7 +259,8 @@ test('real weapon database exposes combinable character-wield, damage-type and w
  const app=await readFile(join(root,'src/weapon-catalog-app.mjs'),'utf8');
  for(const id of ['catalog-wield','catalog-damage-filter','catalog-max-weight','catalog-stats'])
   assert.ok(html.includes('id="'+id+'"'),id);
- assert.match(app,/searchCatalog\(catalog\.weapons/);
+ assert.match(app,/searchCatalog\(filteredWeapons/);
+ assert.match(app,/sourceFilter==='all'\?catalog\.weapons/);
  assert.match(app,/readStats\(\)/);
  assert.match(html,/not a guarantee for paired\/special/);
 });

@@ -867,6 +867,40 @@ try{
  // deterministic browser smoke. CI performs the explicit user click; the
  // production calculator NEVER fetches third-party data on page load.
  if(process.env.RUN_REAL_V117_BROWSER==='1'){
+  await navigate('/weapon-database/?weapon=v117-roster-001');
+  await waitFor("document.querySelector('#catalog-title')?.textContent==='Albinauric Shield'",
+   'Source-only Albinauric Shield selected in the real catalog');
+  assert.equal(await evaluate("document.querySelector('#catalog-v117-panel').hidden"),true,
+   'External source facts cannot load without explicit user click');
+  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('Not verified'),
+   'Unknown weapon weight must never default to zero');
+  await evaluate("document.querySelector('#catalog-v117-load').click()");
+  await waitFor("document.querySelector('#catalog-v117-status')?.textContent.includes('source variants:')||document.querySelector('#catalog-v117-status')?.textContent.includes('unavailable:')",
+   'Pinned neutral source overlay loads or shows a meaningful error');
+  const catalogSourceText=await evaluate("document.querySelector('#catalog-v117-status').textContent");
+  assert.ok(catalogSourceText.includes('487/487 unique neutral records'),
+   'Source must map all 487 catalog names: '+catalogSourceText);
+  assert.ok(catalogSourceText.includes('72 of the 72 source-only'),
+   'Every primary-attack-unknown row should show source reference +0');
+  assert.ok((await evaluate("document.querySelector('#catalog-v117-attack').textContent")).includes('78'),
+   'Real Albinauric Shield has public source +0 physical 78');
+  assert.ok((await evaluate("document.querySelector('#catalog-v117-differences').textContent")).includes('WEIGHT UNKNOWN'),
+   'Pinned source does not supply weapon weight');
+  assert.ok(catalogSourceText.includes('41 attack and 25 requirement differences'),
+   'All 41 existing community attack and 25 requirement disagreements must be visible');
+  // The deep-linked item prepopulates the global name search. Clear it to
+  // verify totals across the full 487-row corpus, then apply source filters.
+  await evaluate("document.querySelector('#catalog-search').value=''");
+  for(const [filter,expected] of [
+   ['source-only',72],['flagged',9],['attack-difference',41],
+   ['requirement-difference',25]
+  ]){
+   await evaluate("(()=>{const q=document.querySelector('#catalog-v117-filter');q.value='"+filter+"';q.dispatchEvent(new Event('change',{bubbles:true}))})()");
+   assert.ok((await evaluate("document.querySelector('#catalog-results').textContent"))
+    .includes(expected+' matching entries'),filter+' filter must show exact '+expected+' source cases');
+  }
+  assert.equal(await evaluate("document.querySelector('#catalog-v117-filter').disabled"),false);
+  console.log('[REAL V1.17 CATALOG] 487 unique neutral matches, 72 unknown attack preview rows, 9 flagged disputes, 41/25 new cross-source differences, no weight guesses.');
   await navigate('/weapon-ar-calculator/?weapon=Uchigatana&player=40%2C40%2C10%2C10%2C10&upgrade=0');
   assert.equal(await evaluate("document.querySelector('#qar-workspace').hidden"),true,
    'Pinned source must not be fetched before explicit user action');

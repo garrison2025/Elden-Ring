@@ -4,7 +4,7 @@
 <meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
 <title>Elden Ring Weapon Database | Base Stats & Requirements</title>
 <meta name="description" content="Browse 487 unique named Elden Ring armaments: 377 base-game (72 source-only, missing attack and weight), 102 Shadow of the Erdtree, and 8 Tarnished Pack records. Some have +0 and upgraded base attack observations, but no certified AR. Community-reported data, patch unverified.">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css"><link rel="stylesheet" href="../assets/weapon-v117-overlay.css">
 </head><body data-page="weapon-catalog">
 <header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="active" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="active" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
 <main class="container">
@@ -66,6 +66,21 @@
  </label>
 </div>
 <p id="catalog-quality-summary" class="note" role="status" aria-live="polite">Checking bundled source-field availability…</p>
+<section class="catalog-v117-optin" aria-label="Optional pinned v1.17 source comparison">
+ <h3>Compare catalog facts against pinned Regulation v1.17</h3>
+ <p class="note">On request, fetch the fixed public v1.17 parameter snapshot used by our reference AR calculator. See +0 physical/elemental base and minimum attributes for the selected weapon, including the 72 catalog entries without primary attack and the source-disputed entries. This is a <strong>source-to-source</strong> comparison, not 487 independently observed Tarnished.dev weapon pages. The current site has 50 independently checked same-input AR examples. This source does <strong>not</strong> establish weapon weight, so no weight, equip-load, damage filters or original catalog numbers are overridden.</p>
+ <button type="button" class="btn alt" id="catalog-v117-load">Load pinned public v1.17 source · compare 487 entries</button>
+ <label class="field" for="catalog-v117-filter">Browse versioned source differences
+ <select id="catalog-v117-filter" disabled>
+  <option value="all">All original catalog entries</option>
+  <option value="source-only">72 source-only entries: now with v1.17 +0 reference</option>
+  <option value="flagged">Nine previously flagged source disputes</option>
+  <option value="attack-difference">Community +0 attack differs from v1.17</option>
+  <option value="requirement-difference">Community requirements differ from v1.17</option>
+  <option value="any-difference">Any newly detected attack / requirement difference</option>
+ </select></label>
+ <p id="catalog-v117-status" class="note" role="status" aria-live="polite">Not loaded. No remote source downloaded automatically.</p>
+</section>
 <p class="note">“Complete” means +0 base attack, minimum requirements and individual weapon weight are present without a flagged catalog source conflict. It does <strong>not</strong> mean verified against the current game or cleared for third-party redistribution. “Partial” includes unknown and disputed fields; the research-only 72-item preview is not used to fill original catalog numbers.</p>
 <p class="note">* Two-hand filter uses a conservative ordinary melee Strength assumption, not a guarantee for paired/special grips. Requirement-shortfall sorting puts records with unknown requirements last and uses the source-reported one-handed rule. Damage and weight filters exclude records with unknown values; the 102 sourced Shadow of the Erdtree and 8 sourced Tarnished Pack +0 references are published, but the seven disputed attack rows are excluded from numerical damage filtering but are NOT confirmed for the current regulation and cannot calculate AR. Base damage types do not imply final AR or actual damage.</p>
 <div class="workbench-actions"><button type="button" id="catalog-clear-filters" class="btn alt">Clear all filters</button></div>
@@ -86,6 +101,17 @@
 <div><span class="metric-label">Reported critical</span><strong id="catalog-critical">—</strong></div>
 </div>
 <h3>Reported +0 base attack (where available; not AR)</h3><div id="catalog-damage" class="catalog-values"></div>
+<section id="catalog-v117-panel" class="catalog-v117-panel" hidden aria-label="Versioned source facts and disagreements">
+ <h3>Pinned v1.17 source vs bundled community facts</h3>
+ <p id="catalog-v117-summary" class="note" role="status" aria-live="polite">—</p>
+ <h4>Pinned Regulation v1.17 neutral +0 base attack (not player AR)</h4>
+ <div id="catalog-v117-attack" class="catalog-values"></div>
+ <h4>Pinned Regulation v1.17 minimum attributes</h4>
+ <div id="catalog-v117-requirements" class="catalog-values"></div>
+ <p id="catalog-v117-differences" class="note">—</p>
+ <p class="note">The pinned source does not provide a verified individual weapon weight here. This view never changes the original community readings, comparison filters or equip-load totals, and does not claim a separate Tarnished.dev AR observation for every weapon.</p>
+ <a id="catalog-v117-source-link" href="https://github.com/ThomasJClark/elden-ring-weapon-calculator" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Inspect pinned v1.17 source snapshot ↗</a>
+</section>
 <section id="catalog-source-preview" hidden aria-labelledby="catalog-source-title">
  <h3 id="catalog-source-title">Unverified +0 published reference preview</h3>
  <div class="safe-banner"><strong>Evidence only, not a current-patch calculation.</strong> These values are not used by weight, damage, AR or sort filters. Agreement between websites does not prove the game client. A = Eldenpedia published reading; B = Tarnished.app published reading; C = an explicitly printed named third-site unupgraded row (Fextralife / historical Fandom / PureEldenRing, each individually linked).</div>
@@ -100,7 +126,7 @@
  <h4>Requirements · pinned v1.17 vs public reference</h4><div id="catalog-source-requirements" class="catalog-values"></div>
  <p class="note">NOT REPORTED means a published page omits this field. It does not mean zero or that scaling is explicitly "-". ⚠ marks a disagreement or omission requiring review.</p>
  <div id="catalog-source-links" class="note"></div>
- <a id="catalog-source-qa" class="btn alt catalog-check-button" href="../game-evidence-queue/">View original game evidence case ↗</a>
+ <a id="catalog-source-qa" class="btn alt catalog-check-button" href="../game-evidence-queue/">Review historical source dispute ↗</a>
 </section>
 <div id="catalog-upgrade-reference" hidden>
 <h3>Community-published upgraded BASE attack — not AR</h3>
@@ -149,7 +175,7 @@
 </section>
 <p id="catalog-status" class="feedback" role="status" aria-live="polite">Loading community weapon data…</p>
 <section class="editorial-grid">
-<article class="panel info"><h2>Where do these numbers come from?</h2><p>The factual fields in the original 305 unique base-game numeric rows (one identical duplicate Erdtree Seal source record was removed) are a compact derivative of the open-source <a href="https://github.com/deliton/eldenring-api" target="_blank" rel="noopener noreferrer">Elden Ring API</a> community dataset, source revision <code>1d2626c</code>. Its API source declares MIT licensing, but this does not grant rights to unrelated game artwork, writing or proprietary assets. We exclude all source imagery, descriptions and lore text.</p><p>Three visibly inconsistent numerical entries were individually cross-checked with published weapon references. We track 102 Shadow of the Erdtree weapons and shields: 102 with +0 source-reported base-attack arrays (69 individual weapon pages, 33 wiki class comparison tables), including Stone-Sheathed Sword's disputed 89 +0 candidate versus 119 headline and conflicting 3.5 versus 5 weight; it remains excluded from trusted damage and load calculations. Three of the 101 records contain an explicitly unknown (?) scaling letter rather than a guessed grade. Six weapons have community-published +0 to +10 base-attack tables. No reinforcement scaling coefficients, affinity profiles or total AR are certified. Eight extra Tarnished Pack entries have named public roster corroboration and source-reported requirements and weights in a Regulation 1.17.3-labelled equipment reference; all eight have sourced community +0 attack, critical and letter grades (three individual wiki pages, four named wiki class table rows, and Ritual Thrusting Shield's separately corroborated 135 physical, critical 100, D/D scaling). Ritual's reported weight/STR requirements remain disputed among secondary sources, so load/wield checks remain blocked. The patch-labelled secondary site lists *max-upgrade* attack and is never used as +0. No game-client screenshot was reviewed. Other entries are not confirmed for the current patch. Source-code attribution and corrections are documented in the repository.</p></article>
+<article class="panel info"><h2>Where do these numbers come from?</h2><p>The factual fields in the original 305 unique base-game numeric rows (one identical duplicate Erdtree Seal source record was removed) are a compact derivative of the open-source <a href="https://github.com/deliton/eldenring-api" target="_blank" rel="noopener noreferrer">Elden Ring API</a> community dataset, source revision <code>1d2626c</code>. Its API source declares MIT licensing, but this does not grant rights to unrelated game artwork, writing or proprietary assets. We exclude all source imagery, descriptions and lore text.</p><p>Three visibly inconsistent numerical entries were individually cross-checked with published weapon references. We track 102 Shadow of the Erdtree weapons and shields: 102 with +0 source-reported base-attack arrays (69 individual weapon pages, 33 wiki class comparison tables), including Stone-Sheathed Sword's disputed 89 +0 candidate versus 119 headline and conflicting 3.5 versus 5 weight; it remains excluded from trusted damage and load calculations. Three of the 101 records contain an explicitly unknown (?) scaling letter rather than a guessed grade. Six weapons have community-published +0 to +10 base-attack tables. No reinforcement scaling coefficients, affinity profiles or total AR are certified. Eight extra Tarnished Pack entries have named public roster corroboration and source-reported requirements and weights in a Regulation 1.17.3-labelled equipment reference; all eight have sourced community +0 attack, critical and letter grades (three individual wiki pages, four named wiki class table rows, and Ritual Thrusting Shield's separately corroborated 135 physical, critical 100, D/D scaling). Ritual's reported weight/STR requirements remain disputed among secondary sources, so load/wield checks remain blocked. The patch-labelled secondary site lists *max-upgrade* attack and is never used as +0. Real-game screenshots are not required for the user-approved Tarnished.dev v1.17 comparison. Other entries are not claimed to match the current patch. Source-code attribution and corrections are documented in the repository.</p></article>
 <article class="panel info"><h2>Why can't this calculate true AR yet?</h2><p>Letter grades such as B or D cannot determine exact scaling coefficients, reinforcement tables or affinity changes. Many DLC records contain only names or requirements. None of these alone can determine a character's full attack rating or PvE damage.</p><p>For current official rules, see <a href="https://www.bandainamcoent.com/news/elden-ring-tarnished-edition-patch-1-17-2" target="_blank" rel="noopener noreferrer">App 1.17.2 / Regulation 1.17.3</a>. The separately maintained <a href="../weapon-data-workbench/">v1.17 reference AR workbench</a> already offers an opt-in free public parameter source and local calculations. We now use <a href="https://www.tarnished.dev/weapon-calculator" target="_blank" rel="noopener noreferrer">Tarnished.dev v1.17</a> as a same-input numerical benchmark instead of demanding that visitors install the game. Before describing results as <em>Tarnished.dev-benchmarked</em>, we must actually record passing comparison cases. Current Regulation 1.17.3 game-client accuracy remains a separate, stronger claim.</p></article>
 </section>
 <nav class="related-tools" aria-label="Related tools"><span class="eyebrow">Continue planning</span>

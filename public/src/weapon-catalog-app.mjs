@@ -6,6 +6,8 @@ import {makeWeaponCatalogShareUrl} from './weapon-catalog-navigation.mjs';
 import {makeCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
 import {validateRecoveredSourceReferences} from './recovered-weapon-reference.mjs';
 import {buildRecoveredWeaponPreview} from './recovered-weapon-preview.mjs';
+import {downloadV117Source} from './upstream-regulation-v117.mjs';
+import {buildV117CatalogOverlay,V117_CATALOG_SOURCE_PAGE} from './v117-catalog-overlay.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -23,7 +25,7 @@ for(let i=0;i<5;i++){
  label.append(input);$('catalog-stats').append(label);
 }
 let catalog=null,chosen=null,offset=0,lastUpgradeWeaponId=null,comparedIds=[];
-let referenceOnlyMap=new Map(),referenceOnlyError=null;
+let referenceOnlyMap=new Map(),referenceOnlyError=null,v117Overlay=null;
 function renderReferenceComparison(){
  const add=$('catalog-compare-add');
  if(chosen){
@@ -191,12 +193,55 @@ function renderRecoveredSourcePreview(){
  $('catalog-source-qa').hidden=record.sourceConflicts.length===0;
 }
 
+function renderV117SourceFacts(){
+ const panel=$('catalog-v117-panel');
+ panel.hidden=!chosen||!v117Overlay;
+ if(!chosen||!v117Overlay)return;
+ const row=v117Overlay.rows.get(chosen.id);
+ const summary=$('catalog-v117-summary'),attack=$('catalog-v117-attack');
+ const requirements=$('catalog-v117-requirements');
+ const differences=$('catalog-v117-differences');
+ attack.replaceChildren();requirements.replaceChildren();
+ $('catalog-v117-source-link').href=V117_CATALOG_SOURCE_PAGE;
+ if(!row||row.status!=='pinned-v117-neutral-reference'){
+  summary.textContent='No unique complete pinned v1.17 neutral weapon parameter row found ('+
+   (row?.status??'missing')+'). The actual +0 figures are UNKNOWN; no values are invented.';
+  differences.textContent='No valid v1.17 source comparison exists for this item.';
+  return;
+ }
+ summary.textContent=(row.sourceOnly?'Source-only catalog entry: original +0 attack and weight UNKNOWN. ':
+  row.flaggedSourceDispute?'COMMUNITY SOURCE DISPUTE flagged: preserved; v1.17 source is shown separately. ':
+  'Community record with an independent pinned v1.17 source row. ')+
+  'Reference affinity: '+row.reinforcement+'. This is a parameter-source reading, NOT a separate competitor website observation.';
+ const addValues=(target,labels,arr,community)=>{
+  for(let i=0;i<labels.length;i++){
+   const node=el('div');node.className='catalog-value';
+   const match=community!==null&&community[i]===arr[i];
+   const different=community!==null&&!match;
+   const caption=labels[i]+(different?' · community '+community[i]+' differs':match?' · agrees':' · community unknown');
+   node.append(el('span',caption),el('strong',String(arr[i])));
+   target.append(node);
+  }
+ };
+ addValues(attack,['Physical','Magic','Fire','Lightning','Holy'],
+  row.attack,row.communityAttack);
+ addValues(requirements,ATTRIBUTE_LABELS,row.requirements,row.communityRequirements);
+ const notices=[];
+ if(row.attackDiff)notices.push('ATTACK DISAGREEMENT: community +0 base differs from pinned v1.17. Neither is silently overwritten.');
+ else if(row.communityAttack===null)notices.push('Community base attack UNKNOWN; pinned v1.17 +0 source is now visible for comparison only.');
+ if(row.requirementDiff)notices.push('REQUIREMENT DISAGREEMENT: minimum attributes differ between sources; original wield filter remains conservative.');
+ if(row.weightIsDisputed)notices.push('WEIGHT DISPUTED: pinned source has no reliable weapon weight; equip-load blocked.');
+ else if(row.communityWeight===null)notices.push('WEIGHT UNKNOWN: no source weight supplied; never assume zero.');
+ if(!notices.length)notices.push('No numeric +0 attack or requirement disagreement for these source fields. Other community details are not independently verified.');
+ differences.textContent=notices.join(' ');
+}
 function renderDetails(){
  const box=$('catalog-details');
  if(!chosen){box.hidden=true;renderReferenceComparison();return;}
  box.hidden=false;
  $('catalog-title').textContent=chosen.name;
  renderRecoveredSourcePreview();
+ renderV117SourceFacts();
  $('catalog-smithing-link').href=makeCatalogSmithingHandoff(chosen,location.href);
  $('catalog-smithing-note').textContent=chosen.upgradeReference?.path==='somber'&&
   chosen.upgradeReference?.status==='community-published-base-attack'&&
@@ -287,7 +332,7 @@ function renderDetails(){
  if(chosen.sourceAttackDisagreement&&chosen.sourceWeightDisagreement){
   const atk=chosen.sourceAttackDisagreement,wt=chosen.sourceWeightDisagreement;
   $('catalog-verified').append(el('p',
-    'Stone-Sheathed Sword published +0 discrepancy: the named +0 and Japanese initial-value tables and AtlasForge show PHYSICAL 89, whereas the same wiki page headline shows 119. Candidate +0 89, critical 100 and C/D scaling are visible as DISPUTED SOURCE FACTS ONLY. Source version is not game-client verified. This weapon is withheld from trusted attack, upgrade and AR calculations.'));
+    'Stone-Sheathed Sword published +0 discrepancy: the named +0 and Japanese initial-value tables and AtlasForge show PHYSICAL 89, whereas the same wiki page headline shows 119. Candidate +0 89, critical 100 and C/D scaling are visible as DISPUTED SOURCE FACTS ONLY. Source version is not game-client verified. This community record remains excluded from reliable +0 catalogue filtering. The separate opt-in pinned v1.17 AR calculator can still compute the versioned source variant.'));
   $('catalog-verified').append(el('p',
     'Source weight discrepancy: wiki reports '+wt.retainedCommunityWeight+
     ', Japanese and AtlasForge references report '+wt.alternativeWeight+
@@ -301,7 +346,7 @@ function renderDetails(){
  }
  if(chosen.secondarySourceDisagreement){
   const problem=chosen.secondarySourceDisagreement;
-  const note=el('p','Ritual Thrusting Shield secondary sources disagree on weight (10 vs 9) and required Strength (13 vs 15). The version-labelled figures are only attributed readings. Weight and wield calculations remain BLOCKED pending independent game-menu verification.');
+  const note=el('p','Ritual Thrusting Shield secondary sources disagree on weight (10 vs 9) and required Strength (13 vs 15). The version-labelled figures are only attributed readings. Community-mode weight and wield verdicts remain BLOCKED because source readings disagree. The optional pinned v1.17 panel can show versioned requirements, but it does not resolve weight.');
   $('catalog-verified').append(note);
   for(const item of [problem.currentVersionLabelled,...problem.alternatives]){
    const a=el('a','View conflicting public equipment source ↗');
@@ -394,6 +439,20 @@ function showList(reset=false,keepSelected=false){
  const damage=$('catalog-damage-filter').value;
  const coverage=$('catalog-coverage').value;
  const quality=$('catalog-quality').value;
+ const sourceFilter=$('catalog-v117-filter').value;
+ // Source-view filtering only affects candidate IDs; never feed reference-only
+ // attack or weight into canonical catalog sort, damage, and wield rules.
+ const filteredWeapons=!v117Overlay||sourceFilter==='all'?catalog.weapons:
+  catalog.weapons.filter(w=>{
+   const row=v117Overlay.rows.get(w.id);
+   if(!row||row.status!=='pinned-v117-neutral-reference')return false;
+   if(sourceFilter==='source-only')return row.sourceOnly;
+   if(sourceFilter==='flagged')return row.flaggedSourceDispute;
+   if(sourceFilter==='attack-difference')return row.attackDiff;
+   if(sourceFilter==='requirement-difference')return row.requirementDiff;
+   if(sourceFilter==='any-difference')return row.attackDiff||row.requirementDiff;
+   return false;
+  });
  const rawWeight=$('catalog-max-weight').value.trim();
  let maxWeight=null;
  if(rawWeight!==''){
@@ -407,7 +466,7 @@ function showList(reset=false,keepSelected=false){
  }
  let data;
  try{
-  data=searchCatalog(catalog.weapons,{
+  data=searchCatalog(filteredWeapons,{
    term,category,sort,limit:40,offset,wield,damage,maxWeight,coverage,quality,
    stats:wield==='any'&&sort!=='requirements'?null:readStats()
   });
@@ -477,6 +536,7 @@ $('catalog-clear-filters').addEventListener('click',()=>{
  $('catalog-damage-filter').value='any';
  $('catalog-coverage').value='all';
  $('catalog-quality').value='all';
+ $('catalog-v117-filter').value='all';
  $('catalog-max-weight').value='';
  showList(true);
  $('catalog-search').focus();
@@ -502,8 +562,37 @@ $('catalog-wield').addEventListener('change',()=>showList(true));
 $('catalog-damage-filter').addEventListener('change',()=>showList(true));
 $('catalog-coverage').addEventListener('change',()=>showList(true));
 $('catalog-quality').addEventListener('change',()=>showList(true));
+$('catalog-v117-filter').addEventListener('change',()=>showList(true));
 $('catalog-max-weight').addEventListener('input',()=>showList(true));
 $('catalog-more').addEventListener('click',()=>showList(false));
+$('catalog-v117-load').addEventListener('click',async()=>{
+ const button=$('catalog-v117-load'),statusText=$('catalog-v117-status');
+ if(!catalog||v117Overlay){return;}
+ button.disabled=true;
+ statusText.textContent='Fetching exact pinned public v1.17 JSON on your request; no source data is bundled or stored…';
+ try{
+  const {text,summary}=await downloadV117Source(fetch);
+  const overlay=buildV117CatalogOverlay(catalog,JSON.parse(text));
+  v117Overlay=overlay;
+  const counts=overlay.summary;
+  statusText.textContent='Loaded '+summary.entries+' source variants: '+counts.sourceMapped+
+   '/'+counts.total+' unique neutral records, '+counts.sourceOnlyMapped+
+   ' of the 72 source-only catalog records now show pinned +0 reference; '+
+   counts.flaggedDisputesMapped+' flagged source disputes have side-by-side evidence; '+
+   counts.neutralAttackDifferences+' attack and '+counts.neutralRequirementDifferences+
+   ' requirement differences across '+counts.anyNumericalDifferences+' distinct weapons ('+
+   counts.unflaggedNumericalDifferences+' not previously flagged). Source weight remains unavailable. '+
+   'These are NOT '+counts.total+' independently checked Tarnished.dev page results.';
+  button.hidden=true;
+  $('catalog-v117-filter').disabled=false;
+  showList(true,true);
+  renderV117SourceFacts();
+ }catch(error){
+  statusText.textContent='Source comparison unavailable: '+String(error?.message??error).slice(0,250)+
+   '. Original community catalog remains usable.';
+  button.disabled=false;
+ }
+});
 $('catalog-stats').addEventListener('input',()=>{
  renderDetails();
  if($('catalog-wield').value!=='any'||$('catalog-sort').value==='requirements')
