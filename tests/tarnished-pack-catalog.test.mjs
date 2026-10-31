@@ -34,9 +34,9 @@ const plusZero=new Map([
 
 test('full 2026 Tarnished Pack armament set is present with traceable requirements/weight, not fictional +0 attack',()=>{
  assert.equal(validateCommunityCatalog(catalog),catalog);
- assert.equal(catalog.weapons.length,416);
+ assert.equal(catalog.weapons.length,487);
  assert.equal(pack.length,8);
- assert.equal(catalog.meta.baseCommunityCount,306);
+ assert.equal(catalog.meta.baseCommunityCount,377);
  assert.equal(catalog.meta.dlcCatalogCount,102);
  assert.equal(catalog.meta.tarnishedPackCount,8);
  assert.equal(catalog.meta.tarnishedPackWeightedRequirementsCount,0);
@@ -44,7 +44,7 @@ test('full 2026 Tarnished Pack armament set is present with traceable requiremen
  assert.equal(catalog.meta.tarnishedPackSecondarySourceConflictCount,1);
  assert.equal(catalog.meta.currentPatchRequirementsCorroborationCount,1);
  assert.equal(catalog.meta.v117SourceConflictCount,7);
- assert.equal(new Set(catalog.weapons.map(w=>w.id)).size,416);
+ assert.equal(new Set(catalog.weapons.map(w=>w.id)).size,487);
  assert.equal(new Set(pack.map(w=>w.name)).size,8);
  for(const [name,category,weight,requirements] of fields){
   const w=pack.find(w=>w.name===name);assert.ok(w,name);
@@ -75,7 +75,7 @@ test('full 2026 Tarnished Pack armament set is present with traceable requiremen
 });
 
 test('source-separated filter does not misclassify Tarnished Pack weapons as original base game or SOTE',()=>{
- assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,306);
+ assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,377);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc'}).total,102);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished'}).total,8);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',term:'Silver Grooved'}).total,1);
@@ -84,7 +84,7 @@ test('source-separated filter does not misclassify Tarnished Pack weapons as ori
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'holy'}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',maxWeight:3}).total,2);
  assert.deepEqual(getCatalogCoverage(catalog),{
-  weapons:416,dlc:102,dlcBaseFacts:102,tarnishedPack:8,tarnishedPackBaseFacts:8,tarnishedPackSecondaryConflicts:1
+  weapons:487,dlc:102,dlcBaseFacts:102,pinnedBaseRequirementsOnly:72,tarnishedPack:8,tarnishedPackBaseFacts:8,tarnishedPackSecondaryConflicts:1
  });
 });
 
