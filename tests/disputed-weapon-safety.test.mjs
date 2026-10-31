@@ -112,4 +112,9 @@ test('unaffected weapon behaviour stays unchanged and UI explicitly displays con
  assert.ok(html.includes('hasDisputedRequirements(chosen)'));
  assert.ok(html.includes("'catalog-requirements-link').hidden=true"));
  assert.ok(read('src/app.mjs').includes('requirements DISPUTED'));
+ const page=read('weapon-database/index.html');
+ assert.ok(page.includes('Stone-Sheathed Sword has an UNKNOWN +0 base attack'));
+ assert.ok(page.includes('six +0 base attacks and one attribute requirement'));
+ assert.ok(page.includes('href="../validation-status/#conflict-dossier"'));
+ assert.ok(!page.includes('only Stone-Sheathed Sword retains a disputed +0 base attack'));
 });
