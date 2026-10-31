@@ -7,6 +7,7 @@ import {existsSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {waitForChromePage} from './browser-cdp-startup.mjs';
+import {V117_ADDITIONAL_UI_CANDIDATES} from './tarnished-v117-extra-candidates.mjs';
 const chromePath=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].find(existsSync);
 if(!chromePath)throw Error('GitHub runner has no Chromium');
 const cases=[
@@ -26,6 +27,10 @@ const cases=[
  {id:'fire-knights-greatsword-standard-plus0',weaponName:"Fire Knight's Greatsword",str:30,dex:25,fai:20,affinity:'Standard',upgrade:0,twoHanded:false},
  {id:'fire-knights-greatsword-standard-plus25',weaponName:"Fire Knight's Greatsword",str:30,dex:25,fai:20,affinity:'Standard',upgrade:25,twoHanded:false}
 ];
+const baseCases=cases.length;
+cases.push(...V117_ADDITIONAL_UI_CANDIDATES);
+if(baseCases!==15||cases.length!==50||new Set(cases.map(c=>c.id)).size!==50)
+ throw new RangeError('Reference probe requires 15 prior + 35 NEW DISTINCT candidate input combinations.');
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let browser,profile,socket,id=0;
 const promises=new Map();
@@ -105,7 +110,8 @@ async function main(){
    const params=new URLSearchParams({
     str:String(c.str),dex:String(c.dex),int:String(c.int??10),fai:String(c.fai??10),arc:String(c.arc??10),
     rh1:desiredWeapon,aRh1:c.affinity,
-    smith:String(c.upgrade),somber:'0',twoHanded:String(c.twoHanded)
+    smith:String(c.somber?0:c.upgrade),somber:String(c.somber?c.upgrade:0),
+    twoHanded:String(c.twoHanded)
    });
    const url='https://www.tarnished.dev/build-planner?'+params;
    try{
@@ -123,8 +129,8 @@ async function main(){
      get('intelligence')?.value===String(c.int??10)&&
      get('faith')?.value===String(c.fai??10)&&
      get('arcane')?.value===String(c.arc??10)&&
-     get('smithinglevel')?.value===String(c.upgrade)&&
-     get('somberlevel')?.value==='0'&&
+     get('smithinglevel')?.value===String(c.somber?0:c.upgrade)&&
+     get('somberlevel')?.value===String(c.somber?c.upgrade:0)&&
      get('twohand')?.checked===c.twoHanded&&
      snap.version.includes('v1.17')&&
      snap.weaponBlock.includes('\n'+desiredWeapon+'\n')&&
@@ -134,6 +140,7 @@ async function main(){
     );
     const result={
      id:c.id,request:c,
+     evidenceTier:cases.indexOf(c)<baseCases?'prior-15-reprobe':'additional-unpromoted-candidate',
      observedAr:ar?Number(ar[1]):null,
      displayedWeapon:snap.weaponBlock.includes('\n'+desiredWeapon+'\n')?desiredWeapon:null,
      version:snap.version,url:snap.page,title:snap.title,
@@ -158,11 +165,17 @@ async function main(){
  }finally{await cleanup();}
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-chrome-ui.json'),JSON.stringify({
-  source:'tarnished.dev public UI',gameCertified:false,
-  evidenceStatus:'UNVERIFIED — input controls must be confirmed before benchmark approval',
+  source:'tarnished.dev public UI',gameCertified:false,comparatorVersion:'v1.17',
+  evidenceStatus:'RAW OBSERVATIONS ONLY; new cases are not counted or promoted until two confirmed external reads and independent AR matching',
+  priorCaseCount:baseCases,newCandidateCount:V117_ADDITIONAL_UI_CANDIDATES.length,
+  newInputVerified:results.slice(baseCases).filter(c=>c.status==='INPUT-VERIFIED-AR').length,
   cases:results
  },null,2)+'\n');
  console.log('[TARNISHED CHROME] total='+results.length+' rendered='+
-  results.filter(x=>x.observedAr!==null).length+'; no assumed passes');
+  results.filter(x=>x.observedAr!==null).length+
+  ' prior-input-verified='+results.slice(0,baseCases).filter(x=>x.status==='INPUT-VERIFIED-AR').length+
+  ' NEW-input-verified='+results.slice(baseCases).filter(x=>x.status==='INPUT-VERIFIED-AR').length+
+  ' NEW-not-yet-approved='+V117_ADDITIONAL_UI_CANDIDATES.length+
+  '; zero new benchmark passes auto-approved');
 }
 main().catch(async e=>{console.error('[TARNISHED CHROME] fatal: '+String(e));await cleanup();process.exitCode=1;});
