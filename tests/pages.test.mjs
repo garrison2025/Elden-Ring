@@ -54,7 +54,7 @@ test('respec stays out of early SEO and passes build handoff',async()=>{
  assert.match(js,/compareRespec/);
  assert.match(build,/id="respec-link"/);
  assert.match(home,/href="respec-planner\/"/);
- assert.match(script,/uri==='respec-planner'/);
+ assert.match(script,/['"]respec-planner['"]/);
 });
 test('build-local save is explicitly user initiated and has erase control',async()=>{
  const build=await readFile(join(root,'build-planner/index.html'),'utf8');
@@ -70,7 +70,7 @@ test('AR evidence comparison remains noindex with offline data inputs',async()=>
  assert.match(p,/<meta name="robots" content="noindex,nofollow">/);
  for(const id of ['verification-profile','verification-cases','run-verification','download-report','download-csv'])
    assert.ok(p.includes('id="'+id+'"'));
- assert.match(build,/uri==='weapon-ar-validation'/);
+ assert.match(build,/['"]weapon-ar-validation['"]/);
  const s=await readFile(join(root,'src/ar-validation-app.mjs'),'utf8');
  assert.match(s,/compareArObservations/);
  assert.match(s,/URL\.createObjectURL/);
@@ -88,7 +88,7 @@ test('manual weapon requirement planner is reachable but initially noindex',asyn
  assert.match(script,/compareWeaponRequirements/);
  assert.match(home,/href="weapon-requirements\/"/);
  assert.match(build,/id="weapon-req-link"/);
- assert.match(siteBuild,/uri==='weapon-requirements'/);
+ assert.match(siteBuild,/['"]weapon-requirements['"]/);
 });
 
 test('armor optimizer has dedicated manual input page and noindex gate',async()=>{
@@ -98,7 +98,7 @@ test('armor optimizer has dedicated manual input page and noindex gate',async()=
  assert.match(html,/noindex,follow/);
  for(const id of ['armor-csv','armor-file','optimize-armor','armor-results','armor-equip-link'])
    assert.ok(html.includes('id="'+id+'"'));
- assert.match(site,/uri==='armor-optimizer'/);
+ assert.match(site,/['"]armor-optimizer['"]/);
  assert.match(app,/optimizeArmor/);
  assert.match((await readFile(join(root,'index.html'),'utf8')),/href="armor-optimizer\/"/);
  assert.match((await readFile(join(root,'equip-load-calculator/index.html'),'utf8')),/href="\.\.\/armor-optimizer\/"/);
@@ -111,7 +111,7 @@ test('weapon material planner has input controls, local engine and dedicated noi
  for(const id of ['upgrade-track','upgrade-from','upgrade-to','inventory-input','material-rows','upgrade-steps','export-list'])
   assert.ok(html.includes('id="'+id+'"'));
  assert.match(html,/noindex,follow/);
- assert.match(build,/uri==='weapon-upgrade-calculator'/);
+ assert.match(build,/['"]weapon-upgrade-calculator['"]/);
  assert.match(js,/planUpgradeMaterials/);
  assert.match((await readFile(join(root,'index.html'),'utf8')),/href="weapon-upgrade-calculator\/"/);
 });
@@ -160,7 +160,7 @@ test('local AR workbench is noindexed, worker-based and reachable only as resear
  assert.match(app,/new Worker/);
  assert.match(worker,/JSON\.parse/);
  assert.doesNotMatch(worker,/fetch\(/);
- assert.match(build,/uri==='weapon-data-workbench'/);
+ assert.match(build,/['"]weapon-data-workbench['"]/);
  assert.match((await readFile(join(root,'weapon-ar-lab/index.html'),'utf8')),/weapon-data-workbench/);
 });
 
@@ -234,7 +234,7 @@ test('real community weapon database ships a sourced, partly complete dataset bu
  assert.match(html,/not verified for Regulation 1.17.3/i);
  assert.match(html,/community dataset/);
  assert.match(app,/community-weapon-catalog\.json/);
- assert.match(build,/uri==='weapon-database'/);
+ assert.match(build,/['"]weapon-database['"]/);
  assert.match((await readFile(join(root,'index.html'),'utf8')),/href="weapon-database\/"/);
 });
 
