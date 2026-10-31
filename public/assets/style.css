@@ -253,3 +253,17 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
  #multi-upgrade-results .metric-grid{grid-template-columns:1fr 1fr}
  #multi-upgrade-results .metric strong{font-size:23px}
 }
+
+
+/* Build -> smithing shortlist: distinct from saved stats, no background sync. */
+#build-smithing-shortlist-panel{margin-top:20px;padding:15px;border:1px solid #53645b;border-radius:12px;background:#111d22}
+#build-smithing-shortlist-panel h3{margin:0 0 8px}
+.build-smithing-list{margin:15px 0;padding:0;list-style:none;display:grid;gap:8px}
+.build-smithing-list li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:9px 12px;border-radius:10px;background:#1b2b2b;border:1px solid #465950;min-width:0}
+.build-smithing-list li span{overflow-wrap:anywhere;font-size:13px}
+.build-smithing-list .btn{margin:0;flex-shrink:0;padding:9px 12px}
+#build-smithing-shortlist-panel .workbench-actions button:disabled{opacity:.46;cursor:not-allowed}
+#build-smithing-open{display:inline-flex;margin-top:8px}
+#build-smithing-open[hidden]{display:none!important}
+.multi-weapon-hint{display:block;margin-top:6px;font-size:11px;line-height:1.4;color:#d8c18e;max-width:260px}
+@media(max-width:560px){.build-smithing-list li{align-items:flex-start}.build-smithing-list .btn{font-size:12px}}
