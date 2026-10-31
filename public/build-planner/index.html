@@ -32,6 +32,13 @@
   <button type="button" class="btn alt" id="build-ab-pin">Pin current Build as A</button>
   <button type="button" class="btn alt" id="build-ab-clear" disabled>Clear comparison</button>
  </div>
+ <div class="workbench-actions">
+  <button type="button" class="btn alt" id="build-ab-share" disabled>Copy link to both Builds</button>
+ </div>
+ <label class="field" id="build-ab-share-field" hidden>Two-Build comparison URL (also available for manual copying)
+  <input id="build-ab-share-url" type="text" readonly spellcheck="false" aria-label="Two-Build comparison URL">
+ </label>
+ <p class="note">Share links include both starting classes, 16 character attributes, optional source weapon IDs and the two independent extra-content switches. They do not contain attack ratings, rune inventories or account information. Links are validated against the currently available local weapon catalog when opened.</p>
  <p id="build-ab-status" class="note" role="status" aria-live="polite">Pin a Build as A to compare it against future edits.</p>
  <div id="build-ab-results" hidden>
   <div class="build-ab-cards">
