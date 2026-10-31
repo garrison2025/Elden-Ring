@@ -22,22 +22,31 @@ test('weapon parity audit exposes real source coverage rather than claiming all 
  assert.equal(audit.counts.v117ReferenceUiObservations,15);
  assert.equal(audit.readyForFullWeaponParity,false);
 });
-test('not-ready blockers preserve 50-case target and game-client/source-rights distinctions',()=>{
+test('reference-only parity gates retain 50 competitor cases and exclude real-game certification',()=>{
  const audit=summarizeWeaponParity(catalog,TARNISHED_REFERENCE_AR_CASES);
- assert.equal(audit.gates.length,6);
- assert.equal(audit.gates.filter(g=>g.pass).length,0);
+ assert.equal(audit.gates.length,4);
+ assert.equal(audit.gates.filter(g=>g.pass).length,1);
  assert.equal(audit.gates.find(g=>g.id==='pinned-v117-50-reference-cases').target,50);
  assert.match(audit.qualification,/NOT ACCURACY/);
- assert.match(audit.qualification,/15 observations/);
+ assert.equal(audit.comparatorOnly,true);
+ assert.equal(audit.outOfScope.length,3);
+ assert.ok(audit.outOfScope.some(x=>x.includes('Regulation 1.17.3')));
+ assert.ok(audit.gates.every(g=>!g.id.includes('client-certification')));
+ assert.ok(audit.gates.every(g=>!g.id.includes('rights')));
+ assert.equal(audit.gates.find(g=>g.id==='independent-v117-ar-ranking').pass,true);
+ assert.match(audit.qualification,/15 exact source UI observations/);
 });
 test('duplicate observed sample IDs never inflate independently repeated Tarnished benchmarks',()=>{
  const observations=TARNISHED_REFERENCE_AR_CASES;
  assert.throws(()=>summarizeWeaponParity(catalog,[...observations,observations[0]]),
   /Repeated external UI sample ID/);
 });
-test('source-report changes cannot be interpreted as licensing or latest-game AR validation',()=>{
+test('rights/index approvals remain separate from competitor-only validation; source labels remain truthful',()=>{
  const audit=summarizeWeaponParity(catalog,TARNISHED_REFERENCE_AR_CASES);
- assert.equal(audit.gates.find(g=>g.id==='dataset-rights-and-version-review').pass,false);
- assert.equal(audit.gates.find(g=>g.id==='v117-patch-client-certification').pass,false);
+ assert.deepEqual(audit.publicationGates.map(g=>g.id),
+  ['third-party-data-rights','seo-index-review']);
+ assert.ok(audit.publicationGates.every(g=>!g.pass));
  assert.equal(audit.upstreamCatalogVersion,'not established; do not assume 1.17.3 compatibility');
+ assert.equal(audit.readyForFullWeaponParity,false,'15/50 source matches and unreconciled facts are NOT full parity');
+ assert.match(audit.qualification,/not official-game certification/i);
 });
