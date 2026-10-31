@@ -144,6 +144,7 @@ const renderCompare=result=>{
   caveats.push('Unmodeled mechanics: '+selectedDescription.scopeFlags.join(', ')+'.');
  caveats.push('Nominal AR excludes enemy defenses, buffs, status buildup and motion values.');
  setText('qar-caveat',caveats.join(' '));
+ let referenceNote='';
  if(sourceKind==='pinned'){
   try{
    const url=makeTarnishedSameInputUrl({
@@ -157,12 +158,12 @@ const renderCompare=result=>{
    $('qar-reference-check').hidden=false;
   }catch(error){
    // Unknown source variants must not silently compare to a different weapon.
-   feedback('AR calculated; an exact Tarnished.dev link is not supported for this variant: '+error.message);
+   referenceNote=' · Exact Tarnished.dev URL unavailable: '+error.message;
   }
  }
  feedback((sourceKind==='demo'?'Fictional example calculated. ':'Reference calculation complete. ')+
   'One-hand '+result.oneHand.total+' · two-hand '+result.twoHand.total+
-  (unmet.length?' · unmet requirements: '+unmet.join(', '):''));
+  (unmet.length?' · unmet requirements: '+unmet.join(', '):'')+referenceNote);
 };
 const calculate=()=>{
  clearReferenceComparison();
@@ -310,7 +311,12 @@ $('qar-affinity').addEventListener('change',()=>{
 $('qar-upgrade').addEventListener('change',()=>{userExplicitSelection=true;calculate();});
 $('qar-twohand').addEventListener('change',()=>{setText('qar-grip-label',$('qar-twohand').checked?'Two-handed':'One-handed');calculate();});
 for(const s of POWER_STATS)fields[s].addEventListener('change',calculate);
+for(const s of POWER_STATS)fields[s].addEventListener('input',clearReferenceComparison);
 $('qar-calculate').addEventListener('click',calculate);
+$('qar-reference-value').addEventListener('input',()=>{
+ $('qar-reference-status').dataset.state='ready';
+ $('qar-reference-status').textContent='Reference AR edited — compare again. This value is entered by you, not read automatically.';
+});
 $('qar-reference-compare').addEventListener('click',()=>{
  if(!referenceSnapshot||sourceKind!=='pinned')return;
  try{
