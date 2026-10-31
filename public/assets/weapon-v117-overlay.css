@@ -1,0 +1,16 @@
+.catalog-v117-optin{margin:18px 0 22px;padding:18px;border:1px solid #536957;border-radius:14px;background:linear-gradient(140deg,#192b2b,#172129)}
+.catalog-v117-optin h3{font-size:17px;letter-spacing:-.01em;margin:0 0 10px;color:#e2e8de}
+.catalog-v117-optin p{font-size:13px;line-height:1.65;max-width:820px}
+.catalog-v117-optin .field{display:block;margin-top:14px;max-width:100%}
+.catalog-v117-optin select{margin-top:8px;width:100%;min-width:0;max-width:100%;color:var(--text);background:var(--panel2);border:1px solid #5a736a}
+.catalog-v117-optin select:disabled{opacity:.53;cursor:not-allowed}
+.catalog-v117-optin #catalog-v117-status{color:#c4ddd1;overflow-wrap:anywhere}
+.catalog-v117-panel{margin:18px 0 22px;padding:18px;border:1px solid #596e62;border-radius:14px;background:linear-gradient(135deg,#1e2b2c,#131c26)}
+.catalog-v117-panel h3{margin:0 0 8px;font-size:17px}
+.catalog-v117-panel h4{font-size:14px;margin:17px 0 8px}
+.catalog-v117-panel .catalog-value{align-items:flex-start}
+.catalog-v117-panel .catalog-value span{overflow-wrap:anywhere;flex:1;min-width:0}
+.catalog-v117-panel .catalog-value strong{flex:0 0 auto;font-variant-numeric:tabular-nums}
+.catalog-v117-panel p{overflow-wrap:anywhere}
+.catalog-v117-panel a{display:inline-flex;margin-top:10px;text-underline-offset:3px;color:#b2d8cc}
+@media(max-width:500px){.catalog-v117-optin,.catalog-v117-panel{padding:13px;margin:14px 0}.catalog-v117-optin .btn{width:100%;max-width:100%;white-space:normal}.catalog-v117-panel .catalog-value{gap:8px}}
