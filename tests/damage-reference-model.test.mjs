@@ -7,13 +7,15 @@ const enemy=(defense=100,negation=0)=>Object.fromEntries(
  ENEMY_TYPES.map(type=>[type,{defense,negation}]));
 const attack=(physical=500,magic=0)=>({physical,magic,fire:0,lightning:0,holy:0});
 const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,'Expected '+b+', got '+a);
-test('enemy defense curve is continuous at 0.125, 1, 2.5, 8 ratio breakpoints',()=>{
+test('published defense curve is near-continuous at 0.125, 1, 2.5, 8 ratio breakpoints',()=>{
  near(defenseMultiplier(12.5,100),.1);
  near(defenseMultiplier(100,100),.4);
  near(defenseMultiplier(250,100),.7);
  near(defenseMultiplier(800,100),.9);
  for(const a of [12.5,100,250,800]){
-  near(defenseMultiplier(a-1e-6,100),defenseMultiplier(a+1e-6,100));
+  assert.ok(Math.abs(defenseMultiplier(a-1e-6,100)-
+   defenseMultiplier(a+1e-6,100))<1.1e-5,
+   'Published rounded 2.552 coefficient is near-, not mathematically perfectly, continuous at '+a);
  }
  near(defenseMultiplier(1,0),.9);
  near(defenseMultiplier(0,0),0);
