@@ -474,7 +474,15 @@ function initEquip(){
  const safe=value=>typeof value==='string'&&/^(?:0|[1-9][0-9]{0,3})(?:\.[0-9]{1,3})?$/.test(value);
  if(safe(q.get('weight')))$('#gear-weight').value=q.get('weight');
  if(safe(q.get('max'))&&Number(q.get('max'))>0)$('#max-load').value=q.get('max');
- const update=()=>{try{
+ const update=()=>{
+  // A blank, not-yet-entered value is UNKNOWN, not the 0 of an empty loadout.
+  if($('#gear-weight').value.trim()===''||$('#max-load').value.trim()===''){
+   clearValues(['#load-percent','#load-tier','#medium-limit','#light-limit','#load-guidance']);
+   $('#load-bar').style.width='0';
+   status('Enter your current equipped weight and maximum load from the game to calculate.');
+   return;
+  }
+  try{
  const w=number('#gear-weight'),max=number('#max-load'),d=loadTier(w,max);
  $('#load-percent').textContent=d.percent.toFixed(1)+'%';$('#load-tier').textContent=d.tier;
  $('#medium-limit').textContent=d.mediumBelow.toFixed(2);$('#light-limit').textContent=d.lightBelow.toFixed(2);
