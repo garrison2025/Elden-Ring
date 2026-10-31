@@ -1,4 +1,4 @@
-import {DAMAGE_LABELS,ATTRIBUTE_LABELS,weaponRequirementComparison} from './community-weapons.mjs';
+import {DAMAGE_LABELS,ATTRIBUTE_LABELS,weaponRequirementComparison,hasDisputedAttack,hasDisputedRequirements} from './community-weapons.mjs';
 const fail=message=>{throw new RangeError(message)};
 const unknown=v=>v===null||v===undefined?'Unknown':String(v);
 function validateIds(ids,known){
@@ -43,12 +43,18 @@ export function compareWeaponReferences(weapons,ids,stats=null){
    w.dataCoverage==='name-category-only'?'DLC name/class only':'Base-game community +0');
  add('Weapon class',w=>w.category);
  add('Weight',w=>unknown(w.weight));
+ add('Source dispute',w=>[
+  hasDisputedAttack(w)?'Base attack unresolved':'',
+  hasDisputedRequirements(w)?'Requirements unresolved':''
+ ].filter(Boolean).join(' + ')||'No flagged v1.17 dispute (still community data)');
  add('Critical',w=>unknown(w.critical));
  for(let i=0;i<DAMAGE_LABELS.length;i++){
-  add(DAMAGE_LABELS[i]+' +0 base',w=>w.attack===null?'Unknown':String(w.attack[i]));
+  add(DAMAGE_LABELS[i]+' +0 base',w=>w.attack===null?'Unknown':
+   hasDisputedAttack(w)?'DISPUTED (community '+w.attack[i]+')':String(w.attack[i]));
  }
  for(let i=0;i<ATTRIBUTE_LABELS.length;i++){
-  add(ATTRIBUTE_LABELS[i]+' requirement',w=>w.requirements===null?'Unknown':String(w.requirements[i]));
+  add(ATTRIBUTE_LABELS[i]+' requirement',w=>w.requirements===null?'Unknown':
+   hasDisputedRequirements(w)?'DISPUTED (community '+w.requirements[i]+')':String(w.requirements[i]));
  }
  for(let i=0;i<ATTRIBUTE_LABELS.length;i++){
   add(ATTRIBUTE_LABELS[i]+' +0 letter',w=>w.scaling===null?'Unknown':w.scaling[i]==='?'?'Unverified':w.scaling[i]);
@@ -56,16 +62,18 @@ export function compareWeaponReferences(weapons,ids,stats=null){
  if(stats!==null){
   add('One-hand requirements',w=>{
    if(w.requirements===null)return 'Unknown';
+   if(hasDisputedRequirements(w))return 'UNRESOLVED source conflict';
    const x=weaponRequirementComparison(w,stats).oneHanded;
    return x.canWield?'Met':x.totalMissing+' point(s) short';
   });
   add('Two-hand STR assumption',w=>{
    if(w.requirements===null)return 'Unknown';
+   if(hasDisputedRequirements(w))return 'UNRESOLVED source conflict';
    const x=weaponRequirementComparison(w,stats);
    return x.twoHanded.canWield?'Met'+(x.applyTwoHandBonus?' (standard 2H)':' (no STR boost)'):
     x.twoHanded.totalMissing+' point(s) short'+(x.applyTwoHandBonus?' (standard 2H)':' (no STR boost)');
   });
  }
  return {columns:columns.map(w=>({id:w.id,name:w.name})),rows,
-  warning:'Community source-reported attack is +0 BASE only (or Unknown), while single-weapon weight is NOT total equipment load. Physical and elemental components are not interchangeable. No total AR, player scaling, upgrades, infusion, DPS, or PvE damage is computed.'};
+  warning:'Flagged 1.17 source disagreements are explicitly DISPUTED and cannot produce wieldability results. Community source-reported attack is +0 BASE only (or Unknown), while single-weapon weight is NOT total equipment load. Physical and elemental components are not interchangeable. No total AR, player scaling, upgrades, infusion, DPS, or PvE damage is computed.'};
 }
