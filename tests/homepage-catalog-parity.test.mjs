@@ -12,7 +12,7 @@ test('homepage weapon count and DLC source coverage derive from canonical catalo
  assert.equal(coverage.weapons,catalog.weapons.length);
  assert.equal(coverage.dlc,catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree').length);
  assert.equal(coverage.tarnishedPack,8);
- assert.equal(coverage.tarnishedPackBaseFacts,7);
+ assert.equal(coverage.tarnishedPackBaseFacts,8);
  assert.equal(coverage.tarnishedPackSecondaryConflicts,1);
  assert.equal(coverage.dlcBaseFacts,catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree'&&w.dataCoverage==='base-reference').length);
  const text=catalogCoverageCopy(coverage);
