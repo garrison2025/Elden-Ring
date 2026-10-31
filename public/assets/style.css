@@ -343,3 +343,27 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 #equipment-ab-difference,#equipment-ab-status,#equipment-save-feedback{overflow-wrap:anywhere}
 #equipment-ab-results[hidden]{display:none!important}
 @media(max-width:690px){.equipment-ab-summaries{grid-template-columns:1fr}.equipment-ab-table{min-width:560px}}
+
+/* Real-game discrepancy evidence form: local files stay in the browser. */
+#conflict-capture{margin:24px 0}
+#conflict-capture .equipment-builder-grid{align-items:start}
+.conflict-capture-values{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.conflict-capture-values>.field{min-width:0}
+.conflict-capture-values input{width:100%;min-width:0;font-variant-numeric:tabular-nums}
+#conflict-capture .field input[type=file]{width:100%;font-size:12px;overflow-wrap:anywhere}
+#conflict-capture .field input[type=text],
+#conflict-capture .field input[type=date],
+#conflict-capture .field select{width:100%;max-width:100%}
+#conflict-capture .build-content-check{display:flex;align-items:start;gap:9px}
+#conflict-capture .build-content-check input{margin-top:3px;flex-shrink:0}
+#conflict-capture #conflict-capture-feedback{overflow-wrap:anywhere}
+#conflict-capture .workbench-actions{margin:18px 0}
+#conflict-capture-progress th{min-width:200px}
+#conflict-capture-progress td{overflow-wrap:anywhere}
+@media(max-width:900px){.conflict-capture-values{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:540px){
+ .conflict-capture-values{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #conflict-capture{margin:16px 0}
+ #conflict-capture .workbench-actions{display:grid;grid-template-columns:1fr}
+ #conflict-capture .workbench-actions button{width:100%}
+}
