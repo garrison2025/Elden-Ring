@@ -100,8 +100,8 @@
 <div class="qar-heading"><span class="qar-step">04</span><div><div class="eyebrow">Weapon AR ranking / exact source variants</div><h2 id="qar-rank-heading">Compare multiple weapon Attack Ratings</h2></div></div>
 <p>Rank source-defined weapons and legal affinities using the <strong>same five character attributes</strong> above. Choose independent Regular and Somber upgrade levels. Grip is taken from the main calculator checkbox. Every displayed nominal AR is calculated locally from the explicitly loaded dataset, never from +0 catalogue attack sums.</p>
 <div class="qar-ranking-grid">
-<label class="field">Search weapon name or family (2–100 characters)
-<input id="qar-rank-search" type="search" maxlength="100" value="Uchigatana" placeholder="Try Uchigatana, Greatsword, Axe…" autocomplete="off"></label>
+<label class="field">Search a name, or list exact weapon families separated by commas (max 8)
+<input id="qar-rank-search" type="search" maxlength="100" value="Uchigatana" placeholder="Uchigatana, Greatsword, Blasphemous Blade" autocomplete="off"></label>
 <label class="field">Source-defined affinity ID
 <select id="qar-rank-affinity">
 <option value="all">All available affinities (including unique)</option>
@@ -122,7 +122,7 @@
 <button id="qar-rank-run" class="btn" type="button">Rank matching weapon AR</button>
 <button id="qar-rank-csv" class="btn alt" type="button" disabled>Export displayed AR ranking CSV</button>
 </div>
-<p class="qar-fineprint">For safety, queries matching over 240 source variants must be narrowed; no alphabetically truncated result is called a global top ranking. Unsupported +levels and invalid source profiles are excluded with a count and examples. Unmet minimum attributes stay visible as warnings—not as “wieldable.” Paired/forced-grip, status, ammunition, skills and enemy-defense mechanics are not simulated. This is v1.17 <strong>reference AR only</strong>, not game-client-certified 1.17.3 or actual enemy damage.</p>
+<p class="qar-fineprint">Enter one search fragment (e.g. Greatsword) or 2–8 distinct exact weapon/family names separated by commas (e.g. Uchigatana, Greatsword, Blasphemous Blade). Missing names are rejected rather than silently omitted. For safety, queries matching over 240 source variants must be narrowed; no alphabetically truncated result is called a global top ranking. Unsupported +levels and invalid source profiles are excluded with a count and examples. Unmet minimum attributes stay visible as warnings—not as “wieldable.” Paired/forced-grip, status, ammunition, skills and enemy-defense mechanics are not simulated. This is v1.17 <strong>reference AR only</strong>, not game-client-certified 1.17.3 or actual enemy damage.</p>
 <p id="qar-rank-status" class="qar-status" role="status" aria-live="polite">Load a source to compare weapon AR.</p>
 <div id="qar-rank-results" hidden>
 <div class="table-wrap qar-ranking-table-wrap" tabindex="0" aria-label="Scroll horizontally to view full AR ranking">
