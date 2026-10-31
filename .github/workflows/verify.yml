@@ -2,9 +2,6 @@ name: Static site verification
 on:
   push:
   pull_request:
-permissions:
-  contents: read
-  pull-requests: write
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -13,35 +10,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run static tests and preserve failed output
-        shell: bash
-        run: |
-          set -o pipefail
-          npm run check 2>&1 | tee verify-diagnostics.log
-      - name: Upload static diagnostics if verification fails
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: static-verification-failure-diagnostics
-          path: verify-diagnostics.log
-          if-no-files-found: warn
-          retention-days: 3
-      - name: Post bounded verification failure diagnostic to this PR
-        if: failure() && github.event_name == 'pull_request' && github.event.pull_request.number == 59
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          s=Path("verify-diagnostics.log").read_text(errors="replace").splitlines()
-          indices=[i for i,line in enumerate(s) if "not ok " in line or "SyntaxError:" in line or "AssertionError:" in line]
-          chosen=[]
-          for i in indices[:5]:
-              chosen.extend(s[max(0,i-2):min(len(s),i+19)])
-          if not chosen:
-              chosen=s[-75:]
-          body="### PR #59 test failure diagnostic (temporary CI instrumentation)\n\n```\n"+ "\n".join(chosen)[:9000] + "\n```"
-          Path("verify-comment.md").write_text(body)
-          PY
-          gh pr comment 59 --body-file verify-comment.md
+      - run: npm run check
