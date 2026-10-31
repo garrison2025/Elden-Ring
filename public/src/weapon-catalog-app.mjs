@@ -4,6 +4,8 @@ import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} 
 import {makeArWorkbenchUrl} from './ar-workbench-navigation.mjs';
 import {makeWeaponCatalogShareUrl} from './weapon-catalog-navigation.mjs';
 import {makeCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
+import {validateRecoveredSourceReferences} from './recovered-weapon-reference.mjs';
+import {buildRecoveredWeaponPreview} from './recovered-weapon-preview.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -21,6 +23,7 @@ for(let i=0;i<5;i++){
  label.append(input);$('catalog-stats').append(label);
 }
 let catalog=null,chosen=null,offset=0,lastUpgradeWeaponId=null,comparedIds=[];
+let referenceOnlyMap=new Map(),referenceOnlyError=null;
 function renderReferenceComparison(){
  const add=$('catalog-compare-add');
  if(chosen){
@@ -127,11 +130,68 @@ const status=(s,error=false)=>{
  $('catalog-status').textContent=s;
  $('catalog-status').className=error?'feedback bad':'feedback';
 };
+
+function renderRecoveredSourcePreview(){
+ const section=$('catalog-source-preview'),isSourceOnly=chosen?.flags?.includes('source-v117-neutral-requirements-only');
+ section.hidden=!isSourceOnly;
+ if(!isSourceOnly)return;
+ const out=$('catalog-source-status');
+ for(const id of ['catalog-source-attack','catalog-source-scaling','catalog-source-requirements','catalog-source-links'])
+  $(id).replaceChildren();
+ $('catalog-source-missing').textContent='';
+ $('catalog-source-weight').textContent='—';
+ $('catalog-source-critical').textContent='—';
+ if(referenceOnlyError){
+  out.textContent='Source review unavailable: '+referenceOnlyError+'. Original weapon data is not affected.';
+  return;
+ }
+ const raw=referenceOnlyMap.get(chosen.id);
+ if(!raw){out.textContent='No matching validated reference available. This value is still unknown.';return;}
+ let record;
+ try{record=buildRecoveredWeaponPreview(chosen,raw);}
+ catch(e){out.textContent='Preview blocked: '+e.message;return;}
+ out.textContent=record.sourceConflicts.length?'SOURCE CONFLICT: '+record.sourceConflicts.join(', ')+
+  ' · Published data conflict; no game client certification.':
+  'PUBLIC COMMUNITY SOURCE ONLY · Not independently certified against App 1.17.2 / Regulation 1.17.3.';
+ const render=(id,values)=>{
+  const parent=$(id);
+  for(const v of values){
+   const row=el('div');row.className='catalog-value';
+   const a=v.primary===null?'NOT REPORTED':String(v.primary);
+   const b=v.secondary===null?'NOT REPORTED':String(v.secondary);
+   const text=el('strong','A: '+a+' · B: '+b);
+   if(v.evidence==='SOURCE_CONFLICT'||v.evidence==='SECONDARY_NOT_LISTED')text.textContent+=' ⚠';
+   text.title=v.evidence.replaceAll('_',' ');
+   row.append(el('span',v.label),text);parent.append(row);
+  }
+ };
+ render('catalog-source-attack',record.attack);
+ render('catalog-source-scaling',record.scaling);
+ render('catalog-source-requirements',record.requirements);
+ $('catalog-source-weight').textContent=String(record.weight)+' (two public readings, not certified)';
+ $('catalog-source-critical').textContent=String(record.critical)+' (Eldenpedia published)';
+ $('catalog-source-missing').textContent=record.unknownScalingCells+
+  ' scaling fields have no explicit published grade in either of these two references; '+
+  'NOT REPORTED does not prove an absent "-" grade.';
+ const links=$('catalog-source-links');
+ for(const [label,url] of [['Eldenpedia published data',record.sourceAUrl],
+  ['Tarnished.app individual page (different from Tarnished.dev)',record.sourceBUrl],
+  ['Third named corroborating source (does not prove actual game)',record.sourceCUrl]]){
+  if(!url)continue;
+  const a=el('a',label+' ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';
+  const p=el('p');p.append(a);links.append(p);
+ }
+ const url=new URL('../game-evidence-queue/',location.href);
+ url.searchParams.set('weapon',chosen.id);
+ $('catalog-source-qa').href=url.pathname+url.search;
+}
+
 function renderDetails(){
  const box=$('catalog-details');
  if(!chosen){box.hidden=true;renderReferenceComparison();return;}
  box.hidden=false;
  $('catalog-title').textContent=chosen.name;
+ renderRecoveredSourcePreview();
  $('catalog-smithing-link').href=makeCatalogSmithingHandoff(chosen,location.href);
  $('catalog-smithing-note').textContent=chosen.upgradeReference?.path==='somber'&&
   chosen.upgradeReference?.status==='community-published-base-attack'&&
@@ -365,7 +425,8 @@ function showList(reset=false,keepSelected=false){
   btn.setAttribute('aria-label','View '+w.name+' weapon details');
   if(w.id===chosen?.id)btn.classList.add('selected');
   const title=el('span',w.name);title.className='catalog-row-title';
-  const detail=el('span',w.category+' · '+(w.dataCoverage==='name-category-only'?
+  const detail=el('span',w.category+' · '+(referenceOnlyMap.has(w.id)?
+    'Sourced +0 preview available (not certified)':w.dataCoverage==='name-category-only'?
    'DLC name/category only':w.expansion==='Tarnished Pack'?
    (w.dataCoverage==='base-reference'?'Tarnished Pack · separately sourced +0 base (not AR)':
     'Tarnished Pack · sourced requirements and weight · +0 attack UNKNOWN'):w.dataCoverage==='requirements-weight-only'?
@@ -379,7 +440,7 @@ function showList(reset=false,keepSelected=false){
      missing.oneHandMissing.map(x=>x.stat+' +'+x.points).join(', ')+' needed (1H)');
   }
   detail.className='catalog-row-desc';
-  const tag=el('span',w.expansion==='Tarnished Pack'?(w.dataCoverage==='base-reference'?'Tarnished Pack · +0 source':'Tarnished Pack · partial'):
+  const tag=el('span',referenceOnlyMap.has(w.id)?'Research-only +0 preview':w.expansion==='Tarnished Pack'?(w.dataCoverage==='base-reference'?'Tarnished Pack · +0 source':'Tarnished Pack · partial'):
    w.expansion==='Shadow of the Erdtree'?(w.dataCoverage==='base-reference'?'DLC · +0 source':'DLC · partial'):(w.flags?.length?'Review data':'View details'));
   tag.className='catalog-row-tag';
   btn.append(title,detail,tag);
@@ -438,6 +499,18 @@ try{
  const response=await fetch('../data/community-weapon-catalog.json',{cache:'default'});
  if(!response.ok)throw new Error('The local weapon catalog is unavailable ('+response.status+').');
  catalog=validateCommunityCatalog(await response.json());
+ // Reference-only source evidence never enters catalog.weapons or any calculator.
+ try{
+  const res=await fetch('../data/v117-recovered-72-reference.json',{cache:'default'});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const evidence=await res.json();
+  validateRecoveredSourceReferences(evidence,catalog);
+  referenceOnlyMap=new Map(evidence.records.map(w=>[w.id,w]));
+ }catch(e){
+  referenceOnlyError=e.message;
+  referenceOnlyMap=new Map();
+ }
+
  $('catalog-count').textContent=String(catalog.weapons.length);
  for(const category of catalogCategories(catalog.weapons)){
   const opt=el('option',category);opt.value=category;$('catalog-category').append(opt);
