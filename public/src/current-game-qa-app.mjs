@@ -111,6 +111,12 @@ Promise.all([
   byId('case').append(option);
  }
  byId('case').disabled=false;byId('add').disabled=false;byId('export').disabled=false;
+ // Deep-link exact disputed weapon from the main database (never auto-approves).
+ const requested=new URLSearchParams(location.search).get('weapon');
+ if(requested){
+  const match=queue.cases.find(x=>x.weaponId===requested);
+  if(match)byId('case').value=match.id;
+ }
  selectCase();renderProgress();
 }).catch(error=>{
  notify('Source validation failed; all capture controls remain disabled: '+error.message);
