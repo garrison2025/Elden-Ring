@@ -110,11 +110,11 @@ const main=async()=>{
   assert(!html.includes('<link rel="canonical"'),
    'Research or limited-accuracy page has an index canonical: '+slug);
   if(!research)
-   assert(headers.includes('/'+slug+'/*\\n  X-Robots-Tag: noindex'),
+   assert(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),
     'Approved deployment missing HTTP noindex header for '+slug);
  }
  if(research){
-  assert(headers==='/*\\n  X-Robots-Tag: noindex\\n',
+  assert(headers==='/*\n  X-Robots-Tag: noindex\n',
    'Research deployment must set Cloudflare noindex headers for all paths');
   for(const [label,html] of [['home',home],['build planner',build],['smithing planner',smithing],
    ['equipment loadout',equipment]])
