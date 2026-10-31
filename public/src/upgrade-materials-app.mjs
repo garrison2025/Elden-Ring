@@ -1,6 +1,8 @@
 import {materialCatalog,planUpgradeMaterials,materialsCsv} from './upgrade-materials.mjs';
 import {parseCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
 import {planWeaponUpgradeBasket,weaponUpgradeBasketCsv} from './upgrade-multi-weapon.mjs';
+import {parseBuildSmithingIds,resolveBuildSmithingWeapons} from './build-smithing-handoff.mjs';
+import {validateCommunityCatalog} from './community-weapons.mjs';
 const el=id=>document.getElementById(id);
 const store={regular:{},somber:{}};
 let latest=null;
@@ -133,6 +135,10 @@ function makeMultiRow({name,track,from,to}){
  weapon.maxLength=120;weapon.dataset.multiField='name';
  const kind=make('select');
  kind.dataset.multiField='track';kind.setAttribute('aria-label','Weapon '+index+' smithing track');
+ if(track===''){
+  const unknown=make('option','Choose track — required');
+  unknown.value='';kind.append(unknown);
+ }
  for(const [value,label] of [['regular','Regular +25'],['somber','Somber +10']]){
   const option=make('option',label);option.value=value;kind.append(option);
  }
@@ -231,3 +237,40 @@ el('multi-export').addEventListener('click',()=>{
  document.body.append(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),2500);
 });
+
+/**
+ * Optional linked build shortlist: only bounded IDs travel in URL.
+ * Re-resolve display names against our local validated reference dataset.
+ * Explicit player selection of each track AND both upgrade levels required.
+ */
+try{
+ const linkedIds=parseBuildSmithingIds(location.search);
+ if(linkedIds.length){
+  multiFeedback('Loading linked Build Planner weapon references locally…');
+  fetch('../data/community-weapon-catalog.json',{cache:'default'}).then(async response=>{
+   if(!response.ok)throw new Error('Local weapon catalog HTTP '+response.status);
+   const local=validateCommunityCatalog(await response.json());
+   const found=resolveBuildSmithingWeapons(linkedIds,local.weapons);
+   if(multiRows.children.length)
+    throw new RangeError('The multi-weapon list was edited before import; no rows were replaced.');
+   for(const entry of found){
+    const row=makeMultiRow(entry);
+    const track=row.querySelector('[data-multi-field="track"]');
+    track.title=entry.trackHint;
+    row.querySelector('[data-multi-field="name"]').title=
+     entry.trackHint+' Weapon name comes from the local source catalog.';
+    multiRows.append(row);
+   }
+   calculateMulti();
+   multiFeedback('Imported '+found.length+
+    ' verified local catalog identities from Build Planner. Smithing track and actual current/target +levels are intentionally BLANK and MUST be entered manually.'+
+    (found.some(x=>x.suggestedTrack==='somber')?
+     ' Some linked weapons have community-sourced Somber hints (hover their track field), not game certification.':''));
+  }).catch(error=>{
+   multiFeedback('Unable to import Build shortlist: '+error.message+
+    ' No unsupported weapon information was inserted.',true);
+  });
+ }
+}catch(error){
+ multiFeedback('Invalid Build Planner shortlist link: '+error.message,true);
+}
