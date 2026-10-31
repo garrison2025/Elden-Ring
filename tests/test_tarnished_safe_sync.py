@@ -50,7 +50,7 @@ class SafeSyncTests(unittest.TestCase):
             self.assertEqual(actual, json.loads(p3.read_text()))
             self.assertEqual(json.loads(p2.read_text()),report['observed'])
             self.assertEqual(set(x.name for x in root.iterdir()), {'result.json','baseline.json','public.json'})
-            with self.assertRaisesRegex(ValueError,'Nothing changed'):
+            with self.assertRaisesRegex(ValueError,'Reported change does not match recalculated'):
                 safe.stage(p1,p2,p3)
 
     def test_tampered_or_unobserved_metrics_fail_closed(self):
