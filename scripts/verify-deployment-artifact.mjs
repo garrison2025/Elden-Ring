@@ -44,7 +44,8 @@ const main=async()=>{
   'Incorrect revision source');
  assert(Number.isFinite(Date.parse(deployment.generatedAt)),
   'Invalid build timestamp');
- const research=process.env.RELEASE_INDEX_APPROVED!=='1';
+ const research=!(process.env.RELEASE_INDEX_APPROVED==='1'&&
+  typeof process.env.SITE_URL==='string'&&process.env.SITE_URL.trim().length>0);
  assert(deployment.researchNoindex===research,
   'Build manifest index setting does not match build gate');
  if(research){
