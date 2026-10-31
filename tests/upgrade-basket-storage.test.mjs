@@ -29,7 +29,7 @@ test('opt-in snapshot round-trips confirmed mixed tracks and shared inventory wi
  const plan=planWeaponUpgradeBasket(loaded.weapons,loaded.inventory);
  assert.equal(plan.weaponCount,2);
  assert.equal(plan.totalStones,31);
- assert.equal(plan.totalMissing,22);
+ assert.equal(plan.totalMissing,24); // Somber [4] has only 1 required; surplus stock is not deducted from other types.
 });
 test('saved basket does not imply content access, weapon source parameters, current game patch or AR',()=>{
  const saved=makeSmithingBasketSnapshot([
