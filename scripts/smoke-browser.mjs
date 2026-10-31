@@ -252,8 +252,53 @@ try{
  assert.equal(await evaluate(`localStorage.getItem('buildlab:smithing-basket:v1')`),null);
  assert.equal(await evaluate('document.querySelectorAll("#multi-weapon-rows tr").length'),2,
   'Deleting saved copy must not erase onscreen draft');
+
+ // Separate fresh-browser journey: share pinned A plus edited B and verify that
+ // re-opening the URL restores both source weapons and all live character stats.
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:1280,height:850,deviceScaleFactor:1,mobile:false
+ });
+ await navigate('/build-planner/');
+ await waitFor('document.querySelector("#build-weapon")?.disabled===false',
+  'Build source catalog ready for A/B link share');
+ await selectWeapon('Greatsword');
+ await evaluate('document.querySelector("#build-ab-pin").click()');
+ await selectWeapon('Uchigatana');
+ await evaluate(`(()=>{
+  const vigor=document.querySelector('#stat-grid [data-stat="0"]');
+  vigor.value=String(Number(vigor.value)+1);
+  vigor.dispatchEvent(new Event('input',{bubbles:true}));
+ })()`);
+ await evaluate('document.querySelector("#build-ab-share").click()');
+ await waitFor('document.querySelector("#build-ab-share-url")?.value.includes("compare=")',
+  'Shareable two-Build URL generated');
+ const comparisonUrl=await evaluate('document.querySelector("#build-ab-share-url").value');
+ assert.ok(comparisonUrl.startsWith(site+'/build-planner/'),
+  'Share URL uses same origin and canonical planner path');
+ const sharedParams=new URL(comparisonUrl);
+ assert.equal(sharedParams.searchParams.get('origin'),'Samurai');
+ assert.equal(sharedParams.searchParams.get('stats').split(',')[0],'13');
+ assert.ok(sharedParams.searchParams.get('weapon'),'Build B source weapon ID required');
+ await navigate(sharedParams.pathname+sharedParams.search);
+ await waitFor(`document.querySelector('#build-ab-results')?.hidden===false&&
+ document.querySelector('#build-ab-weapon-a')?.textContent.includes('Greatsword')&&
+ document.querySelector('#build-ab-weapon-b')?.textContent.includes('Uchigatana')`,
+ 'Deep-linked A/B comparison restored with distinct source weapons');
+ assert.equal(await evaluate('document.querySelector("#build-ab-origin-a").textContent'),
+  'Samurai');
+ assert.equal(await evaluate('document.querySelector("#build-ab-origin-b").textContent'),
+  'Samurai');
+ assert.equal(await evaluate(`document.querySelectorAll('#build-ab-rows tr')[3]
+  .lastElementChild.textContent`),'+1');
+ assert.equal(await evaluate(`document.querySelector('#stat-grid [data-stat="0"]').value`),'13');
+ // Legacy single-build link still opens without pinning A.
+ await navigate('/build-planner/?origin=Samurai&stats=12,11,13,12,15,9,8,8');
+ await waitFor('document.querySelector("#build-ab-pin")!==null','Legacy Build link');
+ assert.equal(await evaluate('document.querySelector("#build-ab-results").hidden'),
+  true,'Legacy Build URL must not import a stale pinned baseline');
+
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: Build A/B pin/edit/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;
