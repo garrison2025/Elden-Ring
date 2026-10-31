@@ -168,7 +168,14 @@ try{
  await waitFor('document.querySelector("#build-weapon")?.disabled===false',
   'Build Planner catalog ready');
  await selectWeapon('Uchigatana');
+ const buildArHandoff=await evaluate("(()=>{const a=document.querySelector('#build-weapon-ar-link');const u=new URL(a.href);return {hidden:a.hidden,path:u.pathname,weapon:u.searchParams.get('weapon'),stats:u.searchParams.get('player'),upgrade:u.searchParams.get('upgrade')}})()");
+ assert.deepEqual(buildArHandoff,{
+  hidden:false,path:'/weapon-ar-calculator/',weapon:'Uchigatana',
+  stats:'12,15,9,8,8',upgrade:null
+ },'Selected Build weapon and exact Samurai combat stats must reach opt-in AR calculator');
  await selectWeapon('Greatsword');
+ const greatAr=await evaluate("new URL(document.querySelector('#build-weapon-ar-link').href).searchParams.get('weapon')");
+ assert.equal(greatAr,'Greatsword','Changing selected weapon updates the reference AR handoff');
  await waitFor('document.querySelectorAll("#build-wield-rows tr").length===2',
   'Build shortlist must display per-candidate wield checks');
  assert.equal(await evaluate('document.querySelector("#build-wield-apply-one").disabled'),
@@ -180,6 +187,11 @@ try{
   'One-hand Greatsword requirement raised STR to 31');
  assert.equal(await evaluate('document.querySelector("#build-level").textContent'),
   '28','One-hand shortlist target should add 19 levels');
+ assert.equal(await evaluate("new URL(document.querySelector('#build-weapon-ar-link').href).searchParams.get('player')"),
+  '31,15,9,8,8','Applying weapon requirements updates the combat stats in AR handoff');
+ await evaluate("(()=>{const v=document.querySelector('#stat-grid [data-stat=\\\"0\\\"]');v.value='0';v.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.equal(await evaluate("document.querySelector('#build-weapon-ar-link').hidden"),
+  true,'Invalid Build attributes hide external handoff rather than leaking stale inputs');
  await evaluate('document.querySelector("#reset-build").click()');
  await waitFor(`document.querySelector('#stat-grid [data-stat="3"]').value==="12"`,
   'Reset baseline before two-hand test');
