@@ -10,4 +10,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm run check
+      - name: Run static tests and preserve failed output
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run check 2>&1 | tee verify-diagnostics.log
+      - name: Upload static diagnostics if verification fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-verification-failure-diagnostics
+          path: verify-diagnostics.log
+          if-no-files-found: warn
+          retention-days: 3
