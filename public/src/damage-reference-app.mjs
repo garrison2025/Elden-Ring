@@ -62,13 +62,21 @@ function restoreFromUrl(){
  if(location.search.length>1800){
   feedback('Oversized scenario URL ignored; edit values manually.',true);return;
  }
- let found=0;
+ const arValues={};
  for(const key of DAMAGE_TYPES){
   const value=params.get(key);
-  if(value!==null&&/^(?:\d+(?:\.\d{1,3})?|\.\d{1,3})$/.test(value)&&Number(value)<=10000){
-   $('damage-attack-'+key).value=value;found++;
+  if(value===null)continue;
+  if(!/^(?:\d+(?:\.\d{1,3})?|\.\d{1,3})$/.test(value)||Number(value)>10000){
+   feedback('Invalid shared Attack Rating; URL values were ignored.',true);
+   return;
   }
+  arValues[key]=value;
  }
+ const found=Object.keys(arValues).length;
+ // A partial shared scenario is not the fictional demo: missing channels
+ // mean zero, particularly when a magic-only weapon omitted Physical AR.
+ if(found)for(const key of DAMAGE_TYPES)
+  $('damage-attack-'+key).value=arValues[key]??'0';
  const type=params.get('type');
  if(['physical','strike','slash','pierce'].includes(type))
   $('damage-physical-type').value=type;
@@ -87,8 +95,8 @@ function restoreFromUrl(){
    $(id).value=v;
  }
  if(found>0)
-  $('damage-handoff-status').textContent='Five Attack Rating channels supplied in this URL ('+
-   found+' specified). These inputs are editable; a shared URL is not authenticated proof of v1.17 results.';
+  $('damage-handoff-status').textContent=found+' Attack Rating channels supplied; '+
+   (5-found)+' unspecified channels set to zero. Values are editable and a shared URL is not authenticated proof of v1.17 results.';
 }
 $('damage-reset-enemy').addEventListener('click',()=>{
  for(const key of ENEMY_TYPES){$('damage-def-'+key).value='100';$('damage-neg-'+key).value='0';}
