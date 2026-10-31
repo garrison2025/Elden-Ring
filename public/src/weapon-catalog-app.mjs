@@ -444,7 +444,7 @@ try{
  }
  try{comparedIds=parseReferenceCompareIds(params.get('compare'),new Set(catalog.weapons.map(w=>w.id)));}
  catch{comparedIds=[];$('catalog-compare-feedback').textContent='Invalid comparison URL; selection ignored.';}
- const preferred=params.get('weapon');
+ const preferred=(catalog.meta.legacyWeaponIdAliases||{})[params.get('weapon')]||params.get('weapon');
  if(preferred){chosen=catalog.weapons.find(w=>w.id===preferred)||null;}
  if(chosen)$('catalog-search').value=chosen.name;
  if(!chosen&&comparedIds.length)chosen=catalog.weapons.find(w=>w.id===comparedIds[0])||null;
