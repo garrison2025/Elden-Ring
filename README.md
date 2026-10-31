@@ -369,3 +369,19 @@ entries have no sourced track and must be confirmed by the player. No
 published reference reinforcement level is silently used as the player's
 current level. Material math is **not** weapon AR, rune costs, game-client
 parity or special weapon-effect calculation. Research `noindex` remains.
+
+## Build Planner → Smithing Stone planner handoff (2026-10-31)
+
+When a **selected, successfully inspected source weapon** is present in
+`/build-planner/`, its optional weapon section now links directly to
+`/weapon-upgrade-calculator/`. The link carries the weapon's existing
+catalog ID/name (and an optional sourced Somber hint for only the six
+community-published Somber reference records). The existing material
+calculator can then add that weapon to its manual multi-weapon basket.
+
+The handoff **never** sends the character's level as a weapon upgrade
+level, assumes that a shown reference +level is the player's current
++level, or guesses the weapon's upgrade track from its name/category.
+When the selected weapon is cleared, disabled by DLC settings, invalid
+or unavailable, the link is hidden. No extra data or API is introduced,
+and numerical outputs remain research-only.
