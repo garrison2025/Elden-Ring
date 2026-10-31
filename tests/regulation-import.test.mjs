@@ -62,7 +62,7 @@ test('physical and split scaling maps independent elements',()=>{
 
 test('imported compact data uses explicit versioned penalty and rounding policy',()=>{
  const profile=convertCompactRegulation(fixture(),opts('Invented Alpha Sword'));
- assert.deepEqual(profile.calculationRules,{requirements:'damage-type-60',rounding:'floor-components'});
+ assert.deepEqual(profile.calculationRules,{requirements:'damage-type-60',rounding:'floor-components',aggregation:'floor-raw-sum'});
  const result=calculateAr(profile,{str:5,dex:20,int:10,fai:10,arc:10});
  assert.equal(result.total,60);
  assert.equal(result.floorTotal,60);
