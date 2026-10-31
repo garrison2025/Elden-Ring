@@ -56,7 +56,8 @@ export function buildV117CatalogOverlay(catalog,source){
  const rows=new Map(),summary={
   total:catalog.weapons.length,sourceMapped:0,sourceOnlyMapped:0,
   flaggedDisputesMapped:0,neutralAttackDifferences:0,
-  neutralRequirementDifferences:0,missing:0,ambiguous:0,
+  neutralRequirementDifferences:0,anyNumericalDifferences:0,
+  unflaggedNumericalDifferences:0,missing:0,ambiguous:0,
   incompleteSource:0,
   sourceGameVersion:'1.17',actualSiteArCasesCompared:50,
   sourceProvenance:'Opt-in pinned PUBLIC v1.17 regulation-derived parameters; per-weapon +0 base is NOT independently read from Tarnished.dev, only AR representative cases were compared.',
@@ -78,6 +79,10 @@ export function buildV117CatalogOverlay(catalog,source){
   if(flagged)summary.flaggedDisputesMapped++;
   if(attackDiff)summary.neutralAttackDifferences++;
   if(requirementDiff)summary.neutralRequirementDifferences++;
+  if(attackDiff||requirementDiff){
+   summary.anyNumericalDifferences++;
+   if(!flagged)summary.unflaggedNumericalDifferences++;
+  }
   rows.set(weapon.id,{
    status:'pinned-v117-neutral-reference',id:weapon.id,name:weapon.name,
    ...facts,sourceOnly,flaggedSourceDispute:flagged,
