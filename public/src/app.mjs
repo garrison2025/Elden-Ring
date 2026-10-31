@@ -1,6 +1,7 @@
 import {STATS,CLASSES,classForName,validateStats,buildLevel,optimizeClasses,runeCostForLevel,runeRange,targetFromRunes,loadTier,commas,farmingRunsNeeded,parseSharedStats} from './core.mjs';
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
+import {makeBuildSmithingUrl} from './build-smithing-handoff.mjs';
 const $=s=>document.querySelector(s);const page=document.body.dataset.page;const fmt=commas;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const status=(text,bad=false)=>{const el=$('#feedback');if(el){el.textContent=text;el.className=bad?'feedback bad':'feedback';}};
@@ -34,12 +35,57 @@ function initBuild(){
   const search=$('#build-weapon-search'),weaponSelect=$('#build-weapon'),weaponSummary=$('#build-weapon-summary');
   const weaponDetails=$('#build-weapon-detail-link');
   let current=classForName('Samurai'),selectedWeaponId=null,weaponCatalog=null,weaponLoadError=null;
+  let smithingIds=[];
   const query=new URLSearchParams(location.search);
   let sharedProblem=null;
   try{extra.checked=parseContentFlag(query.get('tarnished'));sote.checked=parseContentFlag(query.get('sote'));}
   catch(e){extra.checked=false;sote.checked=false;sharedProblem='Invalid extra-content settings were ignored.';}
   classOptions(sel,extra.checked);sel.value=current.name;statInputs(grid,current.stats);
   const read=()=>validateStats(values(grid),current);
+  const shortlistList=$('#build-smithing-list');
+  function renderSmithingShortlist(message=''){
+    const canAdd=Boolean(weaponCatalog&&selectedWeaponId&&
+      !smithingIds.includes(selectedWeaponId)&&smithingIds.length<8);
+    $('#build-smithing-add').disabled=!canAdd;
+    $('#build-smithing-clear').disabled=smithingIds.length===0;
+    shortlistList.replaceChildren();
+    for(const id of smithingIds){
+      const weapon=weaponCatalog?.weapons.find(w=>w.id===id);
+      if(!weapon)continue;
+      const li=document.createElement('li'),name=document.createElement('span');
+      name.textContent=weapon.name+' · '+weapon.category+
+        (weapon.expansion==='Shadow of the Erdtree'?' · SOTE':'');
+      const remove=document.createElement('button');
+      remove.type='button';remove.className='btn alt';
+      remove.textContent='Remove';
+      remove.setAttribute('aria-label','Remove '+weapon.name+' from smithing shortlist');
+      remove.addEventListener('click',()=>{
+        smithingIds=smithingIds.filter(value=>value!==id);
+        renderSmithingShortlist();
+      });
+      li.append(name,remove);shortlistList.append(li);
+    }
+    const link=$('#build-smithing-open');
+    link.hidden=smithingIds.length===0;
+    if(smithingIds.length){
+      link.href=makeBuildSmithingUrl(smithingIds,location.href);
+    }
+    $('#build-smithing-feedback').textContent=message||
+      (smithingIds.length?smithingIds.length+' of 8 weapons selected. Confirm every smithing track and +level after opening the planner.':
+        'No weapons added. Choose a weapon above, then add it.');
+  }
+  $('#build-smithing-add').addEventListener('click',()=>{
+    if(!weaponCatalog||!selectedWeaponId)return;
+    if(smithingIds.includes(selectedWeaponId)||smithingIds.length>=8)return;
+    try{
+      inspectBuildWeapon(weaponCatalog.weapons,selectedWeaponId,read(),{allowSote:sote.checked});
+      smithingIds=[...smithingIds,selectedWeaponId];
+      renderSmithingShortlist();
+    }catch(error){renderSmithingShortlist('Cannot add weapon: '+error.message);}
+  });
+  $('#build-smithing-clear').addEventListener('click',()=>{
+    smithingIds=[];renderSmithingShortlist();
+  });
   function refreshWeaponChoices(){
     if(!weaponCatalog)return;
     const matches=buildWeaponOptions(weaponCatalog.weapons,search.value,selectedWeaponId,35,sote.checked);
@@ -92,11 +138,13 @@ function initBuild(){
     });
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=false;
     renderWeapon(v);
+    renderSmithingShortlist();
     status(sharedProblem||'Plan valid. Attribute level is calculated locally; selected weapons are community references only.');
   }catch(e){
     clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=true;
     weaponDetails.hidden=true;weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
+    renderSmithingShortlist();
     status(e.message,true);
   }}
   sel.addEventListener('change',()=>{current=classForName(sel.value);statInputs(grid,current.stats);render()});
@@ -105,6 +153,10 @@ function initBuild(){
     classOptions(sel,extra.checked);sel.value=current.name;render();
   });
   sote.addEventListener('change',()=>{
+    if(!sote.checked&&weaponCatalog){
+      smithingIds=smithingIds.filter(id=>weaponCatalog.weapons.find(w=>w.id===id)?.expansion!=='Shadow of the Erdtree');
+      renderSmithingShortlist('Shadow of the Erdtree weapon shortlist entries removed because DLC references are disabled.');
+    }
     if(!sote.checked&&selectedWeaponId&&weaponCatalog?.weapons.find(w=>w.id===selectedWeaponId)?.expansion==='Shadow of the Erdtree'){
       requestedWeapon=selectedWeaponId;selectedWeaponId=null;
     }
