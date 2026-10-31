@@ -872,6 +872,8 @@ try{
    'Source-only Albinauric Shield selected in the real catalog');
   assert.equal(await evaluate("document.querySelector('#catalog-v117-panel').hidden"),true,
    'External source facts cannot load without explicit user click');
+  assert.equal(await evaluate("document.querySelector('#catalog-v117-export').disabled"),true,
+   'Review CSV must stay disabled before the external source is loaded');
   assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('Not verified'),
    'Unknown weapon weight must never default to zero');
   await evaluate("document.querySelector('#catalog-v117-load').click()");
@@ -900,6 +902,14 @@ try{
     .includes(expected+' matching entries'),filter+' filter must show exact '+expected+' source cases');
   }
   assert.equal(await evaluate("document.querySelector('#catalog-v117-filter').disabled"),false);
+  assert.equal(await evaluate("document.querySelector('#catalog-v117-export').disabled"),false,
+   'Review queue becomes available only after source comparison loads');
+  await evaluate("document.querySelector('#catalog-v117-export').click()");
+  await waitFor("document.querySelector('#catalog-v117-export-status')?.textContent.includes('Downloaded ')",
+   'Browser-only CSV review export should report actual unresolved field-level cases');
+  assert.ok((await evaluate("document.querySelector('#catalog-v117-export-status').textContent"))
+   .includes('No source discrepancy is automatically approved'),
+   'CSV export must never be presented as source reconciliation approval');
   console.log('[REAL V1.17 CATALOG] 487 unique neutral matches, 72 unknown attack preview rows, 9 flagged disputes, 41/25 new cross-source differences, no weight guesses.');
   await navigate('/weapon-ar-calculator/?weapon=Uchigatana&player=40%2C40%2C10%2C10%2C10&upgrade=0');
   assert.equal(await evaluate("document.querySelector('#qar-workspace').hidden"),true,
