@@ -58,16 +58,18 @@ test('never count unobserved AR or an injected game client verification flag',()
  assert.throws(()=>auditTarnishedV117ReferenceAR(fixture(),{cases:[duplicate,duplicate]}),RangeError);
 });
 
-test('five independently browser-observed candidate AR cases cover stats, upgrade, affinity and 2H, without passing the overall release gate',()=>{
- assert.equal(TARNISHED_REFERENCE_AR_CASES.length,5);
- assert.deepEqual(TARNISHED_REFERENCE_AR_CASES.map(x=>x.expectedTotal),[172,133,491,488,180]);
- assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.affinity)).size,2);
- assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.upgrade)).size,2);
- assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.twoHanded).length,1);
- assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.sourceRepeatable).length,1);
+test('fifteen input-verified public browser candidate cases cover six weapon families and DLC without automatically passing the gate',()=>{
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.length,15);
+ assert.deepEqual(TARNISHED_REFERENCE_AR_CASES.map(x=>x.expectedTotal),[172,133,491,488,180,120,452,495,211,745,839,337,666,235,632]);
+ assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.affinity)).size,4);
+ assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.upgrade)).size,3);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.twoHanded).length,2);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.sourceRepeatable).length,5);
  const x=auditTarnishedV117ReferenceAR(fixture());
- assert.equal(x.candidateCount,5);
+ assert.equal(x.candidateCount,15);
  assert.equal(x.referenceReleaseReady,false);
  assert.equal(x.currentGameClientVerified,false);
+ assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(z=>z.weaponName)).size,6);
+ assert.ok(TARNISHED_REFERENCE_AR_CASES.some(z=>z.weaponName==="Fire Knight's Greatsword"));
  assert.ok(x.results.some(r=>r.status==='source-variant-missing'||r.status==='conversion-blocked'));
 });
