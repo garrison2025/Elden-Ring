@@ -2,6 +2,7 @@ import {cp,mkdir,rm,readFile,writeFile,readdir} from 'node:fs/promises';
 import path from 'node:path';
 import {injectToolNavigation} from './navigation.mjs';
 import {getCatalogCoverage,injectCatalogCoverageIntoHomepage} from './home-catalog-coverage.mjs';
+import {getCatalogEvidence,injectCatalogEvidence} from './catalog-evidence.mjs';
 const root=process.cwd(),dist=path.join(root,'dist'),source=path.join(root,'public');
 const url=(process.env.SITE_URL||'').trim().replace(/\/$/,'');
 // Research deployment is noindex by default even when SITE_URL is configured.
@@ -11,6 +12,14 @@ if(url&&!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(url))throw Error('SITE_URL mus
 await rm(dist,{force:true,recursive:true});await cp(source,dist,{recursive:true});
 const catalog=JSON.parse(await readFile(path.join(source,'data/community-weapon-catalog.json'),'utf8'));
 const coverage=getCatalogCoverage(catalog);
+const evidence=getCatalogEvidence(catalog);
+// The status page and JSON evidence are generated from the *same* validated
+// bundled catalog as the homepage. Never maintain these numbers by hand.
+await writeFile(path.join(dist,'catalog-evidence.json'),
+ JSON.stringify(evidence,null,2)+'\n','utf8');
+const validationPage=path.join(dist,'validation-status','index.html');
+await writeFile(validationPage,
+ injectCatalogEvidence(await readFile(validationPage,'utf8'),evidence),'utf8');
 const homeFile=path.join(dist,'index.html');
 await writeFile(homeFile,injectCatalogCoverageIntoHomepage(await readFile(homeFile,'utf8'),coverage),'utf8');
 async function pages(dir){const arr=[];for(const entry of await readdir(dir,{withFileTypes:true})){const child=path.join(dir,entry.name);if(entry.isDirectory())arr.push(...await pages(child));else if(entry.name==='index.html')arr.push(child)}return arr}
