@@ -1,5 +1,6 @@
 import {bundleConflictCaptureDrafts} from './conflict-game-capture.mjs';
 import {compareLocalScreenshotToFingerprint} from './ar-screenshot-fingerprint.mjs';
+import {sameJsonStructure} from './json-structure-equal.mjs';
 
 const fail=m=>{throw new RangeError(m);};
 export const CONFLICT_BUNDLE_MAX_BYTES=110_000;
@@ -24,8 +25,9 @@ export function parseConflictCaptureBundle(ledger,catalog,raw){
   .map(x=>x?.observation);
  const canonical=bundleConflictCaptureDrafts(ledger,catalog,supplied);
  // Verifies full outer envelope as well as every re-derived inner observation.
- // JSON key order follows our own writer, and is preserved by JSON.parse.
- if(JSON.stringify(bundle)!==JSON.stringify(canonical))
+ // Different JSON serializers may reorder object keys. That is harmless.
+ // However every key and value, including review flags, must remain exact.
+ if(!sameJsonStructure(bundle,canonical))
   fail('Saved evidence fields do not match the current source or UNREVIEWED schema.');
  return canonical;
 }

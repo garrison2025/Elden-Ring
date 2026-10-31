@@ -53,6 +53,25 @@ test('real exporter round-trip is bounded, source revalidated and stays UNREVIEW
  assert.equal(reopened.independentlyReviewedScreenshotCount,0);
  assert.equal(importText(bundleConflictCaptureDrafts(ledger,catalog,[])).capturedCount,0);
 });
+test('reordered JSON object properties are equivalent; extra fields remain forbidden',()=>{
+ const original=exported();
+ const reorder=value=>{
+  if(Array.isArray(value))return value.map(reorder);
+  if(value!==null&&typeof value==='object')
+   return Object.fromEntries(Object.entries(value).reverse()
+    .map(([key,item])=>[key,reorder(item)]));
+  return value;
+ };
+ const reordered=reorder(original);
+ const restored=parseConflictCaptureBundle(ledger,catalog,JSON.stringify(reordered));
+ assert.deepEqual(restored,original);
+ const withExtra=reorder(original);
+ withExtra.entries[0].unreviewedExtra='unexpected';
+ assert.throws(()=>parseConflictCaptureBundle(ledger,catalog,JSON.stringify(withExtra)),RangeError);
+ const withMissing=reorder(original);
+ delete withMissing.entries[0].taskStatus;
+ assert.throws(()=>parseConflictCaptureBundle(ledger,catalog,JSON.stringify(withMissing)),RangeError);
+});
 test('import rejects altered source facts, forged approvals, corrupt envelope and tampered derived fields',()=>{
  const mutate=fn=>{
   const data=structuredClone(exported());fn(data);
