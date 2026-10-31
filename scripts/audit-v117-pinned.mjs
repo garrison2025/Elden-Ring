@@ -107,10 +107,8 @@ async function main(){
  console.log('[EXTERNAL PLAYER AR] checked='+historical.checked+
   ' matched='+historical.matched+' failed='+historical.failed+
   ' evidence=public player posts from 2024; no 2026 in-game screenshots.');
- if(historical.failed>0){
-  console.error('[EXTERNAL PLAYER AR] Reported values no longer match this source snapshot. Never auto-correct the reports.');
-  process.exitCode=1;
- }
+ if(historical.failed>0)
+  console.warn('[EXTERNAL PLAYER AR] Historical player posts differ. Advisory only: user-approved Tarnished.dev v1.17 comparator is the sole numerical acceptance gate.');
  const current=auditCurrentReferenceAr(params,{
   sourceVersion:'1.17',sourceReference:'Pinned public 1.17 community snapshot'
  });
@@ -131,10 +129,8 @@ async function main(){
  console.log('[CURRENT 1.17.3 CROSS-SOURCE] checked='+current.benchmarkCount+
   ' matched='+current.matched+' failed='+current.failed+
   ' evidence=independent game-param-derived website, NOT real-game screenshot.');
- if(!current.allMatched){
-  console.error('[CURRENT 1.17.3 CROSS-SOURCE] Reference disagreement; review patch changes and calculation model.');
-  process.exitCode=1;
- }
+ if(!current.allMatched)
+  console.warn('[CURRENT 1.17.3 CROSS-SOURCE] Informational only: different regulation/build, NOT a v1.17 comparator blocker. Current user policy does NOT require game-client or 1.17.3 evidence.');
  // First live-site candidate: captured once, but repeated public fetches returned
  // blank weapon slots. Audit actual source computation; do not award a release
  // badge or treat a transient scraped display as a stable benchmark.
