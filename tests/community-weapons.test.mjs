@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {validateCommunityCatalog,catalogCategories,searchCatalog,baseDamageParts,
- cautionForWeapon,weaponRequirementComparison,requirementsUrl,publishedUpgradeParts} from '../public/src/community-weapons.mjs';
+ cautionForWeapon,weaponRequirementComparison,requirementsUrl,publishedUpgradeParts,hasDisputedWeight,hasDisputedAttack,reportedBaseDamageParts} from '../public/src/community-weapons.mjs';
 const catalog=validateCommunityCatalog(JSON.parse(await readFile(resolve('public/data/community-weapon-catalog.json'),'utf8')));
 const find=name=>catalog.weapons.find(w=>w.name===name);
 test('source-attributed 416 armaments with 102 Shadow of the Erdtree and 8 Tarnished Pack and shields, stripped of images and prose',()=>{
@@ -145,13 +145,13 @@ test('DLC roster has 102 sourced unique weapons/shields and three explicit data 
  assert.equal(new Set(dlc.map(w=>w.name)).size,102);
  assert.equal(catalog.meta.baseCommunityCount,306);
  assert.equal(catalog.meta.dlcCatalogCount,102);
- assert.equal(catalog.meta.dlcBaseFactCount,101);
- assert.equal(catalog.meta.dlcWeightOnlyCount,1);
+ assert.equal(catalog.meta.dlcBaseFactCount,102);
+ assert.equal(catalog.meta.dlcWeightOnlyCount,0);
  assert.equal(catalog.meta.dlcRequirementOnlyCount,0);
  assert.equal(catalog.meta.dlcNameOnlyCount,0);
- assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,101);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='base-reference').length,102);
  assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-only').length,0);
- assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-weight-only').length,1);
+ assert.equal(dlc.filter(w=>w.dataCoverage==='requirements-weight-only').length,0);
  assert.ok(dlc.every(w=>w.sourceUrl?.startsWith('https://')&&w.arParameters===undefined));
  for(const name of ["Rellana's Twin Blades","Rakshasa's Great Katana","Smithscript Dagger",
   "Smithscript Cirque","Spear of the Impaler","Staff of the Great Beyond","Verdigris Greatshield",
@@ -189,25 +189,31 @@ test('all DLC rows have requirements and weight; only independently disputed +0 
  assert.ok(dlc.every(w=>w.requirements?.length===5));
  assert.ok(dlc.every(w=>Number.isFinite(w.weight)&&w.weight>=0));
  const partial=dlc.filter(w=>w.dataCoverage==='requirements-weight-only');
- assert.equal(partial.length,1);
- const stone=partial[0];assert.equal(stone.name,'Stone-Sheathed Sword');
+ assert.equal(partial.length,0);
+ const stone=find('Stone-Sheathed Sword');
+ assert.equal(stone.dataCoverage,'base-reference');
  assert.equal(stone.weight,3.5);
  assert.deepEqual(stone.requirements,[16,8,0,0,0]);
- assert.equal(stone.attack,null);assert.equal(stone.critical,null);assert.equal(stone.scaling,null);
+ assert.deepEqual(stone.attack,[89,0,0,0,0]);assert.equal(stone.critical,100);
+ assert.deepEqual(stone.scaling,['C','D','-','-','-']);
+ assert.equal(hasDisputedAttack(stone),true);
+ assert.equal(hasDisputedWeight(stone),true);
+ assert.equal(baseDamageParts(stone),null,'Reported 89 must not unlock trusted attack calculation');
+ assert.deepEqual(reportedBaseDamageParts(stone),[{name:'Physical',amount:89}]);
  assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',damage:'physical'}).total,0);
  assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',maxWeight:3}).total,0);
- assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',maxWeight:4}).total,1);
+ assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',maxWeight:4}).total,0);
  assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',wield:'one',stats:[99,99,99,99,99]}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc',limit:100}).total,102);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,306);
  const bad=structuredClone(catalog);
  bad.weapons.find(w=>w.name==='Stone-Sheathed Sword').attack=[119,0,0,0,0];
- assert.throws(()=>validateCommunityCatalog(bad),/Partial DLC/);
+ assert.throws(()=>validateCommunityCatalog(bad),/Stone-Sheathed Sword/);
  const badSource=structuredClone(catalog);
- badSource.weapons.find(w=>w.name==='Stone-Sheathed Sword').weightSourceUrl='http://example.test';
- assert.throws(()=>validateCommunityCatalog(badSource),/Source and weight/);
+ badSource.weapons.find(w=>w.name==='Stone-Sheathed Sword').sourceWeightDisagreement.secondSourceUrl='http://example.test';
+ assert.throws(()=>validateCommunityCatalog(badSource),/Stone-Sheathed Sword/);
  const badTotals=structuredClone(catalog);
- badTotals.meta.dlcWeightOnlyCount=0;
+ badTotals.meta.dlcWeightOnlyCount=1;
  assert.throws(()=>validateCommunityCatalog(badTotals),/coverage metadata mismatch/);
 });
 test('nine more individually sourced DLC +0 fact rows include split damage and requirements',()=>{
@@ -403,8 +409,8 @@ test('another fourteen cited +0 DLC rows use current single-weapon sources, not 
  for(const name of ['Staff of the Great Beyond','Golem Fist','Greatsword of Radahn (Light)'])
   assert.match(cautionForWeapon(find(name)).join(' '),/disagreed/);
  const stone=find('Stone-Sheathed Sword');
- assert.equal(stone.attack,null);
- assert.equal(stone.dataCoverage,'requirements-weight-only');
+ assert.deepEqual(stone.attack,[89,0,0,0,0]);
+ assert.equal(stone.dataCoverage,'base-reference');
  assert.match(cautionForWeapon(stone).join(' '),/Conflicting \+0/);
  assert.match(stone.conflictSourceUrl,/Stone-Sheathed_Sword/);
 });
@@ -432,8 +438,8 @@ test('seven further per-weapon wiki sourced DLC +0 records and Bloodfiend somber
  assert.deepEqual(publishedUpgradeParts(w,10),[{name:'Physical',amount:281}]);
  assert.equal(catalog.meta.dlcUpgradeReferenceCount,6);
  const stone=find('Stone-Sheathed Sword');
- assert.equal(stone.weight,3.5);assert.equal(stone.attack,null);
- assert.equal(stone.dataCoverage,'requirements-weight-only');
+ assert.equal(stone.weight,3.5);assert.deepEqual(stone.attack,[89,0,0,0,0]);
+ assert.equal(stone.dataCoverage,'base-reference');
  assert.equal(stone.weightSourceUrl,'https://eldenring.wiki.gg/wiki/Straight_Swords');
 });
 test('named 2H paired/backhand exceptions have per-item requirement evidence',()=>{
@@ -448,10 +454,10 @@ test('named 2H paired/backhand exceptions have per-item requirement evidence',()
 test('101 source-reported DLC base +0 records are separated by per-item vs category-table confidence',()=>{
  const dlc=catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree');
  const full=dlc.filter(w=>w.dataCoverage==='base-reference');
- assert.equal(full.length,101);
+ assert.equal(full.length,102);
  const category=full.filter(w=>w.flags?.includes('wiki-category-table-base-observation'));
  assert.equal(category.length,33);
- assert.equal(full.filter(w=>!w.flags?.includes('wiki-category-table-base-observation')).length,68);
+ assert.equal(full.filter(w=>!w.flags?.includes('wiki-category-table-base-observation')).length,69);
  assert.ok(category.every(w=>w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')));
  assert.ok(category.every(w=>Array.isArray(w.attack)&&w.attack.some(n=>n>0)));
  assert.ok(category.every(w=>cautionForWeapon(w).join(' ').includes('category comparison table')));
@@ -467,7 +473,7 @@ test('101 source-reported DLC base +0 records are separated by per-item vs categ
   assert.match(cautionForWeapon(w).join(' '),/UNKNOWN|unknown/i);
  }
  const stone=find('Stone-Sheathed Sword');
- assert.equal(stone.attack,null);
+ assert.deepEqual(stone.attack,[89,0,0,0,0]);
  assert.ok(stone.flags.includes('conflicting-weapon-plus-zero-observation'));
  assert.equal(catalog.meta.dlcUpgradeReferenceCount,6);
  const bad=structuredClone(catalog);
