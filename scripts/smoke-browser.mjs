@@ -1147,6 +1147,25 @@ try{
  assert.ok(armorMobile.scroll<=armorMobile.width+5,
   '375px armor research optimizer must not overflow: '+JSON.stringify(armorMobile));
  console.log('[BROWSER SMOKE] Armor exact optimizer result exclusions, automatic re-search, undo, CSV integrity and 375px mobile PASS.');
+ // A standalone Damage Calculator must be a functional page, not a heading.
+ // Use only a local synthetic scenario and explicit user inputs; no API or
+ // same-input Tarnished.dev parity claim for the unfinished competitor tool.
+ await navigate('/damage-calculator/');
+ await waitFor("document.querySelector('#damage-total')?.textContent==='420.248'",
+  'Physical AR 500 and defense 100 computes source-model damage');
+ assert.equal(await evaluate("document.querySelectorAll('#damage-enemy-fields tr').length"),8);
+ await evaluate("(()=>{const e=document.querySelector('#damage-neg-physical');e.value='20';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#damage-total')?.textContent==='336.198'",
+  'Enemy physical negation applies after individual flat defense');
+ await navigate('/damage-calculator/?physical=250&magic=250');
+ await waitFor("document.querySelector('#damage-total')?.textContent==='350'",
+  'URL handoff produces independent 250 physical + 250 magic channel reductions');
+ assert.ok((await evaluate("document.querySelector('#damage-handoff-status').textContent"))
+  .includes('not authenticated proof'),'Scenario URLs must not claim v1.17 validation');
+ const damageMobile=await evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth})");
+ assert.ok(damageMobile.scroll<=damageMobile.width+5,
+  '375px damage calculator must not overflow: '+JSON.stringify(damageMobile));
+ console.log('[DAMAGE PREVIEW] PASS: 8 defense pairs, motion/negation formula, split-AR URL handoff, 375px mobile.');
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
  console.log('[BROWSER SMOKE] PASS: disputed weapon requirement/attack fail-closed UI + local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){

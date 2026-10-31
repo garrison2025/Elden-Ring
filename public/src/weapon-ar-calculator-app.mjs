@@ -48,6 +48,7 @@ const resetResult=()=>{
  setText('qar-twohand-total','—');
  setText('qar-result-name',selectedVariant||'Select an armament');
  $('qar-damage').replaceChildren();
+ $('qar-damage-link').hidden=true;
  const p=document.createElement('p');
  p.textContent='Choose a weapon, source-supported upgrade and attributes to calculate.';
  $('qar-damage').append(p);
@@ -227,6 +228,18 @@ const renderCompare=result=>{
   const p=document.createElement('p');p.textContent='No positive damage components in source.';damage.append(p);
  }
  const unmet=chosen.missingRequirements||[];
+ const damageLink=$('qar-damage-link');
+ damageLink.hidden=true;
+ if(sourceKind==='pinned'&&!unmet.length&&elements.some(x=>x.displayed>0)){
+  const dest=new URL('../damage-calculator/',location.href);
+  for(const part of elements){
+   if(['physical','magic','fire','lightning','holy'].includes(part.element)&&
+    Number.isFinite(part.displayed)&&part.displayed>=0)
+    dest.searchParams.set(part.element,String(part.displayed));
+  }
+  damageLink.href=dest.toString();
+  damageLink.hidden=false;
+ }
  const caveats=[];
  if(sourceKind==='demo')caveats.push('FICTIONAL DEMONSTRATION — invented numbers, not Elden Ring weapon AR.');
  else if(sourceKind==='local')caveats.push('Imported local parameters — source and version are not verified.');

@@ -10,6 +10,7 @@ const additional=[
  ['weapon-upgrade-calculator/','Smithing Stones'],
  ['weapon-database/','Weapon Database'],
  ['weapon-ar-calculator/','Weapon AR Calculator'],
+ ['damage-calculator/','Damage Calculator'],
  ['updates/','Recent Updates']
 ];
 export function injectToolNavigation(html,uri=''){
