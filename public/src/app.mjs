@@ -95,7 +95,7 @@ function initBuild(){
     try{
       const plan=wieldPlan();
       const status=grip=>{
-        if(grip===null)return 'Unknown requirements';
+        if(grip===null)return 'Unknown or DISPUTED requirements';
         if(grip.canWield)return 'Meets requirements';
         return '+'+grip.totalMissing+' points · '+
           grip.missing.map(x=>x.stat+' +'+x.points).join(', ');
@@ -190,8 +190,12 @@ function initBuild(){
     }
     try{
       const model=inspectBuildWeapon(weaponCatalog.weapons,selectedWeaponId,stats,{allowSote:sote.checked});
-      const one=model.oneHanded===null?'requirements unknown':model.oneHanded?'one-hand requirements met':'one-hand requirements NOT met';
-      const two=model.twoHanded===null?'two-hand requirements unknown':model.twoHanded?'two-hand requirements met':'two-hand requirements NOT met';
+      const one=model.requirementsDisputed?'one-hand requirements DISPUTED':
+        model.oneHanded===null?'requirements unknown':
+        model.oneHanded?'one-hand requirements met':'one-hand requirements NOT met';
+      const two=model.requirementsDisputed?'two-hand requirements DISPUTED':
+        model.twoHanded===null?'two-hand requirements unknown':
+        model.twoHanded?'two-hand requirements met':'two-hand requirements NOT met';
       weaponSummary.textContent=model.name+' · '+model.category+' · '+one+' · '+two+' · weapon weight '+
         (model.weight===null?'unknown':model.weight)+' (NOT total load). '+model.note;
       weaponDetails.href=queryURL('../weapon-database/',{weapon:selectedWeaponId,stats:stats.join(',')});
@@ -222,12 +226,14 @@ function initBuild(){
       const showSigned=n=>(n>0?'+':'')+fmt(n);
       const weaponDescription=entry=>{
         if(!entry)return 'No weapon selected.';
-        const one=entry.oneHanded===null?'requirements unavailable':
+        const one=entry.requirementsDisputed?'source requirements DISPUTED':
+          entry.oneHanded===null?'requirements unavailable':
           entry.oneHanded?'1H requirements met':
           '1H '+entry.missingOneHanded+' attribute point(s) short';
         return entry.name+' · '+one+' · single-weapon weight '+
           (entry.weight===null?'unknown':entry.weight)+
-          ' · source: '+entry.sourceTier+' · not AR';
+          ' · source: '+entry.sourceTier+
+          (entry.attackDisputed?' · +0 attack DISPUTED':'')+' · not AR';
       };
       const summarize=entry=>
        'Level '+entry.level+' · '+fmt(entry.levelUpPoints)+' points above origin · '+
