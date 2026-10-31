@@ -401,3 +401,44 @@ no new API, backend or browser persistence is used. This is not
 verified player inventory, game-client current-version data, AR,
 weapon-specific rune costs or actual combat damage. Research
 `noindex` remains unchanged.
+
+## Live Cloudflare Pages deployment parity checks (2026-10-31)
+
+A read-only live check of `https://elden-ring-5i9.pages.dev/` found
+an outdated homepage teaser claiming **364** weapons and **57** DLC
+requirements-only records, although the repository's source JSON contains
+**408** weapon/shield references, including **102** Shadow of the Erdtree
+records and **101** sourced +0 base-attack rows. The Build Planner and
+Smithing Stone pages were reachable, and their HTML included the new
+multi-weapon shortlist and shared-inventory sections. Reading static
+markup is **not** proof of successful browser click/CSV interaction.
+
+To prevent recurrent stale homepage copy, `npm run build` regenerates
+the marked home weapon-coverage paragraph **from
+`public/data/community-weapon-catalog.json`** and refuses mismatched
+catalog metadata. Do not hand-maintain counts in unrelated HTML.
+
+The same static build creates `dist/deployment-info.json`, which records
+UTC build time, catalog coverage, index-mode and the deployed source
+commit SHA when **`CF_PAGES_COMMIT_SHA`** (Cloudflare Pages default)
+or `GITHUB_SHA` (GitHub Actions) is available. When neither is
+provided, the revision is `null` rather than an invented hash.
+This JSON contains no user information, API keys or secrets.
+
+After deployment, compare:
+- `https://elden-ring-5i9.pages.dev/deployment-info.json` →
+  `revision`, `revisionSource`, and `catalog`.
+- `https://github.com/garrison2025/Elden-Ring/commits/main` →
+  current main commit.
+- Live `/`, `/build-planner/` and
+  `/weapon-upgrade-calculator/` → correct source counts, presence
+  of controls and continued research `noindex`.
+
+A revision mismatch establishes that the served deployment is not the
+current repository commit, **not** that the calculation model is wrong.
+A match still does not substitute for browser E2E tests or real game
+client AR screenshots. The `npm run check` CI task now also runs
+`npm run verify:deployment` on the actual generated `dist/` files,
+failing for missing weapon-coverage parity, shortlist/basket markup,
+commit provenance or research SEO gating. This uses no paid APIs or
+services.
