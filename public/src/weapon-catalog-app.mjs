@@ -155,14 +155,17 @@ function renderDetails(){
  }
  renderPublishedUpgrade();
  const required=$('catalog-required');required.replaceChildren();
- if(chosen.requirements===null)required.append(el('p','Requirements not sourced yet. Wieldability cannot be determined.'));
- if(hasDisputedRequirements(chosen))
-  required.append(el('p','SOURCE CONFLICT: community values below are disputed. This weapon cannot receive a reliable meets/does-not-meet verdict yet.'));
- else for(let i=0;i<5;i++){
-  const row=el('div');row.className='catalog-value';
-  row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',
-   String(chosen.requirements[i])+(hasDisputedRequirements(chosen)?' (DISPUTED)':'')));
-  required.append(row);
+ if(chosen.requirements===null){
+  required.append(el('p','Requirements not sourced yet. Wieldability cannot be determined.'));
+ }else{
+  if(hasDisputedRequirements(chosen))
+   required.append(el('p','SOURCE CONFLICT: these are disputed COMMUNITY values, not confirmed game requirements. No definitive meets/does-not-meet verdict.'));
+  for(let i=0;i<5;i++){
+   const row=el('div');row.className='catalog-value';
+   row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',
+    String(chosen.requirements[i])+(hasDisputedRequirements(chosen)?' (DISPUTED)':'')));
+   required.append(row);
+  }
  }
  const scaling=$('catalog-scaling');scaling.replaceChildren();
  if(partial)scaling.append(el('p','Base scaling grades not available for this DLC entry.'));
