@@ -38,7 +38,7 @@ test('selected Build armor aggregates thirteen real source metrics from 4 slots,
  assert.equal(a.metrics.physical.unit,'%');
  assert.equal(a.metrics.poise.unit,'points');
  assert.equal(a.metrics.fire.value,0,'Explicitly sourced zeros may aggregate to zero');
- assert.match(a.caveat,/not/i);
+ assert.match(a.caveat,/No talismans, Great Runes/);
  const p=structuredClone(state);
  p.armorSlots[2]={name:'Known Hands',weight:'2',weightSource:'manual'};
  const b=summarizeEquippedArmorMetrics(p,src);
