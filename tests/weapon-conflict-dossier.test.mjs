@@ -38,7 +38,7 @@ test('source dossier contains both readings, exact mismatched component and manu
  assert.ok(html.includes('PHY: 133 / 131'));
  assert.ok(html.includes('FIRE: 32 / 22'));
  assert.ok(html.includes('not character AR'));
- assert.ok(html.includes('not</strong> proof')===false);
+ assert.ok(html.includes('source disagreement')||html.includes('source disagreements'));
  assert.ok(html.includes('Current accepted game screenshot count: 0'));
  assert.ok(html.includes('data/weapon-conflict-evidence.json'));
  assert.ok(html.includes('weapon-data-workbench'));
