@@ -823,6 +823,32 @@ try{
   assert.ok(arMobile.scroll<=arMobile.width+5,'Real v1.17 source calculator mobile overflow '+JSON.stringify(arMobile));
   console.log('[REAL V1.17 BROWSER] PASS: user-clicked public source, Uchigatana 172 / 180 (2H) / 491 (+25) / Keen 488, Somber +10 cap, 375px mobile');
  }
+
+ // Regression for the manual-input research armor optimizer: exclude a single
+ // result piece, recompute without changing CSV, undo, verify 375px layout.
+ await navigate('/armor-optimizer/');
+ await waitFor("document.querySelectorAll('#armor-results tr').length>0",
+  'Manual armor optimizer produces non-empty initial result table');
+ const armorBefore=await evaluate("({csv:document.querySelector('#armor-csv').value,first:document.querySelector('#armor-results .armor-exclude-piece')?.previousElementSibling?.textContent,rows:document.querySelectorAll('#armor-results tr').length})");
+ assert.ok(armorBefore.first&&armorBefore.rows>0,'Result rows expose individual armor-piece exclusions');
+ await evaluate("document.querySelector('#armor-results .armor-exclude-piece').click()");
+ await waitFor("document.querySelector('#armor-excluded-count')?.textContent==='1'",
+  'Excluding one shown piece immediately reruns the optimizer');
+ const armorAfter=await evaluate("({csv:document.querySelector('#armor-csv').value,table:document.querySelector('#armor-results').textContent,undo:document.querySelectorAll('#armor-excluded-list .armor-undo-piece').length,detail:document.querySelector('#armor-details').textContent})");
+ assert.equal(armorAfter.csv,armorBefore.csv,'Exclusions must not mutate the source CSV');
+ assert.ok(!armorAfter.table.includes(armorBefore.first),
+  'Excluded item must not appear in any of the newly ranked combinations');
+ assert.equal(armorAfter.undo,1,'Exactly one reversible piece was excluded');
+ assert.ok(armorAfter.detail.includes('1 excluded items'),'Recalculation reports exclusion count');
+ await evaluate("document.querySelector('#armor-excluded-list .armor-undo-piece').click()");
+ await waitFor("document.querySelector('#armor-excluded-count')?.textContent==='0'",
+  'Undo restores excluded piece and recomputes');
+ const armorRestored=await evaluate("document.querySelector('#armor-results').textContent");
+ assert.ok(armorRestored.includes(armorBefore.first),'Undo restores the original piece to ranked results');
+ const armorMobile=await evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth})");
+ assert.ok(armorMobile.scroll<=armorMobile.width+5,
+  '375px armor research optimizer must not overflow: '+JSON.stringify(armorMobile));
+ console.log('[BROWSER SMOKE] Armor exact optimizer result exclusions, automatic re-search, undo, CSV integrity and 375px mobile PASS.');
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
  console.log('[BROWSER SMOKE] PASS: disputed weapon requirement/attack fail-closed UI + local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
