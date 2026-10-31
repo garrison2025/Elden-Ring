@@ -8,7 +8,7 @@ test('reference tools no longer require user installation or game client screens
  assert.match(html,/Tarnished\.dev/);
  assert.match(html,/v1\.17 reference calculator/);
  assert.match(html,/Game-client screenshots are needed only for claims of independently game-verified current-patch accuracy/);
- assert.match(html,/No current production AR feature is marked benchmark-passed until those tests are recorded/);
+ assert.match(html,/pinned v1\.17 reference AR engine now meets the documented representative 15-case external parity matrix/);
 });
 test('weapon catalog links to free versioned reference workbench without pretending benchmark parity',()=>{
  const html=read('weapon-database/index.html');
@@ -21,9 +21,9 @@ test('weapon catalog links to free versioned reference workbench without pretend
 });
 test('homepage separately labels v1.17 reference AR and unverified current patch AR',()=>{
  const html=read('index.html');
- assert.match(html,/Reference v1\.17 AR comparison/);
+ assert.match(html,/Reference v1\.17 AR passes 15 representative external-site comparisons/);
  assert.match(html,/current-patch certified AR/);
- assert.match(html,/without requiring visitors to install the game/);
+ assert.match(html,/no game installation is needed/);
 });
 
 test('accuracy dashboard shows repeatable 15/15 source UI parity, six weapons and distinct 39,552 internal math checks',()=>{
