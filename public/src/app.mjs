@@ -2,6 +2,7 @@ import {STATS,CLASSES,classForName,validateStats,buildLevel,optimizeClasses,rune
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
 import {makeBuildSmithingUrl} from './build-smithing-handoff.mjs';
+import {makeBuildToReferenceArUrl} from './build-to-reference-ar.mjs';
 import {makeEquipCandidatesUrl} from './equipment-loadout.mjs';
 import {planShortlistWielding} from './build-shortlist-feasibility.mjs';
 import {compareBuildSnapshots,normalizeBuildComparisonSnapshot} from './build-compare.mjs';
@@ -37,7 +38,7 @@ function queryURL(relative,params){const u=new URL(relative,location.href);for(c
 function initBuild(){
   const sel=$('#origin'),grid=$('#stat-grid'),extra=$('#build-tarnished-pack'),sote=$('#build-sote');
   const search=$('#build-weapon-search'),weaponSelect=$('#build-weapon'),weaponSummary=$('#build-weapon-summary');
-  const weaponDetails=$('#build-weapon-detail-link');
+  const weaponDetails=$('#build-weapon-detail-link'),weaponAr=$('#build-weapon-ar-link');
   let current=classForName('Samurai'),selectedWeaponId=null,weaponCatalog=null,weaponLoadError=null;
   let smithingIds=[];
   let pinnedBuild=null;
@@ -179,7 +180,7 @@ function initBuild(){
     if(matches.matching===0&&!selectedWeaponId)weaponSummary.textContent='No matches for this search. Try another name.';
   }
   function renderWeapon(stats){
-    weaponDetails.hidden=true;
+    weaponDetails.hidden=true;weaponAr.hidden=true;
     if(weaponLoadError){weaponSummary.textContent='Weapon references unavailable: '+weaponLoadError;return;}
     if(!weaponCatalog){weaponSummary.textContent='Loading local weapon references…';return;}
     if(!selectedWeaponId){
@@ -200,6 +201,14 @@ function initBuild(){
         (model.weight===null?'unknown':model.weight)+' (NOT total load). '+model.note;
       weaponDetails.href=queryURL('../weapon-database/',{weapon:selectedWeaponId,stats:stats.join(',')});
       weaponDetails.hidden=false;
+      try{
+       weaponAr.href=makeBuildToReferenceArUrl(model,stats);
+       weaponAr.hidden=false;
+      }catch{
+       // Keep a working requirement preview even if this name cannot safely
+       // round-trip into the independent v1.17 source search.
+       weaponAr.hidden=true;
+      }
     }catch(e){weaponSummary.textContent='Weapon reference unavailable: '+e.message;}
   }
   const getComparisonSnapshot=stats=>normalizeBuildComparisonSnapshot({
@@ -293,7 +302,7 @@ function initBuild(){
   }catch(e){
     clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=true;
-    weaponDetails.hidden=true;weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
+    weaponDetails.hidden=true;weaponAr.hidden=true;weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
     renderSmithingShortlist();
     if(pinnedBuild){
       $('#build-ab-results').hidden=true;

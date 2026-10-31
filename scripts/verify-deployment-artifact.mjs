@@ -109,10 +109,10 @@ const main=async()=>{
  const research=!(prod||manuallyApproved);
  assert(deployment.researchNoindex===research,
   'Build manifest index setting does not match build gate');
- const approvedPaths=['/','/class-optimizer/','/equip-load-calculator/','/level-rune-calculator/'];
+ const approvedPaths=['/','/build-planner/','/class-optimizer/','/equip-load-calculator/','/level-rune-calculator/'];
  assert(JSON.stringify(deployment.indexedRoutes)===(research?'[]':JSON.stringify(approvedPaths)),
   'Unexpected indexed routes: only four first-wave pages are approved');
- assert(deployment.releaseMode===(prod?'cloudflare-main-first-wave':
+ assert(deployment.releaseMode===(prod?'cloudflare-main-reviewed-wave2':
   research?'research-noindex':'explicit-review-fixture'),'Build release mode is not grounded');
  const headers=await read('_headers');
  const seoWithheld=[
@@ -131,7 +131,7 @@ const main=async()=>{
     'Approved deployment missing HTTP noindex header for '+slug);
  }
  if(!research){
-  const indexable=['index.html','class-optimizer/index.html',
+  const indexable=['index.html','build-planner/index.html','class-optimizer/index.html',
    'level-rune-calculator/index.html','equip-load-calculator/index.html'];
   const sitemap=await read('sitemap.xml');
   const domain=prod?'https://elden-ring-5i9.pages.dev':process.env.SITE_URL.trim().replace(/\/$/,'');
@@ -143,7 +143,7 @@ const main=async()=>{
    assert(html.includes('<meta name="robots" content="index,follow">'),
     'Missing index meta on approved page '+p);
   }
-  for(const slug of ['about','build-planner','privacy','updates']){
+  for(const slug of ['about','privacy','updates']){
    const html=await read(slug+'/index.html');
    assert(html.includes('<meta name="robots" content="noindex,follow">')&&
     !html.includes('<link rel="canonical"'),

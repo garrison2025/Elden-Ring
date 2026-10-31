@@ -5,12 +5,12 @@ import {getCatalogCoverage,injectCatalogCoverageIntoHomepage} from './home-catal
 import {getCatalogEvidence,injectCatalogEvidence} from './catalog-evidence.mjs';
 import {validateConflictEvidence,injectConflictDossier} from './weapon-conflict-dossier.mjs';
 const root=process.cwd(),dist=path.join(root,'dist'),source=path.join(root,'public');
-// First-wave SEO release is reviewed route by route. Never toggle global indexing.
+// Reviewed SEO release, wave 2: add the tested, original Build Planner. Never toggle global indexing.
 // Local builds, CI and every Cloudflare preview remain noindex by default.
 // Cloudflare injects CF_PAGES and CF_PAGES_BRANCH automatically on its builds.
 const PRODUCTION_ORIGIN='https://elden-ring-5i9.pages.dev';
 const RELEASE_INDEX_ROUTES=Object.freeze([
- '', 'class-optimizer', 'level-rune-calculator', 'equip-load-calculator'
+ '', 'build-planner', 'class-optimizer', 'level-rune-calculator', 'equip-load-calculator'
 ]);
 const productionDeployment=process.env.CF_PAGES==='1'&&process.env.CF_PAGES_BRANCH==='main';
 const indexApproved=process.env.RELEASE_INDEX_APPROVED==='1';
@@ -99,7 +99,7 @@ const buildInfo={
  revision,revisionSource:revision?
   (process.env.CF_PAGES_COMMIT_SHA?'CF_PAGES_COMMIT_SHA':'GITHUB_SHA'):'unavailable',
  branch,researchNoindex:!releaseEnabled,indexedRoutes:indexed.slice().sort(),
- releaseMode:productionDeployment?'cloudflare-main-first-wave':
+ releaseMode:productionDeployment?'cloudflare-main-reviewed-wave2':
   releaseEnabled?'explicit-review-fixture':'research-noindex',catalog:coverage
 };
 await writeFile(path.join(dist,'deployment-info.json'),JSON.stringify(buildInfo,null,2)+'\n','utf8');
