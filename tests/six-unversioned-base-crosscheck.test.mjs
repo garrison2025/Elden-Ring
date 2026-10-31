@@ -91,10 +91,6 @@ test('corrupted third-source references, vectors, provenance or fake approval ar
   assert.throws(()=>validateConflictEvidence(catalog,altered),RangeError);
  }
  const alteredSummary=structuredClone(ledger);
- alteredSummary.thirdPartyBaseCrosscheck.corroborratedPinnedSourceCount=7;
- // Introducing a bogus summary key is not a valid audit update; the pinned count
- // remains 6 and is still derived from the strict six rows.
- alteredSummary.thirdPartyBaseCrosscheck.corroborratedPinnedSourceCount=undefined;
  alteredSummary.thirdPartyBaseCrosscheck.corroboratedPinnedSourceCount=7;
  assert.throws(()=>validateConflictEvidence(catalog,alteredSummary),RangeError);
  for(const mutate of [
