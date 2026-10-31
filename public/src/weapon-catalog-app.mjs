@@ -332,7 +332,7 @@ function renderDetails(){
  if(chosen.sourceAttackDisagreement&&chosen.sourceWeightDisagreement){
   const atk=chosen.sourceAttackDisagreement,wt=chosen.sourceWeightDisagreement;
   $('catalog-verified').append(el('p',
-    'Stone-Sheathed Sword published +0 discrepancy: the named +0 and Japanese initial-value tables and AtlasForge show PHYSICAL 89, whereas the same wiki page headline shows 119. Candidate +0 89, critical 100 and C/D scaling are visible as DISPUTED SOURCE FACTS ONLY. Source version is not game-client verified. This weapon is withheld from trusted attack, upgrade and AR calculations.'));
+    'Stone-Sheathed Sword published +0 discrepancy: the named +0 and Japanese initial-value tables and AtlasForge show PHYSICAL 89, whereas the same wiki page headline shows 119. Candidate +0 89, critical 100 and C/D scaling are visible as DISPUTED SOURCE FACTS ONLY. Source version is not game-client verified. This community record remains excluded from reliable +0 catalogue filtering. The separate opt-in pinned v1.17 AR calculator can still compute the versioned source variant.'));
   $('catalog-verified').append(el('p',
     'Source weight discrepancy: wiki reports '+wt.retainedCommunityWeight+
     ', Japanese and AtlasForge references report '+wt.alternativeWeight+
@@ -346,7 +346,7 @@ function renderDetails(){
  }
  if(chosen.secondarySourceDisagreement){
   const problem=chosen.secondarySourceDisagreement;
-  const note=el('p','Ritual Thrusting Shield secondary sources disagree on weight (10 vs 9) and required Strength (13 vs 15). The version-labelled figures are only attributed readings. Weight and wield calculations remain BLOCKED pending independent game-menu verification.');
+  const note=el('p','Ritual Thrusting Shield secondary sources disagree on weight (10 vs 9) and required Strength (13 vs 15). The version-labelled figures are only attributed readings. Community-mode weight and wield verdicts remain BLOCKED because source readings disagree. The optional pinned v1.17 panel can show versioned requirements, but it does not resolve weight.');
   $('catalog-verified').append(note);
   for(const item of [problem.currentVersionLabelled,...problem.alternatives]){
    const a=el('a','View conflicting public equipment source ↗');
