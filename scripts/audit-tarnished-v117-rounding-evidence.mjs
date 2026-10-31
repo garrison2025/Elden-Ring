@@ -9,11 +9,11 @@ import {V117_NEW_OBSERVED_AR,V117_NEW_OBSERVATION_RUN_IDS} from './tarnished-v11
 export function auditComparatorRounding(source){
  if(!source||!Array.isArray(source.weapons)||source.weapons.length!==3296)
   throw new RangeError('Exact pinned v1.17 source required.');
- if(TARNISHED_REFERENCE_AR_CASES.length!==15||V117_ADDITIONAL_UI_CANDIDATES.length!==35||
+ if(TARNISHED_REFERENCE_AR_CASES.length<15||V117_ADDITIONAL_UI_CANDIDATES.length!==35||
   Object.keys(V117_NEW_OBSERVED_AR).length!==35||V117_NEW_OBSERVATION_RUN_IDS.length!==2)
   throw new RangeError('Two-run 50-input competitor comparison evidence not complete.');
  const cases=[
-  ...TARNISHED_REFERENCE_AR_CASES.map(x=>({
+  ...TARNISHED_REFERENCE_AR_CASES.slice(0,15).map(x=>({
    id:x.id,weaponName:x.weaponName,affinityId:x.affinityId,
    stats:x.playerStats,upgrade:x.upgrade,twoHanded:x.twoHanded,
    observed:x.expectedTotal,provenance:'prior-15'
