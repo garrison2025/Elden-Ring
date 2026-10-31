@@ -1,0 +1,32 @@
+name: Browser check free public v1.17 Weapon AR calculator
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - public/weapon-ar-calculator/**
+      - public/src/weapon-ar-calculator-app.mjs
+      - public/src/ar-workbench-worker.mjs
+      - public/src/upstream-regulation-v117.mjs
+      - scripts/smoke-browser.mjs
+      - .github/workflows/v117-reference-calculator-browser.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  v117-live-source-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Chromium
+        run: command -v google-chrome || command -v google-chrome-stable || command -v chromium
+      - name: Build static Cloudflare Pages artifact
+        run: npm run build
+      - name: Click actual pinned public v1.17 source and verify live UI AR
+        env:
+          RUN_REAL_V117_BROWSER: '1'
+        run: node scripts/smoke-browser.mjs
