@@ -29,7 +29,7 @@ test('only six source-attributed Somber upgrade records carry optional track hin
   }
  }
  assert.equal(known,6);
- assert.equal(unknown,402);
+ assert.equal(unknown,catalog.weapons.length-known);
 });
 test('selected weapon name, not a supposed current weapon upgrade level, is handed off',()=>{
  const blade=item('Sword of Night');
