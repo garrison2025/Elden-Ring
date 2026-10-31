@@ -1,5 +1,6 @@
 import {listCompactWeaponNames,searchLocalWeapons,findLocalWeaponFamily,describeLocalWeapon,compareLocalGrips,compareLocalFamilyAffinities} from './ar-workbench-core.mjs';
 import {COMPACT_SYNTHETIC_REGULATION} from '../data/ar-compact-synthetic.mjs';
+import {rankLocalWeaponVariants} from './ar-cross-weapon-ranking.mjs';
 import {compareWeaponPair} from './ar-weapon-compare.mjs';
 import {auditCompactRegulation} from './regulation-audit.mjs';
 import {auditRawMathParity} from './regulation-parity.mjs';
@@ -52,6 +53,16 @@ self.onmessage=event=>{
       gameVersion:version,sourceReference:reference,maxExamples:20,
       onProgress:progress=>self.postMessage({op:'math-audit-progress',progress})})});
     break;
+   case 'rank-variants':{
+    if(!source)throw new RangeError('Load an opt-in source before ranking weapons.');
+    self.postMessage({op:'ranked-variants',requestId:m.requestId,
+     result:rankLocalWeaponVariants(source,{
+      term:m.term,affinityId:m.affinityId,regularUpgrade:m.regularUpgrade,
+      somberUpgrade:m.somberUpgrade,stats:m.stats,twoHanded:m.twoHanded,
+      gameVersion:version,sourceReference:reference
+     }),synthetic});
+    break;
+   }
    case 'family':
     if(!source)throw new RangeError('Import a local regulation JSON file first.');
     self.postMessage({op:'family-results',requestId:m.requestId,

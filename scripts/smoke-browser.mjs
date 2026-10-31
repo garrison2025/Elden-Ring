@@ -801,6 +801,21 @@ try{
   .includes('FICTIONAL DEMO'),'No game-data accuracy claim for synthetic worker data');
  assert.equal(await evaluate("document.querySelector('#qar-reference-check')?.hidden"),true,
   'Fictional data must never offer a real Tarnished.dev reference result comparison');
+
+ assert.equal(await evaluate("document.querySelector('#qar-rank-panel').hidden"),false,
+  'AR ranking appears only after user-loaded source');
+ await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Fictional';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+ await waitFor("document.querySelectorAll('#qar-rank-rows tr').length===4",
+  'Four source-defined fictional weapons must appear in the batch ranking');
+ const arRank=await evaluate("({rows:[...document.querySelectorAll('#qar-rank-rows tr')].map(tr=>Number(tr.children[3].textContent)),status:document.querySelector('#qar-rank-status').textContent,csv:document.querySelector('#qar-rank-csv').disabled,unmet:document.querySelector('#qar-rank-rows').textContent.includes('NOT MET')})");
+ assert.deepEqual(arRank.rows,[...arRank.rows].sort((a,b)=>b-a));
+ assert.ok(arRank.status.includes('FICTIONAL QA DATA')&&arRank.unmet&&!arRank.csv);
+ await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='x';q.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.equal(await evaluate("document.querySelector('#qar-rank-csv').disabled"),true,
+  'Source ranking export must invalidate after query edit');
+ await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Fictional';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+ await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
+  'Source ranking can be recalculated after input change');
  await evaluate("document.querySelector('#qar-twohand').click()");
  await waitFor("document.querySelector('#qar-total')?.textContent==='152'",
   'Switching grip recomputes selected v1.17-style AR');
@@ -828,6 +843,19 @@ try{
    !sourceStatus.includes('Could not'), 'Pinned source fetch failed in real Chrome: '+sourceStatus);
   await waitFor("document.querySelector('#qar-onehand')?.textContent==='172'",
    'Real pinned v1.17 source AR matches verified Tarnished.dev Uchigatana Standard +0 40/40');
+
+  await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Uchigatana';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false&&document.querySelectorAll('#qar-rank-rows tr').length>1",
+   'Opt-in real v1.17 source yields multiple legal Uchigatana affinity rows');
+  const realRank=await evaluate("({values:[...document.querySelectorAll('#qar-rank-rows tr')].map(x=>Number(x.children[3].textContent)),status:document.querySelector('#qar-rank-status').textContent,table:document.querySelector('#qar-rank-rows').textContent})");
+  assert.deepEqual(realRank.values,[...realRank.values].sort((a,b)=>b-a));
+  assert.ok(realRank.status.includes('Pinned v1.17 reference'));
+  assert.ok(realRank.table.includes('172'),'Uchigatana Standard +0 must equal externally observed 172');
+  await evaluate("(()=>{const q=document.querySelector('#qar-rank-regular');q.value='25';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
+   'Regular +25 same-input ranking computes from source');
+  assert.ok((await evaluate("document.querySelector('#qar-rank-rows').textContent")).includes('491'),
+   'Source Standard +25 Uchigatana at 40 STR/40 DEX is observed 491');
   const chromeInfo=await evaluate("({stats:[...['str','dex','int','fai','arc'].map(x=>document.querySelector('#qar-'+x).value)],variant:document.querySelector('#qar-affinity').value,upgrade:document.querySelector('#qar-upgrade').value})");
   assert.deepEqual(chromeInfo.stats,['40','40','10','10','10']);
   assert.equal(chromeInfo.upgrade,'0');
@@ -863,6 +891,22 @@ try{
   await evaluate("(()=>{const el=document.querySelector('#qar-upgrade');el.value='25';el.dispatchEvent(new Event('change',{bubbles:true}))})()");
   await waitFor("document.querySelector('#qar-onehand')?.textContent==='488'",
    'Real source calculates Keen +25 STR40 DEX40 = 488');
+
+  await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Blasphemous Blade';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-somber').value='10';document.querySelector('#qar-rank-regular').value='25';document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
+   'Real Somber +10 source AR ranking opens despite separate Regular +25 input');
+  const somberRank=await evaluate("({results:[...document.querySelectorAll('#qar-rank-rows tr')].map(tr=>tr.children[2].textContent),status:document.querySelector('#qar-rank-status').textContent})");
+  assert.ok(somberRank.results.length>0,'Somber Blasphemous Blade has at least one legal source profile');
+  assert.ok(somberRank.results.every(x=>x.includes('Somber +10')),
+   'Somber profiles must never use the unrelated Regular +25 input');
+  await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Uchigatana, Blasphemous Blade';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
+   'Two distinct exact source weapon families compare in one ranking');
+  const mixed=await evaluate("({rows:document.querySelector('#qar-rank-rows').textContent,count:document.querySelectorAll('#qar-rank-rows tr').length,notice:document.querySelector('#qar-rank-status').textContent})");
+  assert.ok(mixed.count>=2&&mixed.rows.includes('Uchigatana')&&mixed.rows.includes('Blasphemous Blade'),
+   'Must rank multiple unrelated exact weapon families together');
+  assert.ok(mixed.rows.includes('Regular +25')&&mixed.rows.includes('Somber +10'),
+   'Regular and Somber paths remain separate in cross-family ranking');
   await evaluate("(()=>{const x=document.querySelector('#qar-search');x.value='Blasphemous Blade';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor("document.querySelector('#qar-upgrade')?.options.length===11",
    'Somber-only Blasphemous Blade has +0..+10, never fabricated +25');

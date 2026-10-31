@@ -1,4 +1,6 @@
 import {POWER_STATS} from './weapon-ar.mjs';
+import {rankingToCsv} from './ar-cross-weapon-ranking.mjs';
+import {TARNISHED_V117_AFFINITIES} from './tarnished-same-input.mjs';
 import {makeTarnishedSameInputUrl,compareUserEnteredReferenceAr} from './tarnished-same-input.mjs';
 import {parseArWorkbenchHandoff} from './ar-workbench-navigation.mjs';
 import {downloadV117Source,V117_PROVENANCE,V117_SOURCE_PAGE} from './upstream-regulation-v117.mjs';
@@ -51,6 +53,79 @@ const resetResult=()=>{
  $('qar-damage').append(p);
  setText('qar-caveat','No calculated result yet. Reference numbers are not game-client certified.');
 };
+
+let rankingRevision=0,rankedResult=null;
+const rankingStatus=(message,state='ready')=>{
+ $('qar-rank-status').textContent=message;
+ $('qar-rank-status').dataset.state=state;
+};
+const invalidateRanking=()=>{
+ rankingRevision++;rankedResult=null;
+ $('qar-rank-csv').disabled=true;
+ $('qar-rank-results').hidden=true;
+ $('qar-rank-rows').replaceChildren();
+ rankingStatus('Inputs changed. Run the ranking for these exact settings.');
+};
+const readRankLevel=(id,max)=>{
+ const value=$(id).value.trim();
+ if(!/^(?:0|[1-9][0-9]?)$/.test(value)||Number(value)>max)
+  throw new RangeError(id==='qar-rank-regular'?
+   'Regular upgrade must be a whole +0 to +25.':
+   'Somber upgrade must be a whole +0 to +10.');
+ return Number(value);
+};
+const rankWeaponVariants=()=>{
+ invalidateRanking();
+ if(!dataLoaded)return;
+ try{
+  const stats=safeStats(),term=$('qar-rank-search').value.trim();
+  const af=$('qar-rank-affinity').value;
+  request({op:'rank-variants',requestId:rankingRevision,
+   term,affinityId:af==='all'?'all':Number(af),
+   stats,regularUpgrade:readRankLevel('qar-rank-regular',25),
+   somberUpgrade:readRankLevel('qar-rank-somber',10),
+   twoHanded:$('qar-twohand').checked});
+  rankingStatus('Calculating legal source variants locally…','loading');
+ }catch(error){rankingStatus(error.message,'error');}
+};
+const renderRanking=result=>{
+ rankedResult=null;$('qar-rank-results').hidden=true;$('qar-rank-csv').disabled=true;
+ $('qar-rank-rows').replaceChildren();
+ if(result.status==='too-broad'){rankingStatus(result.message,'error');return;}
+ if(result.status!=='complete-query')throw new RangeError('Unexpected ranking report status.');
+ const tbody=$('qar-rank-rows');
+ for(const [i,item] of result.rows.entries()){
+  const tr=document.createElement('tr');
+  const affinity=item.affinityId===-1?'Unique / None':
+   TARNISHED_V117_AFFINITIES[item.affinityId]??'Unmapped source affinity';
+  const cells=[String(i+1),item.family+' · '+affinity+' · '+item.name,
+   (item.reinforcement==='somber'?'Somber':'Regular')+' +'+item.upgrade,
+   String(item.total),...['physical','magic','fire','lightning','holy'].map(x=>
+    String(item.components[x]??0)),
+   item.requirementsMet?'Meets known minima':'NOT MET: '+item.missingRequirements.join(', '),
+   item.scopeFlags.length?'Not simulated: '+item.scopeFlags.join(', '):'Nominal AR only'];
+  for(const [index,value] of cells.entries()){
+   const cell=document.createElement(index===1?'th':'td');
+   if(index===1)cell.scope='row';cell.textContent=value;tr.append(cell);
+  }
+  if(!item.requirementsMet)tr.classList.add('qar-ranking-unmet');
+  tbody.append(tr);
+ }
+ const sourceNote=sourceKind==='demo'?'FICTIONAL QA DATA — NOT GAME RESULTS. ':
+  sourceKind==='pinned'?'Pinned v1.17 reference — NOT Regulation 1.17.3 certified. ':
+  'USER-IMPORTED JSON — source/version not verified. ';
+ rankingStatus(sourceNote+result.rankedCount+' results over '+result.totalMatches+
+  ' matching source variants; '+result.excludedCount+' unsupported/invalid excluded. '+
+  POWER_STATS.map(s=>s.toUpperCase()+' '+safeStats()[s]).join(' / ')+
+  ($('qar-twohand').checked?' · 2H.':' · 1H.'));
+ $('qar-rank-exclusions').textContent=result.excludedCount?
+  'Excluded examples: '+result.excludedExamples.map(x=>x.name+' ('+x.reason+')').join(' · ')+
+  (result.excludedCount>result.excludedExamples.length?' · More excluded cases not shown.':''):
+  'No source variants excluded from this query.';
+ $('qar-rank-results').hidden=false;rankedResult=result;
+ $('qar-rank-csv').disabled=result.rows.length===0;
+};
+
 const clearSelection=()=>{
  selectedVariant='';selectedDescription=null;selectRevision++;familyRevision++;
  $('qar-affinity').replaceChildren();$('qar-affinity').disabled=true;
@@ -181,6 +256,9 @@ const calculate=()=>{
 worker?.addEventListener('message',event=>{
  const m=event.data||{};
  if(m.op==='error'){
+  if(m.phase==='rank-variants'&&m.requestId===rankingRevision){
+   invalidateRanking();rankingStatus('Ranking unavailable: '+m.message,'error');return;
+  }
   if(m.phase==='load'||m.phase==='demo'){
    dataLoaded=false;
    $('qar-workspace').hidden=true;
@@ -192,9 +270,15 @@ worker?.addEventListener('message',event=>{
    feedback('Could not compute with these source parameters: '+m.message,'error');
   resetResult();return;
  }
+ if(m.op==='ranked-variants'){
+  if(m.requestId!==rankingRevision)return;
+  try{renderRanking(m.result);}catch(e){invalidateRanking();rankingStatus(e.message,'error');}
+  return;
+ }
  if(m.op==='cleared'){
   dataLoaded=false;selectedVariant='';selectedDescription=null;sourceKind='';
   $('qar-workspace').hidden=true;
+  $('qar-rank-panel').hidden=true;invalidateRanking();
   sourceStatus('Cleared. Select a source to begin again.');
   return;
  }
@@ -202,6 +286,8 @@ worker?.addEventListener('message',event=>{
   dataLoaded=true;
   sourceButton.disabled=false;$('qar-demo').disabled=false;$('qar-load-file').disabled=false;
   $('qar-workspace').hidden=false;
+  $('qar-rank-panel').hidden=false;invalidateRanking();
+  rankingStatus('Source loaded. Enter a weapon group and run the AR ranking.');
   $('qar-search').disabled=false;
   for(const s of POWER_STATS)fields[s].disabled=false;
   $('qar-twohand').disabled=false;
@@ -267,6 +353,7 @@ sourceButton.addEventListener('click',async()=>{
  const revision=++downloadRevision;
  controller?.abort();controller=new AbortController();
  sourceKind='pinned';dataLoaded=false;clearSelection();
+ $('qar-rank-panel').hidden=true;invalidateRanking();
  $('qar-workspace').hidden=true;
  sourceButton.disabled=true;
  sourceStatus('Downloading and verifying the pinned public v1.17 JSON in this browser…','loading');
@@ -286,7 +373,8 @@ $('qar-load-file').addEventListener('click',async()=>{
  if(!file){sourceStatus('Select a .json file before importing.','error');return;}
  if(file.size>16_000_000){sourceStatus('The local JSON exceeds the 16 MB limit.','error');return;}
  downloadRevision++;controller?.abort();
- sourceKind='local';dataLoaded=false;clearSelection();$('qar-workspace').hidden=true;
+ sourceKind='local';dataLoaded=false;clearSelection();
+ $('qar-rank-panel').hidden=true;invalidateRanking();$('qar-workspace').hidden=true;
  sourceStatus('Reading local JSON into the browser worker…','loading');
  try{request({op:'load',text:await file.text(),version:'local-unverified',
   reference:'User-provided local JSON; rights and game accuracy not validated'});}
@@ -294,7 +382,8 @@ $('qar-load-file').addEventListener('click',async()=>{
 });
 $('qar-demo').addEventListener('click',()=>{
  downloadRevision++;controller?.abort();
- sourceKind='demo';dataLoaded=false;clearSelection();$('qar-workspace').hidden=true;
+ sourceKind='demo';dataLoaded=false;clearSelection();
+ $('qar-rank-panel').hidden=true;invalidateRanking();$('qar-workspace').hidden=true;
  sourceStatus('Starting fictional demonstration…','loading');
  request({op:'demo'});
 });
@@ -311,7 +400,27 @@ $('qar-affinity').addEventListener('change',()=>{
 $('qar-upgrade').addEventListener('change',()=>{userExplicitSelection=true;calculate();});
 $('qar-twohand').addEventListener('change',()=>{setText('qar-grip-label',$('qar-twohand').checked?'Two-handed':'One-handed');calculate();});
 for(const s of POWER_STATS)fields[s].addEventListener('change',calculate);
-for(const s of POWER_STATS)fields[s].addEventListener('input',clearReferenceComparison);
+for(const s of POWER_STATS)fields[s].addEventListener('input',()=>{
+ clearReferenceComparison();invalidateRanking();
+});
+$('qar-twohand').addEventListener('change',invalidateRanking);
+for(const id of ['qar-rank-search','qar-rank-regular','qar-rank-somber'])
+ $(id).addEventListener('input',invalidateRanking);
+$('qar-rank-affinity').addEventListener('change',invalidateRanking);
+$('qar-rank-run').addEventListener('click',rankWeaponVariants);
+$('qar-rank-csv').addEventListener('click',()=>{
+ if(!rankedResult||!rankedResult.rows.length)return;
+ try{
+  const sourceLabel=sourceKind==='pinned'?V117_PROVENANCE:
+   sourceKind==='demo'?'FICTIONAL QA ONLY — NOT GAME DATA':
+   'User-imported local JSON — version and rights unverified';
+  const csv=rankingToCsv(rankedResult,{sourceLabel});
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download='elden-ring-reference-ar-ranking.csv';
+  document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
+  rankingStatus('CSV exported from the displayed ranking, including version and provenance.');
+ }catch(error){rankingStatus(error.message,'error');}
+});
 $('qar-calculate').addEventListener('click',calculate);
 $('qar-reference-value').addEventListener('input',()=>{
  $('qar-reference-status').dataset.state='ready';

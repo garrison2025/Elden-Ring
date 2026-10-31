@@ -23,3 +23,21 @@
 .qar-reference-check[hidden]{display:none!important}
 @media(max-width:520px){.qar-reference-check .qar-reference-link,.qar-reference-check button{width:100%;justify-content:center}}
 @media(prefers-reduced-motion:reduce){.qar-page *{transition:none!important;animation:none!important}}
+
+/* v1.17 source-scoped multi-weapon nominal AR ranking */
+.qar-ranking-panel{margin:20px 0;background:linear-gradient(140deg,rgba(29,47,43,.85),rgba(16,22,29,.92));border:1px solid #50675a}
+.qar-ranking-panel .qar-heading h2{font-size:clamp(21px,3vw,30px)}
+.qar-ranking-panel>p{max-width:990px}
+.qar-ranking-grid{display:grid;grid-template-columns:minmax(210px,2fr) minmax(185px,1.4fr) minmax(130px,1fr) minmax(130px,1fr);gap:12px;align-items:end;margin:17px 0}
+.qar-ranking-grid .field{min-width:0}
+.qar-ranking-grid input,.qar-ranking-grid select{width:100%;min-width:0}
+.qar-ranking-table-wrap{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;border:1px solid #45574e;border-radius:12px;margin-top:14px}
+.qar-ranking-table{min-width:1050px;width:100%;border-collapse:separate;border-spacing:0}
+.qar-ranking-table th,.qar-ranking-table td{font-size:12px;padding:10px 9px;vertical-align:top;white-space:normal;overflow-wrap:break-word}
+.qar-ranking-table th:nth-child(2){min-width:210px;text-align:left}
+.qar-ranking-table th:nth-child(4),.qar-ranking-table td:nth-child(4){font-variant-numeric:tabular-nums;font-weight:800}
+.qar-ranking-unmet{background:rgba(190,124,58,.11)}
+#qar-rank-exclusions{overflow-wrap:anywhere}
+#qar-rank-panel[hidden],#qar-rank-results[hidden]{display:none!important}
+@media(max-width:980px){.qar-ranking-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.qar-ranking-grid{grid-template-columns:1fr}.qar-ranking-panel .qar-actions .btn{width:100%}.qar-ranking-table-wrap{width:100%}}
