@@ -36,7 +36,7 @@ $('armor-full-load').addEventListener('click',async()=>{
   armors=source.armors;
   const missing=armors.filter(x=>x.poise===null).length;
   status('Pinned '+source.count+' armor names/weights loaded. '+
-   missing+' items lack valid source Poise and will be excluded from this objective. '+
+   missing+' items lack valid source Poise. For any chosen objective, missing metric rows are independently excluded. '+
    'Values and item availability are not current-game certified.');
   $('armor-full-run').disabled=false;button.hidden=true;
  }catch(error){button.disabled=false;status('Source unavailable: '+error.message+'. Manual optimizer remains usable.',true);}
@@ -57,7 +57,7 @@ $('armor-full-run').addEventListener('click',()=>{
   };
   const requestId=++revision;
   $('armor-full-run').disabled=true;
-  status('Searching all legal armor combinations in a browser Worker…');
+  status('Searching all source-supported '+options.metric+' armor combinations in a browser Worker…');
   worker.postMessage({op:'optimize',requestId,armors,options});
  }catch(error){status('Cannot start source optimizer: '+error.message,true);}
 });
@@ -72,7 +72,7 @@ worker?.addEventListener('message',event=>{
  if(r.status==='no-solution'){
   $('armor-full-heading').textContent='No feasible armor combination from reported source data';
   $('armor-full-details').textContent=r.reason+' '+
-   r.missingPoiseExcluded+' items excluded for absent Poise; '+
+   r.missingMetricExcluded+' items excluded for missing '+r.metricLabel+'; '+
    r.explicitExcluded+' excluded by name.';
   status('No source-supported combination met the selected constraints. No result was invented.',true);
   return;
