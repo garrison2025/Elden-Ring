@@ -100,3 +100,34 @@ test('third-source evidence cannot be tampered to imply official current patch g
   assert.throws(()=>validateRecoveredSourceReferences(cloned,original),RangeError);
  }
 });
+
+
+test('29 separately cited default +0 Standard tables resolve 111 actual wiki-blank scaling cells without changing source A',()=>{
+ const s=validateRecoveredSourceReferences(ledger,original);
+ assert.equal(s.unknownScalingGrades,126);
+ assert.equal(s.newlySourcedScalingCells,111);
+ assert.equal(s.explicitDefaultScalingSourceRows,29);
+ assert.equal(s.remainingUnreportedScalingCells,15);
+ assert.equal(ledger.records.filter(x=>x.explicitInitialScalingSource).length,29);
+ const a=ledger.records.find(x=>x.name==='Albinauric Shield');
+ assert.equal(a.reference.scalingAtPlusZero[1],'?');
+ assert.equal(a.explicitInitialScalingSource.gradesAtPlusZero[1],'-');
+ const seal=ledger.records.find(x=>x.name==='Gravel Stone Seal');
+ assert.deepEqual(seal.explicitInitialScalingSource.gradesAtPlusZero,['E','-','-','C','-']);
+ const unresolved=ledger.records.filter(x=>x.reference.scalingAtPlusZero.includes('?')&&
+  !x.explicitInitialScalingSource).map(x=>x.name).sort();
+ assert.deepEqual(unresolved,['Marred Leather Shield','Marred Wooden Shield','Shield of the Guilty','Spiralhorn Shield'].sort());
+});
+test('third-site source-grade cell cannot be counterfeited or asserted current-game approved',()=>{
+ for(const change of [
+  d=>{d.explicitInitialScalingAdditionalCells=112},
+  d=>{d.records.find(x=>x.name==='Albinauric Shield').explicitInitialScalingSource.sourceUrl='https://example.org/'},
+  d=>{d.records.find(x=>x.name==='Albinauric Shield').explicitInitialScalingSource.gradesAtPlusZero[0]='S'},
+  d=>{d.records.find(x=>x.name==='Gravel Stone Seal').explicitInitialScalingSource.reinforcement=25},
+  d=>{d.records.find(x=>x.name==='Albinauric Shield').explicitInitialScalingSource.gameClientVerified=true},
+  d=>{delete d.records.find(x=>x.name==='Albinauric Shield').explicitInitialScalingSource}
+ ]){
+  const copy=structuredClone(ledger);change(copy);
+  assert.throws(()=>validateRecoveredSourceReferences(copy,original),RangeError);
+ }
+});
