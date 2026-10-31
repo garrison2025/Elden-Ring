@@ -131,3 +131,49 @@ test('exact comma-separated names rank different families together and reject mi
   ...opts,term:'Invented Bronze Sword, invented bronze sword'
  }),/unique exact weapon names/);
 });
+
+test('opt-in all-source ranking computes ALL candidates rather than a misleading 240-result top',()=>{
+ const source=structuredClone(COMPACT_SYNTHETIC_REGULATION),original=source.weapons[0];
+ for(let i=0;i<245;i++)source.weapons.push({
+  ...original,name:'FICTIONAL Full Source '+String(i).padStart(3,'0'),
+  weaponName:'Invented full source family '+String(i).padStart(3,'0')
+ });
+ const blocked=rankLocalWeaponVariants(source,{...opts,term:'FICTIONAL'});
+ assert.equal(blocked.status,'too-broad');
+ const full=rankLocalWeaponVariants(source,{...opts,term:'',allSource:true});
+ assert.equal(full.status,'complete-query');
+ assert.equal(full.queryMode,'whole-loaded-source');
+ assert.equal(full.totalMatches,249);
+ assert.equal(full.rankedCount,249);
+ assert.equal(full.filteredOutCount,0);
+ assert.deepEqual(full.rows.map(w=>w.total),
+  [...full.rows.map(w=>w.total)].sort((a,b)=>b-a));
+ const csv=rankingToCsv(full,{sourceLabel:'FICTIONAL TEST — all loaded source'});
+ assert.equal(csv.split('\r\n').length,251,'CSV must cover ALL ranked source variants, not just first 100 UI entries');
+});
+test('full-source regular, somber and minimum-requirement filters are honest and composable',()=>{
+ const source=structuredClone(COMPACT_SYNTHETIC_REGULATION),orig=source.weapons[0];
+ source.weapons.push({...orig,name:'Fictional Somber Global — QA ONLY',
+  weaponName:'Fictional Somber Global',affinityId:-1,reinforceTypeId:99});
+ source.reinforceTypes[99]=Array.from({length:11},(_,i)=>({
+  attack:{0:1+i*.03},attributeScaling:{str:1,dex:1,int:1,fai:1,arc:1}
+ }));
+ const global=rankLocalWeaponVariants(source,{...opts,term:'',allSource:true});
+ const somber=rankLocalWeaponVariants(source,{...opts,term:'',allSource:true,
+  reinforcement:'somber',somberUpgrade:10,regularUpgrade:25});
+ assert.equal(somber.rankedCount,1);
+ assert.equal(somber.rows[0].reinforcement,'somber');
+ assert.equal(somber.rows[0].upgrade,10);
+ assert.equal(somber.filteredOutCount,4);
+ const regular=rankLocalWeaponVariants(source,{...opts,term:'',allSource:true,
+  reinforcement:'regular',somberUpgrade:10});
+ assert.equal(regular.rankedCount,4);
+ assert.ok(regular.rows.every(x=>x.reinforcement==='regular'));
+ const usable=rankLocalWeaponVariants(source,{...opts,term:'',allSource:true,
+  wieldableOnly:true});
+ assert.ok(usable.rows.every(x=>x.requirementsMet));
+ assert.equal(usable.filteredOutCount,global.rows.filter(x=>!x.requirementsMet).length);
+ assert.throws(()=>rankLocalWeaponVariants(source,{...opts,allSource:'true'}),RangeError);
+ assert.throws(()=>rankLocalWeaponVariants(source,{...opts,reinforcement:'unknown'}),RangeError);
+ assert.throws(()=>rankLocalWeaponVariants(source,{...opts,wieldableOnly:1}),RangeError);
+});
