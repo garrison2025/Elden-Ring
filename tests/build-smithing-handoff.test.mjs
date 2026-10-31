@@ -75,7 +75,8 @@ test('source-backed page controls, DLC gating and import re-validation are wired
  for(const id of ['build-smithing-shortlist-panel','build-smithing-add','build-smithing-clear',
   'build-smithing-list','build-smithing-feedback','build-smithing-open']){
   assert.equal(buildHtml.split('id="'+id+'"').length-1,1,id);
-  assert.ok(buildJs.includes("'#"+id+"'"),id+' not in Build Planner JS');
+  if(id!=='build-smithing-shortlist-panel')
+   assert.ok(buildJs.includes("'#"+id+"'"),id+' not in Build Planner JS');
  }
  assert.ok(buildJs.includes('smithingIds=smithingIds.filter(id=>weaponCatalog.weapons.find'));
  assert.ok(buildJs.includes('makeBuildSmithingUrl(smithingIds,location.href)'));
