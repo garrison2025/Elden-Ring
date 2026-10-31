@@ -1,7 +1,7 @@
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
  reportedBaseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall,hasDisputedRequirements,hasDisputedAttack,hasDisputedWeight} from './community-weapons.mjs';
 import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
-import {makeArWorkbenchUrl} from './ar-workbench-navigation.mjs';
+import {makeQuickArCalculatorUrl} from './ar-workbench-navigation.mjs';
 import {makeWeaponCatalogShareUrl} from './weapon-catalog-navigation.mjs';
 import {makeCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
 import {validateRecoveredSourceReferences} from './recovered-weapon-reference.mjs';
@@ -343,7 +343,7 @@ function renderDetails(){
  // Both the external v1.17 source download and local import remain opt-in.
  let arStats=null;
  try{arStats=readStats();}catch{ /* invalid stats: send only weapon name */ }
- arLink.href=makeArWorkbenchUrl(chosen.name,arStats,
+ arLink.href=makeQuickArCalculatorUrl(chosen.name,arStats,
   chosen.upgradeReference?Number($('catalog-upgrade-level').value):null);
 
  try{
