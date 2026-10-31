@@ -69,8 +69,7 @@ test('import rejects altered source facts, forged approvals, corrupt envelope an
   mutate(x=>{x.entries.pop();}),
   mutate(x=>{x.entries[0].taskStatus='VERIFIED';}),
   mutate(x=>{x.entries[0].community=[9,9,9,9,9];}),
-  mutate(x=>{x.entries[0].observation?.numericComparison&&
-   (x.entries[0].observation.numericComparison='matches-neither-source');}),
+  mutate(x=>{const row=x.entries.find(v=>v.observation);row.observation.numericComparison='matches-neither-source';}),
   mutate(x=>{const row=x.entries.find(v=>v.observation);row.observation.reviewStatus='APPROVED';}),
   mutate(x=>{const row=x.entries.find(v=>v.observation);row.observation.observedComponents[3]=20;}),
   mutate(x=>{const row=x.entries.find(v=>v.observation);row.observation.conditions.userAttested=false;}),
