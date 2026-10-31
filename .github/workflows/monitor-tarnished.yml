@@ -70,6 +70,9 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -p test_tarnished_safe_sync.py -v
           npm run check
+          # GitHub's built-in GITHUB_TOKEN may suppress downstream push-triggered CI.
+          # Therefore also run the full real-Chrome smoke before any bot merge.
+          node scripts/smoke-browser.mjs
       - name: Open safe JSON-only PR and attempt automatic merge
         if: steps.compare.outputs.changed == 'true' && github.event_name != 'pull_request'
         env:
