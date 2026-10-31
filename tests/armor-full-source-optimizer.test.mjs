@@ -81,6 +81,7 @@ test('Armor Optimizer offers opt-in public source with an actual Web Worker, not
   assert.match(html,new RegExp('id="'+id+'"'));
  assert.match(app,/loadPinnedArmorSource\(fetch\)/);
  assert.match(app,/new Worker\(/);
- assert.match(worker,/optimizePinnedArmorPoise/);
- assert.match(html,/not.*current game version certification/);
+ assert.match(worker,/optimizePinnedArmorMetric/);
+ assert.match(html,/id="armor-full-metric"/);
+ assert.match(html,/not yet an independently observed Tarnished.dev v1.17 numeric result/);
 });
