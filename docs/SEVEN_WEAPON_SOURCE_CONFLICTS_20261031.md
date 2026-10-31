@@ -90,3 +90,54 @@ backend, game automation or externally fetched runtime dependency.
 
 This is a reproducible source-disagreement audit, **not** an AR or gameplay
 accuracy certification.
+
+## New: guided local seven-case collection on the accuracy page
+
+To collect the *missing* evidence without editing JSON manually, open
+`/validation-status/#conflict-capture`. This is an **in-page research
+workflow**, not another indexable SEO tool.
+
+1. Choose the flagged weapon. Madding Hand (FAI 13 vs 20) appears first
+   because it affects whether characters satisfy wield requirements.
+   The form shows five distinct candidate values from each published
+   source for comparison, but **never prefills observed game values**.
+2. Launch an actual Elden Ring game session, type the App and Regulation
+   versions visible in the game title screen, choose platform and date.
+   Select one local PNG/JPEG/WebP screenshot of the title/version screen.
+   The same title-screen file may be reused for other seven cases from
+   that session.
+3. View the exact selected weapon at **+0/default-uninfused**. Enter all
+   five displayed weapon-details base-attack components (PHY/MAG/FIRE/
+   LGT/HOLY), or all five exact attribute requirements for Madding Hand.
+   A blank field does not mean zero. The **character status AR** is not
+   the same thing as the weapon’s individual +0 base attack.
+4. Select the original local screenshot of this exact weapon-details
+   panel and tick all three manual attestations. Click **Record
+   unreviewed observation**. The page checks image format/signature,
+   limits each file to 12 MB, computes SHA-256 locally with Web Crypto
+   and classifies the transcribed numbers as *matches community*,
+   *matches pinned v1.17*, *matches neither* or
+   *not compared because title-screen version differs*.
+5. Repeat for any available weapons. Click **Download checklist /
+   observation JSON** to export all seven entries, with player-entered
+   drafts for captured ones and `PENDING_REAL_GAME_EVIDENCE` for
+   uncaptured ones. Keep the original screenshot files privately;
+   nothing is uploaded, and actual screenshot bytes are not in the
+   JSON. The page does not autosave; do not refresh before downloading.
+6. Have a **separate independent reviewer** inspect both original
+   screenshots, correct App/Regulation version, exact weapon/affinity/
+   reinforcement and the claimed values. A hash match only proves file
+   identity if the original image is reselected and compared—**not**
+   that the image is genuine. The JSON always remains
+   `reviewStatus: UNREVIEWED`, `gameClientVerified: false`,
+   `publicationApproved: false`, and
+   `independentlyReviewedScreenshotCount: 0`. No auto-approval exists.
+
+**Collection vs. validation:** even seven filled records, all matching one
+source, are seven **unreviewed player transcriptions**, not seven accepted
+game goldens. Do not change the source data/flags or open SEO indexing from
+this local client-side export.
+
+This flow reuses the existing screenshot SHA-256 signature validation and
+adds no paid APIs, external analytics, browser storage, uploaded image
+content, account, or new data-redistribution license.
