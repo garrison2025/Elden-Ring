@@ -7,6 +7,33 @@ export const ARMOR_SOURCE_PAGE='https://github.com/deliton/eldenring-api/blob/'+
  ARMOR_SNAPSHOT_SHA+'/api/public/data/armors.json';
 export const ARMOR_SOURCE_COUNT=568;
 const fail=msg=>{throw new RangeError(msg)};
+/** Source field labels only. These are not per-game-client or v1.17-certified goldens. */
+export const ARMOR_METRICS=Object.freeze({
+ poise:{label:'Poise',kind:'resistance',source:'Poise'},
+ immunity:{label:'Immunity',kind:'resistance',source:'Immunity'},
+ robustness:{label:'Robustness',kind:'resistance',source:'Robustness'},
+ focus:{label:'Focus',kind:'resistance',source:'Focus'},
+ vitality:{label:'Vitality',kind:'resistance',source:'Vitality'},
+ physical:{label:'Physical negation',kind:'negation',source:'Phy'},
+ strike:{label:'Strike negation',kind:'negation',source:'Strike'},
+ slash:{label:'Slash negation',kind:'negation',source:'Slash'},
+ pierce:{label:'Pierce negation',kind:'negation',source:'Pierce'},
+ magic:{label:'Magic negation',kind:'negation',source:'Magic'},
+ fire:{label:'Fire negation',kind:'negation',source:'Fire'},
+ lightning:{label:'Lightning negation',kind:'negation',source:'Ligt'},
+ holy:{label:'Holy negation',kind:'negation',source:'Holy'}
+});
+const SOURCE_ALIASES=Object.freeze({Phy:['Phy','Physical'],Ligt:['Ligt','Light']});
+function sourceCell(source,name,kind){
+ if(!Array.isArray(source))return null;
+ const accepted=SOURCE_ALIASES[name]??[name];
+ const found=source.filter(row=>row&&typeof row==='object'&&accepted.includes(row.name));
+ if(found.length!==1)return null; // Ambiguous or malformed source: no invented 0.
+ const value=found[0].amount;
+ if(!Number.isFinite(value)||value<0||value>(kind==='negation'?99:800)||
+  (kind==='resistance'&&!Number.isInteger(value)))return null;
+ return value;
+}
 const categories=Object.freeze({'Helm':'Head','Chest Armor':'Chest','Gauntlets':'Arms',
  'Gauntlet':'Arms','Leg Armor':'Legs'});
 export function inspectArmorSource(text){
@@ -29,8 +56,15 @@ export function inspectArmorSource(text){
    entry.resistance.filter(x=>x?.name==='Poise'):[];
   const poise=poiseList.length===1&&Number.isInteger(poiseList[0].amount)&&
    poiseList[0].amount>=0&&poiseList[0].amount<=800?poiseList[0].amount:null;
+  // Keep only the sourced numeric combat fields, not item descriptions/images.
+  // Missing/malformed source cells are null rather than guessed zero.
+  const metrics={};
+  for(const [key,meta] of Object.entries(ARMOR_METRICS)){
+   metrics[key]=sourceCell(meta.kind==='negation'?entry.dmgNegation:entry.resistance,
+    meta.source,meta.kind);
+  }
   armors.push({id:entry.id,name:entry.name.trim(),slot:categories[entry.category],
-   weight:entry.weight,poise});
+   weight:entry.weight,poise,metrics});
  }
  return {count:armors.length,armors,
   description:'Source-reported, exact pinned upstream snapshot; NOT game-client version/rights certified. No images or descriptions imported. Missing/invalid Poise is UNKNOWN, never zero.'};

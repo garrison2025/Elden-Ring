@@ -1,0 +1,24 @@
+name: Verify pinned community armor metrics (source only, not game golden)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - public/src/armor-source-optin.mjs
+      - public/src/armor-source-metric-optimizer.mjs
+      - public/src/armor-full-source-optimizer.mjs
+      - scripts/audit-armor-source-metrics.mjs
+      - .github/workflows/armor-source-metrics.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-armor-objectives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read pinned community armor snapshot in memory and verify 13 metrics
+        run: node scripts/audit-armor-source-metrics.mjs

@@ -53,19 +53,35 @@
 <p>All data is handled locally. Export your options to keep them. No inventory, official images or weapon data are distributed. See <a href="../validation-status/">accuracy and sources</a>.</p></article>
 </section>
 <section class="panel armor-full-panel" id="armor-full-panel" aria-labelledby="armor-full-title">
-<div class="eyebrow">Public source reference · exact constrained poise search</div>
-<h2 id="armor-full-title">Explore a complete 568-item community armor snapshot</h2>
-<p>On your explicit click, this browser retrieves a pinned public armor list, extracts names, slot positions, source weight and Poise, and independently finds the maximum <strong>sum of source-reported Poise</strong> below your selected equip-load tier using the <em>Maximum equip load</em>, <em>Weight of weapons &amp; other gear</em>, and <em>Minimum Poise</em> fields above. Items with missing Poise are excluded, not guessed. This is exact for the selected dataset and objective, <strong>not</strong> current game version certification, defense/negation optimization, passive or active-effects modelling.</p>
+<div class="eyebrow">Opt-in 568-piece source · 13 combat objectives</div>
+<h2 id="armor-full-title">Optimize 13 armor attributes from 568 real community reference items</h2>
+<p>On your explicit click, this browser retrieves a pinned public armor list, extracts names, slot positions, source weight and Poise, and maximizes the <strong>selected source-reported combat property</strong> under your weight and roll-tier constraints. Targets include Poise, Immunity, Robustness, Focus, Vitality and all eight damage-negation types. Negation percentages are stacked multiplicatively; other source resistance points add. A missing field excludes only that item from that objective, never turns into zero. The reported source percentages are often rounded, so this is not yet an independently observed Tarnished.dev v1.17 numeric result. Poise minimum applies to the Poise objective; choose 0 for other objectives. Full multi-metric min/max constraints and equipment effects remain unsupported.</p>
+<label class="field" for="armor-full-metric">Choose source metric to maximize
+<select id="armor-full-metric">
+<option value="poise">Poise</option>
+<option value="physical">Physical damage negation</option>
+<option value="strike">Strike damage negation</option>
+<option value="slash">Slash damage negation</option>
+<option value="pierce">Pierce damage negation</option>
+<option value="magic">Magic damage negation</option>
+<option value="fire">Fire damage negation</option>
+<option value="lightning">Lightning damage negation</option>
+<option value="holy">Holy damage negation</option>
+<option value="immunity">Immunity</option>
+<option value="robustness">Robustness</option>
+<option value="focus">Focus</option>
+<option value="vitality">Vitality</option>
+</select></label>
 <button id="armor-full-load" class="btn alt" type="button">Load pinned 568-item public armor reference</button>
-<button id="armor-full-run" class="btn" type="button" disabled>Optimize source Poise under my weight limit</button>
+<button id="armor-full-run" class="btn" type="button" disabled>Optimize selected combat metric under my weight limit</button>
 <label class="field" for="armor-full-exclude">Exclude specific armor by exact name, separated by commas (optional, maximum 50)
 <input id="armor-full-exclude" type="text" maxlength="800" placeholder="Black Knife Armor, All-knowing Helm" autocomplete="off"></label>
 <p id="armor-full-status" class="note" role="status" aria-live="polite">Reference not requested; manual CSV optimizer above remains available.</p>
 <div id="armor-full-results" hidden>
 <h3 id="armor-full-heading">—</h3>
 <p id="armor-full-details" class="note">—</p>
-<div class="table-wrap"><table class="datatable armor-full-table"><thead><tr><th>Slot</th><th>Community item</th><th>Source weight</th><th>Source Poise</th></tr></thead><tbody id="armor-full-rows"></tbody></table></div>
-<p class="note">This is source-reported Poise only. Poise and defense values can change by game patch and item effects. Higher summed Poise does not imply better negation; this result does not simulate enemy attacks or current game client.</p>
+<div class="table-wrap"><table class="datatable armor-full-table"><thead><tr><th>Slot</th><th>Community item</th><th>Source weight</th><th>Source Poise</th><th>Selected metric</th></tr></thead><tbody id="armor-full-rows"></tbody></table></div>
+<p class="note">All metrics are explicitly opt-in, attributed source values. Damage negation is multiplicative, not the sum of percentages. Upstream fields may be rounded or absent and are not validated against each Tarnished.dev v1.17 website output. This does not simulate enemy attacks, buffs, or real game client.</p>
 </div>
 </section>
 <nav class="related-tools" aria-label="Related tools"><span class="eyebrow">Continue planning</span><a href="../equip-load-calculator/">Equip Load ↗</a><a href="../build-planner/">Build Planner ↗</a><a href="../weapon-requirements/">Weapon Requirements ↗</a><a href="../respec-planner/">Respec Planner ↗</a></nav>

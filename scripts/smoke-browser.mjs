@@ -867,6 +867,26 @@ try{
  // deterministic browser smoke. CI performs the explicit user click; the
  // production calculator NEVER fetches third-party data on page load.
  if(process.env.RUN_REAL_V117_BROWSER==='1'){
+  // Armor v1.17 functional alignment: visit the real, pinned community
+  // source and exercise a non-Poise metric through a real page/Worker.
+  // Not a claim of Tarnished.dev same-input armor numeric parity.
+  await navigate('/armor-optimizer/');
+  assert.equal(await evaluate("document.querySelector('#armor-full-run').disabled"),true,
+   'Public armor source must remain opt-in');
+  await evaluate("document.querySelector('#armor-full-load').click()");
+  await waitFor("document.querySelector('#armor-full-status')?.textContent.includes('Pinned 568')||document.querySelector('#armor-full-status')?.textContent.includes('unavailable:')",
+   'Real 568-item armor source loads only after button click');
+  const armorLoad=await evaluate("document.querySelector('#armor-full-status').textContent");
+  assert.ok(armorLoad.includes('Pinned 568'),'Expected exact pinned public armor source: '+armorLoad);
+  await evaluate("(()=>{const q=document.querySelector('#armor-full-metric');q.value='physical';q.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#armor-full-run').click()})()");
+  await waitFor("document.querySelector('#armor-full-heading')?.textContent.startsWith('Best Physical negation:')||document.querySelector('#armor-full-status')?.dataset.state==='error'",
+   'Full source physical negation Worker solution must become visible');
+  assert.ok((await evaluate("document.querySelector('#armor-full-heading').textContent"))
+   .includes('Best Physical negation: 32.05234%'),
+   'Expected reproducible 568-item source model reference at 75 max load, 18 reserved, medium tier');
+  assert.equal(await evaluate("document.querySelectorAll('#armor-full-rows tr').length"),4);
+  assert.equal(await evaluate("document.querySelector('#armor-full-results').hidden"),false);
+  console.log('[REAL ARMOR SOURCE] 568-item public-source Worker completed independent physical-negation objective; not a competitor UI golden.');
   await navigate('/weapon-database/?weapon=v117-roster-001');
   await waitFor("document.querySelector('#catalog-title')?.textContent==='Albinauric Shield'",
    'Source-only Albinauric Shield selected in the real catalog');
@@ -1058,7 +1078,7 @@ try{
   await waitFor("document.querySelector('#armor-full-results')?.hidden===false",
    'The Worker returns an exact source-wide Poise combination under live controls');
   const sourceOptimization=await evaluate("({headline:document.querySelector('#armor-full-heading').textContent,details:document.querySelector('#armor-full-details').textContent,items:document.querySelectorAll('#armor-full-rows tr').length,status:document.querySelector('#armor-full-status').textContent})");
-  assert.match(sourceOptimization.headline,/Maximum published-source Poise:/);
+  assert.match(sourceOptimization.headline,/Best Poise: 64 points/);
   assert.equal(sourceOptimization.items,4);
   assert.ok(sourceOptimization.details.includes('roll tier')&&
    sourceOptimization.status.includes('completed in Worker')&&

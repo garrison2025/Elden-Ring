@@ -36,7 +36,7 @@ $('armor-full-load').addEventListener('click',async()=>{
   armors=source.armors;
   const missing=armors.filter(x=>x.poise===null).length;
   status('Pinned '+source.count+' armor names/weights loaded. '+
-   missing+' items lack valid source Poise and will be excluded from this objective. '+
+   missing+' items lack valid source Poise. For any chosen objective, missing metric rows are independently excluded. '+
    'Values and item availability are not current-game certified.');
   $('armor-full-run').disabled=false;button.hidden=true;
  }catch(error){button.disabled=false;status('Source unavailable: '+error.message+'. Manual optimizer remains usable.',true);}
@@ -52,11 +52,12 @@ $('armor-full-run').addEventListener('click',()=>{
    reservedWeight:$('reservedWeight').value,
    tier:$('targetTier').value,
    minPoise:Number(value),
+   metric:$('armor-full-metric').value,
    excludedIds:parseExclude()
   };
   const requestId=++revision;
   $('armor-full-run').disabled=true;
-  status('Searching all legal armor combinations in a browser Worker…');
+  status('Searching all source-supported '+options.metric+' armor combinations in a browser Worker…');
   worker.postMessage({op:'optimize',requestId,armors,options});
  }catch(error){status('Cannot start source optimizer: '+error.message,true);}
 });
@@ -71,29 +72,33 @@ worker?.addEventListener('message',event=>{
  if(r.status==='no-solution'){
   $('armor-full-heading').textContent='No feasible armor combination from reported source data';
   $('armor-full-details').textContent=r.reason+' '+
-   r.missingPoiseExcluded+' items excluded for absent Poise; '+
+   r.missingMetricExcluded+' items excluded for missing '+r.metricLabel+'; '+
    r.explicitExcluded+' excluded by name.';
   status('No source-supported combination met the selected constraints. No result was invented.',true);
   return;
  }
- $('armor-full-heading').textContent='Maximum published-source Poise: '+r.poise;
+ $('armor-full-heading').textContent='Best '+r.metricLabel+': '+
+  r.metricValue+(r.metricUnit==='%'?'%':' points');
  $('armor-full-details').textContent=
   'Armor weight '+r.armorWeight.toFixed(3)+' + reserved gear = '+
   r.totalWeight.toFixed(3)+' / max '+r.maxEquipLoad.toFixed(3)+
-  '; roll tier '+r.rollTier+'. '+r.missingPoiseExcluded+
-  ' records excluded due to unavailable Poise; '+r.explicitExcluded+
-  ' explicitly excluded. Exact optimum within loaded data, not game-client certification.';
+  '; roll tier '+r.rollTier+'. '+r.missingMetricExcluded+
+  ' records excluded due to unavailable '+r.metricLabel+'; '+r.explicitExcluded+
+  ' explicitly excluded. '+(r.metricUnit==='%'?'Rounded per-piece source negation is combined multiplicatively; ':'')+
+  'Exact optimum within the supplied values, not a numerically verified Tarnished.dev v1.17 browser result.';
  for(const piece of r.combination){
   const row=document.createElement('tr');
-  for(const value of [piece.slot,piece.name,String(piece.weight),String(piece.poise)]){
+  for(const value of [piece.slot,piece.name,String(piece.weight),
+   piece.poise===null?'Unknown':String(piece.poise),
+   String(piece.metricValue)+(r.metricUnit==='%'?'%':'')]){
    const td=document.createElement('td');td.textContent=value;row.append(td);
   }
   $('armor-full-rows').append(row);
  }
- status('Full source constraint search completed in Worker. '+
+ status('Source metric '+r.metricLabel+' optimization completed in Worker. '+
   r.stages.map(x=>x.slot+': '+x.stateCount+' states').join(' · ')+
   '. Reported Poise is community data, not v1.17.3 game-proven.');
 });
-for(const id of ['maxLoad','reservedWeight','targetTier','minPoise','armor-full-exclude']){
- $(id).addEventListener(id==='targetTier'?'change':'input',invalidate);
+for(const id of ['maxLoad','reservedWeight','targetTier','minPoise','armor-full-exclude','armor-full-metric']){
+ $(id).addEventListener(['targetTier','armor-full-metric'].includes(id)?'change':'input',invalidate);
 }
