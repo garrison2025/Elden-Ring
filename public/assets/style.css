@@ -267,3 +267,25 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 #build-smithing-open[hidden]{display:none!important}
 .multi-weapon-hint{display:block;margin-top:6px;font-size:11px;line-height:1.4;color:#d8c18e;max-width:260px}
 @media(max-width:560px){.build-smithing-list li{align-items:flex-start}.build-smithing-list .btn{font-size:12px}}
+
+
+/* Temporary, source-cautioned Build A/B comparison on the existing planner. */
+.build-ab-panel{margin-bottom:22px}
+.build-ab-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
+.build-ab-cards>div{padding:16px;border:1px solid #4b6155;background:#142328;border-radius:12px;min-width:0}
+.build-ab-cards strong{display:block;margin-top:7px;font-size:19px;overflow-wrap:anywhere;color:#f4deab}
+.build-ab-cards p{margin:8px 0 0;line-height:1.55;font-size:13px}
+.build-ab-table{margin-top:17px}
+.build-ab-table th:first-child{min-width:185px}
+.build-ab-table td,.build-ab-table th{font-variant-numeric:tabular-nums}
+.build-ab-table td:last-child,.build-ab-table th:last-child{text-align:right}
+.build-ab-changed td:last-child{color:#efce92;font-weight:750}
+.build-ab-weapons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.build-ab-weapons p{border:1px solid #40564f;background:#142328;padding:14px;border-radius:10px;line-height:1.65;overflow-wrap:anywhere}
+#build-ab-status{min-height:18px}
+#build-ab-results[hidden]{display:none!important}
+@media(max-width:650px){
+ .build-ab-cards,.build-ab-weapons{grid-template-columns:1fr}
+ .build-ab-table{min-width:485px}
+ .build-ab-panel .workbench-actions{display:grid;grid-template-columns:1fr}
+}

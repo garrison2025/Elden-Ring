@@ -136,6 +136,47 @@ try{
   'Build Planner catalog ready');
  await selectWeapon('Uchigatana');
  await selectWeapon('Greatsword');
+ // Real browser: pin A and compare live B without mutating saved Builds.
+ await evaluate('document.querySelector("#build-ab-pin").click()');
+ await waitFor('document.querySelector("#build-ab-results").hidden===false',
+  'Build A/B panel becomes visible after pin');
+ assert.equal(await evaluate('document.querySelectorAll("#build-ab-rows tr").length'),11,
+  'A/B table must show 3 level/rune metrics and 8 attributes');
+ assert.equal(await evaluate('document.querySelector("#build-ab-origin-a").textContent'),'Samurai');
+ await evaluate(`(()=>{
+  const vigor=document.querySelector('#stat-grid [data-stat="0"]');
+  vigor.value=String(Number(vigor.value)+1);
+  vigor.dispatchEvent(new Event('input',{bubbles:true}));
+ })()`);
+ await waitFor(`document.querySelectorAll('#build-ab-rows tr')[3]
+   ?.lastElementChild?.textContent==='+1'`,'Vigor delta +1');
+ assert.equal(await evaluate(`document.querySelectorAll('#build-ab-rows tr')[0]
+  .lastElementChild.textContent`),'+1','Build B level +1 after Vigor increase');
+ await evaluate(`(()=>{
+  const cls=document.querySelector('#origin');cls.value='Wretch';
+  cls.dispatchEvent(new Event('change',{bubbles:true}));
+ })()`);
+ await waitFor(`document.querySelector('#build-ab-origin-b').textContent==='Wretch'`,
+  'Different-origin comparison');
+ assert.equal(await evaluate('document.querySelector("#build-ab-origin-a").textContent'),'Samurai',
+  'Pinned Build A must survive B origin change');
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:375,height:812,deviceScaleFactor:1,mobile:true
+ });
+ const buildMobile=await evaluate(`({
+  viewport:window.innerWidth,
+  documentWidth:document.documentElement.scrollWidth,
+  tableScrollable:document.querySelector('.build-ab-table')
+   ?.closest('.table-wrap')?.scrollWidth>=
+   document.querySelector('.build-ab-table')?.closest('.table-wrap')?.clientWidth
+ })`);
+ assert.ok(buildMobile.documentWidth<=buildMobile.viewport+5,
+  'Mobile Build comparison overflows page: '+JSON.stringify(buildMobile));
+ assert.equal(buildMobile.tableScrollable,true);
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:1280,height:850,deviceScaleFactor:1,mobile:false
+ });
+ // Keep the selected weapon shortlist intact after editing the Build.
  const shortlist=await evaluate('document.querySelectorAll("#build-smithing-list li").length');
  assert.equal(shortlist,2,'Two selected Build weapons must appear');
  const href=await evaluate('document.querySelector("#build-smithing-open").getAttribute("href")');
@@ -212,7 +253,7 @@ try{
  assert.equal(await evaluate('document.querySelectorAll("#multi-weapon-rows tr").length'),2,
   'Deleting saved copy must not erase onscreen draft');
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: Build A/B pin/edit/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;
