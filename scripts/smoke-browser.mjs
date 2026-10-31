@@ -753,6 +753,28 @@ try{
  assert.ok(disputesMobile.scroll<=disputesMobile.width+5,
   'Mobile disputed Build output overflow '+JSON.stringify(disputesMobile));
 
+ // Accessible reference AR calculator must not auto-download the optional
+ // upstream game-derived source. Exercise the actual shared AR Worker with a
+ // visibly FICTIONAL local fixture; never confuse this demo with real AR.
+ await navigate('/weapon-ar-calculator/?weapon=Fictional%20Bronze%20Sword%20%E2%80%94%20QA%20ONLY&player=40%2C20%2C10%2C10%2C10&upgrade=0');
+ assert.equal(await evaluate("document.querySelector('#qar-workspace').hidden"),true,
+  'Source must stay opt-in; no automatic external source download');
+ await evaluate("document.querySelector('#qar-demo').click()");
+ await waitFor("document.querySelector('#qar-workspace')?.hidden===false",
+  'Fictional AR source loads inside Worker');
+ await waitFor("document.querySelector('#qar-onehand')?.textContent==='136'",
+  'Independent local demo AR 1H matches known fictional fixture');
+ assert.equal(await evaluate("document.querySelector('#qar-twohand-total')?.textContent"),'152',
+  'Two-hand fixture has distinct scaling');
+ assert.ok((await evaluate("document.querySelector('#qar-source-status')?.textContent"))
+  .includes('FICTIONAL DEMO'),'No game-data accuracy claim for synthetic worker data');
+ await evaluate("document.querySelector('#qar-twohand').click()");
+ await waitFor("document.querySelector('#qar-total')?.textContent==='152'",
+  'Switching grip recomputes selected v1.17-style AR');
+ const qaMobile=await evaluate("({width:window.innerWidth,scroll:document.documentElement.scrollWidth})");
+ assert.ok(qaMobile.scroll<=qaMobile.width+5,
+  '375px reference AR calculator must not overflow: '+JSON.stringify(qaMobile));
+ console.log('[BROWSER SMOKE] Weapon AR calculator loads only on click, matches fictional 136/152 Worker outputs, changes grip, and fits mobile.');
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
  console.log('[BROWSER SMOKE] PASS: disputed weapon requirement/attack fail-closed UI + local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
