@@ -1,0 +1,13 @@
+.armor-full-panel{margin:24px 0;border:1px solid #516b5e;background:linear-gradient(135deg,rgba(26,45,41,.9),rgba(15,24,29,.95))}
+.armor-full-panel>h2{font-size:clamp(24px,3vw,34px)}
+.armor-full-panel>p{max-width:1000px;line-height:1.65}
+.armor-full-panel>.btn{margin:8px 10px 12px 0}
+.armor-full-panel .field{max-width:720px;margin:14px 0}
+.armor-full-panel .field input{display:block;width:100%;margin-top:8px}
+.armor-full-panel .armor-full-table{width:100%;min-width:570px;border-collapse:collapse}
+.armor-full-panel .armor-full-table th,.armor-full-panel .armor-full-table td{text-align:left;border-bottom:1px solid #50645d;padding:10px;font-size:13px}
+.armor-full-panel #armor-full-results{margin-top:18px}
+.armor-full-panel #armor-full-results h3{font-size:23px;margin-bottom:9px}
+.armor-full-panel #armor-full-status[data-state=error]{color:#ffbca5}
+.armor-full-panel #armor-full-results[hidden]{display:none!important}
+@media(max-width:520px){.armor-full-panel{padding:15px}.armor-full-panel>.btn{width:100%}.armor-full-panel .table-wrap{overflow-x:auto;max-width:100%}}
