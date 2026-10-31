@@ -25,11 +25,19 @@ export function compareTarnishedChromeObservations(snapshot,source){
    results.push({id:result?.id??'UNKNOWN',status:'malformed-observation'});continue;
   }
   const affinityId=c.affinity==='None'?-1:TARNISHED_V117_AFFINITIES.indexOf(c.affinity);
-  const valid=affinityId>=-1&&
+  // Tarnished.dev's SPA replaces the address bar with /build-planner after
+  // parsing build query parameters. Verify the actual page origin/path and
+  // separately verify rendered input values; a retained query is NOT required.
+  let siteUrlValid=false;
+  try{
+   const u=new URL(result.url);
+   siteUrlValid=u.protocol==='https:'&&u.hostname==='www.tarnished.dev'&&
+    u.pathname==='/build-planner'&&!u.hash;
+  }catch{/* absent or invalid page URL remains untrusted */}
+  const valid=(c.affinity==='None'||affinityId>=0)&&siteUrlValid&&
    Number.isInteger(result.observedAr)&&result.observedAr>=0&&
    result.status==='INPUT-VERIFIED-AR'&&result.verifiedInputs===true&&
    typeof result.version==='string'&&result.version.includes('v1.17')&&
-   typeof result.url==='string'&&result.url.startsWith('https://www.tarnished.dev/build-planner?')&&
    typeof result.browserWeaponBlock==='string'&&
    result.browserWeaponBlock.includes('Total AR : '+result.observedAr);
   if(!valid){
