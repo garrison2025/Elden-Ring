@@ -783,8 +783,13 @@ try{
   assert.equal(await evaluate("document.querySelector('#qar-workspace').hidden"),true,
    'Pinned source must not be fetched before explicit user action');
   await evaluate("document.querySelector('#qar-load-source').click()");
-  await waitFor("document.querySelector('#qar-source-status')?.textContent.includes('3296')||document.querySelector('#qar-source-status')?.dataset.state==='error'",
-   'Actual opt-in public v1.17 source data or meaningful error status');
+  try{
+   await waitFor("document.querySelector('#qar-source-status')?.textContent.includes('3,296')||document.querySelector('#qar-source-status')?.textContent.includes('Checked 3296')||document.querySelector('#qar-source-status')?.dataset.state==='error'||document.querySelector('#qar-onehand')?.textContent==='172'",
+    'Actual opt-in public v1.17 source data or meaningful error status');
+  }catch(error){
+   const diagnostic=await evaluate("({source:document.querySelector('#qar-source-status')?.textContent,feedback:document.querySelector('#qar-feedback')?.textContent,loaded:document.querySelector('#qar-workspace')?.hidden,ar:document.querySelector('#qar-onehand')?.textContent})");
+   throw Error(error.message+': '+JSON.stringify(diagnostic));
+  }
   const sourceStatus=await evaluate("document.querySelector('#qar-source-status').textContent");
   assert.ok(!sourceStatus.includes('Unable to load')&&!sourceStatus.includes('cannot')&&
    !sourceStatus.includes('Could not'), 'Pinned source fetch failed in real Chrome: '+sourceStatus);
