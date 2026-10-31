@@ -801,6 +801,21 @@ try{
   .includes('FICTIONAL DEMO'),'No game-data accuracy claim for synthetic worker data');
  assert.equal(await evaluate("document.querySelector('#qar-reference-check')?.hidden"),true,
   'Fictional data must never offer a real Tarnished.dev reference result comparison');
+
+ assert.equal(await evaluate("document.querySelector('#qar-rank-panel').hidden"),false,
+  'AR ranking appears only after user-loaded source');
+ await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Fictional';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+ await waitFor("document.querySelectorAll('#qar-rank-rows tr').length===4",
+  'Four source-defined fictional weapons must appear in the batch ranking');
+ const arRank=await evaluate("({rows:[...document.querySelectorAll('#qar-rank-rows tr')].map(tr=>Number(tr.children[3].textContent)),status:document.querySelector('#qar-rank-status').textContent,csv:document.querySelector('#qar-rank-csv').disabled,unmet:document.querySelector('#qar-rank-rows').textContent.includes('NOT MET')})");
+ assert.deepEqual(arRank.rows,[...arRank.rows].sort((a,b)=>b-a));
+ assert.ok(arRank.status.includes('FICTIONAL QA DATA')&&arRank.unmet&&!arRank.csv);
+ await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='x';q.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.equal(await evaluate("document.querySelector('#qar-rank-csv').disabled"),true,
+  'Source ranking export must invalidate after query edit');
+ await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Fictional';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+ await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
+  'Source ranking can be recalculated after input change');
  await evaluate("document.querySelector('#qar-twohand').click()");
  await waitFor("document.querySelector('#qar-total')?.textContent==='152'",
   'Switching grip recomputes selected v1.17-style AR');
@@ -828,6 +843,19 @@ try{
    !sourceStatus.includes('Could not'), 'Pinned source fetch failed in real Chrome: '+sourceStatus);
   await waitFor("document.querySelector('#qar-onehand')?.textContent==='172'",
    'Real pinned v1.17 source AR matches verified Tarnished.dev Uchigatana Standard +0 40/40');
+
+  await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Uchigatana';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false&&document.querySelectorAll('#qar-rank-rows tr').length>1",
+   'Opt-in real v1.17 source yields multiple legal Uchigatana affinity rows');
+  const realRank=await evaluate("({values:[...document.querySelectorAll('#qar-rank-rows tr')].map(x=>Number(x.children[3].textContent)),status:document.querySelector('#qar-rank-status').textContent,table:document.querySelector('#qar-rank-rows').textContent})");
+  assert.deepEqual(realRank.values,[...realRank.values].sort((a,b)=>b-a));
+  assert.ok(realRank.status.includes('Pinned v1.17 reference'));
+  assert.ok(realRank.table.includes('172'),'Uchigatana Standard +0 must equal externally observed 172');
+  await evaluate("(()=>{const q=document.querySelector('#qar-rank-regular');q.value='25';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
+   'Regular +25 same-input ranking computes from source');
+  assert.ok((await evaluate("document.querySelector('#qar-rank-rows').textContent")).includes('491'),
+   'Source Standard +25 Uchigatana at 40 STR/40 DEX is observed 491');
   const chromeInfo=await evaluate("({stats:[...['str','dex','int','fai','arc'].map(x=>document.querySelector('#qar-'+x).value)],variant:document.querySelector('#qar-affinity').value,upgrade:document.querySelector('#qar-upgrade').value})");
   assert.deepEqual(chromeInfo.stats,['40','40','10','10','10']);
   assert.equal(chromeInfo.upgrade,'0');
