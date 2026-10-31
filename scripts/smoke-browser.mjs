@@ -991,6 +991,29 @@ try{
   assert.equal(await evaluate("document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=number]')[1].value"),'',
    'Changing armor name clears auto-filled weight rather than reusing a stale source value');
 
+
+  await navigate('/armor-optimizer/');
+  assert.ok((await evaluate("document.querySelector('#armor-full-status').textContent")).includes('not requested'),
+   'Full armor reference must never auto-download on page load');
+  await evaluate("document.querySelector('#armor-full-load').click()");
+  await waitFor("document.querySelector('#armor-full-status').textContent.includes('568')||document.querySelector('#armor-full-status').textContent.includes('unavailable')",
+   'Real pinned public armor source or honest load error');
+  const exactArmorStatus=await evaluate("document.querySelector('#armor-full-status').textContent");
+  assert.ok(exactArmorStatus.includes('568'), 'Full armor source load failed: '+exactArmorStatus);
+  assert.ok(exactArmorStatus.includes('3 items lack valid source Poise'),
+   'Source omits three Poise values, which must stay excluded');
+  await evaluate("document.querySelector('#armor-full-run').click()");
+  await waitFor("document.querySelector('#armor-full-results')?.hidden===false",
+   'The Worker returns an exact source-wide Poise combination under live controls');
+  const sourceOptimization=await evaluate("({headline:document.querySelector('#armor-full-heading').textContent,details:document.querySelector('#armor-full-details').textContent,items:document.querySelectorAll('#armor-full-rows tr').length,status:document.querySelector('#armor-full-status').textContent})");
+  assert.match(sourceOptimization.headline,/Maximum published-source Poise:/);
+  assert.equal(sourceOptimization.items,4);
+  assert.ok(sourceOptimization.details.includes('roll tier')&&
+   sourceOptimization.status.includes('completed in Worker')&&
+   sourceOptimization.details.includes('3 records excluded'),
+   'Live full-source optimum must disclose source Poise, load tier and excluded unknowns');
+  console.log('[REAL ARMOR SOURCE] PASS: pinned 568 items, 3 unknown Poise, exact source-constrained 4-slot Worker search.');
+
  }
 
  // Regression for the manual-input research armor optimizer: exclude a single

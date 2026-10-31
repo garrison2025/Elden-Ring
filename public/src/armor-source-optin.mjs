@@ -25,11 +25,15 @@ export function inspectArmorSource(text){
    Math.round(entry.weight*1000)/1000!==entry.weight)
    fail('Malformed armor name, slot or weight; source cannot be safely used.');
   if(seen.has(entry.id))fail('Duplicate source armor ID.');seen.add(entry.id);
+  const poiseList=Array.isArray(entry.resistance)?
+   entry.resistance.filter(x=>x?.name==='Poise'):[];
+  const poise=poiseList.length===1&&Number.isInteger(poiseList[0].amount)&&
+   poiseList[0].amount>=0&&poiseList[0].amount<=800?poiseList[0].amount:null;
   armors.push({id:entry.id,name:entry.name.trim(),slot:categories[entry.category],
-   weight:entry.weight});
+   weight:entry.weight,poise});
  }
  return {count:armors.length,armors,
-  description:'Source-reported, exact pinned upstream snapshot; NOT game-client version/rights certified. No images or descriptions imported.'};
+  description:'Source-reported, exact pinned upstream snapshot; NOT game-client version/rights certified. No images or descriptions imported. Missing/invalid Poise is UNKNOWN, never zero.'};
 }
 export async function loadPinnedArmorSource(fetcher,{signal}={}){
  if(typeof fetcher!=='function')fail('A browser fetch implementation is required.');
