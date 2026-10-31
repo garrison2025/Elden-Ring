@@ -3,12 +3,12 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
 <title>Elden Ring Custom Armor Optimizer | Build Lab</title>
-<meta name="description" content="Find armor combinations fitting your equip load and poise targets using custom user-entered equipment options and scores, all in your browser.">
+<meta name="description" content="Optimize armor under equip load and poise constraints using manual CSV or an explicitly loaded 568-item community armor reference. All computation happens in your browser; data accuracy is source-dependent.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css"><link rel="stylesheet" href="../assets/armor-full-source.css">
 </head><body data-page="armor">
 <header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="active" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="active" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
 <main class="container">
-<section class="hero"><div class="eyebrow">Custom inputs · Exact combination search · No item database</div>
+<section class="hero"><div class="eyebrow">Manual CSV or opt-in reference · Exact weight/Poise search</div>
 <h1>Custom Armor Optimizer</h1>
 <p>Find armor combinations from your own item shortlist while controlling total equipped weight, desired roll tier and minimum poise. Every protection score here is <strong>your own comparable rating</strong> — not the game's damage-negation percentage.</p>
 <span class="pill">Local CSV · No account · No game assets · Research / noindex</span></section>
@@ -22,7 +22,7 @@
 <button type="button" class="btn alt" id="export-armor">Export CSV</button>
 <button type="button" class="btn alt" id="restore-armor">Restore fictional example</button>
 </div>
-<p class="note">The initial rows are deliberately fictional. Replace them with your own names and values. No armor inventory or game-derived values are bundled.</p></section>
+<p class="note">The initial CSV rows are deliberately fictional. Replace them with your own names and values or choose the separate opt-in community armor reference below. No game images, descriptions or public source JSON are bundled.</p></section>
 <section class="panel"><h2>2. Optimization constraints</h2>
 <div class="input-two">
 <label class="field">Maximum equip load (in-game)<input id="maxLoad" type="number" min="0.001" step="0.001" value="75"></label>
