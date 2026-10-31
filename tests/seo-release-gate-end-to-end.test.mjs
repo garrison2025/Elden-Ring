@@ -11,15 +11,15 @@ const WITHHELD=[
  'armor-optimizer','weapon-upgrade-calculator'
 ];
 const INDEXABLE=[
- '/','/about/','/build-planner/','/class-optimizer/',
- '/equip-load-calculator/','/level-rune-calculator/','/privacy/','/updates/'
+ '/','/class-optimizer/','/equip-load-calculator/','/level-rune-calculator/'
 ];
+const PUBLIC_BUT_WITHHELD=['about','build-planner','privacy','updates'];
 const strict=new Set([
  'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-ar-calculator','validation-status'
 ]);
 const site='https://elden-test.example.org';
 
-async function fixture(approved){
+async function fixture(approved,cloudflareBranch=''){
  const tmp=await mkdtemp(join(tmpdir(),'elden-seo-gate-'));
  await cp(new URL('../public/',import.meta.url),join(tmp,'public'),{recursive:true});
  await cp(new URL('../scripts/',import.meta.url),join(tmp,'scripts'),{recursive:true});
@@ -31,7 +31,8 @@ async function fixture(approved){
  }
  const result=spawnSync(process.execPath,['scripts/build.mjs'],{
   cwd:tmp,encoding:'utf8',env:{...process.env,SITE_URL:site,
-   RELEASE_INDEX_APPROVED:approved?'1':'',GITHUB_SHA:'',CF_PAGES_COMMIT_SHA:''}
+   RELEASE_INDEX_APPROVED:approved?'1':'',GITHUB_SHA:'',CF_PAGES_COMMIT_SHA:'',
+   CF_PAGES:cloudflareBranch?'1':'',CF_PAGES_BRANCH:cloudflareBranch}
  });
  assert.equal(result.status,0,result.stdout+'\n'+result.stderr);
  return tmp;
@@ -54,9 +55,16 @@ test('approved indexing exposes only reviewed public routes; research pages rema
    assert.ok(!sitemap.includes(site+'/'+slug+'/'),slug+' must not be in sitemap');
    assert.ok(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),slug+' requires header defense');
   }
+  for(const slug of PUBLIC_BUT_WITHHELD){
+   const html=await readFile(join(dist,slug,'index.html'),'utf8');
+   assert.equal((html.match(/<meta name="robots" content="noindex,follow">/g)||[]).length,1,
+    'Not all public pages are released in wave 1: '+slug);
+   assert.ok(!html.includes('<link rel="canonical"'),'No accidental canonical '+slug);
+   assert.ok(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),'HTTP noindex '+slug);
+  }
   const root=await readFile(join(dist,'index.html'),'utf8');
-  const normal=await readFile(join(dist,'build-planner/index.html'),'utf8');
-  for(const [path,html] of [['/',root],['/build-planner/',normal]]){
+  const normal=await readFile(join(dist,'class-optimizer/index.html'),'utf8');
+  for(const [path,html] of [['/',root],['/class-optimizer/',normal]]){
    assert.equal((html.match(/<meta name="robots" content="index,follow">/g)||[]).length,1);
    assert.ok(html.includes('<link rel="canonical" href="'+site+path+'">'));
   }
@@ -82,5 +90,40 @@ test('default research deployment noindexes ALL routes at HTML and Cloudflare he
   assert.ok(!robots.includes('Sitemap:'));
   const info=JSON.parse(await readFile(join(dist,'deployment-info.json'),'utf8'));
   assert.equal(info.researchNoindex,true);
+ }finally{await rm(tmp,{recursive:true,force:true});}
+});
+
+test('Cloudflare production main auto-publishes exactly the four audited first-wave routes without dashboard flags',async()=>{
+ const tmp=await fixture(false,'main');
+ try{
+  const dist=join(tmp,'dist');
+  const sitemap=await readFile(join(dist,'sitemap.xml'),'utf8');
+  const origin='https://elden-ring-5i9.pages.dev';
+  assert.deepEqual([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]).sort(),
+   INDEXABLE.map(p=>origin+p).sort());
+  const info=JSON.parse(await readFile(join(dist,'deployment-info.json'),'utf8'));
+  assert.equal(info.researchNoindex,false);
+  assert.equal(info.releaseMode,'cloudflare-main-first-wave');
+  assert.deepEqual(info.indexedRoutes,INDEXABLE.slice().sort());
+  assert.ok((await readFile(join(dist,'index.html'),'utf8')).includes(
+   '<link rel="canonical" href="'+origin+'/">'));
+  const headers=await readFile(join(dist,'_headers'),'utf8');
+  for(const slug of [...WITHHELD,...PUBLIC_BUT_WITHHELD])
+   assert.ok(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),
+    'Noindex header for non-approved production route '+slug);
+ }finally{await rm(tmp,{recursive:true,force:true});}
+});
+test('Cloudflare preview or unapproved CI remains wholly noindex even if SITE_URL is available',async()=>{
+ const tmp=await fixture(true,'feat/seo-first-wave-production-allowlist-20261031');
+ try{
+  const dist=join(tmp,'dist'),html=await readFile(join(dist,'index.html'),'utf8');
+  assert.match(html,/noindex,follow/);
+  assert.ok(!html.includes('<link rel="canonical"'));
+  assert.equal(await readFile(join(dist,'_headers'),'utf8'),
+   '/*\n  X-Robots-Tag: noindex\n');
+  await assert.rejects((await import('node:fs/promises')).access(join(dist,'sitemap.xml')));
+  const info=JSON.parse(await readFile(join(dist,'deployment-info.json'),'utf8'));
+  assert.equal(info.researchNoindex,true);
+  assert.deepEqual(info.indexedRoutes,[]);
  }finally{await rm(tmp,{recursive:true,force:true});}
 });

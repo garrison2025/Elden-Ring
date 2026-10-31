@@ -10,7 +10,9 @@ test('research site requires explicit indexing approval and has noindex-readable
  assert.match(build,/noindex,follow/);
  assert.match(build,/User-agent: \*/);
  assert.match(build,/Allow: \//);
- assert.match(build,/if\(url&&indexApproved\)/);
+ assert.match(build,/if\(releaseEnabled\)/);
+ assert.match(build,/CF_PAGES_BRANCH==='main'/);
+ assert.match(build,/RELEASE_INDEX_ROUTES/);
  const page=await read('public/weapon-data-workbench/index.html');
  assert.match(page,/noindex,nofollow/);
 });
