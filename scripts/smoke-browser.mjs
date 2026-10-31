@@ -140,18 +140,18 @@ try{
   'Build shortlist must display per-candidate wield checks');
  assert.equal(await evaluate('document.querySelector("#build-wield-apply-one").disabled'),
   false,'Sourced shortlist should allow manual one-hand stat target');
- assert.equal(await evaluate('document.querySelector("#stat-grid [data-stat="3"]').value'),
+ assert.equal(await evaluate(`document.querySelector('#stat-grid [data-stat="3"]').value`),
   '12','Samurai starting STR before wield target');
  await evaluate('document.querySelector("#build-wield-apply-one").click()');
- await waitFor('document.querySelector("#stat-grid [data-stat="3"]').value==="31"',
+ await waitFor(`document.querySelector('#stat-grid [data-stat="3"]').value==="31"`,
   'One-hand Greatsword requirement raised STR to 31');
  assert.equal(await evaluate('document.querySelector("#build-level").textContent'),
   '28','One-hand shortlist target should add 19 levels');
  await evaluate('document.querySelector("#reset-build").click()');
- await waitFor('document.querySelector("#stat-grid [data-stat="3"]').value==="12"',
+ await waitFor(`document.querySelector('#stat-grid [data-stat="3"]').value==="12"`,
   'Reset baseline before two-hand test');
  await evaluate('document.querySelector("#build-wield-apply-two").click()');
- await waitFor('document.querySelector("#stat-grid [data-stat="3"]').value==="21"',
+ await waitFor(`document.querySelector('#stat-grid [data-stat="3"]').value==="21"`,
   'Standard two-hand Greatsword target should only need STR 21');
  assert.equal(await evaluate('document.querySelector("#build-level").textContent'),
   '18','Two-hand shortlist target should add 9 levels');
