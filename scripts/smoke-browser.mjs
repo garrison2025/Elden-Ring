@@ -107,7 +107,9 @@ async function waitFor(expression,label){
 }
 async function navigate(path){
  await send('Page.navigate',{url:site+path});
- await waitFor('document.readyState==="complete"','load '+path);
+ await waitFor(
+  'location.href==='+JSON.stringify(site+path)+'&&document.readyState==="complete"',
+  'complete navigation '+path);
 }
 async function selectWeapon(name){
  const result=await evaluate(`(()=>{
@@ -137,7 +139,7 @@ try{
  const shortlist=await evaluate('document.querySelectorAll("#build-smithing-list li").length');
  assert.equal(shortlist,2,'Two selected Build weapons must appear');
  const href=await evaluate('document.querySelector("#build-smithing-open").getAttribute("href")');
- assert.ok(href?.startsWith('../weapon-upgrade-calculator/?weapons='),
+ assert.ok(href?.startsWith('/weapon-upgrade-calculator/?weapons='),
   'Combined smithing link must carry source IDs only');
  const url=new URL(href,site+'/build-planner/');
  await navigate(url.pathname+url.search);
