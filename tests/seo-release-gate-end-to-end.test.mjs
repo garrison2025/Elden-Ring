@@ -11,9 +11,9 @@ const WITHHELD=[
  'armor-optimizer','weapon-upgrade-calculator'
 ];
 const INDEXABLE=[
- '/','/class-optimizer/','/equip-load-calculator/','/level-rune-calculator/'
+ '/','/build-planner/','/class-optimizer/','/equip-load-calculator/','/level-rune-calculator/'
 ];
-const PUBLIC_BUT_WITHHELD=['about','build-planner','privacy','updates'];
+const PUBLIC_BUT_WITHHELD=['about','privacy','updates'];
 const strict=new Set([
  'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-ar-calculator','validation-status'
 ]);
@@ -103,7 +103,7 @@ test('Cloudflare production main auto-publishes exactly the four audited first-w
    INDEXABLE.map(p=>origin+p).sort());
   const info=JSON.parse(await readFile(join(dist,'deployment-info.json'),'utf8'));
   assert.equal(info.researchNoindex,false);
-  assert.equal(info.releaseMode,'cloudflare-main-first-wave');
+  assert.equal(info.releaseMode,'cloudflare-main-reviewed-wave2');
   assert.deepEqual(info.indexedRoutes,INDEXABLE.slice().sort());
   assert.ok((await readFile(join(dist,'index.html'),'utf8')).includes(
    '<link rel="canonical" href="'+origin+'/">'));
