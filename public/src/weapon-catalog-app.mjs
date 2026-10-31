@@ -9,6 +9,7 @@ import {buildRecoveredWeaponPreview} from './recovered-weapon-preview.mjs';
 import {downloadV117Source} from './upstream-regulation-v117.mjs';
 import {buildV117CatalogOverlay,V117_CATALOG_SOURCE_PAGE} from './v117-catalog-overlay.mjs';
 import {buildV117ReconciliationQueue,v117ReconciliationCsv} from './v117-reconciliation-queue.mjs';
+import {buildV117ComparatorCatalog} from './v117-comparator-catalog.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -25,7 +26,7 @@ for(let i=0;i<5;i++){
  input.inputMode='numeric';input.value=String(buildStats[i]);input.dataset.stat=String(i);
  label.append(input);$('catalog-stats').append(label);
 }
-let catalog=null,chosen=null,offset=0,lastUpgradeWeaponId=null,comparedIds=[];
+let catalog=null,originalCatalog=null,chosen=null,offset=0,lastUpgradeWeaponId=null,comparedIds=[];
 let referenceOnlyMap=new Map(),referenceOnlyError=null,v117Overlay=null;
 function renderReferenceComparison(){
  const add=$('catalog-compare-add');
@@ -253,7 +254,10 @@ function renderDetails(){
  const dlc=chosen.expansion==='Shadow of the Erdtree';
  const pack=chosen.expansion==='Tarnished Pack';
  const partial=coverage==='requirements-only'||coverage==='requirements-weight-only'||coverage==='name-category-only';
- $('catalog-class').textContent=chosen.category+' · '+(dlc?
+ const comparator=chosen.v117Comparator===true;
+ $('catalog-class').textContent=comparator?
+  chosen.category+' · accepted public v1.17 neutral reference (not player AR)':
+  chosen.category+' · '+(dlc?
   (coverage==='base-reference'?'Shadow of the Erdtree · sourced +0 facts (not AR)':
    coverage==='requirements-weight-only'?'Shadow of the Erdtree · requirements + community weight only':
    coverage==='requirements-only'?'Shadow of the Erdtree · requirements only':
@@ -265,7 +269,8 @@ function renderDetails(){
    chosen.weight===null?'Not verified':String(chosen.weight);
  $('catalog-critical').textContent=chosen.critical===null||chosen.critical===0?'Not verified':String(chosen.critical);
  const damage=$('catalog-damage');damage.replaceChildren();
- if(partial)damage.append(el('p','Base attack unavailable; no values are guessed.'));
+ if(partial&&!Array.isArray(chosen.attack))damage.append(el('p','Base attack unavailable; no values are guessed.'));
+ if(comparator)damage.append(el('p','Pinned v1.17 +0 attack accepted in comparator mode. This is not player AR.'));
  if(hasDisputedAttack(chosen))
   damage.append(el('p','SOURCE CONFLICT: values below are disputed COMMUNITY +0 readings, NOT confirmed in-game figures. See accuracy dossier.'));
  for(const part of reportedBaseDamageParts(chosen)){
@@ -288,13 +293,18 @@ function renderDetails(){
   }
  }
  const scaling=$('catalog-scaling');scaling.replaceChildren();
- if(partial)scaling.append(el('p','Base scaling grades not available for this source record.'));
+ if(partial)scaling.append(el('p','Initial scaling grades are not verified in this neutral comparison view; use the versioned AR calculator.'));
  for(let i=0;!partial&&i<5;i++){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',chosen.scaling[i]));scaling.append(row);
  }
  const concerns=$('catalog-warnings');concerns.replaceChildren();
- for(const warning of cautionForWeapon(chosen))concerns.append(el('p',warning));
+ if(comparator){
+  concerns.append(el('p','v1.17 comparator: 487 neutral attack and requirement rows are taken from the pinned v1.17 parameter source. The AR engine separately matches 50 same-input Tarnished.dev v1.17 UI cases; 487 individual site observations are NOT claimed.'));
+  if(chosen.weight===null||hasDisputedWeight(chosen))concerns.append(el('p',
+   'v1.17 reference weight unavailable or disputed. Weight and equip-load filters cannot assume zero or resolve this from the attack source.'));
+  if(partial)concerns.append(el('p','Critical, letter scaling and equipment effects are not inferred from a neutral source row.'));
+ }else for(const warning of cautionForWeapon(chosen))concerns.append(el('p',warning));
  $('catalog-verified').replaceChildren();
  if(chosen.sourceUrl){
   const a=el('a','View named DLC weapon and requirements source ↗');
@@ -382,7 +392,7 @@ function renderDetails(){
  try{shareStats=readStats();}catch{/* share weapon only when character stats invalid */}
  shared.value=makeWeaponCatalogShareUrl(chosen.id,shareStats,location.href);
  $('catalog-weapon-share-feedback').textContent=shareStats?
-  'Exact weapon and five character attributes in the same-page link. Community facts only.':
+  'Exact weapon and five character attributes in the same-page link. '+(comparator?'Pinned v1.17 comparator mode must be loaded on the receiving browser.':'Community source mode.'):
   'Character stats invalid; the link contains the weapon reference only.';
  const arLink=$('catalog-ar-source-link');
  // Carry exactly the current five combat stats, not the full build sheet.
@@ -441,8 +451,9 @@ function showList(reset=false,keepSelected=false){
  const coverage=$('catalog-coverage').value;
  const quality=$('catalog-quality').value;
  const sourceFilter=$('catalog-v117-filter').value;
- // Source-view filtering only affects candidate IDs; never feed reference-only
- // attack or weight into canonical catalog sort, damage, and wield rules.
+ // Source filters are grounded in the immutable original overlay. Once the user
+ // explicitly accepts comparator mode, damage and requirement filters use the
+ // matching pinned v1.17 VIEW; weight remains community-only or unavailable.
  const filteredWeapons=!v117Overlay||sourceFilter==='all'?catalog.weapons:
   catalog.weapons.filter(w=>{
    const row=v117Overlay.rows.get(w.id);
@@ -492,7 +503,9 @@ function showList(reset=false,keepSelected=false){
   if(w.id===chosen?.id)btn.classList.add('selected');
   const title=el('span',w.name);title.className='catalog-row-title';
   const sourceState=catalogSourceQuality(w);
-  const detail=el('span',w.category+' · '+(referenceOnlyMap.has(w.id)?
+  const detail=el('span',w.category+' · '+(w.v117Comparator?
+   'v1.17 reference attack/requirements · weight '+(hasDisputedWeight(w)?'disputed':w.weight??'unknown'):
+   referenceOnlyMap.has(w.id)?
     'Sourced +0 preview available (not certified)':w.dataCoverage==='name-category-only'?
    'DLC name/category only':w.expansion==='Tarnished Pack'?
    (w.dataCoverage==='base-reference'?'Tarnished Pack · separately sourced +0 base (not AR)':
@@ -506,12 +519,14 @@ function showList(reset=false,keepSelected=false){
     missing.oneHandPoints===0?'Ready 1H':
      missing.oneHandMissing.map(x=>x.stat+' +'+x.points).join(', ')+' needed (1H)');
   }
-  detail.textContent+=' · '+(sourceState.conflict?'⚠ Disputed source fields':
+  detail.textContent+=' · '+(w.v117Comparator?'v1.17 comparison mode active':
+   sourceState.conflict?'⚠ Disputed source fields':
     sourceState.sourceOnly?'Primary attack/weight UNKNOWN':
     sourceState.complete?'+0 / requirements / weight reported (not patch verified)':
     'Partial source fields');
   detail.className='catalog-row-desc';
-  const tag=el('span',referenceOnlyMap.has(w.id)?'Research-only +0 preview':w.expansion==='Tarnished Pack'?(w.dataCoverage==='base-reference'?'Tarnished Pack · +0 source':'Tarnished Pack · partial'):
+  const tag=el('span',w.v117Comparator?'v1.17 reference':
+   referenceOnlyMap.has(w.id)?'Research-only +0 preview':w.expansion==='Tarnished Pack'?(w.dataCoverage==='base-reference'?'Tarnished Pack · +0 source':'Tarnished Pack · partial'):
    w.expansion==='Shadow of the Erdtree'?(w.dataCoverage==='base-reference'?'DLC · +0 source':'DLC · partial'):(w.flags?.length?'Review data':'View details'));
   tag.className='catalog-row-tag';
   btn.append(title,detail,tag);
@@ -570,7 +585,7 @@ $('catalog-v117-export').addEventListener('click',()=>{
  if(!catalog||!v117Overlay)return;
  const status=$('catalog-v117-export-status');
  try{
-  const rows=buildV117ReconciliationQueue(catalog,v117Overlay);
+  const rows=buildV117ReconciliationQueue(originalCatalog??catalog,v117Overlay);
   const csv=v117ReconciliationCsv(rows);
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);
@@ -591,7 +606,13 @@ $('catalog-v117-load').addEventListener('click',async()=>{
  statusText.textContent='Fetching exact pinned public v1.17 JSON on your request; no source data is bundled or stored…';
  try{
   const {text,summary}=await downloadV117Source(fetch);
-  const overlay=buildV117CatalogOverlay(catalog,JSON.parse(text));
+  const overlay=buildV117CatalogOverlay(originalCatalog??catalog,JSON.parse(text));
+  // User chose Tarnished.dev v1.17 as the ONLY numeric comparison standard.
+  // Accept all uniquely mapped +0 attack and requirement rows together, not
+  // one speculative conflict-by-conflict approval. Abort if coverage breaks.
+  const accepted=buildV117ComparatorCatalog(originalCatalog??catalog,overlay);
+  catalog=accepted.catalog;
+  if(chosen)chosen=catalog.weapons.find(w=>w.id===chosen.id)??null;
   v117Overlay=overlay;
   const counts=overlay.summary;
   statusText.textContent='Loaded '+summary.entries+' source variants: '+counts.sourceMapped+
@@ -600,12 +621,19 @@ $('catalog-v117-load').addEventListener('click',async()=>{
    counts.flaggedDisputesMapped+' flagged source disputes have side-by-side evidence; '+
    counts.neutralAttackDifferences+' attack and '+counts.neutralRequirementDifferences+
    ' requirement differences across '+counts.anyNumericalDifferences+' distinct weapons ('+
-   counts.unflaggedNumericalDifferences+' not previously flagged). Source weight remains unavailable. '+
-   'These are NOT '+counts.total+' independently checked Tarnished.dev page results.';
+   counts.unflaggedNumericalDifferences+' not previously flagged). '+
+   'All '+accepted.summary.mapped+' neutral rows now USE v1.17 attack and requirements in details and filters; '+
+   accepted.summary.weightNotSupplied+' weights remain absent and '+accepted.summary.weightConflictsRemain+
+   ' disputed weights remain blocked. '+
+   'This is reference-parameter coverage, NOT '+counts.total+' individually observed Tarnished.dev page results.';
   button.hidden=true;
   $('catalog-v117-filter').disabled=false;
   $('catalog-v117-export').disabled=false;
-  $('catalog-v117-export-status').textContent='Ready to export field-level cases for the 72 source-only records, nine flagged disputes and new numerical mismatches. No cases are automatically marked resolved.';
+  $('catalog-v117-export-status').textContent='Optional provenance audit of differences in the ORIGINAL community sources. The selected v1.17 comparison values are already active; weight remains unsupported where missing or disputed.';
+  $('catalog-quality-summary').textContent='v1.17 comparison mode active: all '+accepted.summary.mapped+
+   ' records have version-matched neutral attack and requirements. '+
+   accepted.summary.weightNotSupplied+' records lack weight and '+
+   accepted.summary.weightConflictsRemain+' weight conflicts remain. AR numeric comparisons cover 50 independent site cases, not all 487 records.';
   showList(true,true);
   renderV117SourceFacts();
  }catch(error){
@@ -623,6 +651,7 @@ try{
  const response=await fetch('../data/community-weapon-catalog.json',{cache:'default'});
  if(!response.ok)throw new Error('The local weapon catalog is unavailable ('+response.status+').');
  catalog=validateCommunityCatalog(await response.json());
+ originalCatalog=catalog;
  // Reference-only source evidence never enters catalog.weapons or any calculator.
  try{
   const res=await fetch('../data/v117-recovered-72-reference.json',{cache:'default'});
