@@ -520,3 +520,35 @@ state rejection and real Chrome browser interaction in the existing
 `browser-smoke.yml` workflow (pin A → change VIG → check +1 level →
 switch starting class → check 375px viewport). This is a player-facing
 research function on the existing Build Planner, not a thin duplicate page.
+
+## Share and restore two Build comparisons (2026-10-31)
+
+The on-page Build Planner A/B comparison now offers **Copy link to both
+Builds** separately from the legacy one-Build **Copy build URL** action.
+The dual-build URL carries the eight character stats and independent
+starting class, DLC/origin permissions and optional catalog weapon ID
+for each of A and B. B retains the existing ordinary Build Planner
+query convention; the pinned baseline A is a bounded versioned
+`compare=v1...` token. Neither game files, player identities,
+inventory, upgrade levels, source weapon names nor asserted attack
+ratings are transmitted. The share field is selectable manually if
+clipboard permission is unavailable.
+
+Receiving a link validates both character states, content permission
+switches, size/format and optional weapon identity against the **current
+bundled community catalog** before pinning A or restoring B. Invalid
+comparisons fail visibly without pretending they are valid. Unknown
+or DLC-inaccessible weapons are not silently substituted. A/B URLs do
+not create persistent localStorage records, and ordinary single-Build
+URLs continue to work without an automatically pinned comparison.
+Sharing is optional and only happens when the player clicks the new
+button.
+
+`tests/build-compare-share.test.mjs` checks round trips, hostile/old/
+duplicate fields, source weapon resolution and DLC permissions. The
+GitHub Chrome browser smoke now checks two distinct selected weapons,
+live attribute changes, URL creation, navigation to a fresh page,
+reconstruction of A and B with the expected +1 VIG delta, and
+backward compatibility for old one-Build URLs. Source facts are still
+community references: no independent current-patch game-client
+verification or AR guarantee is implied. Research `noindex` stays.
