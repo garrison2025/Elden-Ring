@@ -99,6 +99,23 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 @media(max-width:850px){.armor-layout{grid-template-columns:1fr}}
 @media(max-width:570px){.armor-actions{display:grid;grid-template-columns:1fr}.armor-actions .btn{width:100%}.armor-file{justify-content:center}}
 
+/* Slot-specific, reversible armor exclusions in manual-input research optimizer. */
+.armor-exclusion-panel{margin:18px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:#152228}
+.armor-exclusion-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.armor-exclusion-head h3{font-size:15px;margin:0;color:#eed6aa}
+.armor-exclusion-head .btn{min-height:40px;margin:0}
+#armor-clear-exclusions[hidden]{display:none!important}
+#armor-excluded-list{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:12px 0 0}
+#armor-excluded-list:empty{display:none}
+#armor-excluded-list li{display:inline-flex;align-items:center;gap:8px;padding:5px 7px 5px 12px;border:1px solid #566454;border-radius:9px;max-width:100%;overflow-wrap:anywhere;background:#202c30}
+.armor-result-piece{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:5px 0;border-bottom:1px solid #39464b}
+.armor-result-piece:last-child{border-bottom:0}
+.armor-result-piece span{overflow-wrap:anywhere;min-width:110px;flex:1}
+.armor-exclude-piece,.armor-undo-piece{appearance:none;border:1px solid #8b8067;background:#2b302f;color:#f5dba7;padding:8px 11px;border-radius:8px;cursor:pointer;min-height:40px;font:inherit;font-size:12px;font-weight:700}
+.armor-exclude-piece:hover,.armor-undo-piece:hover{background:#465044}
+.armor-exclude-piece:focus-visible,.armor-undo-piece:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media(max-width:570px){.armor-exclusion-head .btn{width:100%}.armor-result-piece span{min-width:90px}}
+
 /* Weapon upgrade material planner */
 .upgrade-inventory{padding:14px;border:1px solid var(--line);border-radius:12px;margin:16px 0;background:#142024}
 .upgrade-inventory>summary,.upgrade-steps>summary{cursor:pointer;color:#efd2a3;font-weight:650}

@@ -33,6 +33,12 @@
 </div>
 <p class="note">Ranking = sum of your custom item scores + (poise × chosen bonus). This is a personal comparison metric, not real game damage reduction. Each armor slot may be left empty.</p>
 <button type="button" class="btn" id="optimize-armor">Find best combinations</button>
+<div class="armor-exclusion-panel" aria-label="Excluded armor pieces">
+<div class="armor-exclusion-head"><h3>Excluded pieces (<span id="armor-excluded-count">0</span>)</h3>
+<button type="button" id="armor-clear-exclusions" class="btn alt" hidden>Clear all exclusions</button></div>
+<p class="note">Exclude a piece from any result row to immediately search again. Use Undo here to restore it; your CSV is unchanged.</p>
+<ul id="armor-excluded-list" aria-live="polite"></ul>
+</div>
 <div id="armor-feedback" role="status" aria-live="polite" class="feedback"></div>
 </section></div>
 <section class="panel results" style="margin:22px 0 30px">
