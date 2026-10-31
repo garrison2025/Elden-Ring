@@ -26,20 +26,49 @@ await writeFile(validationPage,
 const homeFile=path.join(dist,'index.html');
 await writeFile(homeFile,injectCatalogCoverageIntoHomepage(await readFile(homeFile,'utf8'),coverage),'utf8');
 async function pages(dir){const arr=[];for(const entry of await readdir(dir,{withFileTypes:true})){const child=path.join(dir,entry.name);if(entry.isDirectory())arr.push(...await pages(child));else if(entry.name==='index.html')arr.push(child)}return arr}
+// These are *intentionally withheld* even if a manually approved site-wide
+// release later enables indexing for the public calculators.
+const permanentlyWithheld=Object.freeze([
+ 'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench',
+ 'weapon-database','validation-status','respec-planner',
+ 'weapon-requirements','armor-optimizer','weapon-upgrade-calculator'
+]);
+const strictResearch=Object.freeze([
+ 'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','validation-status'
+]);
 let indexed=[];
 for(const file of await pages(dist)){
  let html=await readFile(file,'utf8');const uri=path.relative(dist,path.dirname(file)).split(path.sep).filter(Boolean).join('/');const pathname=uri?`/${uri}/`:'/';
- const intentionallyNoindex=uri==='weapon-ar-lab'||uri==='weapon-ar-validation'||uri==='weapon-data-workbench'||uri==='weapon-database'||uri==='validation-status'||uri==='respec-planner'||uri==='weapon-requirements'||uri==='armor-optimizer'||uri==='weapon-upgrade-calculator';
- const meta=intentionallyNoindex?'':(url&&indexApproved?`<link rel="canonical" href="${url+pathname}">`:'<meta name="robots" content="noindex,follow">');
- html=html.replace('</head>',`${meta}</head>`);
- // Never index the developer-only synthetic AR fixture or verification test status.
- if(url&&indexApproved&&!intentionallyNoindex)indexed.push(pathname);
+ const intentionallyNoindex=permanentlyWithheld.includes(uri);
+ const indexable=!!url&&indexApproved&&!intentionallyNoindex;
+ const directives=intentionallyNoindex&&strictResearch.includes(uri)?
+  'noindex,nofollow':indexable?'index,follow':'noindex,follow';
+ // The build output, not an optional handwritten page tag, owns the SEO gate.
+ // Remove any stale duplicate robots/canonical tags in HEAD before injecting
+ // exactly one authoritative set. No research URL enters an approved sitemap.
+ const end=html.indexOf('</head>');
+ if(end<0)throw Error('Missing HTML head end tag: '+pathname);
+ const before=html.slice(0,end)
+  .replace(/<meta\s+name=["']robots["']\s+content=["'][^"']*["']\s*\/?>/gi,'')
+  .replace(/<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/gi,'');
+ const meta=`<meta name="robots" content="${directives}">`+
+  (indexable?`<link rel="canonical" href="${url+pathname}">`:'');
+ html=before+meta+html.slice(end);
+ if(indexable)indexed.push(pathname);
  html=injectToolNavigation(html,uri);
  await writeFile(file,html,'utf8');
 }
 // Crawlers must be able to read noindex; robots.txt must not hide it.
 let robots=url&&indexApproved?`User-agent: *\nAllow: /\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nAllow: /\n';
 await writeFile(path.join(dist,'robots.txt'),robots);
+// Cloudflare Pages also uses an HTTP X-Robots-Tag response header. This is
+// defense in depth, NOT a replacement for the per-page HTML robots meta.
+// Research previews block every route. Approved sites block permanently
+// withheld research/limited-data routes independently of author HTML.
+const headers=url&&indexApproved?
+ permanentlyWithheld.map(uri=>`/${uri}/*\n  X-Robots-Tag: noindex\n`).join('\n'):
+ '/*\n  X-Robots-Tag: noindex\n';
+await writeFile(path.join(dist,'_headers'),headers,'utf8');
 if(url&&indexApproved){const body=indexed.sort().map(p=>`  <url><loc>${url+p}</loc></url>`).join('\n');await writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`)}
 // This static JSON is emitted by the same build as the pages being published.
 // GitHub and Cloudflare provide separate SHA vars; never invent a revision

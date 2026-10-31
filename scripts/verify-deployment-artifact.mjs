@@ -97,7 +97,25 @@ const main=async()=>{
   typeof process.env.SITE_URL==='string'&&process.env.SITE_URL.trim().length>0);
  assert(deployment.researchNoindex===research,
   'Build manifest index setting does not match build gate');
+ const headers=await read('_headers');
+ const seoWithheld=[
+  'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench',
+  'weapon-database','validation-status','respec-planner',
+  'weapon-requirements','armor-optimizer','weapon-upgrade-calculator'
+ ];
+ for(const slug of seoWithheld){
+  const html=await read(slug+'/index.html');
+  assert(/<meta name="robots" content="noindex,(?:follow|nofollow)">/.test(html),
+   'Research or limited-accuracy page can be crawled/indexed: '+slug);
+  assert(!html.includes('<link rel="canonical"'),
+   'Research or limited-accuracy page has an index canonical: '+slug);
+  if(!research)
+   assert(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),
+    'Approved deployment missing HTTP noindex header for '+slug);
+ }
  if(research){
+  assert(headers==='/*\n  X-Robots-Tag: noindex\n',
+   'Research deployment must set Cloudflare noindex headers for all paths');
   for(const [label,html] of [['home',home],['build planner',build],['smithing planner',smithing],
    ['equipment loadout',equipment]])
    assert(html.includes('<meta name="robots" content="noindex,follow">'),
