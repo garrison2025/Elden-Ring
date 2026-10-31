@@ -1,5 +1,8 @@
 # Exact source-wide Poise optimizer — 2026-10-31
 
+> **2026-10-31 最新用户验收口径（优先于本文旧版硬门槛）：** 只需与 Tarnished.dev **v1.17 公共界面**进行同条件功能、数据及数值对比，满足覆盖矩阵并通过自动回归即可结束该模块验收；**不需要游戏实机、菜单截图或 Regulation 1.17.3 的独立 game-client golden**。此前出现的“实机验证为必需项”现为非阻塞、非目标。第三方素材/参数使用权与 SEO 发布审批是单独管理事项，不影响 v1.17 功能数值对标的 PASS 判定。详见 [正式基准](./TARNISHED_V117_COMPARATOR_ONLY_ACCEPTANCE_20261031.md)。
+
+
 **Scope:** independently authored, user-initiated source reference research in `/armor-optimizer/`. **Not** full Tarnished.dev v1.17 armor/damage/Build parity or current game regulation verification.
 
 ## Source and fidelity
@@ -22,4 +25,4 @@
 - Research route stays `noindex`, no changes to the reviewed five-route Cloudflare main sitemap.
 
 ## STILL REQUIRED FOR FULL PARITY
-Version-verified armor with DLC and Tarnished Pack flags; selected equipment ownership, exact all-elements negation/resistance and armor effects; Great Rune/talisman/buff stacking, enemy damage and precise spell scaling; source re-use rights and game-client golden observations. Master issue [#86](https://github.com/garrison2025/Elden-Ring/issues/86) stays OPEN.
+Version-verified armor with DLC and Tarnished Pack flags; selected equipment ownership, exact all-elements negation/resistance and armor effects; Great Rune/talisman/buff stacking, enemy damage and precise spell scaling; source re-use rights (publication track) and **Tarnished.dev v1.17 UI golden observations only**. Game-client observations are not required. Master issue [#86](https://github.com/garrison2025/Elden-Ring/issues/86) stays OPEN.
