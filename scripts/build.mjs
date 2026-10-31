@@ -35,7 +35,9 @@ if(url&&indexApproved){const body=indexed.sort().map(p=>`  <url><loc>${url+p}</l
 const shaCandidate=process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'';
 const revision=/^[a-f0-9]{40}$/i.test(shaCandidate)?shaCandidate.toLowerCase():null;
 const branchCandidate=process.env.CF_PAGES_BRANCH||process.env.GITHUB_REF_NAME||'';
-const branch=/^[A-Za-z0-9._/\-]{1,100}$/.test(branchCandidate)?branchCandidate:null;
+const branch=branchCandidate.length>0&&branchCandidate.length<=100&&
+ [...branchCandidate].every(c=>'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-/'.includes(c))?
+ branchCandidate:null;
 const buildInfo={
  schemaVersion:1,product:'Elden Ring Build Lab',generatedAt:new Date().toISOString(),
  revision,revisionSource:revision?
