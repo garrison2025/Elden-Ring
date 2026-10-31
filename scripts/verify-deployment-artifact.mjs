@@ -104,7 +104,7 @@ const main=async()=>{
  assert(Number.isFinite(Date.parse(deployment.generatedAt)),
   'Invalid build timestamp');
  const prod=process.env.CF_PAGES==='1'&&process.env.CF_PAGES_BRANCH==='main';
- const manuallyApproved=process.env.RELEASE_INDEX_APPROVED==='1'&&
+ const manuallyApproved=process.env.CF_PAGES!=='1'&&process.env.RELEASE_INDEX_APPROVED==='1'&&
   typeof process.env.SITE_URL==='string'&&process.env.SITE_URL.trim().length>0;
  const research=!(prod||manuallyApproved);
  assert(deployment.researchNoindex===research,
