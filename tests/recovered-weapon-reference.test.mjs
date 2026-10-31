@@ -71,3 +71,32 @@ test('review UI renders explicit second-source evidence and preserves zero certi
  assert.ok(!app.includes('POST'));assert.ok(!app.includes('localStorage'));
  assert.ok(app.includes('validateRecoveredSourceReferences'));
 });
+
+
+test('all nine disputed fields have third named URL corroboration with no client approval',()=>{
+ const report=validateRecoveredSourceReferences(ledger,original);
+ assert.equal(report.thirdSourceGroups,8);
+ assert.equal(report.thirdSourceFields,9);
+ const actual=ledger.records.filter(w=>w.thirdSource);
+ assert.equal(actual.length,8);
+ assert.equal(actual.reduce((sum,w)=>sum+w.thirdSource.checks.length,0),9);
+ assert.ok(actual.every(w=>w.thirdSource.gameClientVerified===false&&
+  w.thirdSource.sourceLineageIndependenceEstablished===false&&
+  w.thirdSource.sourceVersion.includes('not authenticated')));
+ const erdtree=ledger.records.find(x=>x.name==='Erdtree Greatshield');
+ assert.equal(erdtree.thirdSource.patchWeightCaveat.esoWeight,13.5);
+ assert.equal(erdtree.thirdSource.patchWeightCaveat.post117ReferenceWeight,11.5);
+});
+test('third-source evidence cannot be tampered to imply official current patch game truth',()=>{
+ for(const change of [
+  x=>{x.records.find(w=>w.name==='Buckler').thirdSource.checks[0].value=60},
+  x=>{x.records.find(w=>w.name==='Buckler').thirdSource.checks.pop()},
+  x=>{x.records.find(w=>w.name==='Buckler').thirdSource.gameClientVerified=true},
+  x=>{x.records.find(w=>w.name==='Erdtree Greatshield').thirdSource.patchWeightCaveat.esoWeight=11.5},
+  x=>{x.records.find(w=>w.name==='Visage Shield').thirdSource.sourceLineageIndependenceEstablished=true},
+  x=>{x.thirdSourceCorroboratedDisputedFields=10}
+ ]){
+  const cloned=structuredClone(ledger);change(cloned);
+  assert.throws(()=>validateRecoveredSourceReferences(cloned,original),RangeError);
+ }
+});
