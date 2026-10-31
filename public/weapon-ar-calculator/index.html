@@ -82,6 +82,16 @@
 </section>
 <section class="panel qar-evidence-panel"><div class="eyebrow">Evidence, not an unqualified guarantee</div><h2>Measured against Tarnished.dev</h2>
 <p>15 / 15 same-input v1.17 AR checks matched across six weapon families, four affinities, +0/+12/+25, one- and two-handed grips, and DLC. Other combinations are community-source estimates, not individually compared against the live game.</p>
+<div id="qar-reference-check" class="qar-reference-check" hidden>
+<h3>Compare this exact build</h3>
+<p>Open the same weapon, affinity, attributes, reinforcement and grip on Tarnished.dev. Read the displayed AR there, then enter it here to see the numerical difference. The third-party page may change its inputs or version; confirm them before comparing.</p>
+<a id="qar-reference-link" class="btn alt qar-reference-link" href="https://www.tarnished.dev/build-planner" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Open matching inputs on Tarnished.dev ↗</a>
+<label class="field" for="qar-reference-value">AR shown on Tarnished.dev
+<input id="qar-reference-value" type="number" inputmode="numeric" step="1" min="0" max="20000" placeholder="Enter observed AR" autocomplete="off"></label>
+<button id="qar-reference-compare" class="btn alt" type="button">Compare displayed AR</button>
+<p id="qar-reference-status" class="qar-status" role="status" aria-live="polite">No comparison entered. External inputs and results are not automatically verified.</p>
+<p class="qar-fineprint">This is a user-entered reference check, <strong>not an independently authenticated benchmark</strong> and not game-client verification. The comparison never uploads your build.</p>
+</div>
 <a href="../validation-status/">View the 15 original comparison cases ↗</a>
 </section>
 </aside>
