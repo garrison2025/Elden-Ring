@@ -4,6 +4,9 @@
  * represent the game's actual multiplicative damage-negation percentage.
  */
 export const ARMOR_SLOTS=Object.freeze(['head','chest','hands','legs']);
+// Slot + case-folded name is an in-memory identity. Same names in different
+// armor slots must remain independent. JSON tuples avoid separator collisions.
+export const armorItemKey=item=>JSON.stringify([item.slot,item.name.toLowerCase()]);
 const fail=s=>{throw new RangeError(s)};
 const number=(raw,label,min,max,decimals=3)=>{
  const value=Number(raw);
@@ -51,9 +54,14 @@ function better(a,b){
  if(a.poise!==b.poise)return b.poise-a.poise;
  return a.items.map(x=>x.name).join('|').localeCompare(b.items.map(x=>x.name).join('|'));
 }
-export function optimizeArmor(items,limits){
+export function optimizeArmor(items,limits,excludedKeys=[]){
  const normalized=validateArmorItems(items),config=validateLimits(limits);
- const groups=ARMOR_SLOTS.map(slot=>[empty(slot),...normalized.filter(x=>x.slot===slot)]);
+ const keys=excludedKeys instanceof Set?[...excludedKeys]:excludedKeys;
+ if(!Array.isArray(keys)||keys.length>48||keys.some(k=>typeof k!=='string'))
+   fail('Exclusions must be an array or Set of at most 48 armor item keys.');
+ const excluded=new Set(keys);
+ const available=normalized.filter(item=>!excluded.has(armorItemKey(item)));
+ const groups=ARMOR_SLOTS.map(slot=>[empty(slot),...available.filter(x=>x.slot===slot)]);
  const maxUnits=weightUnits(config.maxLoad);
  const reservedUnits=weightUnits(config.reservedWeight);
  const tierTenths={light:3,medium:7,heavy:10}[config.targetTier];
@@ -76,7 +84,7 @@ export function optimizeArmor(items,limits){
       armorWeight:weightUnits(itemWeight)/1000,ratio:100*totalUnits/maxUnits};
     best.push(candidate);best.sort(better);if(best.length>maxSelected)best.pop();
   }
- return {constraints:config,evaluated,valid,top:best,
+ return {constraints:config,evaluated,valid,excludedCount:normalized.length-available.length,top:best,
   note:'Optimizes the SUM of the custom scores you enter plus optional poise weighting; it does not calculate actual Elden Ring damage negation. Every slot may be empty.'};
 }
 export function parseArmorCsv(text){
