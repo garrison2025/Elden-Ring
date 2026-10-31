@@ -2,6 +2,7 @@ import {STATS,CLASSES,classForName,validateStats,buildLevel,optimizeClasses,rune
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
 import {makeBuildSmithingUrl} from './build-smithing-handoff.mjs';
+import {compareBuildSnapshots,normalizeBuildComparisonSnapshot} from './build-compare.mjs';
 const $=s=>document.querySelector(s);const page=document.body.dataset.page;const fmt=commas;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const status=(text,bad=false)=>{const el=$('#feedback');if(el){el.textContent=text;el.className=bad?'feedback bad':'feedback';}};
@@ -36,6 +37,7 @@ function initBuild(){
   const weaponDetails=$('#build-weapon-detail-link');
   let current=classForName('Samurai'),selectedWeaponId=null,weaponCatalog=null,weaponLoadError=null;
   let smithingIds=[];
+  let pinnedBuild=null;
   const query=new URLSearchParams(location.search);
   let sharedProblem=null;
   try{extra.checked=parseContentFlag(query.get('tarnished'));sote.checked=parseContentFlag(query.get('sote'));}
@@ -122,6 +124,69 @@ function initBuild(){
       weaponDetails.hidden=false;
     }catch(e){weaponSummary.textContent='Weapon reference unavailable: '+e.message;}
   }
+  const getComparisonSnapshot=stats=>normalizeBuildComparisonSnapshot({
+    origin:current.name,stats,weaponId:selectedWeaponId,
+    ownsTarnishedPack:extra.checked,ownsSote:sote.checked
+  });
+  function renderBuildComparison(stats){
+    const visible=$('#build-ab-results'),clear=$('#build-ab-clear');
+    clear.disabled=pinnedBuild===null;
+    if(!pinnedBuild){
+      visible.hidden=true;
+      $('#build-ab-status').textContent='Pin a Build as A to compare it against future edits.';
+      return;
+    }
+    try{
+      const model=compareBuildSnapshots(pinnedBuild,getComparisonSnapshot(stats),{
+        weapons:weaponCatalog?.weapons??null
+      });
+      visible.hidden=false;
+      const showSigned=n=>(n>0?'+':'')+fmt(n);
+      const weaponDescription=entry=>{
+        if(!entry)return 'No weapon selected.';
+        const one=entry.oneHanded===null?'requirements unavailable':
+          entry.oneHanded?'1H requirements met':
+          '1H '+entry.missingOneHanded+' attribute point(s) short';
+        return entry.name+' · '+one+' · single-weapon weight '+
+          (entry.weight===null?'unknown':entry.weight)+
+          ' · source: '+entry.sourceTier+' · not AR';
+      };
+      const summarize=entry=>
+       'Level '+entry.level+' · '+fmt(entry.levelUpPoints)+' points above origin · '+
+       fmt(entry.runeBudget)+' runes from own starting class';
+      $('#build-ab-origin-a').textContent=model.baseline.origin;
+      $('#build-ab-origin-b').textContent=model.current.origin;
+      $('#build-ab-summary-a').textContent=summarize(model.baseline);
+      $('#build-ab-summary-b').textContent=summarize(model.current);
+      $('#build-ab-weapon-a').textContent='A: '+weaponDescription(model.baseline.weapon);
+      $('#build-ab-weapon-b').textContent='B: '+weaponDescription(model.current.weapon);
+      const rows=$('#build-ab-rows');rows.replaceChildren();
+      const entries=[
+        {label:'Character level',baseline:model.baseline.level,current:model.current.level,delta:model.levelDelta},
+        {label:'Points above starting class',baseline:model.baseline.levelUpPoints,
+          current:model.current.levelUpPoints,delta:model.allocatedDelta},
+        {label:'Rune cost from own origin',baseline:model.baseline.runeBudget,
+          current:model.current.runeBudget,delta:model.runeBudgetDelta},
+        ...model.statRows
+      ];
+      for(const entry of entries){
+        const row=document.createElement('tr');
+        const th=document.createElement('th');th.scope='row';th.textContent=entry.label;
+        row.append(th);
+        for(const value of [fmt(entry.baseline),fmt(entry.current),showSigned(entry.delta)]){
+          const td=document.createElement('td');td.textContent=value;row.append(td);
+        }
+        if(entry.delta!==0)row.classList.add('build-ab-changed');
+        rows.append(row);
+      }
+      $('#build-ab-status').textContent=model.changedStats+' of 8 attributes differ. '+
+       (model.sameOrigin?'Same starting class.':'Different starting classes: rune budgets are calculated separately.')+
+       ' A is temporary and remains pinned until you replace or clear it.';
+    }catch(error){
+      visible.hidden=true;
+      $('#build-ab-status').textContent='Comparison unavailable: '+error.message;
+    }
+  }
   function render(){try{
     const v=read(),level=buildLevel(current,v);
     $('#build-level').textContent=level;$('#spent-points').textContent=level-current.level;
@@ -139,14 +204,39 @@ function initBuild(){
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=false;
     renderWeapon(v);
     renderSmithingShortlist();
+    renderBuildComparison(v);
     status(sharedProblem||'Plan valid. Attribute level is calculated locally; selected weapons are community references only.');
   }catch(e){
     clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=true;
     weaponDetails.hidden=true;weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
     renderSmithingShortlist();
+    if(pinnedBuild){
+      $('#build-ab-results').hidden=true;
+      $('#build-ab-status').textContent='Correct the current Build inputs to compare with pinned A: '+e.message;
+    }
     status(e.message,true);
   }}
+  $('#build-ab-pin').addEventListener('click',()=>{
+    try{
+      const next=getComparisonSnapshot(read());
+      if(next.weaponId!==null){
+        if(!weaponCatalog)throw new RangeError('Wait for the weapon reference catalog to load.');
+        inspectBuildWeapon(weaponCatalog.weapons,next.weaponId,next.stats,{
+          allowSote:next.ownsSote
+        });
+      }
+      pinnedBuild=next;
+      render();
+      $('#build-ab-status').textContent='Build A pinned. Edit class, attributes or weapon above to compare B. '+
+       'The baseline is temporary, not shared or saved.';
+    }catch(error){
+      $('#build-ab-status').textContent='Cannot pin Build A: '+error.message;
+    }
+  });
+  $('#build-ab-clear').addEventListener('click',()=>{
+    pinnedBuild=null;renderBuildComparison(null);
+  });
   sel.addEventListener('change',()=>{current=classForName(sel.value);statInputs(grid,current.stats);render()});
   extra.addEventListener('change',()=>{
     if(!extra.checked&&current.dlc){current=classForName('Samurai');statInputs(grid,current.stats);}
