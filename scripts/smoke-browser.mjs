@@ -323,8 +323,60 @@ try{
  assert.equal(await evaluate('document.querySelector("#build-ab-results").hidden'),
   true,'Legacy Build URL must not import a stale pinned baseline');
 
+
+ // Source catalog candidates are NOT automatically equipped; players must
+ // select six actual weapon slots and explicitly enter armor/talisman weights.
+ await navigate('/build-planner/');
+ await waitFor("document.querySelector('#build-weapon')?.disabled===false",
+  'Build catalog for equipment candidate handoff');
+ await selectWeapon('Uchigatana');
+ await selectWeapon('Greatsword');
+ const equipHref=await evaluate("document.querySelector('#build-equipment-open')?.getAttribute('href')");
+ assert.ok(equipHref?.startsWith('/equip-load-calculator/?candidates='),
+  'Build candidate handoff must not carry equipped slot declarations');
+ const equipmentUrl=new URL(equipHref,site);
+ assert.equal(equipmentUrl.searchParams.has('equipped'),false);
+ await navigate(equipmentUrl.pathname+equipmentUrl.search);
+ await waitFor("document.querySelector('#equipment-weapon-fields select')?.disabled===false",
+  'Source equipment selection catalog ready');
+ assert.equal(await evaluate("[...document.querySelectorAll('#equipment-weapon-fields select')].filter(n=>n.value!=='').length"),
+  0,'Candidate list must never auto-equip weapons');
+ assert.equal(await evaluate("document.querySelector('#equipment-tier').textContent"),'—',
+  'Empty, unconfirmed loadout has no final roll tier');
+ await evaluate("(()=>{const ids=new URLSearchParams(location.search).get('candidates').split(',');const s=[...document.querySelectorAll('#equipment-weapon-fields select')];s[0].value=ids[0];s[0].dispatchEvent(new Event('change',{bubbles:true}));s[3].value=ids[1];s[3].dispatchEvent(new Event('change',{bubbles:true}));const rows=[...document.querySelectorAll('#equipment-manual-fields .equipment-manual-row')];for(const [n,v] of [[0,'5.5'],[4,'']]){const kind=rows[n].querySelector('select');kind.value='equipped';kind.dispatchEvent(new Event('change',{bubbles:true}));if(v!==''){const weight=rows[n].querySelector('input');weight.value=v;weight.dispatchEvent(new Event('input',{bubbles:true}));}}const max=document.querySelector('#equipment-maximum');max.value='100';max.dispatchEvent(new Event('input',{bubbles:true}));const confirm=document.querySelector('#equipment-confirm');confirm.checked=true;confirm.dispatchEvent(new Event('change',{bubbles:true}));})()");
+ assert.equal(await evaluate("document.querySelector('#equipment-tier').textContent"),'—',
+  'A missing equipped talisman weight must block tier even when confirmed');
+ assert.ok((await evaluate("document.querySelector('#equipment-unknown').textContent")).includes('Talisman 1'),
+  'Show missing talisman weight explicitly');
+ await evaluate("(()=>{const row=document.querySelectorAll('#equipment-manual-fields .equipment-manual-row')[4];const input=row.querySelector('input');input.value='0.5';input.dispatchEvent(new Event('input',{bubbles:true}));})()");
+ assert.equal(await evaluate("document.querySelector('#equipment-confirm').checked"),false,
+  'Editing any equipped item invalidates previous manual confirmation');
+ await evaluate("(()=>{const n=document.querySelector('#equipment-confirm');n.checked=true;n.dispatchEvent(new Event('change',{bubbles:true}));})()");
+ await waitFor("document.querySelector('#equipment-tier').textContent!=='—'",
+  'Complete, explicitly confirmed equipment load produces tier');
+ const total=Number(await evaluate("document.querySelector('#equipment-total').textContent"));
+ const localCatalog=JSON.parse(await readFile(join(root,'data/community-weapon-catalog.json'),'utf8'));
+ const equipmentIds=equipmentUrl.searchParams.get('candidates').split(',');
+ const expected=localCatalog.weapons.filter(w=>equipmentIds.includes(w.id))
+  .reduce((acc,w)=>acc+w.weight,0)+6;
+ assert.ok(Math.abs(total-expected)<0.001,
+  'Actual equipped weights summed once; expected '+expected+' got '+total);
+ assert.equal(await evaluate("document.querySelector('#equipment-percent').textContent"),
+  total.toFixed(2)+'%','Percentage must follow actual 100 max load');
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:375,height:812,deviceScaleFactor:1,mobile:true
+ });
+ const mobileLoad=await evaluate("({width:window.innerWidth,scroll:document.documentElement.scrollWidth})");
+ assert.ok(mobileLoad.scroll<=mobileLoad.width+5,
+  '375px equipment page overflow: '+JSON.stringify(mobileLoad));
+ await evaluate("document.querySelector('#equipment-clear').click()");
+ assert.equal(await evaluate("document.querySelector('#equipment-tier').textContent"),'—',
+  'Clear must remove confirmed tier');
+ assert.equal(await evaluate("[...document.querySelectorAll('#equipment-weapon-fields select')].filter(n=>n.value!=='').length"),
+  0,'Clear must unequip all selected weapons');
+
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;
