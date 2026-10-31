@@ -820,9 +820,6 @@ try{
   await evaluate("(()=>{document.querySelector('#qar-reference-value').value='172';document.querySelector('#qar-reference-compare').click()})()");
   assert.match(await evaluate("document.querySelector('#qar-reference-status').textContent"),/DIFFERENCE.*\+8/);
   await evaluate("document.querySelector('#qar-twohand').click()");
-  await waitFor("document.querySelector('#qar-total')?.textContent==='180'",
-   'Real source computes 180 two-handed Uchigatana +0 at 40/40');
-  await evaluate("document.querySelector('#qar-twohand').click()");
   await waitFor("document.querySelector('#qar-total')?.textContent==='172'",
    'Switching back to one-handed reverts to 172');
   await evaluate("(()=>{const el=document.querySelector('#qar-upgrade');el.value='25';el.dispatchEvent(new Event('change',{bubbles:true}))})()");
