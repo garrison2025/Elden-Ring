@@ -52,6 +52,15 @@ export function validateCommunityCatalog(catalog){
     typeof w.name!=='string'||!w.name.trim()||w.name.length>120||
     typeof w.category!=='string'||!w.category.trim())fail('Malformed weapon entry '+i);
   if(ids.has(w.id))fail('Duplicate weapon ID '+i);
+  if(w.flags?.includes('source-v117-neutral-requirements-only')&&(
+    w.expansion!==undefined||w.dataCoverage!=='requirements-only'||
+    !/^v117-roster-\d{3}$/.test(w.id)||
+    w.sourceUrl!=='https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js'||
+    w.sourceVersion!=='Regulation 1.17 (pinned public parameter-derived snapshot)'||
+    w.weight!==null||w.attack!==null||w.critical!==null||w.scaling!==null||
+    !w.flags.includes('weight-and-base-attack-unknown')||
+    !w.flags.includes('not-current-game-client-certified')))
+   fail('Source-only row cannot claim independently verified attack/weight at '+i);
   ids.add(w.id);
   const dlc=w.expansion==='Shadow of the Erdtree';
   const pack=w.expansion==='Tarnished Pack';
@@ -224,6 +233,7 @@ export function validateCommunityCatalog(catalog){
  const dlcRows=catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree');
  const packRows=catalog.weapons.filter(w=>w.expansion==='Tarnished Pack');
  const totals={
+  basePinnedRequirementsOnlyCount:catalog.weapons.filter(w=>w.flags?.includes('source-v117-neutral-requirements-only')).length,
   baseCommunityCount:catalog.weapons.filter(w=>!w.expansion).length,
   tarnishedPackCount:packRows.length,
   tarnishedPackWeightedRequirementsCount:packRows.filter(w=>w.dataCoverage==='requirements-weight-only').length,
@@ -243,6 +253,17 @@ export function validateCommunityCatalog(catalog){
  };
  for(const [key,value] of Object.entries(totals))
   if(catalog.meta[key]!==value)fail('Catalog coverage metadata mismatch: '+key);
+ const names=new Set(catalog.weapons.map(w=>w.name.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'")));
+ if(names.size!==catalog.weapons.length)fail('Duplicate weapon name from source.');
+ const aliases=catalog.meta.legacyWeaponIdAliases;
+ if(!aliases||Object.keys(aliases).length!==1||
+    aliases['17f698bacafl0i1phz3om56qt5bqof']!=='17f69746125l0i1phti5gxbjc1nfhx'||
+    ids.has('17f698bacafl0i1phz3om56qt5bqof')||
+    !ids.has('17f69746125l0i1phti5gxbjc1nfhx')||
+    catalog.meta.sourceOnlyUnarmedExcludedCount!==1||
+    catalog.meta.retiredIdenticalSourceDuplicateCount!==1||
+    catalog.meta.sourceOnlyRosterReview!=='PUBLISHED_V117_PARAMETER_SOURCE_NOT_CURRENT_GAME_VERIFIED')
+  fail('Original duplicate source ID or documented exclusions have drifted.');
  return catalog;
 }
 export function catalogCategories(weapons){
@@ -310,7 +331,7 @@ function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,
     !Number.isInteger(limit)||limit<1||limit>100||
     !Number.isInteger(offset)||offset<0||
     !['any','one','standard-two'].includes(wield)||
-    !['all','base','dlc','tarnished'].includes(coverage)||
+    !['all','base','dlc','tarnished','v117-reconciled'].includes(coverage)||
     !['any','physical','magic','fire','lightning','holy'].includes(damage)||
     !(maxWeight===null||(typeof maxWeight==='number'&&Number.isFinite(maxWeight)&&maxWeight>=0&&maxWeight<=200)))
   fail('Invalid catalog search parameters.');
@@ -332,6 +353,7 @@ export function searchCatalog(weapons,{
   if(coverage==='dlc'&&w.expansion!=='Shadow of the Erdtree')return false;
   if(coverage==='tarnished'&&w.expansion!=='Tarnished Pack')return false;
   if(coverage==='base'&&w.expansion)return false;
+  if(coverage==='v117-reconciled'&&!w.flags?.includes('source-v117-neutral-requirements-only'))return false;
   if(category!=='all'&&w.category!==category)return false;
   if(q&&!w.name.toLocaleLowerCase('en-US').includes(q)&&
     !w.category.toLocaleLowerCase('en-US').includes(q))return false;
@@ -396,6 +418,7 @@ export function cautionForWeapon(w){
  if(w.dataCoverage==='requirements-weight-only')warnings.push(w.expansion==='Tarnished Pack'?
    'Tarnished Pack / Tarnished Edition ownership required. Requirements and weight are from a patch-labelled 1.17.3 secondary source, NOT independently inspected game-menu evidence. +0 base attack, critical, scaling and AR remain UNKNOWN.':
    'Requirements and single-weapon weight are sourced from a secondary community dataset. +0 attack, critical, scaling and upgrade values remain UNKNOWN. Source not independently game-verified for current regulation.');
+ if(w.flags?.includes('source-v117-neutral-requirements-only'))warnings.push('PINNED REGULATION 1.17: name, type and minimum attribute requirements are source-derived. Weight, +0 attack, critical and scaling are UNKNOWN; game-client 1.17.3 not verified.');
  if(w.dataCoverage==='requirements-only')warnings.push(
    'DLC reference: attribute requirements listed, but +0 attack, weight, critical and scaling are UNVERIFIED (not zero).');
  if(w.dataCoverage==='name-category-only')warnings.push(

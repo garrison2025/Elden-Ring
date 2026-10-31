@@ -34,8 +34,8 @@ test('source-backed 89 is the explicit +0 alternative to the published 119 headl
  assert.equal(catalog.meta.dlcWeightOnlyCount,0);
  assert.equal(catalog.meta.stoneSheathedPlusZeroSourceConflictCount,1);
  assert.equal(catalog.meta.stoneSheathedWeightSourceConflictCount,1);
- assert.equal(getCatalogEvidence(catalog).counts.baseAttackPresent,416);
- assert.equal(getCatalogEvidence(catalog).counts.baseAttackSourceUncontested,409);
+ assert.equal(getCatalogEvidence(catalog).counts.baseAttackPresent,415);
+ assert.equal(getCatalogEvidence(catalog).counts.baseAttackSourceUncontested,408);
  assert.equal(getCatalogEvidence(catalog).counts.stoneSheathedSourceAttackDisputes,1);
  assert.equal(getCatalogEvidence(catalog).counts.stoneSheathedSourceWeightDisputes,1);
  assert.equal(catalog.meta.v117SourceConflictCount,7,'Seven historical regulation disputes are separate');

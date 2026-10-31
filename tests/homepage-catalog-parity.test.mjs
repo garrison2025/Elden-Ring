@@ -25,14 +25,14 @@ test('homepage weapon count and DLC source coverage derive from canonical catalo
 });
 test('homepage summaries update if new source records are added, not frozen in HTML',()=>{
  const sample={
-  meta:{count:2,dlcCatalogCount:1,dlcBaseFactCount:1,baseCommunityCount:1,tarnishedPackCount:0,tarnishedPackBaseFactCount:0,tarnishedPackSecondarySourceConflictCount:0},
+  meta:{count:2,dlcCatalogCount:1,dlcBaseFactCount:1,baseCommunityCount:1,basePinnedRequirementsOnlyCount:0,tarnishedPackCount:0,tarnishedPackBaseFactCount:0,tarnishedPackSecondarySourceConflictCount:0},
   weapons:[{name:'fictional base weapon'},{
    name:'fictional DLC weapon',expansion:'Shadow of the Erdtree',dataCoverage:'base-reference'}]
  };
  const rendered=injectCatalogCoverageIntoHomepage(home,getCatalogCoverage(sample));
- assert.equal(rendered.includes('Search 2 community-reported'),true);
- assert.equal(rendered.includes('including 1 Shadow of the Erdtree'),true);
- assert.equal(rendered.includes('(1 with sourced +0'),true);
+ assert.equal(rendered.includes('Search 2 uniquely named'),true);
+ assert.equal(rendered.includes('1 Shadow of the Erdtree'),true);
+ assert.equal(rendered.includes('1 with sourced +0'),true);
 });
 test('mismatched source metadata fails closed and never generates misleading totals',()=>{
  const changed=structuredClone(catalog);

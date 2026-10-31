@@ -26,7 +26,12 @@ async function main(){
   catalogRows:coverage.catalogRows,matchedRows:coverage.matchedRows,
   missingRows:coverage.missingRows,missingIndices:coverage.missingIndices,
   uniqueSourceFamilies:coverage.uniqueSourceFamilies,gameVerified:false,
-  sourceParametersExported:false
+  sourceParametersExported:false,
+  unlistedPlayableCount:coverage.unlistedPlayableCount,
+  excludedNonEquipmentCount:coverage.excludedNonEquipmentCount,
+  uniqueCatalogNames:coverage.uniqueCatalogNames,
+  sourceWearableFamilies:coverage.sourceWearableFamilies,
+  completeForPinnedSource:coverage.completeForPinnedSource
  };
  await mkdir(dirname(output),{recursive:true});
  await writeFile(resolve(process.cwd(),'.audit/v117-catalog-family-coverage.json'),
@@ -34,6 +39,17 @@ async function main(){
  console.log('[CATALOG SOURCE FAMILIES] matched='+coverage.matchedRows+
   ' of '+coverage.catalogRows+', unmatched='+coverage.missingRows);
  if(!coverage.allMatched){console.error('[CATALOG SOURCE FAMILIES] Broken catalog handoff: exact source family missing.');
+  process.exitCode=1;
+ }
+ // Bi-directional pinned-source roster gate: all wearable names now present,
+ // one virtual 'Unarmed' state excluded; no raw regulation rows exported.
+ console.log('[REVERSE ROSTER] unique-pinned-families='+coverage.uniqueSourceFamilies+
+  ' playable='+coverage.sourceWearableFamilies+' catalog-names='+coverage.uniqueCatalogNames+
+  ' unlisted-playable='+coverage.unlistedPlayableCount+
+  ' virtual-Unarmed-excluded='+coverage.excludedNonEquipmentCount+
+  ' complete-for-pinned-1.17='+coverage.completeForPinnedSource);
+ if(!coverage.completeForPinnedSource||community.meta.basePinnedRequirementsOnlyCount!==72){
+  console.error('[REVERSE ROSTER] Unresolved item names or source-derived requirements.');
   process.exitCode=1;
  }
  const cross=compareDlcWithV117(community,params);
