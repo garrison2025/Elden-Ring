@@ -28,7 +28,8 @@ const plusZero=new Map([
  ['Reverse-Bladed Sword',{attack:[115,0,0,0,0],grades:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Backhand_Blades'}],
  ['Hefty Scimitar',{attack:[135,0,0,0,0],grades:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Curved_Greatswords'}],
  ["Leontiel's Greatsword",{attack:[130,0,0,0,0],grades:['E','C','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Greatswords'}],
- ['Golden Order Flail',{attack:[75,0,0,0,92],grades:['E','E','-','C','-'],url:'https://eldenring.wiki.gg/wiki/Flails'}]
+ ['Golden Order Flail',{attack:[75,0,0,0,92],grades:['E','E','-','C','-'],url:'https://eldenring.wiki.gg/wiki/Flails'}],
+ ['Ritual Thrusting Shield',{attack:[135,0,0,0,0],grades:['D','D','-','-','-'],url:'https://wiki.eso-ui.com/index.php/Elden_Ring%3ARitual_Thrusting_Shield'}]
 ]);
 
 test('full 2026 Tarnished Pack armament set is present with traceable requirements/weight, not fictional +0 attack',()=>{
@@ -38,8 +39,8 @@ test('full 2026 Tarnished Pack armament set is present with traceable requiremen
  assert.equal(catalog.meta.baseCommunityCount,306);
  assert.equal(catalog.meta.dlcCatalogCount,102);
  assert.equal(catalog.meta.tarnishedPackCount,8);
- assert.equal(catalog.meta.tarnishedPackWeightedRequirementsCount,1);
- assert.equal(catalog.meta.tarnishedPackBaseFactCount,7);
+ assert.equal(catalog.meta.tarnishedPackWeightedRequirementsCount,0);
+ assert.equal(catalog.meta.tarnishedPackBaseFactCount,8);
  assert.equal(catalog.meta.tarnishedPackSecondarySourceConflictCount,1);
  assert.equal(catalog.meta.currentPatchRequirementsCorroborationCount,1);
  assert.equal(catalog.meta.v117SourceConflictCount,7);
@@ -78,12 +79,12 @@ test('source-separated filter does not misclassify Tarnished Pack weapons as ori
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc'}).total,102);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished'}).total,8);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',term:'Silver Grooved'}).total,1);
- assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'physical'}).total,7,
-  'Only seven wiki-sourced +0 rows, not max-upgrade figures, may match');
+ assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'physical'}).total,8,
+  'All eight individually source-attributed Pack +0 rows, not max-upgrade attack, may match');
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'holy'}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',maxWeight:3}).total,2);
  assert.deepEqual(getCatalogCoverage(catalog),{
-  weapons:416,dlc:102,dlcBaseFacts:101,tarnishedPack:8,tarnishedPackBaseFacts:7,tarnishedPackSecondaryConflicts:1
+  weapons:416,dlc:102,dlcBaseFacts:101,tarnishedPack:8,tarnishedPackBaseFacts:8,tarnishedPackSecondaryConflicts:1
  });
 });
 
@@ -125,7 +126,16 @@ test('version/attribute/source tampering and fabricated +0 numbers are refused',
   assert.throws(()=>validateCommunityCatalog(copy),RangeError);
  }
  const ritual=base.weapons.find(w=>w.name==='Ritual Thrusting Shield');
- assert.equal(ritual.attack,null,'Conflicting shield stays without verified wiki +0 figures');
+ assert.deepEqual(ritual.attack,[135,0,0,0,0],
+  'Unupgraded shield attack is separately corroborated by three named community sources');
+ assert.equal(ritual.critical,100);
+ assert.deepEqual(ritual.scaling,['D','D','-','-','-']);
+ assert.deepEqual(baseDamageParts(ritual),[{name:'Physical',amount:135}],
+  'Source-disputed requirements and weight do not invalidate separately supported +0 fields');
+ assert.equal(ritual.baseFactsProvenance.versionVerified,false);
+ assert.equal(ritual.baseFactsProvenance.gameClientVerified,false);
+ assert.equal(ritual.baseFactsProvenance.supportingSources.length,3);
+ assert.ok(ritual.baseFactsProvenance.supportingSources.every(s=>s.startsWith('https://')));
  assert.equal(ritual.secondarySourceDisagreement.status,'SECONDARY_SOURCE_DISAGREEMENT_NOT_GAME_VERIFIED');
  assert.equal(hasDisputedWeight(ritual),true);
  assert.equal(hasDisputedRequirements(ritual),true);
@@ -146,7 +156,13 @@ test('version/attribute/source tampering and fabricated +0 numbers are refused',
   w=>{w.secondarySourceDisagreement.alternatives[0].weight=10;},
   w=>{w.secondarySourceDisagreement.alternatives[1].requirements[0]=13;},
   w=>{w.secondarySourceDisagreement.gameClientVerified=true;},
-  w=>{w.flags=w.flags.filter(s=>s!=='tarnished-pack-weight-secondary-conflict');}
+  w=>{w.flags=w.flags.filter(s=>s!=='tarnished-pack-weight-secondary-conflict');},
+  w=>{w.attack[0]=136;},
+  w=>{w.critical=110;},
+  w=>{w.scaling[0]='C';},
+  w=>{w.baseFactsProvenance.gameClientVerified=true;},
+  w=>{w.baseFactsProvenance.supportingSources[2]='https://example.com/';},
+  w=>{w.baseFactsProvenance.versionVerified=true;}
  ]){
   const testCatalog=structuredClone(base);
   mutate(testCatalog.weapons.find(w=>w.name==='Ritual Thrusting Shield'));
