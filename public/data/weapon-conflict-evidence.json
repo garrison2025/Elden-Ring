@@ -76,6 +76,26 @@
         "category": "unreconciled-published-source-internal-base-attack-contradiction",
         "gameClientVerified": false,
         "note": "Wiki.gg's basic Stats section gives Physical 75 / Fire 32; its Standard +0 upgrading table gives Physical 72 / Fire 22. Pinned v1.17 says Physical 75 / Fire 22. Do not auto-select or splice fields into a purported verified vector."
+      },
+      "thirdPartyBasePlusZero": {
+        "sourceName": "tarnished.app",
+        "sourceUrl": "https://tarnished.app/weapons/fire-knight-s-shortsword",
+        "fieldMeaning": "unupgraded-standard-base-attack-components",
+        "observedComponents": [
+          75,
+          0,
+          22,
+          0,
+          0
+        ],
+        "comparedTo": "pinned-public-Regulation-1.17",
+        "agreement": "matches-pinned-vector",
+        "referenceVersion": "unpublished-on-this-per-weapon-page",
+        "independenceFromPinnedSource": "not-demonstrated",
+        "conclusion": "provisional-corroborrated-public-reference-only",
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "note": "The public page's Base row matches the pinned Regulation 1.17 vector. This is an additional published cross-check, not proven independently extracted nor certified as App 1.17.2 / Regulation 1.17.3 game-client evidence."
       }
     },
     {
@@ -103,7 +123,27 @@
       "screenshotCount": 0,
       "sourceClass": "community-vs-pinned-regulation",
       "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
-      "doNotAutoCorrect": true
+      "doNotAutoCorrect": true,
+      "thirdPartyBasePlusZero": {
+        "sourceName": "tarnished.app",
+        "sourceUrl": "https://tarnished.app/weapons/greatsword-of-radahn--light-",
+        "fieldMeaning": "unupgraded-standard-base-attack-components",
+        "observedComponents": [
+          127,
+          82,
+          0,
+          0,
+          0
+        ],
+        "comparedTo": "pinned-public-Regulation-1.17",
+        "agreement": "matches-pinned-vector",
+        "referenceVersion": "unpublished-on-this-per-weapon-page",
+        "independenceFromPinnedSource": "not-demonstrated",
+        "conclusion": "provisional-corroborrated-public-reference-only",
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "note": "The public page's Base row matches the pinned Regulation 1.17 vector. This is an additional published cross-check, not proven independently extracted nor certified as App 1.17.2 / Regulation 1.17.3 game-client evidence."
+      }
     },
     {
       "id": "sote-reference-042",
@@ -130,7 +170,27 @@
       "screenshotCount": 0,
       "sourceClass": "community-vs-pinned-regulation",
       "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
-      "doNotAutoCorrect": true
+      "doNotAutoCorrect": true,
+      "thirdPartyBasePlusZero": {
+        "sourceName": "tarnished.app",
+        "sourceUrl": "https://tarnished.app/weapons/greatsword-of-radahn--lord-",
+        "fieldMeaning": "unupgraded-standard-base-attack-components",
+        "observedComponents": [
+          127,
+          82,
+          0,
+          0,
+          0
+        ],
+        "comparedTo": "pinned-public-Regulation-1.17",
+        "agreement": "matches-pinned-vector",
+        "referenceVersion": "unpublished-on-this-per-weapon-page",
+        "independenceFromPinnedSource": "not-demonstrated",
+        "conclusion": "provisional-corroborrated-public-reference-only",
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "note": "The public page's Base row matches the pinned Regulation 1.17 vector. This is an additional published cross-check, not proven independently extracted nor certified as App 1.17.2 / Regulation 1.17.3 game-client evidence."
+      }
     },
     {
       "id": "sote-reference-051",
@@ -201,7 +261,27 @@
       "screenshotCount": 0,
       "sourceClass": "community-vs-pinned-regulation",
       "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
-      "doNotAutoCorrect": true
+      "doNotAutoCorrect": true,
+      "thirdPartyBasePlusZero": {
+        "sourceName": "tarnished.app",
+        "sourceUrl": "https://tarnished.app/weapons/queelign-s-greatsword",
+        "fieldMeaning": "unupgraded-standard-base-attack-components",
+        "observedComponents": [
+          122,
+          0,
+          36,
+          0,
+          0
+        ],
+        "comparedTo": "pinned-public-Regulation-1.17",
+        "agreement": "matches-pinned-vector",
+        "referenceVersion": "unpublished-on-this-per-weapon-page",
+        "independenceFromPinnedSource": "not-demonstrated",
+        "conclusion": "provisional-corroborrated-public-reference-only",
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "note": "The public page's Base row matches the pinned Regulation 1.17 vector. This is an additional published cross-check, not proven independently extracted nor certified as App 1.17.2 / Regulation 1.17.3 game-client evidence."
+      }
     },
     {
       "id": "sote-reference-071",
@@ -228,7 +308,27 @@
       "screenshotCount": 0,
       "sourceClass": "community-vs-pinned-regulation",
       "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
-      "doNotAutoCorrect": true
+      "doNotAutoCorrect": true,
+      "thirdPartyBasePlusZero": {
+        "sourceName": "tarnished.app",
+        "sourceUrl": "https://tarnished.app/weapons/smithscript-axe",
+        "fieldMeaning": "unupgraded-standard-base-attack-components",
+        "observedComponents": [
+          131,
+          0,
+          0,
+          0,
+          0
+        ],
+        "comparedTo": "pinned-public-Regulation-1.17",
+        "agreement": "matches-pinned-vector",
+        "referenceVersion": "unpublished-on-this-per-weapon-page",
+        "independenceFromPinnedSource": "not-demonstrated",
+        "conclusion": "provisional-corroborrated-public-reference-only",
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "note": "The public page's Base row matches the pinned Regulation 1.17 vector. This is an additional published cross-check, not proven independently extracted nor certified as App 1.17.2 / Regulation 1.17.3 game-client evidence."
+      }
     },
     {
       "id": "sote-reference-058",
@@ -255,8 +355,41 @@
       "screenshotCount": 0,
       "sourceClass": "community-vs-pinned-regulation",
       "needs": "Independent game client 1.17.2 / Regulation 1.17.3 +0 equipment-menu screenshot",
-      "doNotAutoCorrect": true
+      "doNotAutoCorrect": true,
+      "thirdPartyBasePlusZero": {
+        "sourceName": "tarnished.app",
+        "sourceUrl": "https://tarnished.app/weapons/smithscript-dagger",
+        "fieldMeaning": "unupgraded-standard-base-attack-components",
+        "observedComponents": [
+          62,
+          0,
+          0,
+          0,
+          0
+        ],
+        "comparedTo": "pinned-public-Regulation-1.17",
+        "agreement": "matches-pinned-vector",
+        "referenceVersion": "unpublished-on-this-per-weapon-page",
+        "independenceFromPinnedSource": "not-demonstrated",
+        "conclusion": "provisional-corroborrated-public-reference-only",
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "note": "The public page's Base row matches the pinned Regulation 1.17 vector. This is an additional published cross-check, not proven independently extracted nor certified as App 1.17.2 / Regulation 1.17.3 game-client evidence."
+      }
     }
   ],
-  "currentPatchCrosscheckSummary": "Madding Hand requirement FAI 20 corroborated by an additional Regulation 1.17.3-labelled source; 6 +0 base attack discrepancies lack comparable current-patch +0 screenshot data. Original seven published source differences remain in the evidence ledger and all seven client captures remain unreviewed."
+  "currentPatchCrosscheckSummary": "Madding Hand requirement FAI 20 corroborated by an additional Regulation 1.17.3-labelled source; 6 +0 base attack discrepancies lack comparable current-patch +0 screenshot data. Original seven published source differences remain in the evidence ledger and all seven client captures remain unreviewed.",
+  "thirdPartyBaseCrosscheck": {
+    "schemaVersion": 1,
+    "checkedDate": "2026-10-31",
+    "scope": "six-uninfused-plus-zero-attack-disputes",
+    "corroboratedPinnedSourceCount": 6,
+    "totalOriginalAttackConflicts": 6,
+    "candidateSource": "https://tarnished.app/weapons",
+    "patchLabelOnWeaponPages": "not specified",
+    "extractionLineageIndependentlyVerified": false,
+    "independentGameClientScreenshots": 0,
+    "gameClientVerified": false,
+    "conclusion": "All six unversioned third-party +0 public Base rows agree with pinned Regulation 1.17, not with previous community +0 rows. Historical conflicts remain unresolved for game-client certification."
+  }
 }
