@@ -106,8 +106,11 @@ test('all result rows explicitly carry source gap and cannot invent real in-game
  const r=rankLocalWeaponVariants(COMPACT_SYNTHETIC_REGULATION,opts);
  assert.equal(r.status,'complete-query');
  assert.match(r.note,/not game-client certified/i);
- assert.ok(r.rows.every(row=>Number.isInteger(row.total)&&
-  row.total===Object.values(row.components).reduce((a,b)=>a+b,0)));
+ assert.ok(r.rows.every(row=>{
+  const componentFloor=Object.values(row.components).reduce((a,b)=>a+b,0);
+  return Number.isInteger(row.total)&&row.total>=componentFloor&&
+   row.total<=componentFloor+4;
+ }),'Mixed damage may carry fractional AR from source parts before final floor.');
  assert.ok(r.rows.every(row=>row.reinforcement==='regular'||row.reinforcement==='somber'));
 });
 

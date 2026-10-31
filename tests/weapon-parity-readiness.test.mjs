@@ -19,13 +19,13 @@ test('weapon parity audit exposes real source coverage rather than claiming all 
  assert.equal(audit.counts.sourceOnlyMissingPrimaryAttackWeight,72);
  assert.equal(audit.counts.sourceConflicts,9);
  assert.equal(audit.counts.embeddedPreciseArProfiles,0);
- assert.equal(audit.counts.v117ReferenceUiObservations,15);
+ assert.equal(audit.counts.v117ReferenceUiObservations,50);
  assert.equal(audit.readyForFullWeaponParity,false);
 });
 test('reference-only parity gates retain 50 competitor cases and exclude real-game certification',()=>{
  const audit=summarizeWeaponParity(catalog,TARNISHED_REFERENCE_AR_CASES);
  assert.equal(audit.gates.length,4);
- assert.equal(audit.gates.filter(g=>g.pass).length,1);
+ assert.equal(audit.gates.filter(g=>g.pass).length,2);
  assert.equal(audit.gates.find(g=>g.id==='pinned-v117-50-reference-cases').target,50);
  assert.match(audit.qualification,/reference parity ONLY/);
  assert.equal(audit.comparatorOnly,true);
@@ -34,7 +34,7 @@ test('reference-only parity gates retain 50 competitor cases and exclude real-ga
  assert.ok(audit.gates.every(g=>!g.id.includes('client-certification')));
  assert.ok(audit.gates.every(g=>!g.id.includes('rights')));
  assert.equal(audit.gates.find(g=>g.id==='independent-v117-ar-ranking').pass,true);
- assert.match(audit.qualification,/15 exact source UI observations/);
+ assert.match(audit.qualification,/50 exact source UI observations/);
 });
 test('duplicate observed sample IDs never inflate independently repeated Tarnished benchmarks',()=>{
  const observations=TARNISHED_REFERENCE_AR_CASES;

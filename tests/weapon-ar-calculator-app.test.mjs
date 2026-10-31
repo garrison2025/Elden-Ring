@@ -9,7 +9,7 @@ test('dedicated browser-only AR entry is discoverable and cannot trigger externa
  assert.match(html,/Weapon AR Calculator/);
  assert.match(html,/id="qar-load-source"/);
  assert.match(html,/id="qar-workspace" hidden/);
- assert.match(html,/15 \/ 15 matched reference checks/);
+ assert.match(html,/50 \/ 50 matched website AR checks/);
  assert.match(html,/id="qar-weapon"/);
  assert.match(html,/id="qar-affinity"/);
  assert.match(html,/id="qar-twohand"/);

@@ -25,6 +25,8 @@ export function validateArProfile(input){
       fail('calculationRules.requirements must be per-attribute or damage-type-60.');
     if(!['floor-total','floor-components'].includes(rules.rounding))
       fail('calculationRules.rounding must be floor-total or floor-components.');
+    if(rules.aggregation!==undefined&&!['legacy','floor-raw-sum'].includes(rules.aggregation))
+      fail('calculationRules.aggregation must be legacy or floor-raw-sum.');
   }
   if(p.gripMode!==undefined&&!['standard','paired','forced-two-hand'].includes(p.gripMode))
     fail('gripMode must be standard, paired, or forced-two-hand.');
@@ -93,6 +95,9 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
   const missing=POWER_STATS.filter(s=>effective[s]<p.requirements[s]);
   const requirementsPolicy=p.calculationRules?.requirements??'per-attribute';
   const roundingPolicy=p.calculationRules?.rounding??'floor-total';
+  // Preserve compact-source IEEE-754 component operation order while choosing
+  // final aggregation from TWICE-OBSERVED public Tarnished.dev v1.17 outputs.
+  const aggregation=p.calculationRules?.aggregation??'legacy';
   const result=[];
   for(const d of DAMAGE_TYPES){
     if(a.baseDamage[d]===0)continue;
@@ -146,11 +151,15 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
     const scaling=raw-base;
     result.push({element:d,base,scaling,raw,displayed:Math.floor(raw),attributes:attr});
   }
-  // Both values are returned until independent in-game golden vectors settle
-  // the difference for mixed physical/elemental attacks.
+  // Both values remain observable. 50 twice-observed Tarnished.dev v1.17
+  // exact-input cases establish that compact-source mixed-component total AR
+  // floors the RAW SUM, not each component before summing. Manual research
+  // profiles retain their explicitly chosen legacy rounding behavior.
   const floorTotal=Math.floor(result.reduce((s,e)=>s+e.raw,0));
   const floorComponents=result.reduce((s,e)=>s+e.displayed,0);
-  const total=roundingPolicy==='floor-components'?floorComponents:floorTotal;
+  const total=aggregation==='floor-raw-sum'?floorTotal:
+    roundingPolicy==='floor-components'?floorComponents:floorTotal;
   return {floorTotal,floorComponents,roundingDifference:floorTotal-floorComponents,
-    calculationRules:{requirements:requirementsPolicy,rounding:roundingPolicy},label:p.label,affinity:affinity??Object.keys(p.affinities)[0],upgrade,twoHanded,gripMode,strengthBonusApplied:strengthBonus,stats:{...stats},effectiveStats:effective,missingRequirements:missing,perElement:result,total,provenance:p.provenance,status:'UNVERIFIED — parameter-driven research output; not an in-game prediction'};
+    calculationRules:{requirements:requirementsPolicy,rounding:roundingPolicy,
+      ...(aggregation!=='legacy'?{aggregation}:{})},label:p.label,affinity:affinity??Object.keys(p.affinities)[0],upgrade,twoHanded,gripMode,strengthBonusApplied:strengthBonus,stats:{...stats},effectiveStats:effective,missingRequirements:missing,perElement:result,total,provenance:p.provenance,status:'UNVERIFIED — parameter-driven research output; not an in-game prediction'};
 }

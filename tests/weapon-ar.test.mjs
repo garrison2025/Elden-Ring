@@ -97,6 +97,12 @@ test('display both rounding variants for split damage, no hidden cross-element c
  assert.equal(one.floorTotal,189);
  assert.equal(one.total,188);
  assert.equal(one.roundingDifference,1);
+ f.calculationRules.aggregation='floor-raw-sum';
+ const referenceOnly=calculateAr(f,{str:40,dex:23,int:11,fai:10,arc:10});
+ assert.equal(referenceOnly.total,189);
+ assert.equal(referenceOnly.floorComponents,188);
+ assert.equal(referenceOnly.calculationRules.aggregation,'floor-raw-sum');
+ delete f.calculationRules.aggregation;
  f.calculationRules.rounding='floor-total';
  const other=calculateAr(f,{str:40,dex:23,int:11,fai:10,arc:10});
  assert.equal(other.total,189);

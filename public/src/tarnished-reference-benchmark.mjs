@@ -1,5 +1,6 @@
 import {convertCompactRegulation} from './regulation-import.mjs';
 import {calculateAr,POWER_STATS} from './weapon-ar.mjs';
+import {TARNISHED_V117_35_APPROVED_ADDITIONAL} from './tarnished-v117-approved-additions.mjs';
 
 /** Named public UI observations: first rendered through site scraping then
  * read in a real GitHub-hosted Chrome browser; five cases from run 41180413857.
@@ -162,7 +163,8 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   observedDisplay:'Equipped Right Hand 1 / Fire Knight\'s Greatsword / Standard / Scaling D/C/-/D/- / Total AR : 632',
   referenceObservedOnce:true,sourceRepeatable:true,
   note:'Exact v1.17 site controls, AR and disabled buffs independently repeated in public Chromium runs 41180592038 and 41180757356.'
- })
+ }),
+ ...TARNISHED_V117_35_APPROVED_ADDITIONAL
 ]);
 const fail=s=>{throw new RangeError(s)};
 const same=(a,b)=>a.every((x,i)=>x===b[i]);
@@ -176,7 +178,8 @@ export function auditTarnishedV117ReferenceAR(source,{cases=TARNISHED_REFERENCE_
   if(!record(item)||typeof item.id!=='string'||item.id.length>120||seen.has(item.id)||
    typeof item.weaponName!=='string'||!item.weaponName.trim()||item.weaponName.length>120||
    !['Standard','Heavy','Keen','Quality','Magic','Fire','Flame Art','Lightning','Sacred','Poison','Blood','Cold','Occult','None'].includes(item.affinity)||
-   !Number.isInteger(item.affinityId)||item.affinityId<0||item.affinityId>50||
+   !Number.isInteger(item.affinityId)||item.affinityId< -1||item.affinityId>50||
+   (item.affinity==='None')!==(item.affinityId===-1)||
    !Number.isInteger(item.upgrade)||item.upgrade<0||item.upgrade>25||
    typeof item.twoHanded!=='boolean'||
    !record(item.playerStats)||!POWER_STATS.every(s=>Number.isInteger(item.playerStats[s])&&
