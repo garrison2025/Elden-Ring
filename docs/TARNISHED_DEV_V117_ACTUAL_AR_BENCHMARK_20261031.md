@@ -25,3 +25,19 @@ Planned weapons: Uchigatana, Longsword, Greatsword, Blasphemous Blade, Rellana's
 Because the public widget currently returns empty weapon selections for many share URLs, the single observed result is a **preliminary case** and cannot pass the full benchmark. We prioritize trustworthy evidence over inflating the number of tests.
 
 No game client, emulator, paid API, user login, scraped proprietary artwork or redistributed raw regulation parameters are necessary.
+
+## Verified computation from GitHub Actions (31 October 2026)
+
+PR: https://github.com/garrison2025/Elden-Ring/pull/70
+
+Actual successful GitHub Actions run: https://github.com/garrison2025/Elden-Ring/actions/runs/41179795924
+
+Captured CI job console (not a locally invented prediction):
+
+```text
+[TARNISHED V1.17] case=tarnished-v117-uchigatana-standard-plus0-40str40dex-1h observed-AR=172 computed-v1.17-AR=172 status=numeric-match external-url-reconfirm=false
+[TARNISHED V1.17] source-observation-count=1 stable-reference-rechecks=0 benchmark-release-ready=false game-certified=false
+[AR MATH AUDIT] variants=3296 converted=3296 cases=39552 mismatches=0 unsupported=0
+```
+
+Interpretation: ONE numeric same-input source comparison matches; the URL's unstable dynamic restoration means this is preliminary rather than a stable public benchmark. The 39,552 internal cases test parity with the pinned public parameter snapshot, NOT independent competitor UI parity. Neither constitutes current game-client certification.
