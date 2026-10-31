@@ -1,0 +1,41 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
+
+test('our changelog contains only shipped first-party release evidence and excludes auto-mirrored competitor updates',()=>{
+ const page=read('public/updates/index.html');
+ const home=read('public/index.html');
+ const nav=read('scripts/navigation.mjs');
+ assert.match(page,/<h1>Recent Updates<\/h1>/);
+ assert.match(page,/our actual shipped changes/);
+ for(const n of [66,67,68,72,73])assert.match(page,new RegExp('pull\\/'+n));
+ assert.match(page,/not automatically shipped/);
+ assert.match(page,/v1\.17 reference/);
+ assert.match(home,/id="home-recent-updates"/);
+ assert.match(home,/href="updates\/"/);
+ assert.match(nav,/\['updates\/','Recent Updates'\]/);
+ assert.doesNotMatch(page,/Tarnished\.dev fixed.*therefore.*we released/i);
+});
+test('monitor is free, read-only, twice a day and creates review issues, not silent implementation',()=>{
+ const code=read('scripts/monitor_tarnished_updates.py');
+ const workflow=read('.github/workflows/monitor-tarnished.yml');
+ const seed=JSON.parse(read('monitoring/tarnished-dev-baseline.json'));
+ assert.match(code,/class RecentUpdatesParser/);
+ assert.match(code,/updates-heading/);
+ assert.match(code,/edited-same-date/);
+ assert.match(code,/FAIL-CLOSED/);
+ assert.match(code,/No.*certification|No mirroring competitor code/);
+ assert.match(workflow,/17 0,12 \* \* \*/);
+ assert.match(workflow,/workflow_dispatch/);
+ assert.match(workflow,/pull_request/);
+ assert.match(workflow,/gh issue create/);
+ assert.match(workflow,/steps\.compare\.outputs\.changed == 'true'/);
+ assert.match(workflow,/github\.event_name != 'pull_request'/);
+ assert.doesNotMatch(workflow,/merge_pull_request|git push|deployment|curl.*post/);
+ assert.equal(seed.source,'https://www.tarnished.dev/');
+ assert.equal(seed.version,'v1.17');
+ assert.equal(seed.entries.length,6);
+ assert.equal(seed.entries[0].date,'2026-10-23');
+ assert.match(seed.fingerprint,/^[a-f0-9]{64}$/);
+});
