@@ -6,9 +6,9 @@ import {validateCommunityCatalog,catalogCategories,searchCatalog,baseDamageParts
  cautionForWeapon,weaponRequirementComparison,requirementsUrl,publishedUpgradeParts,hasDisputedWeight,hasDisputedAttack,reportedBaseDamageParts} from '../public/src/community-weapons.mjs';
 const catalog=validateCommunityCatalog(JSON.parse(await readFile(resolve('public/data/community-weapon-catalog.json'),'utf8')));
 const find=name=>catalog.weapons.find(w=>w.name===name);
-test('source-attributed 416 armaments with 102 Shadow of the Erdtree and 8 Tarnished Pack and shields, stripped of images and prose',()=>{
- assert.equal(catalog.weapons.length,416);
- assert.equal(catalog.meta.count,416);
+test('source-attributed 487 unique armaments with 102 Shadow of the Erdtree and 8 Tarnished Pack and shields, stripped of images and prose',()=>{
+ assert.equal(catalog.weapons.length,487);
+ assert.equal(catalog.meta.count,487);
  assert.match(catalog.meta.version,/not established/);
  assert.match(catalog.meta.sourceRevision,/^[a-f0-9]{40}$/);
  for(const row of catalog.weapons){
@@ -36,11 +36,11 @@ test('real weapon facts and independently checked corrections are present',()=>{
  assert.deepEqual(baseDamageParts(royal),[
   {name:'Physical',amount:112},{name:'Magic',amount:134}]);
 });
-test('duplicate names remain distinct and are flagged rather than silently merged',()=>{
+test('identical Erdtree Seal duplicate is merged and original share ID preserved as alias',()=>{
  const rows=catalog.weapons.filter(x=>x.name==='Erdtree Seal');
- assert.equal(rows.length,2);
- assert.notEqual(rows[0].id,rows[1].id);
- rows.forEach(w=>assert.match(cautionForWeapon(w).join(' '),/duplicate/));
+ assert.equal(rows.length,1);
+ assert.equal(rows[0].id,'17f69746125l0i1phti5gxbjc1nfhx');
+ assert.equal(catalog.meta.legacyWeaponIdAliases['17f698bacafl0i1phz3om56qt5bqof'],rows[0].id);
 });
 test('search, category filtering, numeric sort and pagination work',()=>{
  const q=searchCatalog(catalog.weapons,{term:'GREATsword'});
@@ -143,7 +143,7 @@ test('DLC roster has 102 sourced unique weapons/shields and three explicit data 
  const dlc=catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree');
  assert.equal(dlc.length,102);
  assert.equal(new Set(dlc.map(w=>w.name)).size,102);
- assert.equal(catalog.meta.baseCommunityCount,306);
+ assert.equal(catalog.meta.baseCommunityCount,377);
  assert.equal(catalog.meta.dlcCatalogCount,102);
  assert.equal(catalog.meta.dlcBaseFactCount,102);
  assert.equal(catalog.meta.dlcWeightOnlyCount,0);
@@ -205,7 +205,7 @@ test('all DLC rows have requirements and weight; only independently disputed +0 
  assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',maxWeight:4}).total,0);
  assert.equal(searchCatalog(catalog.weapons,{term:'Stone-Sheathed Sword',wield:'one',stats:[99,99,99,99,99]}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc',limit:100}).total,102);
- assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,306);
+ assert.equal(searchCatalog(catalog.weapons,{coverage:'base'}).total,377);
  const bad=structuredClone(catalog);
  bad.weapons.find(w=>w.name==='Stone-Sheathed Sword').attack=[119,0,0,0,0];
  assert.throws(()=>validateCommunityCatalog(bad),/Stone-Sheathed Sword/);
