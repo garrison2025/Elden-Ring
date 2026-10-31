@@ -19,6 +19,7 @@ test('data-quality audit derives all exact observed counts and conflict types fr
  assert.equal(c.tarnishedPackBaseFacts,7);
  assert.equal(c.tarnishedPackSecondaryConflicts,1);
  assert.equal(c.versionedRequirementCorroborations,1);
+ assert.equal(c.unversionedBaseCrosschecks,6);
  assert.equal(c.total,416);
  assert.equal(c.dlcBaseAttackSourced,101);
  assert.equal(c.requirementsPresent,416);

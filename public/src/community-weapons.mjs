@@ -8,6 +8,14 @@ const REQUIREMENT_CONFLICT='v117-community-requirement-conflict';
 const WEIGHT_CONFLICT='v117-community-weight-conflict';
 const PACK_WEIGHT_CONFLICT='tarnished-pack-weight-secondary-conflict';
 const PACK_REQUIREMENT_CONFLICT='tarnished-pack-requirement-secondary-conflict';
+const THIRD_UNVERSIONED_BASE=Object.freeze({
+ 'sote-reference-032':['https://tarnished.app/weapons/fire-knight-s-shortsword',[75,0,22,0,0]],
+ 'sote-reference-041':['https://tarnished.app/weapons/greatsword-of-radahn--light-',[127,82,0,0,0]],
+ 'sote-reference-042':['https://tarnished.app/weapons/greatsword-of-radahn--lord-',[127,82,0,0,0]],
+ 'sote-reference-064':['https://tarnished.app/weapons/queelign-s-greatsword',[122,0,36,0,0]],
+ 'sote-reference-071':['https://tarnished.app/weapons/smithscript-axe',[131,0,0,0,0]],
+ 'sote-reference-058':['https://tarnished.app/weapons/smithscript-dagger',[62,0,0,0,0]]
+});
 const PACK_ZERO_REFERENCES=Object.freeze({
  'Idus Sword':{attack:[124,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Idus_Sword'},
  'Reed Great Katana':{attack:[158,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Reed_Great_Katana'},
@@ -84,6 +92,18 @@ export function validateCommunityCatalog(catalog){
   if((w.flags??[]).some(x=>x===PACK_WEIGHT_CONFLICT||x===PACK_REQUIREMENT_CONFLICT)&&
      w.secondarySourceDisagreement===undefined)
    fail('Tarnished Pack secondary source dispute flag requires complete evidence.');
+  if(w.thirdPartyBasePlusZero!==undefined){
+   const e=w.thirdPartyBasePlusZero,expect=THIRD_UNVERSIONED_BASE[w.id];
+   if(!expect||!hasDisputedAttack(w)||e.sourceUrl!==expect[0]||
+      e.observedComponents?.join(',')!==expect[1].join(',')||
+      e.fieldMeaning!=='unupgraded-standard-base-attack-components'||
+      e.evidenceType!=='unversioned-third-party-published-base-reference'||
+      e.sourcePatchVersion!=='not-declared'||
+      e.dataLineageIndependentlyEstablished!==false||
+      e.matchesPinnedV117!==true||
+      e.gameClientVerified!==false||e.publicationApproved!==false)
+    fail('Unversioned third-party +0 value or source has drifted or falsely claimed verification.');
+  }
   if(w.currentPatchRequirementCorroboration!==undefined){
    const p=w.currentPatchRequirementCorroboration;
    if(w.id!=='sote-reference-051'||!hasDisputedRequirements(w)||
@@ -155,6 +175,7 @@ export function validateCommunityCatalog(catalog){
   tarnishedPackBaseFactCount:packRows.filter(w=>w.dataCoverage==='base-reference').length,
   tarnishedPackSecondarySourceConflictCount:packRows.filter(w=>w.secondarySourceDisagreement!==undefined).length,
   currentPatchRequirementsCorroborationCount:catalog.weapons.filter(w=>w.currentPatchRequirementCorroboration!==undefined).length,
+  unversionedThirdPartyPlusZeroMatchesCount:catalog.weapons.filter(w=>w.thirdPartyBasePlusZero!==undefined).length,
   dlcCatalogCount:dlcRows.length,
   dlcBaseFactCount:dlcRows.filter(w=>w.dataCoverage==='base-reference').length,
   dlcWeightOnlyCount:dlcRows.filter(w=>w.dataCoverage==='requirements-weight-only').length,
@@ -334,6 +355,8 @@ export function cautionForWeapon(w){
  if(flags.has('zero-physical-mixed-entry-check'))warnings.push('Physical attack needs independent cross-check.');
  if(flags.has('v117-community-attack-conflict'))warnings.push(
   'SOURCE CONFLICT: the wiki +0 base attack differs from game-derived Regulation 1.17 parameters after its +0 reinforcement multiplier. Exact version/patch parity has NOT been verified; treat this +0 number as disputed.');
+ if(w.thirdPartyBasePlusZero)warnings.push(
+  'PROVISIONAL THIRD-PARTY +0 SOURCE: published Base components agree with pinned Regulation 1.17, but the public page has no explicit game Regulation 1.17.3 label and independent data provenance has not been established. The original discrepancy remains open and trusted AR calculation is still blocked.');
  if(flags.has(WEIGHT_CONFLICT))warnings.push(
   'SOURCE CONFLICT: weapon weight disagrees between sources. Do not compute a complete equipped load or roll tier from this disputed weight.');
  if(flags.has(PACK_WEIGHT_CONFLICT)||flags.has(PACK_REQUIREMENT_CONFLICT))warnings.push(

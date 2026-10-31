@@ -210,6 +210,15 @@ function renderDetails(){
   a.href='https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js';
   a.target='_blank';a.rel='noopener noreferrer';$('catalog-verified').append(a);
  }
+ if(chosen.thirdPartyBasePlusZero){
+  const t=chosen.thirdPartyBasePlusZero;
+  $('catalog-verified').append(el('p',
+   'Provisional additional published +0 Base: '+t.observedComponents.join(' / ')+
+   ' (Physical / Magic / Fire / Lightning / Holy). This matches pinned Regulation 1.17, but the site has NOT stated a current 1.17.3 patch or demonstrated source independence. Not a verified game-client +0 or AR; original wiki source conflict remains open.'));
+  const link=el('a','Inspect third public +0 Base column ↗');
+  link.href=t.sourceUrl;link.target='_blank';link.rel='noopener noreferrer';
+  $('catalog-verified').append(link);
+ }
  if(chosen.secondarySourceDisagreement){
   const problem=chosen.secondarySourceDisagreement;
   const note=el('p','Ritual Thrusting Shield secondary sources disagree on weight (10 vs 9) and required Strength (13 vs 15). The version-labelled figures are only attributed readings. Weight and wield calculations remain BLOCKED pending independent game-menu verification.');

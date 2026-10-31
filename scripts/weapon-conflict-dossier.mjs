@@ -6,6 +6,15 @@
  */
 const ATTACK='v117-community-attack-conflict';
 const REQUIREMENTS='v117-community-requirement-conflict';
+/* Exact third-party "Base" values, never approved as current game-client goldens. */
+const THIRD_SOURCE_BASE=Object.freeze({
+ 'sote-reference-032':['https://tarnished.app/weapons/fire-knight-s-shortsword',[75,0,22,0,0]],
+ 'sote-reference-041':['https://tarnished.app/weapons/greatsword-of-radahn--light-',[127,82,0,0,0]],
+ 'sote-reference-042':['https://tarnished.app/weapons/greatsword-of-radahn--lord-',[127,82,0,0,0]],
+ 'sote-reference-064':['https://tarnished.app/weapons/queelign-s-greatsword',[122,0,36,0,0]],
+ 'sote-reference-071':['https://tarnished.app/weapons/smithscript-axe',[131,0,0,0,0]],
+ 'sote-reference-058':['https://tarnished.app/weapons/smithscript-dagger',[62,0,0,0,0]]
+});
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({
  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
 }[c]));
@@ -28,7 +37,16 @@ export function validateConflictEvidence(catalog,ledger){
   ledger.verification?.gameClientVerified!==false||
   ledger.verification?.publicationApproved!==false||
   ledger.verification?.acceptedCurrentGameScreenshots!==0||
-  ledger.verification?.reviewStatus!=='UNREVIEWED')
+  ledger.verification?.reviewStatus!=='UNREVIEWED'||
+  ledger.thirdPartyBaseCrosscheck?.schemaVersion!==1||
+  ledger.thirdPartyBaseCrosscheck?.scope!=='six-uninfused-plus-zero-attack-disputes'||
+  ledger.thirdPartyBaseCrosscheck?.corroboratedPinnedSourceCount!==6||
+  ledger.thirdPartyBaseCrosscheck?.totalOriginalAttackConflicts!==6||
+  ledger.thirdPartyBaseCrosscheck?.candidateSource!=='https://tarnished.app/weapons'||
+  ledger.thirdPartyBaseCrosscheck?.patchLabelOnWeaponPages!=='not specified'||
+  ledger.thirdPartyBaseCrosscheck?.extractionLineageIndependentlyVerified!==false||
+  ledger.thirdPartyBaseCrosscheck?.independentGameClientScreenshots!==0||
+  ledger.thirdPartyBaseCrosscheck?.gameClientVerified!==false)
   fail('Invalid or falsely certified conflict ledger.');
  const map=new Map(catalog.weapons.map(w=>[w.id,w]));
  const flagged=catalog.weapons.filter(w=>(w.flags||[]).includes(ATTACK)||
@@ -71,6 +89,30 @@ export function validateConflictEvidence(catalog,ledger){
     fail('Fire Knight Shortsword within-page source contradiction was lost or tampered with.');
   }else if(internal!==undefined)
    fail('Unexpected within-page contradiction on another weapon ID.');
+  const third=row.thirdPartyBasePlusZero;
+  if(row.field==='baseAttack'){
+   const expectedThird=THIRD_SOURCE_BASE[row.id];
+   if(!expectedThird||!third||third.sourceName!=='tarnished.app'||
+      third.sourceUrl!==expectedThird[0]||
+      third.fieldMeaning!=='unupgraded-standard-base-attack-components'||
+      third.observedComponents?.join(',')!==expectedThird[1].join(',')||
+      third.observedComponents?.join(',')!==row.pinned?.join(',')||
+      third.comparedTo!=='pinned-public-Regulation-1.17'||
+      third.agreement!=='matches-pinned-vector'||
+      third.referenceVersion!=='unpublished-on-this-per-weapon-page'||
+      third.independenceFromPinnedSource!=='not-demonstrated'||
+      third.conclusion!=='provisional-corroborated-public-reference-only'||
+      third.gameClientVerified!==false||third.publicationApproved!==false)
+    fail('Third-party +0 source does not match pinned six-case evidence.');
+   if(weapon.thirdPartyBasePlusZero?.sourceUrl!==third.sourceUrl||
+      weapon.thirdPartyBasePlusZero?.observedComponents?.join(',')!==third.observedComponents.join(',')||
+      weapon.thirdPartyBasePlusZero?.sourcePatchVersion!=='not-declared'||
+      weapon.thirdPartyBasePlusZero?.dataLineageIndependentlyEstablished!==false||
+      weapon.thirdPartyBasePlusZero?.gameClientVerified!==false||
+      weapon.thirdPartyBasePlusZero?.publicationApproved!==false)
+    fail('Catalog third-party +0 candidate differs from the reviewed source ledger.');
+  }else if(third!==undefined||weapon.thirdPartyBasePlusZero!==undefined)
+   fail('Requirement conflict cannot claim a third-party +0 attack source.');
   const current=row.field==='baseAttack'?weapon.attack:weapon.requirements;
   if(!Array.isArray(current)||current.length!==5||
    !Array.isArray(row.community)||row.community.length!==5||
@@ -86,6 +128,11 @@ export function validateConflictEvidence(catalog,ledger){
    id:row.id,name:weapon.name,field:row.field,
    sourceCommunity:[...row.community],sourcePinned:[...row.pinned],
    priority:row.priority,sourceUrl:row.wiki,otherSourceUrl:row.other,
+   thirdPartyBasePlusZero:row.field==='baseAttack'?{
+    sourceUrl:third.sourceUrl,observedComponents:[...third.observedComponents],
+    evidenceClass:'unversioned-published-base-row',sourceLineageIndependentlyVerified:false,
+    currentGameVerified:false,provisionalCandidate:'pinned-v117'
+   }:null,
    withinPageZeroContradiction:row.id==='sote-reference-032'?{
     sourceUrl:internal.sourceUrl,samePageStats:[...internal.samePageStats],
     samePageStandardZero:[...internal.samePageStandardZero],
@@ -109,6 +156,7 @@ export function validateConflictEvidence(catalog,ledger){
   pinnedSourceUrl:ledger.pinnedSourceUrl,officialPatchUrl:ledger.officialPatchUrl,
   entries:entries.sort((a,b)=>a.priority-b.priority||a.name.localeCompare(b.name)),
   currentPatchCorroborationCount:entries.filter(x=>x.currentPatchCorroboration).length,
+  unversionedBaseCorroborationCount:entries.filter(x=>x.thirdPartyBasePlusZero).length,
   screenshotCount:0,gameClientVerified:false};
 }
 export function conflictDossierHtml(data){
@@ -128,7 +176,12 @@ export function conflictDossierHtml(data){
    '" rel="noopener noreferrer">Community record</a> · '+
    '<a href="'+esc(item.otherSourceUrl)+
    '" rel="noopener noreferrer">Additional reference</a></td>'+
-   '<td>'+ (item.currentPatchCorroboration?
+   '<td>'+(item.thirdPartyBasePlusZero?
+    '<strong>Third public Base: '+esc(format(item.thirdPartyBasePlusZero.observedComponents))+
+    ' (matches pinned; patch/lineage unverified)</strong> · '+
+    '<a href="'+esc(item.thirdPartyBasePlusZero.sourceUrl)+
+    '" rel="noopener noreferrer">Third source</a> · ':'')+
+    (item.currentPatchCorroboration?
     '1.17.3 secondary data supports pinned '+esc(format(item.currentPatchCorroboration.observedValues))+
     ' · <a href="'+esc(item.currentPatchCorroboration.sourceUrl)+
     '" rel="noopener noreferrer">Current-patch source</a> · ':'')+
@@ -149,6 +202,13 @@ export function conflictDossierHtml(data){
   '<th scope="col">Different components</th><th scope="col">Source links</th>'+
   '<th scope="col">Review status</th></tr></thead><tbody>'+
   rows+'</tbody></table></div>'+
+  '<p><strong>Unversioned third-source +0 checks: '+esc(data.unversionedBaseCorroborationCount)+
+  ' of 6 published base-attack disputes match the pinned Regulation 1.17 vector.</strong> '+
+  'This favors the pinned source as a <em>provisional published-data candidate</em> '+
+  'for these six weapons. However, the third-party weapon pages lack an explicit current App/Regulation '+
+  'version and do not document independent data extraction lineage. Agreement is NOT game-client '+
+  'verification. All six original source disagreements stay open; trusted AR and upgrade '+
+  'calculations continue to block the disputed +0 figures.</p>'+
   '<p><strong>Current-patch corroboration: 1 of 7 historical disagreements.</strong> '+
   'Fire Knight\'s Shortsword also has a <strong>contradiction inside the same wiki page</strong>: '+ 
   'its basic Stats section says PHY 75 / FIRE 32, while the Standard +0 row says PHY 72 / FIRE 22. '+ 
