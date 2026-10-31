@@ -32,11 +32,15 @@ test('DLC weapon cannot be selected without explicit SOTE reference availability
  assert.equal(inspectBuildWeapon(catalog.weapons,spear.id,stats).weight,23);
  assert.equal(inspectBuildWeapon(catalog.weapons,null,stats),null);
 });
-test('partially sourced weapon has nonzero weight but still unknown attack and scaling',()=>{
+test('source-disputed weapon retains reported fields without trusted attack or equip weight',()=>{
  const nameOnly=find('Stone-Sheathed Sword');
  const requirementsOnly=find('Anvil Hammer');
  const onlyName=inspectBuildWeapon(catalog.weapons,nameOnly.id,stats,{allowSote:true});
- assert.equal(onlyName.weight,3.5);
+ assert.equal(onlyName.weight,null);
+ assert.equal(onlyName.weightDisputed,true);
+ assert.equal(onlyName.reportedWeight,3.5);
+ assert.equal(onlyName.attackDisputed,true);
+ assert.deepEqual(onlyName.reportedAttackAtZero,[89,0,0,0,0]);
  assert.deepEqual(onlyName.requirements,[16,8,0,0,0]);
  assert.equal(onlyName.oneHanded,true);
  assert.equal(onlyName.attackAtZero,null);
