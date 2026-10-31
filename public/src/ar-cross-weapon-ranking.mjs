@@ -32,10 +32,23 @@ export function rankLocalWeaponVariants(regulation,{
   typeof twoHanded!=='boolean')
   fail('Choose legal regular +0..25, somber +0..10, and grip inputs.');
  const needle=term.trim().toLocaleLowerCase('en-US');
+ const exactFamilies=term.includes(',')?term.split(',').map(x=>x.trim().toLocaleLowerCase('en-US')):null;
+ if(exactFamilies){
+  if(exactFamilies.length>8||exactFamilies.some(x=>x.length<2||x.length>100)||
+   new Set(exactFamilies).size!==exactFamilies.length)
+   fail('Enter 2–8 unique exact weapon names/families separated by commas (up to 8).');
+  for(const required of exactFamilies)
+   if(!regulation.weapons.some(w=>(nameOf(w)?.toLocaleLowerCase('en-US')===required||
+     w?.name?.toLocaleLowerCase('en-US')===required)))
+    fail('No exact source weapon/family named "'+required+'"; correct the name before ranking.');
+ }
  const matches=regulation.weapons.filter(w=>w&&typeof w.name==='string'&&
   typeof nameOf(w)==='string'&&
-  (w.name.toLocaleLowerCase('en-US').includes(needle)||
-   nameOf(w).toLocaleLowerCase('en-US').includes(needle))&&
+  (exactFamilies?
+   exactFamilies.includes(w.name.toLocaleLowerCase('en-US'))||
+    exactFamilies.includes(nameOf(w).toLocaleLowerCase('en-US')):
+   w.name.toLocaleLowerCase('en-US').includes(needle)||
+    nameOf(w).toLocaleLowerCase('en-US').includes(needle))&&
   affinityAllowed(w,affinityId))
   .sort((a,b)=>nameOf(a).localeCompare(nameOf(b))||
     (a.affinityId??99)-(b.affinityId??99)||a.name.localeCompare(b.name));
@@ -78,7 +91,7 @@ export function rankLocalWeaponVariants(regulation,{
  }
  rows.sort(sortable);
  return {
-  status:'complete-query',term:term.trim(),affinityId,regularUpgrade,somberUpgrade,
+  status:'complete-query',term:term.trim(),queryMode:exactFamilies?'exact-name-list':'substring',affinityId,regularUpgrade,somberUpgrade,
   totalMatches:matches.length,rankedCount:rows.length,excludedCount:excluded.length,
   excludedExamples:excluded.slice(0,12),rows,gameVersion,
   note:'Nominal AR ranking only; source parameters are not game-client certified. Higher AR is not necessarily higher enemy damage. Out-of-requirement weapons remain visible but flagged.'
