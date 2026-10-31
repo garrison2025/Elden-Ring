@@ -125,8 +125,12 @@ el('add').addEventListener('click',async()=>{
 el('clear').addEventListener('click',()=>{
  if(collecting){note('Finish the current file fingerprint first.');return;}
  drafts.clear();
+ // Privacy: clear both local File input references and every typed value too.
+ for(const id of ['title-image','weapon-image','app','regulation','date'])
+  el(id).value='';
+ el('platform').value='';
  if(ledger&&catalog){renderSelectedCase();renderProgress();}
- note('Temporary session observations cleared. No browser storage or server copies were created.');
+ note('Temporary session observations, selected screenshot files and typed version/session details cleared. No browser storage or server copies were created.');
 });
 el('export').addEventListener('click',()=>{
  try{
