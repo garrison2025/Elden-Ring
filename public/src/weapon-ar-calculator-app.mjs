@@ -1,4 +1,5 @@
 import {POWER_STATS} from './weapon-ar.mjs';
+import {createDamageHandoffUrl} from './damage-ar-handoff.mjs';
 import {rankingToCsv} from './ar-cross-weapon-ranking.mjs';
 import {TARNISHED_V117_AFFINITIES} from './tarnished-same-input.mjs';
 import {makeTarnishedSameInputUrl,compareUserEnteredReferenceAr} from './tarnished-same-input.mjs';
@@ -231,14 +232,15 @@ const renderCompare=result=>{
  const damageLink=$('qar-damage-link');
  damageLink.hidden=true;
  if(sourceKind==='pinned'&&!unmet.length&&elements.some(x=>x.displayed>0)){
-  const dest=new URL('../damage-calculator/',location.href);
-  for(const part of elements){
-   if(['physical','magic','fire','lightning','holy'].includes(part.element)&&
-    Number.isFinite(part.displayed)&&part.displayed>=0)
-    dest.searchParams.set(part.element,String(part.displayed));
+  try{
+   // Send all five channels, explicitly zeroing absent types (never keep
+   // Damage Lab's fictional 500 physical AR default on elemental weapons).
+   damageLink.href=createDamageHandoffUrl(location.href,elements);
+   damageLink.hidden=false;
+  }catch{
+   // Unsupported or ambiguous source components must not produce a link.
+   damageLink.hidden=true;
   }
-  damageLink.href=dest.toString();
-  damageLink.hidden=false;
  }
  const caveats=[];
  if(sourceKind==='demo')caveats.push('FICTIONAL DEMONSTRATION — invented numbers, not Elden Ring weapon AR.');
