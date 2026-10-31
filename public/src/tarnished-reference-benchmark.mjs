@@ -1,9 +1,10 @@
 import {convertCompactRegulation} from './regulation-import.mjs';
 import {calculateAr,POWER_STATS} from './weapon-ar.mjs';
 
-/** One externally observed display result. Public rendered AR was observed once,
- * but repeated unauthenticated fetches failed to render the saved build. Thus
- * sourceRepeatable=false, and this cannot alone pass any reference release gate.
+/** Named public UI observations: first rendered through site scraping then
+ * read in a real GitHub-hosted Chrome browser; five cases from run 41180413857.
+ * A reference may count as repeatable only when independently observed in a
+ * later browser run with the exact UI inputs confirmed. None certifies game.
  * Tarnished.dev and Tarnished.app are unrelated sources.
  */
 export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
@@ -15,8 +16,52 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
   sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
   sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Standard&smith=0&somber=0&twoHanded=false',
   observedDisplay:'Equipped Right Hand 1 / Uchigatana / Standard / Scaling D-D / Total AR : 172',
+  referenceObservedOnce:true,sourceRepeatable:true,
+  note:'Observed in public rendered page and independently repeated by free GitHub-hosted Chrome. Requires final checkbox/input verification in the live browser probe before benchmark release.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-uchigatana-standard-plus0-min12-15-1h',
+  weaponName:'Uchigatana',affinity:'Standard',affinityId:0,
+  playerStats:Object.freeze({str:12,dex:15,int:10,fai:10,arc:10}),
+  upgrade:0,twoHanded:false,expectedTotal:133,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=12&dex=15&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Standard&smith=0&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Uchigatana / Standard / Scaling D/D/-/-/- / Total AR : 133',
   referenceObservedOnce:true,sourceRepeatable:false,
-  note:'Captured one rendered public AR value; repeated automated requests returned empty weapon slots. Treat as preliminary unconfirmed source observation, not a stable public benchmark.'
+  note:'Observed as rendered site AR by GitHub-hosted Chromium #41180413857. Requires an additional independently input-verified live Chrome pass.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-uchigatana-standard-plus25-40str40dex-1h',
+  weaponName:'Uchigatana',affinity:'Standard',affinityId:0,
+  playerStats:Object.freeze({str:40,dex:40,int:10,fai:10,arc:10}),
+  upgrade:25,twoHanded:false,expectedTotal:491,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Standard&smith=25&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Uchigatana / Standard / Scaling D/C/-/-/- / Total AR : 491',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Observed as rendered site AR by GitHub-hosted Chromium #41180413857. Requires an additional independently input-verified live Chrome pass.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-uchigatana-keen-plus25-40str40dex-1h',
+  weaponName:'Uchigatana',affinity:'Keen',affinityId:2,
+  playerStats:Object.freeze({str:40,dex:40,int:10,fai:10,arc:10}),
+  upgrade:25,twoHanded:false,expectedTotal:488,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Keen&smith=25&somber=0&twoHanded=false',
+  observedDisplay:'Equipped Right Hand 1 / Uchigatana / Keen / Scaling E/A/-/-/- / Total AR : 488',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Observed as rendered site AR by GitHub-hosted Chromium #41180413857. Requires an additional independently input-verified live Chrome pass.'
+ }),
+ Object.freeze({
+  id:'tarnished-v117-uchigatana-standard-plus0-40str40dex-2h',
+  weaponName:'Uchigatana',affinity:'Standard',affinityId:0,
+  playerStats:Object.freeze({str:40,dex:40,int:10,fai:10,arc:10}),
+  upgrade:0,twoHanded:true,expectedTotal:180,
+  sourceVersion:'1.17',sourceObservedDate:'2026-10-31',
+  sourceUrl:'https://www.tarnished.dev/build-planner?str=40&dex=40&int=10&fai=10&arc=10&rh1=Uchigatana&aRh1=Standard&smith=0&somber=0&twoHanded=true',
+  observedDisplay:'Equipped Right Hand 1 / Uchigatana / Standard / Scaling D/D/-/-/- / Total AR : 180',
+  referenceObservedOnce:true,sourceRepeatable:false,
+  note:'Observed as rendered site AR by GitHub-hosted Chromium #41180413857. Requires an additional independently input-verified live Chrome pass.'
  })
 ]);
 const fail=s=>{throw new RangeError(s)};
