@@ -64,7 +64,7 @@ test('fifteen input-verified public browser candidate cases cover six weapon fam
  assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.affinity)).size,4);
  assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.upgrade)).size,3);
  assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.twoHanded).length,2);
- assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.sourceRepeatable).length,5);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.sourceRepeatable).length,15);
  const x=auditTarnishedV117ReferenceAR(fixture());
  assert.equal(x.candidateCount,15);
  assert.equal(x.referenceReleaseReady,false);
