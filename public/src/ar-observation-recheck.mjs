@@ -1,4 +1,5 @@
 import {makeUnreviewedArObservation} from './ar-observation.mjs';
+import {validateLocalScreenshotFingerprint} from './ar-screenshot-fingerprint.mjs';
 import {convertCompactRegulation} from './regulation-import.mjs';
 import {calculateAr} from './weapon-ar.mjs';
 
@@ -24,6 +25,14 @@ export function recheckUnreviewedArDraft(root,{gameVersion,sourceReference,draft
   upgrade:input.upgrade,twoHanded:input.twoHanded,
   observedTotal:draft.expectedOutputs?.totalAr,candidateTotal:candidate.totalAr
  });
+ // A single imported draft must pass the same screenshot metadata gate as
+ // batch rechecks. A hash is file identity only, never a screenshot review.
+ const rawFingerprint=draft.sourceEvidence?.screenshotFingerprint;
+ if(rawFingerprint!==undefined&&rawFingerprint!==null){
+  const fingerprint=validateLocalScreenshotFingerprint(rawFingerprint);
+  if(fingerprint.filename!==normalized.sourceEvidence.reference)
+   fail('Screenshot fingerprint filename must match its observation evidence reference.');
+ }
  const storedFieldsConsistent=
   candidate.numericMatch===normalized.candidateCalculation.numericMatch&&
   candidate.differenceCandidateMinusObserved===
