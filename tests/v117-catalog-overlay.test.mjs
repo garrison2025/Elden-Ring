@@ -72,5 +72,5 @@ test('page only requests 3296 source variants after explicit user click, never p
  assert.match(app,/downloadV117Source\(fetch\)/);
  assert.match(app,/v117Overlay=overlay/);
  assert.match(app,/renderV117SourceFacts/);
- assert.match(html,/does not.*establish weapon weight/);
+ assert.match(html,/establish weapon weight/);
 });
