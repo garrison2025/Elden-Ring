@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>20 Source Disputes — Local Game Evidence Collection | Elden Ring Build Lab</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css"></head>
+<body><header class="site-header"><div class="container header-inner"><a href="../" class="brand"><span class="brand-mark">✧</span><span>BUILD<span class="gold"> LAB</span></span></a>
+<nav class="nav"><a href="../weapon-database/">Weapons</a><a href="../weapon-source-review/">72 Source Audit</a><a href="../validation-status/">Accuracy</a></nav></div></header>
+<main class="container">
+<section class="hero"><div class="eyebrow">Actual game client required · 20 disputed field checks · Local-only</div>
+<h1>Game-menu Evidence Collection</h1>
+<p>Source comparisons are NOT current-game verification. This checklist brings together 7 legacy DLC conflict fields, 2 Stone-Sheathed Sword fields, 2 Ritual Thrusting Shield fields and 9 newly discovered source conflicts in the recovered 72-equipment roster: <strong>20 field checks across 17 weapons</strong>.</p>
+<div class="safe-banner"><strong>Zero certified game readings.</strong> This form requires genuine game screenshots from <strong>App 1.17.2 / Regulation 1.17.3</strong>. It calculates file SHA-256 and stores manually typed field values only in temporary browser memory. It cannot inspect or authenticate screenshot contents, verify a claimed version, or grant source authority. All JSON exports remain <strong>UNREVIEWED</strong>. There is no upload, account, API or persistent server storage.</div>
+</section>
+<section class="panel" aria-labelledby="qa-heading"><h2 id="qa-heading">Collect current-game observations</h2>
+<label class="field">Disputed weapon and field
+ <select id="qa-case" disabled><option value="">Loading source cases…</option></select>
+</label>
+<div id="qa-sources" class="note" aria-live="polite"></div>
+<div id="qa-values" class="equipment-builder-grid"></div>
+<div class="equipment-builder-grid">
+ <label class="field">App version shown on game's title screen
+  <input id="qa-app" type="text" maxlength="40" placeholder="Example: 1.17.2" autocomplete="off"></label>
+ <label class="field">Regulation version shown on title screen
+  <input id="qa-regulation" type="text" maxlength="40" placeholder="Example: 1.17.3" autocomplete="off"></label>
+ <label class="field">Platform
+  <select id="qa-platform"><option value="">Choose your actual game platform</option>
+   <option>PC / Windows</option><option>PlayStation 4</option><option>PlayStation 5</option>
+   <option>Xbox One</option><option>Xbox Series X|S</option></select></label>
+ <label class="field">Observation date
+  <input id="qa-date" type="date"></label>
+</div>
+<div class="equipment-builder-grid">
+ <label class="field">Original title screen screenshot with App and Regulation versions
+  <input id="qa-title" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"></label>
+ <label class="field">Original +0 weapon equipment detail screenshot
+  <input id="qa-weapon" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"></label>
+</div>
+<div class="equipment-builder-fields">
+ <label class="build-content-check"><input type="checkbox" id="qa-zero"><span>Read exact named weapon at reinforcement +0, not upgraded values.</span></label>
+ <label class="build-content-check"><input type="checkbox" id="qa-default"><span>Weapon is default/uninfused; no other affinity was silently substituted.</span></label>
+ <label class="build-content-check"><input type="checkbox" id="qa-detail"><span>Recorded the item's individual equipment-detail panel, not character total AR.</span></label>
+</div>
+<div class="workbench-actions">
+ <button class="btn" id="qa-add" type="button" disabled>Record UNREVIEWED draft</button>
+ <button class="btn alt" id="qa-export" type="button" disabled>Export local JSON</button>
+ <button class="btn alt" id="qa-clear" type="button">Clear local drafts</button>
+</div>
+<p id="qa-feedback" role="status" class="note">Loading original source-ledger evidence…</p></section>
+<section class="panel"><h2>Evidence collection status (not authentication)</h2>
+<p id="qa-total" class="note">0/20 local observations, 0 game-client verified.</p>
+<div class="table-wrap"><table class="datatable"><thead><tr><th scope="col">Weapon and field</th><th scope="col">Unreviewed capture status</th></tr></thead>
+<tbody id="qa-progress"></tbody></table></div>
+<p class="note">Screenshots are not uploaded or included in exports; original screenshot bytes remain on your computer. Hash equality proves only identical file bytes, never game truth. Independent manual review of actual images is required before any correction or IN_GAME_VERIFIED label.</p></section>
+</main><script type="module" src="../src/current-game-qa-app.mjs"></script></body></html>
