@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "source": "https://www.tarnished.dev/",
+  "sourceKind": "external-competitor-not-our-release",
+  "gameDataCertified": false,
+  "ourFeaturesUpdated": false,
+  "humanOrIndependentReviewRequired": true,
+  "referenceVersion": "v1.17",
+  "previousReferenceVersion": "v1.17",
+  "fingerprint": "befb829e697014111b47277a1340608b5374f7ad236aac24b5a23e3e97e4c93f",
+  "reviewPriority": "baseline",
+  "reviewStatus": "baseline-no-new-delta",
+  "recentUpdates": [
+    {
+      "date": "2026-10-23",
+      "digest": "12c0b05e604d08e12d46009311a74701339b2fe30a947ace101cbb9de0b7b599",
+      "excerpt": "Improved the Armor Optimizer. Fixed an Armor Optimizer issue that could skip valid armor combinations. Added b"
+    },
+    {
+      "date": "2026-08-28",
+      "digest": "7e40f775b8836cebd71bf27ea111fa773164d7ff8dbb2d5996cd1e9f493a026f",
+      "excerpt": "Updated data to support Elden Ring patch 1.17."
+    },
+    {
+      "date": "2024-09-12",
+      "digest": "8a15d330f4edb6fbfa37b2d273d134a26b9081d46c0533abcdd733c48caa2618",
+      "excerpt": "Updated to 1.14. Fixed affinity filters. DPS calculation is now on the Damage Calculator."
+    },
+    {
+      "date": "2024-09-02",
+      "digest": "1a6edf9dcbd400920527ab0619dac012b27dcaf288ec51cc30c60700c466064b",
+      "excerpt": "Added back DPS and damage calculation. Bug fixes and other additions."
+    },
+    {
+      "date": "2024-07-10",
+      "digest": "b6692b72ed78a52ef515f4ce048cac74757532f4567276a5a62d70b050098a12",
+      "excerpt": "Fixed and updated build sharing links."
+    },
+    {
+      "date": "2024-06-30",
+      "digest": "d3a2532bbf4085e0a510524df7540cb993e137760896a5537aacb199fd2520f7",
+      "excerpt": "Added DLC armor exclusion to the Armor Optimizer and fixed missing DLC armor."
+    }
+  ],
+  "changedEntryCount": 0,
+  "sourceUrl": "https://www.tarnished.dev/",
+  "reviewIssuesUrl": "https://github.com/garrison2025/Elden-Ring/issues",
+  "scope": "External update notice only. Independent site feature/algorithm sync is not automated."
+}
