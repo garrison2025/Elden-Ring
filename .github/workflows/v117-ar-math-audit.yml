@@ -9,6 +9,7 @@ on:
       - public/src/v117-catalog-crosscheck.mjs
       - public/src/regulation-catalog-family-audit.mjs
       - scripts/audit-v117-pinned.mjs
+      - public/src/tarnished-reference-benchmark.mjs
       - public/src/regulation-parity.mjs
       - public/src/external-ar-evidence.mjs
       - public/src/current-reference-ar.mjs
@@ -20,6 +21,7 @@ on:
     paths:
       - .github/workflows/v117-ar-math-audit.yml
       - scripts/audit-v117-pinned.mjs
+      - public/src/tarnished-reference-benchmark.mjs
       - public/src/regulation-parity.mjs
       - public/src/regulation-import.mjs
       - public/src/weapon-ar.mjs
