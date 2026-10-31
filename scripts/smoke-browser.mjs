@@ -968,6 +968,29 @@ try{
   const arMobile=await evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth})");
   assert.ok(arMobile.scroll<=arMobile.width+5,'Real v1.17 source calculator mobile overflow '+JSON.stringify(arMobile));
   console.log('[REAL V1.17 BROWSER] PASS: user-clicked public source, Uchigatana 172 / 180 (2H) / 491 (+25) / Keen 488, Somber +10 cap, 375px mobile');
+  await navigate('/build-planner/');
+  await waitFor("document.querySelector('#build-weapon')?.disabled===false",
+   'Build Planner reloads catalog before external armor source test');
+  await evaluate("document.querySelector('#build-loadout-start').click()");
+  await waitFor("document.querySelector('#build-loadout-container')?.hidden===false",
+   'Build Planner equipment panel active');
+  assert.ok((await evaluate("document.querySelector('#build-loadout-armor-source-status').textContent"))
+   .includes('not loaded'),'Pinned armor JSON never auto-downloads on page load');
+  await evaluate("document.querySelector('#build-loadout-load-armor').click()");
+  await waitFor("document.querySelector('#build-loadout-armor-source-status').textContent.includes('568')||document.querySelector('#build-loadout-armor-source-status').textContent.includes('unavailable')",
+   'Explicit user armor source load or real error');
+  const armorStatus=await evaluate("document.querySelector('#build-loadout-armor-source-status').textContent");
+  assert.ok(armorStatus.includes('568'), 'Pinned armor reference failed in Chrome: '+armorStatus);
+  await evaluate("(()=>{const e=document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=text]')[1];e.value='Black Knife Armor';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  const armorResult=await evaluate("({weight:document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=number]')[1].value,source:document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=number]')[1].dataset.source,text:document.querySelector('#build-loadout-results').textContent})");
+  assert.equal(armorResult.weight,'9.2');
+  assert.equal(armorResult.source,'community');
+  assert.ok(armorResult.text.includes('pinned-community-armor-unverified'),
+   'Armor result must clearly indicate source unverified, never user/game certification');
+  await evaluate("(()=>{const e=document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=text]')[1];e.value='NOT A REAL ARMOR';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  assert.equal(await evaluate("document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=number]')[1].value"),'',
+   'Changing armor name clears auto-filled weight rather than reusing a stale source value');
+
  }
 
  // Regression for the manual-input research armor optimizer: exclude a single
