@@ -11,7 +11,7 @@ const catalog=validateCommunityCatalog(JSON.parse(readFileSync(
 const categories=['Helm','Chest Armor','Gauntlets','Leg Armor'];
 const fake=()=>Array.from({length:568},(_,i)=>({
  id:'fictional-'+String(i).padStart(7,'0')+'-qa-only',
- name:'FICTIONAL ITEM '+i,weight:1+i/100,
+ name:'FICTIONAL ITEM '+i,weight:Number((1+i/100).toFixed(2)),
  category:categories[i%4],
  image:'https://not-used.invalid/photo.png',description:'DO NOT COPY!'
 }));
