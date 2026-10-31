@@ -134,8 +134,8 @@ const main=async()=>{
   const indexable=['index.html','class-optimizer/index.html',
    'level-rune-calculator/index.html','equip-load-calculator/index.html'];
   const sitemap=await read('sitemap.xml');
-  const domain=prod?'https://elden-ring-5i9.pages.dev':process.env.SITE_URL.trim().replace(/\\/$/,'');
-  const published=[...sitemap.matchAll(/<loc>([^<]+)<\\/loc>/g)].map(m=>m[1]).sort();
+  const domain=prod?'https://elden-ring-5i9.pages.dev':process.env.SITE_URL.trim().replace(/\/$/,'');
+  const published=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]).sort();
   assert(JSON.stringify(published)===JSON.stringify(approvedPaths.map(p=>domain+p).sort()),
    'Sitemap must contain exactly the approved first-wave routes');
   for(const p of indexable){
@@ -148,7 +148,7 @@ const main=async()=>{
    assert(html.includes('<meta name="robots" content="noindex,follow">')&&
     !html.includes('<link rel="canonical"'),
     'Unapproved content accidentally indexable: '+slug);
-   assert(headers.includes('/'+slug+'/*\\n  X-Robots-Tag: noindex'),
+   assert(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),
     'Missing header defense on unapproved content '+slug);
   }
  }
