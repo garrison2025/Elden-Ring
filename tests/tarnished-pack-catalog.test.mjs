@@ -21,6 +21,11 @@ const fields=[
  ['Silver Grooved Shield','Medium Shield',3,[9,12,0,0,0]]
 ];
 const pack=catalog.weapons.filter(w=>w.expansion==='Tarnished Pack');
+const plusZero=new Map([
+ ['Idus Sword',{attack:[124,0,0,0,0],grades:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Idus_Sword'}],
+ ['Reed Great Katana',{attack:[158,0,0,0,0],grades:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Reed_Great_Katana'}],
+ ['Silver Grooved Shield',{attack:[61,0,0,0,0],grades:['D','-','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Silver_Grooved_Shield'}]
+]);
 
 test('full 2026 Tarnished Pack armament set is present with traceable requirements/weight, not fictional +0 attack',()=>{
  assert.equal(validateCommunityCatalog(catalog),catalog);
@@ -29,7 +34,9 @@ test('full 2026 Tarnished Pack armament set is present with traceable requiremen
  assert.equal(catalog.meta.baseCommunityCount,306);
  assert.equal(catalog.meta.dlcCatalogCount,102);
  assert.equal(catalog.meta.tarnishedPackCount,8);
- assert.equal(catalog.meta.tarnishedPackWeightedRequirementsCount,8);
+ assert.equal(catalog.meta.tarnishedPackWeightedRequirementsCount,5);
+ assert.equal(catalog.meta.tarnishedPackBaseFactCount,3);
+ assert.equal(catalog.meta.currentPatchRequirementsCorroborationCount,1);
  assert.equal(catalog.meta.v117SourceConflictCount,7);
  assert.equal(new Set(catalog.weapons.map(w=>w.id)).size,416);
  assert.equal(new Set(pack.map(w=>w.name)).size,8);
@@ -38,17 +45,26 @@ test('full 2026 Tarnished Pack armament set is present with traceable requiremen
   assert.equal(w.category,category);
   assert.equal(w.weight,weight);
   assert.deepEqual(w.requirements,requirements);
-  assert.equal(w.attack,null);
-  assert.equal(w.critical,null);
-  assert.equal(w.scaling,null);
-  assert.equal(baseDamageParts(w),null);
-  assert.deepEqual(reportedBaseDamageParts(w),[]);
-  assert.equal(w.dataCoverage,'requirements-weight-only');
+  const ref=plusZero.get(name);
+  if(ref){
+   assert.equal(w.dataCoverage,'base-reference');
+   assert.deepEqual(w.attack,ref.attack);
+   assert.equal(w.critical,100);
+   assert.deepEqual(w.scaling,ref.grades);
+   assert.equal(w.checkedWith,ref.url);
+   assert.deepEqual(baseDamageParts(w),[{name:'Physical',amount:ref.attack[0]}]);
+   assert.equal(w.baseFactsProvenance.versionVerified,false);
+  }else{
+   assert.equal(w.dataCoverage,'requirements-weight-only');
+   assert.equal(w.attack,null);assert.equal(w.critical,null);assert.equal(w.scaling,null);
+   assert.equal(baseDamageParts(w),null);
+   assert.deepEqual(reportedBaseDamageParts(w),[]);
+  }
   assert.equal(w.parameterReference.regulation,'1.17.3');
   assert.equal(w.parameterReference.gameBuild,'25827938');
   assert.equal(w.requirementsSourceUrl,'https://almanauts.com/eldenring/weapons/');
   assert.equal(w.weightSourceUrl,w.requirementsSourceUrl);
-  assert.ok(cautionForWeapon(w).some(s=>s.includes('NOT independently inspected')));
+  assert.ok(cautionForWeapon(w).some(s=>ref?s.includes('not a separately verified'):s.includes('NOT independently inspected')));
  }
 });
 
@@ -57,11 +73,11 @@ test('source-separated filter does not misclassify Tarnished Pack weapons as ori
  assert.equal(searchCatalog(catalog.weapons,{coverage:'dlc'}).total,102);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished'}).total,8);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',term:'Silver Grooved'}).total,1);
- assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'physical'}).total,0,
-  'Unknown +0 attack must never be inferred physical from a patch-labelled max-upgrade total');
+ assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'physical'}).total,3,
+  'Only the three individually sourced wiki +0 rows, not max-upgrade figures, may match');
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',maxWeight:3}).total,2);
  assert.deepEqual(getCatalogCoverage(catalog),{
-  weapons:416,dlc:102,dlcBaseFacts:101,tarnishedPack:8
+  weapons:416,dlc:102,dlcBaseFacts:101,tarnishedPack:8,tarnishedPackBaseFacts:3
  });
 });
 
@@ -92,7 +108,7 @@ test('version/attribute/source tampering and fabricated +0 numbers are refused',
  const base=structuredClone(catalog);
  for(const mutate of [
   w=>{w.attack=[100,0,0,0,0];},
-  w=>{w.critical=100;},
+  w=>{w.critical=101;},
   w=>{w.scaling=['D','E','-','-','-'];},
   w=>{w.requirements=[10,15,0,0,0];w.requirementsSourceUrl='https://fake.example.org';},
   w=>{w.parameterReference.regulation='1.17';},
