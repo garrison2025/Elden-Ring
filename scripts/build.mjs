@@ -16,8 +16,6 @@ const productionDeployment=process.env.CF_PAGES==='1'&&process.env.CF_PAGES_BRAN
 const indexApproved=process.env.RELEASE_INDEX_APPROVED==='1';
 const url=(productionDeployment?PRODUCTION_ORIGIN:(process.env.SITE_URL||'')).trim().replace(/\/$/,'');
 const releaseEnabled=!!url&&(productionDeployment||indexApproved);
-if(productionDeployment&&process.env.RELEASE_INDEX_APPROVED==='0')
- throw Error('Production SEO release is code-approved; do not override it with a stale environment flag.');
 if(url&&!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(url))throw Error('SITE_URL must be an HTTPS origin, e.g. https://example.com');
 await rm(dist,{force:true,recursive:true});await cp(source,dist,{recursive:true});
 const catalog=JSON.parse(await readFile(path.join(source,'data/community-weapon-catalog.json'),'utf8'));
