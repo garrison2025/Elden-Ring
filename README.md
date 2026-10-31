@@ -489,3 +489,34 @@ use public `/deployment-info.json` for actual production revision parity.
 For extra privacy, the browser uses an isolated temporary profile and
 removes it when finished. Static unit/integrity and real-browser workflows
 run independently on pushes and pull requests.
+
+## Compare two character Builds in-place (2026-10-31)
+
+The existing `/build-planner/` now supports a **temporary pinned Build A**
+compared live against the editable **Build B**. Pin the currently valid
+class, eight attributes, content permissions and optional source weapon;
+then change B's class, stats or selected weapon. The page displays a stable
+side-by-side table of the eight attribute differences, resulting level,
+allocated points above each origin, and upgrade rune budget calculated
+**independently from each Build's own starting class**. It also displays
+the selected source weapon's one-handed requirement state and individual
+weight, when present and covered by the bundled weapon reference catalog.
+No weapon AR, enemy damage, total equipment weight or respec cost is
+inferred from these comparisons.
+
+The baseline is **memory-only** for the open tab; it is neither included
+in the existing Build share URL nor written into the Build/Smithing
+localStorage records. It is only replaced by **Pin current Build as A**
+or removed by **Clear comparison**. Invalid current stats do not reset the
+pinned baseline; the comparison temporarily hides with an explanatory
+error until the inputs are valid again. Content access flags are stored
+separately for A and B so Tarnished Pack origins and Shadow of the Erdtree
+weapon references cannot be silently substituted. All text is displayed
+using safe DOM text nodes, with a mobile-scrollable table.
+
+Regression coverage includes pure A/B math, cross-origin rune-budget
+semantics, weapon source identity, both distinct DLC gates, invalid/legacy
+state rejection and real Chrome browser interaction in the existing
+`browser-smoke.yml` workflow (pin A → change VIG → check +1 level →
+switch starting class → check 375px viewport). This is a player-facing
+research function on the existing Build Planner, not a thin duplicate page.
