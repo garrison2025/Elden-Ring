@@ -5,23 +5,6 @@ const fail=m=>{throw new RangeError(m);};
 export const CONFLICT_BUNDLE_MAX_BYTES=110_000;
 
 /**
- * JSON object member order is not meaningful; preserve strict equality of
- * keys, array order, primitives and derived values without admitting extras.
- * Object prototype keys are compared only as own data properties.
- */
-function sameJson(a,b){
- if(a===b)return true;
- if(a===null||b===null||typeof a!==typeof b||
-  typeof a!=='object')return false;
- const aa=Array.isArray(a),bb=Array.isArray(b);
- if(aa!==bb)return false;
- if(aa)return a.length===b.length&&a.every((value,i)=>sameJson(value,b[i]));
- const ak=Object.keys(a),bk=Object.keys(b);
- return ak.length===bk.length&&ak.every(key=>
-  Object.hasOwn(b,key)&&sameJson(a[key],b[key]));
-}
-
-/**
  * Read a previously exported seven-entry bundle, re-derive every observation
  * from the CURRENT pinned community catalog and source ledger, and refuse
  * any changed status, source values, version or inconsistent outer envelope.
@@ -43,7 +26,7 @@ export function parseConflictCaptureBundle(ledger,catalog,raw){
  // Verifies full outer envelope as well as every re-derived inner observation.
  // Different JSON serializers may reorder object keys. That is harmless.
  // However every key and value, including review flags, must remain exact.
- if(!sameJson(bundle,canonical))
+ if(!sameJsonStructure(bundle,canonical))
   fail('Saved evidence fields do not match the current source or UNREVIEWED schema.');
  return canonical;
 }
