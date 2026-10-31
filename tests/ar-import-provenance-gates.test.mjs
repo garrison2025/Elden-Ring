@@ -65,7 +65,7 @@ test('invalid source never yields a misleading reinforcement progression or nomi
 test('source data is unchanged: community facts remain distinct from game-client goldens',()=>{
  const p=readFileSync(new URL('../public/data/community-weapon-catalog.json',import.meta.url),'utf8');
  const catalog=JSON.parse(p);
- assert.equal(catalog.weapons.length,408);
+ assert.equal(catalog.weapons.length,416);
  assert.equal(catalog.meta.v117SourceConflictCount,7);
  const doc=readFileSync(new URL('../docs/AR_SOURCE_COMPLETENESS_GATES_20261031.md',import.meta.url),'utf8');
  assert.match(doc,/0 approved game-client AR screenshot goldens/);
