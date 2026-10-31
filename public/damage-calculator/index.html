@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
+<title>Elden Ring Damage Calculator – Defense, Negation & DPS | Build Lab</title>
+<meta name="description" content="Preview Elden Ring damage per hit and estimated DPS with manual attack rating, motion value, enemy defense and negation per damage type. Free browser-only calculator.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/damage-reference.css">
+</head><body data-page="damage">
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a>
+<nav class="nav" aria-label="Main navigation"><a href="../">Tools</a><a href="../build-planner/">Build Planner</a><a href="../weapon-ar-calculator/">Weapon AR</a><a href="../armor-optimizer/">Armor Optimizer</a></nav>
+<details class="mobile-menu"><summary aria-label="Open navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a href="../">Tools</a><a href="../weapon-ar-calculator/">Weapon AR</a><a href="../armor-optimizer/">Armor</a></nav></details>
+<a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a>
+</div></header>
+<main class="container damage-page">
+<section class="hero damage-hero">
+<div class="eyebrow">Damage Lab / Community defense model</div>
+<h1>From weapon AR.<br><em>To damage per hit.</em></h1>
+<p>Enter attack rating, enemy defenses and damage negation to see how a hit changes across five independent damage channels. Adjust motion value and attack speed to estimate DPS. Calculations stay in your browser.</p>
+<span class="pill">Free · No account · No API · Research preview / noindex</span>
+</section>
+<div class="damage-layout">
+<div class="damage-workspace">
+<section class="panel">
+<div class="eyebrow">01 / Your attack</div><h2>Attack Rating by damage type</h2>
+<p class="note">Attack Rating is <strong>not</strong> damage. Use values from <a href="../weapon-ar-calculator/">our v1.17 Weapon AR calculator</a> or enter your own. The URL handoff is user-supplied and is not trusted proof of source authenticity.</p>
+<div id="damage-attack-fields" class="damage-field-grid"></div>
+<label class="field">Physical attack style
+<select id="damage-physical-type">
+<option value="physical">Standard physical</option>
+<option value="strike">Strike</option>
+<option value="slash">Slash</option>
+<option value="pierce">Thrust / Pierce</option>
+</select></label>
+<p id="damage-handoff-status" class="note">Manual values. The weapon's attack animation is not automatically inferred.</p>
+</section>
+<section class="panel">
+<div class="eyebrow">02 / Motion & timing</div><h2>Attack conditions</h2>
+<div class="damage-field-grid">
+<label class="field">Motion value (%) <input id="damage-mv" type="number" min="0" max="500" step="0.001" value="100"></label>
+<label class="field">Overall damage multiplier (×) <input id="damage-buff" type="number" min="0" max="5" step="0.001" value="1"></label>
+<label class="field">Attacks per second <input id="damage-aps" type="number" min="0.001" max="20" step="0.001" value="1"></label>
+</div>
+<p class="note">Set the motion value for the exact attack yourself. No moveset, buff or talisman effects are guessed; a global multiplier applies equally to all five attack channels.</p>
+</section>
+<section class="panel">
+<div class="eyebrow">03 / Enemy</div><h2>Enemy defenses & negation</h2>
+<p class="note">Enter enemy defense as a flat value and negation as a percent. Defense is applied <strong>before</strong> negation for each channel. Sample values are fictional, not a named enemy or NG+ preset.</p>
+<div class="table-wrap"><table class="datatable damage-enemy-table">
+<thead><tr><th>Damage channel</th><th>Enemy defense</th><th>Negation (%)</th></tr></thead>
+<tbody id="damage-enemy-fields"></tbody></table></div>
+<button type="button" id="damage-reset-enemy" class="btn alt">Reset to fictional example</button>
+</section>
+<div class="damage-actions"><button id="damage-calculate" class="btn" type="button">Calculate damage</button>
+<button id="damage-copy" class="btn alt" type="button">Copy scenario link</button></div>
+<p id="damage-feedback" class="note" role="status" aria-live="polite">Edit values and calculate. Example values are not official game stats.</p>
+</div>
+<aside class="damage-summary">
+<section class="panel damage-result">
+<div class="eyebrow">Community-model estimate</div>
+<p class="damage-total-label">Damage per hit</p>
+<strong id="damage-total" class="damage-total">—</strong>
+<div class="damage-stat-row"><span>Estimated DPS</span><strong id="damage-dps">—</strong></div>
+<div class="damage-stat-row"><span>Before defense</span><strong id="damage-before">—</strong></div>
+<p id="damage-caveat" class="note">Result awaits manual inputs.</p>
+<div class="table-wrap"><table class="datatable">
+<thead><tr><th>Type</th><th>After defense</th><th>Final</th></tr></thead>
+<tbody id="damage-results"></tbody></table></div>
+</section>
+</aside>
+</div>
+<section class="panel damage-method">
+<h2>How this preview works</h2>
+<p><strong>For each damage type:</strong> Attack Rating × selected motion value × user-entered multiplier → defense-ratio attenuation → enemy percentage negation. The five remaining amounts are added for damage per hit; estimated DPS multiplies by the user's attacks-per-second value.</p>
+<p>Defense-ratio breakpoints are ⅛, 1, 2.5 and 8. Even at zero defense, the documented ratio model caps this stage at 90% rather than 100%. Split elemental AR is attenuated separately for each corresponding defense. This preview is grounded in <a href="https://eldenring.wiki.gg/wiki/Stats_and_Attributes" target="_blank" rel="noopener noreferrer">Eldenpedia's damage explanation</a> and the documented <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3476225321" target="_blank" rel="noopener noreferrer">community ratio equations</a>.</p>
+<p><strong>Not yet equivalent to Tarnished.dev v1.17:</strong> its Damage Calculator itself is marked a work in progress. This implementation does not yet choose actual moveset motion values, game enemy presets/NG scaling, critical or counter-hit multipliers, PvP, conditional buffs, status or damage-rounding steps. Do not treat the community model as independently checked same-input damage from Tarnished.dev.</p>
+</section>
+<nav class="related-tools" aria-label="Continue"><span class="eyebrow">Connected tools</span>
+<a href="../weapon-ar-calculator/">Calculate v1.17 weapon AR ↗</a>
+<a href="../build-planner/">Build Planner ↗</a>
+<a href="../armor-optimizer/">Armor Optimizer ↗</a></nav>
+</main>
+<footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy & sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
+<script type="module" src="../src/damage-reference-app.mjs"></script>
+</body></html>
