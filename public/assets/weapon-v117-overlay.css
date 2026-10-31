@@ -14,3 +14,8 @@
 .catalog-v117-panel p{overflow-wrap:anywhere}
 .catalog-v117-panel a{display:inline-flex;margin-top:10px;text-underline-offset:3px;color:#b2d8cc}
 @media(max-width:500px){.catalog-v117-optin,.catalog-v117-panel{padding:13px;margin:14px 0}.catalog-v117-optin .btn{width:100%;max-width:100%;white-space:normal}.catalog-v117-panel .catalog-value{gap:8px}}
+
+.catalog-v117-export-actions{margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.catalog-v117-export-actions .note{margin:0;flex:1;min-width:210px}
+.catalog-v117-export-actions button:disabled{opacity:.52;cursor:not-allowed}
+@media(max-width:500px){.catalog-v117-export-actions{align-items:stretch;flex-direction:column}.catalog-v117-export-actions .note{min-width:0}}
