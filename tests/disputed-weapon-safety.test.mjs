@@ -76,8 +76,9 @@ test('Build A/B preserves disputed status without inventing source weapon eligib
  assert.equal(model.current.weapon.oneHanded,false,'Samurai DEX 15 does not meet Milady DEX 17; unaffected lookup remains reliable');
 });
 test('all six attack disputes have explicitly labelled community +0 values but no confident attack filter',()=>{
- const disputed=catalog.weapons.filter(hasDisputedAttack);
+ const disputed=catalog.weapons.filter(w=>w.flags?.includes('v117-community-attack-conflict'));
  assert.equal(disputed.length,6);
+ assert.equal(catalog.weapons.filter(hasDisputedAttack).length,7,'Stone-Sheathed is a separate source conflict');
  for(const item of disputed){
   const model=compareWeaponReferences(catalog.weapons,[item.id]);
   const byLabel=key=>model.rows.find(row=>row.label===key).values[0];
@@ -113,8 +114,9 @@ test('unaffected weapon behaviour stays unchanged and UI explicitly displays con
  assert.ok(html.includes("'catalog-requirements-link').hidden=true"));
  assert.ok(read('src/app.mjs').includes('requirements DISPUTED'));
  const page=read('weapon-database/index.html');
- assert.ok(page.includes('Stone-Sheathed Sword has an UNKNOWN +0 base attack'));
+ assert.ok(page.includes('Stone-Sheathed Sword now has published +0 physical 89'));
  assert.ok(page.includes('six +0 base attacks and one attribute requirement'));
+ assert.ok(page.includes('weight 3.5 conflicts with 5'));
  assert.ok(page.includes('href="../validation-status/#conflict-dossier"'));
  assert.ok(!page.includes('only Stone-Sheathed Sword retains a disputed +0 base attack'));
 });
