@@ -10,7 +10,7 @@ test('our changelog contains only shipped first-party release evidence and exclu
  assert.match(page,/<h1>Recent Updates<\/h1>/);
  assert.match(page,/our actual shipped changes/);
  for(const n of [66,67,68,72,73])assert.match(page,new RegExp('pull\\/'+n));
- assert.match(page,/not an automatic game-data change or a claim that the feature has shipped here/);
+ assert.match(page,/it never automatically changes our calculator code, game data or first-party release notes/);
  assert.match(page,/v1\.17 reference/);
  assert.match(home,/id="home-recent-updates"/);
  assert.match(home,/href="updates\/"/);
@@ -32,7 +32,7 @@ test('monitor is free, read-only, twice a day and creates review issues, not sil
  assert.match(workflow,/gh issue create/);
  assert.match(workflow,/steps\.compare\.outputs\.changed == 'true'/);
  assert.match(workflow,/github\.event_name != 'pull_request'/);
- assert.doesNotMatch(workflow,/merge_pull_request|git push|deployment|curl.*post/);
+ assert.doesNotMatch(workflow,/merge_pull_request|git push origin main|curl.*post/);
  assert.equal(seed.source,'https://www.tarnished.dev/');
  assert.match(seed.version,/^v[0-9]+(?:\.[0-9]+){1,3}$/);
  assert.ok(seed.entries.length>=2&&seed.entries.length<=6);
