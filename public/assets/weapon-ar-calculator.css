@@ -12,4 +12,14 @@
 .qar-side{position:sticky;top:20px;min-width:0}.qar-result-panel{position:relative;overflow:hidden;background:radial-gradient(circle at 75% 13%,rgba(120,162,138,.12),transparent 42%),linear-gradient(150deg,#1c2b29,#121b22);border-color:#587064;padding:27px}.qar-result-name{color:#d0ded4!important;margin:15px 0 0;font-weight:700;font-size:17px}.qar-total{font-variant-numeric:tabular-nums;font-weight:800;font-size:clamp(56px,7vw,92px);letter-spacing:-.08em;color:#f4d58e;line-height:1.06;margin:9px 0}.qar-total-label{font-size:12px;color:#c1cfc8!important;margin-top:0}.qar-stat-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0}.qar-stat-pair>div{border-top:1px solid #60706a;padding-top:12px}.qar-stat-pair span{display:block;color:#b5c7bf;font-size:12px}.qar-stat-pair strong{display:block;font-size:28px;font-variant-numeric:tabular-nums;margin-top:3px}.qar-result-panel h3{font-size:15px;margin:18px 0 12px}.qar-damage{display:grid;gap:7px}.qar-damage-row{display:flex;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,.035);border:1px solid #42554e;border-radius:8px;font-size:13px}.qar-damage-row strong{font-variant-numeric:tabular-nums}.qar-caveat{color:#bed0c9!important;font-size:12px;line-height:1.6;border-top:1px solid #50625c;padding-top:15px;margin-bottom:0}.qar-evidence-panel a{color:#f1cf87}.qar-information{margin-top:10px}
 @media(max-width:860px){.qar-layout{grid-template-columns:1fr}.qar-side{position:static}.qar-hero{padding:30px 22px}.qar-total{font-size:70px}}
 @media(max-width:520px){.qar-hero h1{font-size:43px}.qar-picks,.qar-options{grid-template-columns:1fr}.qar-stat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.qar-actions .btn{width:100%}.qar-page{overflow-x:clip}.qar-hero{margin-top:12px}.qar-result-panel{padding:22px}}
+
+.qar-reference-check{border-top:1px solid #45564e;margin-top:22px;padding-top:17px}
+.qar-reference-check h3{font-size:16px;margin:3px 0 11px}
+.qar-reference-check p{font-size:13px}
+.qar-reference-check .qar-reference-link{display:inline-flex;max-width:100%;white-space:normal;text-align:center;line-height:1.4;margin:6px 0 14px}
+.qar-reference-check .field{display:block;margin:12px 0}
+.qar-reference-check .field input{display:block;width:100%;max-width:260px;margin-top:7px}
+.qar-reference-check .qar-status{margin-top:12px;overflow-wrap:anywhere}
+.qar-reference-check[hidden]{display:none!important}
+@media(max-width:520px){.qar-reference-check .qar-reference-link,.qar-reference-check button{width:100%;justify-content:center}}
 @media(prefers-reduced-motion:reduce){.qar-page *{transition:none!important;animation:none!important}}

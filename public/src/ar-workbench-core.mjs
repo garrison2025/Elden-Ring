@@ -64,6 +64,9 @@ export function describeLocalWeapon(regulation,weaponName,gameVersion,sourceRefe
   profile,
   description:{
    name:profile.label,
+   referenceFamily:typeof row?.weaponName==='string'?row.weaponName:row?.name??null,
+   referenceAffinityId:Number.isInteger(row?.affinityId)?row.affinityId:null,
+   referenceReinforcement:profile.affinities[affinity].upgrades.length===11?'somber':'smithing',
    gripMode:profile.gripMode,
    provenance:profile.provenance,
    requirements:profile.requirements,

@@ -1,4 +1,5 @@
 import {POWER_STATS} from './weapon-ar.mjs';
+import {makeTarnishedSameInputUrl,compareUserEnteredReferenceAr} from './tarnished-same-input.mjs';
 import {parseArWorkbenchHandoff} from './ar-workbench-navigation.mjs';
 import {downloadV117Source,V117_PROVENANCE,V117_SOURCE_PAGE} from './upstream-regulation-v117.mjs';
 
@@ -22,6 +23,14 @@ let worker=null,sourceKind='',dataLoaded=false,selectedDescription=null,selected
 let searchRevision=0,familyRevision=0,selectRevision=0,compareRevision=0;
 let searchPreference='',userExplicitSelection=false;
 let controller=null,downloadRevision=0;
+let referenceSnapshot=null;
+const clearReferenceComparison=()=>{
+ referenceSnapshot=null;
+ $('qar-reference-check').hidden=true;
+ $('qar-reference-value').value='';
+ $('qar-reference-status').textContent='No comparison entered. External inputs and results are not automatically verified.';
+ $('qar-reference-status').dataset.state='ready';
+};
 const request=message=>{
  if(!worker)throw new Error('A browser Worker is required to calculate locally.');
  worker.postMessage(message);
@@ -30,6 +39,7 @@ const disableInputs=disabled=>{
  for(const id of controls)$(id).disabled=disabled;
 };
 const resetResult=()=>{
+ clearReferenceComparison();
  compareRevision++;
  setText('qar-total','—');
  setText('qar-onehand','—');
@@ -101,6 +111,7 @@ const chooseVariant=name=>{
  request({op:'select',name,requestId:selectRevision});
 };
 const renderCompare=result=>{
+ clearReferenceComparison();
  const twoHanded=$('qar-twohand').checked;
  const chosen=twoHanded?result.twoHand:result.oneHand;
  if(!chosen||!Number.isInteger(chosen.total))throw new RangeError('Source did not produce an integer AR.');
@@ -133,11 +144,29 @@ const renderCompare=result=>{
   caveats.push('Unmodeled mechanics: '+selectedDescription.scopeFlags.join(', ')+'.');
  caveats.push('Nominal AR excludes enemy defenses, buffs, status buildup and motion values.');
  setText('qar-caveat',caveats.join(' '));
+ let referenceNote='';
+ if(sourceKind==='pinned'){
+  try{
+   const url=makeTarnishedSameInputUrl({
+    weaponName:selectedDescription.referenceFamily,
+    affinityId:selectedDescription.referenceAffinityId,
+    upgrade:Number($('qar-upgrade').value),stats:safeStats(),twoHanded,
+    reinforcement:selectedDescription.referenceReinforcement
+   });
+   referenceSnapshot={url,localTotal:chosen.total};
+   $('qar-reference-link').href=url;
+   $('qar-reference-check').hidden=false;
+  }catch(error){
+   // Unknown source variants must not silently compare to a different weapon.
+   referenceNote=' · Exact Tarnished.dev URL unavailable: '+error.message;
+  }
+ }
  feedback((sourceKind==='demo'?'Fictional example calculated. ':'Reference calculation complete. ')+
   'One-hand '+result.oneHand.total+' · two-hand '+result.twoHand.total+
-  (unmet.length?' · unmet requirements: '+unmet.join(', '):''));
+  (unmet.length?' · unmet requirements: '+unmet.join(', '):'')+referenceNote);
 };
 const calculate=()=>{
+ clearReferenceComparison();
  if(!dataLoaded||!selectedDescription)return;
  try{
   const stats=safeStats();
@@ -282,7 +311,27 @@ $('qar-affinity').addEventListener('change',()=>{
 $('qar-upgrade').addEventListener('change',()=>{userExplicitSelection=true;calculate();});
 $('qar-twohand').addEventListener('change',()=>{setText('qar-grip-label',$('qar-twohand').checked?'Two-handed':'One-handed');calculate();});
 for(const s of POWER_STATS)fields[s].addEventListener('change',calculate);
+for(const s of POWER_STATS)fields[s].addEventListener('input',clearReferenceComparison);
 $('qar-calculate').addEventListener('click',calculate);
+$('qar-reference-value').addEventListener('input',()=>{
+ $('qar-reference-status').dataset.state='ready';
+ $('qar-reference-status').textContent='Reference AR edited — compare again. This value is entered by you, not read automatically.';
+});
+$('qar-reference-compare').addEventListener('click',()=>{
+ if(!referenceSnapshot||sourceKind!=='pinned')return;
+ try{
+  const comparison=compareUserEnteredReferenceAr(referenceSnapshot.localTotal,$('qar-reference-value').value);
+  const difference=comparison.difference;
+  $('qar-reference-status').dataset.state=comparison.matched?'ready':'error';
+  $('qar-reference-status').textContent=(comparison.matched?
+   'MATCH — your entered Tarnished.dev AR equals this result (difference 0). ':
+   'DIFFERENCE — our AR minus your entered Tarnished.dev AR = '+(difference>0?'+':'')+difference+'. ')+
+   'This is a manual, self-entered comparison, not an independently verified external observation.';
+ }catch(error){
+  $('qar-reference-status').dataset.state='error';
+  $('qar-reference-status').textContent=error.message;
+ }
+});
 $('qar-share').addEventListener('click',async()=>{
  if(!selectedDescription)return;
  try{

@@ -768,6 +768,8 @@ try{
   'Two-hand fixture has distinct scaling');
  assert.ok((await evaluate("document.querySelector('#qar-source-status')?.textContent"))
   .includes('FICTIONAL DEMO'),'No game-data accuracy claim for synthetic worker data');
+ assert.equal(await evaluate("document.querySelector('#qar-reference-check')?.hidden"),true,
+  'Fictional data must never offer a real Tarnished.dev reference result comparison');
  await evaluate("document.querySelector('#qar-twohand').click()");
  await waitFor("document.querySelector('#qar-total')?.textContent==='152'",
   'Switching grip recomputes selected v1.17-style AR');
@@ -799,9 +801,24 @@ try{
   assert.deepEqual(chromeInfo.stats,['40','40','10','10','10']);
   assert.equal(chromeInfo.upgrade,'0');
   assert.equal(chromeInfo.variant,'Uchigatana');
+  const externalLink=await evaluate("(()=>{const p=document.querySelector('#qar-reference-check');const l=new URL(document.querySelector('#qar-reference-link').href);return {hidden:p.hidden,origin:l.origin,path:l.pathname,weapon:l.searchParams.get('rh1'),affinity:l.searchParams.get('aRh1'),smith:l.searchParams.get('smith'),str:l.searchParams.get('str'),dex:l.searchParams.get('dex'),grip:l.searchParams.get('twoHanded')}})()");
+  assert.deepEqual(externalLink,{
+   hidden:false,origin:'https://www.tarnished.dev',path:'/build-planner',
+   weapon:'Uchigatana',affinity:'Standard',smith:'0',str:'40',dex:'40',grip:'false'
+  },'One-click reference opens the exact selected v1.17 build controls');
+  await evaluate("(()=>{document.querySelector('#qar-reference-value').value='172';document.querySelector('#qar-reference-compare').click()})()");
+  assert.match(await evaluate("document.querySelector('#qar-reference-status').textContent"),
+   /MATCH.*self.entered/i,'Manual same-input matching is explicitly self-entered, not a verified external fact');
   await evaluate("document.querySelector('#qar-twohand').click()");
   await waitFor("document.querySelector('#qar-total')?.textContent==='180'",
    'Real source computes 180 two-handed Uchigatana +0 at 40/40');
+  const changedRef=await evaluate("(()=>{const p=document.querySelector('#qar-reference-check');const u=new URL(document.querySelector('#qar-reference-link').href);return {hidden:p.hidden,grip:u.searchParams.get('twoHanded'),input:document.querySelector('#qar-reference-value').value,status:document.querySelector('#qar-reference-status').textContent}})()");
+  assert.equal(changedRef.hidden,false);
+  assert.equal(changedRef.grip,'true','Grip changes must update external deep link');
+  assert.equal(changedRef.input,'','Old manual reference is cleared when build changes');
+  assert.doesNotMatch(changedRef.status,/MATCH/);
+  await evaluate("(()=>{document.querySelector('#qar-reference-value').value='172';document.querySelector('#qar-reference-compare').click()})()");
+  assert.match(await evaluate("document.querySelector('#qar-reference-status').textContent"),/DIFFERENCE.*\+8/);
   await evaluate("document.querySelector('#qar-twohand').click()");
   await waitFor("document.querySelector('#qar-total')?.textContent==='172'",
    'Switching back to one-handed reverts to 172');
