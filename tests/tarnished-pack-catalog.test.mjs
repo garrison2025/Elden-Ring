@@ -84,7 +84,7 @@ test('source-separated filter does not misclassify Tarnished Pack weapons as ori
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',damage:'holy'}).total,1);
  assert.equal(searchCatalog(catalog.weapons,{coverage:'tarnished',maxWeight:3}).total,2);
  assert.deepEqual(getCatalogCoverage(catalog),{
-  weapons:416,dlc:102,dlcBaseFacts:101,tarnishedPack:8,tarnishedPackBaseFacts:8,tarnishedPackSecondaryConflicts:1
+  weapons:416,dlc:102,dlcBaseFacts:102,tarnishedPack:8,tarnishedPackBaseFacts:8,tarnishedPackSecondaryConflicts:1
  });
 });
 

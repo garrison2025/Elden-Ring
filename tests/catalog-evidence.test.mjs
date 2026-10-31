@@ -54,7 +54,8 @@ test('each contested game field is named but NEVER silently resolved or certifie
  const panel=catalogEvidencePanel(evidence);
  assert.ok(panel.includes('Unresolved community source disagreement'));
  assert.ok(panel.includes('not game-client QA'));
- assert.ok(panel.includes('UNKNOWN, not zero'));
+ assert.ok(panel.includes('trusted attack calculation BLOCKED'),
+  'Disputed Stone +0 is source-reported but must never enter trusted AR calculations');
  assert.ok(panel.includes('not</strong> proof of current-patch accuracy'));
  assert.ok(!panel.includes('364, partial'));
  assert.ok(!panel.includes('57 DLC names'));
