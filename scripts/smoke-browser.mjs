@@ -638,8 +638,46 @@ try{
  assert.equal(await evaluate("document.querySelector('#conflict-recheck-results').hidden"),
   true,'Imported original file references and summaries clear from UI');
 
+
+ // End-to-end propagation of the seven source disputes into actual
+ // player-facing tooling. No current-game measurements are invented.
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:1280,height:850,deviceScaleFactor:1,mobile:false
+ });
+ await navigate('/weapon-database/?weapon=sote-reference-051&player=20,20,20,15,10');
+ await waitFor("document.querySelector('#catalog-one')?.textContent.includes('SOURCE CONFLICT')",
+  'Disputed Madding Hand no longer claims requirements met');
+ assert.equal(await evaluate("document.querySelector('#catalog-requirements-link').hidden"),
+  true,'Disputed requirements must never enter unmarked numeric requirements URL');
+ assert.ok((await evaluate("document.querySelector('#catalog-shortfall').textContent"))
+  .includes('No definitive wieldability verdict'));
+ assert.ok((await evaluate("document.querySelector('#catalog-required').textContent"))
+  .includes('DISPUTED'));
+ await evaluate("document.querySelector('#catalog-compare-add').click()");
+ await waitFor("document.querySelector('#catalog-compare-table')?.textContent.includes('UNRESOLVED source conflict')",
+  'Source-disputed wield verdict withheld from weapon comparison');
+ await navigate('/weapon-database/?weapon=sote-reference-071&player=99,99,99,99,99');
+ await waitFor("document.querySelector('#catalog-title')?.textContent.includes('Smithscript Axe')",
+  'Disputed Smithscript Axe source reference selected');
+ assert.ok((await evaluate("document.querySelector('#catalog-damage').textContent"))
+  .includes('DISPUTED'),'Attack source conflict is visible next to +0 figures');
+ await evaluate("document.querySelector('#catalog-compare-add').click()");
+ await waitFor("document.querySelector('#catalog-compare-table')?.textContent.includes('DISPUTED (community 133)')",
+  'Community attack readings labelled disputed in side-by-side comparison');
+ await navigate('/build-planner/?origin=Samurai&stats=12,11,13,12,15,9,8,8&sote=1&weapon=sote-reference-051');
+ await waitFor("document.querySelector('#build-weapon-summary')?.textContent.includes('requirements DISPUTED')",
+  'Selected disputed weapon carries unknown wieldability into Build Planner');
+ assert.ok(!(await evaluate("document.querySelector('#build-weapon-summary').textContent"))
+  .includes('requirements met'),'Never infer Madding Hand requirement pass from wiki FAI 13');
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:375,height:812,deviceScaleFactor:1,mobile:true
+ });
+ const disputesMobile=await evaluate("({width:window.innerWidth,scroll:document.documentElement.scrollWidth})");
+ assert.ok(disputesMobile.scroll<=disputesMobile.width+5,
+  'Mobile disputed Build output overflow '+JSON.stringify(disputesMobile));
+
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: disputed weapon requirement/attack fail-closed UI + local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;
