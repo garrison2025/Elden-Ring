@@ -12,6 +12,7 @@ test('homepage weapon count and DLC source coverage derive from canonical catalo
  assert.equal(coverage.weapons,catalog.weapons.length);
  assert.equal(coverage.dlc,catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree').length);
  assert.equal(coverage.tarnishedPack,8);
+ assert.equal(coverage.tarnishedPackBaseFacts,3);
  assert.equal(coverage.dlcBaseFacts,catalog.weapons.filter(w=>w.expansion==='Shadow of the Erdtree'&&w.dataCoverage==='base-reference').length);
  const text=catalogCoverageCopy(coverage);
  assert.equal(text.includes('player Attack Ratings'),true);
@@ -23,7 +24,7 @@ test('homepage weapon count and DLC source coverage derive from canonical catalo
 });
 test('homepage summaries update if new source records are added, not frozen in HTML',()=>{
  const sample={
-  meta:{count:2,dlcCatalogCount:1,dlcBaseFactCount:1,baseCommunityCount:1,tarnishedPackCount:0},
+  meta:{count:2,dlcCatalogCount:1,dlcBaseFactCount:1,baseCommunityCount:1,tarnishedPackCount:0,tarnishedPackBaseFactCount:0},
   weapons:[{name:'fictional base weapon'},{
    name:'fictional DLC weapon',expansion:'Shadow of the Erdtree',dataCoverage:'base-reference'}]
  };

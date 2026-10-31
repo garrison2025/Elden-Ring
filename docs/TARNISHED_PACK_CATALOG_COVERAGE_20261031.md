@@ -50,3 +50,7 @@ These counts are scoped to this curated catalog; **416 is not claimed to be the 
 - Collect original *real game-client* +0 weapon-details screenshots for the seven already flagged source discrepancies, with an independent reviewer and correct App/Regulation versions.
 - Reconcile the rest of the known source families and separate actual weapons/shields from ranged ammunition and parameter-only test rows before claiming full coverage.
 - Do not misstate historical same-source formula agreement as current-game AR certification.
+
+## 2026-10-31 later source data upgrade (supersedes the previous 8 unknown +0 description)
+
+Three individual wiki.gg weapon pages now supply published **+0** base attack, critical and letter grades: Idus Sword (PHY 124; Crit 100; D/D), Reed Great Katana (PHY 158; Crit 100; D/D), and Silver Grooved Shield (PHY 61; Crit 100; D/–). These are community observations, not independently certified current-game-client values. The other five Pack weapons' +0 values remain UNKNOWN. The previously imported patch-labelled weight/requirement vectors remain unchanged; max-upgrade figures are never used as +0. Detailed evidence and version caveats: [current-patch corroboration and Pack +0 record](CURRENT_PATCH_SOURCE_CORROBORATION_AND_PACK_BASE_20261031.md).

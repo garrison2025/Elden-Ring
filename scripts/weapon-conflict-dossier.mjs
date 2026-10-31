@@ -43,6 +43,22 @@ export function validateConflictEvidence(catalog,ledger){
    (row.field==='baseAttack'&&(weapon.flags||[]).includes(REQUIREMENTS))||
    (row.field==='requirements'&&(weapon.flags||[]).includes(ATTACK)))
    fail('Evidence record no longer matches exact conflict flags: '+row.id);
+  const madding=row.id==='sote-reference-051';
+  const p=row.currentPatchCorroboration;
+  const q=weapon.currentPatchRequirementCorroboration;
+  if(madding){
+   if(row.field!=='requirements'||!p||!q||
+      p.sourceClass!=='independent-version-labelled-secondary-game-parameter-reference'||
+      p.sourceUrl!=='https://almanauts.com/eldenring/tiers/weapons-fist/'||
+      p.patchChangeUrl!=='https://almanauts.com/eldenring/patches/1-17-3/'||
+      p.regulation!=='1.17.3'||p.gameBuild!=='25827938'||
+      p.agreesWith!=='pinned-v117'||p.notVerifiedByGameClient!==true||
+      !Array.isArray(p.observedValues)||p.observedValues.join(',')!=='8,8,13,20,0'||
+      q.sourceUrl!==p.sourceUrl||q.values.join(',')!==p.observedValues.join(',')||
+      q.gameClientVerified!==false)
+    fail('Current-patch Madding Hand corroboration missing, stale or falsely game-verified.');
+  }else if(p!==undefined||q!==undefined)
+   fail('Unexpected unsupported current-patch corroboration on another weapon.');
   const current=row.field==='baseAttack'?weapon.attack:weapon.requirements;
   if(!Array.isArray(current)||current.length!==5||
    !Array.isArray(row.community)||row.community.length!==5||
@@ -58,6 +74,11 @@ export function validateConflictEvidence(catalog,ledger){
    id:row.id,name:weapon.name,field:row.field,
    sourceCommunity:[...row.community],sourcePinned:[...row.pinned],
    priority:row.priority,sourceUrl:row.wiki,otherSourceUrl:row.other,
+   currentPatchCorroboration:madding?{
+    sourceUrl:p.sourceUrl,observedValues:[...p.observedValues],
+    regulation:p.regulation,gameBuild:p.gameBuild,
+    agreesWith:'pinned-v117',gameClientVerified:false
+   }:null,
    gameClientVerified:false,reviewStatus:'UNREVIEWED',acceptedScreenshots:0
   };
  });
@@ -70,6 +91,7 @@ export function validateConflictEvidence(catalog,ledger){
   app:ledger.requiredGameVersion.app,regulation:ledger.requiredGameVersion.regulation,
   pinnedSourceUrl:ledger.pinnedSourceUrl,officialPatchUrl:ledger.officialPatchUrl,
   entries:entries.sort((a,b)=>a.priority-b.priority||a.name.localeCompare(b.name)),
+  currentPatchCorroborationCount:entries.filter(x=>x.currentPatchCorroboration).length,
   screenshotCount:0,gameClientVerified:false};
 }
 export function conflictDossierHtml(data){
@@ -89,7 +111,11 @@ export function conflictDossierHtml(data){
    '" rel="noopener noreferrer">Community record</a> · '+
    '<a href="'+esc(item.otherSourceUrl)+
    '" rel="noopener noreferrer">Additional reference</a></td>'+
-   '<td>Not game verified</td></tr>';
+   '<td>'+ (item.currentPatchCorroboration?
+    '1.17.3 secondary data supports pinned '+esc(format(item.currentPatchCorroboration.observedValues))+
+    ' · <a href="'+esc(item.currentPatchCorroboration.sourceUrl)+
+    '" rel="noopener noreferrer">Current-patch source</a> · ':'')+
+    'Not game verified</td></tr>';
  }).join('');
  return '<section class="panel info" id="conflict-dossier" data-source-conflict-dossier>'+
   '<h2>Seven unresolved weapon-source disagreements</h2>'+
@@ -106,6 +132,12 @@ export function conflictDossierHtml(data){
   '<th scope="col">Different components</th><th scope="col">Source links</th>'+
   '<th scope="col">Review status</th></tr></thead><tbody>'+
   rows+'</tbody></table></div>'+
+  '<p><strong>Current-patch corroboration: 1 of 7 historical disagreements.</strong> '+
+  'Madding Hand FAI 20 in an independently published Regulation 1.17.3-labelled '+
+  'parameter reference agrees with pinned Regulation 1.17; unversioned wiki reports FAI 13. '+
+  'This supports 20 as a <strong>version-labelled source reading</strong>, not an original '+
+  'game-menu screenshot or definitive verified wield verdict. Six +0 attack disputes remain '+
+  'without independent comparable current-patch +0 game-menu readings.</p>'+
   '<h3>How to resolve one entry</h3>'+
   '<p>In the actual App '+esc(data.app)+' / Regulation '+esc(data.regulation)+
   ', capture the title-screen version and the exact weapon at +0, '+

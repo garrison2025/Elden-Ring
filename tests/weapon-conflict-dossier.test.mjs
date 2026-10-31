@@ -14,6 +14,7 @@ const copy=()=>structuredClone(ledger);
 test('seven independently attributable source disputes stay UNREVIEWED',()=>{
  const result=validateConflictEvidence(catalog,ledger);
  assert.equal(result.entries.length,7);
+ assert.equal(result.currentPatchCorroborationCount,1);
  assert.equal(result.entries.filter(x=>x.field==='baseAttack').length,6);
  assert.equal(result.entries.filter(x=>x.field==='requirements').length,1);
  assert.equal(result.gameClientVerified,false);
@@ -25,6 +26,8 @@ test('seven independently attributable source disputes stay UNREVIEWED',()=>{
    (w.flags||[]).includes('v117-community-requirement-conflict')).map(w=>w.id)));
  assert.deepEqual(result.entries.find(x=>x.id==='sote-reference-051').sourceCommunity,[8,8,13,13,0]);
  assert.deepEqual(result.entries.find(x=>x.id==='sote-reference-051').sourcePinned,[8,8,13,20,0]);
+ assert.deepEqual(result.entries.find(x=>x.id==='sote-reference-051').currentPatchCorroboration.observedValues,[8,8,13,20,0]);
+ assert.equal(result.entries.find(x=>x.id==='sote-reference-051').currentPatchCorroboration.gameClientVerified,false);
  assert.deepEqual(result.entries.find(x=>x.id==='sote-reference-071').sourceCommunity,[133,0,0,0,0]);
  assert.deepEqual(result.entries.find(x=>x.id==='sote-reference-071').sourcePinned,[131,0,0,0,0]);
  assert.ok(result.entries.every(x=>x.sourceUrl.startsWith('https://')));
@@ -34,6 +37,8 @@ test('source dossier contains both readings, exact mismatched component and manu
  const html=conflictDossierHtml(dossier);
  assert.ok(html.includes('Seven unresolved weapon-source disagreements'));
  assert.ok(html.includes('Madding Hand'));
+ assert.ok(html.includes('Current-patch corroboration: 1 of 7 historical disagreements'));
+ assert.ok(html.includes('1.17.3 secondary data supports pinned'));
  assert.ok(html.includes('FAI: 13 / 20'));
  assert.ok(html.includes('PHY: 133 / 131'));
  assert.ok(html.includes('FIRE: 32 / 22'));
@@ -63,7 +68,9 @@ test('build rejects missing or added source flags, changed references, stale IDs
   d=>{d.cases[0].reviewStatus='VERIFIED';},
   d=>{d.cases[0].screenshotCount=1;},
   d=>{d.requiredGameVersion.regulation='1.17';},
-  d=>{d.status='CONFIRMED';}
+  d=>{d.status='CONFIRMED';},
+  d=>{d.cases.find(c=>c.id==='sote-reference-051').currentPatchCorroboration.observedValues[3]=13;},
+  d=>{d.cases.find(c=>c.id==='sote-reference-051').currentPatchCorroboration.notVerifiedByGameClient=false;}
  ];
  for(const change of cases){
   const d=copy();change(d);

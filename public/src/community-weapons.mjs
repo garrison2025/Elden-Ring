@@ -6,6 +6,12 @@ const fail=m=>{throw new RangeError(m);};
 const ATTACK_CONFLICT='v117-community-attack-conflict';
 const REQUIREMENT_CONFLICT='v117-community-requirement-conflict';
 const WEIGHT_CONFLICT='v117-community-weight-conflict';
+const PACK_ZERO_REFERENCES=Object.freeze({
+ 'Idus Sword':{attack:[124,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Idus_Sword'},
+ 'Reed Great Katana':{attack:[158,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Reed_Great_Katana'},
+ 'Silver Grooved Shield':{attack:[61,0,0,0,0],critical:100,scaling:['D','-','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Silver_Grooved_Shield'}
+});
+
 /** Distinguish documented community values from unresolved patch disagreements. */
 export const hasDisputedAttack=w=>(w?.flags??[]).includes(ATTACK_CONFLICT);
 export const hasDisputedRequirements=w=>(w?.flags??[]).includes(REQUIREMENT_CONFLICT);
@@ -33,13 +39,36 @@ export function validateCommunityCatalog(catalog){
   const dlc=w.expansion==='Shadow of the Erdtree';
   const pack=w.expansion==='Tarnished Pack';
   const coverage=w.dataCoverage??'base-community';
-  if(pack&&(coverage!=='requirements-weight-only'||w.arParameters!=null||
+  if(pack&&(!['requirements-weight-only','base-reference'].includes(coverage)||w.arParameters!=null||
     w.parameterReference?.regulation!=='1.17.3'||
-    w.parameterReference?.gameBuild!=='25827938'||w.attack!==null||
-    w.critical!==null||w.scaling!==null||!w.sourceUrl?.startsWith('https://www.gamesradar.com/')||
+    w.parameterReference?.gameBuild!=='25827938'||
+    !w.sourceUrl?.startsWith('https://www.gamesradar.com/')||
     w.requirementsSourceUrl!=='https://almanauts.com/eldenring/weapons/'||
     w.weightSourceUrl!=='https://almanauts.com/eldenring/weapons/'))
-   fail('Tarnished Pack entries require explicitly attributed 1.17.3 partial facts at row '+i);
+   fail('Tarnished Pack entries require attributed 1.17.3 requirements and weight at row '+i);
+  if(pack&&coverage==='base-reference'&&(
+    !w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')||
+    w.baseFactsProvenance?.type!=='single-community-weapon-page-plus-zero'||
+    w.baseFactsProvenance?.versionVerified!==false||
+    !(w.flags??[]).includes('wiki-pack-pluszero-not-game-version-certified')||
+    !PACK_ZERO_REFERENCES[w.name]||
+    w.checkedWith!==PACK_ZERO_REFERENCES[w.name].url||
+    w.attack?.join(',')!==PACK_ZERO_REFERENCES[w.name].attack.join(',')||
+    w.critical!==PACK_ZERO_REFERENCES[w.name].critical||
+    w.scaling?.join(',')!==PACK_ZERO_REFERENCES[w.name].scaling.join(',')))
+   fail('Pack +0 base facts must cite one weapon wiki page and remain game-unverified at row '+i);
+  if(w.currentPatchRequirementCorroboration!==undefined){
+   const p=w.currentPatchRequirementCorroboration;
+   if(w.id!=='sote-reference-051'||!hasDisputedRequirements(w)||
+      p.field!=='requirements'||p.sourceUrl!=='https://almanauts.com/eldenring/tiers/weapons-fist/'||
+      p.sourcePatchUrl!=='https://almanauts.com/eldenring/patches/1-17-3/'||
+      p.regulation!=='1.17.3'||p.referenceBuild!=='25827938'||
+      p.evidenceClass!=='independent-version-labelled-secondary-game-parameter-reference'||
+      p.matchesPinnedV117!==true||p.gameClientVerified!==false||
+      p.publicationApproved!==false||!Array.isArray(p.values)||
+      p.values.join(',')!=='8,8,13,20,0'||w.requirements.join(',')!=='8,8,13,13,0')
+    fail('Current-patch requirement corroboration has drifted or claims false verification.');
+  }
   if(dlc&&!['requirements-only','requirements-weight-only','name-category-only','base-reference'].includes(coverage))
    fail('Unknown DLC data coverage at row '+i);
   if(dlc&&(!w.sourceUrl?.startsWith('https://')||w.arParameters!==undefined&&w.arParameters!==null))
@@ -58,8 +87,8 @@ export function validateCommunityCatalog(catalog){
    fail('Invalid independently attributed requirement source '+i);
   if(coverage==='name-category-only'&&w.requirements!==null)
    fail('Unknown DLC requirements must be null: '+i);
-  if(coverage==='base-reference'&&(!dlc||!w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')))
-   fail('DLC +0 reference requires named numeric source: '+i);
+  if(coverage==='base-reference'&&(!(dlc||pack)||!w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')))
+   fail('Expansion +0 reference requires named numeric source: '+i);
   if(!missingAttack&&(!Number.isFinite(w.weight)||w.weight<0||w.weight>200||
     !Number.isInteger(w.critical)||w.critical<0||w.critical>300))
    fail('Invalid weight or critical at row '+i);
@@ -96,6 +125,8 @@ export function validateCommunityCatalog(catalog){
   baseCommunityCount:catalog.weapons.filter(w=>!w.expansion).length,
   tarnishedPackCount:packRows.length,
   tarnishedPackWeightedRequirementsCount:packRows.filter(w=>w.dataCoverage==='requirements-weight-only').length,
+  tarnishedPackBaseFactCount:packRows.filter(w=>w.dataCoverage==='base-reference').length,
+  currentPatchRequirementsCorroborationCount:catalog.weapons.filter(w=>w.currentPatchRequirementCorroboration!==undefined).length,
   dlcCatalogCount:dlcRows.length,
   dlcBaseFactCount:dlcRows.filter(w=>w.dataCoverage==='base-reference').length,
   dlcWeightOnlyCount:dlcRows.filter(w=>w.dataCoverage==='requirements-weight-only').length,
@@ -264,6 +295,8 @@ export function cautionForWeapon(w){
  if(w.dataCoverage==='name-category-only')warnings.push(
    'DLC roster only: attribute requirements, base attack, weight, critical, reinforcement and scaling are UNVERIFIED. Wield checks are unavailable.');
  if(w.dataCoverage==='base-reference')warnings.push(
+   w.expansion==='Tarnished Pack'?
+   'Pack +0 base attack/crit/letter scaling are from a named community weapon-page reference, not a separately verified Regulation 1.17.3 game-client menu. No precise AR, infusion curves or upgrades are inferred.':
    'DLC +0 reference facts cross-checked against the linked community wiki; current regulation not independently tested. Exact AR is UNSUPPORTED without reinforcement, affinity and full numeric scaling parameters.');
  if(w.upgradeReference)warnings.push(
    'The +0 to +10 values are published rounded BASE attacks only, not precise reinforcement multipliers, infusion data, or AR.');
@@ -277,6 +310,8 @@ export function cautionForWeapon(w){
   'SOURCE CONFLICT: weapon weight disagrees between sources. Do not compute a complete equipped load or roll tier from this disputed weight.');
  if(flags.has('v117-community-requirement-conflict'))warnings.push(
   'SOURCE CONFLICT: the wiki attribute requirement differs from public game-derived Regulation 1.17 parameters. Current regulation and independent gameplay evidence are needed before selecting a definitive requirement.');
+ if(w.currentPatchRequirementCorroboration)warnings.push(
+  'CURRENT 1.17.3 SECONDARY REFERENCE: Madding Hand FAI 20 independently agrees with pinned Regulation 1.17; an unversioned wiki still gives 13. Evidence favors 20 for the version-labelled parameter reference, but no original game-client screenshot has been independently inspected. This source conflict still blocks definitive automatic wield checks.');
  if(flags.has('wiki-category-table-base-observation'))warnings.push('Base +0 figures sourced from a named row in a wiki category comparison table; not independently tested in the current regulation. See source link.');
  if(flags.has('conflicting-or-malformed-zero-grade'))warnings.push('At least one +0 scaling letter is inconsistent or malformed across community tables and is deliberately UNKNOWN (?).');
  if(flags.has('secondary-requirements-or-weight-corrected'))warnings.push('An earlier community dataset requirement or weight was corrected using the individual weapon page.');

@@ -186,3 +186,7 @@ signature files only**: these simulate file mechanics, never a real
 game-client screenshot. The deployment artifact gate requires the
 new panel and modules to be shipped. All accepted real-client game
 screenshot goldens remain **zero** until separate visual review.
+
+## 2026-10-31 later current-patch source corroboration
+
+Madding Hand's pinned Regulation 1.17 requirement **FAI 20** is now independently corroborated by the **Regulation 1.17.3-labelled** [Almanauts Fist table](https://almanauts.com/eldenring/tiers/weapons-fist/) (build 25827938), whereas legacy wiki.gg continues to list **FAI 13**. We therefore now have **1 current-version source corroboration** among the **7 original source disagreements**, not 1 independently reviewed game-client golden. The original published community and pinned readings, all seven history rows and the screenshot capture workflow remain intact. Six +0 attack issues still lack comparable current-regulation +0 original game-menu evidence. Detailed discussion: [current-patch corroboration and Pack +0 record](CURRENT_PATCH_SOURCE_CORROBORATION_AND_PACK_BASE_20261031.md).
