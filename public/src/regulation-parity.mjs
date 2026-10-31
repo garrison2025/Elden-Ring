@@ -97,7 +97,8 @@ export function calculateRawV117Reference(root,item,stats,{upgrade=0,twoHanded=f
   parts.push({element:DAMAGE_TYPES[n],raw:unrounded,floored:Math.floor(unrounded)});
  }
  if(!parts.length)error('Weapon has no attack components in source');
- return {parts,total:parts.reduce((t,x)=>t+x.floored,0),actualStrength:actual.str,
+ return {parts,total:Math.floor(parts.reduce((t,x)=>t+x.raw,0)),
+  floorComponents:parts.reduce((t,x)=>t+x.floored,0),actualStrength:actual.str,
   strengthBonusApplied:bonus};
 }
 const scenariosFor=maxLevel=>{
