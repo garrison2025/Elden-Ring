@@ -3,6 +3,7 @@ import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
 import {makeBuildSmithingUrl} from './build-smithing-handoff.mjs';
 import {compareBuildSnapshots,normalizeBuildComparisonSnapshot} from './build-compare.mjs';
+import {makeBuildAbShareUrl,validateSharedBuildAb} from './build-compare-share.mjs';
 const $=s=>document.querySelector(s);const page=document.body.dataset.page;const fmt=commas;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const status=(text,bad=false)=>{const el=$('#feedback');if(el){el.textContent=text;el.className=bad?'feedback bad':'feedback';}};
@@ -131,6 +132,9 @@ function initBuild(){
   function renderBuildComparison(stats){
     const visible=$('#build-ab-results'),clear=$('#build-ab-clear');
     clear.disabled=pinnedBuild===null;
+    $('#build-ab-share').disabled=true;
+    $('#build-ab-share-field').hidden=true;
+    $('#build-ab-share-url').value='';
     if(!pinnedBuild){
       visible.hidden=true;
       $('#build-ab-status').textContent='Pin a Build as A to compare it against future edits.';
@@ -141,6 +145,7 @@ function initBuild(){
         weapons:weaponCatalog?.weapons??null
       });
       visible.hidden=false;
+      $('#build-ab-share').disabled=false;
       const showSigned=n=>(n>0?'+':'')+fmt(n);
       const weaponDescription=entry=>{
         if(!entry)return 'No weapon selected.';
@@ -237,6 +242,29 @@ function initBuild(){
   $('#build-ab-clear').addEventListener('click',()=>{
     pinnedBuild=null;renderBuildComparison(null);
   });
+  $('#build-ab-share').addEventListener('click',async()=>{
+    try{
+      if(!pinnedBuild)throw new RangeError('Pin Build A before sharing a comparison.');
+      const currentB=getComparisonSnapshot(read());
+      // Require both optional source weapons to exist in our actual local catalog.
+      compareBuildSnapshots(pinnedBuild,currentB,{weapons:weaponCatalog?.weapons??null});
+      const url=makeBuildAbShareUrl(pinnedBuild,currentB,location.href);
+      const input=$('#build-ab-share-url');
+      input.value=url;
+      $('#build-ab-share-field').hidden=false;
+      try{
+        if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');
+        await navigator.clipboard.writeText(url);
+        $('#build-ab-status').textContent='Two-Build comparison link copied. Both states will be revalidated when opened.';
+      }catch{
+        input.focus();input.select();
+        $('#build-ab-status').textContent='Clipboard unavailable. Copy the selected two-Build URL manually.';
+      }
+    }catch(error){
+      $('#build-ab-share-field').hidden=true;
+      $('#build-ab-status').textContent='Cannot share comparison: '+error.message;
+    }
+  });
   sel.addEventListener('change',()=>{current=classForName(sel.value);statInputs(grid,current.stats);render()});
   extra.addEventListener('change',()=>{
     if(!extra.checked&&current.dlc){current=classForName('Samurai');statInputs(grid,current.stats);}
@@ -327,6 +355,24 @@ function initBuild(){
         if(e.message.startsWith('Enable Shadow of the Erdtree'))sharedProblem=
           'This shared weapon requires Shadow of the Erdtree. Enable the weapon reference option to select it.';
         else{sharedProblem='Shared weapon not available: '+e.message;requestedWeapon=null;}
+      }
+    }
+    if(query.has('compare')){
+      try{
+        const sharedAb=validateSharedBuildAb(location.search,catalog.weapons);
+        if(sharedAb){
+          const B=sharedAb.current;
+          const nextClass=CLASSES.find(c=>c.name===B.origin);
+          extra.checked=B.ownsTarnishedPack;sote.checked=B.ownsSote;
+          current=nextClass;selectedWeaponId=B.weaponId;requestedWeapon=null;
+          classOptions(sel,extra.checked);sel.value=current.name;
+          statInputs(grid,B.stats);search.value='';
+          pinnedBuild=sharedAb.baseline;sharedProblem=null;
+        }
+      }catch(error){
+        pinnedBuild=null;
+        sharedProblem='Invalid two-Build comparison link: '+error.message+
+          '. No A/B comparison was loaded.';
       }
     }
     refreshWeaponChoices();render();
