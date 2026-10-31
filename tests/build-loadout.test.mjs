@@ -97,7 +97,7 @@ test('build page adds real user-controlled equipment without claiming full effec
   'build-loadout-share','build-loadout-export','build-loadout-import','build-loadout-results'])
   assert.ok(html.includes('id="'+id+'"'),id);
  assert.match(html,/unknown or disputed weight blocks an exact equip-load claim/);
- assert.match(js,/evaluateBuildLoadout\(state\(\),catalog,contentOpts\(\)\)/);
+ assert.match(js,/armorReference:armorReference/);
  assert.match(js,/decodeBuildLoadout/);
  assert.match(js,/navigator\.clipboard\.writeText/);
  assert.match(js,/weapon-ar-calculator/);
