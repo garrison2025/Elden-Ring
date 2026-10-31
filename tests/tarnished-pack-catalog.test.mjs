@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
  validateCommunityCatalog,searchCatalog,baseDamageParts,
- reportedBaseDamageParts,weaponWieldShortfall,cautionForWeapon
+ reportedBaseDamageParts,weaponWieldShortfall,cautionForWeapon,hasDisputedWeight,hasDisputedRequirements
 } from '../public/src/community-weapons.mjs';
 import {getCatalogCoverage} from '../scripts/home-catalog-coverage.mjs';
 import {LOADOUT_WEAPON_SLOTS,LOADOUT_MANUAL_SLOTS,planEquipmentLoadout}
@@ -127,6 +127,18 @@ test('version/attribute/source tampering and fabricated +0 numbers are refused',
  const ritual=base.weapons.find(w=>w.name==='Ritual Thrusting Shield');
  assert.equal(ritual.attack,null,'Conflicting shield stays without verified wiki +0 figures');
  assert.equal(ritual.secondarySourceDisagreement.status,'SECONDARY_SOURCE_DISAGREEMENT_NOT_GAME_VERIFIED');
+ assert.equal(hasDisputedWeight(ritual),true);
+ assert.equal(hasDisputedRequirements(ritual),true);
+ const excludedSlots=Object.fromEntries(LOADOUT_WEAPON_SLOTS.map(x=>[x.id,'']));
+ excludedSlots.rh1=ritual.id;
+ const allEmpty=Object.fromEntries(LOADOUT_MANUAL_SLOTS.map(x=>[x.id,{mode:'empty',weight:''}]));
+ const blocked=planEquipmentLoadout({
+  weaponSlots:excludedSlots,manualSlots:allEmpty,maxLoad:'75',confirmed:true
+ },base.weapons);
+ assert.equal(blocked.complete,false);
+ assert.equal(blocked.load,null);
+ assert.equal(blocked.knownSubtotal,0);
+ assert.ok(blocked.disputedWeights.some(s=>s.includes('Ritual Thrusting Shield')));
  assert.ok(cautionForWeapon(ritual).some(s=>s.includes('10 versus 9')));
  assert.equal(weaponWieldShortfall(ritual,[99,99,99,99,99]).known,false);
  assert.equal(searchCatalog(base.weapons,{coverage:'tarnished',wield:'one',stats:[99,99,99,99,99]}).total,7);
