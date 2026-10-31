@@ -62,7 +62,7 @@ test('equipped but unknown weight cannot turn into zero through an explicit mode
 });
 
 test('catalog disputes and provenance counts remain unchanged',()=>{
- assert.equal(catalog.weapons.length,416);
+ assert.equal(catalog.weapons.length,487);
  assert.equal(catalog.meta.v117SourceConflictCount,7);
  assert.equal(catalog.weapons.filter(w=>w.flags?.includes('v117-community-attack-conflict')).length,6);
  assert.equal(catalog.weapons.filter(w=>w.flags?.includes('v117-community-requirement-conflict')).length,1);
