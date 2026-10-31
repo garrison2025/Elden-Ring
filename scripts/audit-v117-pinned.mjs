@@ -60,7 +60,7 @@ async function main(){
  if(accepted.summary.mapped!==community.weapons.length||!acceptedFactsMatch||
   accepted.summary.recoveredAttack!==community.meta.basePinnedRequirementsOnlyCount)
   throw Error('Versioned source comparison did not cover all published neutral weapon families.');
- console.log('[CATALOG V1.17 SOURCE] neutral=+versioned.sourceMapped+'/'+versioned.total+
+ console.log('[CATALOG V1.17 SOURCE] neutral='+versioned.sourceMapped+'/'+versioned.total+
   ' source-only='+versioned.sourceOnlyMapped+' flagged='+versioned.flaggedDisputesMapped+
   ' attack-differences='+versioned.neutralAttackDifferences+
   ' requirement-differences='+versioned.neutralRequirementDifferences+
