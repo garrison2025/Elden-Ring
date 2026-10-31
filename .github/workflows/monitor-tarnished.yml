@@ -103,7 +103,11 @@ jobs:
             printf 'Priority: %s. The monitor already filed a separate independent-review Issue.\n\n' "$priority" >> .monitor/safe-pr.md
             printf '**Not a feature sync:** no game data, formulas, authored code, official version claim, SEO setting, or first-party changelog was changed.\n\n' >> .monitor/safe-pr.md
             printf 'All local Python and npm regression checks passed before the PR was opened.\n' >> .monitor/safe-pr.md
-            pr="$(gh pr create --repo "$GH_REPO" --base main --head "$branch" --title "chore(external): sync published Tarnished.dev $version watch metadata" --body-file .monitor/safe-pr.md --json number --jq '.number' 2>/dev/null || true)"
+            if gh pr create --repo "$GH_REPO" --base main --head "$branch" --title "chore(external): sync published Tarnished.dev $version watch metadata" --body-file .monitor/safe-pr.md; then
+              pr="$(gh pr view "$branch" --repo "$GH_REPO" --json number --jq '.number')"
+            else
+              pr=""
+            fi
             if [[ -z "$pr" ]]; then
               # Some repositories disable GitHub Actions PR creation.
               # Retain pushed branch and review Issue rather than deploying anything.
