@@ -1,0 +1,32 @@
+name: Live Tarnished.dev public AR browser probe
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/probe-tarnished-ui.mjs
+      - .github/workflows/tarnished-public-benchmark.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-ar-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify installed Chrome
+        run: command -v google-chrome || command -v google-chrome-stable || command -v chromium
+      - name: Probe public calculator (no paid API or login)
+        run: node scripts/probe-tarnished-ui.mjs
+      - name: Upload bounded public UI observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-public-browser-observation
+          path: .audit/tarnished-chrome-ui.json
+          retention-days: 3
+          if-no-files-found: warn
