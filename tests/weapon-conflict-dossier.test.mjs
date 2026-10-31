@@ -16,6 +16,8 @@ test('seven independently attributable source disputes stay UNREVIEWED',()=>{
  assert.equal(result.entries.length,7);
  assert.deepEqual(result.entries.find(e=>e.id==='sote-reference-032').withinPageZeroContradiction.samePageStandardZero,[72,0,22,0,0]);
  assert.equal(result.currentPatchCorroborationCount,1);
+ assert.equal(result.trackedPatchContinuity.completeRegulationBinaryIdenticalNotProven,true);
+ assert.equal(result.trackedPatchContinuity.gameClientVerified,false);
  assert.equal(result.unversionedBaseCorroborationCount,6);
  assert.equal(result.entries.filter(x=>x.field==='baseAttack').length,6);
  assert.equal(result.entries.filter(x=>x.field==='requirements').length,1);
@@ -41,6 +43,9 @@ test('source dossier contains both readings, exact mismatched component and manu
  assert.ok(html.includes('Madding Hand'));
  assert.ok(html.includes('Current-patch corroboration: 1 of 7 historical disagreements'));
  assert.ok(html.includes('Unversioned third-source +0 checks: 6 of 6'));
+ assert.ok(html.includes('184 hash-identical parameter tables'));
+ assert.ok(html.includes('not asserted identical'));
+ assert.ok(html.includes('https://almanauts.com/eldenring/patches/1-17-3/'));
  assert.ok(html.includes('1.17.3 secondary data supports pinned'));
  assert.ok(html.includes('FAI: 13 / 20'));
  assert.ok(html.includes('PHY: 133 / 131'));
@@ -74,6 +79,9 @@ test('build rejects missing or added source flags, changed references, stale IDs
   d=>{d.cases[0].screenshotCount=1;},
   d=>{d.requiredGameVersion.regulation='1.17';},
   d=>{d.status='CONFIRMED';},
+  d=>{d.trackedPatchContinuity.fromV1171ToV1173='all tables exactly identical';},
+  d=>{d.trackedPatchContinuity.versionedPrimaryParameterDumpObtained=true;},
+  d=>{d.trackedPatchContinuity.gameClientVerified=true;},
   d=>{d.cases.find(c=>c.id==='sote-reference-032').withinPageZeroContradiction.samePageStandardZero[0]=75;},
   d=>{d.cases.find(c=>c.id==='sote-reference-032').withinPageZeroContradiction.gameClientVerified=true;},
   d=>{d.cases.find(c=>c.id==='sote-reference-051').currentPatchCorroboration.observedValues[3]=13;},
