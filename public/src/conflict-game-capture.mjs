@@ -1,4 +1,5 @@
 import {validateLocalScreenshotFingerprint} from './ar-screenshot-fingerprint.mjs';
+import {sameJsonStructure} from './json-structure-equal.mjs';
 
 /**
  * Manual, browser-only capture of exact +0 weapon facts for seven unresolved
@@ -168,7 +169,7 @@ export function bundleConflictCaptureDrafts(ledger,catalog,provided=[]){
    titleScreenshot:draft.localScreenshots?.titleScreen,
    weaponScreenshot:draft.localScreenshots?.weaponDetails
   });
-  if(JSON.stringify(validated)!==JSON.stringify(draft))
+  if(!sameJsonStructure(validated,draft))
    fail('Draft derived readings or status have been tampered with.');
   entry.observation=validated;entry.taskStatus='UNREVIEWED_PLAYER_TRANSCRIPTION';
   seen.add(draft.caseId);
