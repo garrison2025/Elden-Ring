@@ -77,7 +77,7 @@ export function catalogEvidencePanel(evidence){
   row('Base-game / legacy community entries',c.baseGame,'Community snapshot; individual current-regulation verification is incomplete'),
   row('Shadow of the Erdtree entries',c.dlc,'Roster subset; not a certified complete DLC armament list'),
   row('Tarnished Pack / Tarnished Edition entries',c.tarnishedPack,'All have version-labelled requirements/weights; +0 stats require separate per-weapon citations'),
-  row('Tarnished Pack source-attributed +0 base facts',c.tarnishedPackBaseFacts,'Three individually named wiki pages and four class comparison tables; not current-game-client certified'),
+  row('Tarnished Pack source-attributed +0 base facts',c.tarnishedPackBaseFacts,'Three named wiki pages, four class comparison tables and Ritual's named cross-source +0; not game-client certified'),
   row('Tarnished Pack secondary-source disagreements',c.tarnishedPackSecondaryConflicts,'Ritual Thrusting Shield: version-labelled 10 weight / STR 13 vs other public 9 weight / STR 15; both calculations blocked pending original game evidence'),
   row('Current 1.17.3 requirement-source corroborations',c.versionedRequirementCorroborations,'Madding Hand FAI 20 supports pinned v1.17 against unversioned wiki FAI 13; no reviewed in-game screenshot'),
   row('Unversioned third-party +0 Base matches',c.unversionedBaseCrosschecks,'Six individually linked Base rows match pinned v1.17, but current game version/source lineage are unverified and no AR is released'),
