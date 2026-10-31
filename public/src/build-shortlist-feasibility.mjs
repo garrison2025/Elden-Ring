@@ -14,15 +14,16 @@ const CONFLICT='v117-community-requirement-conflict';
  */
 export function planShortlistWielding(ids,weapons,rawStats,origin,{allowSote=false}={}){
  const safe=validateBuildSmithingIds(ids);
- if(!Array.isArray(weapons)||!CLASSES.some(c=>c.name===origin?.name)||
-  typeof allowSote!=='boolean')fail('Valid Build origin, content setting and weapon catalog required.');
+ const cls=CLASSES.find(c=>c.name===origin?.name);
+ if(!Array.isArray(weapons)||!cls||typeof allowSote!=='boolean')
+  fail('Valid Build origin, content setting and weapon catalog required.');
  // Avoid coercing empty or incomplete Build inputs.
  if(!Array.isArray(rawStats)||rawStats.length!==8||
   rawStats.some(v=>!Number.isInteger(v)))
   fail('Provide all eight valid integer character stats.');
- const stats=validateStats(rawStats,origin),player=stats.slice(3);
+ const stats=validateStats(rawStats,cls),player=stats.slice(3);
  const map=new Map(weapons.map(w=>[w.id,w]));
- const currentLevel=buildLevel(origin,stats);
+ const currentLevel=buildLevel(cls,stats);
  let fullySourced=true,allSafeToApply=true;
  const maxNeeds={
   one:[...player],two:[...player]
@@ -67,7 +68,7 @@ export function planShortlistWielding(ids,weapons,rawStats,origin,{allowSote=fal
  const target=grip=>{
   // Current values are kept or increased; no respec / lowering below origin.
   const next=[...stats.slice(0,3),...maxNeeds[grip]];
-  const level=buildLevel(origin,next);
+  const level=buildLevel(cls,next);
   const steps=level-currentLevel;
   const delta=next.map((v,i)=>v-stats[i]);
   return {
