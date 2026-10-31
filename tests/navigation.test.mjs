@@ -21,6 +21,8 @@ test('builder adds accessible desktop and mobile links with relative paths',asyn
    const prefix=uri?'../':'';
    assert.equal((html.match(new RegExp('href="'+prefix+name+'/"','g'))||[]).length>=2,true,name+' absent in '+uri);
   }
+  const prefix=uri?'../':'';
+  assert.ok(html.includes('href="'+prefix+'updates/"'),'recent updates page missing in navigation');
   assert.equal(injectToolNavigation(html,uri),html,'build transform must be idempotent');
  }
 });

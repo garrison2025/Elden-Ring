@@ -7,15 +7,15 @@ import {spawnSync} from 'node:child_process';
 
 const WITHHELD=[
  'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench',
- 'weapon-database','validation-status','respec-planner','weapon-requirements',
+ 'weapon-database','weapon-ar-calculator','validation-status','respec-planner','weapon-requirements',
  'armor-optimizer','weapon-upgrade-calculator'
 ];
 const INDEXABLE=[
  '/','/about/','/build-planner/','/class-optimizer/',
- '/equip-load-calculator/','/level-rune-calculator/','/privacy/'
+ '/equip-load-calculator/','/level-rune-calculator/','/privacy/','/updates/'
 ];
 const strict=new Set([
- 'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','validation-status'
+ 'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-ar-calculator','validation-status'
 ]);
 const site='https://elden-test.example.org';
 
