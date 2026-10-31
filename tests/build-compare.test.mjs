@@ -52,7 +52,7 @@ test('comparisons use the chosen existing sourced weapon and never claim AR',()=
  assert.equal(result.baseline.weapon.id,katana.id);
  assert.equal(result.current.weapon.id,great.id);
  assert.equal(result.sameWeapon,false);
- assert.equal(result.baseline.weapon.oneHanded,false);
+ assert.equal(result.baseline.weapon.oneHanded,true); // Samurai's starting 12 STR / 15 DEX meets Uchigatana 11 STR / 15 DEX.
  assert.equal(result.current.weapon.oneHanded,false);
  assert.equal(result.current.weapon.missingOneHanded>0,true);
  assert.equal(Object.hasOwn(result.current.weapon,'attackAtZero'),false);
