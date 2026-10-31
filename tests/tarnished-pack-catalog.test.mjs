@@ -139,7 +139,7 @@ test('version/attribute/source tampering and fabricated +0 numbers are refused',
  assert.equal(blocked.load,null);
  assert.equal(blocked.knownSubtotal,0);
  assert.ok(blocked.disputedWeights.some(s=>s.includes('Ritual Thrusting Shield')));
- assert.ok(cautionForWeapon(ritual).some(s=>s.includes('10 versus 9')));
+ assert.ok(cautionForWeapon(ritual).some(s=>s.includes('weight 10 in a version-labelled source versus 9')));
  assert.equal(weaponWieldShortfall(ritual,[99,99,99,99,99]).known,false);
  assert.equal(searchCatalog(base.weapons,{coverage:'tarnished',wield:'one',stats:[99,99,99,99,99]}).total,7);
  for(const mutate of [
