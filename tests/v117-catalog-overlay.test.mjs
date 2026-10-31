@@ -25,6 +25,8 @@ test('72-type records receive an independent versioned +0 source view, not inven
  assert.equal(r.summary.flaggedDisputesMapped,1);
  assert.equal(r.summary.neutralAttackDifferences,1);
  assert.equal(r.summary.neutralRequirementDifferences,1);
+ assert.equal(r.summary.anyNumericalDifferences,1);
+ assert.equal(r.summary.unflaggedNumericalDifferences,0);
  assert.equal(r.summary.missing,1);
  const a=r.rows.get('a');
  assert.deepEqual(a.attack,[78,0,0,0,0]);
@@ -65,12 +67,17 @@ test('strict inputs reject malformed catalog or missing source reinforcement tab
 test('page only requests 3296 source variants after explicit user click, never promotes weight or overwrites canonical source',()=>{
  const html=readFileSync(new URL('../public/weapon-database/index.html',import.meta.url),'utf8');
  const app=readFileSync(new URL('../public/src/weapon-catalog-app.mjs',import.meta.url),'utf8');
- for(const id of ['catalog-v117-load','catalog-v117-panel','catalog-v117-attack',
+ for(const id of ['catalog-v117-load','catalog-v117-panel','catalog-v117-filter','catalog-v117-attack',
   'catalog-v117-requirements','catalog-v117-differences','catalog-v117-status'])
   assert.match(html,new RegExp('id="'+id+'"'),id);
  assert.match(app,/\$\('catalog-v117-load'\)\.addEventListener\('click',async/);
  assert.match(app,/downloadV117Source\(fetch\)/);
  assert.match(app,/v117Overlay=overlay/);
  assert.match(app,/renderV117SourceFacts/);
+ assert.match(app,/searchCatalog\(filteredWeapons/);
+ assert.match(app,/sourceFilter==='attack-difference'/);
+ assert.match(app,/sourceFilter==='requirement-difference'/);
+ assert.match(app,/sourceFilter==='any-difference'/);
+ assert.match(app,/catalog-v117-filter'\)\.disabled=false/);
  assert.match(html,/establish weapon weight/);
 });
