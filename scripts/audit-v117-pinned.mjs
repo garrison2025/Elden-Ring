@@ -13,6 +13,7 @@ import {auditRawMathParity} from '../public/src/regulation-parity.mjs';
 import {auditHistoricalPlayerAr} from '../public/src/external-ar-evidence.mjs';
 import {auditCurrentReferenceAr,CURRENT_REFERENCE_URL} from '../public/src/current-reference-ar.mjs';
 import {auditTarnishedV117ReferenceAR} from '../public/src/tarnished-reference-benchmark.mjs';
+import {buildV117CatalogOverlay} from '../public/src/v117-catalog-overlay.mjs';
 
 const output=resolve(process.cwd(),'.audit/v117-math-audit.json');
 async function main(){
@@ -22,6 +23,24 @@ async function main(){
  // The file is strict JSON despite having a .js filename.
  const params=JSON.parse(text);
  const community=JSON.parse(await readFile(resolve(process.cwd(),'public/data/community-weapon-catalog.json'),'utf8'));
+ const versionedOverlay=buildV117CatalogOverlay(community,params);
+ const versioned=versionedOverlay.summary;
+ console.log('[CATALOG V1.17 SOURCE] neutral='+versioned.sourceMapped+'/'+versioned.total+
+  ' source-only='+versioned.sourceOnlyMapped+' flagged='+versioned.flaggedDisputesMapped+
+  ' attack-differences='+versioned.neutralAttackDifferences+
+  ' requirement-differences='+versioned.neutralRequirementDifferences+
+  ' incomplete='+versioned.incompleteSource+' ambiguous='+versioned.ambiguous+
+  ' missing='+versioned.missing+' source-weight=NOT_AVAILABLE');
+ await mkdir(dirname(output),{recursive:true});
+ await writeFile(resolve(process.cwd(),'.audit/v117-catalog-neutral-overlay-summary.json'),
+  JSON.stringify(versioned,null,2)+'\n','utf8');
+ // No source dataset, attack table or third-party assets are exported.
+ if(versioned.sourceMapped!==community.weapons.length||
+    versioned.sourceOnlyMapped!==community.meta.basePinnedRequirementsOnlyCount||
+    versioned.missing!==0||versioned.ambiguous!==0||versioned.incompleteSource!==0){
+  console.error('[CATALOG V1.17 SOURCE] Existing family roster cannot all be connected to exact +0 source facts.');
+  process.exitCode=1;
+ }
  const coverage=auditSourceFamilyCoverage(community,params);
  const coverageSummary={
   catalogRows:coverage.catalogRows,matchedRows:coverage.matchedRows,
