@@ -375,6 +375,61 @@ try{
  assert.equal(await evaluate("[...document.querySelectorAll('#equipment-weapon-fields select')].filter(n=>n.value!=='').length"),
   0,'Clear must unequip all selected weapons');
 
+
+ // Real Chrome A/B equipment journey: save a confirmed setup; reload as
+ // unconfirmed (never silently grant a roll tier); pin and edit slot-by-slot.
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:1280,height:850,deviceScaleFactor:1,mobile:false
+ });
+ await navigate('/equip-load-calculator/');
+ await waitFor("document.querySelector('#equipment-weapon-fields select')?.disabled===false",
+  'Equipment catalog ready for local save');
+ await evaluate("(()=>{const sel=document.querySelector('#equipment-weapon-fields select');const match=[...sel.options].find(x=>x.textContent.startsWith('Uchigatana '));if(!match)throw Error('Uchigatana missing');sel.value=match.value;sel.dispatchEvent(new Event('change',{bubbles:true}));const row=document.querySelector('#equipment-manual-fields .equipment-manual-row');const status=row.querySelector('select');status.value='equipped';status.dispatchEvent(new Event('change',{bubbles:true}));const weight=row.querySelector('input');weight.value='5.5';weight.dispatchEvent(new Event('input',{bubbles:true}));const maximum=document.querySelector('#equipment-maximum');maximum.value='100';maximum.dispatchEvent(new Event('input',{bubbles:true}));const check=document.querySelector('#equipment-confirm');check.checked=true;check.dispatchEvent(new Event('change',{bubbles:true}));})()");
+ await waitFor("document.querySelector('#equipment-tier').textContent!=='—'",
+  'Explicitly confirmed initial loadout');
+ await evaluate("document.querySelector('#equipment-save').click()");
+ await waitFor("document.querySelector('#equipment-save-feedback').textContent.includes('Equipment saved')",
+  'Save equipment on user action');
+ const rawEquip=await evaluate("localStorage.getItem('buildlab:equipment-plan:v1')");
+ assert.equal(JSON.parse(rawEquip).confirmed,false,
+  'Saved equipment never preserves confirmed roll status');
+ await navigate('/equip-load-calculator/');
+ await waitFor("document.querySelector('#equipment-weapon-fields select')?.disabled===false",
+  'Fresh equipment page after local save');
+ assert.equal(await evaluate("document.querySelector('#equipment-weapon-fields select').value"),'',
+  'Saved equipment must never auto-restore');
+ await evaluate("document.querySelector('#equipment-restore').click()");
+ await waitFor("document.querySelector('#equipment-manual-fields .equipment-manual-row input').value==='5.5'",
+  'Explicit saved equipment restore');
+ assert.equal(await evaluate("document.querySelector('#equipment-confirm').checked"),false,
+  'Restoring equipment must require new game confirmation');
+ assert.equal(await evaluate("document.querySelector('#equipment-tier').textContent"),'—',
+  'Restored equipment cannot carry forward an old roll tier');
+ await evaluate("document.querySelector('#equipment-ab-from-save').click()");
+ await waitFor("document.querySelector('#equipment-ab-results').hidden===false",
+  'Saved gear pinned as A without overwriting B');
+ assert.equal(await evaluate("document.querySelectorAll('#equipment-ab-rows tr').length"),
+  14,'Six weapon and eight manual gear slots shown in A/B comparison');
+ await evaluate("(()=>{const sel=document.querySelector('#equipment-weapon-fields select');const target=[...sel.options].find(x=>x.textContent.startsWith('Greatsword '));if(!target)throw Error('Greatsword missing');sel.value=target.value;sel.dispatchEvent(new Event('change',{bubbles:true}));const input=document.querySelector('#equipment-manual-fields .equipment-manual-row input');input.value='7.5';input.dispatchEvent(new Event('input',{bubbles:true}));})()");
+ await waitFor("document.querySelector('#equipment-ab-difference').textContent.includes('2 of 14 equipped slots changed')",
+  'A/B accurately counts two changed actual equipment slots');
+ assert.ok((await evaluate("document.querySelector('#equipment-ab-difference').textContent")).includes(
+  'Both plans must be explicitly confirmed'), 'Unconfirmed saved A cannot claim roll tier');
+ const abRows=await evaluate("[...document.querySelectorAll('#equipment-ab-rows tr')].filter(r=>r.classList.contains('equipment-ab-changed')).map(r=>r.querySelector('th').textContent)");
+ assert.deepEqual(abRows,['Right hand 1','Head armor']);
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:375,height:812,deviceScaleFactor:1,mobile:true
+ });
+ const compareMobile=await evaluate("({width:window.innerWidth,documentWidth:document.documentElement.scrollWidth,scrollable:document.querySelector('.equipment-ab-table').closest('.table-wrap').scrollWidth>=document.querySelector('.equipment-ab-table').closest('.table-wrap').clientWidth})");
+ assert.ok(compareMobile.documentWidth<=compareMobile.width+5,
+  'Mobile equipment A/B page exceeds viewport: '+JSON.stringify(compareMobile));
+ assert.equal(compareMobile.scrollable,true,'A/B comparison table must scroll on phone');
+ await evaluate("document.querySelector('#equipment-delete-save').click()");
+ assert.equal(await evaluate("localStorage.getItem('buildlab:equipment-plan:v1')"),null,
+  'Delete saved equipment clears only browser record');
+ assert.equal(await evaluate("document.querySelector('#equipment-ab-results').hidden"),false,
+  'Deleting saved equipment must preserve on-screen A/B comparison');
+
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
  console.log('[BROWSER SMOKE] PASS: explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
