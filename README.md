@@ -442,3 +442,27 @@ client AR screenshots. The `npm run check` CI task now also runs
 failing for missing weapon-coverage parity, shortlist/basket markup,
 commit provenance or research SEO gating. This uses no paid APIs or
 services.
+
+## Opt-in local save/restore for multi-weapon Smithing plans (2026-10-31)
+
+The multi-weapon planner at `/weapon-upgrade-calculator/` supports explicit
+**Save checklist on this device**, **Restore saved checklist** and **Delete
+saved checklist** actions. Nothing is autosaved, and opening the page does not
+auto-restore. A versioned `buildlab:smithing-basket:v1` localStorage record
+contains up to eight manual weapon labels, confirmed Regular/Somber smithing
+tracks, player-entered current/target levels, and the shared owned-material
+quantities. It excludes source weapon tables, game data, user IDs and AR.
+
+Restoring revalidates the entire saved record with the existing canonical
+multi-weapon planner, rejecting unsupported version, missing/invalid level,
+unknown inventory material, corrupt JSON and more than eight weapons. Valid
+rows are constructed before replacing the on-screen list; an invalid record
+does not overwrite the current UI. Clear basket keeps a previous saved copy;
+Delete saved checklist removes only the stored record, not the current rows.
+Storage may not work in private/incognito sessions and all storage exceptions
+are surfaced as feedback, not silently ignored.
+
+The Build Planner's ID-only import remains a separate manual workflow:
+links alone cannot set tracks/levels or overwrite an already edited basket.
+No backend, paid API, new redistribution, or persistent cookies were added.
+Research noindex and current patch-validation limitations remain.
