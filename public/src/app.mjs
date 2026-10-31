@@ -197,6 +197,8 @@ function initBuild(){
       inspectBuildWeapon(weaponCatalog.weapons,nextWeapon,stats,{allowSote:nextSote});
     }
     extra.checked=nextExtra;sote.checked=nextSote;current=cls;selectedWeaponId=nextWeapon;
+    if(!nextSote&&weaponCatalog)smithingIds=smithingIds.filter(id=>
+      weaponCatalog.weapons.find(w=>w.id===id)?.expansion!=='Shadow of the Erdtree');
     classOptions(sel,extra.checked);sel.value=cls.name;statInputs(grid,stats);
     search.value='';refreshWeaponChoices();render();
     status(old?'Legacy build stats restored. Extra-content flags and weapons were not stored in v1.':'Saved build and reference selection restored.');
