@@ -10,18 +10,18 @@ const fixture=()=>({
  reinforceTypes:{2:[{attack:{0:1},attributeScaling:{str:1,dex:1,int:1,fai:1,arc:1}}]}
 });
 const sample=(opts={})=>({...structuredClone(TARNISHED_REFERENCE_AR_CASES[0]),...opts});
-test('source sample is precisely labelled v1.17, actual rendered AR and nonrepeatable URL',()=>{
+test('source sample is labelled v1.17, first external result independently repeated in a Chrome run',()=>{
  const x=TARNISHED_REFERENCE_AR_CASES[0];
  assert.equal(x.expectedTotal,172);
  assert.equal(x.weaponName,'Uchigatana');
  assert.equal(x.affinity,'Standard');
  assert.equal(x.upgrade,0);
- assert.equal(x.sourceRepeatable,false);
+ assert.equal(x.sourceRepeatable,true);
  assert.match(x.sourceUrl,/str=40&dex=40/);
  assert.equal(x.sourceVersion,'1.17');
 });
 test('synthetic example is only a comparison harness, never promoted as game-certified',()=>{
- const s=sample({expectedTotal:136,playerStats:{str:40,dex:20,int:10,fai:10,arc:10},
+ const s=sample({expectedTotal:136,sourceRepeatable:false,playerStats:{str:40,dex:20,int:10,fai:10,arc:10},
    observedDisplay:'Synthetic check Total AR : 136'});
  const r=auditTarnishedV117ReferenceAR(fixture(),{cases:[s]});
  assert.equal(r.candidateCount,1);
@@ -56,4 +56,18 @@ test('never count unobserved AR or an injected game client verification flag',()
  }
  const duplicate=sample();
  assert.throws(()=>auditTarnishedV117ReferenceAR(fixture(),{cases:[duplicate,duplicate]}),RangeError);
+});
+
+test('five independently browser-observed candidate AR cases cover stats, upgrade, affinity and 2H, without passing the overall release gate',()=>{
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.length,5);
+ assert.deepEqual(TARNISHED_REFERENCE_AR_CASES.map(x=>x.expectedTotal),[172,133,491,488,180]);
+ assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.affinity)).size,2);
+ assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.upgrade)).size,2);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.twoHanded).length,1);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.sourceRepeatable).length,1);
+ const x=auditTarnishedV117ReferenceAR(fixture());
+ assert.equal(x.candidateCount,5);
+ assert.equal(x.referenceReleaseReady,false);
+ assert.equal(x.currentGameClientVerified,false);
+ assert.ok(x.results.some(r=>r.status==='source-variant-missing'||r.status==='conversion-blocked'));
 });
