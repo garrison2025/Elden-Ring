@@ -42,7 +42,7 @@ const buildInfo={
  schemaVersion:1,product:'Elden Ring Build Lab',generatedAt:new Date().toISOString(),
  revision,revisionSource:revision?
   (process.env.CF_PAGES_COMMIT_SHA?'CF_PAGES_COMMIT_SHA':'GITHUB_SHA'):'unavailable',
- branch,researchNoindex:!indexApproved,catalog:coverage
+ branch,researchNoindex:!(indexApproved&&url),catalog:coverage
 };
 await writeFile(path.join(dist,'deployment-info.json'),JSON.stringify(buildInfo,null,2)+'\n','utf8');
 if(!indexApproved||!url)console.warn('[SEO GATE] Research build: all pages remain noindex; robots allows crawlers to see noindex; sitemap.xml is withheld. RELEASE_INDEX_APPROVED=1 requires independent manual approval of all release gates.');
