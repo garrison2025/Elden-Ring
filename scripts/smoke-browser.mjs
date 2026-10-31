@@ -1078,7 +1078,7 @@ try{
   await waitFor("document.querySelector('#armor-full-results')?.hidden===false",
    'The Worker returns an exact source-wide Poise combination under live controls');
   const sourceOptimization=await evaluate("({headline:document.querySelector('#armor-full-heading').textContent,details:document.querySelector('#armor-full-details').textContent,items:document.querySelectorAll('#armor-full-rows tr').length,status:document.querySelector('#armor-full-status').textContent})");
-  assert.match(sourceOptimization.headline,/Maximum published-source Poise:/);
+  assert.match(sourceOptimization.headline,/Best Poise: 64 points/);
   assert.equal(sourceOptimization.items,4);
   assert.ok(sourceOptimization.details.includes('roll tier')&&
    sourceOptimization.status.includes('completed in Worker')&&
