@@ -58,18 +58,18 @@ test('never count unobserved AR or an injected game client verification flag',()
  assert.throws(()=>auditTarnishedV117ReferenceAR(fixture(),{cases:[duplicate,duplicate]}),RangeError);
 });
 
-test('fifteen input-verified public browser candidate cases cover six weapon families and DLC without automatically passing the gate',()=>{
- assert.equal(TARNISHED_REFERENCE_AR_CASES.length,15);
- assert.deepEqual(TARNISHED_REFERENCE_AR_CASES.map(x=>x.expectedTotal),[172,133,491,488,180,120,452,495,211,745,839,337,666,235,632]);
- assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.affinity)).size,4);
- assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.upgrade)).size,3);
- assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.twoHanded).length,2);
- assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.sourceRepeatable).length,15);
+test('fifty twice-observed v1.17 public site cases expand 15 original with 35 diverse source branches',()=>{
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.length,50);
+ assert.deepEqual(TARNISHED_REFERENCE_AR_CASES.slice(0,15).map(x=>x.expectedTotal),[172,133,491,488,180,120,452,495,211,745,839,337,666,235,632]);
+ assert.ok(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.affinity)).size>=13);
+ assert.ok(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.upgrade)).size>=6);
+ assert.ok(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.twoHanded).length>=4);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.sourceRepeatable).length,50);
  const x=auditTarnishedV117ReferenceAR(fixture());
- assert.equal(x.candidateCount,15);
+ assert.equal(x.candidateCount,50);
  assert.equal(x.referenceReleaseReady,false);
  assert.equal(x.currentGameClientVerified,false);
- assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(z=>z.weaponName)).size,6);
+ assert.ok(new Set(TARNISHED_REFERENCE_AR_CASES.map(z=>z.weaponName)).size>=12);
  assert.ok(TARNISHED_REFERENCE_AR_CASES.some(z=>z.weaponName==="Fire Knight's Greatsword"));
  assert.ok(x.results.some(r=>r.status==='source-variant-missing'||r.status==='conversion-blocked'));
 });
