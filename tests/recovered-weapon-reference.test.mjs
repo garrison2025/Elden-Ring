@@ -12,8 +12,8 @@ test('72 recovered items have separately attributed +0 attack, weight and critic
  assert.equal(s.criticalReferences,72);assert.equal(s.scalingReferences,72);
  assert.equal(s.sourceConflicts,2);assert.equal(s.currentGameVerified,0);assert.equal(s.readyForExactAr,0);
  assert.ok(ledger.records.every(x=>x.reference.sourceUrl.startsWith('https://eldenring.wiki.gg/wiki/')));
- assert.equal(ledger.records.filter(x=>x.reference.sourceField==="wiki-weapon-class-plus-zero-table").length,69);
- assert.equal(ledger.records.filter(x=>x.reference.sourceField==="wiki-individual-weapon-plus-zero-table").length,3);
+ assert.equal(ledger.records.filter(x=>x.reference.fieldLocator==="wiki-weapon-class-plus-zero-table").length,69);
+ assert.equal(ledger.records.filter(x=>x.reference.fieldLocator==="wiki-individual-weapon-plus-zero-table").length,3);
 });
 test('Buckler source +0 attack, Visage requirements remain genuinely disputed',()=>{
  const b=ledger.records.find(x=>x.name==='Buckler'),v=ledger.records.find(x=>x.name==='Visage Shield');
