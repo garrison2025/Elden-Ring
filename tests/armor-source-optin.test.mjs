@@ -18,7 +18,7 @@ const fake=()=>Array.from({length:568},(_,i)=>({
 test('source parser validates exact pinned count/categories and strips images, descriptions, effect claims',()=>{
  const result=inspectArmorSource(JSON.stringify(fake()));
  assert.equal(result.count,ARMOR_SOURCE_COUNT);
- assert.deepEqual(Object.keys(result.armors[0]),['id','name','slot','weight']);
+ assert.deepEqual(Object.keys(result.armors[0]),['id','name','slot','weight','poise']);
  assert.equal(result.armors[0].slot,'Head');
  assert.equal(result.armors[1].slot,'Chest');
  assert.equal(result.armors[2].slot,'Arms');
