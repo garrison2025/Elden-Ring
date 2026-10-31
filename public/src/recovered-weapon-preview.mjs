@@ -4,8 +4,8 @@ const labels=Object.freeze(['Physical','Magic','Fire','Lightning','Holy']);
 export function buildRecoveredWeaponPreview(weapon,row){
  if(!weapon?.flags?.includes('source-v117-neutral-requirements-only'))return null;
  if(!row||row.id!==weapon.id||row.name!==weapon.name||row.gameClientVerified!==false||
-  row.publicationApproved!==false||row.reference?.gameClientVerified!==false||
-  row.crosscheck?.gameClientVerified!==false||!Array.isArray(row.disputedFields))
+  row.publicationApproved!==false||row.reference?.gameClientVerified!==false||row.reference?.publicationApproved!==false||
+  row.crosscheck?.gameClientVerified!==false||row.crosscheck?.publicationApproved!==false||!Array.isArray(row.disputedFields))
   fail('Cannot show an unmatched or falsely certified community source reference.');
  const reference=row.reference,secondary=row.crosscheck;
  if(reference.attackAtPlusZero?.length!==5||secondary.attackAtPlusZero?.length!==5||
