@@ -5,10 +5,19 @@ import {getCatalogCoverage,injectCatalogCoverageIntoHomepage} from './home-catal
 import {getCatalogEvidence,injectCatalogEvidence} from './catalog-evidence.mjs';
 import {validateConflictEvidence,injectConflictDossier} from './weapon-conflict-dossier.mjs';
 const root=process.cwd(),dist=path.join(root,'dist'),source=path.join(root,'public');
-const url=(process.env.SITE_URL||'').trim().replace(/\/$/,'');
-// Research deployment is noindex by default even when SITE_URL is configured.
-// Do not enable indexing without a deliberate, separately reviewed release.
+// First-wave SEO release is reviewed route by route. Never toggle global indexing.
+// Local builds, CI and every Cloudflare preview remain noindex by default.
+// Cloudflare injects CF_PAGES and CF_PAGES_BRANCH automatically on its builds.
+const PRODUCTION_ORIGIN='https://elden-ring-5i9.pages.dev';
+const RELEASE_INDEX_ROUTES=Object.freeze([
+ '', 'class-optimizer', 'level-rune-calculator', 'equip-load-calculator'
+]);
+const productionDeployment=process.env.CF_PAGES==='1'&&process.env.CF_PAGES_BRANCH==='main';
 const indexApproved=process.env.RELEASE_INDEX_APPROVED==='1';
+const url=(productionDeployment?PRODUCTION_ORIGIN:(process.env.SITE_URL||'')).trim().replace(/\/$/,'');
+const releaseEnabled=!!url&&(productionDeployment||indexApproved);
+if(productionDeployment&&process.env.RELEASE_INDEX_APPROVED==='0')
+ throw Error('Production SEO release is code-approved; do not override it with a stale environment flag.');
 if(url&&!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(url))throw Error('SITE_URL must be an HTTPS origin, e.g. https://example.com');
 await rm(dist,{force:true,recursive:true});await cp(source,dist,{recursive:true});
 const catalog=JSON.parse(await readFile(path.join(source,'data/community-weapon-catalog.json'),'utf8'));
@@ -36,11 +45,18 @@ const permanentlyWithheld=Object.freeze([
 const strictResearch=Object.freeze([
  'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-ar-calculator','weapon-source-review','game-evidence-queue','validation-status'
 ]);
+const htmlPages=await pages(dist);
+const discoveredRoutes=new Set(htmlPages.map(file=>path.relative(dist,path.dirname(file)).split(path.sep).filter(Boolean).join('/')));
+if(releaseEnabled){
+ for(const slug of RELEASE_INDEX_ROUTES)
+  if(!discoveredRoutes.has(slug)||permanentlyWithheld.includes(slug))
+   throw Error('Approved SEO route is missing or withheld: '+(slug||'/'));
+}
 let indexed=[];
-for(const file of await pages(dist)){
+for(const file of htmlPages){
  let html=await readFile(file,'utf8');const uri=path.relative(dist,path.dirname(file)).split(path.sep).filter(Boolean).join('/');const pathname=uri?`/${uri}/`:'/';
  const intentionallyNoindex=permanentlyWithheld.includes(uri);
- const indexable=!!url&&indexApproved&&!intentionallyNoindex;
+ const indexable=releaseEnabled&&RELEASE_INDEX_ROUTES.includes(uri)&&!intentionallyNoindex;
  const directives=intentionallyNoindex&&strictResearch.includes(uri)?
   'noindex,nofollow':indexable?'index,follow':'noindex,follow';
  // The build output, not an optional handwritten page tag, owns the SEO gate.
@@ -59,17 +75,18 @@ for(const file of await pages(dist)){
  await writeFile(file,html,'utf8');
 }
 // Crawlers must be able to read noindex; robots.txt must not hide it.
-let robots=url&&indexApproved?`User-agent: *\nAllow: /\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nAllow: /\n';
+let robots=releaseEnabled?`User-agent: *\nAllow: /\nSitemap: ${url}/sitemap.xml\n`:'User-agent: *\nAllow: /\n';
 await writeFile(path.join(dist,'robots.txt'),robots);
 // Cloudflare Pages also uses an HTTP X-Robots-Tag response header. This is
 // defense in depth, NOT a replacement for the per-page HTML robots meta.
 // Research previews block every route. Approved sites block permanently
 // withheld research/limited-data routes independently of author HTML.
-const headers=url&&indexApproved?
- permanentlyWithheld.map(uri=>`/${uri}/*\n  X-Robots-Tag: noindex\n`).join('\n'):
+const headers=releaseEnabled?
+ [...discoveredRoutes].filter(uri=>uri&&!RELEASE_INDEX_ROUTES.includes(uri))
+  .sort().map(uri=>`/${uri}/*\n  X-Robots-Tag: noindex\n`).join('\n'):
  '/*\n  X-Robots-Tag: noindex\n';
 await writeFile(path.join(dist,'_headers'),headers,'utf8');
-if(url&&indexApproved){const body=indexed.sort().map(p=>`  <url><loc>${url+p}</loc></url>`).join('\n');await writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`)}
+if(releaseEnabled){const body=indexed.sort().map(p=>`  <url><loc>${url+p}</loc></url>`).join('\n');await writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`)}
 // This static JSON is emitted by the same build as the pages being published.
 // GitHub and Cloudflare provide separate SHA vars; never invent a revision
 // when neither is available. No environment secrets or client data are emitted.
@@ -83,8 +100,10 @@ const buildInfo={
  schemaVersion:1,product:'Elden Ring Build Lab',generatedAt:new Date().toISOString(),
  revision,revisionSource:revision?
   (process.env.CF_PAGES_COMMIT_SHA?'CF_PAGES_COMMIT_SHA':'GITHUB_SHA'):'unavailable',
- branch,researchNoindex:!(indexApproved&&url),catalog:coverage
+ branch,researchNoindex:!releaseEnabled,indexedRoutes:indexed.slice().sort(),
+ releaseMode:productionDeployment?'cloudflare-main-first-wave':
+  releaseEnabled?'explicit-review-fixture':'research-noindex',catalog:coverage
 };
 await writeFile(path.join(dist,'deployment-info.json'),JSON.stringify(buildInfo,null,2)+'\n','utf8');
-if(!indexApproved||!url)console.warn('[SEO GATE] Research build: all pages remain noindex; robots allows crawlers to see noindex; sitemap.xml is withheld. RELEASE_INDEX_APPROVED=1 requires independent manual approval of all release gates.');
-console.log(`Built ${indexed.length} indexable pages; ${indexApproved&&url?url:'RESEARCH MODE / noindex'}. Output: dist/`);
+if(!releaseEnabled)console.warn('[SEO GATE] Research/preview build: every page stays noindex; no sitemap. Only Cloudflare main can auto-open the reviewed route allowlist.');
+console.log(`Built ${indexed.length} indexable pages; ${releaseEnabled?url:'RESEARCH MODE / noindex'}. Output: dist/`);
