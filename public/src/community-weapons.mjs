@@ -324,7 +324,33 @@ export function weaponWieldShortfall(weapon,stats){
   twoHandAssumption:result.applyTwoHandBonus
  };
 }
-function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,stats,coverage}){
+/**
+ * Data availability only: source facts are NOT patch-verified, copyright-cleared
+ * or game-client authenticated. The 72 recovered candidate +0 source values
+ * remain research-only and do not populate the primary numeric catalog.
+ */
+export function catalogSourceQuality(w){
+ const conflict=hasDisputedAttack(w)||hasDisputedRequirements(w)||hasDisputedWeight(w);
+ const complete=!conflict&&Array.isArray(w.attack)&&
+  Array.isArray(w.requirements)&&Number.isFinite(w.weight);
+ return {
+  complete,conflict,partial:!complete,
+  sourceOnly:(w.flags??[]).includes('source-v117-neutral-requirements-only')
+ };
+}
+export function catalogQualityCounts(weapons){
+ if(!Array.isArray(weapons))fail('Invalid source-quality catalog.');
+ const counts={total:weapons.length,complete:0,partial:0,conflict:0,sourceOnly:0};
+ for(const w of weapons){
+  const q=catalogSourceQuality(w);
+  if(q.complete)counts.complete++;
+  if(q.partial)counts.partial++;
+  if(q.conflict)counts.conflict++;
+  if(q.sourceOnly)counts.sourceOnly++;
+ }
+ return counts;
+}
+function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,stats,coverage,quality}){
  if(typeof term!=='string'||term.length>100||
     typeof category!=='string'||category.length>100||
     !['name','weight','base','requirements'].includes(sort)||
@@ -332,6 +358,7 @@ function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,
     !Number.isInteger(offset)||offset<0||
     !['any','one','standard-two'].includes(wield)||
     !['all','base','dlc','tarnished','v117-reconciled'].includes(coverage)||
+    !['all','complete','partial','conflict','source-only'].includes(quality)||
     !['any','physical','magic','fire','lightning','holy'].includes(damage)||
     !(maxWeight===null||(typeof maxWeight==='number'&&Number.isFinite(maxWeight)&&maxWeight>=0&&maxWeight<=200)))
   fail('Invalid catalog search parameters.');
@@ -342,10 +369,10 @@ function validateSearch({term,category,sort,limit,offset,wield,damage,maxWeight,
 }
 export function searchCatalog(weapons,{
  term='',category='all',sort='name',limit=50,offset=0,
- wield='any',damage='any',maxWeight=null,stats=null,coverage='all'
+ wield='any',damage='any',maxWeight=null,stats=null,coverage='all',quality='all'
 }={}){
  if(!Array.isArray(weapons))fail('Invalid weapon catalog.');
- const options={term,category,sort,limit,offset,wield,damage,maxWeight,stats,coverage};
+ const options={term,category,sort,limit,offset,wield,damage,maxWeight,stats,coverage,quality};
  validateSearch(options);
  const q=term.trim().toLocaleLowerCase('en-US');
  const damageIndex={physical:0,magic:1,fire:2,lightning:3,holy:4}[damage];
@@ -354,6 +381,7 @@ export function searchCatalog(weapons,{
   if(coverage==='tarnished'&&w.expansion!=='Tarnished Pack')return false;
   if(coverage==='base'&&w.expansion)return false;
   if(coverage==='v117-reconciled'&&!w.flags?.includes('source-v117-neutral-requirements-only'))return false;
+   if(quality!=='all'&&!catalogSourceQuality(w)[quality==='source-only'?'sourceOnly':quality])return false;
   if(category!=='all'&&w.category!==category)return false;
   if(q&&!w.name.toLocaleLowerCase('en-US').includes(q)&&
     !w.category.toLocaleLowerCase('en-US').includes(q))return false;
@@ -381,13 +409,15 @@ export function searchCatalog(weapons,{
   if(sort==='weight'){
    const left=hasDisputedWeight(a)?null:a.weight;
    const right=hasDisputedWeight(b)?null:b.weight;
-   if(left===null||right===null)return left===null?(right===null?0:1):-1;
+   if(left===null||right===null)return left===null?
+     (right===null?a.name.localeCompare(b.name)||a.id.localeCompare(b.id):1):-1;
    return left-right||a.name.localeCompare(b.name);
   }
   if(sort==='base'){
    const left=hasDisputedAttack(a)?null:a.attack;
    const right=hasDisputedAttack(b)?null:b.attack;
-   if(!left||!right)return !left?(!right?0:1):-1;
+   if(!left||!right)return !left?
+     (!right?a.name.localeCompare(b.name)||a.id.localeCompare(b.id):1):-1;
    return right.reduce((n,v)=>n+v,0)-left.reduce((n,v)=>n+v,0)||a.name.localeCompare(b.name);
   }
   return a.name.localeCompare(b.name)||a.id.localeCompare(b.id);
