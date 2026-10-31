@@ -6,7 +6,7 @@ import {makeTarnishedSameInputUrl,compareUserEnteredReferenceAr,
 import {TARNISHED_REFERENCE_AR_CASES} from '../public/src/tarnished-reference-benchmark.mjs';
 const stats={str:40,dex:40,int:10,fai:10,arc:10};
 test('all fifteen previously input-verified reference cases map to identical public controls',()=>{
- assert.equal(TARNISHED_REFERENCE_AR_CASES.length,15);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.length,50);
  for(const c of TARNISHED_REFERENCE_AR_CASES){
   const url=new URL(makeTarnishedSameInputUrl({
    weaponName:c.weaponName,affinityId:c.affinityId,upgrade:c.upgrade,
