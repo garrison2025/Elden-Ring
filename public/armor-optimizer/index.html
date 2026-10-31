@@ -3,7 +3,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
 <title>Elden Ring Custom Armor Optimizer | Build Lab</title>
-<meta name="description" content="Optimize armor under equip load and poise constraints using manual CSV or an explicitly loaded 568-item community armor reference. All computation happens in your browser; data accuracy is source-dependent.">
+<meta name="description" content="Optimize armor Poise, source-reported resistances and 8 damage negation types under strict roll weight limits and a simultaneous minimum Poise. Optional 568-item community armor reference.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css"><link rel="stylesheet" href="../assets/armor-full-source.css">
 </head><body data-page="armor">
 <header class="site-header"><div class="container header-inner"><a class="brand" href="../" aria-label="Build Lab homepage"><span class="brand-mark" aria-hidden="true">✧</span><span>BUILD<span class="gold">LAB</span></span></a><nav class="nav" aria-label="Main navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="active" href="../equip-load-calculator/">Equip Load</a></nav><details class="mobile-menu"><summary aria-label="Open main navigation">Menu ☰</summary><nav aria-label="Mobile navigation"><a class="" href="../">Tools</a><a class="" href="../build-planner/">Build Planner</a><a class="" href="../class-optimizer/">Class Optimizer</a><a class="" href="../level-rune-calculator/">Rune Calculator</a><a class="active" href="../equip-load-calculator/">Equip Load</a></nav></details><a class="header-status" href="../validation-status/"><span class="status-dot"></span> Accuracy record</a></div></header>
@@ -55,7 +55,7 @@
 <section class="panel armor-full-panel" id="armor-full-panel" aria-labelledby="armor-full-title">
 <div class="eyebrow">Opt-in 568-piece source · 13 combat objectives</div>
 <h2 id="armor-full-title">Optimize 13 armor attributes from 568 real community reference items</h2>
-<p>On your explicit click, this browser retrieves a pinned public armor list, extracts names, slot positions, source weight and Poise, and maximizes the <strong>selected source-reported combat property</strong> under your weight and roll-tier constraints. Targets include Poise, Immunity, Robustness, Focus, Vitality and all eight damage-negation types. Negation percentages are stacked multiplicatively; other source resistance points add. A missing field excludes only that item from that objective, never turns into zero. The reported source percentages are often rounded, so this is not yet an independently observed Tarnished.dev v1.17 numeric result. Poise minimum applies to the Poise objective; choose 0 for other objectives. Full multi-metric min/max constraints and equipment effects remain unsupported.</p>
+<p>On your explicit click, this browser retrieves a pinned public armor list, extracts names, slot positions, source weight and Poise, and maximizes the <strong>selected source-reported combat property</strong> under your weight and roll-tier constraints. Targets include Poise, Immunity, Robustness, Focus, Vitality and all eight damage-negation types. Negation percentages are stacked multiplicatively; other source resistance points add. A missing field excludes only that item from that objective, never turns into zero. The reported source percentages are often rounded, so this is not yet an independently observed Tarnished.dev v1.17 numeric result. Set <strong>Minimum combined poise</strong> in section 2 to require that much source Poise <strong>while maximizing any selected attribute</strong> (for example, maximize physical negation with at least 51 Poise). The exact four-slot search simultaneously respects the strict weight cap and Poise minimum; missing source Poise is excluded when required. Arbitrary multi-stat minima/maxima, weighted 13-metric objectives and equipment effects remain unsupported.</p>
 <label class="field" for="armor-full-metric">Choose source metric to maximize
 <select id="armor-full-metric">
 <option value="poise">Poise</option>
@@ -72,6 +72,7 @@
 <option value="focus">Focus</option>
 <option value="vitality">Vitality</option>
 </select></label>
+<p class="note">Combined constraint: the <a href="#minPoise">Minimum combined poise</a> input above applies to every source optimization objective; 0 disables the minimum. All four armor slots may be empty if no minimum is required.</p>
 <button id="armor-full-load" class="btn alt" type="button">Load pinned 568-item public armor reference</button>
 <button id="armor-full-run" class="btn" type="button" disabled>Optimize selected combat metric under my weight limit</button>
 <label class="field" for="armor-full-exclude">Exclude specific armor by exact name, separated by commas (optional, maximum 50)
