@@ -104,7 +104,14 @@ export function validateConflictEvidence(catalog,ledger){
       third.conclusion!=='provisional-corroborrated-public-reference-only'||
       third.gameClientVerified!==false||third.publicationApproved!==false)
     fail('Third-party +0 source does not match pinned six-case evidence.');
-  }else if(third!==undefined)
+   if(weapon.thirdPartyBasePlusZero?.sourceUrl!==third.sourceUrl||
+      weapon.thirdPartyBasePlusZero?.observedComponents?.join(',')!==third.observedComponents.join(',')||
+      weapon.thirdPartyBasePlusZero?.sourcePatchVersion!=='not-declared'||
+      weapon.thirdPartyBasePlusZero?.dataLineageIndependentlyEstablished!==false||
+      weapon.thirdPartyBasePlusZero?.gameClientVerified!==false||
+      weapon.thirdPartyBasePlusZero?.publicationApproved!==false)
+    fail('Catalog third-party +0 candidate differs from the reviewed source ledger.');
+  }else if(third!==undefined||weapon.thirdPartyBasePlusZero!==undefined)
    fail('Requirement conflict cannot claim a third-party +0 attack source.');
   const current=row.field==='baseAttack'?weapon.attack:weapon.requirements;
   if(!Array.isArray(current)||current.length!==5||
