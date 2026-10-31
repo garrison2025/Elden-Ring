@@ -140,12 +140,14 @@ function renderDetails(){
   'No independently sourced upgrade track is attached to this catalog record. Choose Regular or Somber from the actual game smithing menu. Neither track nor current +level is inferred.';
  const coverage=chosen.dataCoverage??'base-community';
  const dlc=chosen.expansion==='Shadow of the Erdtree';
+ const pack=chosen.expansion==='Tarnished Pack';
  const partial=coverage==='requirements-only'||coverage==='requirements-weight-only'||coverage==='name-category-only';
  $('catalog-class').textContent=chosen.category+' · '+(dlc?
   (coverage==='base-reference'?'Shadow of the Erdtree · sourced +0 facts (not AR)':
    coverage==='requirements-weight-only'?'Shadow of the Erdtree · requirements + community weight only':
    coverage==='requirements-only'?'Shadow of the Erdtree · requirements only':
    'Shadow of the Erdtree · name/category only'):
+  pack?'Tarnished Pack · version-labelled requirements and weight; +0 attack UNKNOWN':
   'Community-reported +0 base data · patch unknown');
  $('catalog-weight').textContent=hasDisputedWeight(chosen)?'SOURCE CONFLICT — unavailable':
    chosen.weight===null?'Not verified':String(chosen.weight);
@@ -174,7 +176,7 @@ function renderDetails(){
   }
  }
  const scaling=$('catalog-scaling');scaling.replaceChildren();
- if(partial)scaling.append(el('p','Base scaling grades not available for this DLC entry.'));
+ if(partial)scaling.append(el('p','Base scaling grades not available for this source record.'));
  for(let i=0;!partial&&i<5;i++){
   const row=el('div');row.className='catalog-value';
   row.append(el('span',ATTRIBUTE_LABELS[i]),el('strong',chosen.scaling[i]));scaling.append(row);
@@ -320,7 +322,8 @@ function showList(reset=false,keepSelected=false){
   if(w.id===chosen?.id)btn.classList.add('selected');
   const title=el('span',w.name);title.className='catalog-row-title';
   const detail=el('span',w.category+' · '+(w.dataCoverage==='name-category-only'?
-   'DLC name/category only':w.dataCoverage==='requirements-weight-only'?
+   'DLC name/category only':w.expansion==='Tarnished Pack'?
+   'Tarnished Pack · sourced requirements and weight · +0 attack UNKNOWN':w.dataCoverage==='requirements-weight-only'?
    'DLC requirements + community weight · attack unknown':w.dataCoverage==='requirements-only'?
    'DLC attribute requirements only':w.dataCoverage==='base-reference'?
    'DLC sourced +0 stats · not AR':'Wt '+w.weight+' · reported +0 base'));
@@ -331,7 +334,8 @@ function showList(reset=false,keepSelected=false){
      missing.oneHandMissing.map(x=>x.stat+' +'+x.points).join(', ')+' needed (1H)');
   }
   detail.className='catalog-row-desc';
-  const tag=el('span',w.expansion==='Shadow of the Erdtree'?(w.dataCoverage==='base-reference'?'DLC · +0 source':'DLC · partial'):(w.flags?.length?'Review data':'View details'));
+  const tag=el('span',w.expansion==='Tarnished Pack'?'Tarnished Pack · sourced partial':
+   w.expansion==='Shadow of the Erdtree'?(w.dataCoverage==='base-reference'?'DLC · +0 source':'DLC · partial'):(w.flags?.length?'Review data':'View details'));
   tag.className='catalog-row-tag';
   btn.append(title,detail,tag);
   btn.addEventListener('click',()=>{
@@ -408,7 +412,8 @@ try{
   catalog.meta.dlcWeightOnlyCount+' requirements + community weight, '+
   catalog.meta.dlcRequirementOnlyCount+' requirements-only, '+
   catalog.meta.dlcNameOnlyCount+' names-only, '+catalog.meta.dlcUpgradeReferenceCount+
-  ' with source-published upgraded BASE attacks). No precise DLC AR is available.');
+  ' with source-published upgraded BASE attacks; plus '+
+  catalog.meta.tarnishedPackCount+' Tarnished Pack weapons/shields with independently attributed requirements and weight only). No precise DLC or Tarnished Pack AR is available.');
 }catch(e){
  status('Could not load weapon records: '+e.message,true);
  $('catalog-results').textContent='No data loaded';
