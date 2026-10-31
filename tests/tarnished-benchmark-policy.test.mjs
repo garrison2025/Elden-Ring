@@ -8,7 +8,7 @@ test('reference tools no longer require user installation or game client screens
  assert.match(html,/Tarnished\.dev/);
  assert.match(html,/v1\.17 reference calculator/);
  assert.match(html,/Game-client screenshots are needed only for claims of independently game-verified current-patch accuracy/);
- assert.match(html,/No current production AR feature is marked benchmark-passed until those tests are recorded/);
+ assert.match(html,/pinned v1\.17 reference AR engine now meets the documented representative 15-case external parity matrix/);
 });
 test('weapon catalog links to free versioned reference workbench without pretending benchmark parity',()=>{
  const html=read('weapon-database/index.html');
@@ -21,18 +21,23 @@ test('weapon catalog links to free versioned reference workbench without pretend
 });
 test('homepage separately labels v1.17 reference AR and unverified current patch AR',()=>{
  const html=read('index.html');
- assert.match(html,/Reference v1\.17 AR comparison/);
+ assert.match(html,/Reference v1\.17 AR passes 15 representative external-site comparisons/);
  assert.match(html,/current-patch certified AR/);
- assert.match(html,/without requiring visitors to install the game/);
+ assert.match(html,/no game installation is needed/);
 });
 
-test('accuracy dashboard shows exactly one observed AR match and prevents numeric audit from masquerading as Tarnished.dev release PASS',()=>{
+test('accuracy dashboard shows repeatable 15/15 source UI parity, six weapons and distinct 39,552 internal math checks',()=>{
  const html=read('validation-status/index.html');
- assert.match(html,/Uchigatana · Standard \+0 · STR 40 \/ DEX 40 · 1H/);
- assert.match(html,/Exact same 5 stats · AR difference 0/);
+ assert.match(html,/15 \/ 15/);
+ assert.match(html,/Six weapon families/);
  assert.match(html,/39,552/);
- assert.match(html,/0 mismatches · NOT Tarnished.dev comparisons/);
- assert.match(html,/repeatable external verification remains 0\/1/);
- assert.match(html,/wider 12-case release matrix has NOT passed/);
- assert.match(html,/41179795924/);
+ assert.match(html,/NOT 39,552 external-site comparisons/);
+ assert.match(html,/reference benchmark PASS for these 15 cases only/);
+ assert.match(html,/41180592038/);
+ assert.match(html,/41180757356/);
+ assert.match(html,/41180757347/);
+ assert.match(html,/Regulation 1\.17\.3 game client/);
+ assert.match(html,/Fire Knight&amp;#39;s Greatsword|Fire Knight&#39;s Greatsword/);
+ const home=read('index.html');
+ assert.match(home,/15 of 15 same-input Tarnished.dev browser results/);
 });

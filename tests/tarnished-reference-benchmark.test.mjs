@@ -10,18 +10,18 @@ const fixture=()=>({
  reinforceTypes:{2:[{attack:{0:1},attributeScaling:{str:1,dex:1,int:1,fai:1,arc:1}}]}
 });
 const sample=(opts={})=>({...structuredClone(TARNISHED_REFERENCE_AR_CASES[0]),...opts});
-test('source sample is precisely labelled v1.17, actual rendered AR and nonrepeatable URL',()=>{
+test('source sample is labelled v1.17, first external result independently repeated in a Chrome run',()=>{
  const x=TARNISHED_REFERENCE_AR_CASES[0];
  assert.equal(x.expectedTotal,172);
  assert.equal(x.weaponName,'Uchigatana');
  assert.equal(x.affinity,'Standard');
  assert.equal(x.upgrade,0);
- assert.equal(x.sourceRepeatable,false);
+ assert.equal(x.sourceRepeatable,true);
  assert.match(x.sourceUrl,/str=40&dex=40/);
  assert.equal(x.sourceVersion,'1.17');
 });
 test('synthetic example is only a comparison harness, never promoted as game-certified',()=>{
- const s=sample({expectedTotal:136,playerStats:{str:40,dex:20,int:10,fai:10,arc:10},
+ const s=sample({expectedTotal:136,sourceRepeatable:false,playerStats:{str:40,dex:20,int:10,fai:10,arc:10},
    observedDisplay:'Synthetic check Total AR : 136'});
  const r=auditTarnishedV117ReferenceAR(fixture(),{cases:[s]});
  assert.equal(r.candidateCount,1);
@@ -56,4 +56,20 @@ test('never count unobserved AR or an injected game client verification flag',()
  }
  const duplicate=sample();
  assert.throws(()=>auditTarnishedV117ReferenceAR(fixture(),{cases:[duplicate,duplicate]}),RangeError);
+});
+
+test('fifteen input-verified public browser candidate cases cover six weapon families and DLC without automatically passing the gate',()=>{
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.length,15);
+ assert.deepEqual(TARNISHED_REFERENCE_AR_CASES.map(x=>x.expectedTotal),[172,133,491,488,180,120,452,495,211,745,839,337,666,235,632]);
+ assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.affinity)).size,4);
+ assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(x=>x.upgrade)).size,3);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.twoHanded).length,2);
+ assert.equal(TARNISHED_REFERENCE_AR_CASES.filter(x=>x.sourceRepeatable).length,15);
+ const x=auditTarnishedV117ReferenceAR(fixture());
+ assert.equal(x.candidateCount,15);
+ assert.equal(x.referenceReleaseReady,false);
+ assert.equal(x.currentGameClientVerified,false);
+ assert.equal(new Set(TARNISHED_REFERENCE_AR_CASES.map(z=>z.weaponName)).size,6);
+ assert.ok(TARNISHED_REFERENCE_AR_CASES.some(z=>z.weaponName==="Fire Knight's Greatsword"));
+ assert.ok(x.results.some(r=>r.status==='source-variant-missing'||r.status==='conversion-blocked'));
 });

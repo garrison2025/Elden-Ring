@@ -1,3 +1,9 @@
+# ARCHIVED FIRST OBSERVATION — SUPERSEDED
+
+This original one-case/unstable-fetch note is retained as a dated evidence record only. Its old `sourceRepeatable:false` and 0/1 figures have been superseded by two independent, input-verified Chrome runs showing 15/15 stable results. Current report: [15-case v1.17 reference parity](./TARNISHED_DEV_15_CASE_PARITY_20261031.md).
+
+---
+
 # Tarnished.dev v1.17 numeric benchmark — first measured case
 
 ## Captured reference result
