@@ -67,7 +67,7 @@ export function validateBuildLoadout(value){
  * Only explicit zero-weight empty equipment slots contribute zero.
  * A user override is always labelled user-entered, not game-verified.
  */
-export function evaluateBuildLoadout(input,catalog){
+export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnishedPack=false}={}){
  const state=validateBuildLoadout(input);
  if(!catalog||!Array.isArray(catalog.weapons))err('A validated local weapon catalog is required.');
  const map=new Map(catalog.weapons.map(w=>[w.id,w]));
@@ -78,6 +78,10 @@ export function evaluateBuildLoadout(input,catalog){
   if(!slot.id)continue;
   const found=map.get(slot.id);
   if(!found)err('Unknown weapon ID in '+LOADOUT_WEAPON_SLOTS[i]+'. No substituted weapon.');
+  if(found.expansion==='Shadow of the Erdtree'&&!allowSote)
+   err('Enable Shadow of the Erdtree before using '+found.name+'.');
+  if(found.expansion==='Tarnished Pack'&&!allowTarnishedPack)
+   err('Enable Tarnished Pack before using '+found.name+'.');
   const manual=weight(slot.manualWeight,'Manual weapon weight');
   const sourced=typeof found.weight==='number'&&Number.isFinite(found.weight)&&
     found.weight>=0&&!hasDisputedWeight(found)?found.weight:null;
