@@ -8,6 +8,7 @@ import {validateRecoveredSourceReferences} from './recovered-weapon-reference.mj
 import {buildRecoveredWeaponPreview} from './recovered-weapon-preview.mjs';
 import {downloadV117Source} from './upstream-regulation-v117.mjs';
 import {buildV117CatalogOverlay,V117_CATALOG_SOURCE_PAGE} from './v117-catalog-overlay.mjs';
+import {buildV117ReconciliationQueue,v117ReconciliationCsv} from './v117-reconciliation-queue.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
 const params=new URLSearchParams(location.search);
@@ -565,6 +566,24 @@ $('catalog-quality').addEventListener('change',()=>showList(true));
 $('catalog-v117-filter').addEventListener('change',()=>showList(true));
 $('catalog-max-weight').addEventListener('input',()=>showList(true));
 $('catalog-more').addEventListener('click',()=>showList(false));
+$('catalog-v117-export').addEventListener('click',()=>{
+ if(!catalog||!v117Overlay)return;
+ const status=$('catalog-v117-export-status');
+ try{
+  const rows=buildV117ReconciliationQueue(catalog,v117Overlay);
+  const csv=v117ReconciliationCsv(rows);
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='elden-ring-v117-source-review-queue.csv';
+  document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  status.textContent='Downloaded '+rows.length+
+   ' open field-level review cases. No source discrepancy is automatically approved, and no weapon weights were guessed.';
+ }catch(error){
+  status.textContent='Review export unavailable: '+String(error?.message??error).slice(0,160);
+ }
+});
 $('catalog-v117-load').addEventListener('click',async()=>{
  const button=$('catalog-v117-load'),statusText=$('catalog-v117-status');
  if(!catalog||v117Overlay){return;}
@@ -585,6 +604,8 @@ $('catalog-v117-load').addEventListener('click',async()=>{
    'These are NOT '+counts.total+' independently checked Tarnished.dev page results.';
   button.hidden=true;
   $('catalog-v117-filter').disabled=false;
+  $('catalog-v117-export').disabled=false;
+  $('catalog-v117-export-status').textContent='Ready to export field-level cases for the 72 source-only records, nine flagged disputes and new numerical mismatches. No cases are automatically marked resolved.';
   showList(true,true);
   renderV117SourceFacts();
  }catch(error){
