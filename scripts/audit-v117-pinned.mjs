@@ -12,6 +12,7 @@ import {downloadV117Source,V117_UPSTREAM_COMMIT} from '../public/src/upstream-re
 import {auditRawMathParity} from '../public/src/regulation-parity.mjs';
 import {auditHistoricalPlayerAr} from '../public/src/external-ar-evidence.mjs';
 import {auditCurrentReferenceAr,CURRENT_REFERENCE_URL} from '../public/src/current-reference-ar.mjs';
+import {auditTarnishedV117ReferenceAR} from '../public/src/tarnished-reference-benchmark.mjs';
 
 const output=resolve(process.cwd(),'.audit/v117-math-audit.json');
 async function main(){
@@ -134,6 +135,35 @@ async function main(){
   console.error('[CURRENT 1.17.3 CROSS-SOURCE] Reference disagreement; review patch changes and calculation model.');
   process.exitCode=1;
  }
+ // First live-site candidate: captured once, but repeated public fetches returned
+ // blank weapon slots. Audit actual source computation; do not award a release
+ // badge or treat a transient scraped display as a stable benchmark.
+ const tarnished=auditTarnishedV117ReferenceAR(params);
+ const referenceSummary={
+  benchmarkSource:tarnished.source,
+  sourceVersion:tarnished.version,
+  compared:tarnished.candidateCount,matched:tarnished.matched,
+  failed:tarnished.failed,repeatableReferenceCases:tarnished.recheckedReferenceCases,
+  releaseGatePassed:tarnished.referenceReleaseReady,
+  gameClientVerified:false,regulation1173Certified:false,
+  results:tarnished.results.map(({id,expected,actual,status,sourceRepeatable,
+   missingRequirements,reason})=>({
+   id,expected,actual,status,sourceRepeatable,missingRequirements,reason
+  })),
+  upstreamSnapshot:V117_UPSTREAM_COMMIT,
+  sourceDataBundled:false
+ };
+ await writeFile(resolve(process.cwd(),'.audit/tarnished-v117-reference-comparison.json'),
+  JSON.stringify(referenceSummary,null,2)+'\n','utf8');
+ for(const item of tarnished.results){
+  console.log('[TARNISHED V1.17] case='+item.id+
+   ' observed-AR='+item.expected+' computed-v1.17-AR='+(item.actual??'not-available')+
+   ' status='+item.status+' external-url-reconfirm='+item.sourceRepeatable);
+ }
+ console.log('[TARNISHED V1.17] source-observation-count='+tarnished.candidateCount+
+  ' stable-reference-rechecks='+tarnished.recheckedReferenceCases+
+  ' benchmark-release-ready='+tarnished.referenceReleaseReady+
+  ' game-certified=false');
  const report=auditRawMathParity(params,{
   gameVersion:'1.17',sourceReference:'Public pinned source @ '+V117_UPSTREAM_COMMIT,
   maxRows:5000,maxExamples:25,
