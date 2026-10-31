@@ -305,3 +305,27 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 .build-wield-targets button{width:100%;white-space:normal}
 #build-wield-plan[hidden]{display:none!important}
 @media(max-width:670px){.build-wield-targets{grid-template-columns:1fr}.build-wield-targets p{min-height:0}.build-wield-panel{padding:12px}}
+
+
+/* Explicit equipped-slot planner; community weapon facts + in-game manual gear weights. */
+#equipment-loadout-builder{margin:24px 0}
+.equipment-builder-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:20px 0}
+.equipment-builder-grid>div{min-width:0}
+.equipment-builder-grid h3{font-size:17px;color:#edd4a7;margin:0 0 14px}
+.equipment-builder-fields{display:grid;gap:12px}
+.equipment-builder-fields .field{min-width:0}
+.equipment-builder-fields select{width:100%;max-width:100%;min-width:0;text-overflow:ellipsis}
+.equipment-manual-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.equipment-builder-bottom{border-top:1px solid #384a46;padding-top:20px}
+.equipment-builder-bottom>.field{max-width:450px}
+.equipment-builder-bottom .build-content-check{display:flex;margin:14px 0;align-items:start}
+#equipment-feedback,#equipment-unknown{overflow-wrap:anywhere}
+#equipment-loadout-builder .metric-grid{margin:20px 0}
+@media(max-width:740px){
+ .equipment-builder-grid{grid-template-columns:1fr;gap:22px}
+ .equipment-manual-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+ #equipment-loadout-builder{margin:16px 0}
+}
+@media(max-width:400px){
+ .equipment-manual-row{grid-template-columns:1fr}
+}
