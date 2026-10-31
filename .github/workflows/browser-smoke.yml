@@ -1,0 +1,22 @@
+name: Build-to-Smithing browser smoke
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify free preinstalled Chromium or Google Chrome
+        run: |
+          set -e
+          command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser
+      - name: Build real deployment candidate
+        run: npm run build
+      - name: Test browser journey (desktop + mobile)
+        run: node scripts/smoke-browser.mjs
