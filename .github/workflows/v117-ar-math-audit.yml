@@ -7,6 +7,8 @@ on:
     paths:
       - public/data/community-weapon-catalog.json
       - public/src/v117-catalog-crosscheck.mjs
+      - public/src/v117-catalog-overlay.mjs
+      - public/src/v117-comparator-catalog.mjs
       - public/src/regulation-catalog-family-audit.mjs
       - scripts/audit-v117-pinned.mjs
       - public/src/tarnished-reference-benchmark.mjs
@@ -28,6 +30,8 @@ on:
       - public/src/external-ar-evidence.mjs
       - public/src/current-reference-ar.mjs
       - public/src/v117-catalog-crosscheck.mjs
+      - public/src/v117-catalog-overlay.mjs
+      - public/src/v117-comparator-catalog.mjs
       - public/src/regulation-catalog-family-audit.mjs
       - public/data/community-weapon-catalog.json
 permissions:
