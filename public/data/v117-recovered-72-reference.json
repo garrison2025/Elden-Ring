@@ -1,0 +1,3582 @@
+{
+  "schemaVersion": 1,
+  "sourceAudit": "ATTRIBUTED_COMMUNITY_NUMERIC_REFERENCE_NOT_CURRENT_GAME_VERIFIED",
+  "pinnedRoster": "Regulation 1.17",
+  "expectedCurrentApp": "1.17.2",
+  "expectedCurrentRegulation": "1.17.3",
+  "sourceReferenceComparator": "https://www.tarnished.dev/weapon-calculator",
+  "comparatorPatchNote": "tarnished.dev says it added 1.17 data on 2026-08-28; public calculator page did not independently expose directly extractable per-item +0 values in this audit.",
+  "sourceAuthority": "Eldenpedia wiki.gg class/weapon tables for +0 facts; tarnished.app Buckler explicitly conflicting; Almanauts 1.17.3 Visage requirements secondary cross-check.",
+  "extractedAt": "2026-10-31",
+  "total": 72,
+  "communityFieldCoverage": {
+    "attack": 72,
+    "weight": 72,
+    "critical": 72,
+    "scalingRecords": 72,
+    "fullyKnownScalingGrades": 39
+  },
+  "unknownScalingGradeCount": 127,
+  "sourceConflictItems": 2,
+  "independentlyReviewedGameClientScreenshots": 0,
+  "gameClientVerified": false,
+  "publicationApproved": false,
+  "records": [
+    {
+      "id": "v117-roster-001",
+      "name": "Albinauric Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        11,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          78,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        11,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-002",
+      "name": "Ant's Skull Plate",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        28,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          136,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 12.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        28,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-003",
+      "name": "Bandit's Curved Sword",
+      "category": "Curved Sword",
+      "requirementsPinned117": [
+        11,
+        13,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          118,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "D",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Bandit%27s_Curved_Sword",
+        "fieldLocator": "wiki-individual-weapon-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        11,
+        13,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-004",
+      "name": "Banished Knight's Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          81,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 6,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-005",
+      "name": "Beast Crest Heater Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-006",
+      "name": "Beastman's Jar-Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          71,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-007",
+      "name": "Black Leather Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-008",
+      "name": "Blue Crest Heater Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-009",
+      "name": "Blue-Gold Kite Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          80,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-010",
+      "name": "Blue-White Wooden Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          72,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-011",
+      "name": "Brass Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        16,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          84,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 7,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        16,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-012",
+      "name": "Briar Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        21,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          98,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 8.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        21,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-013",
+      "name": "Buckler",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        13,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          60,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        13,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [
+        "attackAtPlusZero"
+      ],
+      "sourceStatus": "SOURCE_CONFLICT",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false,
+      "additionalAttackSource": {
+        "sourceUrl": "https://tarnished.app/weapons/buckler",
+        "attackAtPlusZero": [
+          68,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sourceGameVersion": "not declared on weapon page",
+        "gameClientVerified": false
+      }
+    },
+    {
+      "id": "v117-roster-014",
+      "name": "Candletree Wooden Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-015",
+      "name": "Carian Knight's Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        10,
+        15,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          63,
+          63,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "D",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        10,
+        15,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-016",
+      "name": "Coil Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          92,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-017",
+      "name": "Crossed-Tree Towershield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          111,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-018",
+      "name": "Crucible Hornshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        26,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          147,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 11.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        26,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-019",
+      "name": "Cuckoo Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          110,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-020",
+      "name": "Distinguished Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          112,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 16,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-021",
+      "name": "Dragon Towershield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          115,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 16.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-022",
+      "name": "Dragonclaw Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        28,
+        12,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          118,
+          0,
+          0,
+          76,
+          0
+        ],
+        "weight": 13.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "E",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        28,
+        12,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-023",
+      "name": "Eclipse Crest Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          110,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-024",
+      "name": "Eclipse Crest Heater Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        null,
+        null,
+        null,
+        null
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-025",
+      "name": "Erdtree Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        30,
+        0,
+        0,
+        12,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          120,
+          0,
+          0,
+          0,
+          78
+        ],
+        "weight": 11.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "C",
+          "-",
+          "-",
+          "D",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        30,
+        0,
+        0,
+        12,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-026",
+      "name": "Fingerprint Stone Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        48,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          158,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 29,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        48,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-027",
+      "name": "Flame Crest Wooden Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-028",
+      "name": "Gilded Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          115,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 16.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-029",
+      "name": "Gilded Iron Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-030",
+      "name": "Golden Beast Crest Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          104,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 10.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-031",
+      "name": "Golden Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        34,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          100,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 17,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        34,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-032",
+      "name": "Gravel Stone Seal",
+      "category": "Sacred Seal",
+      "requirementsPinned117": [
+        4,
+        0,
+        0,
+        18,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          25,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "C",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Gravel_Stone_Seal",
+        "fieldLocator": "wiki-individual-weapon-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        4,
+        0,
+        0,
+        18,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-033",
+      "name": "Great Turtle Shell",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          81,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 5.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-034",
+      "name": "Haligtree Crest Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          116,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 17,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-035",
+      "name": "Hawk Crest Wooden Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-036",
+      "name": "Heater Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-037",
+      "name": "Horse Crest Wooden Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-038",
+      "name": "Ice Crest Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        9,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        9,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-039",
+      "name": "Icon Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        22,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          133,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 9,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        22,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-040",
+      "name": "Inseparable Sword",
+      "category": "Greatsword",
+      "requirementsPinned117": [
+        18,
+        18,
+        0,
+        20,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          98,
+          0,
+          0,
+          0,
+          98
+        ],
+        "weight": 10,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "D",
+          "-",
+          "C",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Inseparable_Sword",
+        "fieldLocator": "wiki-individual-weapon-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        18,
+        18,
+        0,
+        20,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-041",
+      "name": "Inverted Hawk Heater Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-042",
+      "name": "Inverted Hawk Towershield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          111,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-043",
+      "name": "Iron Roundshield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-044",
+      "name": "Jellyfish Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        20,
+        14,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          123,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 8,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        20,
+        14,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-045",
+      "name": "Kite Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          78,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-046",
+      "name": "Large Leather Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-047",
+      "name": "Lordsworn's Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        16,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          99,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 9,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        16,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-048",
+      "name": "Man-Serpent's Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-049",
+      "name": "Manor Towershield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          111,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-050",
+      "name": "Marred Leather Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-051",
+      "name": "Marred Wooden Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-052",
+      "name": "One-Eyed Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 20.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-053",
+      "name": "Perfumer's Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          67,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "?",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-054",
+      "name": "Pillory Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          71,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-055",
+      "name": "Red Crest Heater Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-056",
+      "name": "Red Thorn Roundshield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-057",
+      "name": "Redmane Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          108,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 14,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-058",
+      "name": "Rickety Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-059",
+      "name": "Rift Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-060",
+      "name": "Riveted Wooden Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          72,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-061",
+      "name": "Round Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-062",
+      "name": "Scorpion Kite Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          78,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-063",
+      "name": "Scripture Wooden Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        null,
+        null,
+        null,
+        null
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-064",
+      "name": "Shield of the Guilty",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-065",
+      "name": "Silver Mirrorshield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        12,
+        10,
+        10,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          70,
+          45,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "D",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        12,
+        10,
+        10,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-066",
+      "name": "Smoldering Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        10,
+        9,
+        0,
+        12,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          58,
+          0,
+          37,
+          0,
+          0
+        ],
+        "weight": 3,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "-",
+          "-",
+          "D",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        10,
+        9,
+        0,
+        12,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-067",
+      "name": "Spiked Palisade Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        20,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          116,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 9.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        20,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-068",
+      "name": "Spiralhorn Shield",
+      "category": "Small Shield",
+      "requirementsPinned117": [
+        8,
+        10,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "E",
+          "-",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Small_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        10,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-069",
+      "name": "Sun Realm Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "?",
+          "?",
+          "?",
+          "?"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-070",
+      "name": "Twinbird Kite Shield",
+      "category": "Medium Shield",
+      "requirementsPinned117": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          78,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Medium_Shields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    },
+    {
+      "id": "v117-roster-071",
+      "name": "Visage Shield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        44,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          186,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 24,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [
+        "requirements"
+      ],
+      "sourceStatus": "SOURCE_CONFLICT",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false,
+      "additionalRequirementSource": {
+        "sourceUrl": "https://almanauts.com/eldenring/weapons/",
+        "requirements": [
+          44,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sourceGameVersion": "Regulation 1.17.3 (published secondary param table)",
+        "gameClientVerified": false
+      }
+    },
+    {
+      "id": "v117-roster-072",
+      "name": "Wooden Greatshield",
+      "category": "Greatshield",
+      "requirementsPinned117": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "reference": {
+        "attackAtPlusZero": [
+          95,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 8,
+        "critical": 100,
+        "scalingAtPlusZero": [
+          "D",
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "sourceUrl": "https://eldenring.wiki.gg/wiki/Greatshields",
+        "fieldLocator": "wiki-weapon-class-plus-zero-table",
+        "sourceGameVersion": "not explicitly pinned to 1.17.3",
+        "sourceCheckedDate": "2026-10-31",
+        "sourceLineage": "public-community-weapon-table",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      },
+      "requirementsFromReference": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "disputedFields": [],
+      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "gameClientVerified": false,
+      "reviewStatus": "UNREVIEWED",
+      "publicationApproved": false
+    }
+  ]
+}

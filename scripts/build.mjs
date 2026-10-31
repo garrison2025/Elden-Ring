@@ -30,11 +30,11 @@ async function pages(dir){const arr=[];for(const entry of await readdir(dir,{wit
 // release later enables indexing for the public calculators.
 const permanentlyWithheld=Object.freeze([
  'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench',
- 'weapon-database','validation-status','respec-planner',
+ 'weapon-database','weapon-source-review','validation-status','respec-planner',
  'weapon-requirements','armor-optimizer','weapon-upgrade-calculator'
 ]);
 const strictResearch=Object.freeze([
- 'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','validation-status'
+ 'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-source-review','validation-status'
 ]);
 let indexed=[];
 for(const file of await pages(dist)){
