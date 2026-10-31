@@ -92,6 +92,6 @@ test('new page uses eight enemy defense inputs and five AR inputs, noindex and s
  assert.match(app,/calculateManualDamage/);
  assert.match(arHtml,/id="qar-damage-link"/);
  assert.match(ar,/sourceKind==='pinned'/);
- assert.match(ar,/dest\.searchParams\.set\(part.element/);
+ assert.match(ar,/createDamageHandoffUrl\(location\.href,elements\)/);
  assert.match(ar,/damageLink\.hidden=false/);
 });
