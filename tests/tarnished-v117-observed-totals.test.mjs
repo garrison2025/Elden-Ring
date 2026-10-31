@@ -6,7 +6,7 @@ import {TARNISHED_REFERENCE_AR_CASES as previous} from '../public/src/tarnished-
 
 test('35 additional v1.17 UI AR totals were observed independently in TWO Chrome runs',()=>{
  assert.deepEqual(runs,[41191448470,41191804102]);
- assert.equal(previous.length,15);
+ assert.equal(previous.length,50);
  assert.equal(candidates.length,35);
  assert.equal(Object.keys(observed).length,35);
  for(const c of candidates){
