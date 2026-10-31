@@ -899,6 +899,14 @@ try{
   assert.ok(somberRank.results.length>0,'Somber Blasphemous Blade has at least one legal source profile');
   assert.ok(somberRank.results.every(x=>x.includes('Somber +10')),
    'Somber profiles must never use the unrelated Regular +25 input');
+  await evaluate("(()=>{const q=document.querySelector('#qar-rank-search');q.value='Uchigatana, Blasphemous Blade';q.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#qar-rank-run').click()})()");
+  await waitFor("document.querySelector('#qar-rank-results')?.hidden===false",
+   'Two distinct exact source weapon families compare in one ranking');
+  const mixed=await evaluate("({rows:document.querySelector('#qar-rank-rows').textContent,count:document.querySelectorAll('#qar-rank-rows tr').length,notice:document.querySelector('#qar-rank-status').textContent})");
+  assert.ok(mixed.count>=2&&mixed.rows.includes('Uchigatana')&&mixed.rows.includes('Blasphemous Blade'),
+   'Must rank multiple unrelated exact weapon families together');
+  assert.ok(mixed.rows.includes('Regular +25')&&mixed.rows.includes('Somber +10'),
+   'Regular and Somber paths remain separate in cross-family ranking');
   await evaluate("(()=>{const x=document.querySelector('#qar-search');x.value='Blasphemous Blade';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor("document.querySelector('#qar-upgrade')?.options.length===11",
    'Somber-only Blasphemous Blade has +0..+10, never fabricated +25');
