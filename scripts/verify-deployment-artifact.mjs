@@ -53,7 +53,8 @@ const main=async()=>{
  assert(deployment.product==='Elden Ring Build Lab','Unexpected product ID');
  assert(deployment.catalog?.weapons===source.weapons&&
   deployment.catalog?.dlc===source.dlc&&
-  deployment.catalog?.dlcBaseFacts===source.dlcBaseFacts,
+  deployment.catalog?.dlcBaseFacts===source.dlcBaseFacts&&
+  deployment.catalog?.tarnishedPack===source.tarnishedPack,
   'Deployment manifest differs from bundled weapon JSON');
  assert(home.includes('<p data-home-weapon-coverage>'+catalogCoverageCopy(source)+'</p>'),
   'Homepage does not match bundled weapon JSON');
