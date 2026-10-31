@@ -593,3 +593,49 @@ The existing zero-paid-dependency Chrome workflow also clicks the
 One-Hand and Two-Hand allocation buttons, verifies STR 31 / level 28
 versus STR 21 / level 18 for the Samurai + Uchigatana/Greatsword case,
 and checks the shortlist table at a 375px mobile viewport.
+
+## Explicit equipment loadout builder (2026-10-31)
+
+The **existing** `/equip-load-calculator/` now has a new, separate
+**Build your actual equipment loadout** workbench. Select 0–6 actual
+weapon slots (RH1–RH3, LH1–LH3) using the validated local community
+weapon catalog. Only **selected, equipped** weapon weights are summed.
+If a selected community weapon has an unknown/unverified weight,
+the subtotal excludes it and **the final roll tier is blocked**;
+unknown is never treated as zero. Identical weapons can appear in more
+than one equipped slot (e.g., owned duplicates).
+
+Armor (head, chest, arms, legs) and four talisman slots require the
+player to mark **Empty** (no item) or **Equipped** and supply a weight
+from their actual game status. An equipped item with blank weight is
+unknown, NOT zero; explicit weight `0` is allowed. The user also
+enters the actual *maximum equip load* from the status screen (never
+estimated from END or unverified talisman effects). The UI shows a
+**known subtotal** while editing and final equipped total/roll tier
+**only after** all selected weights are known, a maximum is entered,
+and the user explicitly checks that the entire actual set of
+equipment has been included. Changing any item or maximum clears
+that confirmation. The existing `loadTier()` enforces the exact
+30%/70%/100% threshold equality behavior. No combat damage, poise,
+AR, inventory ownership, rune cost, upload, auto-saved private gear or
+equipment bonus computation is implied.
+
+The Build Planner's existing multi-weapon shortlist can open this
+workbench via a **candidate-only URL**, carrying up to 8 validated
+weapon catalog IDs in `?candidates=`. These IDs are offered first
+in the weapon pickers but **none are automatically equipped**.
+The Smithing Stone candidate import, single Build links, A/B shared
+Builds and local saved stone basket remain separate and unchanged.
+This is a meaningful enhancement of an existing tool, not a duplicate
+SEO landing page.
+
+`tests/equipment-loadout.test.mjs` verifies 6+8 explicit slots,
+exact source-weapon and manual-weight math, threshold equalities,
+unknown/blank/invalid input gating, and hostile/duplicate candidate
+links. The free Chrome browser smoke navigates Build Planner → Equip
+Load, verifies no automatic equipping, adds two weapons and two
+manual items, checks unknown talisman prevention, confirmation
+reset, final total and percentage, clear action and 375px phone
+viewport. Release artifact audit requires the new page and scripts
+to ship and remain in research `noindex` mode. No paid APIs,
+backend, new dependencies or invented armor/talisman catalog.
