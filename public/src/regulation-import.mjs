@@ -123,7 +123,7 @@ export function convertCompactRegulation(regulation,{weaponName,gameVersion,sour
  const gripMode=weapon.paired?'paired':[50,51,53,56].includes(weapon.weaponType)?'forced-two-hand':'standard';
  const profile={
   schemaVersion:1,label:name,gripMode,
-  calculationRules:{requirements:'damage-type-60',rounding:'floor-components'},
+  calculationRules:{requirements:'damage-type-60',rounding:'floor-components',aggregation:'floor-raw-sum'},
   provenance:{status:'manual-unverified',note:'Locally converted parameters; NOT certified against game observations.',gameVersion:version,sourceReference:source},
   requirements:Object.fromEntries(attrs.map(a=>[a,requirements[a]??0])),
   affinities:{'SOURCE AFFINITY':{baseDamage,baseScaling:scaling,correctionCurves:curves,elementScaling:rules,upgrades}}
