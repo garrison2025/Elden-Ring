@@ -8,10 +8,10 @@
     "sourceRevision": "1d2626ceda5eb8c08997e345e303344a64edc106",
     "licenseNote": "Source API project declares MIT for software; game-derived facts and materials retain their respective owners' rights.",
     "includedFields": "306 base-game community +0 references; 101 DLC +0 source-backed base records (both individual pages and category-comparison table records); only Stone-Sheathed Sword retains source-conflicted unknown +0 attack; all 102 DLC have cited requirements and weight; 6 published rounded somber base attack progressions, zero precise current-regulation AR profiles. Added 8 Tarnished Pack/Tarnished Edition source-named armaments in 1.17 with patch-labelled 1.17.3 community requirement/weight facts; +0 attack, critical, scaling and AR deliberately UNKNOWN. Added 3 individual 2026 Tarnished Pack published +0 wiki base figures; not independently patch-verified. Madding Hand still has community FAI 13 vs pinned V1.17 FAI 20, now independently corroborated as FAI 20 in current Regulation 1.17.3 secondary reference; no game menu screenshot. Four more Pack +0 community table references (Reverse-Bladed Sword, Hefty Scimitar, Leontiel's Greatsword, Golden Order Flail). Ritual Thrusting Shield +0 remains unknown and secondary source weight/requirements differ; wield and equipped-weight functions block its disputed fields. Six existing source-disputed +0 attack rows now carry separate unversioned third-party Base vectors matching pinned v1.17, strictly as provisional evidence; not changed as authoritative attacks or unlocked for AR. The final Tarnished Pack partial +0 weapon Ritual Thrusting Shield now has source-attributed Physical 135, critical 100, STR D and DEX D from named public pages, independently unverified in 1.17.3 game menus. Disputed shield weight and requirements remain blocked for calculations. Stone-Sheathed Sword now has candidate +0 physical 89, critical100, C/D grades sourced to wiki +0, Japanese initial-value table and AtlasForge; conflicting 119 headline and 3.5-vs-5 weight remain flagged and excluded from definitive damage and weight calculations.",
-    "corrections": "Royal Greatsword, Serpentbone Blade and Star Fist have individually cross-checked numeric corrections; all other records are community source values. Twelve entries retain '?' scaling grades from the source and are flagged rather than guessed. DLC records have no invented attack/weight/scaling. This is a partial selection of DLC armaments, not a complete expansion catalog. Expanded Shadow of the Erdtree list to 102 entries (weapons and shields) using an attributed expansion roster; 9 individual +0 records separately checked with Eldenpedia. DLC upgrade factors, elemental correction curves and affinity profiles are not supplied or verified; zero AR-calculable DLC records. Sourced 9 additional DLC +0 rows from their exact wiki.gg weapon pages; three published +0–+10 base-attack tables are saved separately. These rounded tables do not imply precise reinforcement multipliers. Added three source-attributed +0 facts: Spread Crossbow, Spirit Sword and Tooth Whip; Tooth Whip's 11-step somber integer base-attack progression is independently linked. These do not imply full AR verification. Corrected Spiked Spear's malformed upstream Dexterity 0 to required 16 and critical 0 to 100, independently sourced against Eldenpedia's base-game weapon page; ranged crossbow two-hand Strength requirement handling updated with source examples. Added nine individually source-checked DLC +0 records (including 1.17 Black Steel Greatshield weight, Carian Sorcery Sword critical, and corrected Ansbach Longbow DEX 43) and Euporia +0..+10 reported somber BASE attack. No AR multiplier inferred. Ancient Meteoric Ore Greatsword source upgrade row +3 has an anomalous magic value, so no reinforcement table is imported for it. 2026-10-30: Added 13 individually sourced DLC +0 records including patch-1.17 perfume values; all 102 DLC requirements and source-reported weapon weights now populated. The remaining 59 weight/requirements records are secondary-source observations, not game-verified current regulation. Carian Sorcery Sword physical +0 corrected from 69 to 38 per independent regulation 1.17 patch diff. Barbed Staff-Spear and Claws of Night source-published upgrade tables contain nonmonotonic/conflicting values and were deliberately not imported. 2026-10-30 later: 14 further individually cited DLC +0 facts. Secondary weight mismatch corrected against per-weapon wiki.gg for Staff of the Great Beyond and Golem Fist. Radahn paired greatsword two-hand STR requirement may receive documented 1.5x bonus while player AR remains unverified. Stone-Sheathed Sword wiki infobox physical 119 conflicts with its upgrading table +0 89; this record remains attack UNKNOWN pending a better primary/reference cross-check. Added seven per-weapon wiki.gg +0 records (Dancing Blade of Ranah, Curseblade's Cirque, both Death Knight Axes, Bloodfiend's Sacred Spear, Horned Warrior's Greatsword and Flowerstone Gavel), and Bloodfiend's Sacred Spear sourced +0..+10 base progression. Stone-Sheathed Sword weight corrected 5 to 3.5 from wiki.gg Straight Swords list; its contradictory base attack remains UNKNOWN. Additional 37 DLC +0 entries sourced from wiki.gg category comparison tables or named weapon pages; explicit source URL and category-table source-quality flag per record. Fixed Madding Hand Faith requirement 20 to source 13, Main-gauche weight 2.5 to sourced 2. Messmer Soldier's Spear and Swift Spear list malformed Faith grade 0 (left as '?' not guessed); Falx wiki +0 Strength scaling disagrees between stat display and somber table (left '?' with conflict flag). Only Stone-Sheathed Sword remains unknown attack because wiki +0 physical base 119 versus upgrade table 89. No claimed AR or infusions. Separate independent source-vs-source audit against pinned ThomasJClark 1.17 regulation finds 6 +0 attack conflicts and 1 Madding Hand FAI requirement conflict. Corrected +0 interpretation multiplies raw attack by level-0 reinforce attack multiplier; the wiki values and 1.17 values are NOT silently reconciled. These seven records have prominent caution flags pending game-version-specific verification. 2026-10-31 catalog source-name normalization: corrected three original community labels (Prince of Death's Staff, Sword of St. Trina, Velvet Sword of St. Trina) while preserving stable weapon IDs. Dropped original Closed Network Test-only Winged Spear as a separate record: its finished-game equivalent is Spear (already represented), and its 78 physical base should NOT be mapped to released Spear's 114. Independent pinned 1.17 weapon-family audit finds all 408 retained community records have a normalized exact base-family name in the 3296-variant source. This is name coverage, not stat/patch validation. 2026-10-31: Source-backed Tarnished Pack/Tarnished Edition 8-armament roster added: seven weapons and Silver Grooved Shield. Requirements and weights attributed to Almanauts build 25827938, Regulation 1.17.3, not individually authenticated in game. +0 base attacks/crit/scaling remain null. New item names corroborated by GamesRadar and player-oriented references. 2026-10-31: Idus Sword, Reed Great Katana, Silver Grooved Shield +0 attacks/critical/base scaling cited to individually named wiki.gg weapon pages; original source-not-game-certified, and patch-labelled 1.17.3 weights/requirements retained. Separate current patch 1.17.3 secondary Madding Hand requirements STR8/DEX8/INT13/FAI20/ARC0 corroborate pinned V1.17 but legacy wiki gives FAI13, so unresolved-game flag retained. 2026-10-31: Added exact class-table +0 numbers from wiki.gg for Reverse-Bladed Sword (115 physical), Hefty Scimitar (135 physical), Leontiel's Greatsword (130 physical), Golden Order Flail (75 physical, 92 holy). Ritual Thrusting Shield remains +0 unknown; cross-publication disagreement in STR requirement (13 vs 15) and weight (10 vs 9) explicitly blocks computation while retaining attributed source values. This is one additional *secondary source* dispute beyond the seven pinned 1.17-vs-community source disputes; no in-game proof. 2026-10-31 six disputed +0 attack vectors checked against tarnished.app individual unversioned Base columns; all six match pinned v1.17 raw report, but source lineage/version unsupported; original conflicts remain and site does not treat them as game-verified. 2026-10-31: Ritual Thrusting Shield +0 physical 135, critical 100, D/D base letter grades from ESO-UI, allthings.how and OyunDijital named pages. These values are unversioned community-source corroboration, not certified current-game data. STR requirement 13/15 and weight 9/10 cross-source disputes remain unchanged and continue to block roll-tier/wieldability calculations. Tarnished Pack +0 source coverage now 8/8. 2026-10-31 Stone-Sheathed Sword 89 +0 physical from explicit wiki upgrade +0, independent Japanese 初期値 and AtlasForge base attack. Same wiki headline and separate guides say 119; no proof of patch provenance. Source-reported 3.5 weight conflicts with Japanese/AtlasForge 5. Preserve BOTH disputes and block trusted attack and load; no original screenshot provided.",
+    "corrections": "Royal Greatsword, Serpentbone Blade and Star Fist have individually cross-checked numeric corrections; all other records are community source values. Twelve entries retain '?' scaling grades from the source and are flagged rather than guessed. DLC records have no invented attack/weight/scaling. This is a partial selection of DLC armaments, not a complete expansion catalog. Expanded Shadow of the Erdtree list to 102 entries (weapons and shields) using an attributed expansion roster; 9 individual +0 records separately checked with Eldenpedia. DLC upgrade factors, elemental correction curves and affinity profiles are not supplied or verified; zero AR-calculable DLC records. Sourced 9 additional DLC +0 rows from their exact wiki.gg weapon pages; three published +0–+10 base-attack tables are saved separately. These rounded tables do not imply precise reinforcement multipliers. Added three source-attributed +0 facts: Spread Crossbow, Spirit Sword and Tooth Whip; Tooth Whip's 11-step somber integer base-attack progression is independently linked. These do not imply full AR verification. Corrected Spiked Spear's malformed upstream Dexterity 0 to required 16 and critical 0 to 100, independently sourced against Eldenpedia's base-game weapon page; ranged crossbow two-hand Strength requirement handling updated with source examples. Added nine individually source-checked DLC +0 records (including 1.17 Black Steel Greatshield weight, Carian Sorcery Sword critical, and corrected Ansbach Longbow DEX 43) and Euporia +0..+10 reported somber BASE attack. No AR multiplier inferred. Ancient Meteoric Ore Greatsword source upgrade row +3 has an anomalous magic value, so no reinforcement table is imported for it. 2026-10-30: Added 13 individually sourced DLC +0 records including patch-1.17 perfume values; all 102 DLC requirements and source-reported weapon weights now populated. The remaining 59 weight/requirements records are secondary-source observations, not game-verified current regulation. Carian Sorcery Sword physical +0 corrected from 69 to 38 per independent regulation 1.17 patch diff. Barbed Staff-Spear and Claws of Night source-published upgrade tables contain nonmonotonic/conflicting values and were deliberately not imported. 2026-10-30 later: 14 further individually cited DLC +0 facts. Secondary weight mismatch corrected against per-weapon wiki.gg for Staff of the Great Beyond and Golem Fist. Radahn paired greatsword two-hand STR requirement may receive documented 1.5x bonus while player AR remains unverified. Stone-Sheathed Sword wiki infobox physical 119 conflicts with its upgrading table +0 89; this record remains attack UNKNOWN pending a better primary/reference cross-check. Added seven per-weapon wiki.gg +0 records (Dancing Blade of Ranah, Curseblade's Cirque, both Death Knight Axes, Bloodfiend's Sacred Spear, Horned Warrior's Greatsword and Flowerstone Gavel), and Bloodfiend's Sacred Spear sourced +0..+10 base progression. Stone-Sheathed Sword weight corrected 5 to 3.5 from wiki.gg Straight Swords list; its contradictory base attack remains UNKNOWN. Additional 37 DLC +0 entries sourced from wiki.gg category comparison tables or named weapon pages; explicit source URL and category-table source-quality flag per record. Fixed Madding Hand Faith requirement 20 to source 13, Main-gauche weight 2.5 to sourced 2. Messmer Soldier's Spear and Swift Spear list malformed Faith grade 0 (left as '?' not guessed); Falx wiki +0 Strength scaling disagrees between stat display and somber table (left '?' with conflict flag). Only Stone-Sheathed Sword remains unknown attack because wiki +0 physical base 119 versus upgrade table 89. No claimed AR or infusions. Separate independent source-vs-source audit against pinned ThomasJClark 1.17 regulation finds 6 +0 attack conflicts and 1 Madding Hand FAI requirement conflict. Corrected +0 interpretation multiplies raw attack by level-0 reinforce attack multiplier; the wiki values and 1.17 values are NOT silently reconciled. These seven records have prominent caution flags pending game-version-specific verification. 2026-10-31 catalog source-name normalization: corrected three original community labels (Prince of Death's Staff, Sword of St. Trina, Velvet Sword of St. Trina) while preserving stable weapon IDs. Dropped original Closed Network Test-only Winged Spear as a separate record: its finished-game equivalent is Spear (already represented), and its 78 physical base should NOT be mapped to released Spear's 114. Independent pinned 1.17 weapon-family audit finds all 408 retained community records have a normalized exact base-family name in the 3296-variant source. This is name coverage, not stat/patch validation. 2026-10-31: Source-backed Tarnished Pack/Tarnished Edition 8-armament roster added: seven weapons and Silver Grooved Shield. Requirements and weights attributed to Almanauts build 25827938, Regulation 1.17.3, not individually authenticated in game. +0 base attacks/crit/scaling remain null. New item names corroborated by GamesRadar and player-oriented references. 2026-10-31: Idus Sword, Reed Great Katana, Silver Grooved Shield +0 attacks/critical/base scaling cited to individually named wiki.gg weapon pages; original source-not-game-certified, and patch-labelled 1.17.3 weights/requirements retained. Separate current patch 1.17.3 secondary Madding Hand requirements STR8/DEX8/INT13/FAI20/ARC0 corroborate pinned V1.17 but legacy wiki gives FAI13, so unresolved-game flag retained. 2026-10-31: Added exact class-table +0 numbers from wiki.gg for Reverse-Bladed Sword (115 physical), Hefty Scimitar (135 physical), Leontiel's Greatsword (130 physical), Golden Order Flail (75 physical, 92 holy). Ritual Thrusting Shield remains +0 unknown; cross-publication disagreement in STR requirement (13 vs 15) and weight (10 vs 9) explicitly blocks computation while retaining attributed source values. This is one additional *secondary source* dispute beyond the seven pinned 1.17-vs-community source disputes; no in-game proof. 2026-10-31 six disputed +0 attack vectors checked against tarnished.app individual unversioned Base columns; all six match pinned v1.17 raw report, but source lineage/version unsupported; original conflicts remain and site does not treat them as game-verified. 2026-10-31: Ritual Thrusting Shield +0 physical 135, critical 100, D/D base letter grades from ESO-UI, allthings.how and OyunDijital named pages. These values are unversioned community-source corroboration, not certified current-game data. STR requirement 13/15 and weight 9/10 cross-source disputes remain unchanged and continue to block roll-tier/wieldability calculations. Tarnished Pack +0 source coverage now 8/8. 2026-10-31 Stone-Sheathed Sword 89 +0 physical from explicit wiki upgrade +0, independent Japanese 初期値 and AtlasForge base attack. Same wiki headline and separate guides say 119; no proof of patch provenance. Source-reported 3.5 weight conflicts with Japanese/AtlasForge 5. Preserve BOTH disputes and block trusted attack and load; no original screenshot provided. 2026-10-31 genuine reverse roster audit against pinned Regulation 1.17 found 73 unlisted named families: 69 shields (17 small,27 medium,25 great), Gravel Stone Seal, Bandit's Curved Sword, Inseparable Sword, plus 'Unarmed' virtual state. Added 72 source-named wearable armaments with pinned 1.17 default-affinity attribute requirements, UNKNOWN attack/crit/scaling/weight until reliably sourced. Excluded Unarmed; reconciled one identical duplicate Erdtree Seal, preserving its retired id as a legacy deep-link alias. These are v1.17 source records, not verified latest-client facts.",
     "reviewStatus": "Community-sourced +0 facts: 68 individual weapon-page references, 33 category-table comparisons; zero game-certified AR.",
     "importedDate": "2026-10-30",
-    "count": 416,
+    "count": 487,
     "sources": [
       {
         "label": "Base game community snapshot",
@@ -185,9 +185,15 @@
         "url": "https://eldenring.wiki.gg/wiki/Stone-Sheathed_Sword",
         "checkedDate": "2026-10-31",
         "coverage": "Wiki Upgrade +0 89 vs wiki header 119; Japanese initial-value 89 / max-upgrade 218; AtlasForge base 89; community weight 3.5 vs independent sources 5.0. Both fields source disputed; no game-client verification."
+      },
+      {
+        "label": "Pinned 1.17 source-only 72 armament reverse roster reconciliation",
+        "url": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+        "checkedDate": "2026-10-31",
+        "coverage": "Unique neutral/default-affinity weapon families, class from source weaponType, five attribute requirements from raw public pinned source; all attack/crit/scaling/weight unknown; exclusions and former identical duplicate explicitly recorded."
       }
     ],
-    "baseCommunityCount": 306,
+    "baseCommunityCount": 377,
     "dlcRequirementOnlyCount": 0,
     "dlcNameOnlyCount": 0,
     "dlcBaseFactCount": 102,
@@ -202,7 +208,14 @@
     "tarnishedPackSecondarySourceConflictCount": 1,
     "unversionedThirdPartyPlusZeroMatchesCount": 6,
     "stoneSheathedPlusZeroSourceConflictCount": 1,
-    "stoneSheathedWeightSourceConflictCount": 1
+    "stoneSheathedWeightSourceConflictCount": 1,
+    "legacyWeaponIdAliases": {
+      "17f698bacafl0i1phz3om56qt5bqof": "17f69746125l0i1phti5gxbjc1nfhx"
+    },
+    "basePinnedRequirementsOnlyCount": 72,
+    "sourceOnlyUnarmedExcludedCount": 1,
+    "retiredIdenticalSourceDuplicateCount": 1,
+    "sourceOnlyRosterReview": "PUBLISHED_V117_PARAMETER_SOURCE_NOT_CURRENT_GAME_VERIFIED"
   },
   "weapons": [
     {
@@ -3828,40 +3841,7 @@
         "C",
         "-"
       ],
-      "flags": [
-        "duplicate-name-in-source"
-      ]
-    },
-    {
-      "id": "17f698bacafl0i1phz3om56qt5bqof",
-      "name": "Erdtree Seal",
-      "category": "Sacred Seal",
-      "weight": 0,
-      "attack": [
-        25,
-        0,
-        0,
-        0,
-        15
-      ],
-      "critical": 100,
-      "requirements": [
-        0,
-        0,
-        0,
-        40,
-        0
-      ],
-      "scaling": [
-        "-",
-        "-",
-        "-",
-        "C",
-        "-"
-      ],
-      "flags": [
-        "duplicate-name-in-source"
-      ]
+      "flags": []
     },
     {
       "id": "17f69747395l0i1po2ze4jsp35ms3t",
@@ -13672,6 +13652,1734 @@
         "-",
         "-",
         "-"
+      ]
+    },
+    {
+      "id": "v117-roster-001",
+      "name": "Albinauric Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        11,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-002",
+      "name": "Ant's Skull Plate",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        28,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-003",
+      "name": "Bandit's Curved Sword",
+      "category": "Curved Sword",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        11,
+        13,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-004",
+      "name": "Banished Knight's Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-005",
+      "name": "Beast Crest Heater Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-006",
+      "name": "Beastman's Jar-Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-007",
+      "name": "Black Leather Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-008",
+      "name": "Blue Crest Heater Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-009",
+      "name": "Blue-Gold Kite Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-010",
+      "name": "Blue-White Wooden Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-011",
+      "name": "Brass Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        16,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-012",
+      "name": "Briar Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        21,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-013",
+      "name": "Buckler",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        13,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-014",
+      "name": "Candletree Wooden Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-015",
+      "name": "Carian Knight's Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        10,
+        15,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-016",
+      "name": "Coil Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-017",
+      "name": "Crossed-Tree Towershield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-018",
+      "name": "Crucible Hornshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        26,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-019",
+      "name": "Cuckoo Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-020",
+      "name": "Distinguished Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-021",
+      "name": "Dragon Towershield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-022",
+      "name": "Dragonclaw Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        28,
+        12,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-023",
+      "name": "Eclipse Crest Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-024",
+      "name": "Eclipse Crest Heater Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-025",
+      "name": "Erdtree Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        30,
+        0,
+        0,
+        12,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-026",
+      "name": "Fingerprint Stone Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        48,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-027",
+      "name": "Flame Crest Wooden Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-028",
+      "name": "Gilded Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-029",
+      "name": "Gilded Iron Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-030",
+      "name": "Golden Beast Crest Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-031",
+      "name": "Golden Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        34,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-032",
+      "name": "Gravel Stone Seal",
+      "category": "Sacred Seal",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        4,
+        0,
+        0,
+        18,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-033",
+      "name": "Great Turtle Shell",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-034",
+      "name": "Haligtree Crest Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-035",
+      "name": "Hawk Crest Wooden Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-036",
+      "name": "Heater Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-037",
+      "name": "Horse Crest Wooden Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-038",
+      "name": "Ice Crest Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        9,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-039",
+      "name": "Icon Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        22,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-040",
+      "name": "Inseparable Sword",
+      "category": "Greatsword",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        18,
+        18,
+        0,
+        20,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-041",
+      "name": "Inverted Hawk Heater Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-042",
+      "name": "Inverted Hawk Towershield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-043",
+      "name": "Iron Roundshield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-044",
+      "name": "Jellyfish Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        20,
+        14,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-045",
+      "name": "Kite Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-046",
+      "name": "Large Leather Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-047",
+      "name": "Lordsworn's Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        16,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-048",
+      "name": "Man-Serpent's Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-049",
+      "name": "Manor Towershield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-050",
+      "name": "Marred Leather Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-051",
+      "name": "Marred Wooden Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-052",
+      "name": "One-Eyed Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-053",
+      "name": "Perfumer's Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-054",
+      "name": "Pillory Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-055",
+      "name": "Red Crest Heater Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-056",
+      "name": "Red Thorn Roundshield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-057",
+      "name": "Redmane Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-058",
+      "name": "Rickety Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-059",
+      "name": "Rift Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-060",
+      "name": "Riveted Wooden Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-061",
+      "name": "Round Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-062",
+      "name": "Scorpion Kite Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-063",
+      "name": "Scripture Wooden Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-064",
+      "name": "Shield of the Guilty",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-065",
+      "name": "Silver Mirrorshield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        12,
+        10,
+        10,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-066",
+      "name": "Smoldering Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        10,
+        9,
+        0,
+        12,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-067",
+      "name": "Spiked Palisade Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        20,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-068",
+      "name": "Spiralhorn Shield",
+      "category": "Small Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        10,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-069",
+      "name": "Sun Realm Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-070",
+      "name": "Twinbird Kite Shield",
+      "category": "Medium Shield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-071",
+      "name": "Visage Shield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        44,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
+      ]
+    },
+    {
+      "id": "v117-roster-072",
+      "name": "Wooden Greatshield",
+      "category": "Greatshield",
+      "weight": null,
+      "attack": null,
+      "critical": null,
+      "requirements": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "scaling": null,
+      "dataCoverage": "requirements-only",
+      "sourceUrl": "https://github.com/ThomasJClark/elden-ring-weapon-calculator/blob/3539d87e446f3b9d5b94157f8a2023e28ffea7d2/public/regulation-vanilla-v1.17.js",
+      "sourceVersion": "Regulation 1.17 (pinned public parameter-derived snapshot)",
+      "flags": [
+        "source-v117-neutral-requirements-only",
+        "weight-and-base-attack-unknown",
+        "not-current-game-client-certified"
       ]
     }
   ]
