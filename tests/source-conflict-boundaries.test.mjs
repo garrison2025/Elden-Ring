@@ -27,8 +27,8 @@ test('existing seven disputes are NOT changed; only attribution path exposes con
  const axe=find('Smithscript Axe');
  assert.deepEqual(reportedBaseDamageParts(axe),[{name:'Physical',amount:133}]);
  assert.equal(baseDamageParts(axe),null);
- assert.equal(baseDamageParts(find('Stone-Sheathed Sword')),null,'UNKNOWN is not zero');
- assert.deepEqual(reportedBaseDamageParts(find('Stone-Sheathed Sword')),[]);
+ assert.equal(baseDamageParts(find('Stone-Sheathed Sword')),null,'Source-disputed 89 must not become trusted +0');
+ assert.deepEqual(reportedBaseDamageParts(find('Stone-Sheathed Sword')),[{name:'Physical',amount:89}]);
  assert.deepEqual(baseDamageParts(find('Milady')),[{name:'Physical',amount:116}]);
  assert.equal(find('Madding Hand').requirements[3],13,'unresolved requirements are not silently adjudicated');
 });
