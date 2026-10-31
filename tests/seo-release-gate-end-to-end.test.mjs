@@ -15,7 +15,7 @@ const INDEXABLE=[
  '/equip-load-calculator/','/level-rune-calculator/','/privacy/','/updates/'
 ];
 const strict=new Set([
- 'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','validation-status'
+ 'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-ar-calculator','validation-status'
 ]);
 const site='https://elden-test.example.org';
 
