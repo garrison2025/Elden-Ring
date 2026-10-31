@@ -59,7 +59,7 @@ class CompetitorMonitorTests(unittest.TestCase):
         self.assertEqual(diff["changes"][0]["kind"], "edited-same-date")
         self.assertFalse(diff["version_changed"])
 
-    def test_missing_version_or heading_fails_closed(self):
+    def test_missing_version_or_heading_fails_closed(self):
         for html in [BASE_HTML.replace('id="updates-heading"', ''), BASE_HTML.replace('v1.17', 'unknown'),
                      '<html><h2 id="updates-heading">Recent Updates</h2></html>']:
             with self.assertRaises(ValueError):
