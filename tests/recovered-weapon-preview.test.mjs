@@ -26,7 +26,8 @@ test('72 preview-only published source records can be read without altering cano
   count++;unknown+=preview.unknownScalingCells;
   if(preview.sourceConflicts.length)disputes++;
  }
- assert.equal(count,72);assert.equal(unknown,126);assert.equal(disputes,8);
+ assert.equal(count,72);assert.equal(unknown,15);assert.equal(disputes,8);
+ assert.equal(ledger.records.reduce((n,w)=>n+(w.explicitInitialScalingSource?.originallyUnreportedGradeCells||0),0),111);
 });
 test('published source omission is not synthesized as numeric zero or a verified absent scaling',()=>{
  const w=ledger.records.find(x=>x.name==='Dragonclaw Shield');
@@ -38,7 +39,11 @@ test('published source omission is not synthesized as numeric zero or a verified
  const a=buildRecoveredWeaponPreview(originalMap.get(alb.id),alb);
  assert.equal(a.scaling[1].primary,null);
  assert.equal(a.scaling[1].secondary,null);
- assert.equal(a.scaling[1].evidence,'UNREPORTED');
+ assert.equal(a.scaling[1].evidence,'EXPLICIT_THIRD_SOURCE');
+ assert.equal(a.scaling[1].explicitThird,'-');
+ const s=ledger.records.find(x=>x.name==='Spiralhorn Shield');
+ const sp=buildRecoveredWeaponPreview(originalMap.get(s.id),s);
+ assert.equal(sp.scaling[2].evidence,'UNREPORTED');
 });
 test('conflicting published grade, attack and requirement displayed separately with third-source link',()=>{
  const buck=ledger.records.find(x=>x.name==='Buckler');
