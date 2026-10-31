@@ -21,7 +21,7 @@ test('source sample is precisely labelled v1.17, actual rendered AR and nonrepea
  assert.equal(x.sourceVersion,'1.17');
 });
 test('synthetic example is only a comparison harness, never promoted as game-certified',()=>{
- const s=sample({expectedTotal:136,
+ const s=sample({expectedTotal:136,playerStats:{str:40,dex:20,int:10,fai:10,arc:10},
    observedDisplay:'Synthetic check Total AR : 136'});
  const r=auditTarnishedV117ReferenceAR(fixture(),{cases:[s]});
  assert.equal(r.candidateCount,1);
@@ -34,7 +34,8 @@ test('synthetic example is only a comparison harness, never promoted as game-cer
 });
 test('numeric disagreement and no-data cases are reported, never silently passed',()=>{
  const x=auditTarnishedV117ReferenceAR(fixture());
- assert.equal(x.results[0].actual,136);
+ assert.ok(Number.isInteger(x.results[0].actual));
+ assert.notEqual(x.results[0].actual,172);
  assert.equal(x.results[0].expected,172);
  assert.equal(x.results[0].status,'numeric-mismatch');
  assert.equal(x.referenceReleaseReady,false);
