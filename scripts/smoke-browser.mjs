@@ -1162,6 +1162,12 @@ try{
   'URL handoff produces independent 250 physical + 250 magic channel reductions');
  assert.ok((await evaluate("document.querySelector('#damage-handoff-status').textContent"))
   .includes('not authenticated proof'),'Scenario URLs must not claim v1.17 validation');
+ // A magic-only weapon must not inherit the Damage page's fictional 500 Physical AR.
+ await navigate('/damage-calculator/?magic=250');
+ await waitFor("document.querySelector('#damage-total')?.textContent==='175'",
+  'Magic-only URL must have zero physical AR and 175 modeled magic damage');
+ assert.equal(await evaluate("document.querySelector('#damage-attack-physical').value"),'0');
+ assert.equal(await evaluate("document.querySelector('#damage-attack-magic').value"),'250');
  const damageMobile=await evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth})");
  assert.ok(damageMobile.scroll<=damageMobile.width+5,
   '375px damage calculator must not overflow: '+JSON.stringify(damageMobile));
