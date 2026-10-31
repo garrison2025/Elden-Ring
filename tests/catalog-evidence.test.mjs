@@ -16,7 +16,7 @@ test('data-quality audit derives all exact observed counts and conflict types fr
  assert.equal(c.baseGame,306);
  assert.equal(c.dlc,102);
  assert.equal(c.tarnishedPack,8);
- assert.equal(c.tarnishedPackBaseFacts,7);
+ assert.equal(c.tarnishedPackBaseFacts,8);
  assert.equal(c.tarnishedPackSecondaryConflicts,1);
  assert.equal(c.versionedRequirementCorroborations,1);
  assert.equal(c.unversionedBaseCrosschecks,6);
@@ -24,7 +24,7 @@ test('data-quality audit derives all exact observed counts and conflict types fr
  assert.equal(c.dlcBaseAttackSourced,101);
  assert.equal(c.requirementsPresent,416);
  assert.equal(c.weaponWeightsPresent,416);
- assert.equal(c.baseAttackPresent,414);
+ assert.equal(c.baseAttackPresent,415);
  assert.equal(c.publishedRoundedUpgradeTables,6);
  assert.equal(c.completeArProfiles,0);
  assert.equal(c.attackSourceConflicts,6);
