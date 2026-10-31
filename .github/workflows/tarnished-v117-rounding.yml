@@ -1,0 +1,25 @@
+name: Audit Tarnished.dev v1.17 mixed-damage rounding against 50 observed cases
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/audit-tarnished-v117-rounding-evidence.mjs
+      - scripts/tarnished-v117-35-observed-ui-totals.mjs
+      - scripts/tarnished-v117-extra-candidates.mjs
+      - public/src/weapon-ar.mjs
+      - public/src/regulation-import.mjs
+      - .github/workflows/tarnished-v117-rounding.yml
+permissions:
+  contents: read
+jobs:
+  observed-source-rounding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Independent computation against 50 double-observed v1.17 page totals
+        run: node scripts/audit-tarnished-v117-rounding-evidence.mjs
