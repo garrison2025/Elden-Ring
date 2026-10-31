@@ -5,7 +5,8 @@ const read=p=>readFile(new URL('../'+p,import.meta.url),'utf8');
 test('research site requires explicit indexing approval and has noindex-readable robots',async()=>{
  const build=await read('scripts/build.mjs');
  assert.match(build,/RELEASE_INDEX_APPROVED==='1'/);
- assert.match(build,/url&&indexApproved&&\!intentionallyNoindex/);
+ assert.match(build,/const indexable=/);
+ assert.match(build,/permanentlyWithheld\.includes\(uri\)/);
  assert.match(build,/noindex,follow/);
  assert.match(build,/User-agent: \*/);
  assert.match(build,/Allow: \//);
