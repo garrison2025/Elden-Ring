@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {ARMOR_METRICS,inspectArmorSource} from '../public/src/armor-source-optin.mjs';
 import {optimizePinnedArmorMetric} from '../public/src/armor-source-metric-optimizer.mjs';
+import {optimizeArmorPoiseConstrainedDP} from '../public/src/armor-poise-constrained-dp.mjs';
 
 const slots=['Head','Chest','Arms','Legs'];
 const keys=Object.keys(ARMOR_METRICS);
@@ -16,15 +17,17 @@ const sample=()=>slots.flatMap((slot,i)=>Array.from({length:3},(_,j)=>{
   weight:Math.round((0.7+i*0.3+j*0.5)*1000)/1000,
   poise:metrics.poise,metrics};
 }));
-function brute(rows,metric,{maxEquipLoad,reservedWeight=0,tier='medium',excludedIds=[]}){
+function brute(rows,metric,{maxEquipLoad,reservedWeight=0,tier='medium',excludedIds=[],minPoise=0}){
  const factor=tier==='light'?.3:tier==='medium'?.7:1;
  const groups=slots.map(slot=>[null,...rows.filter(r=>r.slot===slot&&
-  !excludedIds.includes(r.id)&&r.metrics?.[metric]!=null)]);
+  !excludedIds.includes(r.id)&&r.metrics?.[metric]!=null&&
+  (minPoise===0||Number.isInteger(r.poise)))]);
  let best=null;
  for(const a of groups[0])for(const b of groups[1])
   for(const c of groups[2])for(const d of groups[3]){
    const parts=[a,b,c,d],weight=parts.reduce((v,x)=>v+(x?.weight??0),0);
-   if(weight+reservedWeight>=maxEquipLoad*factor-1e-9)continue;
+   const poise=parts.reduce((sum,x)=>sum+(x?.poise??0),0);
+   if(weight+reservedWeight>=maxEquipLoad*factor-1e-9||poise<minPoise)continue;
    const kind=ARMOR_METRICS[metric].kind;
    const value=kind==='negation'?
     100*(1-parts.reduce((prod,x)=>prod*(1-(x?.metrics[metric]??0)/100),1)):
@@ -92,17 +95,80 @@ test('missing objectives, partial Poise and strict weight boundaries never becom
  assert.equal(r2.metricValue,99);
  assert.equal(r2.combination[1].id,'c');
 });
-test('source-specific minimum-Poise and unknown metrics do not pretend to solve unsupported joint constraints',()=>{
+test('all 12 non-Poise objectives solve exact joint minimum-Poise plus roll-cap against brute force',()=>{
  const rows=sample();
- assert.throws(()=>optimizePinnedArmorMetric(rows,{
-  metric:'magic',maxEquipLoad:80,minPoise:30
- }),/multi-constraint exact optimization is not implemented/);
- const r=optimizePinnedArmorMetric(rows,{
+ let compared=0,feasible=0;
+ for(const metric of keys.filter(k=>k!=='poise')){
+  for(const minPoise of [1,20,45,80]){
+   for(const tier of ['light','medium','heavy']){
+    const options={metric,minPoise,maxEquipLoad:12,
+     reservedWeight:0.3,tier,excludedIds:['Head-2']};
+    const truth=brute(rows,metric,options);
+    const actual=optimizePinnedArmorMetric(rows,options);
+    compared++;
+    if(!truth){
+     assert.equal(actual.status,'no-solution',metric+' min '+minPoise+' tier '+tier);
+     continue;
+    }
+    feasible++;
+    assert.equal(actual.status,'optimized-source-reference');
+    assert.ok(Math.abs(actual.metricValue-truth.value)<2e-6,
+     metric+' min '+minPoise+' tier '+tier+': '+actual.metricValue+' vs '+truth.value);
+    assert.ok(Math.abs(actual.armorWeight-truth.weight)<1e-6);
+    assert.ok(actual.poise>=minPoise);
+    assert.equal(actual.algorithm,'exact-weight-and-capped-poise-dp');
+   }
+  }
+ }
+ assert.equal(compared,144);
+ assert.ok(feasible>10,'Include enough feasible cross-constraints for coverage');
+});
+test('higher-negation source piece must lose when minimum Poise makes it illegal',()=>{
+ const rows=[
+  {id:'glass',name:'Glass Cannon',slot:'Head',weight:1,poise:0,metrics:{physical:90}},
+  {id:'poise',name:'Armored Helm',slot:'Head',weight:2,poise:20,metrics:{physical:15}},
+  {id:'chest',name:'Poise Chest',slot:'Chest',weight:2,poise:32,metrics:{physical:20}},
+  {id:'extra',name:'Poise Gloves',slot:'Arms',weight:1,poise:5,metrics:{physical:5}}
+ ];
+ const unconstrained=optimizePinnedArmorMetric(rows,{
+  metric:'physical',maxEquipLoad:10,tier:'medium'});
+ assert.equal(unconstrained.combination[0].id,'glass');
+ const constrained=optimizePinnedArmorMetric(rows,{
+  metric:'physical',maxEquipLoad:10,tier:'medium',minPoise:51});
+ assert.equal(constrained.status,'optimized-source-reference');
+ assert.equal(constrained.combination[0].id,'poise');
+ assert.ok(constrained.poise>=51);
+ const impossible=optimizePinnedArmorMetric(rows,{
+  metric:'physical',maxEquipLoad:10,tier:'light',minPoise:51});
+ assert.equal(impossible.status,'no-solution');
+});
+test('unknown source Poise is excluded only if a minimum Poise is requested',()=>{
+ const rows=[
+  {id:'mystery',name:'Missing Poise',slot:'Head',weight:0.2,poise:null,
+   metrics:{fire:95}},
+  {id:'real',name:'Measured Helm',slot:'Head',weight:0.3,poise:5,
+   metrics:{fire:10}}
+ ];
+ const ordinary=optimizePinnedArmorMetric(rows,{metric:'fire',maxEquipLoad:10});
+ assert.equal(ordinary.combination[0].id,'mystery');
+ assert.equal(ordinary.poise,null);
+ const strict=optimizePinnedArmorMetric(rows,{metric:'fire',maxEquipLoad:10,minPoise:1});
+ assert.equal(strict.combination[0].id,'real');
+ assert.equal(strict.poise,5);
+ assert.equal(strict.missingPoiseExcluded,1);
+});
+test('exact capped-Poise DP fails closed on stated resource budget, never silently uses a heuristic',()=>{
+ const groups=[[
+  null,{id:'a',name:'A',slot:'Head',weight:0.1,poise:1,metrics:{fire:5}}
+ ],[null],[null],[null]];
+ assert.throws(()=>optimizeArmorPoiseConstrainedDP(groups,{
+  maxArmorUnits:10000,minPoise:1,metric:'fire',kind:'negation',maxStates:1
+ }),/memory budget/);
+ const r=optimizePinnedArmorMetric(sample(),{
   metric:'poise',maxEquipLoad:80,minPoise:20
  });
  assert.equal(r.status,'optimized-source-reference');
  assert.ok(r.poise>=20);
- assert.equal(r.metricValue,r.poise);
 });
 test('invalid source rows and goals are rejected rather than incorrectly reusing unversioned values',()=>{
  const rows=sample();
