@@ -103,10 +103,17 @@ const main=async()=>{
   'Incorrect revision source');
  assert(Number.isFinite(Date.parse(deployment.generatedAt)),
   'Invalid build timestamp');
- const research=!(process.env.RELEASE_INDEX_APPROVED==='1'&&
-  typeof process.env.SITE_URL==='string'&&process.env.SITE_URL.trim().length>0);
+ const prod=process.env.CF_PAGES==='1'&&process.env.CF_PAGES_BRANCH==='main';
+ const manuallyApproved=process.env.RELEASE_INDEX_APPROVED==='1'&&
+  typeof process.env.SITE_URL==='string'&&process.env.SITE_URL.trim().length>0;
+ const research=!(prod||manuallyApproved);
  assert(deployment.researchNoindex===research,
   'Build manifest index setting does not match build gate');
+ const approvedPaths=['/','/class-optimizer/','/equip-load-calculator/','/level-rune-calculator/'];
+ assert(JSON.stringify(deployment.indexedRoutes)===(research?'[]':JSON.stringify(approvedPaths)),
+  'Unexpected indexed routes: only four first-wave pages are approved');
+ assert(deployment.releaseMode===(prod?'cloudflare-main-first-wave':
+  research?'research-noindex':'explicit-review-fixture'),'Build release mode is not grounded');
  const headers=await read('_headers');
  const seoWithheld=[
   'weapon-ar-lab','weapon-ar-validation','weapon-data-workbench','weapon-ar-calculator',
@@ -122,6 +129,28 @@ const main=async()=>{
   if(!research)
    assert(headers.includes('/'+slug+'/*\n  X-Robots-Tag: noindex'),
     'Approved deployment missing HTTP noindex header for '+slug);
+ }
+ if(!research){
+  const indexable=['index.html','class-optimizer/index.html',
+   'level-rune-calculator/index.html','equip-load-calculator/index.html'];
+  const sitemap=await read('sitemap.xml');
+  const domain=prod?'https://elden-ring-5i9.pages.dev':process.env.SITE_URL.trim().replace(/\\/$/,'');
+  const published=[...sitemap.matchAll(/<loc>([^<]+)<\\/loc>/g)].map(m=>m[1]).sort();
+  assert(JSON.stringify(published)===JSON.stringify(approvedPaths.map(p=>domain+p).sort()),
+   'Sitemap must contain exactly the approved first-wave routes');
+  for(const p of indexable){
+   const html=await read(p);
+   assert(html.includes('<meta name="robots" content="index,follow">'),
+    'Missing index meta on approved page '+p);
+  }
+  for(const slug of ['about','build-planner','privacy','updates']){
+   const html=await read(slug+'/index.html');
+   assert(html.includes('<meta name="robots" content="noindex,follow">')&&
+    !html.includes('<link rel="canonical"'),
+    'Unapproved content accidentally indexable: '+slug);
+   assert(headers.includes('/'+slug+'/*\\n  X-Robots-Tag: noindex'),
+    'Missing header defense on unapproved content '+slug);
+  }
  }
  if(research){
   assert(headers==='/*\n  X-Robots-Tag: noindex\n',
