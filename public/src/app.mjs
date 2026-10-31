@@ -1,6 +1,7 @@
 import {STATS,CLASSES,classForName,validateStats,buildLevel,optimizeClasses,runeCostForLevel,runeRange,targetFromRunes,loadTier,commas,farmingRunsNeeded,parseSharedStats} from './core.mjs';
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
+import {makeCatalogSmithingHandoff} from './upgrade-catalog-handoff.mjs';
 const $=s=>document.querySelector(s);const page=document.body.dataset.page;const fmt=commas;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const status=(text,bad=false)=>{const el=$('#feedback');if(el){el.textContent=text;el.className=bad?'feedback bad':'feedback';}};
@@ -33,6 +34,7 @@ function initBuild(){
   const sel=$('#origin'),grid=$('#stat-grid'),extra=$('#build-tarnished-pack'),sote=$('#build-sote');
   const search=$('#build-weapon-search'),weaponSelect=$('#build-weapon'),weaponSummary=$('#build-weapon-summary');
   const weaponDetails=$('#build-weapon-detail-link');
+  const smithingLink=$('#build-weapon-smithing-link'),smithingNote=$('#build-weapon-smithing-note');
   let current=classForName('Samurai'),selectedWeaponId=null,weaponCatalog=null,weaponLoadError=null;
   const query=new URLSearchParams(location.search);
   let sharedProblem=null;
@@ -57,7 +59,7 @@ function initBuild(){
     if(matches.matching===0&&!selectedWeaponId)weaponSummary.textContent='No matches for this search. Try another name.';
   }
   function renderWeapon(stats){
-    weaponDetails.hidden=true;
+    weaponDetails.hidden=true;smithingLink.hidden=true;smithingNote.hidden=true;
     if(weaponLoadError){weaponSummary.textContent='Weapon references unavailable: '+weaponLoadError;return;}
     if(!weaponCatalog){weaponSummary.textContent='Loading local weapon references…';return;}
     if(!selectedWeaponId){
@@ -74,6 +76,12 @@ function initBuild(){
         (model.weight===null?'unknown':model.weight)+' (NOT total load). '+model.note;
       weaponDetails.href=queryURL('../weapon-database/',{weapon:selectedWeaponId,stats:stats.join(',')});
       weaponDetails.hidden=false;
+      const weapon=weaponCatalog.weapons.find(w=>w.id===selectedWeaponId);
+      if(weapon){
+        smithingLink.href=makeCatalogSmithingHandoff(weapon,
+          new URL('../weapon-database/',location.href).toString());
+        smithingLink.hidden=false;smithingNote.hidden=false;
+      }
     }catch(e){weaponSummary.textContent='Weapon reference unavailable: '+e.message;}
   }
   function render(){try{
@@ -96,7 +104,8 @@ function initBuild(){
   }catch(e){
     clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=true;
-    weaponDetails.hidden=true;weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
+    weaponDetails.hidden=true;smithingLink.hidden=true;smithingNote.hidden=true;
+    weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
     status(e.message,true);
   }}
   sel.addEventListener('change',()=>{current=classForName(sel.value);statInputs(grid,current.stats);render()});
