@@ -59,6 +59,7 @@ self.onmessage=event=>{
      result:rankLocalWeaponVariants(source,{
       term:m.term,affinityId:m.affinityId,regularUpgrade:m.regularUpgrade,
       somberUpgrade:m.somberUpgrade,stats:m.stats,twoHanded:m.twoHanded,
+      allSource:m.allSource,reinforcement:m.reinforcement,wieldableOnly:m.wieldableOnly,
       gameVersion:version,sourceReference:reference
      }),synthetic});
     break;
