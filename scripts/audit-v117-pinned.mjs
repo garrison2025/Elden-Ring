@@ -49,7 +49,7 @@ async function main(){
   row.variants++;
   if(item.affinityId===0||item.affinityId===-1){
    row.neutral++;if(!row.example)row.example={
-    affinityId:item.affinityId,weaponType:item.weaponType,weaponCategory:item.weaponCategory,
+    affinityId:item.affinityId,weaponType:item.weaponType,requirements:item.requirements,weaponCategory:item.weaponCategory,
     type:item.type,category:item.category,weaponId:item.weaponId,itemId:item.itemId
    };
   }
