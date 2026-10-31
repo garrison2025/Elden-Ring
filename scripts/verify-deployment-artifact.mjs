@@ -31,7 +31,13 @@ const main=async()=>{
  const actualEvidence=JSON.parse(evidenceText);
  assert(JSON.stringify(actualEvidence)===JSON.stringify(expectedEvidence),
   'Public evidence JSON does not match exact bundled weapon source');
- assert(verification.includes(catalogEvidenceRow(expectedEvidence))&&
+ assert(verification.includes('id="conflict-capture"')&&
+  verification.includes('id="conflict-capture-values"')&&
+  verification.includes('id="conflict-capture-title-image"')&&
+  verification.includes('id="conflict-capture-weapon-image"')&&
+  verification.includes('src="../src/conflict-game-capture-app.mjs"'),
+  'Seven-case local screenshot capture form not included in research accuracy page');
+  assert(verification.includes(catalogEvidenceRow(expectedEvidence))&&
   verification.includes(catalogEvidencePanel(expectedEvidence)),
   'Visible accuracy page missing source-derived counts or unresolved conflict rows');
  assert(!verification.includes('Community weapon catalog (364, partial)')&&
@@ -68,7 +74,9 @@ const main=async()=>{
  for(const sourceFile of ['src/app.mjs','src/build-smithing-handoff.mjs',
    'src/upgrade-materials-app.mjs','src/upgrade-multi-weapon.mjs',
    'src/equipment-loadout.mjs','src/equipment-loadout-app.mjs',
-   'src/equipment-save-compare.mjs'])
+   'src/equipment-save-compare.mjs',
+   'src/conflict-game-capture.mjs','src/conflict-game-capture-app.mjs',
+   'src/ar-screenshot-fingerprint.mjs'])
   assert((await stat(path.join(process.cwd(),'dist',sourceFile))).size>300,
    'Missing application source in deployed artifact: '+sourceFile);
  const sha=process.env.CF_PAGES_COMMIT_SHA||process.env.GITHUB_SHA||'';

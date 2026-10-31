@@ -484,9 +484,78 @@ try{
  assert.ok(conflictStatus.sourceLinks>=15,'Seven per-weapon source links must be rendered');
  assert.equal(conflictStatus.explicitDisclaimer,true);
 
+ // Synthetic FILE HANDLING smoke only (not real gameplay evidence). The
+ // fingerprint library reads local PNG-like bytes, never image uploads.
+ await waitFor("document.querySelector('#conflict-capture-case')?.disabled===false",
+  'Seven-case manual observation form sourced from local JSON');
+ assert.equal(await evaluate("document.querySelector('#conflict-capture-case').options.length"),
+  7,'Exactly seven source-dispute evidence cases selectable');
+ assert.equal(await evaluate("document.querySelector('#conflict-capture-case').selectedOptions[0].textContent.includes('Madding Hand')"),
+  true,'High-priority requirements case should be first');
+ assert.equal(await evaluate("document.querySelectorAll('#conflict-capture-values input').length"),
+  5,'Five independently typed observed components required');
+ assert.equal(await evaluate("document.querySelector('#conflict-capture-count').textContent.includes('0 / 7')"),
+  true,'No actual game evidence may be fabricated or prefilled');
+ // Clicking without game evidence must not record a case.
+ await evaluate("document.querySelector('#conflict-capture-add').click()");
+ await waitFor("document.querySelector('#conflict-capture-feedback').textContent.includes('not recorded')",
+  'Missing screenshots explicitly rejected');
+ assert.equal(await evaluate("document.querySelector('#conflict-capture-count').textContent.includes('0 / 7')"),
+  true,'Rejected observation must not advance even local collection count');
+ await evaluate(`(()=>{
+  const fields=document.querySelectorAll('#conflict-capture-values input');
+  [8,8,13,13,0].forEach((n,i)=>{fields[i].value=String(n);
+   fields[i].dispatchEvent(new Event('input',{bubbles:true}));});
+  const set=(id,value)=>{const input=document.getElementById('conflict-capture-'+id);
+   input.value=value;input.dispatchEvent(new Event('input',{bubbles:true}));};
+  set('app','1.17.2');set('regulation','1.17.3');
+  set('platform','PC / Windows');set('date','2026-10-31');
+  for(const name of ['plus-zero','default','details']){
+   document.getElementById('conflict-capture-'+name).checked=true;
+  }
+  const png=[137,80,78,71,13,10,26,10];
+  const assign=(id,tag,filename)=>{
+   // Dummy signature bytes below exercise plumbing only. NOT game images.
+   const bytes=new Uint8Array([...png,...Array.from({length:22},(_,i)=>i+tag)]);
+   const file=new File([bytes],filename,{type:'image/png'});
+   const transfer=new DataTransfer();transfer.items.add(file);
+   document.getElementById('conflict-capture-'+id).files=transfer.files;
+  };
+  assign('title-image',2,'synthetic-title.png');
+  assign('weapon-image',7,'synthetic-weapon.png');
+ })()`);
+ await evaluate("document.querySelector('#conflict-capture-add').click()");
+ await waitFor("document.querySelector('#conflict-capture-feedback').textContent.includes('Recorded Madding Hand')",
+  'Local two-image SHA256 and one unreviewed observation');
+ const captureStatus=await evaluate(`({
+  count:document.querySelector('#conflict-capture-count').textContent,
+  feedback:document.querySelector('#conflict-capture-feedback').textContent,
+  row:[...document.querySelectorAll('#conflict-capture-progress tr')]
+   .find(x=>x.textContent.includes('Madding Hand'))?.textContent,
+  noUploads:document.querySelector('#conflict-capture').textContent.includes('not uploaded')
+ })`);
+ assert.ok(captureStatus.count.includes('1 / 7'));
+ assert.ok(captureStatus.count.includes('0 independently reviewed'));
+ assert.ok(captureStatus.row.includes('matches-community-source'));
+ assert.ok(captureStatus.row.includes('UNREVIEWED'));
+ assert.ok(captureStatus.feedback.includes('NOT verified gameplay'));
+ assert.equal(captureStatus.noUploads,true);
+ await evaluate("document.querySelector('#conflict-capture-export').click()");
+ await waitFor("document.querySelector('#conflict-capture-feedback').textContent.includes('Downloaded an UNREVIEWED 1/7')",
+  'Browser-local evidence bundle export, explicitly unreviewed');
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:375,height:812,deviceScaleFactor:1,mobile:true
+ });
+ const formMobile=await evaluate(`({width:window.innerWidth,documentWidth:document.documentElement.scrollWidth})`);
+ assert.ok(formMobile.documentWidth<=formMobile.width+5,
+  '375px screenshot evidence form overflows page: '+JSON.stringify(formMobile));
+ await evaluate("document.querySelector('#conflict-capture-clear').click()");
+ assert.equal(await evaluate("document.querySelector('#conflict-capture-count').textContent.includes('0 / 7')"),
+  true,'Clear collection must delete the in-memory draft');
+
 
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;
