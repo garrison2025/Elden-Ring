@@ -430,8 +430,39 @@ try{
  assert.equal(await evaluate("document.querySelector('#equipment-ab-results').hidden"),false,
   'Deleting saved equipment must preserve on-screen A/B comparison');
 
+ // Browser-visible source audit must match the exact static JSON and
+ // contain unresolved source flags without implying game-client certification.
+ await send('Emulation.setDeviceMetricsOverride',{
+  width:1280,height:850,deviceScaleFactor:1,mobile:false
+ });
+ await navigate('/validation-status/');
+ await waitFor('document.querySelector("#catalog-evidence")!==null',
+  'Data-quality audit section rendered by production build');
+ const evidenceStatus=await evaluate(`(async()=>{
+  const json=await (await fetch('../catalog-evidence.json')).json();
+  const page=document.querySelector('#catalog-evidence').textContent;
+  const row=document.querySelector('[data-catalog-audit-row]').textContent;
+  const robots=document.querySelector('meta[name="robots"]')?.content;
+  return {count:json.counts.total,dlc:json.counts.dlc,
+   attackConflicts:json.counts.attackSourceConflicts,
+   requirementConflicts:json.counts.requirementSourceConflicts,
+   conflictRows:document.querySelectorAll('#catalog-evidence table')[1].querySelectorAll('tbody tr').length,
+   pageMatches:page.includes(String(json.counts.total))&&
+    page.includes('not game-client QA')&&
+    row.includes(String(json.counts.total)),
+   robots};
+ })()`);
+ assert.equal(evidenceStatus.count,408,'Built catalog status must match source');
+ assert.equal(evidenceStatus.dlc,102);
+ assert.equal(evidenceStatus.attackConflicts,6);
+ assert.equal(evidenceStatus.requirementConflicts,1);
+ assert.equal(evidenceStatus.conflictRows,7);
+ assert.equal(evidenceStatus.pageMatches,true,
+  'Accuracy page should explain counts and game-client verification limits');
+ assert.equal(evidenceStatus.robots,'noindex,nofollow');
+
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
- console.log('[BROWSER SMOKE] PASS: explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
+ console.log('[BROWSER SMOKE] PASS: source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
  console.error('[BROWSER SMOKE] FAIL:',error.stack||error);
  process.exitCode=1;
