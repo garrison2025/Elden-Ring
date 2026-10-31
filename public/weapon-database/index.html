@@ -67,9 +67,9 @@
 </div>
 <p id="catalog-quality-summary" class="note" role="status" aria-live="polite">Checking bundled source-field availability…</p>
 <section class="catalog-v117-optin" aria-label="Optional pinned v1.17 source comparison">
- <h3>Compare catalog facts against pinned Regulation v1.17</h3>
- <p class="note">On request, fetch the fixed public v1.17 parameter snapshot used by our reference AR calculator. See +0 physical/elemental base and minimum attributes for the selected weapon, including the 72 catalog entries without primary attack and the source-disputed entries. This is a <strong>source-to-source</strong> comparison, not 487 independently observed Tarnished.dev weapon pages. The current site has 50 independently checked same-input AR examples. This source does <strong>not</strong> establish weapon weight, so no weight, equip-load, damage filters or original catalog numbers are overridden.</p>
- <button type="button" class="btn alt" id="catalog-v117-load">Load pinned public v1.17 source · compare 487 entries</button>
+ <h3>Use Tarnished.dev v1.17 as the weapon comparison reference</h3>
+ <p class="note">On request, fetch the fixed public v1.17 parameter snapshot used by our reference AR calculator. See +0 physical/elemental base and minimum attributes for the selected weapon, including the 72 catalog entries without primary attack and the source-disputed entries. This is a <strong>source-to-source</strong> comparison, not 487 independently observed Tarnished.dev weapon pages. The current site has 50 independently checked same-input AR examples. After loading, all 487 uniquely matched weapons <strong>use the v1.17 source for neutral +0 attack and minimum attribute requirements</strong>, including the 72 previously missing attack records. Weapon damage-type filters and one-/two-hand requirement checks use those selected values. We retain the original community catalog separately for provenance. The parameter source does <strong>not</strong> establish weapon weight: missing/disputed weight stays unavailable for weight/equip-load decisions.</p>
+ <button type="button" class="btn alt" id="catalog-v117-load">Use v1.17 reference for all 487 weapons</button>
  <label class="field" for="catalog-v117-filter">Browse versioned source differences
  <select id="catalog-v117-filter" disabled>
   <option value="all">All original catalog entries</option>
@@ -79,11 +79,11 @@
   <option value="requirement-difference">Community requirements differ from v1.17</option>
   <option value="any-difference">Any newly detected attack / requirement difference</option>
  </select></label>
- <div class="catalog-v117-export-actions"><button type="button" class="btn alt" id="catalog-v117-export" disabled>Download unresolved field audit (CSV)</button><p id="catalog-v117-export-status" class="note" role="status" aria-live="polite">Requires the explicit v1.17 source download above. Generated only in your browser, without uploading your work.</p></div>
+ <div class="catalog-v117-export-actions"><button type="button" class="btn alt" id="catalog-v117-export" disabled>Download old-source differences (CSV)</button><p id="catalog-v117-export-status" class="note" role="status" aria-live="polite">Requires the explicit v1.17 source download above. Generated only in your browser, without uploading your work.</p></div>
  <p id="catalog-v117-status" class="note" role="status" aria-live="polite">Not loaded. No remote source downloaded automatically.</p>
 </section>
-<p class="note">“Complete” means +0 base attack, minimum requirements and individual weapon weight are present without a flagged catalog source conflict. It does <strong>not</strong> mean verified against the current game or cleared for third-party redistribution. “Partial” includes unknown and disputed fields; the research-only 72-item preview is not used to fill original catalog numbers.</p>
-<p class="note">* Two-hand filter uses a conservative ordinary melee Strength assumption, not a guarantee for paired/special grips. Requirement-shortfall sorting puts records with unknown requirements last and uses the source-reported one-handed rule. Damage and weight filters exclude records with unknown values; the 102 sourced Shadow of the Erdtree and 8 sourced Tarnished Pack +0 references are published, but the seven disputed attack rows are excluded from numerical damage filtering but are NOT confirmed for the current regulation and cannot calculate AR. Base damage types do not imply final AR or actual damage.</p>
+<p class="note">“Complete” means +0 base attack, minimum requirements and individual weapon weight are present without a flagged catalog source conflict. It does <strong>not</strong> mean verified against the current game or cleared for third-party redistribution. “Partial” includes unknown and disputed fields; the 72-entry original catalog stays unchanged; its versioned neutral +0 values become usable only after you explicitly load the comparator data.</p>
+<p class="note">* Two-hand filter uses a conservative ordinary melee Strength assumption, not a guarantee for paired/special grips. Requirement-shortfall sorting puts records with unknown requirements last and uses the source-reported one-handed rule. Damage and weight filters exclude records with unknown values; the 102 sourced Shadow of the Erdtree and 8 sourced Tarnished Pack +0 references are published, but disputed community attack rows remain blocked in original mode; selecting v1.17 comparator mode replaces attack and requirements with versioned source values. Precise player AR uses the separate v1.17 AR engine. Base damage types do not imply final AR or actual damage.</p>
 <div class="workbench-actions"><button type="button" id="catalog-clear-filters" class="btn alt">Clear all filters</button></div>
 <p id="catalog-results" class="note" role="status">Loading weapon records…</p>
 <div id="catalog-list" class="catalog-list" aria-label="Weapon search results"></div>
@@ -110,7 +110,7 @@
  <h4>Pinned Regulation v1.17 minimum attributes</h4>
  <div id="catalog-v117-requirements" class="catalog-values"></div>
  <p id="catalog-v117-differences" class="note">—</p>
- <p class="note">The pinned source does not provide a verified individual weapon weight here. This view never changes the original community readings, comparison filters or equip-load totals, and does not claim a separate Tarnished.dev AR observation for every weapon.</p>
+ <p class="note">The pinned source does not provide a verified individual weapon weight here. After you explicitly load the v1.17 source, neutral attack and requirements are accepted in the active catalog view and its filters. The original community readings remain inspectable. Weight is not inferred or overridden, and this is not a separate Tarnished.dev web UI observation for each weapon.</p>
  <a id="catalog-v117-source-link" href="https://github.com/ThomasJClark/elden-ring-weapon-calculator" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Inspect pinned v1.17 source snapshot ↗</a>
 </section>
 <section id="catalog-source-preview" hidden aria-labelledby="catalog-source-title">
