@@ -20,9 +20,9 @@ function render(){
   const linkOther=make('a','Individual source');linkOther.href=w.crosscheck.sourceUrl;
   linkOther.rel='noopener noreferrer';linkOther.target='_blank';other.append(linkOther);
   if(w.explicitInitialScalingSource){
-   other.append(make('div','Fextralife explicit Standard +0 grades: '+
+   other.append(make('div','Named third-site explicit unupgraded grades: '+
     w.explicitInitialScalingSource.gradesAtPlusZero.join(' / ')));
-   const evidence=make('a','Explicit +0 Standard table (not verified game)');
+   const evidence=make('a','Explicit unupgraded table (not verified game)');
    evidence.href=w.explicitInitialScalingSource.sourceUrl;evidence.target='_blank';
    evidence.rel='noopener noreferrer';other.append(evidence);
   }
