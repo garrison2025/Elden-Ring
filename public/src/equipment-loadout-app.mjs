@@ -3,6 +3,8 @@ import {
  LOADOUT_WEAPON_SLOTS,LOADOUT_MANUAL_SLOTS,
  planEquipmentLoadout,parseEquipCandidates
 } from './equipment-loadout.mjs';
+import {EQUIPMENT_SAVE_KEY,serializeEquipmentSnapshot,parseEquipmentSnapshot,
+ normalizeEquipmentSnapshot,compareEquipmentSnapshots} from './equipment-save-compare.mjs';
 
 const byId=id=>document.getElementById(id);
 const make=(tag,text)=>{
@@ -17,6 +19,7 @@ const confirmed=byId('equipment-confirm');
 const maximum=byId('equipment-maximum');
 const feedback=byId('equipment-feedback');
 let catalog=null,candidates=[];
+let pinnedEquipment=null;
 let catalogError=null,candidateError=null;
 
 function changed(){
@@ -110,7 +113,119 @@ function render(){
   feedback.textContent='Check your equipment values: '+error.message;
   byId('equipment-unknown').textContent='No final roll tier is available until the input is corrected.';
  }
+ renderEquipmentCompare();
 }
+function saveFeedback(message){byId('equipment-save-feedback').textContent=message;}
+function comparisonFeedback(message){byId('equipment-ab-status').textContent=message;}
+function applySavedEquipment(data){
+ // Validate before changing any DOM nodes: caller already parsed and checked
+ // all original source IDs/slot types, so an invalid save cannot erase edits.
+ for(const [id,select] of weaponFields)select.value=data.weaponSlots[id];
+ for(const [id,refs] of manualFields){
+  const item=data.manualSlots[id];
+  refs.kind.value=item.mode;
+  refs.weight.disabled=item.mode==='empty';
+  refs.weight.value=item.mode==='equipped'?String(item.weight):'';
+ }
+ maximum.value=data.maxLoad;
+ confirmed.checked=false;
+ render();
+}
+function renderEquipmentCompare(){
+ const panel=byId('equipment-ab-results'),clear=byId('equipment-ab-clear');
+ clear.disabled=pinnedEquipment===null;
+ if(!pinnedEquipment||!catalog){
+  panel.hidden=true;
+  if(!pinnedEquipment)comparisonFeedback('Pin a loadout A or restore it from a local save to begin. Pinning never changes your current editor.');
+  return;
+ }
+ try{
+  const cmp=compareEquipmentSnapshots(pinnedEquipment,read(),catalog.weapons);
+  panel.hidden=false;
+  const describe=result=>{
+   const prefix=result.complete?'Confirmed total: ':'Known subtotal (not a confirmed total): ';
+   return prefix+result.knownSubtotal.toFixed(3)+
+    ' · maximum '+(result.maximum===null?'not provided':result.maximum)+
+    ' · roll tier '+(result.complete?result.load.tier+
+      ' ('+result.load.percent.toFixed(2)+'%)':'UNCONFIRMED / UNKNOWN')+
+    (result.unknown.length?' · unknown: '+result.unknown.join('; '):'');
+  };
+  byId('equipment-ab-summary-a').textContent=describe(cmp.baseline);
+  byId('equipment-ab-summary-b').textContent=describe(cmp.current);
+  const rows=byId('equipment-ab-rows');rows.replaceChildren();
+  const describeSlot=slot=>slot.label+
+   (slot.label==='Empty'?'':slot.weight===null?
+    ' · weight UNKNOWN':' · '+slot.weight.toFixed(3));
+  for(const item of cmp.rows){
+   const tr=make('tr');
+   if(item.changed)tr.className='equipment-ab-changed';
+   const name=make('th',item.slot);name.scope='row';
+   tr.append(name,make('td',describeSlot(item.A)),make('td',describeSlot(item.B)));
+   rows.append(tr);
+  }
+  const delta=cmp.weightDelta===null?
+   'Exact total-weight difference unavailable: at least one selected item has unknown weight.':
+   'Known exact gear weight difference B − A: '+
+    (cmp.weightDelta>0?'+':'')+cmp.weightDelta.toFixed(3)+'.';
+  const tiers=cmp.exactTiers?
+   ' Confirmed roll tiers: A '+cmp.baseline.load.tier+'; B '+cmp.current.load.tier+
+    '. Load percentage difference B − A: '+
+    (cmp.percentDelta>0?'+':'')+cmp.percentDelta.toFixed(2)+' percentage points.':
+   ' Both plans must be explicitly confirmed with complete weights and an actual in-game maximum before comparing roll tiers.';
+  byId('equipment-ab-difference').textContent=cmp.changedSlots+
+   ' of 14 equipped slots changed. '+delta+tiers;
+  comparisonFeedback('A remains pinned while B changes. '+
+   'A saved plan can be restored but requires reconfirmation against the game.');
+ }catch(error){
+  panel.hidden=true;
+  comparisonFeedback('Comparison unavailable until the inputs are valid: '+error.message);
+ }
+}
+byId('equipment-save').addEventListener('click',()=>{
+ try{
+  if(!catalog)throw new RangeError('Wait for the local weapon catalog.');
+  const json=serializeEquipmentSnapshot(read(),catalog.weapons);
+  localStorage.setItem(EQUIPMENT_SAVE_KEY,json);
+  saveFeedback('Equipment saved on this device. Previous local save was replaced. Confirmation is deliberately NOT stored.');
+ }catch(error){saveFeedback('Unable to save: '+error.message);}
+});
+byId('equipment-restore').addEventListener('click',()=>{
+ try{
+  if(!catalog)throw new RangeError('Wait for the local weapon catalog.');
+  const raw=localStorage.getItem(EQUIPMENT_SAVE_KEY);
+  if(raw===null){saveFeedback('No saved equipment exists on this device.');return;}
+  const loaded=parseEquipmentSnapshot(raw,catalog.weapons);
+  applySavedEquipment(loaded);
+  saveFeedback('Saved equipment restored into current B without confirmation. Recheck the full loadout in game.');
+ }catch(error){saveFeedback('Unable to restore; current equipment was kept: '+error.message);}
+});
+byId('equipment-delete-save').addEventListener('click',()=>{
+ try{
+  localStorage.removeItem(EQUIPMENT_SAVE_KEY);
+  saveFeedback('Saved equipment removed from this browser. Current equipment and pinned A remain unchanged.');
+ }catch(error){saveFeedback('Unable to delete local equipment: '+error.message);}
+});
+byId('equipment-ab-pin').addEventListener('click',()=>{
+ try{
+  if(!catalog)throw new RangeError('Wait for the local weapon catalog.');
+  const next=normalizeEquipmentSnapshot(read(),catalog.weapons);
+  pinnedEquipment=next;renderEquipmentCompare();
+  comparisonFeedback('Current equipped plan pinned as A. Edit slots above to compare current B.');
+ }catch(error){comparisonFeedback('Unable to pin A: '+error.message);}
+});
+byId('equipment-ab-from-save').addEventListener('click',()=>{
+ try{
+  if(!catalog)throw new RangeError('Wait for the local weapon catalog.');
+  const raw=localStorage.getItem(EQUIPMENT_SAVE_KEY);
+  if(raw===null){comparisonFeedback('No saved equipment exists on this device.');return;}
+  const next=parseEquipmentSnapshot(raw,catalog.weapons);
+  pinnedEquipment=next;renderEquipmentCompare();
+  comparisonFeedback('Saved equipment loaded as pinned A, but confirmation was cleared. B was not changed.');
+ }catch(error){comparisonFeedback('Unable to pin saved A: '+error.message);}
+});
+byId('equipment-ab-clear').addEventListener('click',()=>{
+ pinnedEquipment=null;renderEquipmentCompare();
+});
 maximum.addEventListener('input',changed);
 confirmed.addEventListener('change',render);
 byId('equipment-clear').addEventListener('click',()=>{

@@ -639,3 +639,45 @@ reset, final total and percentage, clear action and 375px phone
 viewport. Release artifact audit requires the new page and scripts
 to ship and remain in research `noindex` mode. No paid APIs,
 backend, new dependencies or invented armor/talisman catalog.
+
+## Optional equipment save / actual equipped A-B comparison (2026-10-31)
+
+The **existing** `/equip-load-calculator/` now supports **Save current
+equipment**, **Restore saved equipment**, **Delete saved equipment** and
+a separate **Pin current loadout as A / Use saved equipment as A** comparison
+flow. B is always the current explicitly chosen 6 weapon slots, four
+manual armor slots and four manual talisman slots. The comparison shows
+all 14 actual equipped slots, any changed slot contents, each plan's
+known subtotal, maximum load, missing weights and (only for separately
+confirmed complete plans) both roll tiers and percentage points.
+
+The single opt-in localStorage record (`buildlab:equipment-plan:v1`)
+contains source weapon IDs, equipped/empty selections, player-entered
+armor/talisman weights and the player-entered maximum. It is bounded
+and schema-versioned, and **never stores valid confirmation**. Restore
+first validates the entire record against the current local community
+catalog before changing the editor. Any stale weapon IDs, invalid
+numerics, oversized/corrupt JSON, or unsupported version fail
+without replacing the current edit. Restore is manual, not automatic,
+and always demands the player reconfirm the actual equipped gear.
+Deleting the stored copy does not erase the screen or pinned A.
+
+The two-Build comparison does **not** confuse the eight-weapon Smithing
+shortlist with the six actual equipped weapon slots. It only sums
+explicitly selected equipment. Unknown item weights never become zero,
+and an exact weight difference is withheld if either selected loadout
+has an unknown weight; an exact roll-tier comparison is withheld unless
+both A and B are confirmed and complete. Community weapon weights are
+still not independently verified for the actual game client patch;
+armor and talisman names, bonuses, poise and equipment ownership are
+not invented. No paid API, account, backend, cookies, persistence beyond
+explicit local saves, new tool landing page or SEO gate relaxation.
+
+`tests/equipment-save-compare.test.mjs` covers exact changes, copied
+pinned state, unconfirmed restored records, malicious/stale saves and
+unknown-weight gates. The free Chrome smoke now actually clicks
+save → fresh page → explicit restore → verify no old confirmation →
+pin A from saved plan → change two equipped slots → verify diff and
+375px overflow → delete stored copy without clearing the comparison.
+The deployment artifact audit checks that the controls and module
+are included in Cloudflare's built output.

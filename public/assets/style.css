@@ -329,3 +329,17 @@ body{background:radial-gradient(ellipse 72% 48% at 96% 0%,#293536 0%,transparent
 @media(max-width:400px){
  .equipment-manual-row{grid-template-columns:1fr}
 }
+
+
+/* Equipped A/B uses explicit gear slots, not a wishlist or a computed AR. */
+.equipment-ab-summaries{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}
+.equipment-ab-summaries>div{border:1px solid #486153;border-radius:12px;padding:16px;background:#142328;min-width:0}
+.equipment-ab-summaries h3{margin:0 0 9px;color:#ead2a5;font-size:15px}
+.equipment-ab-summaries p{margin:0;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.equipment-ab-table{min-width:580px}
+.equipment-ab-table th:first-child{min-width:185px}
+.equipment-ab-table td{min-width:185px;overflow-wrap:anywhere;vertical-align:top}
+.equipment-ab-changed td{color:#f0d59d}
+#equipment-ab-difference,#equipment-ab-status,#equipment-save-feedback{overflow-wrap:anywhere}
+#equipment-ab-results[hidden]{display:none!important}
+@media(max-width:690px){.equipment-ab-summaries{grid-template-columns:1fr}.equipment-ab-table{min-width:560px}}
