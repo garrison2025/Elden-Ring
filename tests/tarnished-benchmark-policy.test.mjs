@@ -26,13 +26,18 @@ test('homepage separately labels v1.17 reference AR and unverified current patch
  assert.match(html,/without requiring visitors to install the game/);
 });
 
-test('accuracy dashboard shows exactly one observed AR match and prevents numeric audit from masquerading as Tarnished.dev release PASS',()=>{
+test('accuracy dashboard shows repeatable 15/15 source UI parity, six weapons and distinct 39,552 internal math checks',()=>{
  const html=read('validation-status/index.html');
- assert.match(html,/Uchigatana · Standard \+0 · STR 40 \/ DEX 40 · 1H/);
- assert.match(html,/Exact same 5 stats · AR difference 0/);
+ assert.match(html,/15 \/ 15/);
+ assert.match(html,/Six weapon families/);
  assert.match(html,/39,552/);
- assert.match(html,/0 mismatches · NOT Tarnished.dev comparisons/);
- assert.match(html,/repeatable external verification remains 0\/1/);
- assert.match(html,/wider 12-case release matrix has NOT passed/);
- assert.match(html,/41179795924/);
+ assert.match(html,/NOT 39,552 external-site comparisons/);
+ assert.match(html,/reference benchmark PASS for these 15 cases only/);
+ assert.match(html,/41180592038/);
+ assert.match(html,/41180757356/);
+ assert.match(html,/41180757347/);
+ assert.match(html,/Regulation 1\.17\.3 game client/);
+ assert.match(html,/Fire Knight&amp;#39;s Greatsword|Fire Knight&#39;s Greatsword/);
+ const home=read('index.html');
+ assert.match(home,/15 of 15 same-input Tarnished.dev browser results/);
 });
