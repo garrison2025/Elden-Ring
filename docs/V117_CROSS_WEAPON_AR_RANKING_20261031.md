@@ -5,7 +5,7 @@ The Weapon AR Calculator now includes an opt-in **same-build source-variant rank
 ## User workflow
 1. Open the Weapon AR Calculator. **Explicitly** click “Load public v1.17 data” (not loaded on page visit) or choose local file / fictional demonstration.
 2. Set STR, DEX, INT, FAI, ARC, and one-hand/two-hand mode in the existing calculator.
-3. Use “Compare multiple weapon Attack Ratings”: enter a search term of 2–100 characters, optionally filter exact source affinity ID (all / None / Standard / 12 source affinities), and choose **two independent values** for Regular +0..25 and Somber +0..10.
+3. Use “Compare multiple weapon Attack Ratings”: enter a 2–100 character substring **or a comma-separated list of 2–8 exact source weapon/family names** (unknown/duplicate names fail closed), optionally filter exact source affinity ID (all / None / Standard / 12 source affinities), and choose **two independent values** for Regular +0..25 and Somber +0..10.
 4. Click “Rank matching weapon AR”. The Worker converts exact source variants with the existing `describeLocalWeapon` / `calculateAr` engine and sorts **numeric nominal total AR descending**. The table includes source weapon, affinity, reinforcement path, numeric physical/magic/fire/lightning/holy components, unmet attribute requirements, and missing mechanics warnings.
 5. Choose “Export displayed AR ranking CSV”; generated in browser with source/version provenance and spreadsheet-formula injection protection. No network write. Editing stats, grip, query or upgrades invalidates both results and export.
 
