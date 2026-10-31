@@ -97,7 +97,11 @@ export function makeUnreviewedArObservationBatch(plan,{
   plan.recordType!=='unreviewed-game-menu-AR-test-plan'||
   plan.reviewStatus!=='UNREVIEWED'||plan.gameClientVerified!==false||
   plan.publicationApproved!==false||plan.synthetic!==false||
-  !short(plan.sourceVersion)||!Array.isArray(plan.cases)||plan.cases.length<1||
+  plan.sourceProvenanceStatus!=='manual-unverified'||
+  !short(plan.weaponName)||!short(plan.sourceVersion)||
+  !Array.isArray(plan.sourceLevels)||!plan.sourceLevels.length||
+  !plan.sourceLevels.every(level=>Number.isInteger(level)&&level>=0&&level<=25)||
+  !Array.isArray(plan.cases)||plan.cases.length<1||
   plan.cases.length>30||!Number.isInteger(plan.totalCases)||
   plan.totalCases!==plan.cases.length)
   fail('Expected a non-synthetic, UNREVIEWED research test plan.');
@@ -106,16 +110,19 @@ export function makeUnreviewedArObservationBatch(plan,{
   fail('Enter at least one actual observed total with evidence reference.');
  const byId=new Map();
  for(const testCase of plan.cases){
-  if(!short(testCase.caseId)||byId.has(testCase.caseId)||
-   !short(testCase.weaponName)||!validStats(testCase.stats)||
-   !Number.isInteger(testCase.upgrade)||testCase.upgrade<0||testCase.upgrade>25||
+  if(!short(testCase.caseId)||!/^AR-[0-9]{2}$/.test(testCase.caseId)||
+   byId.has(testCase.caseId)||testCase.weaponName!==plan.weaponName||
+   testCase.reviewStatus!=='UNREVIEWED'||testCase.gameClientVerified!==false||
+   testCase.observedTotal!==null||testCase.evidenceReference!==null||
+   !validStats(testCase.stats)||
+   !Number.isInteger(testCase.upgrade)||!plan.sourceLevels.includes(testCase.upgrade)||
    typeof testCase.twoHanded!=='boolean'||
    !Number.isInteger(testCase.candidateTotal)||testCase.candidateTotal<0||
    testCase.candidateTotal>20000)
    fail('Invalid or duplicate test case.');
   byId.set(testCase.caseId,testCase);
  }
- const used=new Set(),drafts=[];
+ const used=new Set(),references=new Set(),hashes=new Set(),drafts=[];
  for(const item of observations){
   if(!item||typeof item!=='object'||Array.isArray(item)||
    !short(item.caseId)||!byId.has(item.caseId)||used.has(item.caseId))
@@ -133,8 +140,15 @@ export function makeUnreviewedArObservationBatch(plan,{
    const fingerprint=validateLocalScreenshotFingerprint(item.screenshotFingerprint);
    if(fingerprint.filename!==observation.sourceEvidence.reference)
     fail('Screenshot filename must match its evidence reference for '+item.caseId+'.');
+   if(hashes.has(fingerprint.sha256))
+    fail('One screenshot cannot support multiple different AR test cases: '+item.caseId+'.');
+   hashes.add(fingerprint.sha256);
    observation.sourceEvidence.screenshotFingerprint=fingerprint;
   }
+  const referenceKey=observation.sourceEvidence.reference.toLocaleLowerCase('en-US');
+  if(references.has(referenceKey))
+   fail('Each AR test case needs a distinct evidence reference: '+item.caseId+'.');
+  references.add(referenceKey);
   drafts.push({caseId:item.caseId,scenario:testCase.scenario,observation});
  }
  return {
