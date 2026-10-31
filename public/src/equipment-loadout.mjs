@@ -1,4 +1,5 @@
 import {loadTier} from './core.mjs';
+import {hasDisputedWeight} from './community-weapons.mjs';
 import {validateBuildSmithingIds} from './build-smithing-handoff.mjs';
 
 /**
@@ -46,7 +47,7 @@ export function planEquipmentLoadout({weaponSlots,manualSlots,maxLoad='',confirm
   !manualSlots||typeof manualSlots!=='object'||Array.isArray(manualSlots))
   fail('Equipment slot data is missing.');
  const map=new Map(weapons.map(w=>[w.id,w]));
- const items=[],unknown=[];
+ const items=[],unknown=[],disputedWeights=[];
  let subtotal=0,weaponSubtotal=0,manualSubtotal=0;
  const addKnown=(slot,name,weight,source)=>{
   const g=grams(weight);subtotal+=g;
@@ -61,9 +62,11 @@ export function planEquipmentLoadout({weaponSlots,manualSlots,maxLoad='',confirm
   const weapon=map.get(id);
   if(!weapon)fail('Equipped weapon no longer exists in local source catalog: '+slot.label);
   const weight=weapon.weight;
-  if(weight===null||weight===undefined){
-   unknown.push(slot.label+' · '+weapon.name);
-   items.push({slot:slot.label,name:weapon.name,weight:null,source:'community',known:false});
+  if(weight===null||weight===undefined||hasDisputedWeight(weapon)){
+   const disputed=hasDisputedWeight(weapon);
+   if(disputed)disputedWeights.push(slot.label+' · '+weapon.name);
+   unknown.push(slot.label+' · '+weapon.name+(disputed?' (source conflict)':''));
+   items.push({slot:slot.label,name:weapon.name,weight:null,source:'community',known:false,sourceDisputed:disputed});
   }else{
    if(!validWeight(weight))fail('Community weapon weight is invalid: '+weapon.name);
    addKnown(slot.label,weapon.name,weight,'community');
@@ -86,10 +89,11 @@ export function planEquipmentLoadout({weaponSlots,manualSlots,maxLoad='',confirm
  const total=subtotal/1000;
  const tier=complete?loadTier(total,maximum):null;
  return {
-  items,unknown,knownSubtotal:total,knownWeaponWeight:weaponSubtotal/1000,
+  items,unknown,disputedWeights,knownSubtotal:total,knownWeaponWeight:weaponSubtotal/1000,
   knownManualWeight:manualSubtotal/1000,maximum,confirmed,
   allKnown,complete,load:tier,selectedCount:items.length,
-  caution:!allKnown?'At least one selected item has UNKNOWN weight. Do not treat the known subtotal as total equipped load.':
+  caution:disputedWeights.length?'SOURCE CONFLICT: a selected weapon weight is disputed. The known subtotal excludes that weight; no complete total, percentage or roll tier is available.':
+   !allKnown?'At least one selected item has UNKNOWN weight. Do not treat the known subtotal as total equipped load.':
    !confirmed?'Known subtotal only. Confirm you entered every actually equipped slot before treating this as your complete equipped load.':
    maximum===null?'Enter your actual in-game maximum equip load to obtain a roll tier.':
    'Calculated only for the explicit equipped slots you confirmed. Check actual game status for weight-affecting buffs or gear effects.'
