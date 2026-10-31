@@ -33,3 +33,10 @@ export function parseArWorkbenchHandoff(search){
  const upgrade=requested!==null&&/^(?:[0-9]|1[0-9]|2[0-5])$/.test(requested)?Number(requested):null;
  return {weapon,stats,upgrade};
 }
+
+/** Simple v1.17 AR page uses the same strict name/stat/upgrade handoff.
+ * Does not transfer source JSON or claim game-client certification. */
+export function makeQuickArCalculatorUrl(weaponName,stats=null,upgrade=null){
+ return makeArWorkbenchUrl(weaponName,stats,upgrade)
+  .replace('../weapon-data-workbench/?','../weapon-ar-calculator/?');
+}
