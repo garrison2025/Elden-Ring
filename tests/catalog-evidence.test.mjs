@@ -15,10 +15,11 @@ test('data-quality audit derives all exact observed counts and conflict types fr
  assert.equal(c.total,catalog.weapons.length);
  assert.equal(c.baseGame,306);
  assert.equal(c.dlc,102);
- assert.equal(c.total,408);
+ assert.equal(c.tarnishedPack,8);
+ assert.equal(c.total,416);
  assert.equal(c.dlcBaseAttackSourced,101);
- assert.equal(c.requirementsPresent,408);
- assert.equal(c.weaponWeightsPresent,408);
+ assert.equal(c.requirementsPresent,416);
+ assert.equal(c.weaponWeightsPresent,416);
  assert.equal(c.baseAttackPresent,407);
  assert.equal(c.publishedRoundedUpgradeTables,6);
  assert.equal(c.completeArProfiles,0);
@@ -69,7 +70,7 @@ test('generated validation status replaces one row and one panel and escapes sou
  const html=injectCatalogEvidence(status,evidence);
  assert.ok(html.includes(catalogEvidenceRow(evidence)));
  assert.ok(html.includes(catalogEvidencePanel(evidence)));
- assert.ok(html.includes('Community weapon catalog (408 entries)'));
+ assert.ok(html.includes('Community weapon catalog (416 entries)'));
  assert.ok(html.includes('Source snapshot version:'));
  assert.ok(html.includes('../catalog-evidence.json'));
  assert.ok(html.includes('noindex,nofollow'));

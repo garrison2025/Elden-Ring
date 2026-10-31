@@ -26,8 +26,9 @@ export function getCatalogEvidence(catalog){
   catalogPath:'/weapon-database/?weapon='+encodeURIComponent(w.id)
  })).sort((a,b)=>a.name.localeCompare(b.name)||a.id.localeCompare(b.id));
  const c={
-  total:coverage.weapons,baseGame:coverage.weapons-coverage.dlc,
+  total:coverage.weapons,baseGame:coverage.weapons-coverage.dlc-coverage.tarnishedPack,
   dlc:coverage.dlc,dlcBaseAttackSourced:coverage.dlcBaseFacts,
+  tarnishedPack:coverage.tarnishedPack,
   requirementsPresent:weapons.filter(w=>Array.isArray(w.requirements)).length,
   weaponWeightsPresent:weapons.filter(w=>Number.isFinite(w.weight)).length,
   baseAttackPresent:weapons.filter(w=>Array.isArray(w.attack)).length,
@@ -57,8 +58,9 @@ export function catalogEvidenceRow(evidence){
  const c=evidence.counts;
  return '<tr data-catalog-audit-row><td>Community weapon catalog ('+
   c.total+' entries)</td><td>Research / noindex</td><td>'+
-  c.baseGame+' legacy/base-game references and '+c.dlc+' DLC references; '+
-  c.dlcBaseAttackSourced+' DLC entries have attributed +0 base-attack facts. '+
+  c.baseGame+' legacy/base-game references, '+c.dlc+' Shadow of the Erdtree references and '+
+  c.tarnishedPack+' Tarnished Pack armaments; '+
+  c.dlcBaseAttackSourced+' Shadow of the Erdtree entries have attributed +0 base-attack facts. '+
   c.recordsWithSourceConflicts+' entries have unresolved v1.17 source conflicts. '+
   'No precise, current-game-client-certified AR profiles are bundled. '+
   '<a href="#catalog-evidence">See the live data-quality audit</a>.</td></tr>';
@@ -69,6 +71,7 @@ export function catalogEvidencePanel(evidence){
   row('Total source weapon/shield entries',c.total,'Bundled community reference records, not a certified full game roster'),
   row('Base-game / legacy community entries',c.baseGame,'Community snapshot; individual current-regulation verification is incomplete'),
   row('Shadow of the Erdtree entries',c.dlc,'Roster subset; not a certified complete DLC armament list'),
+  row('Tarnished Pack / Tarnished Edition entries',c.tarnishedPack,'Requirements and weight sourced to build 25827938, Regulation 1.17.3; +0 attack and AR unknown'),
   row('DLC with attributed +0 base-attack figures',c.dlcBaseAttackSourced,'Published +0 base attack is not final weapon Attack Rating'),
   row('Attribute requirement fields present',c.requirementsPresent+' / '+c.total,'Data availability only; conflicts may remain'),
   row('Individual weapon weight fields present',c.weaponWeightsPresent+' / '+c.total,'Data availability only; never imply actual equipped loadout'),
