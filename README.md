@@ -466,3 +466,26 @@ The Build Planner's ID-only import remains a separate manual workflow:
 links alone cannot set tracks/levels or overwrite an already edited basket.
 No backend, paid API, new redistribution, or persistent cookies were added.
 Research noindex and current patch-validation limitations remain.
+
+## Free real-browser acceptance suite (2026-10-31)
+
+`.github/workflows/browser-smoke.yml` runs Chromium/Google Chrome already
+preinstalled on GitHub's Ubuntu runner (no Playwright package downloads,
+paid browser service, backend API, or extra production dependencies). It
+builds the actual static `dist/` candidate and executes
+`node scripts/smoke-browser.mjs` over a localhost server with native Node
+WebSocket + Chrome DevTools Protocol. The script performs a **real DOM/browser
+journey**: select Uchigatana + Greatsword in Build Planner, import their
+catalog IDs into Smithing Planner, confirm track and current/target +levels
+remain blank until player input, calculate +0→+3 / +0→+6 = 36 stones,
+enter 5 shared stones and confirm 31 still missing, save and reload without
+automatic restore, restore only after explicit click, delete the stored
+snapshot without clearing the active rows, and check 375px viewport overflow.
+Any incorrect browser DOM result or uncaught JavaScript exception fails CI.
+
+This test runs against the built *deployment artifact* served from localhost.
+It is not itself proof that Cloudflare production has deployed a given SHA;
+use public `/deployment-info.json` for actual production revision parity.
+For extra privacy, the browser uses an isolated temporary profile and
+removes it when finished. Static unit/integrity and real-browser workflows
+run independently on pushes and pull requests.
