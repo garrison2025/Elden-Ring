@@ -43,7 +43,7 @@ function browserSnapshot(){
   controls:[...document.querySelectorAll('input,select')].slice(0,100).map(el=>({
    tag:el.tagName,id:el.id||'',type:el.type||'',name:el.name||'',
    placeholder:el.getAttribute('placeholder')||'',
-   value:String(el.value??'').slice(0,70),
+   value:String(el.value??'').slice(0,70),checked:el.type==='checkbox'?el.checked:null,
    parent:(el.parentElement?.innerText||'').trim().slice(0,65)
   })).slice(0,55),
   bodySize:text.length,readyState:document.readyState
@@ -105,6 +105,22 @@ async function main(){
      await sleep(5000);snap=await evaluate('('+browserSnapshot.toString()+')()');
     }
     const ar=snap.weaponBlock.match(/Total AR\s*:\s*(\d+)/i);
+    const get=id=>snap.controls.find(x=>x.id===id);
+    const verifiedInputs=Boolean(
+     get('strength')?.value===String(c.str)&&
+     get('dexterity')?.value===String(c.dex)&&
+     get('intelligence')?.value==='10'&&
+     get('faith')?.value==='10'&&
+     get('arcane')?.value==='10'&&
+     get('smithinglevel')?.value===String(c.upgrade)&&
+     get('somberlevel')?.value==='0'&&
+     get('twohand')?.checked===c.twoHanded&&
+     snap.version.includes('v1.17')&&
+     snap.weaponBlock.includes('Uchigatana')&&
+     snap.weaponBlock.includes('\n'+c.affinity+'\n')&&
+     get('activate-rune')?.checked===false&&
+     get('activate-physick')?.checked===false
+    );
     const result={
      id:c.id,request:c,
      observedAr:ar?Number(ar[1]):null,
@@ -112,13 +128,14 @@ async function main(){
      version:snap.version,url:snap.page,title:snap.title,
      browserWeaponBlock:snap.weaponBlock,
      controls:snap.controls,
-     status:ar&&snap.weaponBlock.includes('Uchigatana')?'rendered-pending-input-check':'no-rendered-ar',
+     status:ar&&verifiedInputs?'INPUT-VERIFIED-AR':ar?'rendered-unconfirmed-inputs':'no-rendered-ar',
+     verifiedInputs,
      pageReady:snap.readyState,bodySize:snap.bodySize
     };
     results.push(result);
     console.log('[TARNISHED CHROME] '+JSON.stringify({
      id:result.id,status:result.status,
-     ar:result.observedAr,version:result.version,
+     ar:result.observedAr,version:result.version,verifiedInputs:result.verifiedInputs,
      rightHand:result.browserWeaponBlock.slice(0,160),
      controls:result.controls.slice(0,26)
     }));
