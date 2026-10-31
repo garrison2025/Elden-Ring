@@ -23,7 +23,8 @@ const PACK_ZERO_REFERENCES=Object.freeze({
  'Reverse-Bladed Sword':{attack:[115,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Backhand_Blades'},
  'Hefty Scimitar':{attack:[135,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Curved_Greatswords'},
  "Leontiel's Greatsword":{attack:[130,0,0,0,0],critical:100,scaling:['E','C','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Greatswords'},
- 'Golden Order Flail':{attack:[75,0,0,0,92],critical:100,scaling:['E','E','-','C','-'],url:'https://eldenring.wiki.gg/wiki/Flails'}
+ 'Golden Order Flail':{attack:[75,0,0,0,92],critical:100,scaling:['E','E','-','C','-'],url:'https://eldenring.wiki.gg/wiki/Flails'},
+ 'Ritual Thrusting Shield':{attack:[135,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://wiki.eso-ui.com/index.php/Elden_Ring%3ARitual_Thrusting_Shield'}
 });
 
 /** Distinguish documented community values from unresolved patch disagreements. */
@@ -61,20 +62,36 @@ export function validateCommunityCatalog(catalog){
     w.weightSourceUrl!=='https://almanauts.com/eldenring/weapons/'))
    fail('Tarnished Pack entries require attributed 1.17.3 requirements and weight at row '+i);
   if(pack&&coverage==='base-reference'&&(
-    !w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')||
-    !['single-community-weapon-page-plus-zero','wiki-class-comparison-table-plus-zero'].includes(w.baseFactsProvenance?.type)||
+    !(w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')||
+      w.name==='Ritual Thrusting Shield'&&
+      w.checkedWith==='https://wiki.eso-ui.com/index.php/Elden_Ring%3ARitual_Thrusting_Shield')||
+    !['single-community-weapon-page-plus-zero','wiki-class-comparison-table-plus-zero',
+      'cross-source-named-unupgraded-base-attack'].includes(w.baseFactsProvenance?.type)||
     w.baseFactsProvenance?.versionVerified!==false||
-    !(w.flags??[]).includes('wiki-pack-pluszero-not-game-version-certified')||
+    !(w.flags??[]).some(x=>x==='wiki-pack-pluszero-not-game-version-certified'||
+      x==='ritual-pluszero-community-only-not-verified')||
     !PACK_ZERO_REFERENCES[w.name]||
     w.checkedWith!==PACK_ZERO_REFERENCES[w.name].url||
     w.attack?.join(',')!==PACK_ZERO_REFERENCES[w.name].attack.join(',')||
     w.critical!==PACK_ZERO_REFERENCES[w.name].critical||
     w.scaling?.join(',')!==PACK_ZERO_REFERENCES[w.name].scaling.join(',')))
    fail('Pack +0 base facts must cite one weapon wiki page and remain game-unverified at row '+i);
+  if(w.name==='Ritual Thrusting Shield'&&pack&&coverage==='base-reference'){
+   const p=w.baseFactsProvenance;
+   if(p?.type!=='cross-source-named-unupgraded-base-attack'||
+      p.versionVerified!==false||p.gameClientVerified!==false||
+      !w.flags?.includes('ritual-pluszero-community-only-not-verified')||
+      p.supportingSources?.join('|')!==[
+       'https://wiki.eso-ui.com/index.php/Elden_Ring%3ARitual_Thrusting_Shield',
+       'https://allthings.how/elden-ring-tarnished-edition-ritual-thrusting-shield-location-guide/',
+       'https://oyundijital.com/elden-ring-tarnished-pack-esya-konumlari/'
+      ].join('|'))
+     fail('Ritual +0 source claims or reviewed-game status have drifted.');
+  }
   if(w.secondarySourceDisagreement!==undefined){
    const e=w.secondarySourceDisagreement,primary=e.currentVersionLabelled;
    const alt=e.alternatives;
-   if(!pack||w.name!=='Ritual Thrusting Shield'||coverage!=='requirements-weight-only'||
+   if(!pack||w.name!=='Ritual Thrusting Shield'||coverage!=='base-reference'||
       !w.flags?.includes(PACK_WEIGHT_CONFLICT)||!w.flags?.includes(PACK_REQUIREMENT_CONFLICT)||
       e.status!=='SECONDARY_SOURCE_DISAGREEMENT_NOT_GAME_VERIFIED'||
       e.fieldScope?.join(',')!=='weight,requirements'||e.gameClientVerified!==false||
@@ -134,7 +151,10 @@ export function validateCommunityCatalog(catalog){
    fail('Invalid independently attributed requirement source '+i);
   if(coverage==='name-category-only'&&w.requirements!==null)
    fail('Unknown DLC requirements must be null: '+i);
-  if(coverage==='base-reference'&&(!(dlc||pack)||!w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')))
+  if(coverage==='base-reference'&&(!(dlc||pack)||
+     !(w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')||
+      pack&&w.name==='Ritual Thrusting Shield'&&
+      w.checkedWith==='https://wiki.eso-ui.com/index.php/Elden_Ring%3ARitual_Thrusting_Shield')))
    fail('Expansion +0 reference requires named numeric source: '+i);
   if(!missingAttack&&(!Number.isFinite(w.weight)||w.weight<0||w.weight>200||
     !Number.isInteger(w.critical)||w.critical<0||w.critical>300))
@@ -345,7 +365,7 @@ export function cautionForWeapon(w){
    'DLC roster only: attribute requirements, base attack, weight, critical, reinforcement and scaling are UNVERIFIED. Wield checks are unavailable.');
  if(w.dataCoverage==='base-reference')warnings.push(
    w.expansion==='Tarnished Pack'?
-   'Pack +0 base attack/crit/letter scaling are from a named community weapon-page reference, not a separately verified Regulation 1.17.3 game-client menu. No precise AR, infusion curves or upgrades are inferred.':
+   'Pack +0 base attack/crit/letter scaling are from a named community weapon page or named class table, not a separately verified Regulation 1.17.3 game-client menu. No precise AR, infusion curves or upgrades are inferred.':
    'DLC +0 reference facts cross-checked against the linked community wiki; current regulation not independently tested. Exact AR is UNSUPPORTED without reinforcement, affinity and full numeric scaling parameters.');
  if(w.upgradeReference)warnings.push(
    'The +0 to +10 values are published rounded BASE attacks only, not precise reinforcement multipliers, infusion data, or AR.');
