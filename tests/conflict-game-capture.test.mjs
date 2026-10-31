@@ -114,7 +114,7 @@ test('seven-case export contains only authentic supplied drafts and non-certifie
  assert.equal(pack.entries.filter(x=>x.observation===null).length,5);
  assert.equal(JSON.stringify(pack).includes('imageData'),false);
  for(const modified of [
-  d=>{d.numericComparison='matches-community-source';},
+  d=>{d.numericComparison='matches-pinned-v117-source';},
   d=>{d.reviewStatus='APPROVED';},
   d=>{d.gameClientVerified=true;},
   d=>{d.localScreenshots.titleScreen.sha256='c'.repeat(64);},
