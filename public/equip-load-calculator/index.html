@@ -33,6 +33,42 @@
   <p id="equipment-unknown" class="note" role="status" aria-live="polite"></p>
   <p id="equipment-thresholds" class="note">Tier boundaries are below 30%, 70%, and 100% of your actual maximum. Exactly at a boundary is the heavier category.</p>
  </div>
-</section><section class="panel info"><h2>Explore armor combinations</h2><p>You can also <a href="../armor-optimizer/">optimize a manual list of armor pieces</a> for weight and poise. Winning combinations can be opened directly in this calculator, with equipped weight and maximum load prefilled.</p></section><section class="panel info"><h2>Which roll tier applies?</h2><p>Below 30% = Light; from 30% to below 70% = Medium; from 70% to below 100% = Heavy; 100% and above = Overloaded. Exactly on a threshold is the heavier category. Read the thresholds against your displayed in-game maximum, including active equipment-load modifiers.</p><p class="source-links">Primary source: <a href="https://www.bandainamcoent.com/news/elden-ring-introduction-part-2-advanced-stats">Bandai Namco: Advanced Stats</a>.</p></section><section class="editorial-grid" aria-label="About this calculator"><article class="panel info"><span class="eyebrow">Method</span><h2>Equip-load thresholds</h2><p>Light load is below 30%, medium is at least 30% but below 70%, heavy is at least 70% but below 100%, and overloaded is 100% or above.</p><p>Results are computed in your browser. See <a href="../validation-status/">our calculation methods and verification status</a> for data limitations.</p></article><article class="panel info"><span class="eyebrow">Common questions</span><h2>Frequently asked</h2><h3>Why should I enter the maximum load shown in-game?</h3><p>Maximum load can change with attributes and effects. Using the current in-game limit avoids guessing missing item data.</p><h3>Does the calculator know my armor inventory?</h3><p>Not yet. This checker calculates load thresholds from the numbers you enter, without an unverified equipment database.</p></article></section><nav class="related-tools" aria-label="Related tools"><span class="eyebrow">Keep planning</span><a href="../build-planner/">Build planner <span aria-hidden="true">↗</span></a><a href="../class-optimizer/">Class optimizer <span aria-hidden="true">↗</span></a><a href="../level-rune-calculator/">Rune calculator <span aria-hidden="true">↗</span></a><a href="../equip-load-calculator/">Equip load <span aria-hidden="true">↗</span></a></nav></main>
+</section><section class="panel info" aria-labelledby="equipment-save-title">
+ <div class="eyebrow">Private · on this browser only</div>
+ <h2 id="equipment-save-title">Save and restore your equipped gear</h2>
+ <p>Save the explicit weapon slots, manual armor/talisman weights, and maximum load on this device. A restored record is always <strong>unconfirmed</strong>, so recheck your equipment against the game before using its final roll tier. No account, backend or upload.</p>
+ <div class="workbench-actions">
+  <button type="button" id="equipment-save" class="btn alt">Save current equipment</button>
+  <button type="button" id="equipment-restore" class="btn alt">Restore saved equipment</button>
+  <button type="button" id="equipment-delete-save" class="btn alt">Delete saved equipment</button>
+ </div>
+ <p class="note" role="status" aria-live="polite" id="equipment-save-feedback">No equipment plan has been saved or loaded during this visit. Restore replaces the current equipment editor, never automatically.</p>
+</section>
+<section class="panel info" aria-labelledby="equipment-ab-title">
+ <div class="eyebrow">Equipment A vs B · local comparison</div>
+ <h2 id="equipment-ab-title">Compare two actual equipment loadouts</h2>
+ <p>Pin the current equipped slots as <strong>A</strong>, then edit the slots above as <strong>B</strong>. Compare actual slot changes, known weights and (only after confirmation) roll tiers. This compares equipped items, <em>not the Build Planner weapon shortlist</em>.</p>
+ <div class="workbench-actions">
+  <button type="button" class="btn alt" id="equipment-ab-pin">Pin current loadout as A</button>
+  <button type="button" class="btn alt" id="equipment-ab-from-save">Use saved equipment as A</button>
+  <button type="button" class="btn alt" id="equipment-ab-clear" disabled>Clear A/B comparison</button>
+ </div>
+ <p class="note" id="equipment-ab-status" role="status" aria-live="polite">Pin a loadout A or restore it from a local save to begin. Pinning never changes your current editor.</p>
+ <div id="equipment-ab-results" hidden>
+  <div class="equipment-ab-summaries">
+   <div><h3>Equipped A (pinned)</h3><p id="equipment-ab-summary-a">—</p></div>
+   <div><h3>Equipped B (current)</h3><p id="equipment-ab-summary-b">—</p></div>
+  </div>
+  <div class="table-wrap">
+   <table class="datatable equipment-ab-table">
+    <thead><tr><th scope="col">Actual equipped slot</th><th scope="col">A</th><th scope="col">B</th></tr></thead>
+    <tbody id="equipment-ab-rows"></tbody>
+   </table>
+  </div>
+  <p id="equipment-ab-difference" class="note" role="status" aria-live="polite">—</p>
+  <p class="note">Unknown weights prevent a precise total-weight difference. A saved plan never carries forward an old confirmation. Source weapon weights remain community estimates until independently verified against the actual game patch; there is no armor/talisman item database or assumed active equipment bonus.</p>
+ </div>
+</section>
+<section class="panel info"><h2>Explore armor combinations</h2><p>You can also <a href="../armor-optimizer/">optimize a manual list of armor pieces</a> for weight and poise. Winning combinations can be opened directly in this calculator, with equipped weight and maximum load prefilled.</p></section><section class="panel info"><h2>Which roll tier applies?</h2><p>Below 30% = Light; from 30% to below 70% = Medium; from 70% to below 100% = Heavy; 100% and above = Overloaded. Exactly on a threshold is the heavier category. Read the thresholds against your displayed in-game maximum, including active equipment-load modifiers.</p><p class="source-links">Primary source: <a href="https://www.bandainamcoent.com/news/elden-ring-introduction-part-2-advanced-stats">Bandai Namco: Advanced Stats</a>.</p></section><section class="editorial-grid" aria-label="About this calculator"><article class="panel info"><span class="eyebrow">Method</span><h2>Equip-load thresholds</h2><p>Light load is below 30%, medium is at least 30% but below 70%, heavy is at least 70% but below 100%, and overloaded is 100% or above.</p><p>Results are computed in your browser. See <a href="../validation-status/">our calculation methods and verification status</a> for data limitations.</p></article><article class="panel info"><span class="eyebrow">Common questions</span><h2>Frequently asked</h2><h3>Why should I enter the maximum load shown in-game?</h3><p>Maximum load can change with attributes and effects. Using the current in-game limit avoids guessing missing item data.</p><h3>Does the calculator know my armor inventory?</h3><p>Not yet. This checker calculates load thresholds from the numbers you enter, without an unverified equipment database.</p></article></section><nav class="related-tools" aria-label="Related tools"><span class="eyebrow">Keep planning</span><a href="../build-planner/">Build planner <span aria-hidden="true">↗</span></a><a href="../class-optimizer/">Class optimizer <span aria-hidden="true">↗</span></a><a href="../level-rune-calculator/">Rune calculator <span aria-hidden="true">↗</span></a><a href="../equip-load-calculator/">Equip load <span aria-hidden="true">↗</span></a></nav></main>
 <footer class="site-footer"><div class="container footer-flex"><div><a class="footer-brand" href="../">✧ BUILD LAB</a><p>Unofficial fan-made tools. Not affiliated with FromSoftware or Bandai Namco Entertainment.</p></div><div class="footer-links"><a href="../validation-status/">Accuracy & sources</a><a href="../privacy/">Privacy</a><a href="../about/">About</a></div></div></footer>
 <script type="module" src="../src/app.mjs"></script><script type="module" src="../src/equipment-loadout-app.mjs"></script></body></html>
