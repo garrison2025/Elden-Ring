@@ -485,7 +485,7 @@ try{
     row.includes(String(json.counts.total)),
    robots};
  })()`);
- assert.equal(evidenceStatus.count,408,'Built catalog status must match source');
+ assert.equal(evidenceStatus.count,416,'Built catalog status must match source');
  assert.equal(evidenceStatus.dlc,102);
  assert.equal(evidenceStatus.attackConflicts,6);
  assert.equal(evidenceStatus.requirementConflicts,1);
