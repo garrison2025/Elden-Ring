@@ -6,6 +6,12 @@ const fail=m=>{throw new RangeError(m);};
 const ATTACK_CONFLICT='v117-community-attack-conflict';
 const REQUIREMENT_CONFLICT='v117-community-requirement-conflict';
 const WEIGHT_CONFLICT='v117-community-weight-conflict';
+const PACK_ZERO_REFERENCES=Object.freeze({
+ 'Idus Sword':{attack:[124,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Idus_Sword'},
+ 'Reed Great Katana':{attack:[158,0,0,0,0],critical:100,scaling:['D','D','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Reed_Great_Katana'},
+ 'Silver Grooved Shield':{attack:[61,0,0,0,0],critical:100,scaling:['D','-','-','-','-'],url:'https://eldenring.wiki.gg/wiki/Silver_Grooved_Shield'}
+});
+
 /** Distinguish documented community values from unresolved patch disagreements. */
 export const hasDisputedAttack=w=>(w?.flags??[]).includes(ATTACK_CONFLICT);
 export const hasDisputedRequirements=w=>(w?.flags??[]).includes(REQUIREMENT_CONFLICT);
@@ -44,7 +50,12 @@ export function validateCommunityCatalog(catalog){
     !w.checkedWith?.startsWith('https://eldenring.wiki.gg/wiki/')||
     w.baseFactsProvenance?.type!=='single-community-weapon-page-plus-zero'||
     w.baseFactsProvenance?.versionVerified!==false||
-    !(w.flags??[]).includes('wiki-pack-pluszero-not-game-version-certified')))
+    !(w.flags??[]).includes('wiki-pack-pluszero-not-game-version-certified')||
+    !PACK_ZERO_REFERENCES[w.name]||
+    w.checkedWith!==PACK_ZERO_REFERENCES[w.name].url||
+    w.attack?.join(',')!==PACK_ZERO_REFERENCES[w.name].attack.join(',')||
+    w.critical!==PACK_ZERO_REFERENCES[w.name].critical||
+    w.scaling?.join(',')!==PACK_ZERO_REFERENCES[w.name].scaling.join(',')))
    fail('Pack +0 base facts must cite one weapon wiki page and remain game-unverified at row '+i);
   if(w.currentPatchRequirementCorroboration!==undefined){
    const p=w.currentPatchRequirementCorroboration;
