@@ -19,7 +19,7 @@ const weight=(value,label)=>{
   err(label+' must be a decimal from 0 to 999.');
  return n;
 };
-const namedSlots=(n)=>Array.from({length:n},()=>({name:'',weight:''}));
+const namedSlots=(n)=>Array.from({length:n},()=>({name:'',weight:'',weightSource:'manual'}));
 export function emptyBuildLoadout(){
  return {
   schemaVersion:1,
@@ -51,7 +51,9 @@ export function validateBuildLoadout(value){
   const name=text(slot.name,'Armor name');
   const m=weight(slot.weight,'Armor weight');
   if(!name&&m!==null)err('Cannot set weight without an armor name.');
-  return {name,weight:m===null?'':String(m)};
+  if(slot.weightSource!==undefined&&!['manual','community'].includes(slot.weightSource))
+   err('Unknown armor weight provenance.');
+  return {name,weight:m===null?'':String(m),weightSource:slot.weightSource??'manual'};
  });
  const strings=(items,label)=>items.map(v=>text(v,label));
  const cap=weight(value.maxEquipLoad,'Max equip load');
@@ -67,7 +69,8 @@ export function validateBuildLoadout(value){
  * Only explicit zero-weight empty equipment slots contribute zero.
  * A user override is always labelled user-entered, not game-verified.
  */
-export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnishedPack=false}={}){
+export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnishedPack=false,
+ armorReference=null}={}){
  const state=validateBuildLoadout(input);
  if(!catalog||!Array.isArray(catalog.weapons))err('A validated local weapon catalog is required.');
  const map=new Map(catalog.weapons.map(w=>[w.id,w]));
@@ -95,12 +98,20 @@ export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnish
  for(let i=0;i<4;i++){
   const slot=state.armorSlots[i];
   if(!slot.name)continue;
-  const amount=weight(slot.weight,'Armor weight');
+  let amount=weight(slot.weight,'Armor weight');
+  if(slot.weightSource==='community'){
+   const reference=Array.isArray(armorReference)?armorReference.filter(a=>
+    a.slot===LOADOUT_ARMOR_SLOTS[i]&&a.name===slot.name):[];
+   if(reference.length!==1||reference[0].weight!==amount)
+    amount=null; // Source missing or changed: never assert this numeric item weight.
+  }
   if(amount===null)unknowns.push({slot:LOADOUT_ARMOR_SLOTS[i],name:slot.name,
-   reason:'Armor weight has not been provided.'});
+   reason:slot.weightSource==='community'?
+    'Pinned community armor source must be explicitly loaded and matched; this weight is not currently verified.':
+    'Armor weight has not been provided.'});
   else knownWeight+=amount;
   items.push({slot:LOADOUT_ARMOR_SLOTS[i],name:slot.name,weight:amount,
-   provenance:'user-entered'});
+   provenance:slot.weightSource==='community'?'pinned-community-armor-unverified':'user-entered'});
  }
  const exactTotal=unknowns.length?null:Math.round(knownWeight*1000)/1000;
  let tier=null;
