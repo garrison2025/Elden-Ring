@@ -45,6 +45,15 @@
    <option value="standard-two">Meets with standard 2H assumption*</option>
   </select>
  </label>
+ <label class="field">Source data availability
+  <select id="catalog-quality">
+   <option value="all">All source records</option>
+   <option value="complete">+0, requirements and weight reported; no flagged conflicts</option>
+   <option value="partial">Missing any field or source disputed</option>
+   <option value="conflict">Source-disputed fields only</option>
+   <option value="source-only">72 research-only +0 previews</option>
+  </select>
+ </label>
  <label class="field">Base damage component
   <select id="catalog-damage-filter">
    <option value="any">Any damage type</option><option value="physical">Physical</option>
@@ -56,6 +65,8 @@
   <input type="number" id="catalog-max-weight" min="0" max="200" step="0.5" placeholder="No limit">
  </label>
 </div>
+<p id="catalog-quality-summary" class="note" role="status" aria-live="polite">Checking bundled source-field availability…</p>
+<p class="note">“Complete” means +0 base attack, minimum requirements and individual weapon weight are present without a flagged catalog source conflict. It does <strong>not</strong> mean verified against the current game or cleared for third-party redistribution. “Partial” includes unknown and disputed fields; the research-only 72-item preview is not used to fill original catalog numbers.</p>
 <p class="note">* Two-hand filter uses a conservative ordinary melee Strength assumption, not a guarantee for paired/special grips. Requirement-shortfall sorting puts records with unknown requirements last and uses the source-reported one-handed rule. Damage and weight filters exclude records with unknown values; the 102 sourced Shadow of the Erdtree and 8 sourced Tarnished Pack +0 references are published, but the seven disputed attack rows are excluded from numerical damage filtering but are NOT confirmed for the current regulation and cannot calculate AR. Base damage types do not imply final AR or actual damage.</p>
 <div class="workbench-actions"><button type="button" id="catalog-clear-filters" class="btn alt">Clear all filters</button></div>
 <p id="catalog-results" class="note" role="status">Loading weapon records…</p>
