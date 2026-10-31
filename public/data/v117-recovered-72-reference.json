@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "sourceAudit": "ATTRIBUTED_COMMUNITY_NUMERIC_REFERENCE_NOT_CURRENT_GAME_VERIFIED",
+  "sourceAudit": "TWO_UNVERSIONED_PUBLISHED_SOURCE_CROSSCHECKS_NOT_GAME_VERIFIED",
   "pinnedRoster": "Regulation 1.17",
   "expectedCurrentApp": "1.17.2",
   "expectedCurrentRegulation": "1.17.3",
   "sourceReferenceComparator": "https://www.tarnished.dev/weapon-calculator",
-  "comparatorPatchNote": "tarnished.dev says it added 1.17 data on 2026-08-28; public calculator page did not independently expose directly extractable per-item +0 values in this audit.",
-  "sourceAuthority": "Eldenpedia wiki.gg class/weapon tables for +0 facts; tarnished.app Buckler explicitly conflicting; Almanauts 1.17.3 Visage requirements secondary cross-check.",
+  "comparatorPatchNote": "Tarnished.dev calculator is a separate 1.17 comparison target, and not the tarnished.app per-weapon reference source.",
+  "sourceAuthority": "Eldenpedia wiki.gg +0 reference records crosschecked against 72 distinct Tarnished.app published weapon pages; no current-game screenshot authentication.",
   "extractedAt": "2026-10-31",
   "total": 72,
   "communityFieldCoverage": {
@@ -16,8 +16,8 @@
     "scalingRecords": 72,
     "fullyKnownScalingGrades": 39
   },
-  "unknownScalingGradeCount": 127,
-  "sourceConflictItems": 2,
+  "unknownScalingGradeCount": 126,
+  "sourceConflictItems": 8,
   "independentlyReviewedGameClientScreenshots": 0,
   "gameClientVerified": false,
   "publicationApproved": false,
@@ -69,7 +69,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/albinauric-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          78,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-002",
@@ -118,7 +144,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/ant-s-skull-plate",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          136.8,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 12.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-003",
@@ -167,7 +219,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/bandit-s-curved-sword",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          118,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 5,
+        "scalingGradesAsReported": [
+          "D",
+          "D",
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-004",
@@ -216,7 +294,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/banished-knight-s-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          81,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 6,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-005",
@@ -265,7 +369,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/beast-crest-heater-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-006",
@@ -314,7 +444,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/beastman-s-jar-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          71,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 5,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-007",
@@ -363,7 +519,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/black-leather-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-008",
@@ -412,7 +594,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/blue-crest-heater-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-009",
@@ -461,7 +669,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/blue-gold-kite-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          80,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-010",
@@ -510,7 +744,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/blue-white-wooden-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          72,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-011",
@@ -559,7 +819,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/brass-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          84,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 7,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-012",
@@ -608,7 +894,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/briar-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          98,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 8.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-013",
@@ -654,7 +966,8 @@
         0
       ],
       "disputedFields": [
-        "attackAtPlusZero"
+        "attackAtPlusZero",
+        "scalingAtPlusZero"
       ],
       "sourceStatus": "SOURCE_CONFLICT",
       "gameClientVerified": false,
@@ -671,6 +984,35 @@
         ],
         "sourceGameVersion": "not declared on weapon page",
         "gameClientVerified": false
+      },
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/buckler",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          68,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "scalingGradesAsReported": [
+          "E",
+          "D",
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": [
+          "attackAtPlusZero",
+          "scalingAtPlusZero"
+        ]
       }
     },
     {
@@ -720,7 +1062,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/candletree-wooden-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-015",
@@ -765,11 +1133,41 @@
         0,
         0
       ],
-      "disputedFields": [],
-      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "disputedFields": [
+        "attackAtPlusZero"
+      ],
+      "sourceStatus": "SOURCE_CONFLICT",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/carian-knight-s-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          63,
+          40,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          "D",
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": [
+          "attackAtPlusZero"
+        ]
+      }
     },
     {
       "id": "v117-roster-016",
@@ -818,7 +1216,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/coil-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          92.4,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-017",
@@ -867,7 +1291,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/crossed-tree-towershield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          111,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-018",
@@ -916,7 +1366,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/crucible-hornshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          147.6,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 11.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-019",
@@ -965,7 +1441,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/cuckoo-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          110,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-020",
@@ -1014,7 +1516,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/distinguished-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          112,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 16,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-021",
@@ -1063,7 +1591,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/dragon-towershield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          115,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 16.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-022",
@@ -1108,11 +1662,41 @@
         0,
         0
       ],
-      "disputedFields": [],
-      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "disputedFields": [
+        "attackAtPlusZero"
+      ],
+      "sourceStatus": "SOURCE_CONFLICT",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/dragonclaw-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          118.8,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 13.5,
+        "scalingGradesAsReported": [
+          "D",
+          "E",
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": [
+          "attackAtPlusZero"
+        ]
+      }
     },
     {
       "id": "v117-roster-023",
@@ -1161,7 +1745,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/eclipse-crest-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          110,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-024",
@@ -1210,7 +1820,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/eclipse-crest-heater-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-025",
@@ -1255,11 +1891,41 @@
         12,
         0
       ],
-      "disputedFields": [],
-      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "disputedFields": [
+        "scalingAtPlusZero"
+      ],
+      "sourceStatus": "SOURCE_CONFLICT",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/erdtree-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          120,
+          0,
+          0,
+          0,
+          78
+        ],
+        "weight": 11.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          "D",
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": [
+          "scalingAtPlusZero"
+        ]
+      }
     },
     {
       "id": "v117-roster-026",
@@ -1304,11 +1970,41 @@
         0,
         0
       ],
-      "disputedFields": [],
-      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "disputedFields": [
+        "attackAtPlusZero"
+      ],
+      "sourceStatus": "SOURCE_CONFLICT",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/fingerprint-stone-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          139,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 29,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": [
+          "attackAtPlusZero"
+        ]
+      }
     },
     {
       "id": "v117-roster-027",
@@ -1357,7 +2053,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/flame-crest-wooden-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-028",
@@ -1406,7 +2128,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/gilded-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          115,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 16.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-029",
@@ -1455,7 +2203,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/gilded-iron-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-030",
@@ -1504,7 +2278,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/golden-beast-crest-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          104,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 10.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-031",
@@ -1549,11 +2349,41 @@
         0,
         0
       ],
-      "disputedFields": [],
-      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "disputedFields": [
+        "attackAtPlusZero"
+      ],
+      "sourceStatus": "SOURCE_CONFLICT",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/golden-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          113,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 17,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": [
+          "attackAtPlusZero"
+        ]
+      }
     },
     {
       "id": "v117-roster-032",
@@ -1584,7 +2414,7 @@
           "?"
         ],
         "sourceUrl": "https://eldenring.wiki.gg/wiki/Gravel_Stone_Seal",
-        "fieldLocator": "wiki-individual-weapon-plus-zero-table",
+        "fieldLocator": "wiki-individual-weapon-infobox-plus-zero",
         "sourceGameVersion": "not explicitly pinned to 1.17.3",
         "sourceCheckedDate": "2026-10-31",
         "sourceLineage": "public-community-weapon-table",
@@ -1602,7 +2432,55 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/gravel-stone-seal",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          25,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          "C",
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      },
+      "perWeaponNumericCorroboration": {
+        "sourceUrl": "https://wiki.eso-ui.com/index.php/Elden_Ring%3AGravel_Stone_Seal",
+        "attackAtPlusZero": [
+          25,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "critical": 100,
+        "scalingGrades": [
+          "E",
+          "-",
+          "-",
+          "C",
+          "-"
+        ],
+        "sourceGameVersion": "not stated",
+        "gameClientVerified": false,
+        "publicationApproved": false
+      }
     },
     {
       "id": "v117-roster-033",
@@ -1651,7 +2529,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/great-turtle-shell",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          81,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 5.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-034",
@@ -1700,7 +2604,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/haligtree-crest-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          116,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 17,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-035",
@@ -1749,7 +2679,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/hawk-crest-wooden-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-036",
@@ -1798,7 +2754,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/heater-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-037",
@@ -1847,7 +2829,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/horse-crest-wooden-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-038",
@@ -1896,7 +2904,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/ice-crest-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-039",
@@ -1945,7 +2979,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/icon-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          133.2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 9,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-040",
@@ -1990,11 +3050,41 @@
         20,
         0
       ],
-      "disputedFields": [],
-      "sourceStatus": "SOURCE_REFERENCE_ONLY",
+      "disputedFields": [
+        "scalingAtPlusZero"
+      ],
+      "sourceStatus": "SOURCE_CONFLICT",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/inseparable-sword",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          98,
+          0,
+          0,
+          0,
+          98
+        ],
+        "weight": 10,
+        "scalingGradesAsReported": [
+          "D",
+          "D",
+          null,
+          "D",
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": [
+          "scalingAtPlusZero"
+        ]
+      }
     },
     {
       "id": "v117-roster-041",
@@ -2043,7 +3133,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/inverted-hawk-heater-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-042",
@@ -2092,7 +3208,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/inverted-hawk-towershield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          111,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-043",
@@ -2141,7 +3283,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/iron-roundshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-044",
@@ -2190,7 +3358,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/jellyfish-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          123.6,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 8,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-045",
@@ -2239,7 +3433,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/kite-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          78,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-046",
@@ -2288,7 +3508,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/large-leather-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-047",
@@ -2337,7 +3583,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/lordsworn-s-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          99,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 9,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-048",
@@ -2386,7 +3658,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/man-serpent-s-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-049",
@@ -2435,7 +3733,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/manor-towershield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          111,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 15.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-050",
@@ -2484,7 +3808,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/marred-leather-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-051",
@@ -2533,7 +3883,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/marred-wooden-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-052",
@@ -2582,7 +3958,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/one-eyed-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          175.2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 20.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-053",
@@ -2606,7 +4008,7 @@
         "weight": 1.5,
         "critical": 100,
         "scalingAtPlusZero": [
-          "?",
+          "E",
           "?",
           "?",
           "?",
@@ -2631,7 +4033,43 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/perfumer-s-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          67,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      },
+      "provisionalScalingGradeCitations": [
+        {
+          "attribute": "STR",
+          "grade": "E",
+          "sourceUrl": "https://tarnished.app/weapons/perfumer-s-shield",
+          "fieldMeaning": "tarnished.app base weapon scaling row",
+          "sourceVersion": "unversioned source",
+          "gameClientVerified": false
+        }
+      ]
     },
     {
       "id": "v117-roster-054",
@@ -2680,7 +4118,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/pillory-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          71,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-055",
@@ -2729,7 +4193,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/red-crest-heater-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-056",
@@ -2778,7 +4268,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/red-thorn-roundshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-057",
@@ -2827,7 +4343,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/redmane-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          108,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 14,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-058",
@@ -2876,7 +4418,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/rickety-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-059",
@@ -2925,7 +4493,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/rift-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-060",
@@ -2974,7 +4568,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/riveted-wooden-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          72,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-061",
@@ -3023,7 +4643,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/round-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-062",
@@ -3072,7 +4718,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/scorpion-kite-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          78,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-063",
@@ -3121,7 +4793,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/scripture-wooden-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 1.5,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-064",
@@ -3170,7 +4868,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/shield-of-the-guilty",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-065",
@@ -3219,7 +4943,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/silver-mirrorshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          70.8,
+          45.6,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          "D",
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-066",
@@ -3268,7 +5018,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/smoldering-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          58,
+          0,
+          37,
+          0,
+          0
+        ],
+        "weight": 3,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          "D",
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-067",
@@ -3317,7 +5093,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/spiked-palisade-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          116,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 9.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-068",
@@ -3366,7 +5168,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/spiralhorn-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 2,
+        "scalingGradesAsReported": [
+          "E",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-069",
@@ -3415,7 +5243,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/sun-realm-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 3.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-070",
@@ -3464,7 +5318,33 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/twinbird-kite-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          78,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 4.5,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     },
     {
       "id": "v117-roster-071",
@@ -3527,6 +5407,32 @@
         ],
         "sourceGameVersion": "Regulation 1.17.3 (published secondary param table)",
         "gameClientVerified": false
+      },
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/visage-shield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          186,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 24,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
       }
     },
     {
@@ -3576,7 +5482,37 @@
       "sourceStatus": "SOURCE_REFERENCE_ONLY",
       "gameClientVerified": false,
       "reviewStatus": "UNREVIEWED",
-      "publicationApproved": false
+      "publicationApproved": false,
+      "crosscheck": {
+        "sourceName": "tarnished.app (not tarnished.dev)",
+        "sourceUrl": "https://tarnished.app/weapons/wooden-greatshield",
+        "sourceGameVersion": "not stated on this weapon page",
+        "observedDate": "2026-10-31",
+        "meaning": "Source-displayed Base values; fractions/rounding possible. Not a game-menu +0 certification.",
+        "attackAtPlusZero": [
+          95,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weight": 8,
+        "scalingGradesAsReported": [
+          "D",
+          null,
+          null,
+          null,
+          null
+        ],
+        "omittedScalingNotProvenAbsent": true,
+        "gameClientVerified": false,
+        "publicationApproved": false,
+        "fieldDisagreements": []
+      }
     }
-  ]
+  ],
+  "attackConflictCount": 5,
+  "scalingConflictCount": 3,
+  "requirementConflictCount": 1,
+  "crosscheckCoverageCount": 72
 }
