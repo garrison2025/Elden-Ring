@@ -517,6 +517,50 @@ try{
  assert.ok(conflictStatus.sourceLinks>=15,'Seven per-weapon source links must be rendered');
  assert.equal(conflictStatus.explicitDisclaimer,true);
 
+ // End-to-end local seven-conflict compact-file probe: a synthetic browser
+ // fixture must compare all 7 without claiming game file or screenshot proof.
+ await waitFor("document.querySelector('#reg-seven-run')?.disabled===false",
+  'Local seven-conflict file comparator worker ready');
+ await evaluate(`(async()=>{
+  const [cat,ledger]=await Promise.all([
+   fetch('../data/community-weapon-catalog.json').then(x=>x.json()),
+   fetch('../data/weapon-conflict-evidence.json').then(x=>x.json())
+  ]);
+  const names=new Map(cat.weapons.map(w=>[w.id,w.name]));
+  const root={weapons:ledger.cases.map(x=>({
+   name:names.get(x.id),affinityId:0,reinforceTypeId:1,
+   attack:x.field==='baseAttack'?x.pinned.map((v,i)=>[i,v]).filter(p=>p[1]>0):[[0,10]],
+   requirements:x.field==='requirements'?
+    Object.fromEntries(['str','dex','int','fai','arc'].map((k,i)=>[k,x.pinned[i]])):
+    {str:10}
+  })),reinforceTypes:{1:[{attack:{0:1,1:1,2:1,3:1,4:1}}]}};
+  const transfer=new DataTransfer();
+  transfer.items.add(new File([JSON.stringify(root)],'fixture-SYNTHETIC.json',{type:'application/json'}));
+  document.querySelector('#reg-seven-file').files=transfer.files;
+  document.querySelector('#reg-seven-app').value='1.17.2';
+  document.querySelector('#reg-seven-regulation').value='1.17.3';
+  document.querySelector('#reg-seven-source').value='SYNTHETIC browser test, NOT actual game data';
+  document.querySelector('#reg-seven-run').click();
+ })()`);
+ await waitFor("document.querySelector('#reg-seven-results')?.hidden===false",
+  'Synthetic seven-weapon compact file comparison completed in isolated browser worker');
+ const localProbe=await evaluate(`(()=>{
+  const root=document.querySelector('#reg-seven-results');
+  return {rows:root.querySelectorAll('tbody tr').length,
+   pinned:document.querySelector('#reg-seven-summary').textContent.includes('7 match pinned 1.17'),
+   unreviewed:document.querySelector('#reg-seven-version').textContent.includes('Game verified: NO'),
+   noUpload:document.querySelector('#reg-seven-audit').textContent.includes('No upload'),
+   downloadable:document.querySelector('#reg-seven-download').disabled===false};
+ })()`);
+ assert.equal(localProbe.rows,7);
+ assert.equal(localProbe.pinned,true);
+ assert.equal(localProbe.unreviewed,true);
+ assert.equal(localProbe.noUpload,true);
+ assert.equal(localProbe.downloadable,true);
+ await evaluate("document.querySelector('#reg-seven-clear').click()");
+ assert.equal(await evaluate("document.querySelector('#reg-seven-results').hidden"),true);
+ assert.equal(await evaluate("document.querySelector('#reg-seven-file').files.length"),0);
+
  // Synthetic FILE HANDLING smoke only (not real gameplay evidence). The
  // fingerprint library reads local PNG-like bytes, never image uploads.
  await waitFor("document.querySelector('#conflict-capture-case')?.disabled===false",

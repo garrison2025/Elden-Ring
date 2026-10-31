@@ -391,5 +391,18 @@
     "independentGameClientScreenshots": 0,
     "gameClientVerified": false,
     "conclusion": "All six unversioned third-party +0 public Base rows agree with pinned Regulation 1.17, not with previous community +0 rows. Historical conflicts remain unresolved for game-client certification."
+  },
+  "trackedPatchContinuity": {
+    "referenceScope": "third-party-version-difference-tracker-not-original-game-client",
+    "trackerUrl": "https://almanauts.com/eldenring/patches/",
+    "targetPatchUrl": "https://almanauts.com/eldenring/patches/1-17-3/",
+    "fromV117ToV1171": "184-regulation-parameter-tables-hash-identical",
+    "fromV1171ToV1173": "no-changes-to-tracked-headline-numeric-fields",
+    "exceptionScope": "projectile-bullet-and-player-animation-tables-changed",
+    "validatesSixWeaponAttackVectorsIndividually": false,
+    "versionedPrimaryParameterDumpObtained": false,
+    "gameClientVerified": false,
+    "independentReviewerApproved": false,
+    "note": "The tracker describes patch evolution and constrained tracked numeric fields; it cannot certify individual +0 weapon values or authenticate a separately supplied JSON."
   }
 }

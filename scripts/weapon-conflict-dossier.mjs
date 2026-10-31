@@ -38,6 +38,16 @@ export function validateConflictEvidence(catalog,ledger){
   ledger.verification?.publicationApproved!==false||
   ledger.verification?.acceptedCurrentGameScreenshots!==0||
   ledger.verification?.reviewStatus!=='UNREVIEWED'||
+  ledger.trackedPatchContinuity?.trackerUrl!=='https://almanauts.com/eldenring/patches/'||
+  ledger.trackedPatchContinuity?.targetPatchUrl!=='https://almanauts.com/eldenring/patches/1-17-3/'||
+  ledger.trackedPatchContinuity?.referenceScope!=='third-party-version-difference-tracker-not-original-game-client'||
+  ledger.trackedPatchContinuity?.fromV117ToV1171!=='184-regulation-parameter-tables-hash-identical'||
+  ledger.trackedPatchContinuity?.fromV1171ToV1173!=='no-changes-to-tracked-headline-numeric-fields'||
+  ledger.trackedPatchContinuity?.exceptionScope!=='projectile-bullet-and-player-animation-tables-changed'||
+  ledger.trackedPatchContinuity?.validatesSixWeaponAttackVectorsIndividually!==false||
+  ledger.trackedPatchContinuity?.versionedPrimaryParameterDumpObtained!==false||
+  ledger.trackedPatchContinuity?.gameClientVerified!==false||
+  ledger.trackedPatchContinuity?.independentReviewerApproved!==false||
   ledger.thirdPartyBaseCrosscheck?.schemaVersion!==1||
   ledger.thirdPartyBaseCrosscheck?.scope!=='six-uninfused-plus-zero-attack-disputes'||
   ledger.thirdPartyBaseCrosscheck?.corroboratedPinnedSourceCount!==6||
@@ -154,6 +164,12 @@ export function validateConflictEvidence(catalog,ledger){
  return {status:ledger.status,reviewDate:ledger.checkedDate,
   app:ledger.requiredGameVersion.app,regulation:ledger.requiredGameVersion.regulation,
   pinnedSourceUrl:ledger.pinnedSourceUrl,officialPatchUrl:ledger.officialPatchUrl,
+  trackedPatchContinuity:{
+   trackerUrl:ledger.trackedPatchContinuity.trackerUrl,
+   targetPatchUrl:ledger.trackedPatchContinuity.targetPatchUrl,
+   trackedHeadlineChanged:false,completeRegulationBinaryIdenticalNotProven:true,
+   gameClientVerified:false
+  },
   entries:entries.sort((a,b)=>a.priority-b.priority||a.name.localeCompare(b.name)),
   currentPatchCorroborationCount:entries.filter(x=>x.currentPatchCorroboration).length,
   unversionedBaseCorroborationCount:entries.filter(x=>x.thirdPartyBasePlusZero).length,
@@ -202,6 +218,13 @@ export function conflictDossierHtml(data){
   '<th scope="col">Different components</th><th scope="col">Source links</th>'+
   '<th scope="col">Review status</th></tr></thead><tbody>'+
   rows+'</tbody></table></div>'+
+  '<p><strong>Tracked version continuity (not weapon-menu certification):</strong> '+
+  '<a href="'+esc(data.trackedPatchContinuity.trackerUrl)+'" rel="noopener noreferrer">1.17 → 1.17.1</a> '+
+  'had 184 hash-identical parameter tables; '+
+  '<a href="'+esc(data.trackedPatchContinuity.targetPatchUrl)+'" rel="noopener noreferrer">1.17.1 → 1.17.3</a> '+
+  'had no tracked headline numeric changes, while some projectile and animation tables changed. '+
+  'The complete 1.17.3 regulation binary is <strong>not asserted identical</strong>, nor are '+
+  'the six exact weapon +0 vectors independently verified by that patch comparison.</p>'+
   '<p><strong>Unversioned third-source +0 checks: '+esc(data.unversionedBaseCorroborationCount)+
   ' of 6 published base-attack disputes match the pinned Regulation 1.17 vector.</strong> '+
   'This favors the pinned source as a <em>provisional published-data candidate</em> '+
