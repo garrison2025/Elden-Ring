@@ -101,6 +101,19 @@ const mode=process.env.TARNISHED_REQUIREMENT_TARGET;
 const targeted=mode==='ar-gap'||mode==='high-gap'||mode==='alt-origin';
 const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):getRequirementsShard(index);
 const reqPattern=/(?:^|\n)Req:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/;
+async function chooseVisibleStartingClass(name){
+ const trigger=document.querySelector('#startingclass .p-dropdown-trigger');
+ if(!trigger)return {status:'NO_CLASS_TRIGGER'};
+ trigger.click();
+ await new Promise(r=>setTimeout(r,200));
+ const option=[...document.querySelectorAll('[role="option"]')].find(x=>
+  (x.textContent||'').trim()===name);
+ if(!option)return {status:'ORIGIN_OPTION_MISSING',name};
+ option.click();
+ await new Promise(r=>setTimeout(r,180));
+ return {status:'VISIBLE_ORIGIN_CLICKED',name,
+  selected:document.querySelector('#startingclass .p-dropdown-label')?.textContent?.trim()};
+}
 async function run(){
  profile=await mkdtemp(join(tmpdir(),'tarnished-v117-public-req-'));
  browser=spawn(chrome,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
