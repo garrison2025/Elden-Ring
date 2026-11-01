@@ -18,3 +18,12 @@
 .armor-full-panel .armor-slot-grid .field{max-width:100%;margin:8px 0}
 .armor-full-panel .armor-slot-grid select{display:block;width:100%;margin-top:8px}
 @media(max-width:600px){.armor-full-panel .armor-slot-grid{grid-template-columns:minmax(0,1fr)}}
+
+.armor-full-panel .armor-weighted-panel{padding:14px 16px;border:1px solid #516b5e;border-radius:13px;margin:15px 0}
+.armor-full-panel .armor-weighted-panel summary{cursor:pointer;font-weight:650}
+.armor-full-panel .armor-weighted-panel[hidden]{display:none!important}
+.armor-full-panel .armor-weighted-row{display:grid;grid-template-columns:minmax(120px,1.4fr) repeat(3,minmax(80px,1fr));gap:10px;align-items:end;border-bottom:1px solid #42544e;padding:10px 0}
+.armor-full-panel .armor-weighted-field{display:grid;gap:4px;font-size:12px}
+.armor-full-panel .armor-weighted-field input{min-width:0;width:100%;margin:0}
+.armor-full-panel .armor-weighted-name{font-weight:550;font-size:13px;padding-bottom:9px}
+@media(max-width:600px){.armor-full-panel .armor-weighted-row{grid-template-columns:repeat(3,minmax(0,1fr))}.armor-full-panel .armor-weighted-name{grid-column:1/-1;padding-bottom:0}}
