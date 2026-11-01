@@ -25,7 +25,10 @@ test('actual Tarnished.dev 17 separate double-Chromium samples match the general
  assert.equal(golden.real_browser_run,41362826940);
  const observed=[...golden.rows].sort((a,b)=>a.int-b.int);
  assert.equal(observed.length,17);
- assert.deepEqual(V117_PEBBLE_STAFF_ROWS.map(x=>x.int),observed.map(x=>x.int));
+ assert.equal(V117_PEBBLE_STAFF_ROWS.length,18);
+ assert.deepEqual(V117_PEBBLE_STAFF_ROWS.filter(x=>x.int>=25).map(x=>x.int),observed.map(x=>x.int));
+ assert.equal(V117_PEBBLE_STAFF_ROWS[0].int,20);
+ assert.equal(calculatePinnedV117PebbleMagic(modelFixture,{intelligence:20}).damage,219);
  for(const row of observed){
   const r=calculatePinnedV117PebbleMagic(modelFixture,{intelligence:row.int});
   assert.equal(r.sourceMathDamage,row.realTarnished,'INT '+row.int);
