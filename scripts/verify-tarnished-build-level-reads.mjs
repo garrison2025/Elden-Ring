@@ -10,8 +10,6 @@ const paths = [
 const [first, second] = paths.map(path => JSON.parse(readFileSync(path, 'utf8')));
 const errors = [];
 const expectedCount = 20;
-const runs = [first, second];
-
 function validateRun(data, index) {
   if (data.site !== 'Tarnished.dev public v1.17') errors.push(`read ${index}: site marker mismatch`);
   if (!Array.isArray(data.samples) || data.samples.length !== expectedCount) {
@@ -20,7 +18,7 @@ function validateRun(data, index) {
   }
   const out = new Map();
   for (const sample of data.samples) {
-    if (!/^level-\\d{2}$/.test(sample.id) || out.has(sample.id)) {
+    if (!/^level-\d{2}$/.test(sample.id) || out.has(sample.id)) {
       errors.push(`read ${index}: duplicate/invalid sample id ${sample.id}`);
       continue;
     }
