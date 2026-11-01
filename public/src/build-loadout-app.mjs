@@ -5,6 +5,7 @@ import {
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {loadPinnedArmorSource,findExactArmor} from './armor-source-optin.mjs';
 import {summarizeEquippedArmorMetrics} from './build-armor-metrics.mjs';
+import {previewDirectV117ArmorAttributeEffect} from './build-verified-armor-attribute-effect.mjs';
 const byId=id=>document.getElementById(id);
 const status=(message,error=false)=>{
  const el=byId('build-loadout-status');el.textContent=message;el.dataset.state=error?'error':'ready';
@@ -121,6 +122,21 @@ function render(){
      'from rounded community fields; poise and resistance points add. '+
      'Not a separate Tarnished.dev v1.17 same-input numeric validation.'},panel);
    }
+  }
+  // Only the independently twice-observed Circlet of Light +INT/FAI/ARC effect.
+  // NEVER feed these isolated preview stats into level, AR, spell or defense
+  // math until those combined scenarios have real-site evidence.
+  const effect=previewDirectV117ArmorAttributeEffect(topStats(),evaluated.state,armorReference?.armors??null);
+  if(effect.status!=='no-proven-effect'){
+   const box=make('section',{className:'build-armor-metric-panel',
+    id:'build-direct-effect-result'},result);
+   make('h3',{text:'Directly checked armor attribute effect · v1.17'},box);
+   if(effect.preview){
+    make('p',{text:'Base -> standalone item effect: '+
+     ['VIG','MND','END','STR','DEX','INT','FAI','ARC'].map((k,i)=>
+      k+' '+topStats()[i]+' → '+effect.preview[i]).join(' · ')},box);
+   }
+   make('p',{text:effect.status+': '+effect.note},box);
   }
   const opts=contentOpts();
   const selected=state().weaponSlots.filter(x=>x.id);

@@ -24,5 +24,6 @@ export const DIRECT_V117_CIRCLET_OF_LIGHT=Object.freeze({
   poise:'Tarnished.dev v1.17 Build Planner, two independent browser reads; run 41280906636'
  }),
  dlc:true,
+ directlyObservedAttributeChanges:Object.freeze({int:1,fai:1,arc:1}),
  effectNotModeled:'Equipping changes INT, FAI, ARC by +1 each; derived spell and defense/effect stacking not modeled.'
 });
