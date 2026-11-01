@@ -43,7 +43,7 @@ test('future +0 source conflict also blocks a previously published +1..+10 refer
  assert.deepEqual(reportedBaseDamageParts(disputed),reportedBaseDamageParts(sword));
 });
 
-test('future disputed weight cannot become a complete equipment total or roll tier, even after user checks confirmation',()=>{
+test('future community source conflict stays unknown in legacy planning but direct public v1.17 weight remains separately labelled',()=>{
  const normal=find('Uchigatana'),milady=find('Milady');
  const disputed={...milady,flags:[...(milady.flags??[]),sourceConflict]};
  const weights=[normal,disputed];
@@ -61,7 +61,8 @@ test('future disputed weight cannot become a complete equipment total or roll ti
  assert.match(result.caution,/SOURCE CONFLICT/);
  assert.match(result.unknown[0],/source conflict/);
  const plan=inspectBuildWeapon(weights,disputed.id,[40,20,25,20,20,20,20,20],{allowSote:true});
- assert.equal(plan.weight,null);
+ assert.equal(plan.weight,6.5);
+ assert.equal(plan.weightProvenance,'tarnished-dev-v1.17-direct-ui');
  assert.equal(plan.weightDisputed,true);
  assert.equal(plan.reportedWeight,milady.weight);
  assert.match(plan.note,/weight DISPUTED/);

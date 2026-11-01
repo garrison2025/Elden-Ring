@@ -38,7 +38,8 @@ test('all equipped weight is exact only if every selected item has a permitted s
  assert.equal(complete.exactTotal,partial.knownWeight+7);
  assert.equal(complete.tier.tier,'Medium');
  assert.equal(complete.items.length,4);
- assert.equal(complete.items.filter(x=>x.provenance==='community-source-unverified').length,2);
+ assert.equal(complete.items.filter(x=>x.provenance==='community-source-unverified').length,0);
+ assert.equal(complete.items.filter(x=>x.provenance==='tarnished-dev-v1.17-direct-ui').length,2);
 });
 test('five direct competitor v1.17 weights supersede unknown primary records with explicit provenance',()=>{
  const state=emptyBuildLoadout();
