@@ -16,6 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         kind: [talisman, rune, physick]
+        pass: [1, 2]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,12 +25,13 @@ jobs:
       - name: Select actual item and compare exact unbuffed Wretch fields
         env:
           V117_EFFECT_KIND: ${{ matrix.kind }}
+          V117_EFFECT_PASS: ${{ matrix.pass }}
         run: node scripts/probe-tarnished-build-effects-v117.mjs
       - name: Retain UI evidence even if selection fails
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: isolated-v117-build-effect-${{ matrix.kind }}
-          path: .audit/v117-build-effect-${{ matrix.kind }}.json
+          name: isolated-v117-build-effect-${{ matrix.kind }}-pass-${{ matrix.pass }}
+          path: .audit/v117-build-effect-${{ matrix.kind }}-pass-${{ matrix.pass }}.json
           retention-days: 30
           if-no-files-found: warn
