@@ -95,12 +95,12 @@ function snapshot(){
   firstText:text.slice(0,2300),textLength:text.length};
 }
 
-import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard,getAltOriginRequirementShard,getSteelOriginRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
+import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard,getAltOriginRequirementShard,getSteelOriginRequirementShard,getGreatEpeeRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
 const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
 const mode=process.env.TARNISHED_REQUIREMENT_TARGET;
 const originMode=mode==='alt-origin'||mode==='steel-origin';
-const targeted=mode==='ar-gap'||mode==='high-gap'||originMode;
-const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):mode==='steel-origin'?getSteelOriginRequirementShard(index):getRequirementsShard(index);
+const targeted=mode==='ar-gap'||mode==='high-gap'||originMode||mode==='great-epee';
+const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):mode==='steel-origin'?getSteelOriginRequirementShard(index):mode==='great-epee'?getGreatEpeeRequirementShard(index):getRequirementsShard(index);
 const reqPattern=/(?:^|\n)Req:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/;
 async function chooseVisibleStartingClass(name){
  const trigger=document.querySelector('#startingclass .p-dropdown-trigger');
