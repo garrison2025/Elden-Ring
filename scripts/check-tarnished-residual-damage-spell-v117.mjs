@@ -33,6 +33,37 @@ for(let index=0;index<3;index++){
    sourceTimes:2,localSameInputNumericParity:'NOT_ESTABLISHED_BY_THIS_READ'});
  }
 }
+
+const buildReads=[];
+for(let pass=1;pass<=2;pass++){
+ try{buildReads.push(JSON.parse(await readFile(resolve('.audit/tarnished-residual-build-weapon-ar-pass-'+pass+'.json'),'utf8')))}
+ catch(error){result.errors.push('Missing direct Build Planner AR Chrome pass '+pass+': '+error.message)}
+}
+if(buildReads.length===2){
+ result.crossPageAr=[];
+ const observed=[];
+ for(let index=0;index<3;index++){
+  const source=buildReads.map(x=>x.rows.find(row=>row.id===
+   ['uchigatana-15-20','uchigatana-20-20','uchigatana-15-25'][index]));
+  if(source.some(x=>!x?.verifiedInputs||!Number.isInteger(x.publicAr))||
+     source[0].publicAr!==source[1].publicAr)
+   result.errors.push('Independent Build AR reads do not match/activate for '+index);
+  const damage=result.profiles.find(x=>x.index===index&&x.module==='damage');
+  const tail=damage?.referenceText??'';
+  const match=/Uchigatana Katana Standard 5 (\d+) 0 0 0 0 (\d+) (\d+) (\d+)/.exec(tail);
+  if(!match||Number(match[1])!==Number(match[2])){
+   result.errors.push('Could not independently read exact Damage table AR '+index);
+   continue;
+  }
+  const siteDamageAr=Number(match[1]);
+  const siteBuildAr=source[0]?.publicAr;
+  const status=siteDamageAr===siteBuildAr?'CROSS_PAGE_MATCH':'REFERENCE_CROSS_PAGE_MISMATCH';
+  observed.push({index,inputs:damage.inputs,siteDamageAr,siteBuildAr,delta:siteDamageAr-siteBuildAr,status,
+   independentPassesPerPage:2});
+ }
+ result.crossPageAr=observed;
+ if(observed.length!==3)result.errors.push('Missing a complete 3-row cross-page AR comparison');
+}
 await mkdir(resolve('.audit'),{recursive:true});
 await writeFile(resolve('.audit/residual-damage-spell-source-comparison.json'),JSON.stringify(result,null,2)+'\n');
 const summary=[
@@ -44,7 +75,14 @@ const summary=[
  '|---|---|---|---|---|',
  ...result.profiles.map(p=>'| '+p.module+' | '+p.index+' | '+p.status+' | '+p.sourceTimes+' | NOT YET SITE-PARITY CERTIFIED |'),
  '',
- 'Problems: '+(result.errors.length?result.errors.join('; '):'none detected in reference read'),
+ '## Same-input Tarnished.dev Build Planner versus Tarnished.dev Damage Calculator',
+ '| STR / DEX | Build Planner AR | Damage Calculator AR | Result |',
+ '|---|---:|---:|---|',
+ ...(result.crossPageAr||[]).map(p=>'| '+p.inputs.strength+' / '+p.inputs.dexterity+' | '+p.siteBuildAr+' | '+p.siteDamageAr+' | '+p.status+' |'),
+ '',
+ '**These are two calculators on the SAME reference site.** A mismatch is a recorded reference-internal disagreement, not a local engine mismatch or a passing cross-page parity result.',
+ '',
+ 'Problems: '+(result.errors.length?result.errors.join('; '):'none detected in independent source reads'),
  '',
  'To certify a numeric value, an independent local algorithm with identical effective inputs, not these frozen source outputs alone, must match.',
  'Evidence: GitHub Actions raw `.audit/tarnished-residual-damage-spell-*-pass-*.json` artifacts.'
