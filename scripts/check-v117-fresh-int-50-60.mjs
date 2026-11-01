@@ -8,6 +8,7 @@ import {resolve} from 'node:path';
 import {downloadV117Source} from '../public/src/upstream-regulation-v117.mjs';
 import {calculatePinnedV117PebbleMagic} from '../public/src/v117-spell-scaling-engine.mjs';
 const source=JSON.parse((await downloadV117Source(fetch)).text);
+const frozen=JSON.parse(await readFile(new URL('./tarnished-v117-pebble-int-50-60-fresh-browser-goldens.json',import.meta.url),'utf8'));
 let failed=false;
 const output=[];
 for(const [caseId,intelligence] of [[3,50],[4,60]]){
@@ -30,4 +31,7 @@ for(const [caseId,intelligence] of [[3,50],[4,60]]){
  if(!matched)failed=true;
 }
 console.log('[EXTENDED SAME-INPUT LIVE SPELL COMPARE] '+JSON.stringify(output));
-if(failed)throw Error('At least one NEW real Tarnished v1.17 spell scene disagrees with independent source model; do not certify general spell scaling.');
+if(failed)throw Error('New real-site source or model results changed: manual mismatch review required.');
+if(output.some(x=>!x.matched)){
+ console.log('[SPELL PARITY NOT COMPLETE] A genuine one-point real-site mismatch remains. This audit only confirms that it is not hidden; do NOT mark generic scaling fully matched.');
+}
