@@ -46,7 +46,7 @@ test('real public v1.17 excludes second Radagon Scarseal+Soreseal, so two-item r
  assert.equal(view(base,input).status,'source-exclusivity-observed');
  const o=evaluateBuildLoadout(input,{weapons:[]});
  assert.equal(o.exactTotal,null);
- assert.ok(o.unknowns.some(x=>x.slot==='Talisman mutual restriction'));
+ assert.ok(o.unknowns.some(x=>x.slot==='Talisman compatibility'));
  assert.match(o.warnings.join(' '),/did not retain/);
 });
 test('reversed ordering, mixed Wretch attributes, other equipment and different origins do not borrow source-exact combo goldens',()=>{
