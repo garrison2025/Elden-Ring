@@ -5,6 +5,7 @@
  * The input talisman ORDER must also match the public reference UI proof.
  */
 import {validateBuildLoadout} from './build-loadout.mjs';
+import {V117_DIRECT_SELECTOR_EXCLUSIONS as SELECTOR_REJECTIONS} from './v117-talisman-selector-exclusions-direct.mjs';
 import {V117_EXACT_TALISMAN_COMBOS as EXACT,
  V117_REFERENCE_REJECTED_TALISMAN_COMBOS as REJECTED} from './v117-talisman-combos-direct.mjs';
 const matches=(a,b)=>a.length===b.length&&a.every((x,i)=>x===b[i]);
@@ -25,6 +26,15 @@ export function previewV117ExactTalismanCombination(stats,loadout,{origin='Wretc
  const rejection=REJECTED.find(x=>matches(x.names,names));
  if(rejection)return{status:'source-exclusivity-observed',observation:rejection,
    note:'The second Radagon seal was clicked on the real v1.17 multi-select, but it did NOT remain selected. Only Radagon Scarseal persisted. Do not add effects or assert an equipped 1.6 weight for these two items.'};
+ const selectorEvidence=SELECTOR_REJECTIONS.find(x=>matches(x.names,names));
+ if(selectorEvidence)return{
+  status:selectorEvidence.selectorOutcome==='NONE_SELECTED'?
+    'source-duplicate-toggle-observed':'source-exclusivity-observed',
+  observation:selectorEvidence,
+  note:selectorEvidence.selectorOutcome==='NONE_SELECTED'?
+   'Twice clicking the same selector option deselected it in two fresh reference-site browser sessions. This is a UI selection observation, not an effect multiplier or equipped double-count.':
+   'The real public v1.17 multiselect did not retain the second explicitly requested talisman; two independent fresh browsers matched. Do not add effects or claim their summed equipped weight.'
+ };
  const proof=EXACT.find(x=>matches(x.names,names));
  if(!proof)return{status:'combination-not-directly-verified',observation:null,
   note:'No identical actual v1.17 multiple-talisman scenario and selection order was independently observed; no HP/negation/stamina/defense stacking is inferred.'};
