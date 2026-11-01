@@ -11,3 +11,10 @@
 .armor-full-panel #armor-full-status[data-state=error]{color:#ffbca5}
 .armor-full-panel #armor-full-results[hidden]{display:none!important}
 @media(max-width:520px){.armor-full-panel{padding:15px}.armor-full-panel>.btn{width:100%}.armor-full-panel .table-wrap{overflow-x:auto;max-width:100%}}
+
+.armor-full-panel .armor-slot-controls{margin:18px 0;padding:16px;border:1px solid #516b5e;border-radius:12px}
+.armor-full-panel .armor-slot-controls h3{margin:0 0 8px;font-size:19px}
+.armor-full-panel .armor-slot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px}
+.armor-full-panel .armor-slot-grid .field{max-width:100%;margin:8px 0}
+.armor-full-panel .armor-slot-grid select{display:block;width:100%;margin-top:8px}
+@media(max-width:600px){.armor-full-panel .armor-slot-grid{grid-template-columns:minmax(0,1fr)}}

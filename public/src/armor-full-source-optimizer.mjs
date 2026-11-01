@@ -4,6 +4,7 @@
  * gameplay without independently validated source inputs.
  */
 import {loadTier} from './core.mjs';
+import {restrictedArmorGroups} from './armor-slot-restrictions.mjs';
 export const ARMOR_OPT_SLOTS=Object.freeze(['Head','Chest','Arms','Legs']);
 const fail=msg=>{throw new RangeError(msg)};
 const decimal=(v,label,lower,upper)=>{
@@ -17,7 +18,8 @@ const decimal=(v,label,lower,upper)=>{
 const weightUnits=x=>Math.round(x*1000);
 const key=rows=>rows.map(x=>x?.id??'').join('|');
 export function optimizePinnedArmorPoise(rows,{
- maxEquipLoad,reservedWeight=0,tier='medium',minPoise=0,excludedIds=[]
+ maxEquipLoad,reservedWeight=0,tier='medium',minPoise=0,excludedIds=[],
+ lockedIds={},disabledSlots=[]
 }={}){
  if(!Array.isArray(rows)||rows.length<1||rows.length>2000)
   fail('A valid loaded public armor source is required.');
@@ -46,6 +48,8 @@ export function optimizePinnedArmorPoise(rows,{
   }
   groups[item.slot].push(item);
  }
+ const slotGroups=restrictedArmorGroups(
+  Object.values(groups).flat(),rows,{lockedIds,disabledSlots,excludedIds});
  const factor=tier==='light'?0.3:tier==='medium'?0.7:1;
  const maxArmorUnits=Math.ceil((max*factor-reserved)*1000-1e-9)-1;
  if(maxArmorUnits<0)return {
@@ -56,7 +60,7 @@ export function optimizePinnedArmorPoise(rows,{
  let states=new Map([[0,{poise:0,pieces:[]}]]);
  const stages=[];
  for(const slot of ARMOR_OPT_SLOTS){
-  const options=[null,...groups[slot].sort((a,b)=>a.id.localeCompare(b.id))];
+  const options=slotGroups[slot];
   const next=new Map();
   for(const [used,state] of states){
    for(const item of options){
