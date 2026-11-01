@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "evidenceTier": "PINNED_COMMUNITY_SOURCE_ONLY",
+  "sourceRepo": "deliton/eldenring-api",
+  "sourceCommit": "3d9cefcfcda7066796b9553825449039c2073926",
+  "checkedAt": "2026-11-01T04:09:40.069Z",
+  "counts": {
+    "sorceries": {
+      "records": 71,
+      "uniqueIds": 71,
+      "nonblankNames": 71,
+      "duplicateNames": 0
+    },
+    "incantations": {
+      "records": 98,
+      "uniqueIds": 98,
+      "nonblankNames": 98,
+      "duplicateNames": 0
+    },
+    "talismans": {
+      "records": 87,
+      "uniqueIds": 87,
+      "nonblankNames": 87,
+      "duplicateNames": 0
+    },
+    "bosses": {
+      "records": 106,
+      "uniqueIds": 106,
+      "nonblankNames": 106,
+      "duplicateNames": 2
+    },
+    "creatures": {
+      "records": 115,
+      "uniqueIds": 115,
+      "nonblankNames": 115,
+      "duplicateNames": 3
+    }
+  },
+  "fields": {
+    "sorceries": {
+      "spellCostNumeric": 71,
+      "memorySlotsNumeric": 71,
+      "attributeRequirementArrays": 71,
+      "descriptionText": 71,
+      "effectDescriptionText": 71,
+      "numericDamageMultiplier": 0,
+      "numericSpellScaling": 0,
+      "numericStatusBuildup": 0,
+      "damageTypeField": 0,
+      "total": 71
+    },
+    "incantations": {
+      "spellCostNumeric": 98,
+      "memorySlotsNumeric": 98,
+      "attributeRequirementArrays": 96,
+      "descriptionText": 98,
+      "effectDescriptionText": 97,
+      "numericDamageMultiplier": 0,
+      "numericSpellScaling": 0,
+      "numericStatusBuildup": 0,
+      "damageTypeField": 0,
+      "total": 98
+    },
+    "talismans": {
+      "textualEffect": 87,
+      "structuredNumericEffect": 0,
+      "structuredStackingRule": 0,
+      "total": 87
+    },
+    "bosses": {
+      "healthPointsAsText": 105,
+      "numericDefense": 0,
+      "numericDamageNegation": 0,
+      "numericElementalDefense": 0,
+      "total": 106
+    },
+    "creatures": {
+      "numericDefense": 0,
+      "numericHealth": 0,
+      "total": 115
+    }
+  },
+  "risks": {},
+  "gameClientVerified": false,
+  "version1_17_3Verified": false,
+  "dataRedistributionApproved": false,
+  "licensedImageReuseApproved": false,
+  "independentSpellDamageGOLDENs": 0,
+  "independentEnemyDefenseGOLDENs": 0,
+  "totals": {
+    "sourceSpells": 169,
+    "talismans": 87,
+    "bosses": 106,
+    "creatures": 115
+  },
+  "conclusion": "Actual pinned source rosters inspected. Spell costs/slots/requirements are not spell damage; textual talisman effects are not numerical stacking rules; boss health text is not defense/negation parameters. No source-only roster is promoted to current-game verified.",
+  "sourceRun": 41271971311,
+  "sourceJob": 124746420103,
+  "sourceUrl": "https://github.com/garrison2025/Elden-Ring/actions/runs/41271971311"
+}
