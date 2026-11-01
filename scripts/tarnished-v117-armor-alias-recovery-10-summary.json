@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "site": "Tarnished.dev Build Calculator v1.17",
+  "sourceRun": 41276086880,
+  "sourceJob": 124758429394,
+  "independentBrowserPassesPerCandidate": 2,
+  "legacySourceSubset": 568,
+  "originalDirectCandidates": 543,
+  "recoveredUniqueSourceItems": 6,
+  "verifiedDistinctSourceItems": 549,
+  "stillNotConfirmedSourceItems": 19,
+  "recovered": [
+    {
+      "id": "17f697838dbl0i0nqpyyrpkl1polw",
+      "sourceName": "Godksin Noble Robe",
+      "sourceSlot": "Chest",
+      "siteName": "Godskin Noble Robe",
+      "siteSlot": "Chest",
+      "weight": 6.3,
+      "poise": 12,
+      "siteCapacity": 48.2,
+      "twoIndependentSiteReads": true
+    },
+    {
+      "id": "17f693fc837l0i0off9ln8pmeyhp0g",
+      "sourceName": "Nox Monk Bracelets",
+      "sourceSlot": "Arms",
+      "siteName": "Nox Bracelets",
+      "siteSlot": "Arms",
+      "weight": 2.6,
+      "poise": 3,
+      "siteCapacity": 48.2,
+      "twoIndependentSiteReads": true
+    },
+    {
+      "id": "17f692d4de3l0i0pf68kg5ine04x3",
+      "sourceName": "Blackflame Monk Greave",
+      "sourceSlot": "Legs",
+      "siteName": "Blackflame Monk Greaves",
+      "siteSlot": "Legs",
+      "weight": 7.3,
+      "poise": 14,
+      "siteCapacity": 48.2,
+      "twoIndependentSiteReads": true
+    },
+    {
+      "id": "17f69820f0al0i0pnb1d742cf4p6ji",
+      "sourceName": "Nox Monk Greaves",
+      "sourceSlot": "Legs",
+      "siteName": "Nox Greaves",
+      "siteSlot": "Legs",
+      "weight": 5.1,
+      "poise": 10,
+      "siteCapacity": 48.2,
+      "twoIndependentSiteReads": true
+    },
+    {
+      "id": "17f69b977bfl0i0p01ggnqcshd4pck",
+      "sourceName": "Imp Head (wolf)",
+      "sourceSlot": "Head",
+      "siteName": "Imp Head (Wolf)",
+      "siteSlot": "Head",
+      "weight": 8.1,
+      "poise": 10,
+      "siteCapacity": 51.4,
+      "twoIndependentSiteReads": true
+    },
+    {
+      "id": "17f69a2b719l0i0oyglty948pj2eli",
+      "sourceName": "Hierodas Glintstone Crown",
+      "sourceSlot": "Head",
+      "siteName": "Hierodas Glintstone Crown",
+      "siteSlot": "Head",
+      "weight": 3,
+      "poise": 4,
+      "siteCapacity": 51.4,
+      "twoIndependentSiteReads": true
+    }
+  ],
+  "duplicateLegacyRows": [
+    {
+      "id": "17f69a5c5bbl0i0o9b3mzby0ky19w",
+      "sourceName": "Champion Gauntlets",
+      "sourceSlot": "Arms",
+      "siteName": "Champion Bracers",
+      "siteSlot": "Arms",
+      "weight": 2.1,
+      "poise": 3,
+      "siteCapacity": 48.2,
+      "twoIndependentSiteReads": true
+    },
+    {
+      "id": "17f693ced0bl0i0oh402gmm7bjbdty",
+      "sourceName": "Redmane Knight Helm",
+      "sourceSlot": "Arms",
+      "siteName": "Redmane Knight Helm",
+      "siteSlot": "Head",
+      "weight": 5.1,
+      "poise": 8,
+      "siteCapacity": 48.2,
+      "twoIndependentSiteReads": true
+    }
+  ],
+  "siteNotSelectable": [
+    {
+      "id": "17f69a7eb92l0i0ofelpljitl8hw9s",
+      "sourceName": "Millicent's Gloves",
+      "sourceSlot": "Arms",
+      "siteName": "Millicent's Gloves",
+      "siteSlot": "Arms",
+      "weight": null,
+      "poise": null,
+      "siteCapacity": null,
+      "twoIndependentSiteReads": false
+    },
+    {
+      "id": "17f695058d7l0i0ocivy48k7k9l11k",
+      "sourceName": "Golden Prosthetic",
+      "sourceSlot": "Arms",
+      "siteName": "Golden Prosthetic",
+      "siteSlot": "Arms",
+      "weight": null,
+      "poise": null,
+      "siteCapacity": null,
+      "twoIndependentSiteReads": false
+    }
+  ],
+  "rules": "Only six unique canonical source items are promoted. Two additional selectable aliases correspond to items already verified under different source IDs and are NOT promoted as distinct armors. Two candidates cannot be selected.",
+  "reference": "https://github.com/garrison2025/Elden-Ring/actions/runs/41276086880"
+}
