@@ -251,7 +251,7 @@ byId('build-loadout-load-armor').addEventListener('click',async()=>{
     ref.weight.value=String(found.weight);ref.weight.dataset.source='community';
    }
   }
-  p.textContent=source.count+' pinned community armor names, weights and 13 armor-only combat metrics loaded locally. Versioned Tarnished.dev v1.17 numerical parity remains untested for this separate community dataset.';
+  p.textContent=source.count+' pinned armor items loaded. '+(source.directTarnishedV117ArmorCount??0)+' exact-item weight and Poise pairs are corrected to directly observed Tarnished.dev v1.17; other item fields and effects have not passed site parity.';
   button.hidden=true;
   render();
  }catch(error){
