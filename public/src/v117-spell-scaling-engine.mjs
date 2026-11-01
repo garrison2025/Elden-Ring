@@ -4,9 +4,9 @@
  * Glintstone Pebble's 152 Magic base attack: publicly documented AtkParam 40000.
  * No bundled third-party weapon-regulation table or paid runtime API.
  *
- * Nine Wretch INT scenarios have actual same-input real-site benchmarks. At
+ * Eighteen Wretch INT scenarios have actual same-input real-site benchmarks. At
  * INT25 the isolated correction is site-calibrated (NOT independently
- * reproduced); at INT35 source math is one point HIGH and INT50 one point LOW. All untested
+ * reproduced); at INT35 and INT98 source math is one point HIGH and\n * INT50 one point LOW. All untested
  * stats/staffs/targets remain unverified against Tarnished.dev.
  */
 import {defenseMultiplier} from './damage-reference-model.mjs';
