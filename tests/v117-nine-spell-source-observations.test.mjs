@@ -15,14 +15,15 @@ test('four new actual spell outputs are immutable independent two-browser findin
  }
 });
 test('all 9 exact reference scenes have 6 independent formula agreements and 3 unresolved math discrepancies',()=>{
- assert.deepEqual(V117_PEBBLE_STAFF_ROWS.map(x=>[x.int,x.magic]),[
+ assert.deepEqual(V117_PEBBLE_STAFF_ROWS.filter(x=>x.int<=60).map(x=>[x.int,x.magic]),[
   [20,219],[25,242],[30,267],[35,290],[40,315],
   [45,338],[50,363],[55,386],[60,410]
  ]);
  const independent={20:219,25:243,30:267,35:291,40:315,45:338,50:362,55:386,60:410};
- const diff=V117_PEBBLE_STAFF_ROWS.filter(x=>independent[x.int]!==x.magic).map(x=>x.int);
+ const originalNine=V117_PEBBLE_STAFF_ROWS.filter(x=>x.int<=60);
+ const diff=originalNine.filter(x=>independent[x.int]!==x.magic).map(x=>x.int);
  assert.deepEqual(diff,[25,35,50]);
- assert.equal(V117_PEBBLE_STAFF_ROWS.length-diff.length,6);
+ assert.equal(originalNine.length-diff.length,6);
  for(const int of [21,31,36,46,51,56,61])
   assert.equal(exactPublicPebbleSpell({int}).reference,null,'No fabricated reference value for unobserved INT '+int);
 });

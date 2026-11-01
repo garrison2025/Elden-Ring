@@ -14,7 +14,7 @@ test('INT50/INT60 public v1.17 site values are both independently observed twice
  }
 });
 test('all nine double-observed spell reference outputs keep unverified model mismatches explicit',()=>{
- assert.deepEqual(V117_PEBBLE_STAFF_ROWS.map(x=>[x.int,x.magic]),[
+ assert.deepEqual(V117_PEBBLE_STAFF_ROWS.filter(x=>x.int<=60).map(x=>[x.int,x.magic]),[
   [20,219],[25,242],[30,267],[35,290],[40,315],[45,338],[50,363],[55,386],[60,410]
  ]);
  assert.equal(evidence.cases[0].status,'SOURCE_MODEL_ONE_POINT_MISMATCH');
