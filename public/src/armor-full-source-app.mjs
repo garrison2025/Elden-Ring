@@ -67,7 +67,9 @@ $('armor-full-load').addEventListener('click',async()=>{
   armors=source.armors;
   populateSlots(armors);
   const missing=armors.filter(x=>x.poise===null).length;
-  status('Pinned '+source.count+' armor items loaded; '+(source.directTarnishedV117ArmorCount??0)+' item weight and Poise pairs directly matched Tarnished.dev v1.17; '+(source.siteTwelveMetricArmorCount??0)+' stat-stable armor pieces also have 12 same-input negation/resistance fields. Contextual equipment effects and other pieces remain unverified. '+ 
+  status('Pinned '+source.count+' source armor items + '+(source.additionalVerifiedDlcArmorCount??0)+
+   ' independently checked DLC item loaded; '+(source.directTarnishedV117ArmorCount??0)+
+   ' weight and Poise pairs directly matched Tarnished.dev v1.17; '+(source.siteTwelveMetricArmorCount??0)+' stat-stable armor pieces also have 12 same-input negation/resistance fields. Contextual equipment effects and other pieces remain unverified. '+ 
    missing+' items lack valid source Poise. For any chosen objective, missing metric rows are independently excluded. '+
    'Values and item availability are not current-game certified.');
   $('armor-full-run').disabled=false;button.hidden=true;

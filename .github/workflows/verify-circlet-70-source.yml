@@ -1,0 +1,24 @@
+name: Verify real 70-Poise optimizer from pinned source and independent DLC
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - public/src/armor-source-optin.mjs
+      - public/src/tarnished-v117-dlc-circlet.mjs
+      - public/src/armor-full-source-app.mjs
+      - scripts/verify-circlet-70-live-source.mjs
+      - .github/workflows/verify-circlet-70-source.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-pinned-plus-dlc-optimum:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch pinned public 568 JSON and compute actual opt-in Poise winner
+        run: node scripts/verify-circlet-70-live-source.mjs
