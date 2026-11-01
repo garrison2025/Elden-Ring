@@ -106,3 +106,17 @@ test('build page adds real user-controlled equipment without claiming full effec
  assert.match(js,/navigator\.clipboard\.writeText/);
  assert.match(js,/weapon-ar-calculator/);
 });
+
+test('two different new directly observed v1.17 shields contribute exact weight in loadout',()=>{
+ const state=emptyBuildLoadout();
+ state.weaponSlots[0].id=w('Buckler').id;
+ state.weaponSlots[3].id=w('Kite Shield').id;
+ state.maxEquipLoad='100';
+ const result=evaluateBuildLoadout(state,catalog);
+ assert.equal(result.exactTotal,6);
+ assert.equal(result.unknowns.length,0);
+ assert.equal(result.items.length,2);
+ assert.ok(result.items.every(x=>x.provenance==='tarnished-dev-v1.17-direct-ui'));
+ assert.equal(result.items.find(x=>x.name==='Buckler').weight,1.5);
+ assert.equal(result.items.find(x=>x.name==='Kite Shield').weight,4.5);
+});

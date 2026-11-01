@@ -85,3 +85,12 @@ test('build and weapon catalogue retain separate pack gates and local draft safe
  assert.match(app,/origin:current\.name,stats:v\.join\(','\)/);
  assert.doesNotMatch(app,/eval\(/);
 });
+test('new public Tarnished v1.17 weight is labelled independently of unknown +0 base attack',()=>{
+ const shield=find('Buckler');
+ const result=inspectBuildWeapon(catalog.weapons,shield.id,stats);
+ assert.equal(shield.weight,null,'original canonical source remains untouched');
+ assert.equal(result.weight,1.5);
+ assert.equal(result.weightProvenance,'tarnished-dev-v1.17-direct-ui');
+ assert.equal(result.attackAtZero,null,'observed weight does not supply weapon attack data');
+ assert.ok(result.note.includes('Separate Tarnished.dev public v1.17'));
+});
