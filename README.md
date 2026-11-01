@@ -53,6 +53,15 @@ This is an unofficial fan project unaffiliated with FromSoftware or Bandai Namco
 
 The current real-site observation reports: [86 historical AR cases](docs/TARNISHED_DEV_86_CASE_PARITY_20261101.md), [348 new +0 AR cases with one unresolved numerical discrepancy](docs/TARNISHED_DEV_V117_EXPANDED_348_AR_20261101.md), [487 directly observed individual weapon weights](docs/TARNISHED_V117_FINAL_487_WEIGHT_EVIDENCE_20261101.md), and [460 directly observed minimum weapon requirements plus 27 pinned-source-only values](docs/TARNISHED_V117_FINAL_487_REQUIREMENTS_EVIDENCE_20261101.md). The website's validation-status page distinguishes public comparator-only data from original community source fields. Armor/Build-effects/Damage/Spell accuracy and weapon component damage still require separate site observations. No game client is needed for the user's chosen public-v1.17 website comparator acceptance.
 
+## Numeric verification standard — Tarnished.dev only (2026-11-01)
+
+**User-approved release definition for calculated numbers:** use the **real rendered v1.17 Tarnished.dev calculator** as the **sole numeric truth**. With identical attributes, weapon/armor/spell/enemy selections, reinforcement, affinity, handedness and active effects, a matching output is an accepted comparison. Third-party game tables and the current game client are NOT extra numeric pass/fail gates. Third-party license/asset rights, site indexing and production QA remain distinct operational gates.
+
+- Live Chromium verified all four Tarnished.dev calculator pages: Build Planner, Weapon AR, Armor Optimizer and Damage Calculator; each displayed **Elden Ring Version: v1.17**. [Browser evidence](https://github.com/garrison2025/Elden-Ring/actions/runs/41273735172).
+- Each numeric golden requires the comparator version, input state, actual displayed result and independent repeat. **Tarnished.dev site output prevails** over computed arithmetic from a different dataset if they conflict. Existing one-point Icerind public AR discrepancy remains a parity bug, not merely a source-math anomaly.
+- Other-source 1.16/1.17.3 armor/spell differences, deliton source completeness, independent game-version capture and third-party build-calculator archives are **research**, not open requirements to certify Tarnished.dev-only numeric parity. Do not prevent numerical parity sign-off solely because those other sources differ.
+- User-approved detailed rulebook: [sole comparator acceptance policy](docs/TARNISHED_ONLY_NUMERICAL_ACCEPTANCE_POLICY_20261101.md).
+
 ## Additional exact-input AR and combat source audits (2026-11-01)
 
 - **30 new real v1.17 AR input cases passed twice**, including all 13 regular affinities, intermediate regular reinforcement, somber +5 and 1H/2H. Alongside the prior 86 approved public-site AR cases, **116 exact-input comparisons matched**. The separate +0 expanded audit remains **347/348** due to Icerind Hatchet's 1-AR boundary exception. [Source](docs/TARNISHED_V117_BROAD_AR_30_VERIFIED_20261101.md).
