@@ -1248,6 +1248,11 @@ try{
    sourceOptimization.status.includes('completed in Worker')&&
    sourceOptimization.details.includes('0 records excluded'),
    'Live full-source optimum must disclose source Poise, load tier and excluded unknowns');
+  await waitFor("document.querySelectorAll('#armor-local-top-five-rows tr').length===5",
+   'Independent exact Armor top-five DP must produce five distinct ranked combinations');
+  const topFive=await evaluate("({rows:[...document.querySelectorAll('#armor-local-top-five-rows tr')].map(x=>x.textContent),visible:document.querySelector('#armor-local-top-five').hidden})");
+  assert.equal(topFive.visible,false);
+  assert.equal(new Set(topFive.rows).size,5,'Local ranked alternatives cannot repeat exactly identical four-piece sets');
   // Same exact public v1.17 Wretch10, Normal-roll, Poise-only reference.
   await evaluate("(()=>{for(const [id,value] of [['maxLoad','48.176'],['reservedWeight','0'],['minPoise','0']])document.getElementById(id).value=value;document.querySelector('#targetTier').value='medium';document.querySelector('#armor-full-site-only').checked=true;const box=document.querySelector('#armor-v117-confirm-wretch');box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#armor-full-run').click()})()");
   await waitFor("document.querySelector('#armor-v117-reference-comparison').textContent.includes('local = 70')",
@@ -1317,6 +1322,15 @@ try{
  const damageMobile=await evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth})");
  assert.ok(damageMobile.scroll<=damageMobile.width+5,
   '375px damage calculator must not overflow: '+JSON.stringify(damageMobile));
+ // Real per-move frame DPS: no known frames yields no fake numeric output.
+ assert.equal(await evaluate("document.querySelector('#damage-frame-dps').textContent"),'—');
+ await evaluate("(()=>{document.querySelector('#damage-frame-calculate').click()})()");
+ assert.match(await evaluate("document.querySelector('#damage-frame-status').textContent"),/frame count/,
+  'Missing animation frames must fail closed rather than guessing DPS');
+ await evaluate("(()=>{for(const [id,v] of [['damage-attack-physical','200'],['damage-attack-magic','0'],['damage-def-physical','0'],['damage-neg-physical','0']]){const el=document.getElementById(id);el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}))}const fr=document.querySelector('[data-frame-field=frames]');fr.value='60';fr.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#damage-frame-calculate').click()})()");
+ await waitFor("document.querySelector('#damage-frame-dps').textContent==='180'",
+  'Independent 200 physical AR, 0 defense, 100% MV, 60 frames at 60FPS produces 180 source-model DPS');
+ console.log('[INDEPENDENT DPS FRAMES] PASS: zero-default frames fail closed, entered 60-frame move yields mathematical DPS 180.');
  console.log('[DAMAGE PREVIEW] PASS: 8 defense pairs, motion/negation formula, split-AR URL handoff, 375px mobile.');
  // Newly added real-v1.17 reference workflows: verify the actually rendered
  // outputs and fail-closed behavior in Chrome, not merely source-file strings.
