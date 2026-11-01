@@ -105,3 +105,20 @@ export function getAltOriginRequirementShard(index){
  if(!Number.isInteger(index)||index<0||index>=6)throw new RangeError('Expected origin shard 0..5');
  return ALT_ORIGIN_REQUIREMENT_CANDIDATES.slice(index*6,(index+1)*6);
 }
+
+/** Steel-Wire Torch was directly active under Wretch10 & all99 but showed no Req.
+ * Unlike Serpent-Hunter's 0 requirements, Astrologer's STR8 is below
+ * the local candidate's STR10. Actual visible Req must still be read twice.
+ */
+const steelBase=REQUIREMENT_CANDIDATES.find(x=>x.name==='Steel-wire Torch');
+const astro=CLASSES.find(x=>x.name==='Astrologer'&&!x.dlc);
+export const STEEL_ORIGIN_REQUIREMENT_CANDIDATE=Object.freeze({
+ ...steelBase,originName:astro.name,originStats:Object.freeze([...astro.stats])
+});
+if(steelBase?.siteNames?.[0]!=='Steel-Wire Torch'||
+ steelBase?.affinities?.[0]!=='None'||astro?.stats?.[3]!==8)
+ throw Error('Steel origin audit inputs changed; abort');
+export function getSteelOriginRequirementShard(index){
+ if(index!==0)throw new RangeError('Steel origin audit has one shard');
+ return [STEEL_ORIGIN_REQUIREMENT_CANDIDATE];
+}
