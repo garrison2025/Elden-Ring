@@ -60,6 +60,50 @@ async function keyboard(id,value){
  await sleep(950);
  return await run(function(id){return document.getElementById(id)?.value},id);
 }
+async function clickRect(rect){
+ if(!rect?.found||!Number.isFinite(rect.x)||!Number.isFinite(rect.y)||
+    rect.x<0||rect.y<0||rect.x>=rect.width||rect.y>=rect.height)return false;
+ await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:rect.x,y:rect.y});
+ await send('Input.dispatchMouseEvent',{type:'mousePressed',x:rect.x,y:rect.y,button:'left',clickCount:1});
+ await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:rect.x,y:rect.y,button:'left',clickCount:1});
+ await sleep(650);
+ return true;
+}
+async function chooseOption(exactName){
+ const pos=await run(function(exactName){
+  const options=[...document.querySelectorAll('[role="option"],.p-multiselect-item')];
+  const el=options.find(e=>(e.innerText||e.textContent||'').trim()===exactName);
+  if(!el)return{found:false,name:exactName,visible:options.slice(0,10).map(e=>e.innerText)};
+  el.scrollIntoView({block:'center',inline:'center',behavior:'instant'});
+  const r=el.getBoundingClientRect();
+  return{found:true,name:exactName,x:r.left+r.width/2,y:r.top+r.height/2,
+   width:innerWidth,height:innerHeight,disabled:el.getAttribute('aria-disabled'),
+   text:el.innerText.slice(0,100)};
+ },exactName);
+ const clicked=pos.found&&pos.disabled!=='true'&&await clickRect(pos);
+ return {...pos,clicked};
+}
+async function openAndSelect(id,exactName){
+ const pos=await run(function(id){
+  const el=document.getElementById(id);
+  if(!el)return{found:false,reason:'Missing real selection control '+id};
+  el.scrollIntoView({block:'center',inline:'center',behavior:'instant'});
+  const r=el.getBoundingClientRect();
+  return{found:true,x:r.left+r.width/2,y:r.top+r.height/2,
+   width:innerWidth,height:innerHeight};
+ },id);
+ if(!await clickRect(pos))return {...pos,clicked:false};
+ const filter=await run(function(){return{
+  available:!!document.querySelector('.p-multiselect-filter'),
+  optionCount:document.querySelectorAll('[role="option"],.p-multiselect-item').length
+ }});
+ if(!filter.available)return{found:false,reason:'No rendered real search input after opening',id};
+ await run(function(){document.querySelector('.p-multiselect-filter')?.focus()});
+ await send('Input.insertText',{text:exactName});
+ await sleep(850);
+ const selected=await chooseOption(exactName);
+ return {id,filter,selected};
+}
 async function main(){
  profile=await mkdtemp(join(tmpdir(),'remaining-v117-build-'));
  chrome=spawn(chromePath,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
@@ -117,6 +161,24 @@ async function main(){
    }});
    console.log('[LIVE '+name.toUpperCase()+' ACTUAL OPTIONS]',JSON.stringify(opened).slice(0,11000));
   }
+  const scenario=name==='damage'?
+    {weapon:'Uchigatana',strength:15,dexterity:20}:
+    {weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:25};
+  if(name==='damage'){
+   await keyboard('strength',scenario.strength);
+   await keyboard('dexterity',scenario.dexterity);
+   const selection=await chooseOption(scenario.weapon);
+   console.log('[LIVE DAMAGE SAME-INPUT WEAPON SELECTION]',JSON.stringify(selection));
+  }else{
+   await keyboard('intelligence',scenario.intelligence);
+   const selection=await chooseOption(scenario.spell);
+   console.log('[LIVE SPELL SAME-INPUT SPELL SELECTION]',JSON.stringify(selection));
+   const catalyst=await openAndSelect('select-weapons',scenario.weapon);
+   console.log('[LIVE SPELL SAME-INPUT CATALYST SELECTION]',JSON.stringify(catalyst).slice(0,4000));
+  }
+  await sleep(1100);
+  console.log('[LIVE '+name.toUpperCase()+' SELECTED SCENARIO]',
+   JSON.stringify({scenario,head:(await run(snapshot)).text.slice(-2100)}).slice(0,3000));
   const controls=await run(function(){
    return {
     buttons:[...document.querySelectorAll('button,[role="button"]')].map((e,i)=>({
@@ -163,7 +225,7 @@ async function main(){
    }
   });
   const record={name,url,version:first.version,firstText:first.text.slice(-1300),
-   openTablePointer:rect,afterText:after.text.slice(-2700),revealed,controls};
+   openTablePointer:rect,afterText:after.text.slice(-2700),revealed,controls,scenario};
   results.pages.push(record);
   console.log('[LIVE '+name.toUpperCase()+' ACTUAL TABLE]',JSON.stringify({
    pointer:rect,table:revealed.htmlTables,dialogs:revealed.dialogs,
