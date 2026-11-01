@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "source": "Tarnished.dev public v1.17 visible Build Planner",
+  "sourceRun": 41268725854,
+  "sourceJob": 124736882484,
+  "independentChromiumReads": 2,
+  "previousDirectlyObservedRequirements": 458,
+  "newlyObserved": 1,
+  "combinedDirectlyObserved": 459,
+  "remainingUnobserved": 28,
+  "item": {
+    "id": "req-369",
+    "name": "Steel-wire Torch",
+    "siteName": "Steel-Wire Torch",
+    "affinity": "None",
+    "originName": "Astrologer",
+    "stats": [
+      8,
+      12,
+      16,
+      7,
+      9
+    ],
+    "siteRequirements": [
+      10,
+      8,
+      0,
+      0,
+      0
+    ],
+    "siteArAtOrigin": 145,
+    "sitePinnedMismatchCount": 0,
+    "verifiedInputAndReqTwice": true
+  }
+}

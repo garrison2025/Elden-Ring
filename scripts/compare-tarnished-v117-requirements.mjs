@@ -6,13 +6,14 @@
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard,getAltOriginRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
+import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard,getAltOriginRequirementShard,getSteelOriginRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
 import {downloadV117Source} from '../public/src/upstream-regulation-v117.mjs';
 import {buildV117CatalogOverlay} from '../public/src/v117-catalog-overlay.mjs';
 const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
 const mode=process.env.TARNISHED_REQUIREMENT_TARGET;
-const targeted=mode==='ar-gap'||mode==='high-gap'||mode==='alt-origin';
-const wanted=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):getRequirementsShard(index);
+const originMode=mode==='alt-origin'||mode==='steel-origin';
+const targeted=mode==='ar-gap'||mode==='high-gap'||originMode;
+const wanted=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):mode==='steel-origin'?getSteelOriginRequirementShard(index):getRequirementsShard(index);
 const arraysEqual=(a,b)=>Array.isArray(a)&&Array.isArray(b)&&
  a.length===b.length&&a.every((x,i)=>x===b[i]);
 function compareRounds(first,second,catalog,source){
@@ -32,7 +33,7 @@ function compareRounds(first,second,catalog,source){
    x.version==='Elden Ring Version: v1.17'&&y.version===x.version&&
    x.name===c.name&&y.name===c.name&&x.siteName===y.siteName&&
    x.affinity===y.affinity&&arraysEqual(x.requirements,y.requirements)&&
-   (mode!=='alt-origin'||(
+   (!originMode||(
     x.originName===c.originName&&y.originName===c.originName&&
     x.startingClass===c.originName&&y.startingClass===c.originName&&
     x.classAction?.status==='VISIBLE_ORIGIN_CLICKED'&&y.classAction?.status==='VISIBLE_ORIGIN_CLICKED'&&

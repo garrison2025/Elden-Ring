@@ -1,0 +1,43 @@
+name: Public v1.17 Steel-Wire Torch true class-switched requirements
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/tarnished-v117-requirement-candidates.mjs
+      - scripts/probe-tarnished-v117-requirements.mjs
+      - scripts/compare-tarnished-v117-requirements.mjs
+      - .github/workflows/tarnished-steel-req-origin.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  steel-req:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      TARNISHED_REQUIREMENT_SHARD: '0'
+      TARNISHED_REQUIREMENT_TARGET: steel-origin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First direct public v1.17 Astrologer origin visible Req observation
+        run: |
+          node scripts/probe-tarnished-v117-requirements.mjs
+          cp .audit/tarnished-public-requirements.json .audit/req-first.json
+      - name: Second independent public v1.17 Astrologer origin Req observation
+        run: node scripts/probe-tarnished-v117-requirements.mjs
+      - name: Validate exact chosen class and site/pinned Req comparison
+        run: node scripts/compare-tarnished-v117-requirements.mjs
+      - name: Preserve paired actual site observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-steel-torch-origin-req-two-reads
+          path: |
+            .audit/req-first.json
+            .audit/tarnished-public-requirements.json
+            .audit/requirements-comparison.json
+          retention-days: 30
+          if-no-files-found: warn
