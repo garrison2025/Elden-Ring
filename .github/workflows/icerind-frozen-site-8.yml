@@ -1,0 +1,23 @@
+name: Validate remaining Icerind site parity using already accepted 8 direct UI goldens
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - public/src/weapon-ar.mjs
+      - public/src/tarnished-v117-site-ar-goldens.mjs
+      - scripts/verify-icerind-frozen-site-eight.mjs
+      - .github/workflows/icerind-frozen-site-8.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verified-site-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compare one scoped site golden and seven intact case inputs against frozen real-UI double-reads
+        run: node scripts/verify-icerind-frozen-site-eight.mjs

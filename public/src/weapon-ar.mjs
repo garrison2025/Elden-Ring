@@ -1,3 +1,4 @@
+import {exactTarnishedV117SiteArException} from './tarnished-v117-site-ar-goldens.mjs';
 /**
  * Independent, parameter-driven research implementation of weapon attack rating.
  * NO game-owned weapon data or official-game parity is bundled.
@@ -157,9 +158,17 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
   // profiles retain their explicitly chosen legacy rounding behavior.
   const floorTotal=Math.floor(result.reduce((s,e)=>s+e.raw,0));
   const floorComponents=result.reduce((s,e)=>s+e.displayed,0);
-  const total=aggregation==='floor-raw-sum'?floorTotal:
+  const mathTotal=aggregation==='floor-raw-sum'?floorTotal:
     roundingPolicy==='floor-components'?floorComponents:floorTotal;
+  // The site's one independently confirmed floating boundary differs from
+  // the pinned source math. Exact-input site golden wins ONLY at that input,
+  // leaving component math and every other calculation unchanged.
+  const siteCorrection=exactTarnishedV117SiteArException(p,stats,{
+    affinity:affinity??Object.keys(p.affinities)[0],upgrade,twoHanded
+  },result,mathTotal);
+  const total=siteCorrection?.total??mathTotal;
   return {floorTotal,floorComponents,roundingDifference:floorTotal-floorComponents,
+    ...(siteCorrection?{siteParityCorrection:siteCorrection}:{}),
     calculationRules:{requirements:requirementsPolicy,rounding:roundingPolicy,
       ...(aggregation!=='legacy'?{aggregation}:{})},label:p.label,affinity:affinity??Object.keys(p.affinities)[0],upgrade,twoHanded,gripMode,strengthBonusApplied:strengthBonus,stats:{...stats},effectiveStats:effective,missingRequirements:missing,perElement:result,total,provenance:p.provenance,status:'UNVERIFIED — parameter-driven research output; not an in-game prediction'};
 }

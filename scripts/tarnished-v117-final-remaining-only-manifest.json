@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 1,
+  "site": "Tarnished.dev v1.17",
+  "reusedFrozenEvidenceOnly": true,
+  "originalArmorRecords": 568,
+  "existingSiteWeightPoiseApproved": 549,
+  "existingSiteTwelveMetricsApproved": 514,
+  "originalUnobserved": 25,
+  "recoveredUnique": 6,
+  "remainingUnapproved": 19,
+  "categories": {
+    "NOT_SELECTABLE_BRAVE_LEGACY": 6,
+    "DUPLICATE_OR_WRONG_SLOT": 2,
+    "NOT_SELECTABLE_OTHER_LEGACY": 5,
+    "NOT_SELECTABLE_RAGGED_LEGACY": 6
+  },
+  "remaining": [
+    {
+      "id": "17f69afe5b2l0i0nhch0j37nxu532xb",
+      "name": "Brave's Battlewear",
+      "slot": "Chest",
+      "category": "NOT_SELECTABLE_BRAVE_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f6997525al0i0nhjhufowjmfwto",
+      "name": "Brave's Battlewear (altered)",
+      "slot": "Chest",
+      "category": "NOT_SELECTABLE_BRAVE_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f6958f14el0i0o7rcnxhisq53oq8",
+      "name": "Brave's Bracer",
+      "slot": "Arms",
+      "category": "NOT_SELECTABLE_BRAVE_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f69477d43l0i0oqqtcyx0gj0km2q",
+      "name": "Brave's Cord Circlet",
+      "slot": "Head",
+      "category": "NOT_SELECTABLE_BRAVE_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f69b13128l0i0or2eokpqdvdmv2b",
+      "name": "Brave's Leather Helm",
+      "slot": "Head",
+      "category": "NOT_SELECTABLE_BRAVE_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f6955d1bbl0i0pgoujy78n1z704",
+      "name": "Brave's Legwraps",
+      "slot": "Legs",
+      "category": "NOT_SELECTABLE_BRAVE_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f69a5c5bbl0i0o9b3mzby0ky19w",
+      "name": "Champion Gauntlets",
+      "slot": "Arms",
+      "category": "DUPLICATE_OR_WRONG_SLOT",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "existingSiteItem": "Champion Bracers",
+      "existingSiteSlot": "Arms",
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f6946190el0i0pi558gumllwjgl3",
+      "name": "Deathbed Smalls",
+      "slot": "Legs",
+      "category": "NOT_SELECTABLE_OTHER_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f695058d7l0i0ocivy48k7k9l11k",
+      "name": "Golden Prosthetic",
+      "slot": "Arms",
+      "category": "NOT_SELECTABLE_OTHER_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f69c042bal0i0ox26ulvxoxd05a",
+      "name": "Grass Hair Ornament",
+      "slot": "Head",
+      "category": "NOT_SELECTABLE_OTHER_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f69a7eb92l0i0ofelpljitl8hw9s",
+      "name": "Millicent's Gloves",
+      "slot": "Arms",
+      "category": "NOT_SELECTABLE_OTHER_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f69bf199dl0i0pn8qhruxql5jeou",
+      "name": "Old Sorcerer Legwraps",
+      "slot": "Legs",
+      "category": "NOT_SELECTABLE_OTHER_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f696cf5a8l0i0nzf8wq8jdphrd1n",
+      "name": "Ragged Armor",
+      "slot": "Chest",
+      "category": "NOT_SELECTABLE_RAGGED_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f69305b9cl0i0nzfe5sbcydcuoq",
+      "name": "Ragged Armor (altered)",
+      "slot": "Chest",
+      "category": "NOT_SELECTABLE_RAGGED_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f6935b153l0i0ogyoj212pfkjsqo",
+      "name": "Ragged Gloves",
+      "slot": "Arms",
+      "category": "NOT_SELECTABLE_RAGGED_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f69b3596el0i0p9nbylvjd00fim",
+      "name": "Ragged Hat",
+      "slot": "Head",
+      "category": "NOT_SELECTABLE_RAGGED_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f697a6871l0i0p9i0hdjvwr1ebxh",
+      "name": "Ragged Hat (altered)",
+      "slot": "Head",
+      "category": "NOT_SELECTABLE_RAGGED_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f696a85bal0i0poje1hl0kjcvy48",
+      "name": "Ragged Loincloth",
+      "slot": "Legs",
+      "category": "NOT_SELECTABLE_RAGGED_LEGACY",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    },
+    {
+      "id": "17f693ced0bl0i0oh402gmm7bjbdty",
+      "name": "Redmane Knight Helm",
+      "slot": "Arms",
+      "category": "DUPLICATE_OR_WRONG_SLOT",
+      "siteObservation": "NOT_APPROVED",
+      "reasons": [
+        "OPTION_UNAVAILABLE",
+        "OPTION_UNAVAILABLE"
+      ],
+      "existingSiteItem": "Redmane Knight Helm",
+      "existingSiteSlot": "Head",
+      "approvedWeightPoise": null,
+      "approvedExtraStats": null
+    }
+  ],
+  "separateOpenModules": [
+    {
+      "module": "WEAPON_AR_ICERIND_EXACT_BOUNDARY",
+      "kind": "ONE_EXACT_NUMERIC_CASE",
+      "status": "FIX_IMPLEMENTED_PENDING_CI",
+      "referenceEvidenceRun": 41268333282
+    },
+    {
+      "module": "ARMOR_SPECIAL_EFFECTS",
+      "kind": "CONTEXT_DEPENDENT",
+      "status": "NOT_SITE_NUMERIC_CERTIFIED",
+      "reason": "29 stat-changing items require context-dependent build stats/combination"
+    },
+    {
+      "module": "ARMOR_OPTIMIZER_BEST_SET",
+      "kind": "FUNCTIONAL_PARITY",
+      "status": "NOT_SITE_NUMERIC_CERTIFIED",
+      "reason": "Tarnished.dev Optimizer offers per-property minima/maxima/multipliers; local browser optimizer solves one objective plus minimum Poise, not guaranteed equivalent"
+    },
+    {
+      "module": "DAMAGE_CALCULATOR",
+      "kind": "FUNCTIONAL_PARITY",
+      "status": "NOT_SITE_NUMERIC_CERTIFIED",
+      "reason": "Tarnished.dev selects enemy/NG/movesets/weapon and active effects; our calculator accepts manually entered enemy defense, attack motion, buffs and AR. These are not established same-input outputs"
+    },
+    {
+      "module": "SPELL_TALISMAN_EFFECTS",
+      "kind": "FUNCTIONAL_PARITY",
+      "status": "NOT_SITE_NUMERIC_CERTIFIED",
+      "reason": "Tarnished.dev has equipped talismans/tears/spells and runtime effects; local site lacks a complete equivalent live-effect simulation"
+    },
+    {
+      "module": "PRODUCTION_VERSION_OR_RIGHTS",
+      "kind": "NON_NUMERICAL",
+      "status": "SEPARATE_LEGAL_DEPLOYMENT_GATE",
+      "reason": "Not part of Tarnished.dev numerical pass/fail"
+    }
+  ],
+  "rule": "Failed actual-site selection means UNOBSERVABLE, not numeric mismatch; do not invent values or promote duplicate items. Previously passed cases not reobserved."
+}

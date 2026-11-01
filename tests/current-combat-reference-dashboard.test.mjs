@@ -20,7 +20,7 @@ test('accuracy dashboard and README distinguish source completeness from public 
  '13 regular affinities','Missing game combat parameters remain UNKNOWN'])
   assert.ok(html.includes(snippet),snippet);
  assert.ok(html.includes('name="robots" content="noindex,nofollow"'));
- assert.ok(html.includes('Icerind Hatchet remains unresolved'));
+ assert.ok(html.includes('Historical original direct-browser audit: Icerind Hatchet'));
  assert.match(md,/116 exact-input comparisons matched/);
  assert.match(md,/18 UNKNOWN/);
  assert.match(md,/all research and unverified combat routes remain noindexed/);
