@@ -13,7 +13,7 @@ The Build Planner previously summed each known individual talisman weight even f
 | Duplicate same name | blocked | Independent community accounts; no fresh two-browser scenario | NOT TESTED |
 | Radagon Scarseal + Soreseal, either order | blocked | The **Scarseal then Soreseal** order directly rejected twice by public Tarnished.dev v1.17; opposite order from independent documentation | Direct only for observed order |
 | Marika Scarseal + Soreseal, either order | blocked | Independent documentation only | NOT TESTED |
-| Other multi-talisman selections | no conflict in this restricted rule set | No implicit generalized legality or stacking proof | Existing nine verified exact ordered scenes remain conditional |
+| Other multi-talisman selections | no conflict in this restricted rule set | No implicit generalized legality or stacking proof | Existing nine recorded exact ordered rows (eight distinct combinations, because one overlaps) remain conditional |
 
 Direct actual public-site evidence: `docs/TARNISHED_V117_FIVE_MULTITALISMAN_AND_ONE_EXCLUSION_20261101.md`, workflow [41291997231](https://github.com/garrison2025/Elden-Ring/actions/runs/41291997231).
 
