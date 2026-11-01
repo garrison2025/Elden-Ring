@@ -15,8 +15,11 @@ const profile=convertCompactRegulation(archive,{weaponName:'Uchigatana',gameVers
 const outcomes=evidence.damage.map(row=>{
  const actual=calculateAr(profile,{str:row.str,dex:row.dex,int:10,fai:10,arc:10},
   {affinity:'SOURCE AFFINITY',upgrade:25,twoHanded:false});
- return {stats:{str:row.str,dex:row.dex},siteAR:row.ar,localAR:actual.total,
-  exactMatch:actual.total===row.ar,dpsReferenceOnly:[row.dpsSingle,row.dpsPaired]};
+ return {stats:{str:row.str,dex:row.dex},buildSiteAR:row.buildPlannerAr,damagePageAR:row.ar,localAR:actual.total,
+  exactMatch:actual.total===row.buildPlannerAr,referencePagesDisagree:row.ar!==row.buildPlannerAr,
+  dpsReferenceOnly:[row.dpsSingle,row.dpsPaired]};
 });
 console.log('[THREE ACTUAL SITE AR COMPARISONS]',JSON.stringify(outcomes));
-if(!outcomes.every(x=>x.exactMatch))throw Error('One or more REAL-site +25 AR profiles differs from local AR math');
+if(!outcomes.every(x=>x.exactMatch))throw Error('Real Build Planner +25 AR does not match our local math');
+if(outcomes.filter(x=>x.referencePagesDisagree).length!==2)
+ throw Error('Historical cross-page discrepancy evidence no longer has expected scope');
