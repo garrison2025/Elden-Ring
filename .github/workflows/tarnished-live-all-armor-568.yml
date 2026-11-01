@@ -1,0 +1,46 @@
+name: Tarnished.dev real 568 armor catalog weight/Poise double pass
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-v117-armor-all568.mjs
+      - scripts/compare-tarnished-v117-armor-all568.mjs
+      - .github/workflows/tarnished-live-all-armor-568.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-armor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+    env:
+      TARNISHED_ARMOR_SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First browser read of assigned live-site armor slot candidates
+        run: |
+          node scripts/probe-tarnished-v117-armor-all568.mjs
+          cp .audit/tarnished-armor-shard-${TARNISHED_ARMOR_SHARD}.json .audit/armor-first.json
+      - name: Second separate Chromium profile reads same armor items
+        run: node scripts/probe-tarnished-v117-armor-all568.mjs
+      - name: Accept only two real identical site readings and report local mismatches
+        run: node scripts/compare-tarnished-v117-armor-all568.mjs
+      - name: Archive all real-site observations and unresolved item names
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-armor-shard-${{ matrix.shard }}
+          path: |
+            .audit/armor-first.json
+            .audit/tarnished-armor-shard-${{ matrix.shard }}.json
+            .audit/tarnished-armor-verified-shard-${{ matrix.shard }}.json
+          retention-days: 30
+          if-no-files-found: warn
