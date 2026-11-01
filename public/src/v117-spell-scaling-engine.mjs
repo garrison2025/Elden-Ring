@@ -4,9 +4,9 @@
  * Glintstone Pebble's 152 Magic base attack: publicly documented AtkParam 40000.
  * No bundled third-party weapon-regulation table or paid runtime API.
  *
- * Five Wretch INT scenarios have actual same-input real-site benchmarks. At
+ * Nine Wretch INT scenarios have actual same-input real-site benchmarks. At
  * INT25 the isolated correction is site-calibrated (NOT independently
- * reproduced); at INT50 the source formula is one point LOW. All untested
+ * reproduced); at INT35 source math is one point HIGH and INT50 one point LOW. All untested
  * stats/staffs/targets remain unverified against Tarnished.dev.
  */
 import {defenseMultiplier} from './damage-reference-model.mjs';
@@ -105,6 +105,6 @@ export function calculatePinnedV117PebbleMagic(root,{
   sourceMathDamage:calculated,damage:total,
   appliedExactSiteBoundary:boundary,referenceCompared,
   provenance:'Pinned public v1.17 catalyst graph and 152 magic spell coefficient; source downloaded on user action; not bundled.',
-  warning:'Only Wretch 10-other-stats, Astrologer\'s Staff +25, zero-target-defense, no-effects 25/30/40 INT outputs were compared to the real Tarnished.dev site. All other results are unverified source-model calculations; no other spell or damage coefficient assumed.'
+  warning:'Only Wretch 10-other-stats, Astrologer\'s Staff +25, zero-target-defense, no-effects INT20/25/30/35/40/45/50/55/60 were compared against real Tarnished.dev site. All other results are unverified source-model calculations; no other spell or damage coefficient assumed.'
  };
 }
