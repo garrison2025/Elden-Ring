@@ -5,6 +5,7 @@ on:
     paths:
       - scripts/probe-tarnished-item-fields.mjs
       - scripts/tarnished-v117-weight-batch2-candidates.mjs
+      - scripts/tarnished-v117-weight-final37-candidates.mjs
       - scripts/compare-tarnished-item-weights.mjs
       - tests/tarnished-v117-item-weight.test.mjs
       - .github/workflows/tarnished-item-fields.yml
@@ -14,9 +15,9 @@ permissions:
 jobs:
   public-fields:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 14
     env:
-      TARNISHED_WEIGHT_BATCH: '2'
+      TARNISHED_WEIGHT_BATCH: '3'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

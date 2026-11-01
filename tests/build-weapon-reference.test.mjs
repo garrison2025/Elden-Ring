@@ -94,3 +94,13 @@ test('new public Tarnished v1.17 weight is labelled independently of unknown +0 
  assert.equal(result.attackAtZero,null,'observed weight does not supply weapon attack data');
  assert.ok(result.note.includes('Separate Tarnished.dev public v1.17'));
 });
+
+test('the public comparator weight of Gravel Stone Seal does not fabricate attack or spell values',()=>{
+ const seal=find('Gravel Stone Seal');
+ const result=inspectBuildWeapon(catalog.weapons,seal.id,stats);
+ assert.equal(seal.weight,null);
+ assert.equal(result.weight,1.5);
+ assert.equal(result.weightProvenance,'tarnished-dev-v1.17-direct-ui');
+ assert.equal(result.attackAtZero,null);
+ assert.equal(result.requirementsDisputed,false);
+});
