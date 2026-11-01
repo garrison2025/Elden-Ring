@@ -1,0 +1,29 @@
+name: Pinned 18 invalid armor labels with separate public-source triage
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/audit-armor-18-secondary-triage.mjs
+      - .github/workflows/armor-18-secondary-triage.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Ensure 18 exceptions remain null in exact original pinned JSON, never auto-fill
+        run: node scripts/audit-armor-18-secondary-triage.mjs
+      - name: Preserve separately attributed research readings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: armor-18-manual-secondary-research
+          path: .audit/armor-18-secondary-triage.json
+          retention-days: 30
+          if-no-files-found: warn

@@ -1,5 +1,7 @@
 # 568 armor records × 13 numeric metrics — pinned-source integrity audit (2026-11-01)
 
+> **2026-11-01 later amendment:** The first frozen snapshot below reports 7,325/7,384, with 59 unknown cells. PR #128 fixed a verified signed-defense parsing bug: 41 negative negations are valid, giving **7,366/7,384 source-readable cells, 18 malformed/unknown**. This original baseline is preserved for reproduction. The remaining 18 were individually compared to a separate public armor source, **but are not auto-filled**; see [18-field secondary audit](ARMOR_18_CORRUPTED_FIELDS_SECONDARY_REFERENCES_20261101.md).
+
 [GitHub Actions full pinned-source audit](https://github.com/garrison2025/Elden-Ring/actions/runs/41271717697) fetched **exactly the pinned upstream deliton/eldenring-api JSON revision**, verified each ID and category, and inspected thirteen selected source-reported numeric armor metrics without distributing third-party item descriptions/art or copying the source table.
 
 | Provenance / field | Result |
