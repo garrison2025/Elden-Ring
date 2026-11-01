@@ -124,7 +124,8 @@ const scenarios={
 if(!scenarios[KIND])throw Error('V117_EFFECT_KIND talisman|rune|physick required.');
 const scenario=scenarios[KIND];
 const normalize=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
-const pick=async()=>{
+const pick=async(scenario)=>{
+ const normalize=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
  const widgets=[...document.querySelectorAll('.p-dropdown,.p-multiselect')];
  const target=widgets.find(x=>
   normalize(x.querySelector('.p-dropdown-label,.p-multiselect-label')?.textContent??'')===
@@ -188,7 +189,7 @@ async function main(){
   baseline.finalStats.some(x=>x!=='10'))
   throw Error('The baseline is NOT a Wretch 10/10/10/10/10/10/10/10 without effects: '+
    JSON.stringify(baseline).slice(0,1300));
- const selection=await pageCall(pick);
+ const selection=await pageCall(pick,[scenario]);
  const observed=await pageCall(state);
  const delta=observed.finalStats.map((n,i)=>Number(n)-Number(baseline.finalStats[i]));
  const activatedCorrect=!scenario.activate||selection.activated===true;
