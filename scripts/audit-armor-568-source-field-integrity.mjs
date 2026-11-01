@@ -5,8 +5,13 @@
  */
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
-import {loadPinnedArmorSource,ARMOR_METRICS,ARMOR_SNAPSHOT_SHA} from '../public/src/armor-source-optin.mjs';
-const source=await loadPinnedArmorSource(fetch);
+import {inspectArmorSource,ARMOR_SOURCE_URL,ARMOR_METRICS,ARMOR_SNAPSHOT_SHA} from '../public/src/armor-source-optin.mjs';
+const response=await fetch(ARMOR_SOURCE_URL);
+if(!response.ok)throw Error('Pinned source failed HTTP '+response.status);
+const raw=await response.text();
+const source=inspectArmorSource(raw);
+// Source-only integrity MUST inspect the immutable original community JSON,
+// never the user-facing Tarnished.dev-corrected in-memory armor catalog.
 const armors=source.armors,ids=new Set(),names=new Set();
 const slotCounts={Head:0,Chest:0,Arms:0,Legs:0};
 const metrics={};
