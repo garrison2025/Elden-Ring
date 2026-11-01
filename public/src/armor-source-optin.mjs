@@ -1,4 +1,5 @@
 import {DIRECT_V117_CIRCLET_OF_LIGHT} from './tarnished-v117-dlc-circlet.mjs';
+import {DIRECT_V117_GRAVEBIRD_BRACELETS} from './tarnished-v117-dlc-gravebird.mjs';
 import {applyTarnishedV117DirectArmorFields} from './tarnished-v117-armor-direct.mjs';
 /** User-requested source reference only. Never bundle/copy third-party item
  * descriptions, images, code, or claimed patch-certified derived mechanics. */
@@ -89,21 +90,21 @@ export async function loadPinnedArmorSource(fetcher,{signal}={}){
  const original=inspectArmorSource(text);
  // Site-verified numeric fields win; unobserved metrics stay source-only.
  const direct=applyTarnishedV117DirectArmorFields(original.armors);
- // The fixed upstream snapshot contains 568 records; this separately audited
- // DLC helm is the 569th opt-in candidate, never a mutation of old goldens.
- if(direct.armors.some(x=>x.name.toLowerCase()===
-  DIRECT_V117_CIRCLET_OF_LIGHT.name.toLowerCase()||
-  x.id===DIRECT_V117_CIRCLET_OF_LIGHT.id))
-  fail('Circlet supplemental armor identity now overlaps pinned source.');
- const extendedArmors=[...direct.armors,DIRECT_V117_CIRCLET_OF_LIGHT];
- return {...original,armors:extendedArmors,additionalVerifiedDlcArmorCount:1,
-  directTarnishedV117ArmorCount:direct.directlyCorrectedArmorCount+1,
+ // The original pinned 568 records remain untouched. Two separately and
+ // independently double-audited DLC pieces are appended as distinct rows.
+ for(const extra of [DIRECT_V117_CIRCLET_OF_LIGHT,DIRECT_V117_GRAVEBIRD_BRACELETS]){
+  if(direct.armors.some(x=>x.name.toLowerCase()===extra.name.toLowerCase()||x.id===extra.id))
+   fail('Separately verified DLC identity conflicts with pinned 568 records: '+extra.name);
+ }
+ const extendedArmors=[...direct.armors,DIRECT_V117_CIRCLET_OF_LIGHT,DIRECT_V117_GRAVEBIRD_BRACELETS];
+ return {...original,armors:extendedArmors,additionalVerifiedDlcArmorCount:2,
+  directTarnishedV117ArmorCount:direct.directlyCorrectedArmorCount+2,
   recoveredDirectArmorCount:direct.recoveredDistinctArmorCount,
   siteUnsupportedCandidateCount:direct.siteUnsupportedCandidateCount,
   siteTwelveMetricArmorCount:direct.siteTwelveMetricArmorCount,
   siteAdditionalMetricFields:direct.siteAdditionalMetricFields,
-  description:original.description+' '+(direct.directlyCorrectedArmorCount+1)+
-   ' armor pieces (including 1 DLC supplement) have double-observed Tarnished.dev v1.17 weight and Poise. '+
+  description:original.description+' '+(direct.directlyCorrectedArmorCount+2)+
+   ' armor pieces (including 2 DLC supplements) have double-observed Tarnished.dev v1.17 weight and Poise. '+
    direct.siteTwelveMetricArmorCount+' stat-stable armor pieces have 12 additional same-input site-derived negation/resistance fields. '+
    (25-direct.recoveredDistinctArmorCount)+' original names remain unapproved for direct weight/Poise parity. ' +
    '29 original stat-modifying items and six recovered aliases have not received 12-field stat-neutral certification; special effects and cross-stat contexts remain unverified.'};
