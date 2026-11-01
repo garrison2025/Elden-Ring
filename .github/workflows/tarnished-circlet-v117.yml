@@ -1,0 +1,38 @@
+name: Verify DLC Circlet of Light only against Tarnished.dev v1.17
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-circlet-v117.mjs
+      - scripts/verify-tarnished-circlet-v117.mjs
+      - .github/workflows/tarnished-circlet-v117.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-single-item-double-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First independent real Chrome profile (Circlet of Light only)
+        run: |
+          node scripts/probe-tarnished-circlet-v117.mjs
+          cp .audit/tarnished-dlc-circlet-v117.json .audit/tarnished-dlc-circlet-first.json
+      - name: Second independent real Chrome profile (Circlet of Light only)
+        run: node scripts/probe-tarnished-circlet-v117.mjs
+      - name: Assert two real public reads match and independent item identity
+        run: node scripts/verify-tarnished-circlet-v117.mjs
+      - name: Preserve direct public numeric observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: circlet-of-light-direct-v117-two-read
+          path: |
+            .audit/tarnished-dlc-circlet-v117.json
+            .audit/tarnished-dlc-circlet-first.json
+          retention-days: 30
+          if-no-files-found: warn
