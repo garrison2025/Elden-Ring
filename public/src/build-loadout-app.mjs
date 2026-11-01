@@ -60,19 +60,34 @@ function render(){
  try{
   const evaluated=evaluateBuildLoadout(state(),catalog,{...contentOpts(),armorReference:armorReference?.armors??null});
   latestResult=evaluated;
-  const heading=make('h3',{text:evaluated.exactTotal===null?
-   'Partial loadout — exact equip load withheld':
+  const unwearable=evaluated.compatibility.status==='UNWEARABLE';
+  const heading=make('h3',{text:unwearable?
+   'Unwearable talisman selection — exact equip load withheld':
+   evaluated.exactTotal===null?'Partial loadout — exact equip load withheld':
    'Equipped weight: '+evaluated.exactTotal.toFixed(3)},result);
   heading.dataset.quality=evaluated.exactTotal===null?'partial':'local';
-  make('p',{text:'Known weight subtotal: '+evaluated.knownWeight.toFixed(3)+
+  make('p',{text:(unwearable?'Raw source-weight sum (NOT an equipped load): ':
+   'Known weight subtotal: ')+evaluated.knownWeight.toFixed(3)+
    '. '+evaluated.items.length+' occupied weight-bearing slots; '+
-   evaluated.unknowns.length+' item weights unknown or disputed.'},result);
+   evaluated.unknowns.length+' unresolved weight or equipability issues.'},result);
+  if(unwearable){
+   const panel=make('section',{className:'build-armor-metric-panel',
+    id:'build-talisman-compatibility'},result);
+   make('h4',{text:'Talisman compatibility blocks this build'},panel);
+   for(const conflict of evaluated.compatibility.conflicts){
+    make('p',{text:conflict.names.join(' + ')+' · '+conflict.evidence+
+     ' — '+conflict.note},panel);
+   }
+   make('p',{text:'The selected individual weights can be listed for provenance, but no equipped weight, roll tier, combined stats or numerical source-parity result is certified.'},panel);
+  }
   if(evaluated.tier){
    make('p',{text:'Roll tier: '+evaluated.tier.tier+' ('+
     evaluated.tier.percent.toFixed(2)+'% of user-entered maximum). '+
     'This is a load calculation only, not a claim about real source item values.'},result);
   }else if(evaluated.exactTotal===null){
-   make('p',{text:'Roll tier UNSUPPORTED until every occupied weapon and armor slot has a non-disputed weight.'},result);
+   make('p',{text:unwearable?
+    'Roll tier UNSUPPORTED: talisman selection is not equipable. Remove the conflicting item(s).':
+    'Roll tier UNSUPPORTED until every occupied weight-bearing slot has a known, non-disputed weight.'},result);
   }else make('p',{text:'Enter your actual maximum equip load to calculate a tier.'},result);
   if(evaluated.unknowns.length){
    const ul=make('ul',{},result);
@@ -215,6 +230,13 @@ function render(){
     id:'build-v117-combined-talisman-exclusion'},result);
    make('h3',{text:'Reference-site equipped-item restriction'},panel);
    make('p',{text:multi.note},panel);
+  }else if(evaluated.state.talismans.filter(Boolean).length>=2&&
+   directPair.status!=='direct-site-same-input-selected-pair'){
+   const panel=make('section',{className:'build-armor-metric-panel',
+    id:'build-v117-combined-talisman-unverified'},result);
+   make('h3',{text:'Combined talisman effects not source-verified for these inputs'},panel);
+   make('p',{text:multi.status+': '+multi.note},panel);
+   make('p',{text:'Individual effect previews are not combined HP, defense, discovery, stamina or damage-negation predictions. An equipment-weight subtotal is not a source-proven full Build.'},panel);
   }
   const opts=contentOpts();
   const selected=state().weaponSlots.filter(x=>x.id);

@@ -2,6 +2,7 @@ import {loadTier} from './core.mjs';
 import {V117_DOUBLE_READ_TALISMAN_WEIGHTS} from './v117-isolated-effect-goldens.mjs';
 import {hasDisputedWeight} from './community-weapons.mjs';
 import {getTarnishedV117DirectWeight} from './tarnished-v117-public-weights.mjs';
+import {reviewTalismanLoadoutCompatibility} from './talisman-loadout-compatibility.mjs';
 
 export const LOADOUT_WEAPON_SLOTS=Object.freeze(['Right hand 1','Right hand 2','Right hand 3','Left hand 1','Left hand 2','Left hand 3']);
 export const LOADOUT_ARMOR_SLOTS=Object.freeze(['Head','Chest','Arms','Legs']);
@@ -133,25 +134,29 @@ export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnish
    items.push({slot:'Talisman '+(i+1),name,weight:null,provenance:'unknown'});
   }
  }
- // This exact ordered reference UI attempt is NOT an equipable 2-item
- // scenario: actual v1.17 multiselect kept Radagon Scarseal only.
- const impossibleRadagonSealPair=state.talismans.includes("Radagon's Scarseal")&&
-  state.talismans.includes("Radagon's Soreseal");
- if(impossibleRadagonSealPair)
-  unknowns.push({slot:'Talisman mutual restriction',
-   name:"Radagon's Scarseal + Radagon's Soreseal",
-   reason:'The actual v1.17 UI refused to retain both Radagon seals. Requested total cannot be certified as an equipped build.'});
+ // Invalid equipment cannot become an "exact" total merely because each
+ // individual item has a known weight. Preserve direct-site vs secondary evidence.
+ const compatibility=reviewTalismanLoadoutCompatibility(state.talismans);
+ for(const conflict of compatibility.conflicts)
+  unknowns.push({
+   slot:'Talisman compatibility',
+   name:conflict.names.join(' + '),
+   reason:conflict.note+' Evidence: '+conflict.evidence+'.'
+  });
  const exactTotal=unknowns.length?null:Math.round(knownWeight*1000)/1000;
  let tier=null;
  if(exactTotal!==null&&state.maxEquipLoad!=='')tier=loadTier(exactTotal,state.maxEquipLoad);
- return {state,items,unknowns,knownWeight:Math.round(knownWeight*1000)/1000,
+ return {state,items,unknowns,compatibility,
+  knownWeight:Math.round(knownWeight*1000)/1000,
   exactTotal,tier,status:unknowns.length?'PARTIAL':'USER_SOURCE_ONLY',
   warnings:[
-   'No armor, talisman, crystal tear, Great Rune, status or spell effects are applied to character stats, defenses or AR.',
-   ...(impossibleRadagonSealPair?[
-    'The public v1.17 selector did not retain Radagon Scarseal and Soreseal together; requested weight subtotal is NOT a valid equipped item total.']:[]),
+   'This local weight calculation does not apply item effects to character stats, defenses or AR. Separately presented exact reference-site observations apply only to their explicitly matched inputs.',
+   ...(compatibility.conflicts.some(x=>x.family==='Radagon seal variants')?[
+    'The public v1.17 selector did not retain Radagon Scarseal then Soreseal together. The reverse order has not been directly measured; independent equipability documentation also prohibits the pair.']:[]),
+   ...(compatibility.conflicts.length?[
+    'This input contains an unwearable talisman selection: the known weight subtotal is an arithmetic sum, NOT an actual equipped weight or roll tier. Secondary-source restrictions are not Tarnished.dev double-read observations.']:[]),
    'Nine weapon weights are independently observed from Tarnished.dev public v1.17 with two browser reads. Other community weights are not competitor-verified. This is not a game-client current-patch claim.',
-   ...(unknowns.length?['Equip-load tier withheld because one or more selected equipment weights are unknown.']:[])
+   ...(unknowns.length?['Equip-load tier withheld because weights are missing/disputed or equipped-item compatibility is not satisfied.']:[])
   ]};
 }
 export function encodeBuildLoadout(input){
