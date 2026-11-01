@@ -1,7 +1,7 @@
 {
   "reference": "Tarnished.dev public v1.17",
   "version": "v1.17",
-  "sourceRun": 41295943732,
+  "sourceRun": 41296445733,
   "twoIndependentChromeReadsPerScene": true,
   "scope": "Wretch, all remaining attributes 10; actual selected no effects; Damage Uchigatana Standard +25; Spell Glintstone Pebble + Astrologer's Staff, public default reinforcement and zero-defense enemy.",
   "damage": [
@@ -12,7 +12,9 @@
       "physical": 376,
       "poise": 5,
       "dpsSingle": 464,
-      "dpsPaired": 547
+      "dpsPaired": 547,
+      "buildPlannerAr": 376,
+      "referenceSameSiteArDisagreement": false
     },
     {
       "str": 20,
@@ -21,7 +23,9 @@
       "physical": 392,
       "poise": 5,
       "dpsSingle": 489,
-      "dpsPaired": 577
+      "dpsPaired": 577,
+      "buildPlannerAr": 388,
+      "referenceSameSiteArDisagreement": true
     },
     {
       "str": 15,
@@ -30,7 +34,9 @@
       "physical": 388,
       "poise": 5,
       "dpsSingle": 483,
-      "dpsPaired": 570
+      "dpsPaired": 570,
+      "buildPlannerAr": 392,
+      "referenceSameSiteArDisagreement": true
     }
   ],
   "spell": [
@@ -53,5 +59,6 @@
       "fp": 7
     }
   ],
-  "note": "Exact UI scenes only. Damage DPS timings/movesets and Spell scaling are NOT independently reproduced by the local engine. Source observations are not a local result formula."
+  "note": "These are TWO DIFFERENT pages at exactly the same stats, upgrade, affinity and weapon. Damage table and Build Planner reference AR differ by 4 on 2/3 inputs; the independently implemented pinned v1.17 local AR engine agrees with Build Planner. Do not silently force one page's value to match the other. Damage DPS and Spell damage remain source reference only, not reproduced by local algorithms.",
+  "crossPageBuildSourceRun": 41296445733
 }
