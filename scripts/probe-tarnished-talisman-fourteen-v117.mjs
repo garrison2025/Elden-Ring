@@ -221,7 +221,8 @@ async function main(){
   const diff=v.finalStats.map((x,i)=>Number(x)-Number(base.finalStats[i]));
   rows.push({name,available:exact,actualLabel:chosen.label,weight:v.load,
     initialStats:base.finalStats,finalStats:v.finalStats,delta:diff,
-    capacity:v.capacity,values:output,
+    capacity:v.capacity,values:output,siteArmorOnlyMetrics:v.metrics,
+    baselineArmorOnlyMetrics:base.metrics,
     baselineVersion:baselineOutput,
     note:'Single selected reference talisman, NO active effects from any other item'});
   if(!exact)throw Error('Bad real-site selection identity or changed baseline '+name);
