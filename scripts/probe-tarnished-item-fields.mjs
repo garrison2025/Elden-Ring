@@ -9,9 +9,10 @@ import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {existsSync} from 'node:fs';
 import {waitForChromePage} from './browser-cdp-startup.mjs';
+import {V117_WEIGHT_BATCH2_CANDIDATES} from './tarnished-v117-weight-batch2-candidates.mjs';
 const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].find(existsSync);
 if(!chrome)throw Error('No public-site browser installed');
-const samples=[
+const historicSamples=[
  {id:'baseline-no-items',name:'',hand:'rh1'},
  {id:'known-longsword-rh1',name:'Longsword',hand:'rh1'},
  {id:'known-longsword-lh1',name:'Longsword',hand:'lh1'},
@@ -25,6 +26,8 @@ const samples=[
  {id:'conflict-radahn-light',name:'Greatsword of Radahn (Light)',hand:'rh1'},
  {id:'conflict-ritual-thrusting-shield',name:'Ritual Thrusting Shield',hand:'lh1'}
 ];
+const batch2=process.env.TARNISHED_WEIGHT_BATCH==='2';
+const samples=batch2?[...historicSamples.slice(0,3),...V117_WEIGHT_BATCH2_CANDIDATES]:historicSamples;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const uniqueAffinity=new Set(['Stone-Sheathed Sword','Greatsword of Radahn (Light)']);
 let browser,profile,socket,serial=0;const pending=new Map();
@@ -104,7 +107,7 @@ async function run(){
  for(const c of samples){
   const params=new URLSearchParams({str:'60',dex:'60',int:'30',fai:'30',arc:'30',
    smith:'0',somber:'0',twoHanded:'false'});
-  if(c.name){params.set(c.hand,c.name);params.set(c.hand==='rh1'?'aRh1':'aLh1',uniqueAffinity.has(c.name)?'None':'Standard');}
+  if(c.name){params.set(c.hand,c.name);params.set(c.hand==='rh1'?'aRh1':'aLh1',c.affinity??(uniqueAffinity.has(c.name)?'None':'Standard'));}
   const url='https://www.tarnished.dev/build-planner?'+params;
   try{
    await send('Page.navigate',{url});await sleep(3500);
@@ -116,7 +119,7 @@ async function run(){
    const pos=s.buildWeaponBlock.indexOf(blockStart);
    const next=s.buildWeaponBlock.search(/Equipped (?:Right|Left) Hand [23]/);
    const selected=pos>=0?s.buildWeaponBlock.slice(pos,next>pos?next:pos+420):'';
-   const affinity=uniqueAffinity.has(c.name)?'None':'Standard';
+   const affinity=c.affinity??(uniqueAffinity.has(c.name)?'None':'Standard');
    const loadRaw=s.fields.find(x=>x.id==='Equip Load')?.value??'';
    const loadPieces=loadRaw.split(' / ');
    const actual=loadPieces.length===2&&/^[0-9]+(?:[.][0-9]+)?$/.test(loadPieces[0])?
@@ -155,7 +158,7 @@ async function run(){
   JSON.stringify({comparator:'Tarnished.dev v1.17',checkedAt:new Date().toISOString(),
    classification:'Public-site UI observations only; item attributes NOT automatically accepted',
    cases:results},null,2)+'\n');
- console.log('[FIELD SITE SUMMARY] '+JSON.stringify({checked:results.length,
+ console.log('[FIELD SITE SUMMARY] '+JSON.stringify({mode:batch2?'batch2-30':'historical-9',checked:results.length,
   validVersion:results.filter(x=>x.version?.includes('v1.17')).length,
   verifiedItems:results.filter(x=>x.status==='INPUT_AND_ITEM_VERIFIED').length,
   notObserved:results.filter(x=>x.status!=='INPUT_AND_ITEM_VERIFIED').length}));
