@@ -1,0 +1,46 @@
+name: Direct v1.17 all ten original character starting class levels
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-original-class-levels.mjs
+      - scripts/compare-tarnished-original-class-levels.mjs
+      - .github/workflows/tarnished-original-class-levels.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  class-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        shard: [0,1,2,3,4]
+    env:
+      TARNISHED_CLASS_SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First actual public v1.17 starting class/level DOM read
+        run: |
+          node scripts/probe-tarnished-original-class-levels.mjs
+          cp .audit/v117-original-classes-${TARNISHED_CLASS_SHARD}.json .audit/class-first.json
+      - name: Independently re-read same original classes in a fresh Chrome process
+        run: node scripts/probe-tarnished-original-class-levels.mjs
+      - name: Validate two passes, all eight class attributes and character level
+        run: node scripts/compare-tarnished-original-class-levels.mjs
+      - name: Preserve both readings and comparison summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-original-class-shard-${{ matrix.shard }}
+          path: |
+            .audit/class-first.json
+            .audit/v117-original-classes-${{ matrix.shard }}.json
+            .audit/class-comparison.json
+          retention-days: 30
+          if-no-files-found: warn
