@@ -15,7 +15,7 @@ test('user-approved sole numeric benchmark is the actual Tarnished.dev v1.17 com
   assert.ok(policy.includes(r),r);
  assert.match(readme,/Tarnished\.dev only/);
  assert.match(readme,/116.*exact-input/);
- assert.match(readme,/one-point Icerind public AR discrepancy/);
+ assert.match(readme,/Icerind one-point public-site AR discrepancy has a narrowly scoped/);
  assert.match(page,/Numerical comparison standard: Tarnished\.dev public v1\.17 only/);
  assert.match(page,/matching the actual Tarnished\.dev calculator value passes numerical parity/);
  assert.match(page,/Icerind Hatchet/);
