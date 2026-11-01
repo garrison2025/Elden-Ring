@@ -133,3 +133,17 @@ test('two newly recovered special items contribute exact public v1.17 weights, n
  assert.equal(result.items.find(x=>x.name==='Inseparable Sword').weight,10);
  assert.equal(result.items.find(x=>x.name==='Jellyfish Shield').weight,8);
 });
+
+test('observed v1.17 Staff of the Great Beyond mismatch overrides 2.0 community weight, manual input stays first',()=>{
+ const state=emptyBuildLoadout();
+ state.weaponSlots[0].id=w('Staff of the Great Beyond').id;
+ state.maxEquipLoad='100';
+ const verified=evaluateBuildLoadout(state,catalog,{allowSote:true});
+ assert.equal(w('Staff of the Great Beyond').weight,2);
+ assert.equal(verified.exactTotal,2.5);
+ assert.equal(verified.items[0].provenance,'tarnished-dev-v1.17-direct-ui');
+ state.weaponSlots[0].manualWeight='2';
+ const override=evaluateBuildLoadout(state,catalog,{allowSote:true});
+ assert.equal(override.exactTotal,2);
+ assert.equal(override.items[0].provenance,'user-entered');
+});

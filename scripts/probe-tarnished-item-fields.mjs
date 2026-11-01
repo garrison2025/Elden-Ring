@@ -11,6 +11,7 @@ import {existsSync} from 'node:fs';
 import {waitForChromePage} from './browser-cdp-startup.mjs';
 import {V117_WEIGHT_BATCH2_CANDIDATES} from './tarnished-v117-weight-batch2-candidates.mjs';
 import {V117_WEIGHT_FINAL37_CANDIDATES} from './tarnished-v117-weight-final37-candidates.mjs';
+import {V117_WEIGHT_BATCH4_CANDIDATES} from './tarnished-v117-weight-batch4-candidates.mjs';
 const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].find(existsSync);
 if(!chrome)throw Error('No public-site browser installed');
 const historicSamples=[
@@ -29,7 +30,8 @@ const historicSamples=[
 ];
 const batch2=process.env.TARNISHED_WEIGHT_BATCH==='2';
 const batch3=process.env.TARNISHED_WEIGHT_BATCH==='3';
-const samples=batch3?[...historicSamples.slice(0,3),...V117_WEIGHT_FINAL37_CANDIDATES]:
+const batch4=process.env.TARNISHED_WEIGHT_BATCH==='4';
+const samples=batch4?[...historicSamples.slice(0,3),...V117_WEIGHT_BATCH4_CANDIDATES]:batch3?[...historicSamples.slice(0,3),...V117_WEIGHT_FINAL37_CANDIDATES]:
  batch2?[...historicSamples.slice(0,3),...V117_WEIGHT_BATCH2_CANDIDATES]:historicSamples;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const uniqueAffinity=new Set(['Stone-Sheathed Sword','Greatsword of Radahn (Light)']);
@@ -118,7 +120,7 @@ async function run(){
     const params=new URLSearchParams(baseParams);
     if(affinity!==null)params.set(c.hand==='rh1'?'aRh1':'aLh1',affinity);
     const url='https://www.tarnished.dev/build-planner?'+params;
-    await send('Page.navigate',{url});await sleep(batch3?2400:3500);
+    await send('Page.navigate',{url});await sleep(batch3||batch4?2400:3500);
     let s=await evaluate('('+snapshot.toString()+')()');
     if(!s.version.includes('v1.17')||(c.name&&!s.buildWeaponBlock.includes('\n'+c.name+'\n'))){
      await sleep(3000);s=await evaluate('('+snapshot.toString()+')()');
@@ -142,7 +144,7 @@ async function run(){
     // Catalysts may not show an attack AR at all, yet still have real weight.
     // Keep their weaker evidence independently labelled for manual review.
     const catalystActive=c.catalyst===true&&selected.includes('Scaling:')&&
-     selected.includes('Total AR :')&&actual>0;
+     /Sorcery[ ]*:[ ]*[0-9]+/.test(selected)&&actual>0;
     const active=c.name?(selected.includes(String.fromCharCode(10)+c.name+String.fromCharCode(10))&&
       selected.includes(String.fromCharCode(10)+affinity+String.fromCharCode(10))&&
       (numericAr||catalystActive)&&actual>0):
@@ -176,7 +178,7 @@ async function run(){
   JSON.stringify({comparator:'Tarnished.dev v1.17',checkedAt:new Date().toISOString(),
    classification:'Public-site UI observations only; item attributes NOT automatically accepted',
    cases:results},null,2)+'\n');
- console.log('[FIELD SITE SUMMARY] '+JSON.stringify({mode:batch3?'final37':batch2?'batch2-30':'historical-9',checked:results.length,
+ console.log('[FIELD SITE SUMMARY] '+JSON.stringify({mode:batch4?'known-weight-32':batch3?'final37':batch2?'batch2-30':'historical-9',checked:results.length,
   validVersion:results.filter(x=>x.version?.includes('v1.17')).length,
   verifiedItems:results.filter(x=>x.status==='INPUT_AND_ITEM_VERIFIED').length,
   notObserved:results.filter(x=>x.status!=='INPUT_AND_ITEM_VERIFIED').length}));

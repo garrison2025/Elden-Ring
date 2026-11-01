@@ -104,3 +104,13 @@ test('the public comparator weight of Gravel Stone Seal does not fabricate attac
  assert.equal(result.attackAtZero,null);
  assert.equal(result.requirementsDisputed,false);
 });
+
+test('Staff of the Great Beyond v1.17 direct weight corrects existing 2.0 without asserting spell/attack parity',()=>{
+ const staff=find('Staff of the Great Beyond');
+ assert.equal(staff.weight,2);
+ const result=inspectBuildWeapon(catalog.weapons,staff.id,stats,{allowSote:true});
+ assert.equal(result.weight,2.5);
+ assert.equal(result.reportedWeight,2);
+ assert.equal(result.weightProvenance,'tarnished-dev-v1.17-direct-ui');
+ assert.ok(result.note.includes('Separate Tarnished.dev public v1.17'));
+});
