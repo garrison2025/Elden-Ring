@@ -1,0 +1,64 @@
+{
+  "reference": "Tarnished.dev public v1.17",
+  "version": "v1.17",
+  "sourceRun": 41296445733,
+  "twoIndependentChromeReadsPerScene": true,
+  "scope": "Wretch, all remaining attributes 10; actual selected no effects; Damage Uchigatana Standard +25; Spell Glintstone Pebble + Astrologer's Staff, public default reinforcement and zero-defense enemy.",
+  "damage": [
+    {
+      "str": 15,
+      "dex": 20,
+      "ar": 376,
+      "physical": 376,
+      "poise": 5,
+      "dpsSingle": 464,
+      "dpsPaired": 547,
+      "buildPlannerAr": 376,
+      "referenceSameSiteArDisagreement": false
+    },
+    {
+      "str": 20,
+      "dex": 20,
+      "ar": 388,
+      "physical": 388,
+      "poise": 5,
+      "dpsSingle": 483,
+      "dpsPaired": 570,
+      "buildPlannerAr": 388,
+      "referenceSameSiteArDisagreement": false
+    },
+    {
+      "str": 15,
+      "dex": 25,
+      "ar": 392,
+      "physical": 392,
+      "poise": 5,
+      "dpsSingle": 489,
+      "dpsPaired": 577,
+      "buildPlannerAr": 392,
+      "referenceSameSiteArDisagreement": false
+    }
+  ],
+  "spell": [
+    {
+      "int": 25,
+      "magic": 242,
+      "bullets": 1,
+      "fp": 7
+    },
+    {
+      "int": 30,
+      "magic": 267,
+      "bullets": 1,
+      "fp": 7
+    },
+    {
+      "int": 40,
+      "magic": 315,
+      "bullets": 1,
+      "fp": 7
+    }
+  ],
+  "note": "Each result is matched to the explicit caseId and actual effective controls in two independent Chromium profiles. The Tarnished.dev Build Planner and Damage Calculator both show 376/388/392 for the corresponding three +25 Uchigatana profiles, and the independent local pinned-v1.17 AR engine reproduces all three. The reference displays DPS 464/547,483/570,489/577 but the local Damage engine has not reproduced DPS timing or moveset calculations. Reference spell magic 242/267/315 is observed, not yet locally calculated; no invented formula.",
+  "crossPageBuildSourceRun": 41296445733
+}
