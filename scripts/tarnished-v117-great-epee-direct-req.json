@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "source": "Tarnished.dev public v1.17 real visible Build Planner",
+  "sourceRun": 41268947125,
+  "sourceJob": 124737528536,
+  "independentBrowserPasses": 2,
+  "previousVerified": 459,
+  "newlyVerified": 1,
+  "totalDirectVerified": 460,
+  "remainingNotDirectlyObserved": 27,
+  "weapon": {
+    "name": "Great Épée",
+    "actualSiteName": "Great epee",
+    "origin": "Wretch",
+    "affinity": "Standard",
+    "stats": [
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "upgrade": 0,
+    "requirements": [
+      15,
+      16,
+      0,
+      0,
+      0
+    ],
+    "siteAr": 74,
+    "sitePinnedMismatch": 0
+  }
+}
