@@ -44,7 +44,7 @@ export const V117_WEIGHT_BATCH4_CANDIDATES=Object.freeze(
   name,
   hand:/Shield$/.test(name)?'lh1':'rh1',
   affinities:Object.freeze(['Standard','None']),
-  catalyst:name==='Staff of the Great Beyond',
+  catalyst:name==='Staff of the Great Beyond'||name==='Carian Sorcery Sword',
   segment:index<sourceSensitive.length?'source-sensitive':'category-control'
  }))
 );
