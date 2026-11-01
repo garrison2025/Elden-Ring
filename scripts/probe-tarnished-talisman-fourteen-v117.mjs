@@ -12,7 +12,7 @@ import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {waitForChromePage} from './browser-cdp-startup.mjs';
 
-const shard=0;
+// The original armor sharding constant is intentionally omitted here.
 const slot='Head';
 const targets=[{id:'tarnished-v117-dlc-circlet-of-light',name:'Circlet of Light',slot:'Head'}];
 const binary=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable',
