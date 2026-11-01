@@ -5,11 +5,16 @@
  * equivalence is certified. Great Rune and Physick produced stat changes even
  * when their UI "Activate" checkboxes read false. Never hide that discrepancy.
  */
+import {V117_TALISMAN_SINGLE_SELECTION} from './v117-talisman-isolated-matrix.mjs';
+const talismanEntries=Object.fromEntries(Object.values(V117_TALISMAN_SINGLE_SELECTION).map(
+  row=>['talisman:'+row.name,Object.freeze({
+   kind:'talisman',name:row.name,delta:row.delta,
+   weight:row.weight,checkboxMismatch:false,sourceJobs:row.sourceJobs,
+   siteObserved:row
+  })]
+));
 export const V117_ISOLATED_SELECTED_EFFECTS=Object.freeze({
- 'talisman:Starscourge Heirloom':Object.freeze({
-  kind:'talisman',name:'Starscourge Heirloom',delta:Object.freeze([0,0,0,5,0,0,0,0]),
-  weight:0.8,checkboxMismatch:false,
-  sourceJobs:Object.freeze([124798010798,124798010663])}),
+ ...talismanEntries,
  "rune:Godrick's Great Rune":Object.freeze({
   kind:'rune',name:"Godrick's Great Rune",delta:Object.freeze([5,5,5,5,5,5,5,5]),
   weight:0,checkboxMismatch:true,
@@ -19,6 +24,6 @@ export const V117_ISOLATED_SELECTED_EFFECTS=Object.freeze({
   weight:0,checkboxMismatch:true,
   sourceJobs:Object.freeze([124798010824,124798010834])})
 });
-export const V117_DOUBLE_READ_TALISMAN_WEIGHTS=Object.freeze({
- 'Starscourge Heirloom':0.8
-});
+export const V117_DOUBLE_READ_TALISMAN_WEIGHTS=Object.freeze(Object.fromEntries(
+ Object.values(V117_TALISMAN_SINGLE_SELECTION).map(x=>[x.name,x.weight])
+));

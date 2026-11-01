@@ -1,4 +1,4 @@
-/** Limited same-input selection preview for exactly three independently
+/** Limited single-selection preview for 14 talismans plus two other independently
  * twice-observed public Tarnished.dev v1.17 item selections.
  * Never sum effects from distinct items or feed them into AR/defense/HP.
  * Reference's Great Rune and Physick checkboxes appeared OFF despite their
@@ -37,8 +37,9 @@ export function previewV117SelectedBuildEffects(stats,loadout,{origin='Wretch'}=
    status:cap?'unverified-stat-cap':
     exact?'direct-site-same-input-selection':'isolated-effect-arithmetic-not-full-build',
    checkBoxMismatch:known.checkboxMismatch,
+   siteObserved:exact&&known.kind==='talisman'?known.siteObserved:null,
    note:(cap?'One or more modified attributes would exceed 99; no final value is inferred. ':
-    exact?'The eight output numbers exactly matched one real selected-item Wretch reference scene. ':
+    exact?'The selected-item Wretch 10 scene and actual displayed fields were independently read twice. ':
     'Single known bonus applied arithmetically, but this entire Build/effects combination was NOT observed. ')+warning
   });
  }
