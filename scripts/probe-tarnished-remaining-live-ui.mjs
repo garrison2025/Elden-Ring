@@ -79,13 +79,14 @@ function buttonRect(label){
  const el=nodes.find(x=>(x.innerText||x.textContent||'').trim()===label);
  if(!el)return {found:false,reason:'Button missing',label};
  if(el.disabled)return {found:false,reason:'Button disabled',label};
- el.scrollIntoView({block:'center',inline:'center'});
+ el.scrollIntoView({behavior:'instant',block:'center',inline:'center'});
  const r=el.getBoundingClientRect();
- return {found:true,label,x:r.x+r.width/2,y:r.y+r.height/2,html:el.outerHTML.slice(0,260)};
+ const x=r.x+r.width/2,y=r.y+r.height/2;const target=document.elementFromPoint(x,y)?.closest('button');return {found:true,label,x,y,width:innerWidth,height:innerHeight,hit:(target?.innerText||'').trim(),html:el.outerHTML.slice(0,260)};
 }
 async function trustedClick(label){
  const r=await call(buttonRect,label);
  if(!r.found)return r;
+ if(r.x<0||r.x>=r.width||r.y<0||r.y>=r.height||r.hit!==label)return {...r,clicked:false,reason:'Missed viewport target; abort click'};
  await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:r.x,y:r.y});
  await send('Input.dispatchMouseEvent',{type:'mousePressed',x:r.x,y:r.y,button:'left',clickCount:1});
  await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:r.x,y:r.y,button:'left',clickCount:1});
@@ -163,6 +164,7 @@ async function main(){
    const before=await navigate(c.url);
    let configuration=null,click={clicked:false,reason:'Control read only'};
    if(c.id==='tarnished-armor'){
+    await call(function(){window.__armorClickEvents=[];document.addEventListener('click',e=>window.__armorClickEvents.push({at:Date.now(),trusted:e.isTrusted,button:(e.target.closest('button')?.innerText||'').trim()}),true)});
     configuration=await call(poiseOnly);
     await sleep(650);
     click=await trustedClick('Calculate Best Armor');
@@ -173,13 +175,15 @@ async function main(){
     click=configuration.run;
    }
    const after=click.clicked?await call(capture):null;
-   all.push({...c,before,configuration,click,after});
+   const targets=c.id==='tarnished-armor'?((await send('Target.getTargets')).targetInfos||[]).map(t=>({type:t.type,url:t.url,title:t.title})):null;
+   const clickEvents=c.id==='tarnished-armor'?await call(function(){return window.__armorClickEvents||[]}):null;
+   all.push({...c,before,configuration,click,clickEvents,targets,after});
    const change=after?(after.textTail!==before.textTail):null;
    console.log('[NEW PARITY BROWSER] '+JSON.stringify({id:c.id,url:before.url,title:before.title,
     version:before.version,head:before.textHead.slice(0,1100),
     initialTail:before.textTail.slice(-1800),afterTail:after?.textTail.slice(-3500)||null,
     buttons:before.buttons.map(x=>x.text).slice(-30),inputs:before.inputs.map(x=>({id:x.id,value:x.value,checked:x.checked,label:x.label.slice(0,62)})).slice(0,c.id==='tarnished-armor'?95:12),inputCount:before.inputs.length,
-    selects:before.selects.slice(0,c.id==='tarnished-armor'?35:4).map(x=>({id:x.id,text:x.text,parent:x.parent})),configuration,click,changed:change}));
+    selects:before.selects.slice(0,c.id==='tarnished-armor'?35:4).map(x=>({id:x.id,text:x.text,parent:x.parent})),configuration,click,clickEvents,targets,changed:change}));
   }catch(err){all.push({...c,error:String(err.message)});console.error('[NEW PARITY BROWSER FAILURE] '+JSON.stringify({id:c.id,error:String(err.message)}));}
  }
  await mkdir(resolve('.audit'),{recursive:true});
