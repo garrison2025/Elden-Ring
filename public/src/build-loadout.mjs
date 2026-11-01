@@ -152,7 +152,7 @@ export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnish
   warnings:[
    'This local weight calculation does not apply item effects to character stats, defenses or AR. Separately presented exact reference-site observations apply only to their explicitly matched inputs.',
    ...(compatibility.conflicts.some(x=>x.family==='Radagon seal variants')?[
-    'The public v1.17 selector did not retain Radagon Scarseal then Soreseal together. The reverse order has not been directly measured; independent equipability documentation also prohibits the pair.']:[]),
+    'The public v1.17 selector did not retain both Radagon seal variants in either tested click order: two independent Chrome passes retained only the first selected variant. This does not prove game-client effects or legality in every patch.']:[]),
    ...(compatibility.conflicts.length?[
     'This input contains an unwearable talisman selection: the known weight subtotal is an arithmetic sum, NOT an actual equipped weight or roll tier. Secondary-source restrictions are not Tarnished.dev double-read observations.']:[]),
    'Nine weapon weights are independently observed from Tarnished.dev public v1.17 with two browser reads. Other community weights are not competitor-verified. This is not a game-client current-patch claim.',
