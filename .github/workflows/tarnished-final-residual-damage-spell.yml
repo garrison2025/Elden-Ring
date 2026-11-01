@@ -1,0 +1,74 @@
+name: Double-read remaining actual Tarnished Damage and Spell rows
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/probe-tarnished-residual-damage-spell-v117.mjs'
+      - 'scripts/check-tarnished-residual-damage-spell-v117.mjs'
+      - '.github/workflows/tarnished-final-residual-damage-spell.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        profile: [0, 1, 2]
+        pass: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Actual public site; one real Wretch Damage and Spell result per profile
+        env:
+          TARNISHED_RESIDUAL_CASE: ${{ matrix.profile }}
+          TARNISHED_RESIDUAL_PASS: ${{ matrix.pass }}
+        run: node scripts/probe-tarnished-residual-damage-spell-v117.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-residual-damage-spell-${{ matrix.profile }}-${{ matrix.pass }}
+          path: .audit/tarnished-residual-damage-spell-${{ matrix.profile }}-pass-${{ matrix.pass }}.json
+          retention-days: 30
+          if-no-files-found: warn
+  compare:
+    needs: observe
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: real-residual-damage-spell-*
+          path: .audit
+          merge-multiple: true
+      - name: Compare each real site result in independent Chromium processes
+        run: node scripts/check-tarnished-residual-damage-spell-v117.mjs
+      - name: Report source-only outcome (never pretend local parity)
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if test -f .audit/residual-damage-spell-source-comparison.md; then
+            gh pr comment "$PR_NUMBER" --body-file .audit/residual-damage-spell-source-comparison.md
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-residual-damage-spell-comparison
+          path: |
+            .audit/residual-damage-spell-source-comparison.md
+            .audit/residual-damage-spell-source-comparison.json
+          retention-days: 30
+          if-no-files-found: warn
