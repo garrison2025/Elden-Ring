@@ -1,4 +1,8 @@
-/** Direct Tarnished.dev v1.17 visible Build Calculator, two independent Chromium reads per item.\n * Isolated selected armor, base Wretch 10/10/10/10/10, no buffs.\n * Weight and Poise only; no claim about other armor metrics, exact optimization, or unseen items.\n */\nexport const TARNISHED_V117_WIDE_ARMOR_GOLDENS=Object.freeze([{"id":"17f692c707bl0i0ofc3oguearc3gzo","name":"Mausoleum Knight Gauntlets","slot":"Arms","weight":3.9,"poise":5},
+/** Direct Tarnished.dev v1.17 visible Build Calculator, two independent Chromium reads per item.
+ * Isolated selected armor, base Wretch 10/10/10/10/10, no buffs.
+ * Weight and Poise only; no claim about other armor metrics, exact optimization, or unseen items.
+ */
+export const TARNISHED_V117_WIDE_ARMOR_GOLDENS=Object.freeze([{"id":"17f692c707bl0i0ofc3oguearc3gzo","name":"Mausoleum Knight Gauntlets","slot":"Arms","weight":3.9,"poise":5},
 {"id":"17f692d0fbcl0i0ovsczesu9l4suj","name":"Festive Hood (altered)","slot":"Head","weight":1,"poise":1},
 {"id":"17f692d489al0i0np20nfmvw8ku9t","name":"Festive Garb (altered)","slot":"Chest","weight":3.2,"poise":7},
 {"id":"17f692d6b5al0i0nbvb3a2bhklmel9","name":"Aristocrat Garb","slot":"Chest","weight":4.9,"poise":12},
@@ -540,4 +544,5 @@
 {"id":"17f69c41c6al0i0p4u5sk20p43vz1","name":"Mushroom Crown","slot":"Head","weight":9.1,"poise":10},
 {"id":"17f69c478dfl0i0ozgmor9bnppal7","name":"Highwayman Hood","slot":"Head","weight":3.3,"poise":4},
 {"id":"17f69c4cdd0l0i0oucw3g2vwat2x2","name":"Eccentric's Hood (altered)","slot":"Head","weight":4,"poise":6},
-{"id":"17f69c55725l0i0pi6oba1dev4bbv9","name":"Duelist Greaves","slot":"Legs","weight":7.3,"poise":14}]);\nexport const TARNISHED_V117_WIDE_ARMOR_SOURCE_RUN=41274764944;\n
+{"id":"17f69c55725l0i0pi6oba1dev4bbv9","name":"Duelist Greaves","slot":"Legs","weight":7.3,"poise":14}]);
+export const TARNISHED_V117_WIDE_ARMOR_SOURCE_RUN=41274764944;
