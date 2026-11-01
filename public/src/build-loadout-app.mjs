@@ -6,6 +6,7 @@ import {validateCommunityCatalog} from './community-weapons.mjs';
 import {loadPinnedArmorSource,findExactArmor} from './armor-source-optin.mjs';
 import {summarizeEquippedArmorMetrics} from './build-armor-metrics.mjs';
 import {previewDirectV117ArmorAttributeEffect} from './build-verified-armor-attribute-effect.mjs';
+import {previewV117SelectedBuildEffects} from './v117-selected-build-effects.mjs';
 const byId=id=>document.getElementById(id);
 const status=(message,error=false)=>{
  const el=byId('build-loadout-status');el.textContent=message;el.dataset.state=error?'error':'ready';
@@ -138,6 +139,21 @@ function render(){
    }
    make('p',{text:effect.status+': '+effect.note},box);
   }
+  const effectSelection=previewV117SelectedBuildEffects(topStats(),evaluated.state,{
+    origin:byId('origin')?.value??'unverified'
+  });
+  if(effectSelection.items.length){
+   const panel=make('section',{className:'build-armor-metric-panel',
+     id:'build-v117-isolated-effect-results'},result);
+   make('h3',{text:'Independently checked selected-item effects · public v1.17'},panel);
+   for(const one of effectSelection.items){
+    const row=make('div',{className:'build-loadout-effect-row'},panel);
+    make('h4',{text:one.name+' · '+one.kind+' · '+one.status},row);
+    if(one.values)make('p',{text:effectSelection.labels.map((k,i)=>k+' '+topStats()[i]+' → '+one.values[i]).join(' · ')},row);
+    make('p',{text:one.note},row);
+   }
+   make('p',{text:effectSelection.note},panel);
+  }
   const opts=contentOpts();
   const selected=state().weaponSlots.filter(x=>x.id);
   if(selected.length){
@@ -225,14 +241,14 @@ function createInputs(){
  }
  const talismans=byId('build-loadout-talismans');
  for(let i=0;i<4;i++)talismanEntries.push(field(talismans,'Talisman '+(i+1),'text',{
-  placeholder:'Name only; effects not calculated'
+  placeholder:'Exact name; 1 isolated reference effect is supported'
  }));
  const effects=byId('build-loadout-activations');
  for(let i=0;i<2;i++)tearEntries.push(field(effects,'Crystal Tear '+(i+1),'text',{
-  placeholder:'Name only'
+  placeholder:'Exact name; verified selection preview only'
  }));
  const rune=field(effects,'Equipped Great Rune','text',{
-  id:'build-loadout-rune',placeholder:'Name only; not applied to stats'
+  id:'build-loadout-rune',placeholder:'Exact name; not automatically activated in the game'
  });
  const spells=byId('build-loadout-spells');
  for(let i=0;i<10;i++)spellEntries.push(field(spells,'Spell '+(i+1),'text',{

@@ -194,6 +194,29 @@ try{
  assert.equal(await evaluate("document.querySelectorAll('#build-loadout-weapons select').length"),6);
  assert.equal(await evaluate("document.querySelectorAll('#build-loadout-armor input[type=text]').length"),4);
  assert.equal(await evaluate("document.querySelectorAll('#build-loadout-spells input').length"),10);
+
+ // Three genuine twice-read real v1.17 item selections: test actual
+ // browser inputs, source-identity preview, and exact talisman weight.
+ await evaluate("(()=>{const s=document.querySelector('#origin');s.value='Wretch';s.dispatchEvent(new Event('change',{bubbles:true}));const t=document.querySelector('#build-loadout-talismans input');t.value='Starscourge Heirloom';t.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-isolated-effect-results')?.textContent.includes('STR 10 → 15')",
+  'Real selected Starscourge Heirloom reference bonus renders');
+ assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 0.800'),
+  'Real talisman 0.8 load must no longer be silently discarded');
+ assert.match(await evaluate("document.querySelector('#build-v117-isolated-effect-results').textContent"),
+  /direct-site-same-input-selection/);
+ await evaluate("(()=>{const t=document.querySelector('#build-loadout-talismans input');t.value='';t.dispatchEvent(new Event('input',{bubbles:true}));const r=document.querySelector('#build-loadout-rune');r.value=\"Godrick's Great Rune\";r.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-isolated-effect-results')?.textContent.includes('VIG 10 → 15')",
+  'Actual Godrick rune selected-item +5 each from real Chrome appears');
+ assert.match(await evaluate("document.querySelector('#build-v117-isolated-effect-results').textContent"),
+  /checkbox still OFF/,'Do not hide reference UI activation discrepancy');
+ await evaluate("(()=>{const r=document.querySelector('#build-loadout-rune');r.value='';r.dispatchEvent(new Event('input',{bubbles:true}));const t=document.querySelector('#build-loadout-activations input');t.value='Intelligence-knot Crystal Tear';t.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-isolated-effect-results')?.textContent.includes('INT 10 → 20')",
+  'Actual one Physick tear source selection result matches ten-point intelligence change');
+ await evaluate("(()=>{const t=document.querySelector('#build-loadout-activations input');t.value='';t.dispatchEvent(new Event('input',{bubbles:true}));const o=document.querySelector('#origin');o.value='Samurai';o.dispatchEvent(new Event('change',{bubbles:true}))})()");
+ assert.ok(!(await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('build-v117-isolated-effect-results'),
+  'Clearing selected effects prevents stale source proof from surviving');
+ console.log('[REAL V117 BUILD EFFECTS] Starscourge STR+5 0.8 load, Godrick selected +5×8, Intelligence knot selected INT+10, toggle anomaly disclosed.');
+
  await evaluate("(()=>{const sel=document.querySelector('#build-loadout-weapons select');sel.value=[...sel.options].find(x=>x.textContent.startsWith('Uchigatana'))?.value;sel.dispatchEvent(new Event('change',{bubbles:true}));const max=document.querySelector('#build-loadout-maximum');max.value='75';max.dispatchEvent(new Event('input',{bubbles:true}))})()");
  assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 5.500'),
   'Sourced Uchigatana weight enters the build subtotal');

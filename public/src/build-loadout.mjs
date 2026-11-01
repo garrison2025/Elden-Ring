@@ -1,4 +1,5 @@
 import {loadTier} from './core.mjs';
+import {V117_DOUBLE_READ_TALISMAN_WEIGHTS} from './v117-isolated-effect-goldens.mjs';
 import {hasDisputedWeight} from './community-weapons.mjs';
 import {getTarnishedV117DirectWeight} from './tarnished-v117-public-weights.mjs';
 
@@ -116,6 +117,21 @@ export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnish
   else knownWeight+=amount;
   items.push({slot:LOADOUT_ARMOR_SLOTS[i],name:slot.name,weight:amount,
    provenance:slot.weightSource==='community'?'pinned-community-armor-unverified':'user-entered'});
+ }
+ // Real site v1.17 confirms one talisman's 0.8 weight. Other named
+ // talismans are NOT zero-weight placeholders: withhold an exact total.
+ for(let i=0;i<state.talismans.length;i++){
+  const name=state.talismans[i];if(!name)continue;
+  const observed=V117_DOUBLE_READ_TALISMAN_WEIGHTS[name];
+  if(Number.isFinite(observed)){
+   knownWeight+=observed;
+   items.push({slot:'Talisman '+(i+1),name,weight:observed,
+    provenance:'tarnished-dev-v1.17-direct-ui-double-read'});
+  }else{
+   unknowns.push({slot:'Talisman '+(i+1),name,
+    reason:'No actual v1.17 isolated talisman weight is verified for this name.'});
+   items.push({slot:'Talisman '+(i+1),name,weight:null,provenance:'unknown'});
+  }
  }
  const exactTotal=unknowns.length?null:Math.round(knownWeight*1000)/1000;
  let tier=null;

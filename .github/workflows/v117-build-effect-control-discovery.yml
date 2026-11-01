@@ -1,0 +1,29 @@
+name: Discover actual v1.17 Build passive effect controls
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-build-effect-controls-v117.mjs
+      - .github/workflows/v117-build-effect-control-discovery.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-public-build-effect-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Capture genuine public talisman, Great Rune and Physick selectors
+        run: node scripts/probe-tarnished-build-effect-controls-v117.mjs
+      - name: Preserve source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-build-effect-controls
+          path: .audit/v117-effect-control-discovery-1.json
+          retention-days: 30
+          if-no-files-found: warn
