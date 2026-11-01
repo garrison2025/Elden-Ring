@@ -1,0 +1,29 @@
+name: Direct Tarnished.dev four real armor slot numeric site observations
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-four-armor-pieces.mjs
+      - .github/workflows/tarnished-four-armor-direct.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  armor-direct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read actual site armor selection and weight/poise without other comparator sources
+        run: node scripts/probe-tarnished-four-armor-pieces.mjs
+      - name: Archive accepted/failed real UI reads separately from any community numbers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-v117-four-direct-armor-pieces
+          path: .audit/tarnished-armor-four-piece-site.json
+          retention-days: 30
+          if-no-files-found: warn
