@@ -1,3 +1,4 @@
+import {V117_EXACT_TALISMAN_COMBOS} from './v117-talisman-combos-direct.mjs';
 import {
  LOADOUT_WEAPON_SLOTS,LOADOUT_ARMOR_SLOTS,emptyBuildLoadout,
  validateBuildLoadout,evaluateBuildLoadout,encodeBuildLoadout,decodeBuildLoadout
@@ -327,6 +328,41 @@ function createInputs(){
  for(let i=0;i<4;i++)talismanEntries.push(field(talismans,'Talisman '+(i+1),'text',{
   placeholder:'Exact name; 1 isolated reference effect is supported'
  }));
+ // These are five ACTUAL whole-Build multi-talisman source observations.
+ // The preset deliberately clears the previous equipment and character state.
+ const presetPanel=make('div',{className:'build-armor-metric-panel'},talismans);
+ make('p',{text:'Live reference-backed Build scenarios (Wretch 10×8, no other equipment):'},presetPanel);
+ const preset=make('select',{'aria-label':'Choose a twice-observed reference talisman combination'},presetPanel);
+ make('option',{value:'',text:'Select one of 5 directly measured talisman combinations'},preset);
+ for(const row of V117_EXACT_TALISMAN_COMBOS){
+  make('option',{value:String(row.index),text:row.names.join(' + ')},preset);
+ }
+ const apply=make('button',{type:'button',className:'btn alt',
+  text:'Load selected reference Build (replaces current stats and all gear)'},presetPanel);
+ apply.addEventListener('click',()=>{
+  const selected=V117_EXACT_TALISMAN_COMBOS.find(x=>String(x.index)===preset.value);
+  if(!selected){
+   status('Choose an observed reference Build from the list first.',true);return;
+  }
+  if(!active)return;
+  // fill does not reset base attributes; do both explicitly to avoid any
+  // invalid claim that an effect observed at Wretch10 applies elsewhere.
+  const fresh=emptyBuildLoadout();
+  fresh.talismans=selected.names.concat(Array(4-selected.names.length).fill(''));
+  fresh.maxEquipLoad='48.176';
+  fill(fresh);
+  const origin=byId('origin');
+  if(origin){origin.value='Wretch';origin.dispatchEvent(new Event('change',{bubbles:true}));}
+  const statInputs=[...document.querySelectorAll('#stat-grid [data-stat]')];
+  if(statInputs.length!==8){
+   status('Reference preset blocked: the eight original attribute inputs are missing.',true);return;
+  }
+  for(const input of statInputs)input.value='10';
+  statInputs[0].dispatchEvent(new Event('input',{bubbles:true}));
+  render();
+  status('Loaded exact twice-observed Wretch10 '+selected.names.join(' + ')+
+   ' scene. Previous equipment and stats were replaced. No general item stacking has been inferred.');
+ });
  const effects=byId('build-loadout-activations');
  for(let i=0;i<2;i++)tearEntries.push(field(effects,'Crystal Tear '+(i+1),'text',{
   placeholder:'Exact name; verified selection preview only'
