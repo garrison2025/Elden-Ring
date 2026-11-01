@@ -95,11 +95,12 @@ function snapshot(){
   firstText:text.slice(0,2300),textLength:text.length};
 }
 
-import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard,getAltOriginRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
+import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard,getAltOriginRequirementShard,getSteelOriginRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
 const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
 const mode=process.env.TARNISHED_REQUIREMENT_TARGET;
-const targeted=mode==='ar-gap'||mode==='high-gap'||mode==='alt-origin';
-const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):getRequirementsShard(index);
+const originMode=mode==='alt-origin'||mode==='steel-origin';
+const targeted=mode==='ar-gap'||mode==='high-gap'||originMode;
+const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):originMode?getAltOriginRequirementShard(index):mode==='steel-origin'?getSteelOriginRequirementShard(index):getRequirementsShard(index);
 const reqPattern=/(?:^|\n)Req:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/;
 async function chooseVisibleStartingClass(name){
  const trigger=document.querySelector('#startingclass .p-dropdown-trigger');
@@ -147,7 +148,7 @@ async function run(){
      await send('Page.navigate',{url:'https://www.tarnished.dev/build-planner?'+params});
      await sleep(2200);
      let classAction=null;
-     if(mode==='alt-origin'){
+     if(originMode){
       classAction=await evaluate('('+chooseVisibleStartingClass.toString()+')('+JSON.stringify(c.originName)+')');
       await sleep(850);
      }
@@ -160,7 +161,7 @@ async function run(){
      const selected=part.split(/\nEquipped (?:Left|Right) Hand [123]/)[0];
      const m=selected.match(reqPattern);
      const controls=s.controls;
-     const wantedStats=mode==='alt-origin'?c.originStats.slice(3):[10,10,10,10,10];
+     const wantedStats=originMode?c.originStats.slice(3):[10,10,10,10,10];
      const valid=controls.str===String(wantedStats[0])&&
       controls.dex===String(wantedStats[1])&&
       controls.int===String(wantedStats[2])&&
@@ -181,7 +182,7 @@ async function run(){
      const verified=Boolean(onSite&&valid&&active&&five&&five.length===5&&
       five.every(v=>Number.isInteger(v)&&v>=0&&v<=99)&&five.some(v=>v>1));
      const observation={id:c.id,name:c.name,siteName:candidateName,affinity,
-      ...(mode==='alt-origin'?{originName:c.originName,originStats:c.originStats,
+      ...(originMode?{originName:c.originName,originStats:c.originStats,
        startingClass:s.startingClass,classAction}:{}),
       status:verified?'INPUT_AND_REQ_VERIFIED':'NOT_OBSERVED',
       requirements:verified?five:null,verifiedInputs:valid&&onSite,
@@ -208,7 +209,7 @@ async function run(){
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-public-requirements.json'),JSON.stringify({
   source:'Public Tarnished.dev v1.17 Build Planner Req: text, raw UI',
-  stats:mode==='alt-origin'?'valid-class-base-stats-per-record':[10,10,10,10,10],
+  stats:originMode?'valid-class-base-stats-per-record':[10,10,10,10,10],
   shard:index,mode:mode||'default',observedDate:new Date().toISOString(),
   cases:results},null,2)+'\n');
  console.log('[REQ SITE SUMMARY] '+JSON.stringify({shard:index,total:results.length,
