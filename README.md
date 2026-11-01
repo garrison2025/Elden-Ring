@@ -64,7 +64,7 @@ The current real-site observation reports: [86 historical AR cases](docs/TARNISH
 
 ## Direct Tarnished.dev armor site matching (2026-11-01)
 
-Four actual item selections were verified on Tarnished.dev's public v1.17 Build Calculator as Wretch 10/10/10/10/10 with no buffs, 0 baseline equip load and 0 Poise. This exposed **4/4 legacy community Poise mismatches** and **one weight mismatch**. The opt-in armor loader now uses the exact directly observed site **weight and Poise only** for those items; other armor stats remain source-only. Two independent site browser passes and CI compare are required for acceptance. [Four-item evidence](docs/TARNISHED_V117_FOUR_DIRECT_ARMOR_PIECES_20261101.md).
+**Large batch passed:** all 568 original armor records were attempted against the REAL public Tarnished.dev v1.17 Build Calculator, each on two independently launched Chromium instances; **543/568** passed verified item-selection and identical Weight/Poise reads. **25** could not be safely observed. The local source disagreed on **23 weights** and **531 Poise values** among the 543 accepted items. The user-initiated armor loader now overrides the **1,086 separately observed weight/Poise fields** by exact source ID. All other armor fields and full armor-optimizer combinations remain unverified against the comparator. [Full 568-source-candidate browser evidence](docs/TARNISHED_V117_568_ARMOR_WIDE_DIRECT_EVIDENCE_20261101.md) · [earlier 4-item double-read](docs/TARNISHED_V117_FOUR_DIRECT_ARMOR_PIECES_20261101.md).
 
 ## Additional exact-input AR and combat source audits (2026-11-01)
 
