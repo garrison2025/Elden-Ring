@@ -6,6 +6,7 @@ on:
     paths:
       - scripts/probe-tarnished-ui.mjs
       - scripts/tarnished-v117-extra-candidates.mjs
+      - scripts/tarnished-v117-fresh-candidates.mjs
       - scripts/compare-tarnished-chrome-ui.mjs
       - .github/workflows/tarnished-public-benchmark.yml
   workflow_dispatch:

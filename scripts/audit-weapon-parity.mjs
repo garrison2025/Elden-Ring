@@ -10,7 +10,7 @@
 import {readFile} from 'node:fs/promises';
 import {validateCommunityCatalog,hasDisputedAttack,hasDisputedRequirements,
  hasDisputedWeight} from '../public/src/community-weapons.mjs';
-import {TARNISHED_REFERENCE_AR_CASES} from '../public/src/tarnished-reference-benchmark.mjs';
+import {TARNISHED_V117_ALL_APPROVED_AR_CASES} from '../public/src/tarnished-reference-benchmark.mjs';
 
 const conflicting=w=>hasDisputedAttack(w)||hasDisputedRequirements(w)||hasDisputedWeight(w);
 export function summarizeWeaponParity(catalog,benchmarks){
@@ -92,7 +92,7 @@ export function summarizeWeaponParity(catalog,benchmarks){
 }
 export async function runWeaponParityAudit(){
  const raw=JSON.parse(await readFile(new URL('../public/data/community-weapon-catalog.json',import.meta.url),'utf8'));
- return summarizeWeaponParity(raw,TARNISHED_REFERENCE_AR_CASES);
+ return summarizeWeaponParity(raw,TARNISHED_V117_ALL_APPROVED_AR_CASES);
 }
 if(process.argv[1]&&new URL('file://'+process.argv[1]).pathname===new URL(import.meta.url).pathname){
  const result=await runWeaponParityAudit();

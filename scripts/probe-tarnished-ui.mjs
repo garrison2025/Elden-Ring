@@ -8,6 +8,7 @@ import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {waitForChromePage} from './browser-cdp-startup.mjs';
 import {V117_ADDITIONAL_UI_CANDIDATES} from './tarnished-v117-extra-candidates.mjs';
+import {V117_FRESH_UI_CANDIDATES} from './tarnished-v117-fresh-candidates.mjs';
 const chromePath=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].find(existsSync);
 if(!chromePath)throw Error('GitHub runner has no Chromium');
 const cases=[
@@ -28,9 +29,11 @@ const cases=[
  {id:'fire-knights-greatsword-standard-plus25',weaponName:"Fire Knight's Greatsword",str:30,dex:25,fai:20,affinity:'Standard',upgrade:25,twoHanded:false}
 ];
 const baseCases=cases.length;
-cases.push(...V117_ADDITIONAL_UI_CANDIDATES);
-if(baseCases!==15||cases.length!==50||new Set(cases.map(c=>c.id)).size!==50)
- throw new RangeError('Reference probe requires 15 prior + 35 NEW DISTINCT candidate input combinations.');
+cases.push(...V117_ADDITIONAL_UI_CANDIDATES,...V117_FRESH_UI_CANDIDATES);
+const priorTotal=baseCases+V117_ADDITIONAL_UI_CANDIDATES.length;
+if(baseCases!==15||V117_ADDITIONAL_UI_CANDIDATES.length!==35||V117_FRESH_UI_CANDIDATES.length!==18||
+ cases.length!==68||new Set(cases.map(c=>c.id)).size!==68)
+ throw new RangeError('Reference probe requires 15 prior + 35 approved + 18 fresh DISTINCT candidate input combinations.');
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let browser,profile,socket,id=0;
 const promises=new Map();
@@ -140,7 +143,8 @@ async function main(){
     );
     const result={
      id:c.id,request:c,
-     evidenceTier:cases.indexOf(c)<baseCases?'prior-15-reprobe':'additional-unpromoted-candidate',
+     evidenceTier:cases.indexOf(c)<baseCases?'prior-15-reprobe':
+        cases.indexOf(c)<priorTotal?'additional-unpromoted-candidate':'fresh-18-unpromoted-candidate',
      observedAr:ar?Number(ar[1]):null,
      displayedWeapon:snap.weaponBlock.includes('\n'+desiredWeapon+'\n')?desiredWeapon:null,
      version:snap.version,url:snap.page,title:snap.title,
@@ -168,6 +172,8 @@ async function main(){
   source:'tarnished.dev public UI',gameCertified:false,comparatorVersion:'v1.17',
   evidenceStatus:'RAW OBSERVATIONS ONLY; new cases are not counted or promoted until two confirmed external reads and independent AR matching',
   priorCaseCount:baseCases,newCandidateCount:V117_ADDITIONAL_UI_CANDIDATES.length,
+  freshCandidateCount:V117_FRESH_UI_CANDIDATES.length,
+  freshInputVerified:results.slice(priorTotal).filter(c=>c.status==='INPUT-VERIFIED-AR').length,
   newInputVerified:results.slice(baseCases).filter(c=>c.status==='INPUT-VERIFIED-AR').length,
   cases:results
  },null,2)+'\n');
@@ -175,7 +181,8 @@ async function main(){
   results.filter(x=>x.observedAr!==null).length+
   ' prior-input-verified='+results.slice(0,baseCases).filter(x=>x.status==='INPUT-VERIFIED-AR').length+
   ' NEW-input-verified='+results.slice(baseCases).filter(x=>x.status==='INPUT-VERIFIED-AR').length+
-  ' NEW-not-yet-approved='+V117_ADDITIONAL_UI_CANDIDATES.length+
+  ' FRESH-input-verified='+results.slice(priorTotal).filter(c=>c.status==='INPUT-VERIFIED-AR').length+
+  ' FRESH-unpromoted='+V117_FRESH_UI_CANDIDATES.length+
   '; zero new benchmark passes auto-approved');
 }
 main().catch(async e=>{console.error('[TARNISHED CHROME] fatal: '+String(e));await cleanup();process.exitCode=1;});
