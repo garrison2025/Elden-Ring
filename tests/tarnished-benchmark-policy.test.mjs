@@ -26,13 +26,17 @@ test('homepage separately labels v1.17 reference AR and unverified current patch
  assert.match(html,/no game installation is needed/);
 });
 
-test('accuracy dashboard shows repeatable 50/50 source UI parity, twelve families and distinct 39,552 internal math checks',()=>{
+test('accuracy dashboard distinguishes 86 approved AR, 347/348 expanded AR, 481 weights, 357 requirements and internal math',()=>{
  const html=read('validation-status/index.html');
- assert.match(html,/50 \/ 50/);
- assert.match(html,/12 weapon families/);
+ assert.match(html,/86 \/ 86/);
+ assert.match(html,/347 \/ 348/);
+ assert.match(html,/481 \/ 487/);
+ assert.match(html,/357 \/ 487/);
  assert.match(html,/39,552/);
  assert.match(html,/NOT 39,552 external-site comparisons/);
- assert.match(html,/reference benchmark PASS for these 50 cases only/);
+ assert.match(html,/Historic 50-case reference benchmark/);
+ assert.match(html,/Icerind Hatchet remains unresolved/);
+ assert.match(html,/130 hidden\/unobservable/);
  assert.match(html,/41180592038/);
  assert.match(html,/41180757356/);
  assert.match(html,/41180757347/);
