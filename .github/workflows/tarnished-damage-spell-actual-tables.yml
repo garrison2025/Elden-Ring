@@ -1,0 +1,29 @@
+name: Audit actual remaining Damage and Spell result tables v1.17
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-damage-spell-actual-tables-v117.mjs
+      - .github/workflows/tarnished-damage-spell-actual-tables.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-public-result-table-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Click public actual Show Table on both tools without unselected values
+        run: node scripts/probe-tarnished-damage-spell-actual-tables-v117.mjs
+      - name: Preserve direct DOM evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: damage-spell-v117-actual-result-tables
+          path: .audit/tarnished-damage-spell-actual-tables-v117.json
+          if-no-files-found: warn
+          retention-days: 30
