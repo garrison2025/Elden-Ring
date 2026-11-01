@@ -117,8 +117,12 @@ async function run(){
    const next=s.buildWeaponBlock.search(/Equipped (?:Right|Left) Hand [23]/);
    const selected=pos>=0?s.buildWeaponBlock.slice(pos,next>pos?next:pos+420):'';
    const affinity=uniqueAffinity.has(c.name)?'None':'Standard';
-   const parsed=s.fields.find(x=>x.id==='Equip Load')?.value.match(/^(\\d+(?:\\.\\d+)?) \\/ (\\d+(?:\\.\\d+)?)/);
-   const actual=parsed?Number(parsed[1]):null,cap=parsed?Number(parsed[2]):null;
+   const loadRaw=s.fields.find(x=>x.id==='Equip Load')?.value??'';
+   const loadPieces=loadRaw.split(' / ');
+   const actual=loadPieces.length===2&&/^[0-9]+(?:[.][0-9]+)?$/.test(loadPieces[0])?
+     Number(loadPieces[0]):null;
+   const capRaw=(loadPieces[1]??'').split(' ')[0];
+   const cap=/^[0-9]+(?:[.][0-9]+)?$/.test(capRaw)?Number(capRaw):null;
    const validControls=s.controls.str==='60'&&s.controls.dex==='60'&&s.controls.int==='30'&&
     s.controls.fai==='30'&&s.controls.arc==='30'&&
     s.controls.smith==='0'&&s.controls.somber==='0'&&s.controls.twoHanded===false&&
@@ -127,9 +131,9 @@ async function run(){
     new URL(s.url).hostname==='www.tarnished.dev'&&
     new URL(s.url).pathname==='/build-planner'&&
     validControls&&Number.isFinite(actual)&&Number.isFinite(cap)&&cap===48.2&&
-    (c.name?selected.includes('\\n'+c.name+'\\n')&&
-      selected.includes('\\n'+affinity+'\\n')&&/Total AR\\s*:\\s*\\d+/.test(selected):
-      actual===0&&!/Total AR\\s*:\\s*\\d+/.test(s.buildWeaponBlock)));
+    (c.name?selected.includes(String.fromCharCode(10)+c.name+String.fromCharCode(10))&&
+      selected.includes(String.fromCharCode(10)+affinity+String.fromCharCode(10))&&/Total AR *: *[0-9]+/.test(selected):
+      actual===0&&!/Total AR *: *[0-9]+/.test(s.buildWeaponBlock)));
    const status=verified?'INPUT_AND_ITEM_VERIFIED':'NOT_OBSERVED';
    results.push({id:c.id,requested:c.name,hand:c.hand,affinity:c.name?affinity:null,
     equipLoad:verified?actual:null,equipCap:verified?cap:null,
