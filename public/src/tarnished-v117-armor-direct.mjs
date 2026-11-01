@@ -1,3 +1,4 @@
+import {TARNISHED_V117_ARMOR_STABLE_METRICS} from './tarnished-v117-armor-12-fields.mjs';
 import {TARNISHED_V117_WIDE_ARMOR_GOLDENS} from './tarnished-v117-armor-wide.mjs';
 /** Actual user-approved comparator: Tarnished.dev public v1.17.
  * 543 unique candidate items were selected in the real site twice,
@@ -14,6 +15,16 @@ export const TARNISHED_V117_ARMOR_FOUR=Object.freeze([
 const key=(s,slot)=>slot+'|'+s.toLowerCase().replace(/[^a-z0-9]/g,'');
 const originalFour=new Map(TARNISHED_V117_ARMOR_FOUR.map(x=>[key(x.name,x.slot),x]));
 const wide=new Map(TARNISHED_V117_WIDE_ARMOR_GOLDENS.map(x=>[x.id,x]));
+const stableFields=new Map(TARNISHED_V117_ARMOR_STABLE_METRICS.map(x=>[x.id,x]));
+if(TARNISHED_V117_ARMOR_STABLE_METRICS.length!==514||stableFields.size!==514)
+ throw Error('Incomplete 514 item Tarnished.dev 12-metric double-read evidence.');
+for(const x of TARNISHED_V117_ARMOR_STABLE_METRICS){
+ const measured=wide.get(x.id);
+ if(!measured||measured.name!==x.name||measured.slot!==x.slot)
+  throw Error('Armor metric goldens do not map to the existing double-read weight/Poise evidence.');
+ if(Object.keys(x.metrics).length!==12)
+  throw Error('Incomplete twelve armor metrics for '+x.name);
+}
 if(TARNISHED_V117_WIDE_ARMOR_GOLDENS.length!==543||wide.size!==543)
  throw Error('Tarnished.dev armor double-read fixture incomplete.');
 for(const ref of TARNISHED_V117_ARMOR_FOUR){
@@ -24,7 +35,7 @@ for(const ref of TARNISHED_V117_ARMOR_FOUR){
 export function applyTarnishedV117DirectArmorFields(rows){
  if(!Array.isArray(rows))throw new TypeError('Armor rows must be a source array.');
  const seenIds=new Set(),oldFourMatched=new Set();
- let corrected=0,wideCorrected=0;
+ let corrected=0,wideCorrected=0,stableCorrected=0;
  const updated=rows.map(item=>{
   if(seenIds.has(item.id))throw new RangeError('Ambiguous duplicate armor ID in source.');
   seenIds.add(item.id);
@@ -37,19 +48,31 @@ export function applyTarnishedV117DirectArmorFields(rows){
    throw Error('Conflicting real-site observations for '+item.name);
   const actual=candidate??legacy;
   if(!actual)return item;
+  const stable=stableFields.get(item.id);
+  if(stable&&(stable.name!==item.name||stable.slot!==item.slot))
+   throw new RangeError('Ambiguous Tarnished.dev derived-metric identity '+item.id);
   corrected++;
   if(candidate)wideCorrected++;
+  if(stable)stableCorrected++;
+  const metricProof=stable?Object.fromEntries(Object.keys(stable.metrics).map(metric=>[
+   metric,'Tarnished.dev v1.17, two real browser reads, Wretch 10 baseline, final character stats unchanged'
+  ])):{};
   return {...item,weight:actual.weight,poise:actual.poise,
-   metrics:{...item.metrics,poise:actual.poise},
+   metrics:{...item.metrics,...(stable?.metrics??{}),poise:actual.poise},
    siteDirectFields:{
     weight:'Tarnished.dev public v1.17, directly read twice',
-    poise:'Tarnished.dev public v1.17, directly read twice'
+    poise:'Tarnished.dev public v1.17, directly read twice',
+    ...metricProof
    }};
  });
  if(oldFourMatched.size>0&&oldFourMatched.size!==4)
   throw new RangeError('Incomplete original four armor reference identities.');
  return {armors:updated,directlyCorrectedArmorCount:corrected,
-  wideDirectEvidenceCount:wideCorrected,correctedFields:corrected*2,
+  wideDirectEvidenceCount:wideCorrected,
+  siteTwelveMetricArmorCount:stableCorrected,
+  siteAdditionalMetricFields:stableCorrected*12,
+  correctedFields:corrected*2+stableCorrected*12,
   otherArmorFieldsNumericallyVerified:false,
+  anySiteDerivedDefenseEvidence:stableCorrected>0,
   siteUnsupportedCandidateCount:25};
 }

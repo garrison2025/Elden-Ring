@@ -1,0 +1,42 @@
+name: Tarnished.dev real 568 armor x 12 extra output fields
+# Full external-site numeric audit runs manually after initial evidence acceptance.
+# First real run: GitHub Actions 41275364824.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-armor-metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+    env:
+      TARNISHED_ARMOR_SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First actual public site read of twelve armor stat output fields
+        run: |
+          node scripts/probe-tarnished-v117-armor-12-metrics.mjs
+          cp .audit/tarnished-armor-12-metrics-shard-${TARNISHED_ARMOR_SHARD}.json .audit/armor-metrics-first.json
+      - name: Independent browser process re-reads exact same item and values
+        run: node scripts/probe-tarnished-v117-armor-12-metrics.mjs
+      - name: Compare identical actual UI values on two independent passes
+        run: node scripts/compare-tarnished-v117-armor-12-metrics.mjs
+      - name: Preserve versioned site observations including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-armor-12-output-shard-${{ matrix.shard }}
+          path: |
+            .audit/armor-metrics-first.json
+            .audit/tarnished-armor-12-metrics-shard-${{ matrix.shard }}.json
+            .audit/tarnished-armor-12-metrics-verified-${{ matrix.shard }}.json
+          retention-days: 30
+          if-no-files-found: warn

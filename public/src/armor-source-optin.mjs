@@ -90,8 +90,12 @@ export async function loadPinnedArmorSource(fetcher,{signal}={}){
  const direct=applyTarnishedV117DirectArmorFields(original.armors);
  return {...original,armors:direct.armors,
   directTarnishedV117ArmorCount:direct.directlyCorrectedArmorCount,
+  siteTwelveMetricArmorCount:direct.siteTwelveMetricArmorCount,
+  siteAdditionalMetricFields:direct.siteAdditionalMetricFields,
   description:original.description+' '+direct.directlyCorrectedArmorCount+
-   ' armor pieces have directly double-observed v1.17 Tarnished.dev weight and Poise overrides; other metrics are not site-verified.'};
+   ' armor pieces have double-observed Tarnished.dev v1.17 weight and Poise. '+
+   direct.siteTwelveMetricArmorCount+' stat-stable armor pieces have 12 additional same-input site-derived negation/resistance fields. '+
+   '29 stat-modifying and 25 unobserved armor candidates remain source-only for those fields; special effects and cross-stat contexts are not certified.'};
 }
 export function findExactArmor(rows,slot,name){
  if(!Array.isArray(rows)||typeof slot!=='string'||typeof name!=='string')return null;
