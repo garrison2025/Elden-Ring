@@ -124,7 +124,7 @@ async function run(){
   try{
    for(const candidateName of c.siteNames){
     for(const affinity of c.affinities){
-     const params=new URLSearchParams({str:'1',dex:'1',int:'1',fai:'1',arc:'1',
+     const params=new URLSearchParams({str:'10',dex:'10',int:'10',fai:'10',arc:'10',
       smith:'0',somber:'0',twoHanded:'false'});
      params.set(c.hand,candidateName);
      params.set(c.hand==='lh1'?'aLh1':'aRh1',affinity);
@@ -139,8 +139,8 @@ async function run(){
      const selected=part.split(/\nEquipped (?:Left|Right) Hand [123]/)[0];
      const m=selected.match(reqPattern);
      const controls=s.controls;
-     const valid=controls.str==='1'&&controls.dex==='1'&&controls.int==='1'&&
-      controls.fai==='1'&&controls.arc==='1'&&controls.smith==='0'&&
+     const valid=controls.str==='10'&&controls.dex==='10'&&controls.int==='10'&&
+      controls.fai==='10'&&controls.arc==='10'&&controls.smith==='0'&&
       controls.somber==='0'&&controls.twoHanded===false&&
       controls.rune===false&&controls.physick===false;
      const onSite=s.version==='Elden Ring Version: v1.17'&&
@@ -172,7 +172,7 @@ async function run(){
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-public-requirements.json'),JSON.stringify({
   source:'Public Tarnished.dev v1.17 Build Planner Req: text, raw UI',
-  stats:[1,1,1,1,1],shard:index,observedDate:new Date().toISOString(),
+  stats:[10,10,10,10,10],shard:index,observedDate:new Date().toISOString(),
   cases:results},null,2)+'\n');
  console.log('[REQ SITE SUMMARY] '+JSON.stringify({shard:index,total:results.length,
   observed:results.filter(x=>x.status==='INPUT_AND_REQ_VERIFIED').length,
