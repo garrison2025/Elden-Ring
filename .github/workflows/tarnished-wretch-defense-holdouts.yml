@@ -1,0 +1,36 @@
+name: 16 independent mixed-build Wretch defensive-stat holdouts
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-defense-holdouts.mjs
+      - .github/workflows/tarnished-wretch-defense-holdouts.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-actual-site-holdouts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Observe 4 independent real mixed-stat Wretch profiles
+        env:
+          V117_HOLDOUT_SHARD: ${{ matrix.shard }}
+        run: node scripts/probe-tarnished-defense-holdouts.mjs
+      - name: Keep true reference rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wretch-heldout-${{ matrix.shard }}
+          path: .audit/wretch-held-out-${{ matrix.shard }}.json
+          retention-days: 30
+          if-no-files-found: warn

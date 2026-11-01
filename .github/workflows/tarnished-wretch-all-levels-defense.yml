@@ -1,0 +1,36 @@
+name: Real Wretch levels 90-713 defense and resistance
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-full-level-defense.mjs
+      - .github/workflows/tarnished-wretch-all-levels-defense.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-reference-naked-wretch-levels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read 90 real mixed Build defenses/resistances in each level interval
+        env:
+          V117_LEVEL_SHARD: ${{ matrix.shard }}
+        run: node scripts/probe-tarnished-full-level-defense.mjs
+      - name: Keep real reference evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: actual-wretch-level-${{ matrix.shard }}
+          path: .audit/wretch-level-${{ matrix.shard }}.json
+          retention-days: 30
+          if-no-files-found: warn
