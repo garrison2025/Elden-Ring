@@ -40,16 +40,19 @@ function inspect(){
   selectedWeaponText:block,
   hasReq:/\bReq:\s*\d+\/\d+\/\d+\/\d+\/\d+/.test(block)};
 }
-function chooseAstrologer(){
- const select=[...document.querySelectorAll('select')].find(s=>
-  [...s.options].some(o=>(o.textContent||'').trim()==='Astrologer')&&
-  [...s.options].some(o=>(o.textContent||'').trim()==='Wretch'));
- if(!select)return {status:'NO_ORIGIN_SELECT',sample:[...document.querySelectorAll('select')].slice(0,4).map(s=>s.outerHTML.slice(0,450))};
- const item=[...select.options].find(o=>(o.textContent||'').trim()==='Astrologer');
- Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value').set.call(select,item.value);
- select.dispatchEvent(new Event('input',{bubbles:true}));
- select.dispatchEvent(new Event('change',{bubbles:true}));
- return {status:'SELECT_DISPATCHED',selected:select.selectedOptions?.[0]?.textContent?.trim(),value:select.value};
+async function chooseAstrologer(){
+ const trigger=document.querySelector('#startingclass .p-dropdown-trigger');
+ if(!trigger)return {status:'NO_VISIBLE_CLASS_TRIGGER'};
+ trigger.click();
+ await new Promise(r=>setTimeout(r,300));
+ const visible=[...document.querySelectorAll('[role="option"]')];
+ const option=visible.find(x=>(x.textContent||'').trim()==='Astrologer');
+ if(!option)return {status:'OPTIONS_NOT_SHOWN',sample:visible.slice(0,16).map(x=>x.textContent.trim()),expanded:trigger.getAttribute('aria-expanded'),panel:document.body.innerText.slice(0,600)};
+ option.click();
+ await new Promise(r=>setTimeout(r,200));
+ return {status:'VISIBLE_ASTROLOGER_OPTION_CLICKED',
+  selected:document.querySelector('#startingclass .p-dropdown-label')?.textContent?.trim()||'',
+  optionsSeen:visible.length};
 }
 function lowerStrength(){
  const input=document.getElementById('strength');
