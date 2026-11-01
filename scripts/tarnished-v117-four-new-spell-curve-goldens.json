@@ -1,0 +1,45 @@
+{
+  "target": "Tarnished.dev publicly rendered v1.17 Spell Calculator",
+  "context": {
+    "origin": "Wretch",
+    "otherStats": 10,
+    "catalyst": "Astrologer's Staff",
+    "spell": "Glintstone Pebble",
+    "upgrade": 25,
+    "zeroEnemyDefense": true,
+    "zeroEnemyNegation": true
+  },
+  "sourceRun": 41362855674,
+  "independentRealChromeReadsPerInput": 2,
+  "observations": [
+    {
+      "int": 20,
+      "siteMagic": 219,
+      "independentMath": 219,
+      "difference": 0,
+      "verdict": "MATCH"
+    },
+    {
+      "int": 35,
+      "siteMagic": 290,
+      "independentMath": 291,
+      "difference": 1,
+      "verdict": "ONE_POINT_MODEL_MISMATCH"
+    },
+    {
+      "int": 45,
+      "siteMagic": 338,
+      "independentMath": 338,
+      "difference": 0,
+      "verdict": "MATCH"
+    },
+    {
+      "int": 55,
+      "siteMagic": 386,
+      "independentMath": 386,
+      "difference": 0,
+      "verdict": "MATCH"
+    }
+  ],
+  "note": "Four additional real Chromium twice-observed actual rendered rows; source math uses pin v1.17 catalyst graph and the separately modeled 0-defense 0.9 multiplier; no site-specific adjustment applied. This records differences rather than disguises them."
+}
