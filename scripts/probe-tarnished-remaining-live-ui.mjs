@@ -165,7 +165,7 @@ async function main(){
     click=await trustedClick('Calculate Best Armor');
     if(click.clicked){
      const checks=[];
-     for(let n=0;n<8;n++){
+     for(let n=0;n<3;n++){
       await sleep(6000);
       const snapshot=await call(capture);
       const progress=await call(function(){const b=[...document.querySelectorAll('button')].find(x=>(x.innerText||'').trim()==='Calculate Best Armor');return{
@@ -178,7 +178,9 @@ async function main(){
       checks.push({afterSeconds:(n+1)*6,textChanged:snapshot.textTail!==before.textTail,progress,tail:snapshot.textTail.slice(-700)});
       if(snapshot.textTail!==before.textTail)break;
      }
-     configuration={poiseOnly:configuration,checks};
+     const tableClick=await trustedClick('Show Table');
+     await sleep(3000);
+     configuration={defaultMultipliers:configuration,checks,tableClick};
     }
    }
    if(c.id==='our-armor'){
