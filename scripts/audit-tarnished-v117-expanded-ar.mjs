@@ -44,12 +44,14 @@ export function compareObservedAr(observations,source){
     weaponName:exact[0].name,gameVersion:'1.17',
     sourceReference:'Pinned reference source; separately compared to live v1.17 public UI'
    });
-   const computed=calculateAr(profile,c.playerStats,{
+   const computedOutput=calculateAr(profile,c.playerStats,{
     affinity:'SOURCE AFFINITY',upgrade:0,twoHanded:false
-   }).total;
+   });
+   const computed=computedOutput.total;
    results.push({id:c.id,weapon:c.weaponName,siteName:c.siteName,
     affinity:c.affinity,stats:c.playerStats,observed:c.observedTotalAr,
     computed,delta:computed-c.observedTotalAr,sourceRun:c.sourceRun,matchType,
+    ...(computed===c.observedTotalAr?{}:{diagnostics:{perElement:computedOutput.perElement.map(e=>({element:e.element,raw:e.raw,displayed:e.displayed})),floorTotal:computedOutput.floorTotal,floorComponents:computedOutput.floorComponents,roundingDifference:computedOutput.roundingDifference}}),
     status:computed===c.observedTotalAr?'AR_MATCH':'AR_MISMATCH'});
   }catch(err){
    results.push({id:c.id,weapon:c.weaponName,siteName:c.siteName,
