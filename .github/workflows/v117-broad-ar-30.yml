@@ -1,0 +1,47 @@
+name: Direct v1.17 AR 30 broad affinities upgrades and grip
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/tarnished-v117-broad-ar-30-candidates.mjs
+      - scripts/probe-tarnished-v117-broad-ar-30.mjs
+      - scripts/compare-tarnished-v117-broad-ar-30.mjs
+      - .github/workflows/v117-broad-ar-30.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-ar-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        shard: [0,1,2,3,4]
+    env:
+      TARNISHED_BROAD_AR_SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First public Chromium exact-input AR read
+        run: |
+          node scripts/probe-tarnished-v117-broad-ar-30.mjs
+          cp .audit/v117-broad-ar-site-${TARNISHED_BROAD_AR_SHARD}.json .audit/broad-ar-first.json
+      - name: Second independent public Chromium AR read
+        run: node scripts/probe-tarnished-v117-broad-ar-30.mjs
+      - name: Require both reads and exact separate pinned-source AR
+        run: node scripts/compare-tarnished-v117-broad-ar-30.mjs
+      - name: Archive both browser reads and comparison, including all failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-broad-ar-30-shard-${{ matrix.shard }}
+          path: |
+            .audit/broad-ar-first.json
+            .audit/v117-broad-ar-site-${{ matrix.shard }}.json
+            .audit/v117-broad-ar-comparison-${{ matrix.shard }}.json
+          retention-days: 30
+          if-no-files-found: warn

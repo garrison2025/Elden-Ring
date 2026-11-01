@@ -1,0 +1,592 @@
+{
+  "schemaVersion": 1,
+  "site": "Tarnished.dev rendered public v1.17",
+  "runId": 41271639218,
+  "evidenceUrl": "https://github.com/garrison2025/Elden-Ring/actions/runs/41271639218",
+  "independentBrowserPasses": 2,
+  "category": "30 accepted real-site and separate pinned-source AR matches",
+  "counts": {
+    "total": 30,
+    "matched": 30,
+    "mismatched": 0,
+    "unobserved": 0,
+    "uniqueAffinities": 14,
+    "regularAffinities": 13,
+    "somberWeaponCases": 4,
+    "oneHandCases": 29,
+    "twoHandCases": 1
+  },
+  "scope": "Exact recorded 30 inputs only; cannot assert all possible upgrade, affinity or game-client states",
+  "rows": [
+    {
+      "id": "blasphemous-somber-plus5",
+      "weapon": "Blasphemous Blade",
+      "affinity": "None",
+      "upgrade": 5,
+      "reinforcement": "somber",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 565,
+      "pinnedLocalAr": 565,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "claymore-fire-plus20",
+      "weapon": "Claymore",
+      "affinity": "Fire",
+      "upgrade": 20,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 650,
+      "pinnedLocalAr": 650,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "claymore-flameart-plus20",
+      "weapon": "Claymore",
+      "affinity": "Flame Art",
+      "upgrade": 20,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 679,
+      "pinnedLocalAr": 679,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "claymore-heavy-plus1",
+      "weapon": "Claymore",
+      "affinity": "Heavy",
+      "upgrade": 1,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 221,
+      "pinnedLocalAr": 221,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "claymore-quality-plus20",
+      "weapon": "Claymore",
+      "affinity": "Quality",
+      "upgrade": 20,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 601,
+      "pinnedLocalAr": 601,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "claymore-standard-plus1",
+      "weapon": "Claymore",
+      "affinity": "Standard",
+      "upgrade": 1,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 238,
+      "pinnedLocalAr": 238,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "grafted-somber-plus5",
+      "weapon": "Grafted Blade Greatsword",
+      "affinity": "None",
+      "upgrade": 5,
+      "reinforcement": "somber",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 520,
+      "pinnedLocalAr": 520,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "greatsword-heavy-plus7-1h",
+      "weapon": "Greatsword",
+      "affinity": "Heavy",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 370,
+      "pinnedLocalAr": 370,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "greatsword-heavy-plus7-2h",
+      "weapon": "Greatsword",
+      "affinity": "Heavy",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": true,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 409,
+      "pinnedLocalAr": 409,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "greatsword-quality-plus20",
+      "weapon": "Greatsword",
+      "affinity": "Quality",
+      "upgrade": 20,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 695,
+      "pinnedLocalAr": 695,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-00",
+      "weapon": "Longsword",
+      "affinity": "Standard",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 264,
+      "pinnedLocalAr": 264,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-01",
+      "weapon": "Longsword",
+      "affinity": "Heavy",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 249,
+      "pinnedLocalAr": 249,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-02",
+      "weapon": "Longsword",
+      "affinity": "Keen",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 251,
+      "pinnedLocalAr": 251,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-03",
+      "weapon": "Longsword",
+      "affinity": "Quality",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 276,
+      "pinnedLocalAr": 276,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-04",
+      "weapon": "Longsword",
+      "affinity": "Fire",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 323,
+      "pinnedLocalAr": 323,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-05",
+      "weapon": "Longsword",
+      "affinity": "Flame Art",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 319,
+      "pinnedLocalAr": 319,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-06",
+      "weapon": "Longsword",
+      "affinity": "Lightning",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 326,
+      "pinnedLocalAr": 326,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-07",
+      "weapon": "Longsword",
+      "affinity": "Sacred",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 301,
+      "pinnedLocalAr": 301,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-08",
+      "weapon": "Longsword",
+      "affinity": "Magic",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 294,
+      "pinnedLocalAr": 294,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-09",
+      "weapon": "Longsword",
+      "affinity": "Cold",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 335,
+      "pinnedLocalAr": 335,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-10",
+      "weapon": "Longsword",
+      "affinity": "Poison",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 250,
+      "pinnedLocalAr": 250,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-11",
+      "weapon": "Longsword",
+      "affinity": "Blood",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 250,
+      "pinnedLocalAr": 250,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "longsword-affinity-12",
+      "weapon": "Longsword",
+      "affinity": "Occult",
+      "upgrade": 7,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 245,
+      "pinnedLocalAr": 245,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "milady-cold-plus17",
+      "weapon": "Milady",
+      "affinity": "Cold",
+      "upgrade": 17,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 543,
+      "pinnedLocalAr": 543,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "milady-keen-plus17",
+      "weapon": "Milady",
+      "affinity": "Keen",
+      "upgrade": 17,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 424,
+      "pinnedLocalAr": 424,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "moonveil-somber-plus5",
+      "weapon": "Moonveil",
+      "affinity": "None",
+      "upgrade": 5,
+      "reinforcement": "somber",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 450,
+      "pinnedLocalAr": 450,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "rellana-somber-plus5",
+      "weapon": "Rellana's Twin Blades",
+      "affinity": "None",
+      "upgrade": 5,
+      "reinforcement": "somber",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 622,
+      "pinnedLocalAr": 622,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "uchigatana-blood-plus13",
+      "weapon": "Uchigatana",
+      "affinity": "Blood",
+      "upgrade": 13,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 360,
+      "pinnedLocalAr": 360,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "uchigatana-cold-plus13",
+      "weapon": "Uchigatana",
+      "affinity": "Cold",
+      "upgrade": 13,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 465,
+      "pinnedLocalAr": 465,
+      "delta": 0,
+      "observedTwice": true
+    },
+    {
+      "id": "uchigatana-occult-plus13",
+      "weapon": "Uchigatana",
+      "affinity": "Occult",
+      "upgrade": 13,
+      "reinforcement": "regular",
+      "twoHanded": false,
+      "stats": {
+        "str": 60,
+        "dex": 60,
+        "int": 45,
+        "fai": 45,
+        "arc": 45
+      },
+      "publicSiteAr": 362,
+      "pinnedLocalAr": 362,
+      "delta": 0,
+      "observedTwice": true
+    }
+  ]
+}
