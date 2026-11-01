@@ -892,6 +892,16 @@ try{
   assert.ok((await evaluate("document.querySelector('#build-loadout-armor-source-status').textContent"))
    .includes('568 pinned armor items loaded'),
    'Real Build armor source cannot be silently replaced by synthetic data');
+  // New separately verified Circlet armor effect: genuine browser opt-in,
+  // exact source-name input and rendered +INT/FAI/ARC preview.
+  await evaluate("(()=>{const o=document.querySelector('#origin');o.value='Wretch';o.dispatchEvent(new Event('change',{bubbles:true}));const n=document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=text]')[0];n.value='Circlet of Light';n.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor("document.querySelector('#build-direct-effect-result')?.textContent.includes('INT 10 → 11')",
+   'Exact selected Circlet must display browser-evidenced +INT, FAI and ARC attribute changes');
+  const circletBonus=await evaluate("document.querySelector('#build-direct-effect-result').textContent");
+  assert.ok(circletBonus.includes('FAI 10 → 11')&&circletBonus.includes('ARC 10 → 11')&&
+   circletBonus.includes('direct-site-observed-baseline'),
+   'Build equipment preview must preserve one double-checked unbuffed Wretch site proof');
+  console.log('[REAL BUILD CIRCLET EFFECT] PASS: exact source Head +1 INT FAI ARC, no other equipment.');
   await evaluate("(()=>{const names=[...document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=text]')];if(names.length!==4)throw Error('Expected four armor name slots');names[0].value='All-knowing Helm';names[0].dispatchEvent(new Event('input',{bubbles:true}));names[1].value='All-knowing Armor';names[1].dispatchEvent(new Event('input',{bubbles:true}));})()");
   await waitFor("document.querySelector('#build-armor-metric-summary')?.textContent.includes('16.91%')",
    'Actual two-item Build armor damage negation must stack multiplicatively');
