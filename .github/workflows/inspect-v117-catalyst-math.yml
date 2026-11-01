@@ -1,0 +1,16 @@
+name: Inspect pinned 1.17 catalyst math schema
+on:
+  pull_request:
+    paths: ['scripts/audit-v117-catalyst-math-probe.mjs','.github/workflows/inspect-v117-catalyst-math.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/audit-v117-catalyst-math-probe.mjs
