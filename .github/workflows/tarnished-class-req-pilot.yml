@@ -1,0 +1,35 @@
+name: Public v1.17 starting class lower-stat Req pilot
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-class-options.mjs
+      - .github/workflows/tarnished-class-req-pilot.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect real class options and Club Req, first read
+        run: |
+          node scripts/probe-tarnished-class-options.mjs
+          cp .audit/origin-req-pilot.json .audit/origin-req-first.json
+      - name: Independently repeat class-selection pilot
+        run: node scripts/probe-tarnished-class-options.mjs
+      - name: Preserve actual UI state, including failures and no-Req cases
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-origin-class-req-pilot-two-pass
+          path: |
+            .audit/origin-req-first.json
+            .audit/origin-req-pilot.json
+          retention-days: 30
+          if-no-files-found: warn
