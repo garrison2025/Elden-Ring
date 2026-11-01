@@ -1,7 +1,7 @@
 /** Public v1.17 actual Wretch-10 single-talisman numeric UI observations.
  * 14 selectable real items x2 independent Chrome jobs each, matched exactly.
  * ONLY observed selected-item context, NOT game-client or stacking formula.
- * Source: https://github.com/garrison2025/Elden-Ring/actions/runs/41290446627
+ * Source: https://github.com/garrison2025/Elden-Ring/actions/runs/41290440069
  */
 import {V117_TALISMAN_PART_A} from './v117-talisman-isolated-part-a.mjs';
 import {V117_TALISMAN_PART_B} from './v117-talisman-isolated-part-b.mjs';
