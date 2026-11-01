@@ -78,6 +78,7 @@ function snapshot(){
  const from=text.indexOf('Equipped Left Hand 1'),to=text.indexOf('Equipped Right Hand 2');
  const block=from>=0?text.slice(from,to>from?to:from+1100):'';
  return {buildWeaponBlock:block,
+  startingClass:document.querySelector('#startingclass .p-dropdown-label')?.textContent?.trim()??null,
   controls:{str:document.getElementById('strength')?.value,
    dex:document.getElementById('dexterity')?.value,
    int:document.getElementById('intelligence')?.value,
@@ -94,12 +95,25 @@ function snapshot(){
   firstText:text.slice(0,2300),textLength:text.length};
 }
 
-import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
+import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard,getAltOriginRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
 const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
 const mode=process.env.TARNISHED_REQUIREMENT_TARGET;
-const targeted=mode==='ar-gap'||mode==='high-gap';
-const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):getRequirementsShard(index);
+const targeted=mode==='ar-gap'||mode==='high-gap'||mode==='alt-origin';
+const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):getRequirementsShard(index);
 const reqPattern=/(?:^|\n)Req:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/;
+async function chooseVisibleStartingClass(name){
+ const trigger=document.querySelector('#startingclass .p-dropdown-trigger');
+ if(!trigger)return {status:'NO_CLASS_TRIGGER'};
+ trigger.click();
+ await new Promise(r=>setTimeout(r,200));
+ const option=[...document.querySelectorAll('[role="option"]')].find(x=>
+  (x.textContent||'').trim()===name);
+ if(!option)return {status:'ORIGIN_OPTION_MISSING',name};
+ option.click();
+ await new Promise(r=>setTimeout(r,180));
+ return {status:'VISIBLE_ORIGIN_CLICKED',name,
+  selected:document.querySelector('#startingclass .p-dropdown-label')?.textContent?.trim()};
+}
 async function run(){
  profile=await mkdtemp(join(tmpdir(),'tarnished-v117-public-req-'));
  browser=spawn(chrome,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
@@ -132,6 +146,11 @@ async function run(){
      params.set(c.hand==='lh1'?'aLh1':'aRh1',affinity);
      await send('Page.navigate',{url:'https://www.tarnished.dev/build-planner?'+params});
      await sleep(2200);
+     let classAction=null;
+     if(mode==='alt-origin'){
+      classAction=await evaluate('('+chooseVisibleStartingClass.toString()+')('+JSON.stringify(c.originName)+')');
+      await sleep(850);
+     }
      let s=await evaluate('('+snapshot.toString()+')()');
      if(!s.version.includes('v1.17')||!s.buildWeaponBlock.includes('\n'+candidateName+'\n')){
       await sleep(2000);s=await evaluate('('+snapshot.toString()+')()');
@@ -141,8 +160,16 @@ async function run(){
      const selected=part.split(/\nEquipped (?:Left|Right) Hand [123]/)[0];
      const m=selected.match(reqPattern);
      const controls=s.controls;
-     const valid=controls.str==='10'&&controls.dex==='10'&&controls.int==='10'&&
-      controls.fai==='10'&&controls.arc==='10'&&controls.smith==='0'&&
+     const wantedStats=mode==='alt-origin'?c.originStats.slice(3):[10,10,10,10,10];
+     const valid=controls.str===String(wantedStats[0])&&
+      controls.dex===String(wantedStats[1])&&
+      controls.int===String(wantedStats[2])&&
+      controls.fai===String(wantedStats[3])&&
+      controls.arc===String(wantedStats[4])&&
+      (mode!=='alt-origin'||(s.startingClass===c.originName&&
+       classAction?.status==='VISIBLE_ORIGIN_CLICKED'&&
+       classAction.selected===c.originName))&&
+      controls.smith==='0'&&
       controls.somber==='0'&&controls.twoHanded===false&&
       controls.rune===false&&controls.physick===false;
      const onSite=s.version==='Elden Ring Version: v1.17'&&
@@ -154,11 +181,13 @@ async function run(){
      const verified=Boolean(onSite&&valid&&active&&five&&five.length===5&&
       five.every(v=>Number.isInteger(v)&&v>=0&&v<=99)&&five.some(v=>v>1));
      const observation={id:c.id,name:c.name,siteName:candidateName,affinity,
+      ...(mode==='alt-origin'?{originName:c.originName,originStats:c.originStats,
+       startingClass:s.startingClass,classAction}:{}),
       status:verified?'INPUT_AND_REQ_VERIFIED':'NOT_OBSERVED',
       requirements:verified?five:null,verifiedInputs:valid&&onSite,
       version:s.version,siteUrl:s.url,selectedBlock:selected.slice(0,400),
       controls:s.controls,previouslyWeightVerified:c.previouslyWeightVerified};
-     if(targeted)console.log('[REQ AR GAP ATTEMPT] '+JSON.stringify({
+     if(targeted)console.log('[REQ FOCUSED ATTEMPT] '+JSON.stringify({
       id:c.id,name:c.name,candidateName,affinity,valid,onSite,active,
       displayedRequirements:five,siteStatValues:controls,selectedText:selected.slice(0,260),
       reason:verified?'DIRECT_REQ':!active?'WEAPON_OR_AFFINITY_NOT_ACTIVE':!m?'REQ_NOT_RENDERED':'VALIDATION_FAILED'
@@ -179,7 +208,8 @@ async function run(){
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-public-requirements.json'),JSON.stringify({
   source:'Public Tarnished.dev v1.17 Build Planner Req: text, raw UI',
-  stats:[10,10,10,10,10],shard:index,observedDate:new Date().toISOString(),
+  stats:mode==='alt-origin'?'valid-class-base-stats-per-record':[10,10,10,10,10],
+  shard:index,mode:mode||'default',observedDate:new Date().toISOString(),
   cases:results},null,2)+'\n');
  console.log('[REQ SITE SUMMARY] '+JSON.stringify({shard:index,total:results.length,
   observed:results.filter(x=>x.status==='INPUT_AND_REQ_VERIFIED').length,
