@@ -1,4 +1,5 @@
 import {weaponRequirementComparison,hasDisputedRequirements,hasDisputedAttack,hasDisputedWeight} from './community-weapons.mjs';
+import {getTarnishedV117DirectWeight} from './tarnished-v117-public-weights.mjs';
 
 const fail=message=>{throw new RangeError(message);};
 
@@ -45,11 +46,15 @@ export function inspectBuildWeapon(weapons,rawId,stats8,{allowSote=false}={}){
  const attackDisputed=hasDisputedAttack(weapon);
  const hasRequirements=Array.isArray(weapon.requirements)&&!requirementsDisputed;
  const comparison=hasRequirements?weaponRequirementComparison(weapon,stats5):null;
+ const directWeight=getTarnishedV117DirectWeight(weapon.name);
  return {
   id:weapon.id,name:weapon.name,category:weapon.category,
   expansion:weapon.expansion??'Base game',
   referenceTier:weapon.dataCoverage??'base-community',
-  weight:hasDisputedWeight(weapon)?null:weapon.weight??null,
+  weight:directWeight?.weight??(hasDisputedWeight(weapon)?null:weapon.weight??null),
+  weightProvenance:directWeight?'tarnished-dev-v1.17-direct-ui':
+   hasDisputedWeight(weapon)?'source-conflict-unverified':
+   weapon.weight===null?'unknown':'community-unverified',
   weightDisputed:hasDisputedWeight(weapon),
   reportedWeight:weapon.weight??null,
   requirements:requirementsDisputed?null:weapon.requirements??null,
@@ -65,7 +70,8 @@ export function inspectBuildWeapon(weapons,rawId,stats8,{allowSote=false}={}){
   note:'Community weapon reference, NOT current-patch validated. '+
    (requirementsDisputed?'Wield requirements DISPUTED; no met/not-met claim. ':'')+
    (attackDisputed?'Base attack DISPUTED; no trusted attack amount. ':'')+
-   (hasDisputedWeight(weapon)?'Weapon weight DISPUTED; no trusted load contribution. ':'')+
+   (hasDisputedWeight(weapon)?'Community weapon weight DISPUTED. ':'')+
+   (directWeight?'Separate Tarnished.dev public v1.17 single-item Equip Load observation used for weight; original community value preserved. ':'')+
    'Weight is for this single weapon only, not full equipment. +0 attack is NOT AR. No scaling, affinity, reinforcement or damage is calculated.'
  };
 }
