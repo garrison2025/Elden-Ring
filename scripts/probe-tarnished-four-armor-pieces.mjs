@@ -60,7 +60,7 @@ async function clickArmor(slot,name){
  await new Promise(res=>setTimeout(res,300));
  let options=[...document.querySelectorAll('[role="option"],.p-dropdown-item')]
   .filter(x=>x.offsetParent!==null);
- const norm=normalizeName;
+ const norm=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
  let option=options.find(x=>norm(x.textContent)===norm(name));
  if(!option){
   const filter=document.querySelector('.p-dropdown-filter');
@@ -130,7 +130,7 @@ async function main(){
  await writeFile(resolve('.audit/tarnished-armor-four-piece-site.json'),
   JSON.stringify({site:'Tarnished.dev real public v1.17 build-planner',rows,summary},null,2)+'\n');
  console.log('[TARNISHED ARMOR PIECE SUMMARY] '+JSON.stringify(summary));
- if(rows.length!==4)throw Error('Missing four armor attempts');
+ if(rows.length!==4||summary.verified===0)throw Error('No site armor data independently observed — do not claim parity');
 }
 try{await main()}finally{
  try{ws?.close()}catch{}try{proc?.kill('SIGTERM')}catch{}
