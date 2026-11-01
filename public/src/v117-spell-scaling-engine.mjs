@@ -4,9 +4,10 @@
  * Glintstone Pebble's 152 Magic base attack: publicly documented AtkParam 40000.
  * No bundled third-party weapon-regulation table or paid runtime API.
  *
- * Only the three Wretch scenarios from real Tarnished.dev v1.17 are numeric
- * golden verified. Other INT, staff, enemy and spell choices are source-model
- * estimates and MUST NOT be reported as public site matches.
+ * Five Wretch INT scenarios have actual same-input real-site benchmarks. At
+ * INT25 the isolated correction is site-calibrated (NOT independently
+ * reproduced); at INT50 the source formula is one point LOW. All untested
+ * stats/staffs/targets remain unverified against Tarnished.dev.
  */
 import {defenseMultiplier} from './damage-reference-model.mjs';
 import {V117_PEBBLE_STAFF_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
@@ -96,7 +97,7 @@ export function calculatePinnedV117PebbleMagic(root,{
   sourceRuns:2
  }:null;
  return {
-  status:referenceCompared?.exactMatch?'MATCHED_ACTUAL_TARNISHED_V117_SCENE':
+  status:referenceCompared?.exactMatch?(boundary?'SITE_CALIBRATED_EXACT_REFERENCE_SCENE':'INDEPENDENT_MODEL_MATCHES_TARNISHED_V117_SCENE'):
    referenceCompared?'SOURCE_MODEL_NUMERIC_MISMATCH':'INDEPENDENT_SOURCE_MODEL_UNVERIFIED_AT_SITE',
   spell:'Glintstone Pebble',staff,intelligence,reinforcement,strength,
   spellBaseMagic:PEBBLE_BASE_MAGIC,catalystScalar:scalar,
