@@ -101,8 +101,8 @@ test('twelve actual competitor browser shards preserve exact corrections and do 
  assert.equal(gargoyle.weight,0);
  assert.equal(get('Clinging Bone').weight,3);
  assert.equal(get("Gargoyle's Great Axe").weight,8.5);
- for(const item of ['Miséricorde','Varré\'s Bouquet','Beast-repellent Torch',
-  'Lusat\'s Glintstone Staff','Rivers Of Blood']){
+ for(const item of ['Dragon Communion Seal','Erdtree Seal','Frenzied Flame Seal',
+  'Golden Order Seal','Cipher Pata','Great Épée']){
   assert.equal(get(item),null,item+' must remain unverified even if community has a weight');
  }
 });
