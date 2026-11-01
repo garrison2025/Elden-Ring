@@ -1,0 +1,48 @@
+name: Public Tarnished.dev v1.17 487-weapon direct requirements audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/tarnished-v117-requirement-candidates.mjs
+      - scripts/probe-tarnished-v117-requirements.mjs
+      - scripts/compare-tarnished-v117-requirements.mjs
+      - tests/tarnished-v117-requirement-candidates.test.mjs
+      - .github/workflows/tarnished-direct-requirements.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  requirements:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    env:
+      TARNISHED_REQUIREMENT_SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Direct public v1.17 Req field browser observation 1
+        run: |
+          node scripts/probe-tarnished-v117-requirements.mjs
+          cp .audit/tarnished-public-requirements.json .audit/req-first.json
+      - name: Direct public v1.17 Req field browser observation 2
+        run: node scripts/probe-tarnished-v117-requirements.mjs
+      - name: Reconcile identical site Req fields against community and pinned v1.17 fields
+        run: node scripts/compare-tarnished-v117-requirements.mjs
+      - name: Archive complete direct site requirement evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-direct-requirements-shard-${{ matrix.shard }}
+          path: |
+            .audit/req-first.json
+            .audit/tarnished-public-requirements.json
+            .audit/requirements-comparison.json
+          retention-days: 30
+          if-no-files-found: warn
