@@ -7,6 +7,7 @@ import {loadPinnedArmorSource,findExactArmor} from './armor-source-optin.mjs';
 import {summarizeEquippedArmorMetrics} from './build-armor-metrics.mjs';
 import {previewDirectV117ArmorAttributeEffect} from './build-verified-armor-attribute-effect.mjs';
 import {previewV117SelectedBuildEffects} from './v117-selected-build-effects.mjs';
+import {observedV117TalismanPair} from './v117-selected-pair-preview.mjs';
 const byId=id=>document.getElementById(id);
 const status=(message,error=false)=>{
  const el=byId('build-loadout-status');el.textContent=message;el.dataset.state=error?'error':'ready';
@@ -164,6 +165,27 @@ function render(){
     make('p',{text:one.note},row);
    }
    make('p',{text:effectSelection.note},panel);
+  }
+  const directPair=observedV117TalismanPair(topStats(),evaluated.state,{
+   origin:byId('origin')?.value??'unverified'
+  });
+  if(directPair.status==='direct-site-same-input-selected-pair'){
+   const x=directPair.record;
+   const p=make('section',{className:'build-armor-metric-panel',
+    id:'build-v117-verified-pair'},result);
+   make('h3',{text:'Directly measured two-talisman Build · public v1.17'},p);
+   make('p',{text:x.combo.join(' + ')+' · direct-site-same-input-selected-pair'},p);
+   make('p',{text:'Full observed attributes: '+
+    ['VIG','MND','END','STR','DEX','INT','FAI','ARC'].map((k,i)=>
+     k+' '+x.stats[i]).join(' · ')},p);
+   make('p',{text:'Observed HP '+x.vitals.HP+' · FP '+x.vitals.FP+
+    ' · Stamina '+x.vitals.Stamina+' · Discovery '+x.vitals.Discovery+
+    ' · Max Equip Load '+x.maxEquipLoad.toFixed(1)+
+    ' · Equipped pair weight '+x.weight.toFixed(1)},p);
+   make('p',{text:'Actual combined damage negation: '+
+    ['physical','strike','slash','pierce','magic','fire','lightning','holy']
+     .map(k=>k+' '+x.metrics[k]+'%').join(' · ')},p);
+   make('p',{text:directPair.note},p);
   }
   const opts=contentOpts();
   const selected=state().weaponSlots.filter(x=>x.id);
