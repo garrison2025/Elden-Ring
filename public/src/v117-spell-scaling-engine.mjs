@@ -4,10 +4,11 @@
  * Glintstone Pebble's 152 Magic base attack: publicly documented AtkParam 40000.
  * No bundled third-party weapon-regulation table or paid runtime API.
  *
- * Nine Wretch INT scenarios have actual same-input real-site benchmarks. At
- * INT25 the isolated correction is site-calibrated (NOT independently
- * reproduced); at INT35 source math is one point HIGH and INT50 one point LOW. All untested
- * stats/staffs/targets remain unverified against Tarnished.dev.
+ * Reference site's public v1.17 Spell UI calculates from the TRUNCATED
+ * integer Sorcery Scaling value, then rounds the final damage to nearest
+ * integer. This differs from directly flooring the fractional scaling output.
+ * Verified numerically against 17 real same-input double-Chromium readings.
+ * Other staffs/spells/enemies/effects are not automatically source certified.
  */
 import {defenseMultiplier} from './damage-reference-model.mjs';
 import {V117_PEBBLE_STAFF_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
@@ -41,8 +42,7 @@ function curve(stages,stat){
 }
 export function calculatePinnedV117PebbleMagic(root,{
  staff="Astrologer's Staff",intelligence,reinforcement=25,
- strength=10,defense=0,negation=0,
- useExactSiteBoundary=true
+ strength=10,defense=0,negation=0
 }={}){
  if(!rec(root)||!Array.isArray(root.weapons)||!rec(root.reinforceTypes)||
   !rec(root.calcCorrectGraphs)||!rec(root.attackElementCorrects))
@@ -78,16 +78,17 @@ export function calculatePinnedV117PebbleMagic(root,{
  const stages=root.calcCorrectGraphs[String(graphId)];
  const bonus=coeff*upgraded.attributeScaling.int*curve(stages,intelligence);
  const scalar=1+bonus;
- const rawMagic=PEBBLE_BASE_MAGIC*scalar;
+ // Source-site calculation stages: spell buff starts at 100, gets its
+ // attribute bonus, then Math.trunc truncates the SPELL BUFF (not damage).
+ // A spell's attack parameter is then applied to the INTEGER spell buff.
+ // Finally Math.round is applied to damage after the 0-defense 0.9 rule.
+ // Do not use floor(152*scalar*.9): that caused 1-point differences.
+ const catalystScalingRaw=100*scalar;
+ const catalystScalingTruncated=Math.trunc(catalystScalingRaw);
+ const rawMagic=catalystScalingTruncated*(PEBBLE_BASE_MAGIC/100);
  const beforeNegation=rawMagic*defenseMultiplier(rawMagic,defense);
- const calculated=Math.floor(beforeNegation*(1-negation/100));
- // One precisely bounded Tarnished.dev 25-INT discrepancy: source math
- // 243 and real site 242 in two separate Chrome sessions; do NOT use epsilon
- // or spread correction to any other stat, staff, upgrade or enemy.
- const boundary=useExactSiteBoundary&&staff==="Astrologer's Staff"&&
-  intelligence===25&&reinforcement===25&&strength===10&&defense===0&&negation===0&&
-  calculated===243;
- const total=boundary?242:calculated;
+ const calculated=Math.round(beforeNegation*(1-negation/100));
+ const total=calculated;
  const supportedReference=staff==="Astrologer's Staff"&&
   reinforcement===25&&strength===10&&defense===0&&negation===0?
    V117_PEBBLE_STAFF_ROWS.find(x=>x.int===intelligence):null;
@@ -97,14 +98,15 @@ export function calculatePinnedV117PebbleMagic(root,{
   sourceRuns:2
  }:null;
  return {
-  status:referenceCompared?.exactMatch?(boundary?'SITE_CALIBRATED_EXACT_REFERENCE_SCENE':'INDEPENDENT_MODEL_MATCHES_TARNISHED_V117_SCENE'):
+  status:referenceCompared?.exactMatch?'INDEPENDENT_MODEL_MATCHES_TARNISHED_V117_SCENE':
    referenceCompared?'SOURCE_MODEL_NUMERIC_MISMATCH':'INDEPENDENT_SOURCE_MODEL_UNVERIFIED_AT_SITE',
   spell:'Glintstone Pebble',staff,intelligence,reinforcement,strength,
   spellBaseMagic:PEBBLE_BASE_MAGIC,catalystScalar:scalar,
   magicBeforeDefense:rawMagic,defense,negation,
+  catalystScalingRaw,catalystScalingTruncated,
   sourceMathDamage:calculated,damage:total,
-  appliedExactSiteBoundary:boundary,referenceCompared,
+  appliedExactSiteBoundary:false,referenceCompared,
   provenance:'Pinned public v1.17 catalyst graph and 152 magic spell coefficient; source downloaded on user action; not bundled.',
-  warning:'Only Wretch 10-other-stats, Astrologer\'s Staff +25, zero-target-defense, no-effects INT20/25/30/35/40/45/50/55/60 were compared against real Tarnished.dev site. All other results are unverified source-model calculations; no other spell or damage coefficient assumed.'
+  warning:'Only selected Wretch10 / Astrologer\'s Staff +25 / Glintstone Pebble, zero enemy defense/negation, no buffs, has same-input public Tarnished.dev v1.17 reference evidence. Other catalysts, spells, targets, reinforcement levels and buffs are independent source-model calculations, NOT independently certified against the real reference site.'
  };
 }
