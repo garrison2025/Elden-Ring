@@ -36,6 +36,7 @@ function inspect(){
  return {version:(body.match(/Elden Ring Version:[^\n]*/i)||[])[0]||'',
   url:location.href,origin:origin||null,
   stats:['vigor','mind','endurance','strength','dexterity','intelligence','faith','arcane'].map(k=>({id:k,value:document.getElementById(k)?.value??null})),
+  originWidgetHtml:document.querySelector('select')?.parentElement?.parentElement?.outerHTML.slice(0,4500)||'',
   selectedWeaponText:block,
   hasReq:/\bReq:\s*\d+\/\d+\/\d+\/\d+\/\d+/.test(block)};
 }
