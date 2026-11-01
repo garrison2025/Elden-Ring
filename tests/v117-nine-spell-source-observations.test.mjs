@@ -15,7 +15,7 @@ test('four new actual spell outputs are immutable independent two-browser findin
  }
 });
 test('historical one-point discrepancies stay as old-model provenance and not current math',()=>{
- assert.equal(V117_PEBBLE_STAFF_ROWS.length,17);
+ assert.equal(V117_PEBBLE_STAFF_ROWS.length,18);
  const oldFormula={20:219,25:243,30:267,35:291,40:315,45:338,50:362,55:386,60:410};
  const site=new Map(V117_PEBBLE_STAFF_ROWS.map(x=>[x.int,x.magic]));
  assert.deepEqual(Object.entries(oldFormula).filter(([i,v])=>site.get(Number(i))!==v).map(x=>Number(x[0])),
