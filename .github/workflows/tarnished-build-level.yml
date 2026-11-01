@@ -23,6 +23,8 @@ jobs:
           cp .audit/tarnished-build-level-public.json .audit/build-level-first.json
       - name: Independent public Build level, second Chromium read
         run: node scripts/probe-tarnished-build-level.mjs
+      - name: Enforce two independently matched and fully observed 20-case level results
+        run: node scripts/verify-tarnished-build-level-reads.mjs
       - name: Preserve two independent actual Build Planner data comparisons
         if: always()
         uses: actions/upload-artifact@v4
