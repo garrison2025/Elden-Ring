@@ -21,7 +21,7 @@ export function calculateV117BuildTalismanAttributeComposition(base,selected,{or
   provenance:'14 double-observed isolated Tarnished.dev v1.17 talisman stat effects',
   scope:'Attribute bonus arithmetic ONLY; HP/FP/stamina/cap/defense/negation/full stacking not inferred.'};
  if(!names.length)return {...result,status:'NO_TALISMANS',final:[...base],bonuses:Array(8).fill(0),reference:null};
- const compatibility=reviewTalismanLoadoutCompatibility(names);
+ const compatibility=reviewTalismanLoadoutCompatibility(selected.concat(Array(4-selected.length).fill('')));
  if(compatibility.conflicts.length)
   return {...result,status:'INCOMPATIBLE_TALISMANS',final:null,bonuses:null,reference:null,
    conflicts:compatibility.conflicts};
