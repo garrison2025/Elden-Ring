@@ -181,6 +181,8 @@ async function run(){
      const verified=Boolean(onSite&&valid&&active&&five&&five.length===5&&
       five.every(v=>Number.isInteger(v)&&v>=0&&v<=99)&&five.some(v=>v>1));
      const observation={id:c.id,name:c.name,siteName:candidateName,affinity,
+      ...(mode==='alt-origin'?{originName:c.originName,originStats:c.originStats,
+       startingClass:s.startingClass,classAction}:{}),
       status:verified?'INPUT_AND_REQ_VERIFIED':'NOT_OBSERVED',
       requirements:verified?five:null,verifiedInputs:valid&&onSite,
       version:s.version,siteUrl:s.url,selectedBlock:selected.slice(0,400),
@@ -206,7 +208,8 @@ async function run(){
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-public-requirements.json'),JSON.stringify({
   source:'Public Tarnished.dev v1.17 Build Planner Req: text, raw UI',
-  stats:[10,10,10,10,10],shard:index,observedDate:new Date().toISOString(),
+  stats:mode==='alt-origin'?'valid-class-base-stats-per-record':[10,10,10,10,10],
+  shard:index,mode:mode||'default',observedDate:new Date().toISOString(),
   cases:results},null,2)+'\n');
  console.log('[REQ SITE SUMMARY] '+JSON.stringify({shard:index,total:results.length,
   observed:results.filter(x=>x.status==='INPUT_AND_REQ_VERIFIED').length,
