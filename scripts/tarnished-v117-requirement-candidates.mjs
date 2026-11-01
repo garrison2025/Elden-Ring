@@ -38,3 +38,19 @@ export function getRequirementsShard(index,total=12){
  const end=Math.floor((index+1)*REQUIREMENT_CANDIDATES.length/12);
  return REQUIREMENT_CANDIDATES.slice(start,end);
 }
+
+/** Retry only records with TWO direct public v1.17 AR reads but no Req.
+ * Neither the AR total nor pinned parameter source supplies a direct Req.
+ */
+const reqAudit=JSON.parse(readFileSync(new URL('./tarnished-v117-direct-requirements-actual10.json',import.meta.url),'utf8'));
+const arNames=new Set(a.records.map(x=>x.weaponName));
+const missingReqWithAr=new Set(reqAudit.rows.filter(x=>
+  x.status!=='DIRECT_SITE_REQ_VERIFIED'&&arNames.has(x.name)).map(x=>x.name));
+export const AR_GAP_REQUIREMENT_CANDIDATES=Object.freeze(
+ REQUIREMENT_CANDIDATES.filter(x=>missingReqWithAr.has(x.name)));
+if(reqAudit.total!==487||AR_GAP_REQUIREMENT_CANDIDATES.length!==22)
+ throw new RangeError('Public-site AR/Req audit input drift; re-evaluate the 22 targeted gaps');
+export function getArGapRequirementShard(index){
+ if(!Number.isInteger(index)||index<0||index>=2)throw new RangeError('Expected AR-gap shard index 0..1');
+ return AR_GAP_REQUIREMENT_CANDIDATES.slice(index*11,(index+1)*11);
+}
