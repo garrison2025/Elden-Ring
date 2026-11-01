@@ -1,0 +1,57 @@
+{
+  "reference": "Tarnished.dev public v1.17",
+  "version": "v1.17",
+  "sourceRun": 41295943732,
+  "twoIndependentChromeReadsPerScene": true,
+  "scope": "Wretch, all remaining attributes 10; actual selected no effects; Damage Uchigatana Standard +25; Spell Glintstone Pebble + Astrologer's Staff, public default reinforcement and zero-defense enemy.",
+  "damage": [
+    {
+      "str": 15,
+      "dex": 20,
+      "ar": 376,
+      "physical": 376,
+      "poise": 5,
+      "dpsSingle": 464,
+      "dpsPaired": 547
+    },
+    {
+      "str": 20,
+      "dex": 20,
+      "ar": 392,
+      "physical": 392,
+      "poise": 5,
+      "dpsSingle": 489,
+      "dpsPaired": 577
+    },
+    {
+      "str": 15,
+      "dex": 25,
+      "ar": 388,
+      "physical": 388,
+      "poise": 5,
+      "dpsSingle": 483,
+      "dpsPaired": 570
+    }
+  ],
+  "spell": [
+    {
+      "int": 25,
+      "magic": 242,
+      "bullets": 1,
+      "fp": 7
+    },
+    {
+      "int": 30,
+      "magic": 267,
+      "bullets": 1,
+      "fp": 7
+    },
+    {
+      "int": 40,
+      "magic": 315,
+      "bullets": 1,
+      "fp": 7
+    }
+  ],
+  "note": "Exact UI scenes only. Damage DPS timings/movesets and Spell scaling are NOT independently reproduced by the local engine. Source observations are not a local result formula."
+}
