@@ -144,7 +144,7 @@ async function main(){
     const result={
      id:c.id,request:c,
      evidenceTier:cases.indexOf(c)<baseCases?'prior-15-reprobe':
-        cases.indexOf(c)<priorTotal?'approved-35-reprobe':'fresh-18-unpromoted-candidate',
+        cases.indexOf(c)<priorTotal?'additional-unpromoted-candidate':'fresh-18-unpromoted-candidate',
      observedAr:ar?Number(ar[1]):null,
      displayedWeapon:snap.weaponBlock.includes('\n'+desiredWeapon+'\n')?desiredWeapon:null,
      version:snap.version,url:snap.page,title:snap.title,
