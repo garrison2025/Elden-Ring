@@ -160,8 +160,16 @@ async function run(){
      const selected=part.split(/\nEquipped (?:Left|Right) Hand [123]/)[0];
      const m=selected.match(reqPattern);
      const controls=s.controls;
-     const valid=controls.str==='10'&&controls.dex==='10'&&controls.int==='10'&&
-      controls.fai==='10'&&controls.arc==='10'&&controls.smith==='0'&&
+     const wantedStats=mode==='alt-origin'?c.originStats.slice(3):[10,10,10,10,10];
+     const valid=controls.str===String(wantedStats[0])&&
+      controls.dex===String(wantedStats[1])&&
+      controls.int===String(wantedStats[2])&&
+      controls.fai===String(wantedStats[3])&&
+      controls.arc===String(wantedStats[4])&&
+      (mode!=='alt-origin'||(s.startingClass===c.originName&&
+       classAction?.status==='VISIBLE_ORIGIN_CLICKED'&&
+       classAction.selected===c.originName))&&
+      controls.smith==='0'&&
       controls.somber==='0'&&controls.twoHanded===false&&
       controls.rune===false&&controls.physick===false;
      const onSite=s.version==='Elden Ring Version: v1.17'&&
