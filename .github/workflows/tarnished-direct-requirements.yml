@@ -1,13 +1,5 @@
 name: Public Tarnished.dev v1.17 487-weapon direct requirements audit
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/tarnished-v117-requirement-candidates.mjs
-      - scripts/probe-tarnished-v117-requirements.mjs
-      - scripts/compare-tarnished-v117-requirements.mjs
-      - tests/tarnished-v117-requirement-candidates.test.mjs
-      - .github/workflows/tarnished-direct-requirements.yml
   workflow_dispatch:
 permissions:
   contents: read
