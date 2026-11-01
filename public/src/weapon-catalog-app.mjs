@@ -233,8 +233,18 @@ function renderV117SourceFacts(){
  if(row.attackDiff)notices.push('ATTACK DISAGREEMENT: community +0 base differs from pinned v1.17. Neither is silently overwritten.');
  else if(row.communityAttack===null)notices.push('Community base attack UNKNOWN; pinned v1.17 +0 source is now visible for comparison only.');
  if(row.requirementDiff)notices.push('REQUIREMENT DISAGREEMENT: minimum attributes differ between sources; original wield filter remains conservative.');
- if(row.weightIsDisputed)notices.push('WEIGHT DISPUTED: pinned source has no reliable weapon weight; equip-load blocked.');
- else if(row.communityWeight===null)notices.push('WEIGHT UNKNOWN: no source weight supplied; never assume zero.');
+ const observedWeight=getTarnishedV117DirectWeight(chosen.name);
+ if(observedWeight&&row.weightIsDisputed)
+  notices.push('COMMUNITY WEIGHT CONFLICT: original '+String(row.communityWeight)+
+   ' remains disputed; separate Tarnished.dev public v1.17 UI shows '+observedWeight.weight+
+   ' after two exact-input reads. The independent attack parameter source supplies no item weight.');
+ else if(observedWeight&&row.communityWeight===null)
+  notices.push('COMMUNITY WEIGHT MISSING: separate Tarnished.dev public v1.17 UI shows '+
+   observedWeight.weight+' after two exact-input reads; original catalog remains unchanged.');
+ else if(row.weightIsDisputed)
+  notices.push('WEIGHT DISPUTED: pinned source has no reliable weapon weight; equip-load blocked.');
+ else if(row.communityWeight===null)
+  notices.push('WEIGHT UNKNOWN: no source weight supplied; never assume zero.');
  if(!notices.length)notices.push('No numeric +0 attack or requirement disagreement for these source fields. Other community details are not independently verified.');
  differences.textContent=notices.join(' ');
 }
