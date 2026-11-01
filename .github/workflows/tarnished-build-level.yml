@@ -1,0 +1,35 @@
+name: Direct public Tarnished.dev v1.17 Build level comparator
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-build-level.mjs
+      - .github/workflows/tarnished-build-level.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare-level:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Direct public Build Planner Wretch level, first Chromium read
+        run: |
+          node scripts/probe-tarnished-build-level.mjs
+          cp .audit/tarnished-build-level-public.json .audit/build-level-first.json
+      - name: Independent public Build level, second Chromium read
+        run: node scripts/probe-tarnished-build-level.mjs
+      - name: Preserve two independent actual Build Planner data comparisons
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-build-wretch-level-two-reads
+          path: |
+            .audit/build-level-first.json
+            .audit/tarnished-build-level-public.json
+          retention-days: 30
+          if-no-files-found: warn
