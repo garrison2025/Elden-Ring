@@ -14,13 +14,12 @@ test('four new actual spell outputs are immutable independent two-browser findin
   assert.equal(exactPublicPebbleSpell({int:row.int}).reference?.magic,row.siteMagic);
  }
 });
-test('four historical mismatches are preserved as previous-model evidence, not as current calculator behavior',()=>{
- const old={20:219,25:243,30:267,35:291,40:315,45:338,50:362,55:386,60:410};
- assert.deepEqual([25,35,50],Object.keys(old).map(Number).filter(n=>
-  [20,25,30,35,40,45,50,55,60].includes(n)&&
-  old[n]!==ev.observations.find(x=>x.int===n)?.siteMagic&&
-  [20,35,45,55].includes(n)).concat([25,50]).sort((a,b)=>a-b));
+test('historical one-point discrepancies stay as old-model provenance and not current math',()=>{
  assert.equal(V117_PEBBLE_STAFF_ROWS.length,17);
+ const oldFormula={20:219,25:243,30:267,35:291,40:315,45:338,50:362,55:386,60:410};
+ const site=new Map(V117_PEBBLE_STAFF_ROWS.map(x=>[x.int,x.magic]));
+ assert.deepEqual(Object.entries(oldFormula).filter(([i,v])=>site.get(Number(i))!==v).map(x=>Number(x[0])),
+  [25,35,50]);
  for(const int of [21,31,36,46,51,56,61])
   assert.equal(exactPublicPebbleSpell({int}).reference,null);
 });
