@@ -204,6 +204,25 @@ try{
   'Real talisman 0.8 load must no longer be silently discarded');
  assert.match(await evaluate("document.querySelector('#build-v117-isolated-effect-results').textContent"),
   /direct-site-same-input-selection/);
+
+ // 14 twice-read talisman expansion: test the actual independent Wretch10
+ // baseline HP, displayed negation penalties, discovery and source weights.
+ await evaluate("(()=>{const t=document.querySelector('#build-loadout-talismans input');t.value=\"Radagon's Soreseal\";t.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-isolated-effect-results')?.textContent.includes('physical -15%')",
+  'Radagon Soreseal actual Wretch all-element negative damage negation must not be discarded');
+ assert.ok((await evaluate("document.querySelector('#build-v117-isolated-effect-results').textContent")).includes('HP 522'),
+  'Radagon Soreseal Wretch actual HP after +5 VIG is 522');
+ await evaluate("(()=>{const t=document.querySelector('#build-loadout-talismans input');t.value=\"Erdtree's Favor +2\";t.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-isolated-effect-results')?.textContent.includes('Max Equip Load 52.0')",
+  'Erdtree Favor +2 real Wretch load cap is 52.0');
+ assert.ok((await evaluate("document.querySelector('#build-v117-isolated-effect-results').textContent")).includes('HP 430'),
+  'Erdtree Favor +2 exact Wretch10 HP = 430');
+ await evaluate("(()=>{const t=document.querySelector('#build-loadout-talismans input');t.value='Silver Scarab';t.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-isolated-effect-results')?.textContent.includes('Discovery 185')",
+  'Silver Scarab actual Wretch10 Discovery 185 from site');
+ assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 1.200'),
+  'Silver Scarab must contribute its twice observed 1.2 weight');
+
  await evaluate("(()=>{const t=document.querySelector('#build-loadout-talismans input');t.value='';t.dispatchEvent(new Event('input',{bubbles:true}));const r=document.querySelector('#build-loadout-rune');r.value=\"Godrick's Great Rune\";r.dispatchEvent(new Event('input',{bubbles:true}))})()");
  await waitFor("document.querySelector('#build-v117-isolated-effect-results')?.textContent.includes('VIG 10 → 15')",
   'Actual Godrick rune selected-item +5 each from real Chrome appears');
