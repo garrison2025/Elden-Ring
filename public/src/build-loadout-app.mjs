@@ -349,7 +349,7 @@ function createInputs(){
   // invalid claim that an effect observed at Wretch10 applies elsewhere.
   const fresh=emptyBuildLoadout();
   fresh.talismans=selected.names.concat(Array(4-selected.names.length).fill(''));
-  fresh.maxEquipLoad='48.176';
+  fresh.maxEquipLoad=String(selected.maxEquipLoad);
   fill(fresh);
   const origin=byId('origin');
   if(origin){origin.value='Wretch';origin.dispatchEvent(new Event('change',{bubbles:true}));}
@@ -361,7 +361,7 @@ function createInputs(){
   statInputs[0].dispatchEvent(new Event('input',{bubbles:true}));
   render();
   status('Loaded exact twice-observed Wretch10 '+selected.names.join(' + ')+
-   ' scene. Previous equipment and stats were replaced. No general item stacking has been inferred.');
+   ' scene. Previous equipment and stats were replaced. Max equip load '+selected.maxEquipLoad.toFixed(1)+' comes from the site displayed value (rounded to one decimal, not an exact hidden cap). No general stacking is inferred.');
  });
  const effects=byId('build-loadout-activations');
  for(let i=0;i<2;i++)tearEntries.push(field(effects,'Crystal Tear '+(i+1),'text',{
