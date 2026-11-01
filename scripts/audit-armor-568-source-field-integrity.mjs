@@ -12,6 +12,7 @@ const slotCounts={Head:0,Chest:0,Arms:0,Legs:0};
 const metrics={};
 for(const key of Object.keys(ARMOR_METRICS))metrics[key]={sourceKnown:0,missing:0,invalid:0};
 let validWeights=0,zeroWeights=0,unknownPoise=0,ambiguousSlotNames=0;
+let legitimateNegativeNegationCells=0;
 const indexed=new Map();
 for(const [i,armor] of armors.entries()){
  if(ids.has(armor.id))throw Error('Duplicate armor ID at row '+i);
@@ -32,6 +33,10 @@ for(const [i,armor] of armors.entries()){
    stat.invalid++;continue;
   }
   stat.sourceKnown++;
+  if(val<0){
+   if(ARMOR_METRICS[metric].kind!=='negation')throw Error('Negative resistance unexpectedly accepted');
+   legitimateNegativeNegationCells++;
+  }
  }
 }
 ambiguousSlotNames=[...indexed.values()].filter(x=>x>1).length;
@@ -45,6 +50,7 @@ const report={schemaVersion:1,sourceEvidence:'Pinned third-party community armor
  poiseKnown:armors.length-unknownPoise,
  metricCells:{total:totalMetricCells,sourceKnown:knownCells,sourceUnknown:unknownCells},
  metricCoverage:metrics,
+ legitimateNegativeNegationCells,
  sameSlotDuplicateDisplayNames:ambiguousSlotNames,
  independentTarnishedV117PerPieceMeasurements:0,
  independentCurrentGameClientMeasurements:0,
@@ -54,6 +60,7 @@ const report={schemaVersion:1,sourceEvidence:'Pinned third-party community armor
 await mkdir(resolve('.audit'),{recursive:true});
 await writeFile(resolve('.audit/armor-568-source-field-integrity.json'),JSON.stringify(report,null,2)+'\n');
 console.log('[ARMOR 568 SOURCE COVERAGE] '+JSON.stringify(report));
-if(report.totalRows!==568||report.distinctIds!==568||knownCells<6500||validWeights!==568||
+if(report.totalRows!==568||report.distinctIds!==568||
+ knownCells!==7366||unknownCells!==18||legitimateNegativeNegationCells!==41||validWeights!==568||
  Object.values(metrics).some(x=>x.invalid!==0))
  throw Error('Pinned armor source integrity/field coverage gate failed');
