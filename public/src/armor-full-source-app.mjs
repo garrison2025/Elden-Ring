@@ -1,3 +1,4 @@
+import {siteVerifiedArmorSubset} from './tarnished-armor-eligibility.mjs';
 import {loadPinnedArmorSource} from './armor-source-optin.mjs';
 const $=id=>document.getElementById(id);
 const status=(message,error=false)=>{
@@ -55,10 +56,18 @@ $('armor-full-run').addEventListener('click',()=>{
    metric:$('armor-full-metric').value,
    excludedIds:parseExclude()
   };
+  const restrict=$('armor-full-site-only').checked;
+  const verified=siteVerifiedArmorSubset(armors,options.metric);
+  const candidateRows=restrict?verified.accepted:armors;
+  if(!candidateRows.length)throw new RangeError('No Tarnished.dev-verified candidates support '+options.metric+'.');
   const requestId=++revision;
   $('armor-full-run').disabled=true;
-  status('Searching all source-supported '+options.metric+' armor combinations in a browser Worker…');
-  worker.postMessage({op:'optimize',requestId,armors,options});
+  status((restrict?
+   'Site-verified '+options.metric+': '+candidateRows.length+' candidate pieces, '+
+     verified.excluded.length+' unverified pieces excluded. ':
+   'Source-only research mode: '+candidateRows.length+' candidates; NOT site parity. ')+
+   'Searching feasible four-piece combinations locally…');
+  worker.postMessage({op:'optimize',requestId,armors:candidateRows,options});
  }catch(error){status('Cannot start source optimizer: '+error.message,true);}
 });
 worker?.addEventListener('message',event=>{
@@ -90,7 +99,7 @@ worker?.addEventListener('message',event=>{
    '')+(r.missingPoiseExcluded?
    r.missingPoiseExcluded+' pieces missing source Poise excluded. ':'')+
   (r.metricUnit==='%'?'Rounded per-piece source negation is combined multiplicatively; ':'')+
-  'Exact optimum within the supplied values, not a numerically verified Tarnished.dev v1.17 browser result.';
+  'This local optimizer finds a subset optimum; its exact recommended four-piece set has NOT been compared against the Tarnished.dev optimizer UI.';
  for(const piece of r.combination){
   const row=document.createElement('tr');
   for(const value of [piece.slot,piece.name,String(piece.weight),
@@ -102,8 +111,9 @@ worker?.addEventListener('message',event=>{
  }
  status('Source metric '+r.metricLabel+' optimization completed in Worker. '+
   r.stages.map(x=>x.slot+': '+x.stateCount+' states').join(' · ')+
-  '. Source-data only; not an individually observed Tarnished.dev v1.17 armor result.');
+  '. Search outputs require an independent same-input comparison before being labeled Tarnished.dev optimizer parity.');
 });
+$('armor-full-site-only').addEventListener('change',invalidate);
 for(const id of ['maxLoad','reservedWeight','targetTier','minPoise','armor-full-exclude','armor-full-metric']){
  $(id).addEventListener(['targetTier','armor-full-metric'].includes(id)?'change':'input',invalidate);
 }
