@@ -1,0 +1,3287 @@
+[
+  {
+    "id": "req-163",
+    "name": "Godslayer's Seal",
+    "siteName": "Godslayer's Seal",
+    "affinity": "None",
+    "requirements": [
+      4,
+      0,
+      0,
+      27,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-164",
+    "name": "Golden Epitaph",
+    "siteName": "Golden Epitaph",
+    "affinity": "None",
+    "requirements": [
+      12,
+      10,
+      0,
+      14,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-165",
+    "name": "Golden Halberd",
+    "siteName": "Golden Halberd",
+    "affinity": "None",
+    "requirements": [
+      30,
+      14,
+      0,
+      12,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-166",
+    "name": "Golden Lion Shield",
+    "siteName": "Golden Lion Shield",
+    "affinity": "None",
+    "requirements": [
+      11,
+      0,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-167",
+    "name": "Golden Order Flail",
+    "siteName": "Golden Order Flail",
+    "affinity": "None",
+    "requirements": [
+      9,
+      16,
+      0,
+      26,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-168",
+    "name": "Golden Order Greatsword",
+    "siteName": "Golden Order Greatsword",
+    "affinity": "None",
+    "requirements": [
+      16,
+      21,
+      0,
+      28,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-169",
+    "name": "Golden Order Seal",
+    "siteName": "Golden Order Seal",
+    "affinity": "None",
+    "requirements": [
+      0,
+      0,
+      17,
+      17,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-170",
+    "name": "Golem Fist",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-171",
+    "name": "Golem Greatbow",
+    "siteName": "Golem Greatbow",
+    "affinity": "None",
+    "requirements": [
+      24,
+      18,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-172",
+    "name": "Golem's Halberd",
+    "siteName": "Golem's Halberd",
+    "affinity": "Standard",
+    "requirements": [
+      36,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-173",
+    "name": "Grafted Blade Greatsword",
+    "siteName": "Grafted Blade Greatsword",
+    "affinity": "None",
+    "requirements": [
+      40,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-174",
+    "name": "Grafted Dragon",
+    "siteName": "Grafted Dragon",
+    "affinity": "None",
+    "requirements": [
+      20,
+      14,
+      0,
+      16,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-175",
+    "name": "Grave Scythe",
+    "siteName": "Grave Scythe",
+    "affinity": "Standard",
+    "requirements": [
+      17,
+      13,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-176",
+    "name": "Great Club",
+    "siteName": "Great Club",
+    "affinity": "None",
+    "requirements": [
+      35,
+      0,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-177",
+    "name": "Great Épée",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-178",
+    "name": "Great Katana",
+    "siteName": "Great Katana",
+    "affinity": "Standard",
+    "requirements": [
+      14,
+      18,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-179",
+    "name": "Great Knife",
+    "siteName": "Great Knife",
+    "affinity": "Standard",
+    "requirements": [
+      6,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-180",
+    "name": "Great Mace",
+    "siteName": "Great Mace",
+    "affinity": "Standard",
+    "requirements": [
+      28,
+      0,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-181",
+    "name": "Great Omenkiller Cleaver",
+    "siteName": "Great Omenkiller Cleaver",
+    "affinity": "Standard",
+    "requirements": [
+      23,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-182",
+    "name": "Great Stars",
+    "siteName": "Great Stars",
+    "affinity": "Standard",
+    "requirements": [
+      22,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-183",
+    "name": "Greataxe",
+    "siteName": "Greataxe",
+    "affinity": "Standard",
+    "requirements": [
+      30,
+      8,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-184",
+    "name": "Greatbow",
+    "siteName": "Greatbow",
+    "affinity": "None",
+    "requirements": [
+      20,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-185",
+    "name": "Greathorn Hammer",
+    "siteName": "Greathorn Hammer",
+    "affinity": "Standard",
+    "requirements": [
+      22,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-186",
+    "name": "Greatsword",
+    "siteName": "Greatsword",
+    "affinity": "Standard",
+    "requirements": [
+      31,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-187",
+    "name": "Greatsword of Damnation",
+    "siteName": "Greatsword of Damnation",
+    "affinity": "None",
+    "requirements": [
+      20,
+      15,
+      0,
+      20,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-188",
+    "name": "Greatsword of Radahn (Light)",
+    "siteName": "Greatsword of Radahn (Light)",
+    "affinity": "None",
+    "requirements": [
+      32,
+      24,
+      15,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-189",
+    "name": "Greatsword of Radahn (Lord)",
+    "siteName": "Greatsword of Radahn (Lord)",
+    "affinity": "None",
+    "requirements": [
+      32,
+      24,
+      15,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-190",
+    "name": "Greatsword of Solitude",
+    "siteName": "Greatsword of Solitude",
+    "affinity": "None",
+    "requirements": [
+      27,
+      13,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-191",
+    "name": "Grossmesser",
+    "siteName": "Grossmesser",
+    "affinity": "Standard",
+    "requirements": [
+      14,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-192",
+    "name": "Guardian's Swordspear",
+    "siteName": "Guardian's Swordspear",
+    "affinity": "Standard",
+    "requirements": [
+      17,
+      16,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-193",
+    "name": "Halberd",
+    "siteName": "Halberd",
+    "affinity": "Standard",
+    "requirements": [
+      14,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-194",
+    "name": "Halo Scythe",
+    "siteName": "Halo Scythe",
+    "affinity": "None",
+    "requirements": [
+      13,
+      16,
+      0,
+      15,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-195",
+    "name": "Hammer",
+    "siteName": "Hammer",
+    "affinity": "Standard",
+    "requirements": [
+      14,
+      7,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-196",
+    "name": "Hand Axe",
+    "siteName": "Hand Axe",
+    "affinity": "Standard",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-197",
+    "name": "Hand Ballista",
+    "siteName": "Hand Ballista",
+    "affinity": "None",
+    "requirements": [
+      30,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-198",
+    "name": "Hand Of Malenia",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-199",
+    "name": "Harp Bow",
+    "siteName": "Harp Bow",
+    "affinity": "None",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-200",
+    "name": "Heavy Crossbow",
+    "siteName": "Heavy Crossbow",
+    "affinity": "None",
+    "requirements": [
+      14,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-201",
+    "name": "Hefty Scimitar",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-202",
+    "name": "Helphen's Steeple",
+    "siteName": "Helphen's Steeple",
+    "affinity": "None",
+    "requirements": [
+      19,
+      10,
+      22,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-406",
+    "name": "Watchdog's Greatsword",
+    "siteName": "Watchdog's Greatsword",
+    "affinity": "Standard",
+    "requirements": [
+      30,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-407",
+    "name": "Watchdog's Staff",
+    "siteName": "Watchdog's Staff",
+    "affinity": "None",
+    "requirements": [
+      34,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-408",
+    "name": "Weathered Straight Sword",
+    "siteName": "Weathered Straight Sword",
+    "affinity": "Standard",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-409",
+    "name": "Whip",
+    "siteName": "Whip",
+    "affinity": "Standard",
+    "requirements": [
+      8,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-410",
+    "name": "Wing Of Astel",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-411",
+    "name": "Winged Greathorn",
+    "siteName": "Winged Greathorn",
+    "affinity": "None",
+    "requirements": [
+      30,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-412",
+    "name": "Winged Scythe",
+    "siteName": "Winged Scythe",
+    "affinity": "None",
+    "requirements": [
+      16,
+      16,
+      0,
+      24,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-413",
+    "name": "Wolf Crest Shield",
+    "siteName": "Wolf Crest Shield",
+    "affinity": "Standard",
+    "requirements": [
+      12,
+      0,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-414",
+    "name": "Zamor Curved Sword",
+    "siteName": "Zamor Curved Sword",
+    "affinity": "None",
+    "requirements": [
+      16,
+      18,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-415",
+    "name": "Zweihander",
+    "siteName": "Zweihander",
+    "affinity": "Standard",
+    "requirements": [
+      19,
+      11,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-416",
+    "name": "Albinauric Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-417",
+    "name": "Ant's Skull Plate",
+    "siteName": "Ant's Skull Plate",
+    "affinity": "None",
+    "requirements": [
+      28,
+      0,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-418",
+    "name": "Bandit's Curved Sword",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-419",
+    "name": "Banished Knight's Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-420",
+    "name": "Beast Crest Heater Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-421",
+    "name": "Beastman's Jar-Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-422",
+    "name": "Black Leather Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-423",
+    "name": "Blue Crest Heater Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-424",
+    "name": "Blue-Gold Kite Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-425",
+    "name": "Blue-White Wooden Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-426",
+    "name": "Brass Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-427",
+    "name": "Briar Greatshield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-428",
+    "name": "Buckler",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-429",
+    "name": "Candletree Wooden Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-430",
+    "name": "Carian Knight's Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-431",
+    "name": "Coil Shield",
+    "siteName": "Coil Shield",
+    "affinity": "None",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-432",
+    "name": "Crossed-Tree Towershield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-433",
+    "name": "Crucible Hornshield",
+    "siteName": "Crucible Hornshield",
+    "affinity": "None",
+    "requirements": [
+      26,
+      0,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-434",
+    "name": "Cuckoo Greatshield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-435",
+    "name": "Distinguished Greatshield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-436",
+    "name": "Dragon Towershield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-437",
+    "name": "Dragonclaw Shield",
+    "siteName": "Dragonclaw Shield",
+    "affinity": "None",
+    "requirements": [
+      28,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-438",
+    "name": "Eclipse Crest Greatshield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-439",
+    "name": "Eclipse Crest Heater Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-440",
+    "name": "Erdtree Greatshield",
+    "siteName": "Erdtree Greatshield",
+    "affinity": "None",
+    "requirements": [
+      30,
+      0,
+      0,
+      12,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-441",
+    "name": "Fingerprint Stone Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-442",
+    "name": "Flame Crest Wooden Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-443",
+    "name": "Gilded Greatshield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-444",
+    "name": "Gilded Iron Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-445",
+    "name": "Golden Beast Crest Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-446",
+    "name": "Golden Greatshield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-041",
+    "name": "Bolt Of Gransax",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-042",
+    "name": "Bone Bow",
+    "siteName": "Bone Bow",
+    "affinity": "None",
+    "requirements": [
+      8,
+      11,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-043",
+    "name": "Bonny Butchering Knife",
+    "siteName": "Bonny Butchering Knife",
+    "affinity": "None",
+    "requirements": [
+      16,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-044",
+    "name": "Brick Hammer",
+    "siteName": "Brick Hammer",
+    "affinity": "Standard",
+    "requirements": [
+      31,
+      0,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-045",
+    "name": "Broadsword",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-046",
+    "name": "Butchering Knife",
+    "siteName": "Butchering Knife",
+    "affinity": "Standard",
+    "requirements": [
+      16,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-047",
+    "name": "Caestus",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-048",
+    "name": "Cane Sword",
+    "siteName": "Cane Sword",
+    "affinity": "Standard",
+    "requirements": [
+      8,
+      11,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-049",
+    "name": "Carian Glintblade Staff",
+    "siteName": "Carian Glintblade Staff",
+    "affinity": "None",
+    "requirements": [
+      6,
+      12,
+      22,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-050",
+    "name": "Carian Glintstone Staff",
+    "siteName": "Carian Glintstone Staff",
+    "affinity": "None",
+    "requirements": [
+      6,
+      8,
+      24,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-051",
+    "name": "Carian Knight's Sword",
+    "siteName": "Carian Knight's Sword",
+    "affinity": "None",
+    "requirements": [
+      10,
+      10,
+      18,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-052",
+    "name": "Carian Regal Scepter",
+    "siteName": "Carian Regal Scepter",
+    "affinity": "None",
+    "requirements": [
+      8,
+      10,
+      60,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-053",
+    "name": "Carian Sorcery Sword",
+    "siteName": "Carian Sorcery Sword",
+    "affinity": "None",
+    "requirements": [
+      10,
+      19,
+      16,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-054",
+    "name": "Carian Thrusting Shield",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-055",
+    "name": "Celebrant's Cleaver",
+    "siteName": "Celebrant's Cleaver",
+    "affinity": "Standard",
+    "requirements": [
+      12,
+      8,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-056",
+    "name": "Celebrant's Rib-rake",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-057",
+    "name": "Celebrant's Sickle",
+    "siteName": "Celebrant's Sickle",
+    "affinity": "Standard",
+    "requirements": [
+      6,
+      11,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-058",
+    "name": "Celebrant's Skull",
+    "siteName": "Celebrant's Skull",
+    "affinity": "Standard",
+    "requirements": [
+      18,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-059",
+    "name": "Chainlink Flail",
+    "siteName": "Chainlink Flail",
+    "affinity": "Standard",
+    "requirements": [
+      18,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-060",
+    "name": "Chilling Perfume Bottle",
+    "siteName": "Chilling Perfume Bottle",
+    "affinity": "None",
+    "requirements": [
+      3,
+      13,
+      13,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-061",
+    "name": "Cinquedea",
+    "siteName": "Cinquedea",
+    "affinity": "None",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-062",
+    "name": "Cipher Pata",
+    "siteName": "Cipher Pata",
+    "affinity": "None",
+    "requirements": [
+      0,
+      0,
+      0,
+      30,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-063",
+    "name": "Clawmark Seal",
+    "siteName": "Clawmark Seal",
+    "affinity": "None",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-064",
+    "name": "Claws of Night",
+    "siteName": "Claws of Night",
+    "affinity": "None",
+    "requirements": [
+      8,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-065",
+    "name": "Clayman's Harpoon",
+    "siteName": "Clayman's Harpoon",
+    "affinity": "Standard",
+    "requirements": [
+      12,
+      10,
+      12,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-066",
+    "name": "Claymore",
+    "siteName": "Claymore",
+    "affinity": "Standard",
+    "requirements": [
+      16,
+      13,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-067",
+    "name": "Cleanrot Knight's Sword",
+    "siteName": "Cleanrot Knight's Sword",
+    "affinity": "Standard",
+    "requirements": [
+      11,
+      13,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-068",
+    "name": "Cleanrot Spear",
+    "siteName": "Cleanrot Spear",
+    "affinity": "None",
+    "requirements": [
+      16,
+      16,
+      0,
+      14,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-069",
+    "name": "Clinging Bone",
+    "siteName": "Clinging Bone",
+    "affinity": "None",
+    "requirements": [
+      8,
+      22,
+      0,
+      0,
+      16
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-070",
+    "name": "Club",
+    "siteName": "Club",
+    "affinity": "Standard",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-071",
+    "name": "Coded Sword",
+    "siteName": "Coded Sword",
+    "affinity": "None",
+    "requirements": [
+      0,
+      0,
+      0,
+      20,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-072",
+    "name": "Commander's Standard",
+    "siteName": "Commander's Standard",
+    "affinity": "None",
+    "requirements": [
+      24,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-073",
+    "name": "Composite Bow",
+    "siteName": "Composite Bow",
+    "affinity": "None",
+    "requirements": [
+      15,
+      15,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-074",
+    "name": "Cranial Vessel Candlestand",
+    "siteName": "Cranial Vessel Candlestand",
+    "affinity": "None",
+    "requirements": [
+      26,
+      8,
+      0,
+      22,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-075",
+    "name": "Crepus's Black-key Crossbow",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-076",
+    "name": "Crescent Moon Axe",
+    "siteName": "Crescent Moon Axe",
+    "affinity": "Standard",
+    "requirements": [
+      25,
+      15,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-077",
+    "name": "Cross-naginata",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-078",
+    "name": "Crystal Knife",
+    "siteName": "Crystal Knife",
+    "affinity": "None",
+    "requirements": [
+      8,
+      12,
+      9,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-079",
+    "name": "Crystal Spear",
+    "siteName": "Crystal Spear",
+    "affinity": "None",
+    "requirements": [
+      10,
+      16,
+      16,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-080",
+    "name": "Crystal Staff",
+    "siteName": "Crystal Staff",
+    "affinity": "None",
+    "requirements": [
+      8,
+      0,
+      48,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-081",
+    "name": "Crystal Sword",
+    "siteName": "Crystal Sword",
+    "affinity": "None",
+    "requirements": [
+      13,
+      10,
+      15,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-001",
+    "name": "Academy Glintstone Staff",
+    "siteName": "Academy Glintstone Staff",
+    "affinity": "None",
+    "requirements": [
+      6,
+      0,
+      28,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-002",
+    "name": "Alabaster Lord's Sword",
+    "siteName": "Alabaster Lord's Sword",
+    "affinity": "None",
+    "requirements": [
+      16,
+      12,
+      18,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-003",
+    "name": "Albinauric Bow",
+    "siteName": "Albinauric Bow",
+    "affinity": "None",
+    "requirements": [
+      7,
+      18,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-004",
+    "name": "Albinauric Staff",
+    "siteName": "Albinauric Staff",
+    "affinity": "None",
+    "requirements": [
+      6,
+      0,
+      10,
+      0,
+      12
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-005",
+    "name": "Ancient Meteoric Ore Greatsword",
+    "siteName": "Ancient Meteoric Ore Greatsword",
+    "affinity": "None",
+    "requirements": [
+      35,
+      10,
+      0,
+      0,
+      19
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-006",
+    "name": "Ansbach's Longbow",
+    "siteName": "Ansbach's Longbow",
+    "affinity": "None",
+    "requirements": [
+      9,
+      43,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-007",
+    "name": "Antspur Rapier",
+    "siteName": "Antspur Rapier",
+    "affinity": "Standard",
+    "requirements": [
+      10,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-008",
+    "name": "Anvil Hammer",
+    "siteName": "Anvil Hammer",
+    "affinity": "None",
+    "requirements": [
+      39,
+      10,
+      11,
+      20,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-009",
+    "name": "Arbalest",
+    "siteName": "Arbalest",
+    "affinity": "None",
+    "requirements": [
+      18,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-010",
+    "name": "Astrologer's Staff",
+    "siteName": "Astrologer's Staff",
+    "affinity": "None",
+    "requirements": [
+      7,
+      0,
+      16,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-011",
+    "name": "Axe Of Godfrey",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-012",
+    "name": "Axe Of Godrick",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-013",
+    "name": "Azur's Glintstone Staff",
+    "siteName": "Azur's Glintstone Staff",
+    "affinity": "None",
+    "requirements": [
+      10,
+      0,
+      52,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-014",
+    "name": "Backhand Blade",
+    "siteName": "Backhand Blade",
+    "affinity": "Standard",
+    "requirements": [
+      10,
+      13,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-015",
+    "name": "Banished Knight's Greatsword",
+    "siteName": "Banished Knight's Greatsword",
+    "affinity": "Standard",
+    "requirements": [
+      17,
+      9,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-016",
+    "name": "Banished Knight's Halberd",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-017",
+    "name": "Barbed Staff-Spear",
+    "siteName": "Barbed Staff-Spear",
+    "affinity": "None",
+    "requirements": [
+      14,
+      18,
+      0,
+      22,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-018",
+    "name": "Bastard Sword",
+    "siteName": "Bastard Sword",
+    "affinity": "Standard",
+    "requirements": [
+      16,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-019",
+    "name": "Bastard's Stars",
+    "siteName": "Bastard's Stars",
+    "affinity": "None",
+    "requirements": [
+      8,
+      22,
+      22,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-020",
+    "name": "Battle Axe",
+    "siteName": "Battle Axe",
+    "affinity": "Standard",
+    "requirements": [
+      12,
+      8,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-021",
+    "name": "Battle Hammer",
+    "siteName": "Battle Hammer",
+    "affinity": "Standard",
+    "requirements": [
+      26,
+      8,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-022",
+    "name": "Beast Claw",
+    "siteName": "Beast Claw",
+    "affinity": "Standard",
+    "requirements": [
+      13,
+      11,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-023",
+    "name": "Beast-repellent Torch",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-024",
+    "name": "Beastclaw Greathammer",
+    "siteName": "Beastclaw Greathammer",
+    "affinity": "None",
+    "requirements": [
+      20,
+      10,
+      0,
+      18,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-025",
+    "name": "Beastman's Cleaver",
+    "siteName": "Beastman's Cleaver",
+    "affinity": "Standard",
+    "requirements": [
+      25,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-026",
+    "name": "Beastman's Curved Sword",
+    "siteName": "Beastman's Curved Sword",
+    "affinity": "Standard",
+    "requirements": [
+      13,
+      11,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-027",
+    "name": "Black Bow",
+    "siteName": "Black Bow",
+    "affinity": "None",
+    "requirements": [
+      9,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-028",
+    "name": "Black Knife",
+    "siteName": "Black Knife",
+    "affinity": "None",
+    "requirements": [
+      8,
+      12,
+      0,
+      18,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-029",
+    "name": "Black Steel Greathammer",
+    "siteName": "Black Steel Greathammer",
+    "affinity": "Standard",
+    "requirements": [
+      25,
+      11,
+      0,
+      17,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-030",
+    "name": "Black Steel Greatshield",
+    "siteName": "Black Steel Greatshield",
+    "affinity": "Standard",
+    "requirements": [
+      35,
+      0,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-031",
+    "name": "Black Steel Twinblade",
+    "siteName": "Black Steel Twinblade",
+    "affinity": "Standard",
+    "requirements": [
+      18,
+      15,
+      0,
+      13,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-032",
+    "name": "Blade Of Calling",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-033",
+    "name": "Blasphemous Blade",
+    "siteName": "Blasphemous Blade",
+    "affinity": "None",
+    "requirements": [
+      22,
+      15,
+      0,
+      21,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-034",
+    "name": "Bloodfiend's Arm",
+    "siteName": "Bloodfiend's Arm",
+    "affinity": "Standard",
+    "requirements": [
+      28,
+      11,
+      0,
+      0,
+      16
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-035",
+    "name": "Bloodfiend's Fork",
+    "siteName": "Bloodfiend's Fork",
+    "affinity": "Standard",
+    "requirements": [
+      14,
+      8,
+      0,
+      0,
+      13
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-036",
+    "name": "Bloodfiend's Sacred Spear",
+    "siteName": "Bloodfiend's Sacred Spear",
+    "affinity": "None",
+    "requirements": [
+      22,
+      12,
+      0,
+      0,
+      13
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-037",
+    "name": "Bloodhound Claws",
+    "siteName": "Bloodhound Claws",
+    "affinity": "Standard",
+    "requirements": [
+      10,
+      15,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-038",
+    "name": "Bloodhound's Fang",
+    "siteName": "Bloodhound's Fang",
+    "affinity": "None",
+    "requirements": [
+      18,
+      17,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-039",
+    "name": "Bloodstained Dagger",
+    "siteName": "Bloodstained Dagger",
+    "affinity": "Standard",
+    "requirements": [
+      9,
+      12,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-040",
+    "name": "Bloody Helice",
+    "siteName": "Bloody Helice",
+    "affinity": "None",
+    "requirements": [
+      16,
+      19,
+      0,
+      0,
+      17
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-082",
+    "name": "Curseblade's Cirque",
+    "siteName": "Curseblade's Cirque",
+    "affinity": "None",
+    "requirements": [
+      9,
+      22,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-083",
+    "name": "Curved Club",
+    "siteName": "Curved Club",
+    "affinity": "Standard",
+    "requirements": [
+      11,
+      7,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-084",
+    "name": "Curved Great Club",
+    "siteName": "Curved Great Club",
+    "affinity": "Standard",
+    "requirements": [
+      24,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-085",
+    "name": "Dagger",
+    "siteName": "Dagger",
+    "affinity": "Standard",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-086",
+    "name": "Dancing Blade of Ranah",
+    "siteName": "Dancing Blade of Ranah",
+    "affinity": "None",
+    "requirements": [
+      9,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-087",
+    "name": "Dane's Footwork",
+    "siteName": "Dane's Footwork",
+    "affinity": "Standard",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-088",
+    "name": "Dark Moon Greatsword",
+    "siteName": "Dark Moon Greatsword",
+    "affinity": "None",
+    "requirements": [
+      16,
+      11,
+      38,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-089",
+    "name": "Deadly Poison Perfume Bottle",
+    "siteName": "Deadly Poison Perfume Bottle",
+    "affinity": "None",
+    "requirements": [
+      3,
+      13,
+      0,
+      0,
+      18
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-090",
+    "name": "Death Knight's Longhaft Axe",
+    "siteName": "Death Knight's Longhaft Axe",
+    "affinity": "None",
+    "requirements": [
+      23,
+      10,
+      0,
+      18,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-091",
+    "name": "Death Knight's Twin Axes",
+    "siteName": "Death Knight's Twin Axes",
+    "affinity": "None",
+    "requirements": [
+      14,
+      12,
+      0,
+      16,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-092",
+    "name": "Death Ritual Spear",
+    "siteName": "Death Ritual Spear",
+    "affinity": "None",
+    "requirements": [
+      14,
+      20,
+      18,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-093",
+    "name": "Death's Poker",
+    "siteName": "Death's Poker",
+    "affinity": "None",
+    "requirements": [
+      15,
+      17,
+      11,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-094",
+    "name": "Demi-human Queen's Staff",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-095",
+    "name": "Devonia's Hammer",
+    "siteName": "Devonia's Hammer",
+    "affinity": "None",
+    "requirements": [
+      30,
+      13,
+      0,
+      19,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-096",
+    "name": "Devourer's Scepter",
+    "siteName": "Devourer's Scepter",
+    "affinity": "None",
+    "requirements": [
+      24,
+      20,
+      0,
+      25,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-097",
+    "name": "Digger's Staff",
+    "siteName": "Digger's Staff",
+    "affinity": "None",
+    "requirements": [
+      8,
+      0,
+      12,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-098",
+    "name": "Dismounter",
+    "siteName": "Dismounter",
+    "affinity": "Standard",
+    "requirements": [
+      19,
+      16,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-099",
+    "name": "Dragon Communion Seal",
+    "siteName": "Dragon Communion Seal",
+    "affinity": "None",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-100",
+    "name": "Dragon Greatclaw",
+    "siteName": "Dragon Greatclaw",
+    "affinity": "None",
+    "requirements": [
+      30,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-101",
+    "name": "Dragon Halberd",
+    "siteName": "Dragon Halberd",
+    "affinity": "None",
+    "requirements": [
+      22,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-102",
+    "name": "Dragon King's Cragblade",
+    "siteName": "Dragon King's Cragblade",
+    "affinity": "None",
+    "requirements": [
+      18,
+      37,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-103",
+    "name": "Dragon-Hunter's Great Katana",
+    "siteName": "Dragon-Hunter's Great Katana",
+    "affinity": "None",
+    "requirements": [
+      15,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-104",
+    "name": "Dragonscale Blade",
+    "siteName": "Dragonscale Blade",
+    "affinity": "None",
+    "requirements": [
+      12,
+      20,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-105",
+    "name": "Dryleaf Arts",
+    "siteName": "Dryleaf Arts",
+    "affinity": "Standard",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-106",
+    "name": "Dryleaf Seal",
+    "siteName": "Dryleaf Seal",
+    "affinity": "None",
+    "requirements": [
+      8,
+      0,
+      0,
+      27,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-107",
+    "name": "Dueling Shield",
+    "siteName": "Dueling Shield",
+    "affinity": "Standard",
+    "requirements": [
+      15,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-108",
+    "name": "Duelist Greataxe",
+    "siteName": "Duelist Greataxe",
+    "affinity": "Standard",
+    "requirements": [
+      30,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-109",
+    "name": "Eclipse Shotel",
+    "siteName": "Eclipse Shotel",
+    "affinity": "None",
+    "requirements": [
+      10,
+      25,
+      0,
+      30,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-110",
+    "name": "Eleonora's Poleblade",
+    "siteName": "Eleonora's Poleblade",
+    "affinity": "None",
+    "requirements": [
+      12,
+      21,
+      0,
+      0,
+      19
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-111",
+    "name": "Envoy's Greathorn",
+    "siteName": "Envoy's Greathorn",
+    "affinity": "None",
+    "requirements": [
+      28,
+      12,
+      0,
+      24,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-112",
+    "name": "Envoy's Horn",
+    "siteName": "Envoy's Horn",
+    "affinity": "None",
+    "requirements": [
+      10,
+      12,
+      0,
+      16,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-113",
+    "name": "Envoy's Long Horn",
+    "siteName": "Envoy's Long Horn",
+    "affinity": "None",
+    "requirements": [
+      23,
+      11,
+      0,
+      18,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-114",
+    "name": "Erdsteel Dagger",
+    "siteName": "Erdsteel Dagger",
+    "affinity": "Standard",
+    "requirements": [
+      7,
+      12,
+      0,
+      14,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-115",
+    "name": "Erdtree Bow",
+    "siteName": "Erdtree Bow",
+    "affinity": "None",
+    "requirements": [
+      8,
+      12,
+      0,
+      14,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-116",
+    "name": "Erdtree Greatbow",
+    "siteName": "Erdtree Greatbow",
+    "affinity": "None",
+    "requirements": [
+      20,
+      14,
+      0,
+      14,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-117",
+    "name": "Erdtree Seal",
+    "siteName": "Erdtree Seal",
+    "affinity": "None",
+    "requirements": [
+      0,
+      0,
+      0,
+      40,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-118",
+    "name": "Estoc",
+    "siteName": "Estoc",
+    "affinity": "Standard",
+    "requirements": [
+      11,
+      13,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-119",
+    "name": "Euporia",
+    "siteName": "Euporia",
+    "affinity": "None",
+    "requirements": [
+      16,
+      16,
+      0,
+      24,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-120",
+    "name": "Executioner's Greataxe",
+    "siteName": "Executioner's Greataxe",
+    "affinity": "Standard",
+    "requirements": [
+      34,
+      8,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-121",
+    "name": "Falchion",
+    "siteName": "Falchion",
+    "affinity": "Standard",
+    "requirements": [
+      9,
+      13,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-122",
+    "name": "Fallingstar Beast Jaw",
+    "siteName": "Fallingstar Beast Jaw",
+    "affinity": "None",
+    "requirements": [
+      34,
+      12,
+      20,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-123",
+    "name": "Falx",
+    "siteName": "Falx",
+    "affinity": "None",
+    "requirements": [
+      12,
+      15,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-124",
+    "name": "Family Heads",
+    "siteName": "Family Heads",
+    "affinity": "None",
+    "requirements": [
+      8,
+      18,
+      16,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-125",
+    "name": "Finger Seal",
+    "siteName": "Finger Seal",
+    "affinity": "None",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-126",
+    "name": "Fire Knight's Greatsword",
+    "siteName": "Fire Knight's Greatsword",
+    "affinity": "Standard",
+    "requirements": [
+      22,
+      18,
+      0,
+      12,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-127",
+    "name": "Fire Knight's Seal",
+    "siteName": "Fire Knight's Seal",
+    "affinity": "None",
+    "requirements": [
+      8,
+      0,
+      0,
+      23,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-128",
+    "name": "Fire Knight's Shortsword",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-129",
+    "name": "Firespark Perfume Bottle",
+    "siteName": "Firespark Perfume Bottle",
+    "affinity": "None",
+    "requirements": [
+      3,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-130",
+    "name": "Flail",
+    "siteName": "Flail",
+    "affinity": "Standard",
+    "requirements": [
+      10,
+      18,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-131",
+    "name": "Flamberge",
+    "siteName": "Flamberge",
+    "affinity": "Standard",
+    "requirements": [
+      15,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-132",
+    "name": "Flowerstone Gavel",
+    "siteName": "Flowerstone Gavel",
+    "affinity": "None",
+    "requirements": [
+      14,
+      8,
+      0,
+      0,
+      15
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-133",
+    "name": "Flowing Curved Sword",
+    "siteName": "Flowing Curved Sword",
+    "affinity": "Standard",
+    "requirements": [
+      9,
+      17,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-134",
+    "name": "Forked Greatsword",
+    "siteName": "Forked Greatsword",
+    "affinity": "Standard",
+    "requirements": [
+      14,
+      16,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-135",
+    "name": "Forked Hatchet",
+    "siteName": "Forked Hatchet",
+    "affinity": "Standard",
+    "requirements": [
+      9,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-136",
+    "name": "Forked-Tongue Hatchet",
+    "siteName": "Forked-Tongue Hatchet",
+    "affinity": "None",
+    "requirements": [
+      10,
+      13,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-137",
+    "name": "Frenzied Flame Seal",
+    "siteName": "Frenzied Flame Seal",
+    "affinity": "None",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-138",
+    "name": "Frenzyflame Perfume Bottle",
+    "siteName": "Frenzyflame Perfume Bottle",
+    "affinity": "None",
+    "requirements": [
+      3,
+      10,
+      12,
+      12,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-139",
+    "name": "Freyja's Greatsword",
+    "siteName": "Freyja's Greatsword",
+    "affinity": "Standard",
+    "requirements": [
+      25,
+      14,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-140",
+    "name": "Frozen Needle",
+    "siteName": "Frozen Needle",
+    "affinity": "None",
+    "requirements": [
+      11,
+      18,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-141",
+    "name": "Full Moon Crossbow",
+    "siteName": "Full Moon Crossbow",
+    "affinity": "None",
+    "requirements": [
+      10,
+      10,
+      14,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-142",
+    "name": "Gargoyle's Black Axe",
+    "siteName": "Gargoyle's Black Axe",
+    "affinity": "None",
+    "requirements": [
+      24,
+      8,
+      0,
+      22,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-143",
+    "name": "Gargoyle's Black Blades",
+    "siteName": "Gargoyle's Black Blades",
+    "affinity": "None",
+    "requirements": [
+      18,
+      15,
+      0,
+      22,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-144",
+    "name": "Gargoyle's Black Halberd",
+    "siteName": "Gargoyle's Black Halberd",
+    "affinity": "None",
+    "requirements": [
+      26,
+      10,
+      0,
+      22,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-145",
+    "name": "Gargoyle's Blackblade",
+    "siteName": "Gargoyle's Blackblade",
+    "affinity": "None",
+    "requirements": [
+      18,
+      10,
+      0,
+      22,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-146",
+    "name": "Gargoyle's Great Axe",
+    "siteName": "Gargoyle's Great Axe",
+    "affinity": "Standard",
+    "requirements": [
+      24,
+      8,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-147",
+    "name": "Gargoyle's Greatsword",
+    "siteName": "Gargoyle's Greatsword",
+    "affinity": "Standard",
+    "requirements": [
+      18,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-148",
+    "name": "Gargoyle's Halberd",
+    "siteName": "Gargoyle's Halberd",
+    "affinity": "Standard",
+    "requirements": [
+      26,
+      10,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-149",
+    "name": "Gargoyle's Twinblade",
+    "siteName": "Gargoyle's Twinblade",
+    "affinity": "Standard",
+    "requirements": [
+      18,
+      15,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-150",
+    "name": "Gazing Finger",
+    "siteName": "Gazing Finger",
+    "affinity": "None",
+    "requirements": [
+      20,
+      8,
+      20,
+      14,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-151",
+    "name": "Gelmir Glintstone Staff",
+    "siteName": "Gelmir Glintstone Staff",
+    "affinity": "None",
+    "requirements": [
+      6,
+      0,
+      14,
+      14,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-152",
+    "name": "Ghiza's Wheel",
+    "siteName": "Ghiza's Wheel",
+    "affinity": "None",
+    "requirements": [
+      28,
+      18,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-153",
+    "name": "Ghostflame Torch",
+    "siteName": "Ghostflame Torch",
+    "affinity": "None",
+    "requirements": [
+      10,
+      10,
+      14,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-154",
+    "name": "Giant-crusher",
+    "siteName": null,
+    "affinity": null,
+    "requirements": null,
+    "status": "NOT_OBSERVED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-155",
+    "name": "Giant's Red Braid",
+    "siteName": "Giant's Red Braid",
+    "affinity": "None",
+    "requirements": [
+      18,
+      12,
+      0,
+      21,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-156",
+    "name": "Giant's Seal",
+    "siteName": "Giant's Seal",
+    "affinity": "None",
+    "requirements": [
+      4,
+      0,
+      0,
+      14,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-157",
+    "name": "Glaive",
+    "siteName": "Glaive",
+    "affinity": "Standard",
+    "requirements": [
+      18,
+      15,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-158",
+    "name": "Glintstone Kris",
+    "siteName": "Glintstone Kris",
+    "affinity": "None",
+    "requirements": [
+      5,
+      12,
+      16,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-159",
+    "name": "Glintstone Staff",
+    "siteName": "Glintstone Staff",
+    "affinity": "None",
+    "requirements": null,
+    "status": "REQ_NOT_EXPOSED_AT_WRETCH10",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-160",
+    "name": "Godskin Peeler",
+    "siteName": "Godskin Peeler",
+    "affinity": "Standard",
+    "requirements": [
+      17,
+      22,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-161",
+    "name": "Godskin Stitcher",
+    "siteName": "Godskin Stitcher",
+    "affinity": "Standard",
+    "requirements": [
+      14,
+      17,
+      0,
+      0,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  },
+  {
+    "id": "req-162",
+    "name": "Godslayer's Greatsword",
+    "siteName": "Godslayer's Greatsword",
+    "affinity": "None",
+    "requirements": [
+      20,
+      22,
+      0,
+      20,
+      0
+    ],
+    "status": "DIRECT_SITE_REQ_VERIFIED",
+    "sourceRun": 41263897966
+  }
+]
