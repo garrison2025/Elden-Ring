@@ -1,0 +1,166 @@
+{
+  "reference": "Actual public Tarnished.dev v1.17, Glintstone Pebble + Astrologers Staff +25 Wretch baseline",
+  "sourceRuns": [
+    41362826940,
+    41362855674
+  ],
+  "twoIndependentBrowsersPerSource": true,
+  "overlappingInputsAgree": 3,
+  "rows": [
+    {
+      "int": 20,
+      "siteMagic": 219,
+      "unadjustedMath": 219,
+      "sourceRun": 41362855674,
+      "independentReads": 2
+    },
+    {
+      "int": 25,
+      "siteMagic": 242,
+      "unadjustedMath": 243,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 30,
+      "siteMagic": 267,
+      "unadjustedMath": 267,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 35,
+      "siteMagic": 290,
+      "unadjustedMath": 291,
+      "sourceRun": 41362826940,
+      "independentReads": 2,
+      "secondarySourceRun": 41362855674
+    },
+    {
+      "int": 40,
+      "siteMagic": 315,
+      "unadjustedMath": 315,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 45,
+      "siteMagic": 338,
+      "unadjustedMath": 338,
+      "sourceRun": 41362826940,
+      "independentReads": 2,
+      "secondarySourceRun": 41362855674
+    },
+    {
+      "int": 50,
+      "siteMagic": 363,
+      "unadjustedMath": 362,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 55,
+      "siteMagic": 386,
+      "unadjustedMath": 386,
+      "sourceRun": 41362826940,
+      "independentReads": 2,
+      "secondarySourceRun": 41362855674
+    },
+    {
+      "int": 60,
+      "siteMagic": 410,
+      "unadjustedMath": 410,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 65,
+      "siteMagic": 424,
+      "unadjustedMath": 424,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 70,
+      "siteMagic": 438,
+      "unadjustedMath": 438,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 75,
+      "siteMagic": 451,
+      "unadjustedMath": 451,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 80,
+      "siteMagic": 465,
+      "unadjustedMath": 465,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 85,
+      "siteMagic": 475,
+      "unadjustedMath": 475,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 90,
+      "siteMagic": 484,
+      "unadjustedMath": 484,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 95,
+      "siteMagic": 494,
+      "unadjustedMath": 494,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 98,
+      "siteMagic": 499,
+      "unadjustedMath": 500,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    },
+    {
+      "int": 99,
+      "siteMagic": 502,
+      "unadjustedMath": 502,
+      "sourceRun": 41362826940,
+      "independentReads": 2
+    }
+  ],
+  "summary": {
+    "siteInputs": 18,
+    "independentExact": 14,
+    "onePointDisagreements": [
+      {
+        "int": 25,
+        "site": 242,
+        "model": 243
+      },
+      {
+        "int": 35,
+        "site": 290,
+        "model": 291
+      },
+      {
+        "int": 50,
+        "site": 363,
+        "model": 362
+      },
+      {
+        "int": 98,
+        "site": 499,
+        "model": 500
+      }
+    ]
+  }
+}
