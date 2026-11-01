@@ -147,7 +147,7 @@ async function main(){
  for(const [name,url] of [
   ['damage','https://www.tarnished.dev/damage-calculator'],
   ['spell','https://www.tarnished.dev/spell-calculator']
- ]){
+ ].filter(([name])=>caseId<5||name==='spell')){
   const first=await nav(url);
   // Inspect the actual React/PrimeReact search host and open its public
   // options with a real pointer, without guessing a weapon or spell.
@@ -325,7 +325,7 @@ async function main(){
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-residual-damage-spell-'+caseId+'-pass-'+pass+'.json'),
   JSON.stringify(results,null,2)+'\n');
- if(results.pages.length!==2||results.pages.some(x=>x.version!=='Elden Ring Version: v1.17'))
+ if(results.pages.length!==(caseId<5?2:1)||results.pages.some(x=>x.version!=='Elden Ring Version: v1.17'))
   throw Error('Version mismatch: cannot audit other reference');
 }
 try{await main()}finally{
