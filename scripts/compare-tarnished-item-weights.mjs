@@ -9,6 +9,7 @@ import {V117_WEIGHT_BATCH2_CANDIDATES} from './tarnished-v117-weight-batch2-cand
 import {V117_WEIGHT_FINAL37_CANDIDATES} from './tarnished-v117-weight-final37-candidates.mjs';
 import {V117_WEIGHT_BATCH4_CANDIDATES} from './tarnished-v117-weight-batch4-candidates.mjs';
 import {getRemainingWeightShard} from './tarnished-v117-weight-remaining380.mjs';
+import {getUnresolvedAliasShard} from './tarnished-v117-weight-unresolved36.mjs';
 const fail=s=>{throw new RangeError(s)};
 const HISTORIC_TARGETS=['missing-albinauric-shield','missing-brass-shield',
  'missing-fingerprint-stone-shield','missing-golden-greatshield','missing-great-turtle-shell'];
@@ -17,9 +18,11 @@ const batch2=process.env.TARNISHED_WEIGHT_BATCH==='2';
 const batch3=process.env.TARNISHED_WEIGHT_BATCH==='3';
 const batch4=process.env.TARNISHED_WEIGHT_BATCH==='4';
 const batch5=process.env.TARNISHED_WEIGHT_BATCH==='5';
+const batch6=process.env.TARNISHED_WEIGHT_BATCH==='6';
+const aliasShard=batch6?Number(process.env.TARNISHED_WEIGHT_SHARD):null;
 const bulkShard=batch5?Number(process.env.TARNISHED_WEIGHT_SHARD):null;
-const TARGETS=batch5?getRemainingWeightShard(bulkShard).map(x=>x.id):batch4?V117_WEIGHT_BATCH4_CANDIDATES.map(x=>x.id):batch3?V117_WEIGHT_FINAL37_CANDIDATES.map(x=>x.id):batch2?V117_WEIGHT_BATCH2_CANDIDATES.map(x=>x.id):HISTORIC_TARGETS;
-const CANDIDATES=batch2||batch3||batch4||batch5?[...BASELINE,...TARGETS]:[...BASELINE,...TARGETS,
+const TARGETS=batch6?getUnresolvedAliasShard(aliasShard).map(x=>x.id):batch5?getRemainingWeightShard(bulkShard).map(x=>x.id):batch4?V117_WEIGHT_BATCH4_CANDIDATES.map(x=>x.id):batch3?V117_WEIGHT_FINAL37_CANDIDATES.map(x=>x.id):batch2?V117_WEIGHT_BATCH2_CANDIDATES.map(x=>x.id):HISTORIC_TARGETS;
+const CANDIDATES=batch2||batch3||batch4||batch5||batch6?[...BASELINE,...TARGETS]:[...BASELINE,...TARGETS,
  'conflict-stone-sheathed','conflict-fire-knights-shortsword',
  'conflict-radahn-light','conflict-ritual-thrusting-shield'];
 const round3=n=>Math.round(n*1000)/1000;
@@ -48,7 +51,8 @@ export function comparePublicItemWeights(first,second,catalog){
   .map(id=>{
    const x=a.get(id),y=b.get(id),row=catalogNames.get(x.requested);
    const good=Boolean(knownControl&&check(x)&&check(y)&&x.requested===y.requested&&
-    x.hand===y.hand&&x.affinity===y.affinity&&x.equipLoad===y.equipLoad&&
+    x.hand===y.hand&&x.affinity===y.affinity&&
+    x.siteName===y.siteName&&x.equipLoad===y.equipLoad&&
     x.activationEvidence===y.activationEvidence&&
     x.equipLoad>0&&row);
    const observedWeight=good?round3(x.equipLoad-baseline.equipLoad):null;
@@ -78,7 +82,7 @@ export async function run(){
  const report=comparePublicItemWeights(one,two,catalog);
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-v117-item-weight-comparison.json'),JSON.stringify(report,null,2)+'\n');
- console.log('[V117 DIRECT ITEM WEIGHT] '+JSON.stringify({mode:batch5?'parallel-remaining380-shard-'+bulkShard:batch4?'known-weight-32':batch3?'final37':batch2?'batch2-30':'historical-9',verifiedBaseline:report.verifiedBaseline,
+ console.log('[V117 DIRECT ITEM WEIGHT] '+JSON.stringify({mode:batch6?'remaining36-alias-shard-'+aliasShard:batch5?'parallel-remaining380-shard-'+bulkShard:batch4?'known-weight-32':batch3?'final37':batch2?'batch2-30':'historical-9',verifiedBaseline:report.verifiedBaseline,
   knownLongswordBothHands:report.knownLongswordBothHands,...report.counts}));
  for(const row of report.rows)console.log('[V117 WEIGHT ROW] '+JSON.stringify(row));
  if(!report.knownLongswordBothHands)throw Error('Known-weight controls failed; no direct item weights may be approved.');
