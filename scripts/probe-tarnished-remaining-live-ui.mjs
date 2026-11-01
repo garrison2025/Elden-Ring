@@ -152,12 +152,7 @@ async function main(){
   if(m.error)p.reject(Error(m.error.message));else p.resolve(m.result);
  });
  await send('Runtime.enable');await send('Page.enable');
- const cases=[
-  {id:'tarnished-armor',url:'https://www.tarnished.dev/armor-optimizer'},
-  {id:'our-armor',url:'https://elden-ring-5i9.pages.dev/armor-optimizer/'},
-  {id:'tarnished-damage',url:'https://www.tarnished.dev/damage-calculator'},
-  {id:'our-damage',url:'https://elden-ring-5i9.pages.dev/damage-calculator/'}
- ];
+ const cases=[{id:'tarnished-armor',url:'https://www.tarnished.dev/armor-optimizer'}];
  const all=[];
  for(const c of cases){
   try{
@@ -168,7 +163,23 @@ async function main(){
     configuration=await call(poiseOnly);
     await sleep(650);
     click=await trustedClick('Calculate Best Armor');
-    if(click.clicked)await sleep(15000);
+    if(click.clicked){
+     const checks=[];
+     for(let n=0;n<25;n++){
+      await sleep(6000);
+      const snapshot=await call(capture);
+      const progress=await call(function(){const b=[...document.querySelectorAll('button')].find(x=>(x.innerText||'').trim()==='Calculate Best Armor');return{
+       buttonDisabled:b?.disabled,buttonHtml:b?.outerHTML.slice(0,500),armorWeight:document.getElementById('curr-equip')?.value,
+       pageTextLength:document.body?.innerText?.length,
+       poiseMultiplier:document.getElementById('poise_multiplier')?.value,
+       physicalMultiplier:document.getElementById('physical_absorption_multiplier')?.value,
+       dialogs:[...document.querySelectorAll('[role="dialog"],.p-toast,.p-progress-spinner')].map(x=>x.innerText?.slice(0,600))
+      };});
+      checks.push({afterSeconds:(n+1)*6,textChanged:snapshot.textTail!==before.textTail,progress,tail:snapshot.textTail.slice(-700)});
+      if(snapshot.textTail!==before.textTail)break;
+     }
+     configuration={poiseOnly:configuration,checks};
+    }
    }
    if(c.id==='our-armor'){
     configuration=await configureOurArmor();
