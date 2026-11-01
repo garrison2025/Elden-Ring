@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "comparator": "Tarnished.dev public v1.17 actual selected Starting Class, eight attribute inputs and Level",
+  "sourceRun": 41270504560,
+  "sourceUrl": "https://github.com/garrison2025/Elden-Ring/actions/runs/41270504560",
+  "sourceJobs": [
+    124742123086,
+    124742123283,
+    124742123322,
+    124742123336,
+    124742123429
+  ],
+  "originalStartingClassCount": 10,
+  "passed": 10,
+  "failed": 0,
+  "independentBrowserPassesPerClass": 2,
+  "scope": "Original non-DLC base class Level and eight initial attribute inputs, not level advancement or expansion classes.",
+  "classes": [
+    {
+      "name": "Astrologer",
+      "level": 6,
+      "attributes": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123336
+    },
+    {
+      "name": "Bandit",
+      "level": 5,
+      "attributes": [
+        10,
+        11,
+        10,
+        9,
+        13,
+        9,
+        8,
+        14
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123086
+    },
+    {
+      "name": "Confessor",
+      "level": 10,
+      "attributes": [
+        10,
+        13,
+        10,
+        12,
+        12,
+        9,
+        14,
+        9
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123429
+    },
+    {
+      "name": "Hero",
+      "level": 7,
+      "attributes": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123336
+    },
+    {
+      "name": "Prisoner",
+      "level": 9,
+      "attributes": [
+        11,
+        12,
+        11,
+        11,
+        14,
+        14,
+        6,
+        9
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123322
+    },
+    {
+      "name": "Prophet",
+      "level": 7,
+      "attributes": [
+        10,
+        14,
+        8,
+        11,
+        10,
+        7,
+        16,
+        10
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123283
+    },
+    {
+      "name": "Samurai",
+      "level": 9,
+      "attributes": [
+        12,
+        11,
+        13,
+        12,
+        15,
+        9,
+        8,
+        8
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123322
+    },
+    {
+      "name": "Vagabond",
+      "level": 9,
+      "attributes": [
+        15,
+        10,
+        11,
+        14,
+        13,
+        9,
+        9,
+        7
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123429
+    },
+    {
+      "name": "Warrior",
+      "level": 8,
+      "attributes": [
+        11,
+        12,
+        11,
+        10,
+        16,
+        10,
+        8,
+        9
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123283
+    },
+    {
+      "name": "Wretch",
+      "level": 1,
+      "attributes": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "independentPasses": 2,
+      "sourceJob": 124742123086
+    }
+  ]
+}
