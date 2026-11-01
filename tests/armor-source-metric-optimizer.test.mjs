@@ -218,7 +218,8 @@ test('browser Worker and UI wire all thirteen metrics without autonomous externa
  const worker=readFileSync(new URL('../public/src/armor-full-source-worker.mjs',import.meta.url),'utf8');
  const page=readFileSync(new URL('../public/armor-optimizer/index.html',import.meta.url),'utf8');
  assert.match(worker,/optimizePinnedArmorMetric\(msg.armors,msg.options\)/);
- assert.match(app,/metric:\$\('armor-full-metric'\)\.value/);
+ assert.match(app,/weightedMode\(\)\?'weighted':\$\('armor-full-metric'\)\.value/);
+ assert.match(app,/weightedVerifiedArmorSubset\(armors,active\)/);
  for(const id of keys)assert.match(page,new RegExp('<option value="'+id+'">'));
  assert.match(app,/loadPinnedArmorSource\(fetch\)/);
  assert.match(page,/multiplied|multiplicatively/);

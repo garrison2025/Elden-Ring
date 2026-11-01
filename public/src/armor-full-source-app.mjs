@@ -1,4 +1,6 @@
 import {siteVerifiedArmorSubset} from './tarnished-armor-eligibility.mjs';
+import {weightedVerifiedArmorSubset} from './armor-weighted-optimizer.mjs';
+import {ARMOR_METRICS} from './armor-source-optin.mjs';
 import {loadPinnedArmorSource} from './armor-source-optin.mjs';
 const $=id=>document.getElementById(id);
 const slotNames=['Head','Chest','Arms','Legs'];
@@ -33,6 +35,43 @@ const status=(message,error=false)=>{
  $('armor-full-status').dataset.state=error?'error':'ready';
 };
 let armors=null,worker=null,revision=0;
+const metricNames=Object.keys(ARMOR_METRICS);
+const weightedFields=new Map();
+for(const key of metricNames){
+ const meta=ARMOR_METRICS[key];
+ const row=document.createElement('div');row.className='armor-weighted-row';
+ const title=document.createElement('span');title.textContent=meta.label;title.className='armor-weighted-name';
+ const controls={};
+ for(const [field,label] of [['weights','Multiplier'],['minimums','Minimum'],['maximums','Maximum']]){
+  const wrap=document.createElement('label');wrap.className='armor-weighted-field';
+  const cap=document.createElement('span');cap.textContent=label;wrap.append(cap);
+  const input=document.createElement('input');input.type='number';input.step='0.1';
+  input.setAttribute('aria-label',meta.label+' '+label);
+  if(field==='weights'){input.min='0';input.max='10';input.value=key==='poise'?'1':'0';}
+  else{input.placeholder='None';if(meta.kind==='resistance')input.min='0';}
+  input.addEventListener('input',()=>invalidate());
+  wrap.append(input);row.append(wrap);controls[field]=input;
+ }
+ row.prepend(title);$('armor-weighted-rows').append(row);
+ weightedFields.set(key,controls);
+}
+const weightedOptions=()=>{
+ const weights={},minimums={},maximums={};
+ for(const [key,row] of weightedFields){
+  weights[key]=row.weights.value;
+  minimums[key]=row.minimums.value;
+  maximums[key]=row.maximums.value;
+ }
+ return {weights,minimums,maximums};
+};
+const weightedMode=()=>$('armor-full-mode').value==='weighted';
+const toggleMode=()=>{
+ $('armor-weighted-panel').hidden=!weightedMode();
+ $('armor-full-metric').closest('label').hidden=weightedMode();
+ invalidate();
+};
+$('armor-full-mode').addEventListener('change',toggleMode);
+
 try{worker=new Worker(new URL('./armor-full-source-worker.mjs',import.meta.url),{type:'module'});}
 catch(error){status('Browser cannot start local optimization Worker: '+error.message,true);
  $('armor-full-load').disabled=true;}
@@ -86,21 +125,27 @@ $('armor-full-run').addEventListener('click',()=>{
    reservedWeight:$('reservedWeight').value,
    tier:$('targetTier').value,
    minPoise:Number(value),
-   metric:$('armor-full-metric').value,
+   metric:weightedMode()?'weighted':$('armor-full-metric').value,
+   ...(weightedMode()?weightedOptions():{}),
    excludedIds:parseExclude(),
    ...slotRestrictions()
   };
   const restrict=$('armor-full-site-only').checked;
-  const verified=siteVerifiedArmorSubset(armors,options.metric);
+  const active=weightedMode()?metricNames.filter(key=>
+    Number(options.weights[key])>0||options.minimums[key]!==''||
+    options.maximums[key]!==''||(key==='poise'&&options.minPoise>0)):null;
+  const verified=weightedMode()?
+    weightedVerifiedArmorSubset(armors,active):
+    siteVerifiedArmorSubset(armors,options.metric);
   const candidateRows=restrict?verified.accepted:armors;
   if(!candidateRows.length)throw new RangeError('No Tarnished.dev-verified candidates support '+options.metric+'.');
   const requestId=++revision;
   $('armor-full-run').disabled=true;
   status((restrict?
-   'Site-verified '+options.metric+': '+candidateRows.length+' candidate pieces, '+
-     verified.excluded.length+' unverified pieces excluded. ':
-   'Source-only research mode: '+candidateRows.length+' candidates; NOT site parity. ')+
-   'Searching feasible four-piece combinations locally…');
+   'Individually field-verified '+options.metric+': '+candidateRows.length+' candidates, '+
+    verified.excluded.length+' other rows excluded. ':
+   'Unverified source-only research: '+candidateRows.length+' candidates. ')+
+   'Exact local computation; weighted scoring is NOT Tarnished.dev scoring parity…');
   worker.postMessage({op:'optimize',requestId,armors:candidateRows,options});
  }catch(error){status('Cannot start source optimizer: '+error.message,true);}
 });
@@ -122,7 +167,7 @@ worker?.addEventListener('message',event=>{
   return;
  }
  $('armor-full-heading').textContent='Best '+r.metricLabel+': '+
-  r.metricValue+(r.metricUnit==='%'?'%':' points');
+  r.metricValue+(r.metricUnit==='%'?'%':r.metricUnit==='score'?' score':' points');
  $('armor-full-details').textContent=
   'Armor weight '+r.armorWeight.toFixed(3)+' + reserved gear = '+
   r.totalWeight.toFixed(3)+' / max '+r.maxEquipLoad.toFixed(3)+
@@ -133,6 +178,10 @@ worker?.addEventListener('message',event=>{
    '')+(r.missingPoiseExcluded?
    r.missingPoiseExcluded+' pieces missing source Poise excluded. ':'')+
   (r.metricUnit==='%'?'Rounded per-piece source negation is combined multiplicatively; ':'')+
+  (r.metric==='weighted'?
+   'Independent local weighted score; NOT Tarnished.dev scoring parity. Metric totals: '+
+     Object.entries(r.metricTotals).map(([k,v])=>k+' '+v).join(' · ')+'. ':
+   '')+
   'This local optimizer finds a subset optimum; its exact recommended four-piece set has NOT been compared against the Tarnished.dev optimizer UI.';
  for(const piece of r.combination){
   const row=document.createElement('tr');
@@ -143,7 +192,7 @@ worker?.addEventListener('message',event=>{
   }
   $('armor-full-rows').append(row);
  }
- status('Source metric '+r.metricLabel+' optimization completed in Worker. '+
+ status('Exact local '+r.metricLabel+' optimization completed in Worker. '+
   r.stages.map(x=>x.slot+': '+x.stateCount+' states').join(' · ')+
   '. Search outputs require an independent same-input comparison before being labeled Tarnished.dev optimizer parity.');
 });
