@@ -1,0 +1,36 @@
+name: Read only eight real Wretch defense-resistance single-axis curves
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-eight-axis-defense.mjs
+      - .github/workflows/tarnished-wretch-eight-axis-defense.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-naked-wretch-90-point-reference:
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        axis: [vigor, mind, endurance, strength, dexterity, intelligence, faith, arcane]
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Observe 90 actual numeric rows for exactly one character stat
+        env:
+          V117_AXIS: ${{ matrix.axis }}
+        run: node scripts/probe-tarnished-eight-axis-defense.mjs
+      - name: Preserve raw original Chrome data from separate sharded run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wretch-defense-${{ matrix.axis }}
+          path: .audit/wretch-defense-${{ matrix.axis }}.json
+          retention-days: 30
+          if-no-files-found: warn
