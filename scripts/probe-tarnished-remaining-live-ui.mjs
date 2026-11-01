@@ -160,12 +160,12 @@ async function main(){
    let configuration=null,click={clicked:false,reason:'Control read only'};
    if(c.id==='tarnished-armor'){
     await call(function(){window.__armorClickEvents=[];document.addEventListener('click',e=>window.__armorClickEvents.push({at:Date.now(),trusted:e.isTrusted,button:(e.target.closest('button')?.innerText||'').trim()}),true)});
-    configuration=await call(poiseOnly);
+    configuration=await call(function(){return [...document.querySelectorAll('input[id$="_multiplier"]')].map(e=>({id:e.id,value:e.value}))});
     await sleep(650);
     click=await trustedClick('Calculate Best Armor');
     if(click.clicked){
      const checks=[];
-     for(let n=0;n<25;n++){
+     for(let n=0;n<8;n++){
       await sleep(6000);
       const snapshot=await call(capture);
       const progress=await call(function(){const b=[...document.querySelectorAll('button')].find(x=>(x.innerText||'').trim()==='Calculate Best Armor');return{

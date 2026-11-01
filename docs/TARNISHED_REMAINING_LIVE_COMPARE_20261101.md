@@ -13,3 +13,9 @@ Scripts: `scripts/probe-tarnished-remaining-live-ui.mjs`; workflow `.github/work
 - Local production /armor-optimizer/: explicitly loaded 568 community items; site-verified Poise subset 549; same Wretch equip-load cap supplied manually as 48.176, reserved 0, Normal tier, Poise-only optimization, min Poise 0; Worker returned Poise 68 at weight 33.200. Four items: Head Omensmirk Mask (3.0/6); Chest Tree Sentinel Armor (18.9/39); Arms Godskin Noble Bracelets (1.7/3); Legs Crucible Greaves (9.6/20). This is an observed **local-only optimum**, NOT a verified cross-site match.
 - Important eligibility mismatch remains: local 'site verified' excludes 19 unverified source candidates; public Tarnished.dev may use different eligibility and stacking rules. Never falsely report numerical equivalence.
 - The next browser run isolates only unresolved Tarnished Armor Optimize response, waits up to 150s without rerunning previously accepted site source audits or re-testing local result.
+
+## Unresolved external output after 150 seconds — run 41278766344
+
+A verified trusted Chrome mouse click was received by Tarnished.dev's actual 'Calculate Best Armor' control (browser captured `trusted: true`, button label). The 12 non-Poise multipliers were set to 0, Poise multiplier 1, default 13 minima and maxima otherwise unchanged. After **25 six-second observations (150 seconds)**, the site produced **no visible armor result**; button was enabled and the current equipment weight remained 0. Therefore the reference numerical result is **UNOBSERVED**, not 0, not 68, not a mismatch. Artifact: https://github.com/garrison2025/Elden-Ring/actions/runs/41278766344/artifacts/13072302887
+
+A final short default-configuration probe is deliberately separate because zero multipliers may be rejected by Tarnished.dev. Its outputs, if any, cannot be compared to the local Poise-only optimizer without matching scoring semantics.
