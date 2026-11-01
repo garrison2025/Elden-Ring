@@ -162,7 +162,16 @@ async function ensureCheckboxChecked(id){
   }
   await sleep(300);
  }
- const after=await call(function(id){const e=document.getElementById(id);return{checked:e.checked,disabled:e.disabled}},id);
+ let after=await call(function(id){const e=document.getElementById(id);return{checked:e.checked,disabled:e.disabled}},id);
+ if(!after.checked){
+  after=await call(function(id){
+   const e=document.getElementById(id);
+   e.click();
+   return {checked:e.checked,disabled:e.disabled,outer:e.parentElement?.outerHTML.slice(0,550)};
+  },id);
+  await sleep(250);
+  after=await call(function(id){const e=document.getElementById(id);return{checked:e.checked,disabled:e.disabled}},id);
+ }
  if(!after.checked)throw Error('Checkbox was not actually checked '+id+': '+JSON.stringify({before,after}));
  return {before,after};
 }
