@@ -1320,6 +1320,10 @@ try{
  await evaluate("(()=>{const x=document.querySelector('#spell-int');x.value='31';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
  assert.equal(await evaluate("document.querySelector('#spell-outcome').hidden"),true,
   'Unobserved INT31 must not show a guessed spell damage');
+ assert.equal(await evaluate("getComputedStyle(document.querySelector('#spell-outcome')).display"),'none',
+  'Hidden reference damage must not remain visually displayed under CSS .metric-grid display');
+ assert.equal(await evaluate("document.querySelector('#spell-magic').textContent"),'—',
+  'Previously observed spell damage must clear immediately when input is unsupported');
  assert.match(await evaluate("document.querySelector('#spell-status').textContent"),/NOT OBSERVED/);
  await navigate('/build-planner/');
  await evaluate("document.querySelector('#build-loadout-start').click()");
@@ -1328,8 +1332,9 @@ try{
  await evaluate("(()=>{const x=document.querySelector('[aria-label=\\\"Choose a twice-observed reference talisman combination\\\"]');x.value='2';document.querySelector('#build-loadout-talismans .build-armor-metric-panel button').click()})()");
  await waitFor("document.querySelector('#build-v117-combined-talisman-reference')!==null",
   'Twice-observed Radagon and Marika Soreseal combo renders actual public Wretch profile');
- const realBuild=await evaluate("({attrs:[...document.querySelectorAll('#stat-grid [data-stat]')].map(x=>x.value),origin:document.querySelector('#origin').value,selected:document.querySelector('#build-v117-combined-talisman-reference').textContent})");
+ const realBuild=await evaluate("({attrs:[...document.querySelectorAll('#stat-grid [data-stat]')].map(x=>x.value),origin:document.querySelector('#origin').value,selected:document.querySelector('#build-v117-combined-talisman-reference').textContent,maximum:document.querySelector('#build-loadout-maximum').value})");
  assert.equal(realBuild.origin,'Wretch');
+ assert.equal(realBuild.maximum,'56.1','Two Soreseals must load the observed buffed equip capacity, not naked Wretch 48.176');
  assert.deepEqual(realBuild.attrs,Array(8).fill('10'));
  assert.ok(realBuild.selected.includes('-32.25%'),
   'Combined Soreseal negative damage negation must be the real observed -32.25%, not -30%');
