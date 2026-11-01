@@ -36,9 +36,9 @@ export function comparePublicItemWeights(first,second,catalog){
  const rows=CANDIDATES.filter(id=>!id.startsWith('baseline-')&&!id.startsWith('known-'))
   .map(id=>{
    const x=a.get(id),y=b.get(id),row=catalogNames.get(x.requested);
-   const good=knownControl&&check(x)&&check(y)&&x.requested===y.requested&&
+   const good=Boolean(knownControl&&check(x)&&check(y)&&x.requested===y.requested&&
     x.hand===y.hand&&x.affinity===y.affinity&&x.equipLoad===y.equipLoad&&
-    x.equipLoad>0&&row;
+    x.equipLoad>0&&row);
    const observedWeight=good?round3(x.equipLoad-baseline.equipLoad):null;
    const localWeight=row?.weight??null;
    const status=!good?'NOT_OBSERVED':localWeight===null?'COMPETITOR_WEIGHT_OBSERVED':
