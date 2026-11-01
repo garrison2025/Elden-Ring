@@ -1,3 +1,4 @@
+import {getTarnishedV117DirectWeight} from './tarnished-v117-public-weights.mjs';
 import {validateCommunityCatalog,catalogCategories,searchCatalog,weaponRequirementComparison,
  reportedBaseDamageParts,publishedUpgradeParts,cautionForWeapon,ATTRIBUTE_LABELS,requirementsUrl,weaponWieldShortfall,hasDisputedRequirements,hasDisputedAttack,hasDisputedWeight,catalogSourceQuality,catalogQualityCounts} from './community-weapons.mjs';
 import {compareWeaponReferences,parseReferenceCompareIds,referenceCompareQuery} from './weapon-compare-reference.mjs';
@@ -265,7 +266,11 @@ function renderDetails(){
   pack?(coverage==='base-reference'?'Tarnished Pack · sourced community +0 base (not AR)':
   'Tarnished Pack · version-labelled requirements and weight; +0 attack UNKNOWN'):
   'Community-reported +0 base data · patch unknown');
- $('catalog-weight').textContent=hasDisputedWeight(chosen)?'SOURCE CONFLICT — unavailable':
+ const publicWeight=getTarnishedV117DirectWeight(chosen.name);
+ $('catalog-weight').textContent=publicWeight?
+  String(publicWeight.weight)+' (Tarnished.dev v1.17 public UI, twice observed)'+
+   (hasDisputedWeight(chosen)?' · community conflict '+String(chosen.weight):''):
+  hasDisputedWeight(chosen)?'SOURCE CONFLICT — unavailable':
    chosen.weight===null?'Not verified':String(chosen.weight);
  $('catalog-critical').textContent=chosen.critical===null||chosen.critical===0?'Not verified':String(chosen.critical);
  const damage=$('catalog-damage');damage.replaceChildren();
@@ -301,8 +306,12 @@ function renderDetails(){
  const concerns=$('catalog-warnings');concerns.replaceChildren();
  if(comparator){
   concerns.append(el('p','v1.17 comparator: 487 neutral attack and requirement rows are taken from the pinned v1.17 parameter source. The AR engine separately matches 50 same-input Tarnished.dev v1.17 UI cases; 487 individual site observations are NOT claimed.'));
-  if(chosen.weight===null||hasDisputedWeight(chosen))concerns.append(el('p',
+  if((chosen.weight===null||hasDisputedWeight(chosen))&&!publicWeight)concerns.append(el('p',
    'v1.17 reference weight unavailable or disputed. Weight and equip-load filters cannot assume zero or resolve this from the attack source.'));
+  if(publicWeight)concerns.append(el('p',
+   'Separate Tarnished.dev v1.17 Build Calculator equip-load observation: '+publicWeight.weight+
+   '. Independently read twice, not derived from the pinned weapon attack source. Original community weight and conflicting-source flags remain unchanged.'));
+
   if(partial)concerns.append(el('p','Critical, letter scaling and equipment effects are not inferred from a neutral source row.'));
  }else for(const warning of cautionForWeapon(chosen))concerns.append(el('p',warning));
  $('catalog-verified').replaceChildren();
@@ -504,7 +513,7 @@ function showList(reset=false,keepSelected=false){
   const title=el('span',w.name);title.className='catalog-row-title';
   const sourceState=catalogSourceQuality(w);
   const detail=el('span',w.category+' · '+(w.v117Comparator?
-   'v1.17 reference attack/requirements · weight '+(hasDisputedWeight(w)?'disputed':w.weight??'unknown'):
+   'v1.17 reference attack/requirements · weight '+(getTarnishedV117DirectWeight(w.name)?.weight??(hasDisputedWeight(w)?'disputed':w.weight??'unknown')):
    referenceOnlyMap.has(w.id)?
     'Sourced +0 preview available (not certified)':w.dataCoverage==='name-category-only'?
    'DLC name/category only':w.expansion==='Tarnished Pack'?
