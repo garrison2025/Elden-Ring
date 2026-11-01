@@ -120,3 +120,16 @@ test('two different new directly observed v1.17 shields contribute exact weight 
  assert.equal(result.items.find(x=>x.name==='Buckler').weight,1.5);
  assert.equal(result.items.find(x=>x.name==='Kite Shield').weight,4.5);
 });
+
+test('two newly recovered special items contribute exact public v1.17 weights, not zero',()=>{
+ const state=emptyBuildLoadout();
+ state.weaponSlots[0].id=w('Inseparable Sword').id;
+ state.weaponSlots[1].id=w('Jellyfish Shield').id;
+ state.maxEquipLoad='100';
+ const result=evaluateBuildLoadout(state,catalog);
+ assert.equal(result.exactTotal,18);
+ assert.equal(result.unknowns.length,0);
+ assert.ok(result.items.every(x=>x.provenance==='tarnished-dev-v1.17-direct-ui'));
+ assert.equal(result.items.find(x=>x.name==='Inseparable Sword').weight,10);
+ assert.equal(result.items.find(x=>x.name==='Jellyfish Shield').weight,8);
+});
