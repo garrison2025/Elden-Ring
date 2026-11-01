@@ -32,7 +32,7 @@ test('original 568 pinned records stay untouched; two separately verified DLC ca
  assert.equal(findExactArmor(source.armors,'Head','Circlet of Light')?.poise,5);
  assert.equal(findExactArmor(source.armors,'Arms','Gravebird Bracelets')?.poise,3);
  assert.equal(siteVerifiedArmorSubset(source.armors,'poise').accepted.length,2);
- assert.equal(siteVerifiedArmorSubset(source.armors,'physical').accepted.length,0);
+ assert.equal(siteVerifiedArmorSubset(source.armors,'physical').accepted.length,1);
 });
 test('the exact 70 Poise combination is COMPUTED, never injected as an answer',()=>{
  const items=[
