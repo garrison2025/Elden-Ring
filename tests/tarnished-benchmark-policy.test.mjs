@@ -35,7 +35,7 @@ test('accuracy dashboard distinguishes 86 approved AR, 347/348 expanded AR, 487 
  assert.match(html,/39,552/);
  assert.match(html,/NOT 39,552 external-site comparisons/);
  assert.match(html,/Historic 50-case reference benchmark/);
- assert.match(html,/Icerind Hatchet remains unresolved/);
+ assert.match(html,/Historical original direct-browser audit: Icerind Hatchet/);
  assert.match(html,/27 are independently pinned-source-only/);
  assert.match(html,/41180592038/);
  assert.match(html,/41180757356/);
