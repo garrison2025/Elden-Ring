@@ -105,3 +105,18 @@ export function getAltOriginRequirementShard(index){
  if(!Number.isInteger(index)||index<0||index>=6)throw new RangeError('Expected origin shard 0..5');
  return ALT_ORIGIN_REQUIREMENT_CANDIDATES.slice(index*6,(index+1)*6);
 }
+
+/** The actual PUBLIC v1.17 RH1 dropdown inventory (two Chromium reads)
+ * exposes the unusual exact spelling "Great epee" (lower-case epee).
+ * Not the title-cased or accented guesses. This is only a UI input candidate.
+ */
+const greatEpeeBase=REQUIREMENT_CANDIDATES.find(x=>x.name==='Great Épée');
+export const GREAT_EPEE_DIRECT_CANDIDATE=Object.freeze({
+ ...greatEpeeBase,siteNames:Object.freeze(['Great epee']),
+ affinities:Object.freeze(['Standard']),hand:'rh1'
+});
+if(greatEpeeBase?.id!=='req-177')throw Error('Great Epee source catalog changed');
+export function getGreatEpeeRequirementShard(index){
+ if(index!==0)throw new RangeError('Great Epee has one targeted shard');
+ return [GREAT_EPEE_DIRECT_CANDIDATE];
+}
