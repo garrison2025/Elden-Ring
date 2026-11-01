@@ -1,13 +1,5 @@
 name: Tarnished.dev v1.17 36 unresolved direct alias weight retry
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/tarnished-v117-weight-unresolved36.mjs
-      - scripts/probe-tarnished-item-fields.mjs
-      - scripts/compare-tarnished-item-weights.mjs
-      - tests/tarnished-v117-weight-unresolved36.test.mjs
-      - .github/workflows/tarnished-item-fields.yml
   workflow_dispatch:
 permissions:
   contents: read
