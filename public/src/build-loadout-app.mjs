@@ -224,6 +224,16 @@ function render(){
    }else{
     make('p',{text:'No combined attributes published. Incompatible, unknown or over-cap effects cannot be treated as zeros.'},panel);
    }
+   if(composition.computedVitals){
+    const vit=composition.computedVitals;
+    make('p',{text:'Independently computed equipment stats: HP '+vit.HP+
+     ' · FP '+vit.FP+' · Stamina '+vit.Stamina+' · Discovery '+vit.Discovery+
+     ' · max load '+vit.maxEquipLoad.toFixed(1)+' · equipped talisman weight '+vit.weight.toFixed(1)+
+     ' · all-type damage negation '+vit.damageNegation+'%'},panel);
+    make('p',{text:composition.reference?.matched?
+     'All seven computed fields above agree with the identical two-browser Wretch10 reference combination.':
+     'These percentages and vitals are inferred from isolated reference effects and the independently measured naked base curves. They are not certified for an arbitrary combined Build.'},panel);
+   }
    make('p',{text:composition.reference?.matched?
     'The calculated eight final attributes match the actual two-browser Tarnished.dev v1.17 combined Wretch10 result in this exact selected order. '+
     'Other measured HP/defenses/negations are displayed separately, not inferred.':
