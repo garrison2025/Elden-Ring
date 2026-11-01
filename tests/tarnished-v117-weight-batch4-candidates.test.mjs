@@ -14,7 +14,7 @@ test('32 locally weighted source-sensitive cases: 31 approved observations, one 
   assert.ok(item,x.name);
   assert.ok(typeof item.weight==='number'&&item.weight>0,x.name);
   const actual=get(x.name);
-  if(x.name==='Beast-repellent Torch')assert.equal(actual,null,'public competitor did not activate torch');
+  if(x.name==='Beast-repellent Torch')assert.equal(actual?.evidenceRun,41262468777);
   else{
    assert.ok(actual,x.name);
    assert.equal(actual.evidenceRun,41260697800,x.name);
