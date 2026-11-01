@@ -1,0 +1,29 @@
+name: Tarnished.dev remaining behavior narrow live browser comparator
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-remaining-live-ui.mjs
+      - .github/workflows/tarnished-remaining-live-ui.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  narrow-public-browser-compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read current live UI for remaining optimizer and damage behavior
+        run: node scripts/probe-tarnished-remaining-live-ui.mjs
+      - name: Preserve actual public UI values and missing evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-remaining-live-ui
+          path: .audit/tarnished-remaining-live-ui.json
+          retention-days: 30
+          if-no-files-found: warn
