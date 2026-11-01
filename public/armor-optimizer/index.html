@@ -74,6 +74,8 @@
 </select></label>
 <p class="note">Combined constraint: the <a href="#minPoise">Minimum combined poise</a> input above applies to every source optimization objective; 0 disables the minimum. All four armor slots may be empty if no minimum is required.</p>
 <button id="armor-full-load" class="btn alt" type="button">Load pinned 568-item public armor reference</button>
+<label class="field" for="armor-full-site-only"><input type="checkbox" id="armor-full-site-only" checked> Use only armor records whose Weight, Poise and selected objective were actually verified against Tarnished.dev v1.17 (recommended)</label>
+<p class="note">When checked: Poise objective uses up to 549 separately observed items; each of the 12 other objectives uses 514 stat-stable, field-verified items. The 19 unverified items, and special-effect data not directly proven for the chosen metric, are excluded from the site-verified subset. Uncheck only for independent source-only research, which is NOT a Tarnished.dev parity claim. In either mode the best four-piece combination still needs a same-input optimizer UI comparison.</p>
 <button id="armor-full-run" class="btn" type="button" disabled>Optimize selected combat metric under my weight limit</button>
 <label class="field" for="armor-full-exclude">Exclude specific armor by exact name, separated by commas (optional, maximum 50)
 <input id="armor-full-exclude" type="text" maxlength="800" placeholder="Black Knife Armor, All-knowing Helm" autocomplete="off"></label>
