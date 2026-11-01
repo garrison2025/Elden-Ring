@@ -2,8 +2,9 @@ import {TARNISHED_V117_ARMOR_RECOVERED} from './tarnished-v117-armor-recovered.m
 import {TARNISHED_V117_ARMOR_STABLE_METRICS} from './tarnished-v117-armor-12-fields.mjs';
 import {TARNISHED_V117_WIDE_ARMOR_GOLDENS} from './tarnished-v117-armor-wide.mjs';
 /** Actual user-approved comparator: Tarnished.dev public v1.17.
- * 543 unique candidate items were selected in the real site twice,
- * under empty Wretch baseline. Only Weight and Poise are proven.
+ * 543 initial unique candidates plus six site-verified distinct aliases were
+ * selected twice under empty Wretch baseline. Weight and Poise on 549 items,
+ * plus 12 extra metrics on 514 stat-stable items, are independently observed.
  * Existing original four remain independently provable even when the
  * client passes fictional test IDs rather than pinned-source IDs.
  */
