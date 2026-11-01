@@ -1,5 +1,6 @@
 import {STATS,CLASSES,classForName,validateStats,buildLevel,optimizeClasses,runeCostForLevel,runeRange,targetFromRunes,loadTier,commas,farmingRunsNeeded,parseSharedStats} from './core.mjs';
 import {verifiedV117BaseVitals} from './v117-base-vitals-direct.mjs';
+import {observedV117WretchDefense} from './v117-wretch-derived-defense.mjs';
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
 import {makeBuildSmithingUrl} from './build-smithing-handoff.mjs';
@@ -292,6 +293,17 @@ function initBuild(){
     for(const [selector,value] of Object.entries(values))
       $(selector).textContent=value===null?'Unverified':fmt(value);
     $('#base-vitals-note').textContent=base.note;
+    const def=observedV117WretchDefense(v,{origin:current.name});
+    const defenseCells=['physical','magic','fire','lightning','holy',
+      'immunity','robustness','focus','vitality','discovery'];
+    for(let i=0;i<defenseCells.length;i++)
+      $('#build-def-'+defenseCells[i]).textContent=
+        def.values===null?'Unverified':fmt(def.values[i]);
+    $('#build-def-tier').textContent=def.status==='direct-site-same-input'?
+      'Direct same-input public v1.17':
+      def.status==='estimated-not-site-certified'?
+      'REFERENCE-DERIVED ESTIMATE · not exact-site certified':'Not independently verified';
+    $('#build-def-note').textContent=def.note;
     $('#class-compare-link').href=queryURL('../class-optimizer/',{stats:v.join(',')});
     $('#rune-plan-link').href=queryURL('../level-rune-calculator/',{from:current.level,to:level});
     $('#respec-link').href=queryURL('../respec-planner/',{origin:current.name,stats:v.join(',')});
@@ -311,6 +323,10 @@ function initBuild(){
     for(const id of ['#base-hp','#base-fp','#base-stamina','#base-equip-load'])
       $(id).textContent='Unverified';
     $('#base-vitals-note').textContent='Correct the eight character attributes; no previous derived vitals are carried forward.';
+    for(const name of ['physical','magic','fire','lightning','holy','immunity',
+      'robustness','focus','vitality','discovery'])$('#build-def-'+name).textContent='Unverified';
+    $('#build-def-tier').textContent='Not verified';
+    $('#build-def-note').textContent='Correct all eight attributes first; no previous defensive output carried forward.';
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=true;
     weaponDetails.hidden=true;weaponAr.hidden=true;weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
     renderSmithingShortlist();
