@@ -887,10 +887,10 @@ try{
   assert.equal(await evaluate("document.querySelector('#build-armor-metric-summary')===null"),true,
    'No source-derived armor aggregate can appear before equipment is chosen');
   await evaluate("document.querySelector('#build-loadout-load-armor').click()");
-  await waitFor("document.querySelector('#build-loadout-armor-source-status')?.textContent.includes('568 pinned community armor names')||document.querySelector('#build-loadout-armor-source-status')?.textContent.includes('unavailable:')",
+  await waitFor("document.querySelector('#build-loadout-armor-source-status')?.textContent.includes('568 pinned armor items loaded')||document.querySelector('#build-loadout-armor-source-status')?.textContent.includes('unavailable:')",
    'Build opt-in source must load 568 real armor pieces');
   assert.ok((await evaluate("document.querySelector('#build-loadout-armor-source-status').textContent"))
-   .includes('568 pinned community armor names'),
+   .includes('568 pinned armor items loaded'),
    'Real Build armor source cannot be silently replaced by synthetic data');
   await evaluate("(()=>{const names=[...document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=text]')];if(names.length!==4)throw Error('Expected four armor name slots');names[0].value='All-knowing Helm';names[0].dispatchEvent(new Event('input',{bubbles:true}));names[1].value='All-knowing Armor';names[1].dispatchEvent(new Event('input',{bubbles:true}));})()");
   await waitFor("document.querySelector('#build-armor-metric-summary')?.textContent.includes('15.52%')",
@@ -1117,19 +1117,19 @@ try{
    'Real pinned public armor source or honest load error');
   const exactArmorStatus=await evaluate("document.querySelector('#armor-full-status').textContent");
   assert.ok(exactArmorStatus.includes('568'), 'Full armor source load failed: '+exactArmorStatus);
-  assert.ok(exactArmorStatus.includes('3 items lack valid source Poise'),
-   'Source omits three Poise values, which must stay excluded');
+  assert.ok(exactArmorStatus.includes('0 items lack valid source Poise'),
+   'Corrected source now has complete numerically present Poise, while 19 unverified identity items remain excluded by site-verified toggle');
   await evaluate("document.querySelector('#armor-full-run').click()");
   await waitFor("document.querySelector('#armor-full-results')?.hidden===false",
    'The Worker returns an exact source-wide Poise combination under live controls');
   const sourceOptimization=await evaluate("({headline:document.querySelector('#armor-full-heading').textContent,details:document.querySelector('#armor-full-details').textContent,items:document.querySelectorAll('#armor-full-rows tr').length,status:document.querySelector('#armor-full-status').textContent})");
-  assert.match(sourceOptimization.headline,/Best Poise: 64 points/);
+  assert.match(sourceOptimization.headline,/Best Poise: 70 points/);
   assert.equal(sourceOptimization.items,4);
   assert.ok(sourceOptimization.details.includes('roll tier')&&
    sourceOptimization.status.includes('completed in Worker')&&
-   sourceOptimization.details.includes('3 records excluded'),
+   sourceOptimization.details.includes('0 records excluded'),
    'Live full-source optimum must disclose source Poise, load tier and excluded unknowns');
-  console.log('[REAL ARMOR SOURCE] PASS: pinned 568 items, 3 unknown Poise, exact source-constrained 4-slot Worker search.');
+  console.log('[REAL ARMOR SOURCE] PASS: pinned 568 records + 1 direct DLC and verified filtered candidate pool, exact source-constrained 4-slot Worker search.');
 
  }
 
