@@ -1,0 +1,35 @@
+name: Tarnished.dev v1.17 ten remaining armor alias/site selection probes
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-armor-aliases.mjs
+      - .github/workflows/tarnished-armor-aliases.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-site-alias:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First independent browser tries ten exact armor alias cases
+        run: |
+          node scripts/probe-tarnished-armor-aliases.mjs
+          cp .audit/tarnished-armor-alias-site.json .audit/alias-first.json
+      - name: Fresh Chrome process repeats exact same 10 public-site selections
+        run: node scripts/probe-tarnished-armor-aliases.mjs
+      - name: Preserve two direct armor UI readings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-armor-ten-alias-double-read
+          path: |
+            .audit/alias-first.json
+            .audit/tarnished-armor-alias-site.json
+          retention-days: 30
+          if-no-files-found: warn
