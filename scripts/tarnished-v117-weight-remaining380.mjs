@@ -6,7 +6,11 @@
 import {readFileSync} from 'node:fs';
 import {TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE} from '../public/src/tarnished-v117-public-weights.mjs';
 const raw=JSON.parse(readFileSync(new URL('../public/data/community-weapon-catalog.json',import.meta.url),'utf8'));
-const known=new Set(TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE.map(x=>x.weaponName));
+// Freeze the pre-run 107 proven names, so adding new evidence never changes
+// the historical exhaustive 380-name test fixture or reruns an altered sample.
+const historicalRunIds=new Set([41257042883,41257934288,41259504988,41260697800]);
+const known=new Set(TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE
+ .filter(x=>historicalRunIds.has(x.evidenceRun)).map(x=>x.weaponName));
 const remaining=raw.weapons.filter(x=>!known.has(x.name));
 if(raw.weapons.length!==487||known.size!==107||remaining.length!==380||
   new Set(remaining.map(x=>x.name)).size!==380)
