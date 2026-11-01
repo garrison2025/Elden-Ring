@@ -12,7 +12,7 @@ import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {waitForChromePage} from './browser-cdp-startup.mjs';
 
-const shard=0;
+// Shard is defined by this dedicated multi-talisman browser workflow.
 const slot='Head';
 const targets=[{id:'tarnished-v117-dlc-circlet-of-light',name:'Circlet of Light',slot:'Head'}];
 const binary=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable',
