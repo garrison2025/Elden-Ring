@@ -28,7 +28,11 @@ for(const [caseId,intelligence] of [[3,50],[4,60]]){
  const line={intelligence,sourceReads:reads,independentDamage:independent.damage,
   independentRaw:independent.sourceMathDamage,repeated,matched,modelStatus:independent.status};
  output.push(line);
- if(!matched)failed=true;
+ const observed=frozen.cases.find(x=>x.int===intelligence);
+ if(!observed||!repeated||reads[0]!==observed.magic||
+    independent.damage!==observed.independentSourceModel||
+    matched!==(observed.delta===0))
+  failed=true;
 }
 console.log('[EXTENDED SAME-INPUT LIVE SPELL COMPARE] '+JSON.stringify(output));
 if(failed)throw Error('New real-site source or model results changed: manual mismatch review required.');
