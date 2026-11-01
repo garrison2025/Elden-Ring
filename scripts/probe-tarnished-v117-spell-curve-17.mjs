@@ -152,7 +152,22 @@ async function main(){
  await sleep(300);
  const staff=await openAndSelect('select-weapons',"Astrologer's Staff");
  if(!staff.selected?.clicked)throw Error('Could not genuinely select Astrologers Staff');
- await sleep(400);
+ await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+ await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+ await sleep(300);
+ const show=await run(function(){
+  const e=[...document.querySelectorAll('button,[role="button"]')].find(e=>
+   (e.innerText||e.textContent||'').trim()==='Show Table');
+  if(!e)return {found:false};
+  e.scrollIntoView({block:'center',behavior:'instant'});
+  const b=e.getBoundingClientRect();
+  return {found:true,x:b.left+b.width/2,y:b.top+b.height/2,
+   width:innerWidth,height:innerHeight,disabled:e.disabled,
+   hit:document.elementFromPoint(b.left+b.width/2,b.top+b.height/2)?.closest('button')?.innerText};
+ });
+ if(!show.found||show.disabled||show.hit?.trim()!=='Show Table'||!await clickRect(show))
+  throw Error('Actual public Spell Show Table button did not open '+JSON.stringify(show));
+ await sleep(1200);
  const rows=[];
  for(const intelligence of intelligenceValues){
   const raw=await keyboard('intelligence',intelligence);
