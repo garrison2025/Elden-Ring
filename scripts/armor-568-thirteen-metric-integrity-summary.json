@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "sourceEvidence": "Pinned third-party community armor source, not current 1.17.3 game client",
+  "sourceCommit": "3d9cefcfcda7066796b9553825449039c2073926",
+  "sourceUrlAvailableViaSourceModule": true,
+  "totalRows": 568,
+  "slots": {
+    "Head": 167,
+    "Chest": 203,
+    "Arms": 94,
+    "Legs": 104
+  },
+  "distinctIds": 568,
+  "weights": {
+    "known": 568,
+    "zero": 0
+  },
+  "poiseKnown": 565,
+  "metricCells": {
+    "total": 7384,
+    "sourceKnown": 7325,
+    "sourceUnknown": 59
+  },
+  "metricCoverage": {
+    "poise": {
+      "sourceKnown": 565,
+      "missing": 3,
+      "invalid": 0
+    },
+    "immunity": {
+      "sourceKnown": 568,
+      "missing": 0,
+      "invalid": 0
+    },
+    "robustness": {
+      "sourceKnown": 568,
+      "missing": 0,
+      "invalid": 0
+    },
+    "focus": {
+      "sourceKnown": 568,
+      "missing": 0,
+      "invalid": 0
+    },
+    "vitality": {
+      "sourceKnown": 565,
+      "missing": 3,
+      "invalid": 0
+    },
+    "physical": {
+      "sourceKnown": 562,
+      "missing": 6,
+      "invalid": 0
+    },
+    "strike": {
+      "sourceKnown": 556,
+      "missing": 12,
+      "invalid": 0
+    },
+    "slash": {
+      "sourceKnown": 563,
+      "missing": 5,
+      "invalid": 0
+    },
+    "pierce": {
+      "sourceKnown": 563,
+      "missing": 5,
+      "invalid": 0
+    },
+    "magic": {
+      "sourceKnown": 562,
+      "missing": 6,
+      "invalid": 0
+    },
+    "fire": {
+      "sourceKnown": 559,
+      "missing": 9,
+      "invalid": 0
+    },
+    "lightning": {
+      "sourceKnown": 563,
+      "missing": 5,
+      "invalid": 0
+    },
+    "holy": {
+      "sourceKnown": 563,
+      "missing": 5,
+      "invalid": 0
+    }
+  },
+  "sameSlotDuplicateDisplayNames": 1,
+  "independentTarnishedV117PerPieceMeasurements": 0,
+  "independentCurrentGameClientMeasurements": 0,
+  "sourceLegalRedistributionClearance": false,
+  "gate": "SOURCE_INTEGRITY_ONLY",
+  "conclusion": "Pinned roster and the 13 sourced numeric field coverages measured. Not game-verified, current-patch-certified or licensed for redistribution.",
+  "sourceGitHubAction": 41271717697,
+  "sourceJob": 124745669676,
+  "comparativeCaveat": "This 568-row third-party source does not independently certify 1.17.3 armor numbers or item usage rights. No missing numeric cell is auto-filled."
+}
