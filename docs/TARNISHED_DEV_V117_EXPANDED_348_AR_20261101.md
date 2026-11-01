@@ -8,13 +8,15 @@
 - [4-shard public-site spelling/activation source observations](https://github.com/garrison2025/Elden-Ring/actions/runs/41262468777)
 - [Independent pinned-v1.17 total AR calculator comparison, initial 347/348](https://github.com/garrison2025/Elden-Ring/actions/runs/41263263242)
 
-The initial independent computation found **347 numerical total AR matches; 1 actual comparator mismatch, Icerind Hatchet**. The inputs were `STR60/DEX60/INT30/FAI30/ARC30`, `None`, +0, one-handed: **competitor 184 AR vs local 183 AR**. Inspecting actual component math from [follow-up diagnostic run](https://github.com/garrison2025/Elden-Ring/actions/runs/41263328489) established `raw physical = 183.99999999999997`. Ordinary `Math.floor` dropped that one-ULP underflow to 183.
+The full independent computation found **347 numerical total AR matches; 1 actual comparator mismatch, Icerind Hatchet**. The inputs were `STR60/DEX60/INT30/FAI30/ARC30`, `None`, +0, one-handed: **competitor 184 AR vs local 183 AR**. Inspecting actual component math from [follow-up diagnostic run](https://github.com/garrison2025/Elden-Ring/actions/runs/41263328489) established `raw physical = 183.99999999999997`. Ordinary `Math.floor` dropped that one-ULP underflow to 183.
 
-## Implementation correction and independent regression
+## Correctly bounded response to precision discrepancy
 
-`public/src/weapon-ar.mjs` uses a carefully bounded *one machine-epsilon relative* integer-boundary guard, not general numerical rounding or an ad hoc per-weapon hardcode. It only corrects results indistinguishable from the exact integer at floating-point machine precision. This resolves the real **183.99999999999997 → 184** numerical comparison without rounding ordinary fractional AR values.
+Diagnostic output found `raw physical = 183.99999999999997`; a global one-ULP rounding change would make this displayed AR equal 184. **However, after executing the full pinned mathematical audit (39,552 engine/source comparisons), this generalized change produced six new numerical mismatches. It was REVERTED before merge.** The source-math engine remains unchanged and passes the historic audit.
 
-Independent tests then require **348/348 same-input AR matches, zero outstanding numerical differences and zero source-variant conversion blockers**. The workflow also runs `scripts/audit-v117-pinned.mjs` to protect earlier **86 accepted public website v1.17 AR observations over 48 different weapon names**. The archived exact-input comparison is separate from the previous 86, and no unverified data was promoted.
+The CI audit explicitly tracks **347 AR matches, one known, still-unresolved Icerind discrepancy and zero source conversion failures**. Any additional mismatch fails the gate. We do **not** declare 348/348 parity, and do not hide the result or hardcode a weapon-wide AR correction based on a single input.
+
+The historical 86 accepted same-input Tarnished.dev v1.17 AR observations remain separately protected by `scripts/audit-v117-pinned.mjs`; all comparisons are version-scoped. An eventual Icerind fix must match the website at multiple inputs **and** preserve the 39,552 independent source-math checks (or document a versioned alternate rounding rule).
 
 ### Precise coverage, not premature site acceptance
 
