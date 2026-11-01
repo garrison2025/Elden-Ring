@@ -45,7 +45,7 @@ export function getRequirementsShard(index,total=12){
 const reqAudit=JSON.parse(readFileSync(new URL('./tarnished-v117-direct-requirements-actual10.json',import.meta.url),'utf8'));
 const arNames=new Set(a.records.map(x=>x.weaponName));
 const missingReqWithAr=new Set(reqAudit.rows.filter(x=>
-  x.status!=='DIRECT_SITE_REQ_VERIFIED'&&arNames.has(x.name)).map(x=>x.name));
+  x.status==='NOT_OBSERVED'&&arNames.has(x.name)).map(x=>x.name));
 export const AR_GAP_REQUIREMENT_CANDIDATES=Object.freeze(
  REQUIREMENT_CANDIDATES.filter(x=>missingReqWithAr.has(x.name)));
 if(reqAudit.total!==487||AR_GAP_REQUIREMENT_CANDIDATES.length!==22)
