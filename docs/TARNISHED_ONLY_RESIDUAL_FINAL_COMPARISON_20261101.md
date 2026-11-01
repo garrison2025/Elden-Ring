@@ -1,48 +1,57 @@
-# Tarnished.dev-only final residual comparison — fixed scope (2026-11-01)
+# Tarnished.dev v1.17 only — finite remaining comparison audit (2026-11-01)
 
-**Only reference:** actual interactive https://www.tarnished.dev/ as observed in **two independent Chromium browser profiles**, with its visibly displayed **v1.17** marker. Do not substitute a cached search crawl, original game client, another wiki, a community API, or any other source for a numeric PASS. Non-numeric rights/SEO work is separate and is **not an added numerical comparison requirement**.
+Numerical benchmark: **actual publicly rendered Tarnished.dev v1.17** with identical effective inputs; two independent fresh Chromium sessions per new scene. Do NOT substitute other websites, game-client Regulation versions, offline assumptions, or frozen reference values for a local algorithm.
 
-This report answers "is the corresponding local tool numerically the same as the actual reference site?" and separates **already passed samples**, **actually mismatched**, **not implemented as an equivalent calculator**, and **not observable in the reference UI**. The checking itself has a finite end; a recorded NO-MATCH or UNSUPPORTED must not be relabelled "done and passed".
+## Real result from this round
 
-## One frozen final accounting table
+The reference's Damage and Build pages **AGREE** when the actual scenario identity, not the unordered GitHub Actions job ID, is used. One initial manual job-ID association was incorrect and was immediately corrected after a formal same-input cross-page comparison. This is a bookkeeping correction, **NOT** an identified problem in Tarnished.dev.
 
-| Actual public-site module | Previously checked and retained | This round's new direct observations | Final numeric comparison decision |
-| --- | --- | --- | --- |
-| Weapon AR | 116 exact examples plus 348 historical +0 site reads (one Icerind float boundary corrected for exact input); existing normal source math unaffected | Actual **Build Planner** Uchigatana Standard +25 Wretch STR/DEX **15/20=376, 20/20=388, 15/25=392**, each independently read twice; our independent local v1.17 AR model equals **all three** | **MATCH for these inputs only**, not proof of arbitrary affinities/upgrade/stat combinations |
-| Build Planner | Original **10/10** classes with 8 attributes/level; **360** unbuffed HP/FP/Stamina/equip-load numeric reads; individual selected talismans and narrow exact combinations | The three new full Build weapon AR profiles above, cross-checked against Damage page's different answers | **MATCH for covered isolated facts**; arbitrary equipped armor/talisman/rune/Physick buffs, final resistance/defense and stacked AR **NOT IMPLEMENTED as general same-input parity** |
-| Armor Optimizer | 549 original armor Weight+Poise pairs twice read, 2 extra DLC pieces; 515 complete individual 12-field stat-stable armor rows. Poise-only Wretch Normal roll optimum **70** local and site | No new untested single-item data substituted. Existing site first-ranked set still differs from the local rank order | **Poise value MATCH; full best-four-item set, ordered top-5 and weighted 13-stat semantics NOT MATCH/CERTIFIED** |
-| Damage Calculator | Real v1.17 same-input Uchigatana +25 STR15 DEX20 shows AR376, DPS single464, paired547. Only AR independently calculated | Three site **Damage page** actual +25 rows, twice each: STR/DEX 15/20 **AR376, DPS464/547**, 20/20 **AR392, DPS489/577**, 15/25 **AR388, DPS483/570** | **Important: public-site INTERNAL AR DISAGREEMENT** on the latter two between reference Build and Damage pages; local engine agrees with **reference Build** on all three. Enemy/NG/moveset damage and DPS remain not same-input implemented |
-| Spell Calculator | Real v1.17 Wretch INT25, Astrologer's Staff + Glintstone Pebble result magic242/FP7 | Three exact selected reference observations, twice each: **INT25=242, INT30=267, INT40=315**, FP7, one bullet | **REAL REFERENCE NUMBERS OBSERVED, but NO LOCAL SPELL SCALING CALCULATOR or same-input numerical reproduction**; impossible to mark MATCH from a source table alone |
-| Talisman selector and combinations | 14 individual talismans, 8 distinct wearable combinations, and 8 newly measured selector behaviors | Prior PR #155/#156 two-browser provenance/equipment legality frozen | **MATCH at explicitly observed exact Wretch input/selection orders**; arbitrary talisman effects not certified |
+All three profiles: Wretch, other original attributes 10, unbuffed, **Uchigatana, Standard, smithing +25, one-handed**. Each corresponding Build and Damage page separately read twice in Chromium. Independent local v1.17 AR engine recalculated three samples.
 
-### Key finding — a discrepancy inside Tarnished.dev itself
+| STR / DEX | Tarnished.dev Build AR | Tarnished.dev Damage AR | Local independently calculated AR | Reference Damage DPS single / paired | Verdict |
+| --- | ---: | ---: | ---: | --- | --- |
+| 15 / 20 | **376** | **376** | **376** | 464 / 547 | **AR MATCH** |
+| 20 / 20 | **388** | **388** | **388** | 483 / 570 | **AR MATCH** |
+| 15 / 25 | **392** | **392** | **392** | 489 / 577 | **AR MATCH** |
 
-For **the same** Wretch, Uchigatana, Standard, smithing +25, unbuffed, one-handed controls:
+The **DPS figures are source observations only**. Our local manual Damage model does **not** implement the reference weapon move timing, enemy lookup, NG+, and exact DPS pipeline; no numerical DPS MATCH is asserted.
 
-| Strength / Dexterity | Actual Tarnished.dev Build Planner AR | Actual Tarnished.dev Damage Calculator AR | Independently calculated local AR |
-| --- | ---: | ---: | ---: |
-| 15 / 20 | **376** | **376** | **376** |
-| 20 / 20 | **388** | **392** | **388** |
-| 15 / 25 | **392** | **388** | **392** |
+Public Spell Calculator: Wretch INT25/30/40, other base attributes 10, **Astrologer's Staff + Glintstone Pebble**, default site reinforcement and zero-defense/zero-negation target:
 
-These are observations of the **same website's two live calculators**, not disagreement with any outside benchmark. Both site pages were independently read twice in separate Chrome processes, with exact live weapon, affinity, upgrade, five stats and active switches checked. Preserve and report this external inconsistency. Do **not** change the correct, observed Build-matching production AR algorithm to force both incompatible reference answers at once. In the Damage page, timing-derived DPS readings (shown above) cannot be established by our independent engine from an AR alone.
+| INT | Actual Tarnished.dev Magic damage | FP | Bullets | Local parity |
+| --- | ---: | ---: | ---: | --- |
+| 25 | **242** | 7 | 1 | **NOT IMPLEMENTED** |
+| 30 | **267** | 7 | 1 | **NOT IMPLEMENTED** |
+| 40 | **315** | 7 | 1 | **NOT IMPLEMENTED** |
 
-### Fixed meaning of statuses
+These six source scenes were **twice-observed**, with Wretch stats, exact selection labels, actual controls, version and raw result fields recorded. A real source output is **not** a local spell formula.
 
-- **MATCH** — same effective inputs and the reference's displayed numeric outputs independently reproduced by our model at the recorded examples.
-- **REFERENCE_CROSS_PAGE_MISMATCH** — two public Tarnished.dev calculators disagree with each other under identical controls; our engine is compared to each separately, and neither site's answer is made up.
-- **NOT_IMPLEMENTED** — local calculator does not possess an equivalent input schema/model; merely copying the reference output is **not** a matching calculation.
-- **UNOBSERVABLE** — reference site does not render the requested value, e.g., 27/487 low-requirement weapon `Req:` widgets and 19 historical armor aliases/invalid records.
+### Definitive accounting of corresponding modules
 
-**No open-ended numerical verification requirements** are introduced: neither official-game-client 1.17.3 certification nor other sources' parity nor exhaustive millions of combinations. The unimplemented Damage, Spell and weighted Armor semantics are **development gaps, not new comparison tasks**.
+| Module | Accepted comparator observations already closed | Remaining numerical-equivalence status |
+| --- | --- | --- |
+| Weapon AR | 487/487 weights; 460/487 directly displayed requirements (27 unobservable), broad independent AR cases and one exact Icerind rounding correction; above 3/3 new +25 AR | **MATCH for observed configs**; arbitrary untested upgrades, affinities and effects cannot be called directly matched |
+| Starting classes / Build | 10/10 original classes and Level with 8 attributes, 360 unbuffed HP/FP/Stamina/load values, 14 isolated talismans and a small exact Wretch set of combinations | **MATCH for tested individual contexts**; complete buffs/Physick/Great Rune/equipment effects and arbitrary class+gear downstream defense calculations remain **NOT IMPLEMENTED as general same-input model** |
+| Armor Optimizer | 549 original armor Weight+Poise double reads; 2 independently observed DLC armor; 515 full 12-metric stat-stable pieces; Wretch Normal roll **70 Poise** maximum local and site | **70 objective MATCH**. Four-piece rank/ordered ties and all 13 weighted constraints **NOT IDENTICAL / NOT CERTIFIED**; full DLC candidate pool is not complete |
+| Damage Calculator | Three new actual reference rows; independent local weapon AR **3/3 MATCH** | **DPS, selected enemy/NG/moveset/PvP/poise hit damage NOT IMPLEMENTED as a same-input comparator algorithm** |
+| Spell Calculator | Three exact selected staff+spell source rows all double-read; magic 242/267/315 | **No local spell/catalyst damage engine**; 0/3 reproduced numerically, status NOT IMPLEMENTED |
+| Talisman equipment selection | 14 isolated double reads, 8 distinct wearable combinations and 8 selector behavior scenes double read | **MATCH only for recorded Wretch 10/10 input/order**; unrestricted cross-item effect stacks not certified |
 
-### Immutable evidence
+### Allowed end states, no expanding acceptance requirements
 
-- [Current same-input cross-page browser run](https://github.com/garrison2025/Elden-Ring/actions/runs/41296445733) — both independent Build reads and three Damage+Spell site profiles in separate Chrome processes; individual JSON jobs.
-- [Prior successful two-pass all-six reference reading](https://github.com/garrison2025/Elden-Ring/actions/runs/41296105831).
-- `scripts/tarnished-v117-residual-3x2-observed-goldens.json` — 3 Damage and 3 Spell exact reference rows, plus 3 same-input Build AR values. Source data only; no invented local spell/DPS engine.
-- `scripts/verify-tarnished-residual-three-uchigatana-ar.mjs` — independently computes all three Build page AR values from the supported pinned v1.17 parameter source.
-- `scripts/check-tarnished-residual-damage-spell-v117.mjs` — compares distinct fresh Chrome passes for six scenes and performs explicit cross-page AR discrepancy checks.
-- Earlier closed reports: `docs/TARNISHED_V117_FINAL_SCOPE_ACCEPTANCE_20261101.md`, `docs/TARNISHED_V117_REMAINING_ONLY_FINAL_AUDIT_20261101.md`, `docs/TALISMAN_VARIANT_FAMILY_AND_LIVE_SELECTION_AUDIT_20261101.md`.
+- **MATCH**: source effective inputs and real output independently repeated; local independent numeric calculation equals it for exactly the supported use case.
+- **MISMATCH**: source shows a value and local engine produces a different one for same effective inputs; do not call such case passed.
+- **NOT IMPLEMENTED**: the corresponding locally calculated feature does not exist, e.g. full spell scaling or actual enemy/moveset DPS. Reading more source values alone does not fix implementation.
+- **UNOBSERVABLE**: public site does not render a unique target numeric field (27 hidden low-Req labels, 19 old duplicate/missing armor items). This is not a numeric error.
 
-**Final integrity rule:** a successful CI run confirms code/tests and captured source rows; it **does not** certify all five full calculators. As of this report, full-site feature parity is NOT 100%; only the explicitly listed cases and fields have passed.
+**Remaining tool implementation is NOT completed by this audit.** Passing CI or browser observation is not a claim that all of Tarnished.dev has been reproduced. No requirement for another game client's validation, another reference site, or millions of exhaustive combinations has been introduced.
+
+## Evidence and verification
+
+- [Real independent reference browser run with Build and Damage + Spell lanes](https://github.com/garrison2025/Elden-Ring/actions/runs/41296627816).
+- `scripts/tarnished-v117-residual-3x2-observed-goldens.json`: strict actual profile-to-output mapping.
+- `scripts/verify-tarnished-residual-three-uchigatana-ar.mjs`: independent local +25 AR calculation over a pinned v1.17 numerical parameter reference.
+- `scripts/check-tarnished-residual-damage-spell-v117.mjs`: two-pass raw actual comparator observation and formal cross-page agreement audit.
+- Earlier established scope and unsupported fields: `docs/TARNISHED_V117_FINAL_SCOPE_ACCEPTANCE_20261101.md`, `docs/TARNISHED_V117_REMAINING_ONLY_FINAL_AUDIT_20261101.md`.
+
+**Verified status:** This is a complete, bounded accounting of residual comparisons and known implementation gaps. It does not mislabel missing Damage/Spell/weighted Armor computation as a successful same-input parity.
