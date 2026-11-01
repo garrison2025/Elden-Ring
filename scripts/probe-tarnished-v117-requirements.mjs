@@ -78,6 +78,7 @@ function snapshot(){
  const from=text.indexOf('Equipped Left Hand 1'),to=text.indexOf('Equipped Right Hand 2');
  const block=from>=0?text.slice(from,to>from?to:from+1100):'';
  return {buildWeaponBlock:block,
+  startingClass:document.querySelector('#startingclass .p-dropdown-label')?.textContent?.trim()??null,
   controls:{str:document.getElementById('strength')?.value,
    dex:document.getElementById('dexterity')?.value,
    int:document.getElementById('intelligence')?.value,
@@ -94,11 +95,11 @@ function snapshot(){
   firstText:text.slice(0,2300),textLength:text.length};
 }
 
-import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
+import {getRequirementsShard,getArGapRequirementShard,getHighGapRequirementShard,getAltOriginRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
 const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
 const mode=process.env.TARNISHED_REQUIREMENT_TARGET;
-const targeted=mode==='ar-gap'||mode==='high-gap';
-const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):getRequirementsShard(index);
+const targeted=mode==='ar-gap'||mode==='high-gap'||mode==='alt-origin';
+const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):getRequirementsShard(index);
 const reqPattern=/(?:^|\n)Req:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/;
 async function run(){
  profile=await mkdtemp(join(tmpdir(),'tarnished-v117-public-req-'));
@@ -158,7 +159,7 @@ async function run(){
       requirements:verified?five:null,verifiedInputs:valid&&onSite,
       version:s.version,siteUrl:s.url,selectedBlock:selected.slice(0,400),
       controls:s.controls,previouslyWeightVerified:c.previouslyWeightVerified};
-     if(targeted)console.log('[REQ AR GAP ATTEMPT] '+JSON.stringify({
+     if(targeted)console.log('[REQ FOCUSED ATTEMPT] '+JSON.stringify({
       id:c.id,name:c.name,candidateName,affinity,valid,onSite,active,
       displayedRequirements:five,siteStatValues:controls,selectedText:selected.slice(0,260),
       reason:verified?'DIRECT_REQ':!active?'WEAPON_OR_AFFINITY_NOT_ACTIVE':!m?'REQ_NOT_RENDERED':'VALIDATION_FAILED'
