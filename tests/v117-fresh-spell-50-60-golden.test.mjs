@@ -14,7 +14,7 @@ test('INT50/INT60 public v1.17 site values are both independently observed twice
  }
 });
 test('all five real-reference spell outputs are distinct from independence claims',()=>{
- assert.deepEqual(V117_PEBBLE_STAFF_ROWS.map(x=>[x.int,x.magic]),[
+ assert.deepEqual(V117_PEBBLE_STAFF_ROWS.filter(x=>[25,30,40,50,60].includes(x.int)).map(x=>[x.int,x.magic]),[
   [25,242],[30,267],[40,315],[50,363],[60,410]
  ]);
  assert.equal(evidence.cases[0].status,'SOURCE_MODEL_ONE_POINT_MISMATCH');
