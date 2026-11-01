@@ -1,0 +1,29 @@
+name: Direct Tarnished.dev v1.17 item field visibility probe
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-item-fields.mjs
+      - .github/workflows/tarnished-item-fields.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-fields:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read competitor v1.17 public item fields in Chromium
+        run: node scripts/probe-tarnished-item-fields.mjs
+      - name: Preserve bounded public UI numeric observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-v117-item-field-visibility
+          path: .audit/tarnished-public-field-visibility.json
+          retention-days: 7
+          if-no-files-found: warn
