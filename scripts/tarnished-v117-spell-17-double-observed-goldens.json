@@ -1,0 +1,168 @@
+{
+  "reference": "Tarnished.dev public v1.17",
+  "real_browser_run": 41362826940,
+  "independent_reads_per_profile": 2,
+  "staff": "Astrologer's Staff",
+  "spell": "Glintstone Pebble",
+  "reinforcement": 25,
+  "origin": "Wretch",
+  "allOtherStats": 10,
+  "negativeDefenses": 0,
+  "referenceOnly": true,
+  "rows": [
+    {
+      "int": 25,
+      "realTarnished": 242,
+      "modelWithoutCalibration": 243,
+      "independentModelOutput": 242,
+      "delta": 1,
+      "status": "NUMERICAL_MISMATCH",
+      "boundaryApplied": true
+    },
+    {
+      "int": 30,
+      "realTarnished": 267,
+      "modelWithoutCalibration": 267,
+      "independentModelOutput": 267,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 40,
+      "realTarnished": 315,
+      "modelWithoutCalibration": 315,
+      "independentModelOutput": 315,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 50,
+      "realTarnished": 363,
+      "modelWithoutCalibration": 362,
+      "independentModelOutput": 362,
+      "delta": -1,
+      "status": "NUMERICAL_MISMATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 60,
+      "realTarnished": 410,
+      "modelWithoutCalibration": 410,
+      "independentModelOutput": 410,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 35,
+      "realTarnished": 290,
+      "modelWithoutCalibration": 291,
+      "independentModelOutput": 291,
+      "delta": 1,
+      "status": "NUMERICAL_MISMATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 45,
+      "realTarnished": 338,
+      "modelWithoutCalibration": 338,
+      "independentModelOutput": 338,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 55,
+      "realTarnished": 386,
+      "modelWithoutCalibration": 386,
+      "independentModelOutput": 386,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 65,
+      "realTarnished": 424,
+      "modelWithoutCalibration": 424,
+      "independentModelOutput": 424,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 70,
+      "realTarnished": 438,
+      "modelWithoutCalibration": 438,
+      "independentModelOutput": 438,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 75,
+      "realTarnished": 451,
+      "modelWithoutCalibration": 451,
+      "independentModelOutput": 451,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 80,
+      "realTarnished": 465,
+      "modelWithoutCalibration": 465,
+      "independentModelOutput": 465,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 85,
+      "realTarnished": 475,
+      "modelWithoutCalibration": 475,
+      "independentModelOutput": 475,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 90,
+      "realTarnished": 484,
+      "modelWithoutCalibration": 484,
+      "independentModelOutput": 484,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 95,
+      "realTarnished": 494,
+      "modelWithoutCalibration": 494,
+      "independentModelOutput": 494,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 98,
+      "realTarnished": 499,
+      "modelWithoutCalibration": 500,
+      "independentModelOutput": 500,
+      "delta": 1,
+      "status": "NUMERICAL_MISMATCH",
+      "boundaryApplied": false
+    },
+    {
+      "int": 99,
+      "realTarnished": 502,
+      "modelWithoutCalibration": 502,
+      "independentModelOutput": 502,
+      "delta": 0,
+      "status": "INDEPENDENT_NUMERICAL_MATCH",
+      "boundaryApplied": false
+    }
+  ],
+  "rules": "Actual visual spell result rows in 2 independently launched Chromium sessions. ModelWithoutCalibration is local pinned scaling mathematical output, not a source value. Do not infer general scaling from these rows."
+}
