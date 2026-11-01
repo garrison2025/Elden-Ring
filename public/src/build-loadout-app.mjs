@@ -251,7 +251,7 @@ byId('build-loadout-load-armor').addEventListener('click',async()=>{
     ref.weight.value=String(found.weight);ref.weight.dataset.source='community';
    }
   }
-  p.textContent=source.count+' pinned armor items loaded. '+(source.directTarnishedV117ArmorCount??0)+' exact-item weight and Poise pairs are corrected to directly observed Tarnished.dev v1.17; other item fields and effects have not passed site parity.';
+  p.textContent=source.count+' pinned armor items loaded. '+(source.directTarnishedV117ArmorCount??0)+' exact-item weight and Poise pairs directly match Tarnished.dev v1.17; '+(source.siteTwelveMetricArmorCount??0)+' stat-stable pieces additionally use 12 site-verified armor negation and resistance fields. Remaining special effects and contextual cases are not verified.';
   button.hidden=true;
   render();
  }catch(error){
