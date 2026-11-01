@@ -1,0 +1,29 @@
+name: Complete 487-weapon v1.17 cross-module reference evidence audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/audit-v117-composite-487-weapon.mjs
+      - .github/workflows/v117-final-composite-487.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence-join:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit 487 v1.17 neutral attack, requirement and double-observed weight joins
+        run: node scripts/audit-v117-composite-487-weapon.mjs
+      - name: Archive safe aggregate status without third-party source numeric rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-all-487-composite-evidence-readiness
+          path: .audit/v117-composite-487-weapon-acceptance.json
+          retention-days: 30
+          if-no-files-found: warn
