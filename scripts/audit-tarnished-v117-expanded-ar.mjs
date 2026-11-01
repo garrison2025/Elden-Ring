@@ -78,6 +78,7 @@ export async function run(){
   else if(r.status!=='AR_MATCH')console.log('[V117 EXPANDED AR SOURCE BLOCK] '+JSON.stringify(r));
  }
  if(report.counts.total!==348)throw Error('Expected 348 two-read +0 total AR observations');
- if(report.counts.matched<1)throw Error('No independent v1.17 AR comparison was possible');
+ if(report.counts.matched!==348||report.counts.mismatched!==0||report.counts.sourceUnavailable!==0)
+  throw Error('Public v1.17 expanded +0 AR parity is not complete; inspect archived mismatches.');
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))await run();
