@@ -84,6 +84,39 @@ async function main(){
   ['spell','https://www.tarnished.dev/spell-calculator']
  ]){
   const first=await nav(url);
+  // Inspect the actual React/PrimeReact search host and open its public
+  // options with a real pointer, without guessing a weapon or spell.
+  const host=await run(function(name){
+   const query=name==='damage'?'Search weapons...':'Search offensive sorceries...';
+   const e=[...document.querySelectorAll('span,div')].find(x=>
+    x.children.length===0&&(x.textContent||'').trim()===query);
+   if(!e)return{found:false,query};
+   const p=e.parentElement,pp=p?.parentElement;
+   pp?.scrollIntoView({behavior:'instant',block:'center',inline:'center'});
+   const b=p?.getBoundingClientRect();
+   return{found:true,query,
+    leaf:e.outerHTML.slice(0,500),
+    parent:p?.outerHTML.slice(0,1600),grandparent:pp?.outerHTML.slice(0,2400),
+    point:b?{x:b.x+b.width/2,y:b.y+b.height/2,width:innerWidth,height:innerHeight}:null};
+  },name);
+  console.log('[LIVE '+name.toUpperCase()+' SEARCH HOST]',JSON.stringify(host).slice(0,8000));
+  if(host.point&&host.point.x>0&&host.point.x<host.point.width&&
+   host.point.y>0&&host.point.y<host.point.height){
+   const {x,y}=host.point;
+   await send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y});
+   await send('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button:'left',clickCount:1});
+   await send('Input.dispatchMouseEvent',{type:'mouseReleased',x,y,button:'left',clickCount:1});
+   await sleep(800);
+   const opened=await run(function(){return{
+    visibleOptionText:[...document.querySelectorAll('[role="option"],.p-multiselect-item,.p-dropdown-item')].
+     filter(e=>e.getBoundingClientRect().width>0).map(e=>e.innerText.slice(0,130)).slice(0,40),
+    focused:document.activeElement?.outerHTML.slice(0,850),
+    newInputs:[...document.querySelectorAll('input')].filter(e=>e.getBoundingClientRect().width>0).
+      map(e=>({placeholder:e.placeholder,id:e.id,value:e.value,html:e.outerHTML.slice(0,440)})).slice(-20),
+    pageTail:document.body?.innerText.slice(-1200)
+   }});
+   console.log('[LIVE '+name.toUpperCase()+' ACTUAL OPTIONS]',JSON.stringify(opened).slice(0,11000));
+  }
   const controls=await run(function(){
    return {
     buttons:[...document.querySelectorAll('button,[role="button"]')].map((e,i)=>({
