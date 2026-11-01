@@ -130,20 +130,24 @@ async function main(){
  await send('Runtime.enable');await send('Page.enable');
  const caseId=Number(process.env.TARNISHED_RESIDUAL_CASE);
  const pass=Number(process.env.TARNISHED_RESIDUAL_PASS);
- if(!Number.isInteger(caseId)||caseId<0||caseId>4||![1,2].includes(pass))throw Error('Set TARNISHED_RESIDUAL_CASE 0..4 and PASS 1..2');
+ if(!Number.isInteger(caseId)||caseId<0||caseId>8||![1,2].includes(pass))throw Error('Set TARNISHED_RESIDUAL_CASE 0..8 and PASS 1..2');
  const scenarios=[
   {damage:{weapon:'Uchigatana',strength:15,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:25}},
   {damage:{weapon:'Uchigatana',strength:20,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:30}},
   {damage:{weapon:'Uchigatana',strength:15,dexterity:25},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:40}},
   {damage:{weapon:'Uchigatana',strength:15,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:50}},
-  {damage:{weapon:'Uchigatana',strength:15,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:60}}
+  {damage:{weapon:'Uchigatana',strength:15,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:60}},
+  {damage:{weapon:'Uchigatana',strength:15,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:20}},
+  {damage:{weapon:'Uchigatana',strength:15,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:35}},
+  {damage:{weapon:'Uchigatana',strength:15,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:45}},
+  {damage:{weapon:'Uchigatana',strength:15,dexterity:20},spell:{weapon:"Astrologer's Staff",spell:'Glintstone Pebble',intelligence:55}}
  ];
  const results={schemaVersion:1,caseId,pass,site:'Tarnished.dev public v1.17',
   target:'Remaining actual Damage/Spell result table controls only',pages:[]};
  for(const [name,url] of [
   ['damage','https://www.tarnished.dev/damage-calculator'],
   ['spell','https://www.tarnished.dev/spell-calculator']
- ]){
+ ].filter(([name])=>caseId<5||name==='spell')){
   const first=await nav(url);
   // Inspect the actual React/PrimeReact search host and open its public
   // options with a real pointer, without guessing a weapon or spell.
@@ -321,7 +325,7 @@ async function main(){
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-residual-damage-spell-'+caseId+'-pass-'+pass+'.json'),
   JSON.stringify(results,null,2)+'\n');
- if(results.pages.length!==2||results.pages.some(x=>x.version!=='Elden Ring Version: v1.17'))
+ if(results.pages.length!==(caseId<5?2:1)||results.pages.some(x=>x.version!=='Elden Ring Version: v1.17'))
   throw Error('Version mismatch: cannot audit other reference');
 }
 try{await main()}finally{

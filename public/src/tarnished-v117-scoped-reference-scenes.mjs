@@ -10,10 +10,14 @@ export const V117_UCHIGATANA_DAMAGE_ROWS=Object.freeze([
  Object.freeze({str:15,dex:25,ar:392,poise:5,dpsSingle:489,dpsPaired:577})
 ]);
 export const V117_PEBBLE_STAFF_ROWS=Object.freeze([
+ Object.freeze({int:20,magic:219,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:25,magic:242,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:30,magic:267,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:35,magic:290,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:40,magic:315,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:45,magic:338,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:50,magic:363,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:55,magic:386,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:60,magic:410,bullets:1,fp:7,intRequirement:10})
 ]);
 const integer=n=>Number.isInteger(n)&&n>=1&&n<=99;
@@ -39,7 +43,7 @@ export function exactPublicPebbleSpell({origin='Wretch',int,otherStats=[10,10,10
   return {status:'NOT_OBSERVED',reference:null};
  const row=V117_PEBBLE_STAFF_ROWS.find(x=>x.int===int);
  return row?{status:'REFERENCE_UI_OBSERVED_TWICE',reference:row,
-  source:'Tarnished.dev public v1.17 Spell result table; independent Chromium passes (41297001066)',
+  source:'Tarnished.dev public v1.17 Spell result table; two independent Chromium reads per row. INT20/35/45/55: workflow 41362855674; INT50/60: 41361280757; INT25/30/40: 41297001066',
   caveat:'A twice-observed reference result, NOT an independently calculated spell multiplier. No interpolation or new catalyst/spell combinations.'}:
   {status:'NOT_OBSERVED',reference:null};
 }
