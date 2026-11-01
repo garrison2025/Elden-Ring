@@ -1,0 +1,571 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-01",
+  "scope": "Elden Ring Regulation v1.17 historical comparison only",
+  "sourceRun": 41269449298,
+  "sourceJob": 124739007641,
+  "sourceUrl": "https://github.com/garrison2025/Elden-Ring/actions/runs/41269449298",
+  "pinnedSourceCommit": "3539d87e446f3b9d5b94157f8a2023e28ffea7d2",
+  "sourceRepo": "ThomasJClark/elden-ring-weapon-calculator",
+  "summary": {
+    "total": 487,
+    "direct": 460,
+    "nonDirect": 27,
+    "directPinnedMatches": 460,
+    "directPinnedConflicts": 0,
+    "directPinnedMissing": 0,
+    "pinnedOnly": 27,
+    "neitherDirectNorPinned": 0,
+    "allPinnedValid": 487,
+    "nonDirectPinnedCommunityDisputes": 1,
+    "nonDirectClassCouldTrigger": 1
+  },
+  "qualifications": [
+    "460 of 487 attribute requirements shown twice in actual public Tarnished.dev v1.17 Build Planner",
+    "27 remaining five-stat tuples are sourced solely from pinned independent public 1.17 reference: NO direct website Req visible",
+    "No attribution of pinned-derived game data as a game-client certified fact; separate rights check required",
+    "Historical community reference disagrees with pinned v1.17 source for Frenzied Flame Seal (10/10 Faith/Arc vs 0/0)"
+  ],
+  "unobserved": [
+    {
+      "name": "Caestus",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        8,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        8,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Dagger",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        5,
+        9,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        5,
+        9,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Dane's Footwork",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        8,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        8,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Dryleaf Arts",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        8,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        8,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Frenzied Flame Seal",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        0,
+        0,
+        0,
+        10,
+        10
+      ],
+      "communityMatchesPinned": false,
+      "siteRequirementVisibleViaOriginalClass": true
+    },
+    {
+      "name": "Serpent-hunter",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Torch",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        5,
+        5,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        5,
+        5,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Blue-White Wooden Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Candletree Wooden Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Flame Crest Wooden Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Gilded Iron Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Hawk Crest Wooden Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Horse Crest Wooden Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Iron Roundshield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Large Leather Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Man-Serpent's Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Marred Leather Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Marred Wooden Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Perfumer's Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Red Thorn Roundshield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Rickety Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Rift Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Riveted Wooden Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Round Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Scripture Wooden Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Shield of the Guilty",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    },
+    {
+      "name": "Sun Realm Shield",
+      "status": "PINNED_ONLY_NOT_SITE_OBSERVED",
+      "pinnedRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityRequirements": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "communityMatchesPinned": true,
+      "siteRequirementVisibleViaOriginalClass": false
+    }
+  ]
+}
