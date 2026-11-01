@@ -12,7 +12,10 @@ test('37 distinct final missing weights correspond only to canonical NULL entrie
   const w=catalog.weapons.find(x=>x.name===c.name);
   assert.ok(w,c.name);
   assert.equal(w.weight,null,c.name);
-  assert.equal(get(c.name),null,c.name+' must not be pre-approved without primary-site reads');
+  const source=get(c.name);
+  assert.ok(source,c.name);
+  assert.equal(source.evidenceRun,41259504988,c.name);
+  assert.equal(source.observedTwice,true,c.name);
   assert.deepEqual(c.affinities,['Standard','None']);
   assert.equal(Object.hasOwn(c,'weight'),false);
  }
