@@ -94,9 +94,10 @@ function snapshot(){
   firstText:text.slice(0,2300),textLength:text.length};
 }
 
-import {getRequirementsShard} from './tarnished-v117-requirement-candidates.mjs';
+import {getRequirementsShard,getArGapRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
 const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
-const requirementSamples=getRequirementsShard(index);
+const targeted=process.env.TARNISHED_REQUIREMENT_TARGET==='ar-gap';
+const requirementSamples=targeted?getArGapRequirementShard(index):getRequirementsShard(index);
 const reqPattern=/(?:^|\n)Req:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/;
 async function run(){
  profile=await mkdtemp(join(tmpdir(),'tarnished-v117-public-req-'));
@@ -156,6 +157,11 @@ async function run(){
       requirements:verified?five:null,verifiedInputs:valid&&onSite,
       version:s.version,siteUrl:s.url,selectedBlock:selected.slice(0,400),
       controls:s.controls,previouslyWeightVerified:c.previouslyWeightVerified};
+     if(targeted)console.log('[REQ AR GAP ATTEMPT] '+JSON.stringify({
+      id:c.id,name:c.name,candidateName,affinity,valid,onSite,active,
+      displayedRequirements:five,siteStatValues:controls,selectedText:selected.slice(0,260),
+      reason:verified?'DIRECT_REQ':!active?'WEAPON_OR_AFFINITY_NOT_ACTIVE':!m?'REQ_NOT_RENDERED':'VALIDATION_FAILED'
+     }));
      last=observation;
      if(verified){good=observation;break;}
     }
