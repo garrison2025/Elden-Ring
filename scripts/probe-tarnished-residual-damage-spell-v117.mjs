@@ -254,7 +254,18 @@ async function main(){
    const expected=name==='damage'?[scenario.weapon]:[scenario.weapon,scenario.spell];
    return{selectedTokens:multiselects,expected,displayed:expected.every(v=>body.includes(v)),
     stats:{str:document.getElementById('strength')?.value,dex:document.getElementById('dexterity')?.value,
-     int:document.getElementById('intelligence')?.value},
+     int:document.getElementById('intelligence')?.value,
+     finalStr:document.getElementById('finalstrength')?.value,
+     finalDex:document.getElementById('finaldexterity')?.value,
+     finalInt:document.getElementById('finalintelligence')?.value,
+     smithing:document.getElementById('smithinglevel')?.value,
+     somber:document.getElementById('somberlevel')?.value},
+    toggles:{rune:document.getElementById('activate-rune')?.checked,
+     physick:document.getElementById('activate-physick')?.checked,
+     twoHanded:document.getElementById('two-handed')?.checked},
+    controlSample:[...document.querySelectorAll('input')].filter(el=>
+     /strength|dexterity|smith|somber|twohand|two-handed/i.test(el.id||''))
+     .map(el=>({id:el.id,value:el.value,checked:el.checked})),
     version:(body.match(/Elden Ring Version:[^\\n]*/)||[])[0]??null,
     textTail:body.slice(-7500)
    };
@@ -262,9 +273,18 @@ async function main(){
   if(!identity.displayed)throw Error('Selected identity not visible in result '+name);
   if(name==='damage'&&
      (Number(identity.stats.str)!==scenario.strength||
-      Number(identity.stats.dex)!==scenario.dexterity))throw Error('Damage effective stats do not match requested input');
-  if(name==='spell'&&Number(identity.stats.int)!==scenario.intelligence)
-   throw Error('Spell effective INT does not match requested input');
+      Number(identity.stats.dex)!==scenario.dexterity||
+      identity.stats.finalStr!==undefined&&identity.stats.finalStr!==null&&
+       Number(identity.stats.finalStr)!==scenario.strength||
+      identity.stats.finalDex!==undefined&&identity.stats.finalDex!==null&&
+       Number(identity.stats.finalDex)!==scenario.dexterity))
+    throw Error('Damage effective stats do not match requested input '+JSON.stringify(identity.stats));
+  if(name==='spell'&&
+    (Number(identity.stats.int)!==scenario.intelligence||
+     identity.stats.finalInt!==undefined&&identity.stats.finalInt!==null&&
+      Number(identity.stats.finalInt)!==scenario.intelligence))
+   throw Error('Spell effective INT does not match requested input '+JSON.stringify(identity.stats));
+  console.log('[RESIDUAL EFFECTIVE INPUT IDENTITY] '+JSON.stringify({name,caseId,pass,stats:identity.stats,toggles:identity.toggles,controlSample:identity.controlSample}));
   const record={name,url,version:first.version,firstText:first.text.slice(-1300),identity,
    openTablePointer:rect,afterText:after.text.slice(-2700),revealed,controls,scenario};
   results.pages.push(record);
