@@ -1,11 +1,7 @@
 name: Tarnished.dev real 568 armor x 12 extra output fields
+# Full external-site numeric audit runs manually after initial evidence acceptance.
+# First real run: GitHub Actions 41275364824.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/probe-tarnished-v117-armor-12-metrics.mjs
-      - scripts/compare-tarnished-v117-armor-12-metrics.mjs
-      - .github/workflows/tarnished-armor-12-metric-output.yml
   workflow_dispatch:
 permissions:
   contents: read
