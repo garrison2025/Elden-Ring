@@ -6,6 +6,8 @@
  * First nine: https://github.com/garrison2025/Elden-Ring/actions/runs/41257042883
  * Another 30 distinct two-read items, all input-verified:
  * https://github.com/garrison2025/Elden-Ring/actions/runs/41257934288
+ * Final 37, direct public v1.17 two-run verification, every input confirmed:
+ * https://github.com/garrison2025/Elden-Ring/actions/runs/41259504988
  * No game-client version equivalence or third-party code reuse is claimed.
  */
 const rows=Object.freeze([
@@ -47,7 +49,44 @@ const rows=Object.freeze([
  ["Inverted Hawk Heater Shield",3.5,'missing-primary-weight',41257934288],
  ["Inverted Hawk Towershield",15.5,'missing-primary-weight',41257934288],
  ["Iron Roundshield",3,'missing-primary-weight',41257934288],
- ["Kite Shield",4.5,'missing-primary-weight',41257934288]
+ ["Kite Shield",4.5,'missing-primary-weight',41257934288],
+ ["Ant's Skull Plate",12.5,'missing-primary-weight',41259504988],
+ ["Coil Shield",1.5,'missing-primary-weight',41259504988],
+ ["Crucible Hornshield",11.5,'missing-primary-weight',41259504988],
+ ["Dragonclaw Shield",13.5,'missing-primary-weight',41259504988],
+ ["Erdtree Greatshield",11.5,'missing-primary-weight',41259504988],
+ ["Golden Beast Crest Shield",10.5,'missing-primary-weight',41259504988],
+ ["Gravel Stone Seal",1.5,'missing-primary-weight',41259504988],
+ ["Icon Shield",9,'missing-primary-weight',41259504988],
+ ["Inseparable Sword",10,'missing-primary-weight',41259504988],
+ ["Jellyfish Shield",8,'missing-primary-weight',41259504988],
+ ["Large Leather Shield",3,'missing-primary-weight',41259504988],
+ ["Lordsworn's Shield",9,'missing-primary-weight',41259504988],
+ ["Man-Serpent's Shield",2,'missing-primary-weight',41259504988],
+ ["Manor Towershield",15.5,'missing-primary-weight',41259504988],
+ ["Marred Leather Shield",3,'missing-primary-weight',41259504988],
+ ["Marred Wooden Shield",4,'missing-primary-weight',41259504988],
+ ["One-Eyed Shield",20.5,'missing-primary-weight',41259504988],
+ ["Perfumer's Shield",1.5,'missing-primary-weight',41259504988],
+ ["Pillory Shield",3.5,'missing-primary-weight',41259504988],
+ ["Red Crest Heater Shield",3.5,'missing-primary-weight',41259504988],
+ ["Red Thorn Roundshield",1.5,'missing-primary-weight',41259504988],
+ ["Redmane Greatshield",14,'missing-primary-weight',41259504988],
+ ["Rickety Shield",1,'missing-primary-weight',41259504988],
+ ["Rift Shield",2,'missing-primary-weight',41259504988],
+ ["Riveted Wooden Shield",2,'missing-primary-weight',41259504988],
+ ["Round Shield",4,'missing-primary-weight',41259504988],
+ ["Scorpion Kite Shield",4.5,'missing-primary-weight',41259504988],
+ ["Scripture Wooden Shield",1.5,'missing-primary-weight',41259504988],
+ ["Shield of the Guilty",2,'missing-primary-weight',41259504988],
+ ["Silver Mirrorshield",3.5,'missing-primary-weight',41259504988],
+ ["Smoldering Shield",3,'missing-primary-weight',41259504988],
+ ["Spiked Palisade Shield",9.5,'missing-primary-weight',41259504988],
+ ["Spiralhorn Shield",2,'missing-primary-weight',41259504988],
+ ["Sun Realm Shield",3.5,'missing-primary-weight',41259504988],
+ ["Twinbird Kite Shield",4.5,'missing-primary-weight',41259504988],
+ ["Visage Shield",24,'missing-primary-weight',41259504988],
+ ["Wooden Greatshield",8,'missing-primary-weight',41259504988]
 ]);
 export const TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE=Object.freeze(
  rows.map(([weaponName,weight,evidenceCategory,evidenceRun=41257042883])=>Object.freeze({
