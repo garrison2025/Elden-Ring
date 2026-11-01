@@ -1,0 +1,6971 @@
+{
+  "reference": "Tarnished.dev PUBLIC v1.17 browser DOM, 2 independent reads",
+  "sourceRuns": [
+    41261521809,
+    41262468777
+  ],
+  "observedDate": "2026-11-01",
+  "qualification": "Strictly rendered same-input Total AR values, NOT individual base damage. Original weight-active UI observations, no current game client certification.",
+  "records": [
+    {
+      "id": "source-41261521809-Maliketh's Black Blade",
+      "weaponName": "Maliketh's Black Blade",
+      "siteName": "Maliketh's Black Blade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 304,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Mantis Blade",
+      "weaponName": "Mantis Blade",
+      "siteName": "Mantis Blade",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 182,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Marais Executioner's Sword",
+      "weaponName": "Marais Executioner's Sword",
+      "siteName": "Marais Executioner's Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 227,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Marika's Hammer",
+      "weaponName": "Marika's Hammer",
+      "siteName": "Marika's Hammer",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 245,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Messmer Soldier Shield",
+      "weaponName": "Messmer Soldier Shield",
+      "siteName": "Messmer Soldier Shield",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 104,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Messmer Soldier's Axe",
+      "weaponName": "Messmer Soldier's Axe",
+      "siteName": "Messmer Soldier's Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 214,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Meteoric Ore Blade",
+      "weaponName": "Meteoric Ore Blade",
+      "siteName": "Meteoric Ore Blade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 249,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Milady",
+      "weaponName": "Milady",
+      "siteName": "Milady",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 189,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Miquellan Knight's Sword",
+      "weaponName": "Miquellan Knight's Sword",
+      "siteName": "Miquellan Knight's Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 225,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Misbegotten Shortbow",
+      "weaponName": "Misbegotten Shortbow",
+      "siteName": "Misbegotten Shortbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 91,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Mohgwyn's Sacred Spear",
+      "weaponName": "Mohgwyn's Sacred Spear",
+      "siteName": "Mohgwyn's Sacred Spear",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 228,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Monk's Flameblade",
+      "weaponName": "Monk's Flameblade",
+      "siteName": "Monk's Flameblade",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 223,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Monk's Flamemace",
+      "weaponName": "Monk's Flamemace",
+      "siteName": "Monk's Flamemace",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 201,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Moonrithyll's Knight Sword",
+      "weaponName": "Moonrithyll's Knight Sword",
+      "siteName": "Moonrithyll's Knight Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 300,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Moonveil",
+      "weaponName": "Moonveil",
+      "siteName": "Moonveil",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 221,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Morgott's Cursed Sword",
+      "weaponName": "Morgott's Cursed Sword",
+      "siteName": "Morgott's Cursed Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 204,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Morning Star",
+      "weaponName": "Morning Star",
+      "siteName": "Morning Star",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 192,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Nagakiba",
+      "weaponName": "Nagakiba",
+      "siteName": "Nagakiba",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 190,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Nanaya's Torch",
+      "weaponName": "Nanaya's Torch",
+      "siteName": "Nanaya's Torch",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 194,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Nightrider Flail",
+      "weaponName": "Nightrider Flail",
+      "siteName": "Nightrider Flail",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 190,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Nightrider Glaive",
+      "weaponName": "Nightrider Glaive",
+      "siteName": "Nightrider Glaive",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 210,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Noble's Estoc",
+      "weaponName": "Noble's Estoc",
+      "siteName": "Noble's Estoc",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 161,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Noble's Slender Sword",
+      "weaponName": "Noble's Slender Sword",
+      "siteName": "Noble's Slender Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 163,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Nox Flowing Hammer",
+      "weaponName": "Nox Flowing Hammer",
+      "siteName": "Nox Flowing Hammer",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 203,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Nox Flowing Sword",
+      "weaponName": "Nox Flowing Sword",
+      "siteName": "Nox Flowing Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 170,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Obsidian Lamina",
+      "weaponName": "Obsidian Lamina",
+      "siteName": "Obsidian Lamina",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 195,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Omen Cleaver",
+      "weaponName": "Omen Cleaver",
+      "siteName": "Omen Cleaver",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 234,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Onyx Lord's Greatsword",
+      "weaponName": "Onyx Lord's Greatsword",
+      "siteName": "Onyx Lord's Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 267,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ordovis's Greatsword",
+      "weaponName": "Ordovis's Greatsword",
+      "siteName": "Ordovis's Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 260,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Torch",
+      "weaponName": "Torch",
+      "siteName": "Torch",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 185,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Torchpole",
+      "weaponName": "Torchpole",
+      "siteName": "Torchpole",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 198,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Treespear",
+      "weaponName": "Treespear",
+      "siteName": "Treespear",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 276,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Troll Knight's Sword",
+      "weaponName": "Troll Knight's Sword",
+      "siteName": "Troll Knight's Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 300,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Troll's Golden Sword",
+      "weaponName": "Troll's Golden Sword",
+      "siteName": "Troll's Golden Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 251,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Troll's Hammer",
+      "weaponName": "Troll's Hammer",
+      "siteName": "Troll's Hammer",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 301,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Twinblade",
+      "weaponName": "Twinblade",
+      "siteName": "Twinblade",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 188,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Twinned Knight Swords",
+      "weaponName": "Twinned Knight Swords",
+      "siteName": "Twinned Knight Swords",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 193,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Uchigatana",
+      "weaponName": "Uchigatana",
+      "siteName": "Uchigatana",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 193,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Urumi",
+      "weaponName": "Urumi",
+      "siteName": "Urumi",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 165,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Velvet Sword of St. Trina",
+      "weaponName": "Velvet Sword of St. Trina",
+      "siteName": "Velvet Sword of St. Trina",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 201,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Venomous Fang",
+      "weaponName": "Venomous Fang",
+      "siteName": "Venomous Fang",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 161,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Verdigris Greatshield",
+      "weaponName": "Verdigris Greatshield",
+      "siteName": "Verdigris Greatshield",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 267,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Veteran's Prosthesis",
+      "weaponName": "Veteran's Prosthesis",
+      "siteName": "Veteran's Prosthesis",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 197,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Vulgar Militia Saw",
+      "weaponName": "Vulgar Militia Saw",
+      "siteName": "Vulgar Militia Saw",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 211,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Vulgar Militia Shotel",
+      "weaponName": "Vulgar Militia Shotel",
+      "siteName": "Vulgar Militia Shotel",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 202,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Vyke's War Spear",
+      "weaponName": "Vyke's War Spear",
+      "siteName": "Vyke's War Spear",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 244,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Wakizashi",
+      "weaponName": "Wakizashi",
+      "siteName": "Wakizashi",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 149,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Warhawk's Talon",
+      "weaponName": "Warhawk's Talon",
+      "siteName": "Warhawk's Talon",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 167,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Warped Axe",
+      "weaponName": "Warped Axe",
+      "siteName": "Warped Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 203,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Warpick",
+      "weaponName": "Warpick",
+      "siteName": "Warpick",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 174,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Watchdog's Greatsword",
+      "weaponName": "Watchdog's Greatsword",
+      "siteName": "Watchdog's Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 238,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Watchdog's Staff",
+      "weaponName": "Watchdog's Staff",
+      "siteName": "Watchdog's Staff",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 261,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Weathered Straight Sword",
+      "weaponName": "Weathered Straight Sword",
+      "siteName": "Weathered Straight Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 163,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Whip",
+      "weaponName": "Whip",
+      "siteName": "Whip",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 164,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Winged Greathorn",
+      "weaponName": "Winged Greathorn",
+      "siteName": "Winged Greathorn",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 227,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Winged Scythe",
+      "weaponName": "Winged Scythe",
+      "siteName": "Winged Scythe",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 251,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Wolf Crest Shield",
+      "weaponName": "Wolf Crest Shield",
+      "siteName": "Wolf Crest Shield",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 106,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Zamor Curved Sword",
+      "weaponName": "Zamor Curved Sword",
+      "siteName": "Zamor Curved Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 217,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Zweihander",
+      "weaponName": "Zweihander",
+      "siteName": "Zweihander",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 237,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Great Club",
+      "weaponName": "Great Club",
+      "siteName": "Great Club",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 297,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Great Katana",
+      "weaponName": "Great Katana",
+      "siteName": "Great Katana",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 232,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Great Knife",
+      "weaponName": "Great Knife",
+      "siteName": "Great Knife",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 122,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Great Mace",
+      "weaponName": "Great Mace",
+      "siteName": "Great Mace",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 214,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Great Omenkiller Cleaver",
+      "weaponName": "Great Omenkiller Cleaver",
+      "siteName": "Great Omenkiller Cleaver",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 237,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Great Stars",
+      "weaponName": "Great Stars",
+      "siteName": "Great Stars",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 226,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Greataxe",
+      "weaponName": "Greataxe",
+      "siteName": "Greataxe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 248,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Greatbow",
+      "weaponName": "Greatbow",
+      "siteName": "Greatbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 187,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Greathorn Hammer",
+      "weaponName": "Greathorn Hammer",
+      "siteName": "Greathorn Hammer",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 228,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Greatsword",
+      "weaponName": "Greatsword",
+      "siteName": "Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 261,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Greatsword of Damnation",
+      "weaponName": "Greatsword of Damnation",
+      "siteName": "Greatsword of Damnation",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 266,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Greatsword of Solitude",
+      "weaponName": "Greatsword of Solitude",
+      "siteName": "Greatsword of Solitude",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 219,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Grossmesser",
+      "weaponName": "Grossmesser",
+      "siteName": "Grossmesser",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 186,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Guardian's Swordspear",
+      "weaponName": "Guardian's Swordspear",
+      "siteName": "Guardian's Swordspear",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 210,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Halberd",
+      "weaponName": "Halberd",
+      "siteName": "Halberd",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 211,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Halo Scythe",
+      "weaponName": "Halo Scythe",
+      "siteName": "Halo Scythe",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 264,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Hammer",
+      "weaponName": "Hammer",
+      "siteName": "Hammer",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 203,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Hand Axe",
+      "weaponName": "Hand Axe",
+      "siteName": "Hand Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 191,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Hand Ballista",
+      "weaponName": "Hand Ballista",
+      "siteName": "Hand Ballista",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 135,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Harp Bow",
+      "weaponName": "Harp Bow",
+      "siteName": "Harp Bow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 75,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Heavy Crossbow",
+      "weaponName": "Heavy Crossbow",
+      "siteName": "Heavy Crossbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 64,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Helphen's Steeple",
+      "weaponName": "Helphen's Steeple",
+      "siteName": "Helphen's Steeple",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 263,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Highland Axe",
+      "weaponName": "Highland Axe",
+      "siteName": "Highland Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 202,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Hookclaws",
+      "weaponName": "Hookclaws",
+      "siteName": "Hookclaws",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 150,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Horn Bow",
+      "weaponName": "Horn Bow",
+      "siteName": "Horn Bow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 121,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Horned Warrior's Greatsword",
+      "weaponName": "Horned Warrior's Greatsword",
+      "siteName": "Horned Warrior's Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 217,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Horned Warrior's Sword",
+      "weaponName": "Horned Warrior's Sword",
+      "siteName": "Horned Warrior's Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 177,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Hoslow's Petal Whip",
+      "weaponName": "Hoslow's Petal Whip",
+      "siteName": "Hoslow's Petal Whip",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 173,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Icerind Hatchet",
+      "weaponName": "Icerind Hatchet",
+      "siteName": "Icerind Hatchet",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 184,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Igon's Greatbow",
+      "weaponName": "Igon's Greatbow",
+      "siteName": "Igon's Greatbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 179,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rotten Crystal Sword",
+      "weaponName": "Rotten Crystal Sword",
+      "siteName": "Rotten Crystal Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 224,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rotten Greataxe",
+      "weaponName": "Rotten Greataxe",
+      "siteName": "Rotten Greataxe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 255,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rotten Staff",
+      "weaponName": "Rotten Staff",
+      "siteName": "Rotten Staff",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 255,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Royal Greatsword",
+      "weaponName": "Royal Greatsword",
+      "siteName": "Royal Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 318,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ruins Greatsword",
+      "weaponName": "Ruins Greatsword",
+      "siteName": "Ruins Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 262,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rusted Anchor",
+      "weaponName": "Rusted Anchor",
+      "siteName": "Rusted Anchor",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 237,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Sacred Relic Sword",
+      "weaponName": "Sacred Relic Sword",
+      "siteName": "Sacred Relic Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 271,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Sacrificial Axe",
+      "weaponName": "Sacrificial Axe",
+      "siteName": "Sacrificial Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 210,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Scavenger's Curved Sword",
+      "weaponName": "Scavenger's Curved Sword",
+      "siteName": "Scavenger's Curved Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 175,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Scimitar",
+      "weaponName": "Scimitar",
+      "siteName": "Scimitar",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 171,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Scorpion's Stinger",
+      "weaponName": "Scorpion's Stinger",
+      "siteName": "Scorpion's Stinger",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 138,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Scythe",
+      "weaponName": "Scythe",
+      "siteName": "Scythe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 207,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Sentry's Torch",
+      "weaponName": "Sentry's Torch",
+      "siteName": "Sentry's Torch",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 195,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Serpent Bow",
+      "weaponName": "Serpent Bow",
+      "siteName": "Serpent Bow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 102,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Serpent Crest Shield",
+      "weaponName": "Serpent Crest Shield",
+      "siteName": "Serpent Crest Shield",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 106,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Serpent Flail",
+      "weaponName": "Serpent Flail",
+      "siteName": "Serpent Flail",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 217,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Serpentbone Blade",
+      "weaponName": "Serpentbone Blade",
+      "siteName": "Serpentbone Blade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 196,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Shadow Sunflower Blossom",
+      "weaponName": "Shadow Sunflower Blossom",
+      "siteName": "Shadow Sunflower Blossom",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 296,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Shamshir",
+      "weaponName": "Shamshir",
+      "siteName": "Shamshir",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 177,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Shield of Night",
+      "weaponName": "Shield of Night",
+      "siteName": "Shield of Night",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 159,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Short Spear",
+      "weaponName": "Short Spear",
+      "siteName": "Short Spear",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 176,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Short Sword",
+      "weaponName": "Short Sword",
+      "siteName": "Short Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 167,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Shortbow",
+      "weaponName": "Shortbow",
+      "siteName": "Shortbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 83,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Shotel",
+      "weaponName": "Shotel",
+      "siteName": "Shotel",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 150,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Siluria's Tree",
+      "weaponName": "Siluria's Tree",
+      "siteName": "Siluria's Tree",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 250,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Smithscript Cirque",
+      "weaponName": "Smithscript Cirque",
+      "siteName": "Smithscript Cirque",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 172,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Smithscript Greathammer",
+      "weaponName": "Smithscript Greathammer",
+      "siteName": "Smithscript Greathammer",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 225,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Crystal Knife",
+      "weaponName": "Crystal Knife",
+      "siteName": "Crystal Knife",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 186,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Crystal Spear",
+      "weaponName": "Crystal Spear",
+      "siteName": "Crystal Spear",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 205,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Crystal Sword",
+      "weaponName": "Crystal Sword",
+      "siteName": "Crystal Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 233,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Curseblade's Cirque",
+      "weaponName": "Curseblade's Cirque",
+      "siteName": "Curseblade's Cirque",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 184,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Curved Club",
+      "weaponName": "Curved Club",
+      "siteName": "Curved Club",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 184,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Curved Great Club",
+      "weaponName": "Curved Great Club",
+      "siteName": "Curved Great Club",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 236,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dagger",
+      "weaponName": "Dagger",
+      "siteName": "Dagger",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 129,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dancing Blade of Ranah",
+      "weaponName": "Dancing Blade of Ranah",
+      "siteName": "Dancing Blade of Ranah",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 150,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dane's Footwork",
+      "weaponName": "Dane's Footwork",
+      "siteName": "Dane's Footwork",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 144,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dark Moon Greatsword",
+      "weaponName": "Dark Moon Greatsword",
+      "siteName": "Dark Moon Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 171,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Deadly Poison Perfume Bottle",
+      "weaponName": "Deadly Poison Perfume Bottle",
+      "siteName": "Deadly Poison Perfume Bottle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 143,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Death Knight's Longhaft Axe",
+      "weaponName": "Death Knight's Longhaft Axe",
+      "siteName": "Death Knight's Longhaft Axe",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 250,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Death Knight's Twin Axes",
+      "weaponName": "Death Knight's Twin Axes",
+      "siteName": "Death Knight's Twin Axes",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 227,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Death Ritual Spear",
+      "weaponName": "Death Ritual Spear",
+      "siteName": "Death Ritual Spear",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 229,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Death's Poker",
+      "weaponName": "Death's Poker",
+      "siteName": "Death's Poker",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 241,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Devonia's Hammer",
+      "weaponName": "Devonia's Hammer",
+      "siteName": "Devonia's Hammer",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 296,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Devourer's Scepter",
+      "weaponName": "Devourer's Scepter",
+      "siteName": "Devourer's Scepter",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 275,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dismounter",
+      "weaponName": "Dismounter",
+      "siteName": "Dismounter",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 224,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dragon Greatclaw",
+      "weaponName": "Dragon Greatclaw",
+      "siteName": "Dragon Greatclaw",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 293,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dragon Halberd",
+      "weaponName": "Dragon Halberd",
+      "siteName": "Dragon Halberd",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 222,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dragon King's Cragblade",
+      "weaponName": "Dragon King's Cragblade",
+      "siteName": "Dragon King's Cragblade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 234,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dragon-Hunter's Great Katana",
+      "weaponName": "Dragon-Hunter's Great Katana",
+      "siteName": "Dragon-Hunter's Great Katana",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 236,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dragonscale Blade",
+      "weaponName": "Dragonscale Blade",
+      "siteName": "Dragonscale Blade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 184,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dryleaf Arts",
+      "weaponName": "Dryleaf Arts",
+      "siteName": "Dryleaf Arts",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 144,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Dueling Shield",
+      "weaponName": "Dueling Shield",
+      "siteName": "Dueling Shield",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 204,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Duelist Greataxe",
+      "weaponName": "Duelist Greataxe",
+      "siteName": "Duelist Greataxe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 265,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Smithscript Shield",
+      "weaponName": "Smithscript Shield",
+      "siteName": "Smithscript Shield",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 99,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Smithscript Spear",
+      "weaponName": "Smithscript Spear",
+      "siteName": "Smithscript Spear",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 173,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Soldier's Crossbow",
+      "weaponName": "Soldier's Crossbow",
+      "siteName": "Soldier's Crossbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 54,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Spear",
+      "weaponName": "Spear",
+      "siteName": "Spear",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 178,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Spear of the Impaler",
+      "weaponName": "Spear of the Impaler",
+      "siteName": "Spear of the Impaler",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 245,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Spiked Caestus",
+      "weaponName": "Spiked Caestus",
+      "siteName": "Spiked Caestus",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 153,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Spiked Club",
+      "weaponName": "Spiked Club",
+      "siteName": "Spiked Club",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 196,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Spiked Spear",
+      "weaponName": "Spiked Spear",
+      "siteName": "Spiked Spear",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 186,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Spirit Glaive",
+      "weaponName": "Spirit Glaive",
+      "siteName": "Spirit Glaive",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 232,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Spirit Sword",
+      "weaponName": "Spirit Sword",
+      "siteName": "Spirit Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 198,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Spread Crossbow",
+      "weaponName": "Spread Crossbow",
+      "siteName": "Spread Crossbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 68,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-St. Trina's Torch",
+      "weaponName": "St. Trina's Torch",
+      "siteName": "St. Trina's Torch",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 179,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Star Fist",
+      "weaponName": "Star Fist",
+      "siteName": "Star Fist",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 162,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Star-Lined Sword",
+      "weaponName": "Star-Lined Sword",
+      "siteName": "Star-Lined Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 232,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Starscourge Greatsword",
+      "weaponName": "Starscourge Greatsword",
+      "siteName": "Starscourge Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 298,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Stone Club",
+      "weaponName": "Stone Club",
+      "siteName": "Stone Club",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 204,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Stormhawk Axe",
+      "weaponName": "Stormhawk Axe",
+      "siteName": "Stormhawk Axe",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 215,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Sword Lance",
+      "weaponName": "Sword Lance",
+      "siteName": "Sword Lance",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 204,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Sword of Darkness",
+      "weaponName": "Sword of Darkness",
+      "siteName": "Sword of Darkness",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 235,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Sword of Light",
+      "weaponName": "Sword of Light",
+      "siteName": "Sword of Light",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 235,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Sword of Night",
+      "weaponName": "Sword of Night",
+      "siteName": "Sword of Night",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 212,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Sword of St. Trina",
+      "weaponName": "Sword of St. Trina",
+      "siteName": "Sword of St. Trina",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 196,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Thiollier's Hidden Needle",
+      "weaponName": "Thiollier's Hidden Needle",
+      "siteName": "Thiollier's Hidden Needle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 165,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Thorned Whip",
+      "weaponName": "Thorned Whip",
+      "siteName": "Thorned Whip",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 168,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Tooth Whip",
+      "weaponName": "Tooth Whip",
+      "siteName": "Tooth Whip",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 168,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gargoyle's Black Axe",
+      "weaponName": "Gargoyle's Black Axe",
+      "siteName": "Gargoyle's Black Axe",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 281,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gargoyle's Black Blades",
+      "weaponName": "Gargoyle's Black Blades",
+      "siteName": "Gargoyle's Black Blades",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 237,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gargoyle's Black Halberd",
+      "weaponName": "Gargoyle's Black Halberd",
+      "siteName": "Gargoyle's Black Halberd",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 286,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gargoyle's Blackblade",
+      "weaponName": "Gargoyle's Blackblade",
+      "siteName": "Gargoyle's Blackblade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 285,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gargoyle's Great Axe",
+      "weaponName": "Gargoyle's Great Axe",
+      "siteName": "Gargoyle's Great Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 206,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gargoyle's Greatsword",
+      "weaponName": "Gargoyle's Greatsword",
+      "siteName": "Gargoyle's Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 213,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gargoyle's Halberd",
+      "weaponName": "Gargoyle's Halberd",
+      "siteName": "Gargoyle's Halberd",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 213,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gargoyle's Twinblade",
+      "weaponName": "Gargoyle's Twinblade",
+      "siteName": "Gargoyle's Twinblade",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 193,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Gazing Finger",
+      "weaponName": "Gazing Finger",
+      "siteName": "Gazing Finger",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 299,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ghiza's Wheel",
+      "weaponName": "Ghiza's Wheel",
+      "siteName": "Ghiza's Wheel",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 254,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ghostflame Torch",
+      "weaponName": "Ghostflame Torch",
+      "siteName": "Ghostflame Torch",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 176,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Giant's Red Braid",
+      "weaponName": "Giant's Red Braid",
+      "siteName": "Giant's Red Braid",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 202,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Glaive",
+      "weaponName": "Glaive",
+      "siteName": "Glaive",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 219,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Glintstone Kris",
+      "weaponName": "Glintstone Kris",
+      "siteName": "Glintstone Kris",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 163,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Godskin Peeler",
+      "weaponName": "Godskin Peeler",
+      "siteName": "Godskin Peeler",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 192,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Godskin Stitcher",
+      "weaponName": "Godskin Stitcher",
+      "siteName": "Godskin Stitcher",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 207,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Godslayer's Greatsword",
+      "weaponName": "Godslayer's Greatsword",
+      "siteName": "Godslayer's Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 290,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Golden Epitaph",
+      "weaponName": "Golden Epitaph",
+      "siteName": "Golden Epitaph",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 225,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Golden Halberd",
+      "weaponName": "Golden Halberd",
+      "siteName": "Golden Halberd",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 301,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Golden Lion Shield",
+      "weaponName": "Golden Lion Shield",
+      "siteName": "Golden Lion Shield",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 140,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Golden Order Greatsword",
+      "weaponName": "Golden Order Greatsword",
+      "siteName": "Golden Order Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 249,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Golem Greatbow",
+      "weaponName": "Golem Greatbow",
+      "siteName": "Golem Greatbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 203,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Golem's Halberd",
+      "weaponName": "Golem's Halberd",
+      "siteName": "Golem's Halberd",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 257,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Grafted Blade Greatsword",
+      "weaponName": "Grafted Blade Greatsword",
+      "siteName": "Grafted Blade Greatsword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 261,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Grafted Dragon",
+      "weaponName": "Grafted Dragon",
+      "siteName": "Grafted Dragon",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 198,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Grave Scythe",
+      "weaponName": "Grave Scythe",
+      "siteName": "Grave Scythe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 221,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Inquisitor's Girandole",
+      "weaponName": "Inquisitor's Girandole",
+      "siteName": "Inquisitor's Girandole",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 239,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Iron Ball",
+      "weaponName": "Iron Ball",
+      "siteName": "Iron Ball",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 158,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Iron Cleaver",
+      "weaponName": "Iron Cleaver",
+      "siteName": "Iron Cleaver",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 211,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Iron Greatsword",
+      "weaponName": "Iron Greatsword",
+      "siteName": "Iron Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 232,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Iron Spear",
+      "weaponName": "Iron Spear",
+      "siteName": "Iron Spear",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 179,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ivory Sickle",
+      "weaponName": "Ivory Sickle",
+      "siteName": "Ivory Sickle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 169,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Jar Cannon",
+      "weaponName": "Jar Cannon",
+      "siteName": "Jar Cannon",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 192,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Jawbone Axe",
+      "weaponName": "Jawbone Axe",
+      "siteName": "Jawbone Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 209,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Katar",
+      "weaponName": "Katar",
+      "siteName": "Katar",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 151,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Knight's Greatsword",
+      "weaponName": "Knight's Greatsword",
+      "siteName": "Knight's Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 222,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lamenting Visage",
+      "weaponName": "Lamenting Visage",
+      "siteName": "Lamenting Visage",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 122,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lance",
+      "weaponName": "Lance",
+      "siteName": "Lance",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 206,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Large Club",
+      "weaponName": "Large Club",
+      "siteName": "Large Club",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 203,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lazuli Glintstone Sword",
+      "weaponName": "Lazuli Glintstone Sword",
+      "siteName": "Lazuli Glintstone Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 219,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Leda's Sword",
+      "weaponName": "Leda's Sword",
+      "siteName": "Leda's Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 230,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Light Crossbow",
+      "weaponName": "Light Crossbow",
+      "siteName": "Light Crossbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 58,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lightning Perfume Bottle",
+      "weaponName": "Lightning Perfume Bottle",
+      "siteName": "Lightning Perfume Bottle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 173,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lion Greatbow",
+      "weaponName": "Lion Greatbow",
+      "siteName": "Lion Greatbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 175,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lizard Greatsword",
+      "weaponName": "Lizard Greatsword",
+      "siteName": "Lizard Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 219,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Longbow",
+      "weaponName": "Longbow",
+      "siteName": "Longbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 110,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Longhaft Axe",
+      "weaponName": "Longhaft Axe",
+      "siteName": "Longhaft Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 243,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Longsword",
+      "weaponName": "Longsword",
+      "siteName": "Longsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 178,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lordsworn's Greatsword",
+      "weaponName": "Lordsworn's Greatsword",
+      "siteName": "Lordsworn's Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 217,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lordsworn's Straight Sword",
+      "weaponName": "Lordsworn's Straight Sword",
+      "siteName": "Lordsworn's Straight Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 177,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Loretta's War Sickle",
+      "weaponName": "Loretta's War Sickle",
+      "siteName": "Loretta's War Sickle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 262,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Lucerne",
+      "weaponName": "Lucerne",
+      "siteName": "Lucerne",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 202,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Mace",
+      "weaponName": "Mace",
+      "siteName": "Mace",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 192,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Magma Blade",
+      "weaponName": "Magma Blade",
+      "siteName": "Magma Blade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 225,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Magma Whip Candlestick",
+      "weaponName": "Magma Whip Candlestick",
+      "siteName": "Magma Whip Candlestick",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 201,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Magma Wyrm's Scalesword",
+      "weaponName": "Magma Wyrm's Scalesword",
+      "siteName": "Magma Wyrm's Scalesword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 282,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Alabaster Lord's Sword",
+      "weaponName": "Alabaster Lord's Sword",
+      "siteName": "Alabaster Lord's Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 246,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Albinauric Bow",
+      "weaponName": "Albinauric Bow",
+      "siteName": "Albinauric Bow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 114,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ansbach's Longbow",
+      "weaponName": "Ansbach's Longbow",
+      "siteName": "Ansbach's Longbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 101,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Antspur Rapier",
+      "weaponName": "Antspur Rapier",
+      "siteName": "Antspur Rapier",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 161,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Backhand Blade",
+      "weaponName": "Backhand Blade",
+      "siteName": "Backhand Blade",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 183,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Banished Knight's Greatsword",
+      "weaponName": "Banished Knight's Greatsword",
+      "siteName": "Banished Knight's Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 227,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bastard Sword",
+      "weaponName": "Bastard Sword",
+      "siteName": "Bastard Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 222,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bastard's Stars",
+      "weaponName": "Bastard's Stars",
+      "siteName": "Bastard's Stars",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 206,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Battle Axe",
+      "weaponName": "Battle Axe",
+      "siteName": "Battle Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 205,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Battle Hammer",
+      "weaponName": "Battle Hammer",
+      "siteName": "Battle Hammer",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 222,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Beast Claw",
+      "weaponName": "Beast Claw",
+      "siteName": "Beast Claw",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 160,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Beastclaw Greathammer",
+      "weaponName": "Beastclaw Greathammer",
+      "siteName": "Beastclaw Greathammer",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 273,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Beastman's Cleaver",
+      "weaponName": "Beastman's Cleaver",
+      "siteName": "Beastman's Cleaver",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 224,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Beastman's Curved Sword",
+      "weaponName": "Beastman's Curved Sword",
+      "siteName": "Beastman's Curved Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 183,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Black Knife",
+      "weaponName": "Black Knife",
+      "siteName": "Black Knife",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 175,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Black Steel Greathammer",
+      "weaponName": "Black Steel Greathammer",
+      "siteName": "Black Steel Greathammer",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 261,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Black Steel Greatshield",
+      "weaponName": "Black Steel Greatshield",
+      "siteName": "Black Steel Greatshield",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 163,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Black Steel Twinblade",
+      "weaponName": "Black Steel Twinblade",
+      "siteName": "Black Steel Twinblade",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 216,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bloodfiend's Arm",
+      "weaponName": "Bloodfiend's Arm",
+      "siteName": "Bloodfiend's Arm",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 231,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bloodfiend's Fork",
+      "weaponName": "Bloodfiend's Fork",
+      "siteName": "Bloodfiend's Fork",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 154,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bloodfiend's Sacred Spear",
+      "weaponName": "Bloodfiend's Sacred Spear",
+      "siteName": "Bloodfiend's Sacred Spear",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 171,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bloodhound Claws",
+      "weaponName": "Bloodhound Claws",
+      "siteName": "Bloodhound Claws",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 156,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bloodstained Dagger",
+      "weaponName": "Bloodstained Dagger",
+      "siteName": "Bloodstained Dagger",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 135,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bloody Helice",
+      "weaponName": "Bloody Helice",
+      "siteName": "Bloody Helice",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 190,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bone Bow",
+      "weaponName": "Bone Bow",
+      "siteName": "Bone Bow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 87,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Bonny Butchering Knife",
+      "weaponName": "Bonny Butchering Knife",
+      "siteName": "Bonny Butchering Knife",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 224,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Brick Hammer",
+      "weaponName": "Brick Hammer",
+      "siteName": "Brick Hammer",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 209,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Butchering Knife",
+      "weaponName": "Butchering Knife",
+      "siteName": "Butchering Knife",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 222,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Cane Sword",
+      "weaponName": "Cane Sword",
+      "siteName": "Cane Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 150,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Carian Knight's Sword",
+      "weaponName": "Carian Knight's Sword",
+      "siteName": "Carian Knight's Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 231,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Celebrant's Cleaver",
+      "weaponName": "Celebrant's Cleaver",
+      "siteName": "Celebrant's Cleaver",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 200,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Celebrant's Sickle",
+      "weaponName": "Celebrant's Sickle",
+      "siteName": "Celebrant's Sickle",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 127,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Celebrant's Skull",
+      "weaponName": "Celebrant's Skull",
+      "siteName": "Celebrant's Skull",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 224,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Chainlink Flail",
+      "weaponName": "Chainlink Flail",
+      "siteName": "Chainlink Flail",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 188,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Chilling Perfume Bottle",
+      "weaponName": "Chilling Perfume Bottle",
+      "siteName": "Chilling Perfume Bottle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 164,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Cinquedea",
+      "weaponName": "Cinquedea",
+      "siteName": "Cinquedea",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 152,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Clayman's Harpoon",
+      "weaponName": "Clayman's Harpoon",
+      "siteName": "Clayman's Harpoon",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 221,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Claymore",
+      "weaponName": "Claymore",
+      "siteName": "Claymore",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 223,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Cleanrot Knight's Sword",
+      "weaponName": "Cleanrot Knight's Sword",
+      "siteName": "Cleanrot Knight's Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 170,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Cleanrot Spear",
+      "weaponName": "Cleanrot Spear",
+      "siteName": "Cleanrot Spear",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 230,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Clinging Bone",
+      "weaponName": "Clinging Bone",
+      "siteName": "Clinging Bone",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 166,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Club",
+      "weaponName": "Club",
+      "siteName": "Club",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 160,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Coded Sword",
+      "weaponName": "Coded Sword",
+      "siteName": "Coded Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 128,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Commander's Standard",
+      "weaponName": "Commander's Standard",
+      "siteName": "Commander's Standard",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 225,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Composite Bow",
+      "weaponName": "Composite Bow",
+      "siteName": "Composite Bow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 87,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Cranial Vessel Candlestand",
+      "weaponName": "Cranial Vessel Candlestand",
+      "siteName": "Cranial Vessel Candlestand",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 276,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Crescent Moon Axe",
+      "weaponName": "Crescent Moon Axe",
+      "siteName": "Crescent Moon Axe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 242,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Eclipse Shotel",
+      "weaponName": "Eclipse Shotel",
+      "siteName": "Eclipse Shotel",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 204,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Eleonora's Poleblade",
+      "weaponName": "Eleonora's Poleblade",
+      "siteName": "Eleonora's Poleblade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 192,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Envoy's Greathorn",
+      "weaponName": "Envoy's Greathorn",
+      "siteName": "Envoy's Greathorn",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 298,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Envoy's Horn",
+      "weaponName": "Envoy's Horn",
+      "siteName": "Envoy's Horn",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 228,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Envoy's Long Horn",
+      "weaponName": "Envoy's Long Horn",
+      "siteName": "Envoy's Long Horn",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 281,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Erdsteel Dagger",
+      "weaponName": "Erdsteel Dagger",
+      "siteName": "Erdsteel Dagger",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 105,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Erdtree Bow",
+      "weaponName": "Erdtree Bow",
+      "siteName": "Erdtree Bow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 105,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Erdtree Greatbow",
+      "weaponName": "Erdtree Greatbow",
+      "siteName": "Erdtree Greatbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 151,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Estoc",
+      "weaponName": "Estoc",
+      "siteName": "Estoc",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 166,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Euporia",
+      "weaponName": "Euporia",
+      "siteName": "Euporia",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 236,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Executioner's Greataxe",
+      "weaponName": "Executioner's Greataxe",
+      "siteName": "Executioner's Greataxe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 235,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Falchion",
+      "weaponName": "Falchion",
+      "siteName": "Falchion",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 180,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Fallingstar Beast Jaw",
+      "weaponName": "Fallingstar Beast Jaw",
+      "siteName": "Fallingstar Beast Jaw",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 305,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Family Heads",
+      "weaponName": "Family Heads",
+      "siteName": "Family Heads",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 221,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Fire Knight's Greatsword",
+      "weaponName": "Fire Knight's Greatsword",
+      "siteName": "Fire Knight's Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 278,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Firespark Perfume Bottle",
+      "weaponName": "Firespark Perfume Bottle",
+      "siteName": "Firespark Perfume Bottle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 188,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Flail",
+      "weaponName": "Flail",
+      "siteName": "Flail",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 184,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Flamberge",
+      "weaponName": "Flamberge",
+      "siteName": "Flamberge",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 213,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Flowerstone Gavel",
+      "weaponName": "Flowerstone Gavel",
+      "siteName": "Flowerstone Gavel",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 198,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Flowing Curved Sword",
+      "weaponName": "Flowing Curved Sword",
+      "siteName": "Flowing Curved Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 174,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Forked Greatsword",
+      "weaponName": "Forked Greatsword",
+      "siteName": "Forked Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 203,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Forked Hatchet",
+      "weaponName": "Forked Hatchet",
+      "siteName": "Forked Hatchet",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 188,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Forked-Tongue Hatchet",
+      "weaponName": "Forked-Tongue Hatchet",
+      "siteName": "Forked-Tongue Hatchet",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 198,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Frenzyflame Perfume Bottle",
+      "weaponName": "Frenzyflame Perfume Bottle",
+      "siteName": "Frenzyflame Perfume Bottle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 177,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Freyja's Greatsword",
+      "weaponName": "Freyja's Greatsword",
+      "siteName": "Freyja's Greatsword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 222,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Frozen Needle",
+      "weaponName": "Frozen Needle",
+      "siteName": "Frozen Needle",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 150,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Full Moon Crossbow",
+      "weaponName": "Full Moon Crossbow",
+      "siteName": "Full Moon Crossbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 100,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ornamental Straight Sword",
+      "weaponName": "Ornamental Straight Sword",
+      "siteName": "Ornamental Straight Sword",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 157,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Parrying Dagger",
+      "weaponName": "Parrying Dagger",
+      "siteName": "Parrying Dagger",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 126,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Partisan",
+      "weaponName": "Partisan",
+      "siteName": "Partisan",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 187,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Pata",
+      "weaponName": "Pata",
+      "siteName": "Pata",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 157,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Pest's Glaive",
+      "weaponName": "Pest's Glaive",
+      "siteName": "Pest's Glaive",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 205,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Pickaxe",
+      "weaponName": "Pickaxe",
+      "siteName": "Pickaxe",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 230,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Pike",
+      "weaponName": "Pike",
+      "siteName": "Pike",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 183,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Poisoned Hand",
+      "weaponName": "Poisoned Hand",
+      "siteName": "Poisoned Hand",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 106,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Poleblade of the Bud",
+      "weaponName": "Poleblade of the Bud",
+      "siteName": "Poleblade of the Bud",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 187,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Prelate's Inferno Crozier",
+      "weaponName": "Prelate's Inferno Crozier",
+      "siteName": "Prelate's Inferno Crozier",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 256,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Pulley Bow",
+      "weaponName": "Pulley Bow",
+      "siteName": "Pulley Bow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 111,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Pulley Crossbow",
+      "weaponName": "Pulley Crossbow",
+      "siteName": "Pulley Crossbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 65,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Putrescence Cleaver",
+      "weaponName": "Putrescence Cleaver",
+      "siteName": "Putrescence Cleaver",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 269,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rabbath's Cannon",
+      "weaponName": "Rabbath's Cannon",
+      "siteName": "Rabbath's Cannon",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 270,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rakshasa's Great Katana",
+      "weaponName": "Rakshasa's Great Katana",
+      "siteName": "Rakshasa's Great Katana",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 243,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rapier",
+      "weaponName": "Rapier",
+      "siteName": "Rapier",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 153,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Raptor Talons",
+      "weaponName": "Raptor Talons",
+      "siteName": "Raptor Talons",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 138,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Red Bear's Claw",
+      "weaponName": "Red Bear's Claw",
+      "siteName": "Red Bear's Claw",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 166,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Red Branch Shortbow",
+      "weaponName": "Red Branch Shortbow",
+      "siteName": "Red Branch Shortbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 86,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Reduvia",
+      "weaponName": "Reduvia",
+      "siteName": "Reduvia",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 128,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rellana's Twin Blades",
+      "weaponName": "Rellana's Twin Blades",
+      "siteName": "Rellana's Twin Blades",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 316,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Repeating Crossbow",
+      "weaponName": "Repeating Crossbow",
+      "siteName": "Repeating Crossbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 74,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ringed Finger",
+      "weaponName": "Ringed Finger",
+      "siteName": "Ringed Finger",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 198,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ripple Blade",
+      "weaponName": "Ripple Blade",
+      "siteName": "Ripple Blade",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 130,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Ripple Crescent Halberd",
+      "weaponName": "Ripple Crescent Halberd",
+      "siteName": "Ripple Crescent Halberd",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 140,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rogier's Rapier",
+      "weaponName": "Rogier's Rapier",
+      "siteName": "Rogier's Rapier",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 156,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rosus' Axe",
+      "weaponName": "Rosus' Axe",
+      "siteName": "Rosus' Axe",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 261,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rotten Battle Hammer",
+      "weaponName": "Rotten Battle Hammer",
+      "siteName": "Rotten Battle Hammer",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 214,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41261521809-Rotten Crystal Spear",
+      "weaponName": "Rotten Crystal Spear",
+      "siteName": "Rotten Crystal Spear",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 60,
+        "dex": 60,
+        "int": 30,
+        "fai": 30,
+        "arc": 30
+      },
+      "observedTotalAr": 194,
+      "sourceRun": 41261521809,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Crepus's Black-key Crossbow",
+      "weaponName": "Crepus's Black-key Crossbow",
+      "siteName": "Crepus's Black-Key Crossbow",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 68,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Cross-naginata",
+      "weaponName": "Cross-naginata",
+      "siteName": "Cross-Naginata",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 220,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Giant-crusher",
+      "weaponName": "Giant-crusher",
+      "siteName": "Giant-Crusher",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 282,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Axe Of Godfrey",
+      "weaponName": "Axe Of Godfrey",
+      "siteName": "Axe of Godfrey",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 286,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Axe Of Godrick",
+      "weaponName": "Axe Of Godrick",
+      "siteName": "Axe of Godrick",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 261,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Beast-repellent Torch",
+      "weaponName": "Beast-repellent Torch",
+      "siteName": "Beast-Repellent Torch",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 205,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Blade Of Calling",
+      "weaponName": "Blade Of Calling",
+      "siteName": "Blade of Calling",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 188,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Bolt Of Gransax",
+      "weaponName": "Bolt Of Gransax",
+      "siteName": "Bolt of Gransax",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 251,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Celebrant's Rib-rake",
+      "weaponName": "Celebrant's Rib-rake",
+      "siteName": "Celebrant's Rib-Rake",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 189,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Serpent-hunter",
+      "weaponName": "Serpent-hunter",
+      "siteName": "Serpent-Hunter",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 216,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Staff Of The Avatar",
+      "weaponName": "Staff Of The Avatar",
+      "siteName": "Staff of the Avatar",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 334,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Steel-wire Torch",
+      "weaponName": "Steel-wire Torch",
+      "siteName": "Steel-Wire Torch",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 228,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Sword Of Milos",
+      "weaponName": "Sword Of Milos",
+      "siteName": "Sword of Milos",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 249,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Sword Of Night And Flame",
+      "weaponName": "Sword Of Night And Flame",
+      "siteName": "Sword of Night and Flame",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 278,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Varré's Bouquet",
+      "weaponName": "Varré's Bouquet",
+      "siteName": "Varre's Bouquet",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 96,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Wing Of Astel",
+      "weaponName": "Wing Of Astel",
+      "siteName": "Wing of Astel",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 220,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Hand Of Malenia",
+      "weaponName": "Hand Of Malenia",
+      "siteName": "Hand of Malenia",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 206,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Miséricorde",
+      "weaponName": "Miséricorde",
+      "siteName": "Misericorde",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 149,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Regalia Of Eochaid",
+      "weaponName": "Regalia Of Eochaid",
+      "siteName": "Regalia of Eochaid",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 242,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Rivers Of Blood",
+      "weaponName": "Rivers Of Blood",
+      "siteName": "Rivers of Blood",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 244,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Scepter Of The All-knowing",
+      "weaponName": "Scepter Of The All-knowing",
+      "siteName": "Scepter of the All-Knowing",
+      "affinity": "None",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 256,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    },
+    {
+      "id": "source-41262468777-Serpent-god's Curved Sword",
+      "weaponName": "Serpent-god's Curved Sword",
+      "siteName": "Serpent-God's Curved Sword",
+      "affinity": "Standard",
+      "upgrade": 0,
+      "somber": 0,
+      "twoHanded": false,
+      "playerStats": {
+        "str": 99,
+        "dex": 99,
+        "int": 99,
+        "fai": 99,
+        "arc": 99
+      },
+      "observedTotalAr": 193,
+      "sourceRun": 41262468777,
+      "verifiedInputsTwice": true,
+      "readoutSource": "public-rendered-UI"
+    }
+  ]
+}

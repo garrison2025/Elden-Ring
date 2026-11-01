@@ -1,0 +1,33 @@
+name: Independently compare 348 direct v1.17 weapon AR observations
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/tarnished-v117-weight-probe-ar-observations.json
+      - scripts/audit-tarnished-v117-expanded-ar.mjs
+      - tests/tarnished-v117-expanded-ar.test.mjs
+      - .github/workflows/tarnished-expanded-ar.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare-public-v117-ar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Independently calculate each observed +0 AR with pinned public v1.17 source
+        run: node scripts/audit-tarnished-v117-expanded-ar.mjs
+      - name: Regression-check 86 previously approved direct v1.17 AR cases against same pinned source
+        run: node scripts/audit-v117-pinned.mjs
+      - name: Archive item-by-item AR comparison, including mismatches and blockers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-public-348-ar-independent-comparison
+          path: .audit/tarnished-v117-expanded-ar-check.json
+          retention-days: 30
+          if-no-files-found: warn
