@@ -102,3 +102,79 @@ test('Build page explicitly shows blocked loadouts and unmatched multi-effect ev
   'Combined talisman effects not source-verified for these inputs'
  ])assert.ok(js.includes(s),s);
 });
+
+test('documented upgrade tiers and named alternate variants cannot yield a wearable equip load',()=>{
+ const cases=[
+  [
+    "Erdtree's Favor",
+    "Erdtree's Favor +2",
+    "Erdtree's Favor upgrade variants"
+  ],
+  [
+    "Arsenal Charm",
+    "Great-Jar's Arsenal",
+    "Arsenal load-boost variants"
+  ],
+  [
+    "Crimson Amber Medallion +1",
+    "Crimson Amber Medallion +3",
+    "Crimson Amber Medallion upgrade variants"
+  ],
+  [
+    "Cerulean Amber Medallion",
+    "Cerulean Amber Medallion +2",
+    "Cerulean Amber Medallion upgrade variants"
+  ],
+  [
+    "Viridian Amber Medallion +1",
+    "Viridian Amber Medallion +3",
+    "Viridian Amber Medallion upgrade variants"
+  ],
+  [
+    "Dragoncrest Shield Talisman +2",
+    "Dragoncrest Greatshield Talisman",
+    "Dragoncrest physical-defense variants"
+  ],
+  [
+    "Warrior Jar Shard",
+    "Shard of Alexander",
+    "Alexander shard variants"
+  ],
+  [
+    "Crimson Seed Talisman",
+    "Crimson Seed Talisman +1",
+    "Crimson Seed upgrade variants"
+  ],
+  [
+    "Cerulean Seed Talisman",
+    "Cerulean Seed Talisman +1",
+    "Cerulean Seed upgrade variants"
+  ]
+];
+ for(const [a,b,family] of cases){
+  for(const names of [[a,b],[b,a]]){
+   const x=evaluate(...names);
+   assert.equal(x.compatibility.status,'UNWEARABLE',names.join(' + '));
+   assert.equal(x.compatibility.conflicts.length,1);
+   assert.equal(x.compatibility.conflicts[0].family,family);
+   assert.equal(x.compatibility.conflicts[0].evidence,'independent-documentation-only');
+   assert.equal(x.exactTotal,null);
+   assert.equal(x.tier,null);
+   assert.ok(x.unknowns.some(v=>v.slot==='Talisman compatibility'));
+  }
+ }
+});
+
+test('upgrade-family detection catches three variants once without making cross-family false positives',()=>{
+ const conflict=review(["Erdtree's Favor","Erdtree's Favor +1","Erdtree's Favor +2",'']);
+ assert.equal(conflict.conflicts.length,1);
+ assert.deepEqual(conflict.conflicts[0].names,["Erdtree's Favor","Erdtree's Favor +1","Erdtree's Favor +2"]);
+ for(const names of [
+  ["Great-Jar's Arsenal","Erdtree's Favor +2"],
+  ["Crimson Amber Medallion +2","Cerulean Amber Medallion +3"],
+  ["Radagon's Soreseal","Marika's Soreseal"],
+  ['Warrior Jar Shard','Silver Scarab']
+ ]){
+  assert.equal(evaluate(...names).compatibility.status,'NO_DOCUMENTED_CONFLICT',names.join(' + '));
+ }
+});
