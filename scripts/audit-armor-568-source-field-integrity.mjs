@@ -26,7 +26,9 @@ for(const [i,armor] of armors.entries()){
  for(const [metric,stat] of Object.entries(metrics)){
   const val=armor.metrics[metric];
   if(val===null){stat.missing++;continue;}
-  if(!Number.isFinite(val)||val<0||ARMOR_METRICS[metric].kind==='resistance'&&!Number.isInteger(val)){
+  if(!Number.isFinite(val)||
+   (ARMOR_METRICS[metric].kind==='negation'?(val< -99||val>99):
+    (val<0||val>800||!Number.isInteger(val)))){
    stat.invalid++;continue;
   }
   stat.sourceKnown++;
