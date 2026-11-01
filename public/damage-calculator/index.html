@@ -70,6 +70,19 @@
 </section>
 </aside>
 </div>
+<section class="panel" id="damage-v117-source-audit" aria-labelledby="damage-v117-source-audit-title">
+<h2 id="damage-v117-source-audit-title">Tarnished.dev v1.17 · directly observed damage result rows</h2>
+<p class="note"><strong>Reference-only:</strong> real browser outputs, read in two independent sessions. This is not the manual damage model above and does not establish our independent DPS calculation. Exact Wretch baseline: others 10, unbuffed, one-handed Uchigatana Standard +25, site Default enemy and NG.</p>
+<label class="field" for="damage-v117-scene">Select actual public-site scenario
+<select id="damage-v117-scene"><option value="15,20">STR 15 / DEX 20</option>
+<option value="20,20">STR 20 / DEX 20</option><option value="15,25">STR 15 / DEX 25</option></select></label>
+<div class="metric-grid"><div class="metric"><div class="metric-label">Observed AR</div><strong id="damage-v117-ar">—</strong></div>
+<div class="metric"><div class="metric-label">Observed DPS · Single</div><strong id="damage-v117-single">—</strong></div>
+<div class="metric"><div class="metric-label">Observed DPS · Paired</div><strong id="damage-v117-paired">—</strong></div></div>
+<p id="damage-v117-evidence-status" class="note" role="status" aria-live="polite">Loading source observations…</p>
+<p class="note">The reference also lists poise 5. Results for another weapon, enhancement, character, buff, enemy or moveset are <strong>not observed</strong> in this reference panel; the manual calculator above remains separately labelled as an estimate.</p>
+<a href="../spell-calculator/">View the three independently observed spell reference scenarios ↗</a>
+</section>
 <section class="panel damage-method">
 <h2>How this preview works</h2>
 <p><strong>For each damage type:</strong> Attack Rating × selected motion value × user-entered multiplier → defense-ratio attenuation → enemy percentage negation. The five remaining amounts are added for damage per hit; estimated DPS multiplies by the user's attacks-per-second value.</p>
