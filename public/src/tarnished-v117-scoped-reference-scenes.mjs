@@ -1,7 +1,7 @@
 /**
  * Twice-observed actual PUBLIC Tarnished.dev v1.17 rendered result rows.
  * Reference RESULT LOOKUPS only. This is NOT an independent DPS or spell formula.
- * Same-input runs: https://github.com/garrison2025/Elden-Ring/actions/runs/41297001066
+ * Same-input runs: https://github.com/garrison2025/Elden-Ring/actions/runs/41297001066\n * 17-point overlap-verified direct Chromium sweep: https://github.com/garrison2025/Elden-Ring/actions/runs/41362826940
  * Strictly limit to exactly tested scenarios; never interpolate or extrapolate.
  */
 export const V117_UCHIGATANA_DAMAGE_ROWS=Object.freeze([
@@ -18,7 +18,16 @@ export const V117_PEBBLE_STAFF_ROWS=Object.freeze([
  Object.freeze({int:45,magic:338,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:50,magic:363,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:55,magic:386,bullets:1,fp:7,intRequirement:10}),
- Object.freeze({int:60,magic:410,bullets:1,fp:7,intRequirement:10})
+ Object.freeze({int:60,magic:410,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:65,magic:424,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:70,magic:438,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:75,magic:451,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:80,magic:465,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:85,magic:475,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:90,magic:484,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:95,magic:494,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:98,magic:499,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:99,magic:502,bullets:1,fp:7,intRequirement:10}),
 ]);
 const integer=n=>Number.isInteger(n)&&n>=1&&n<=99;
 export function exactPublicUchigatanaDamage({origin='Wretch',str,dex,otherStats=[10,10,10],weapon='Uchigatana',
@@ -43,7 +52,7 @@ export function exactPublicPebbleSpell({origin='Wretch',int,otherStats=[10,10,10
   return {status:'NOT_OBSERVED',reference:null};
  const row=V117_PEBBLE_STAFF_ROWS.find(x=>x.int===int);
  return row?{status:'REFERENCE_UI_OBSERVED_TWICE',reference:row,
-  source:'Tarnished.dev public v1.17 Spell result table; two independent Chromium reads per row. INT20/35/45/55: workflow 41362855674; INT50/60: 41361280757; INT25/30/40: 41297001066',
+  source:'Tarnished.dev public v1.17 Spell result table; two independent Chromium reads per row. INT20: workflow 41362855674; INT25/30/35/40/45/50/55/60/65/70/75/80/85/90/95/98/99: double-read 41362826940 (prior subset also 41297001066, 41361280757, 41362855674)',
   caveat:'A twice-observed reference result, NOT an independently calculated spell multiplier. No interpolation or new catalyst/spell combinations.'}:
   {status:'NOT_OBSERVED',reference:null};
 }
