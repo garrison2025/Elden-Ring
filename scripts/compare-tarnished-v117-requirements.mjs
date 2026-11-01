@@ -6,11 +6,12 @@
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {getRequirementsShard} from './tarnished-v117-requirement-candidates.mjs';
+import {getRequirementsShard,getArGapRequirementShard} from './tarnished-v117-requirement-candidates.mjs';
 import {downloadV117Source} from '../public/src/upstream-regulation-v117.mjs';
 import {buildV117CatalogOverlay} from '../public/src/v117-catalog-overlay.mjs';
 const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
-const wanted=getRequirementsShard(index);
+const targeted=process.env.TARNISHED_REQUIREMENT_TARGET==='ar-gap';
+const wanted=targeted?getArGapRequirementShard(index):getRequirementsShard(index);
 const arraysEqual=(a,b)=>Array.isArray(a)&&Array.isArray(b)&&
  a.length===b.length&&a.every((x,i)=>x===b[i]);
 function compareRounds(first,second,catalog,source){
@@ -63,5 +64,7 @@ async function run(){
    x.differsCommunity===true)
   console.log('[DIRECT REQ ROW] '+JSON.stringify(x));
  if(out.counts.total!==wanted.length)throw Error('Incomplete requirements shard');
+ if(targeted&&(out.counts.disagreePinned!==0||out.counts.sourceUnavailable!==0))
+  throw Error('Targeted browser Req disagrees with pinned v1.17 or has missing source');
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))await run();
