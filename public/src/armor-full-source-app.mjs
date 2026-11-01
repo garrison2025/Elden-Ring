@@ -1,3 +1,4 @@
+import {comparePoiseResultToPublicReference,V117_ARMOR_POISE_REFERENCE} from './tarnished-v117-scoped-reference-scenes.mjs';
 import {siteVerifiedArmorSubset} from './tarnished-armor-eligibility.mjs';
 import {weightedVerifiedArmorSubset} from './armor-weighted-optimizer.mjs';
 import {ARMOR_METRICS} from './armor-source-optin.mjs';
@@ -112,6 +113,7 @@ $('armor-full-load').addEventListener('click',async()=>{
    missing+' items lack valid source Poise. For any chosen objective, missing metric rows are independently excluded. '+
    'Values and item availability are not current-game certified.');
   $('armor-full-run').disabled=false;button.hidden=true;
+  $('armor-v117-apply-first').disabled=false;
  }catch(error){button.disabled=false;status('Source unavailable: '+error.message+'. Manual optimizer remains usable.',true);}
 });
 $('armor-full-run').addEventListener('click',()=>{
@@ -155,6 +157,29 @@ worker?.addEventListener('message',event=>{
  if(m.op==='error'){status('Exact source optimization blocked: '+m.message,true);return;}
  if(m.op!=='result')return;
  const r=m.result;
+ const compare=$('armor-v117-reference-comparison');
+ compare.dataset.state='unverified';
+ if(!weightedMode()&&$('armor-v117-confirm-wretch').checked&&
+    $('armor-full-site-only').checked&&r.status!=='no-solution'){
+  const locks=slotRestrictions();
+  const difference=comparePoiseResultToPublicReference({
+   maxEquipLoad:$('maxLoad').value,reservedWeight:$('reservedWeight').value,
+   tier:$('targetTier').value,minPoise:Number($('minPoise').value),
+   metric:$('armor-full-metric').value,poise:r.poise,combination:r.combination,
+   excludedIds:parseExclude(),...locks
+  });
+  if(difference.reference){
+   compare.textContent='Same-input v1.17 public maximum Poise = '+
+    difference.reference.maximumPoise+'; local = '+r.poise+'. '+difference.status+
+    (difference.listedReferenceRank?' · local set appears in observed reference top rows at position '+difference.listedReferenceRank+'. ':' · The exact four-piece and tie-ranked order are not established as identical. ')+
+    difference.warning;
+   compare.dataset.state=difference.status.includes('MISMATCH')?'error':'ready';
+  }else{
+   compare.textContent='Reference scenario not identical: the benchmark requires unmodified slots/exclusions, maximum load 48.176, reserved 0, normal roll, minimum Poise 0, and Poise-only objective.';
+  }
+ }else{
+  compare.textContent='No same-input optimizer parity asserted. Confirm the Wretch10 reference scene and site-verified Poise-only data to compare maximum Poise.';
+ }
  $('armor-full-rows').replaceChildren();
  $('armor-full-results').hidden=false;
  if(r.status==='no-solution'){
@@ -195,6 +220,32 @@ worker?.addEventListener('message',event=>{
  status('Exact local '+r.metricLabel+' optimization completed in Worker. '+
   r.stages.map(x=>x.slot+': '+x.stateCount+' states').join(' · ')+
   '. Search outputs require an independent same-input comparison before being labeled Tarnished.dev optimizer parity.');
+});
+$('armor-v117-confirm-wretch').addEventListener('change',invalidate);
+$('armor-v117-apply-first').addEventListener('click',()=>{
+ if(!armors)return;
+ const first=V117_ARMOR_POISE_REFERENCE.ranked[0];
+ const selected={Head:first.head,Chest:first.chest,Arms:first.arms,Legs:first.legs};
+ // Deliberate click: this replaces the previous four slot locks and objective
+ // with the precisely observed site rank-one equipment, not its algorithm.
+ $('maxLoad').value='48.176';$('reservedWeight').value='0';
+ $('targetTier').value='medium';$('minPoise').value='0';
+ $('armor-full-mode').value='single';$('armor-full-metric').value='poise';
+ $('armor-full-site-only').checked=true;
+ $('armor-full-exclude').value='';
+ $('armor-v117-confirm-wretch').checked=true;
+ for(const slot of slotNames){
+  const matches=armors.filter(x=>x.name===selected[slot]&&x.slot===slot);
+  if(matches.length!==1){status('Reference piece missing from loaded armor dataset: '+selected[slot],true);return;}
+  const ctrl=$(slotId(slot));
+  if(![...ctrl.options].some(x=>x.value===matches[0].id)){
+   status('Reference piece cannot be selected in '+slot,true);return;
+  }
+ }
+ for(const slot of slotNames)$(slotId(slot)).value=armors.find(x=>x.slot===slot&&x.name===selected[slot]).id;
+ toggleMode();
+ invalidate();
+ $('armor-full-run').click();
 });
 $('armor-full-site-only').addEventListener('change',invalidate);
 for(const id of ['maxLoad','reservedWeight','targetTier','minPoise','armor-full-exclude','armor-full-metric',
