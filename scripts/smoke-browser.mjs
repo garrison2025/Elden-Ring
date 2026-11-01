@@ -172,7 +172,19 @@ try{
   ['1,450','173','121','72'],'Real browser base Wretch VIG40/MND30/END25 must match v1.17 UI');
  assert.match(await evaluate("document.querySelector('#base-vitals-note').textContent"),
   /not itself independently checked/,'Exact combined build remains unverified even though curves are site-read');
+
+ // Real Wretch VIG40/MND30/END25 is EXACTLY frozen from Tarnished.dev's
+ // independent actual Chrome UI, not an unverified additive estimate.
+ assert.deepEqual(await evaluate("['physical','magic','fire','lightning','holy','immunity','robustness','focus','vitality','discovery'].map(k=>document.getElementById('build-def-'+k)?.textContent)"),
+  ['101','117','137','97','117','134','104','104','114','110'],
+  'Ten exact same-input unbuffed Wretch source fields must be displayed');
+ assert.equal(await evaluate("document.querySelector('#build-def-tier').textContent"),
+  'Direct same-input public v1.17');
+
  await evaluate("(()=>{const s=document.querySelector('#origin');s.value='Samurai';s.dispatchEvent(new Event('change',{bubbles:true}))})()");
+ assert.equal(await evaluate("document.querySelector('#build-def-physical').textContent"),
+  'Unverified','Do not copy naked Wretch outputs to another origin');
+
 
  await waitFor('document.querySelector("#build-weapon")?.disabled===false',
   'Build Planner catalog ready');
