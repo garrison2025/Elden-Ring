@@ -40,27 +40,31 @@ test('all equipped weight is exact only if every selected item has a permitted s
  assert.equal(complete.items.length,4);
  assert.equal(complete.items.filter(x=>x.provenance==='community-source-unverified').length,2);
 });
-test('pinned v1.17 source only rows never silently count as zero weight',()=>{
+test('five direct competitor v1.17 weights supersede unknown primary records with explicit provenance',()=>{
  const state=emptyBuildLoadout();
  state.weaponSlots[0].id=w('Albinauric Shield').id;
  state.maxEquipLoad='100';
  const first=evaluateBuildLoadout(state,catalog);
- assert.equal(first.exactTotal,null);
- assert.equal(first.unknowns.length,1);
+ assert.equal(first.exactTotal,4.5);
+ assert.equal(first.unknowns.length,0);
+ assert.equal(first.items[0].provenance,'tarnished-dev-v1.17-direct-ui');
  state.weaponSlots[0].manualWeight='3.5';
  const second=evaluateBuildLoadout(state,catalog);
  assert.equal(second.exactTotal,3.5);
  assert.equal(second.tier.tier,'Light');
  assert.equal(second.items[0].provenance,'user-entered');
 });
-test('source-conflicted weights also remain unknown until explicitly user-entered',()=>{
+test('community-disputed Stone-Sheathed Sword uses real v1.17 competitor 5.0 but preserves user overrides',()=>{
  const state=emptyBuildLoadout();
  state.weaponSlots[0].id=w('Stone-Sheathed Sword').id;
  const outcome=evaluateBuildLoadout(state,catalog,{allowSote:true});
- assert.equal(outcome.exactTotal,null);
- assert.equal(outcome.unknowns.length,1);
- state.weaponSlots[0].manualWeight='5';
- assert.equal(evaluateBuildLoadout(state,catalog,{allowSote:true}).exactTotal,5);
+ assert.equal(outcome.exactTotal,5);
+ assert.equal(outcome.unknowns.length,0);
+ assert.equal(outcome.items[0].provenance,'tarnished-dev-v1.17-direct-ui');
+ state.weaponSlots[0].manualWeight='3.5';
+ const overridden=evaluateBuildLoadout(state,catalog,{allowSote:true});
+ assert.equal(overridden.exactTotal,3.5);
+ assert.equal(overridden.items[0].provenance,'user-entered');
 });
 test('SOTE and Tarnished Pack inventory requires two separate opt in switches',()=>{
  const state=emptyBuildLoadout();
