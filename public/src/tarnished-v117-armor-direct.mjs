@@ -26,7 +26,7 @@ export function applyTarnishedV117DirectArmorFields(rows){
  const seenIds=new Set(),oldFourMatched=new Set();
  let corrected=0,wideCorrected=0;
  const updated=rows.map(item=>{
-  if(seenIds.has(item.id))throw new RangeError('Duplicate armor ID in source.');
+  if(seenIds.has(item.id))throw new RangeError('Ambiguous duplicate armor ID in source.');
   seenIds.add(item.id);
   const legacy=originalFour.get(key(item.name,item.slot));
   if(legacy)oldFourMatched.add(key(item.name,item.slot));
