@@ -124,6 +124,26 @@ async function configureOurArmor(){
  };});
  return {changes,load,loaded,run,result};
 }
+
+async function keyboardSetNumeric(id,value){
+ const before=await call(function(id){
+  const e=document.getElementById(id);if(!e)return {found:false,id};
+  e.focus();
+  return {found:true,id,value:e.value,min:e.min,max:e.max,step:e.step,html:e.outerHTML.slice(0,440)};
+ },id);
+ if(!before.found)throw Error('Multiplier input unavailable '+id);
+ await send('Input.dispatchKeyEvent',{type:'rawKeyDown',key:'a',code:'KeyA',windowsVirtualKeyCode:65,modifiers:2});
+ await send('Input.dispatchKeyEvent',{type:'keyUp',key:'a',code:'KeyA',windowsVirtualKeyCode:65,modifiers:2});
+ await send('Input.insertText',{text:String(value)});
+ await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+ await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+ await sleep(130);
+ const after=await call(function(id){
+  const e=document.getElementById(id);return {value:e?.value,valid:e?.checkValidity(),min:e?.min,max:e?.max,
+   activeId:document.activeElement?.id};
+ },id);
+ return {before,after};
+}
 async function navigate(url){
  await send('Page.navigate',{url});
  await sleep(3600);
@@ -160,7 +180,13 @@ async function main(){
    let configuration=null,click={clicked:false,reason:'Control read only'};
    if(c.id==='tarnished-armor'){
     await call(function(){window.__armorClickEvents=[];document.addEventListener('click',e=>window.__armorClickEvents.push({at:Date.now(),trusted:e.isTrusted,button:(e.target.closest('button')?.innerText||'').trim()}),true)});
-    configuration=await call(poiseOnly);
+    configuration=[];
+    const ids=['physical_absorption_multiplier','strike_absorption_multiplier','slash_absorption_multiplier',
+     'thrust_absorption_multiplier','magic_absorption_multiplier','fire_absorption_multiplier',
+     'lightning_absorption_multiplier','holy_absorption_multiplier','immunity_multiplier',
+     'robustness_multiplier','focus_multiplier','vitality_multiplier'];
+    for(const id of ids)configuration.push({id,...await keyboardSetNumeric(id,0)});
+    configuration.push({afterAll:await call(function(){return [...document.querySelectorAll('input[id$="_multiplier"]')].map(x=>({id:x.id,value:x.value,valid:x.checkValidity(),min:x.min}))})});
     await sleep(650);
     click=await trustedClick('Calculate Best Armor');
     if(click.clicked){
