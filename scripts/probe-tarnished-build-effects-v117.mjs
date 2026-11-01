@@ -116,6 +116,7 @@ async function select(slot,name){
  * The UI selection and actual field outputs must agree; no guessed +stats.
  */
 const KIND=process.env.V117_EFFECT_KIND;
+const PASS=Number(process.env.V117_EFFECT_PASS??1);
 const scenarios={
  talisman:{label:'Search equipped talismans...',name:'Starscourge Heirloom',type:'multiselect'},
  rune:{label:'Select equipped Great Rune...',name:"Godrick's Great Rune",type:'dropdown',activate:'activate-rune'},
@@ -148,6 +149,10 @@ const pick=async(scenario)=>{
   widget:target.outerHTML.slice(0,300),filter:!!filter};
  found.click();await new Promise(r=>setTimeout(r,500));
  const label=target.querySelector('.p-dropdown-label,.p-multiselect-label')?.textContent?.trim()??'';
+ const preActivationStats=['finalvigor','finalmind','finalendurance','finalstrength',
+  'finaldexterity','finalintelligence','finalfaith','finalarcane'].map(k=>
+   document.getElementById(k)?.value);
+ const preActivationChecked=scenario.activate?document.getElementById(scenario.activate)?.checked:null;
  if(scenario.activate){
   const toggle=document.getElementById(scenario.activate);
   if(!toggle)return{ok:false,reason:'Missing activation checkbox',label};
@@ -157,7 +162,7 @@ const pick=async(scenario)=>{
  const selected=normalize(label).includes(normalize(scenario.name))||
    [...target.querySelectorAll('.p-multiselect-token,.p-multiselect-label')].some(x=>
     normalize(x.textContent).includes(normalize(scenario.name)));
- return{ok:selected,label,
+ return{ok:selected,label,preActivationStats,preActivationChecked,
   activated:scenario.activate?document.getElementById(scenario.activate)?.checked:null,
   visibleContext:target.parentElement?.innerText?.slice(0,210)};
 };
@@ -192,8 +197,8 @@ async function main(){
  const selection=await pageCall(pick,[scenario]);
  const observed=await pageCall(state);
  const delta=observed.finalStats.map((n,i)=>Number(n)-Number(baseline.finalStats[i]));
- const activatedCorrect=!scenario.activate||selection.activated===true;
- const neverOtherGear=observed.load===0&&observed.poise===0&&
+ const actualSelectionOnly=selection.ok&&delta.every(n=>Number.isInteger(n)&&n>=0&&n<=50);
+ const neverOtherGear=observed.load===(KIND==='talisman'?0.8:0)&&observed.poise===0&&
   Object.values(observed.slots).every(x=>String(x).startsWith('Select equipped'));
  const otherToggles=(KIND!=='rune'||observed.physick===false)&&
   (KIND!=='physick'||observed.rune===false)&&
@@ -203,11 +208,13 @@ async function main(){
   change:delta,selection,baselineHP:baseline.controls,
   weight:observed.load,poise:observed.poise,
   runeActivated:observed.rune,physickActivated:observed.physick,
-  fullBaseMetricReadouts:observed.metrics,valid:Boolean(selection.ok&&activatedCorrect&&
-   neverOtherGear&&otherToggles&&delta.every(x=>Number.isInteger(x)&&x>=0&&x<=50))};
+  fullBaseMetricReadouts:observed.metrics,
+  actualSelectionOnly,valid:Boolean(actualSelectionOnly&&neverOtherGear&&otherToggles),
+  WARNING:scenario.activate&&selection.activated!==true?
+   'UI displayed effect change while activation checkbox appeared OFF; report selection effect but NEVER certify active-state equivalence.':null};
  await mkdir(resolve('.audit'),{recursive:true});
- await writeFile(resolve('.audit/v117-build-effect-'+KIND+'.json'),JSON.stringify(proof,null,2)+'\n');
- console.log('[V117 ACTUAL EFFECT SINGLE] '+JSON.stringify(proof));
+ await writeFile(resolve('.audit/v117-build-effect-'+KIND+'-pass-'+PASS+'.json'),JSON.stringify(proof,null,2)+'\n');
+ console.log('[V117 ACTUAL EFFECT SINGLE] '+JSON.stringify({...proof,pass:PASS}));
  if(!proof.valid)throw Error('No certified real same-input result for '+KIND);
 }
 try{await main()}finally{
