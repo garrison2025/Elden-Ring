@@ -223,6 +223,20 @@ try{
  assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 1.200'),
   'Silver Scarab must contribute its twice observed 1.2 weight');
 
+ // Two-talisman Wretch10 reference pairing, never an inferred sum.
+ await evaluate("(()=>{const xs=[...document.querySelectorAll('#build-loadout-talismans input')];xs[0].value=\"Radagon's Scarseal\";xs[0].dispatchEvent(new Event('input',{bubbles:true}));xs[1].value=\"Marika's Scarseal\";xs[1].dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-verified-pair')?.textContent.includes('physical -21%')",
+  'Two distinct -10% seals must display actual combined -21%, not naive -20%');
+ assert.ok((await evaluate("document.querySelector('#build-v117-verified-pair').textContent")).includes('HP 476'),
+  'Same-input reference Wretch10 Scarseal combo HP 476');
+ await evaluate("(()=>{const xs=[...document.querySelectorAll('#build-loadout-talismans input')];xs[0].value=\"Great-Jar's Arsenal\";xs[0].dispatchEvent(new Event('input',{bubbles:true}));xs[1].value=\"Erdtree's Favor +2\";xs[1].dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-verified-pair')?.textContent.includes('Max Equip Load 61.9')",
+  'Actual Great-Jar Arsenal and Erdtree Favor +2 combination max-load');
+ await evaluate("(()=>{const xs=[...document.querySelectorAll('#build-loadout-talismans input')];xs[1].value='';xs[1].dispatchEvent(new Event('input',{bubbles:true}));xs[0].value='';xs[0].dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.equal(await evaluate("!!document.querySelector('#build-v117-verified-pair')"),false,
+  'Clearing observed pairing removes all stale exact result panels');
+
+
  await evaluate("(()=>{const t=document.querySelector('#build-loadout-talismans input');t.value='';t.dispatchEvent(new Event('input',{bubbles:true}));const r=document.querySelector('#build-loadout-rune');r.value=\"Godrick's Great Rune\";r.dispatchEvent(new Event('input',{bubbles:true}))})()");
  await waitFor("document.querySelector('#build-v117-isolated-effect-results')?.textContent.includes('VIG 10 → 15')",
   'Actual Godrick rune selected-item +5 each from real Chrome appears');
