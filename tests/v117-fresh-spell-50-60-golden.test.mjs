@@ -13,8 +13,8 @@ test('INT50/INT60 public v1.17 site values are both independently observed twice
   assert.deepEqual(exactPublicPebbleSpell({int:row.int+1}).reference,null);
  }
 });
-test('17 actual spell reference rows include both prior INT50/60 source observations',()=>{
- assert.equal(V117_PEBBLE_STAFF_ROWS.length,17);
+test('18 actual spell reference rows include both prior INT50/60 source observations',()=>{
+ assert.equal(V117_PEBBLE_STAFF_ROWS.length,18);
  assert.equal(V117_PEBBLE_STAFF_ROWS.find(x=>x.int===50).magic,363);
  assert.equal(V117_PEBBLE_STAFF_ROWS.find(x=>x.int===60).magic,410);
  assert.equal(evidence.cases[0].status,'SOURCE_MODEL_ONE_POINT_MISMATCH');
