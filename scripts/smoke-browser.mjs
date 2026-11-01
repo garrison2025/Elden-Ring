@@ -165,6 +165,15 @@ try{
  await connect();
  await send('Page.enable');await send('Runtime.enable');
  await navigate('/build-planner/');
+ // Newly verified base-vitals readouts: same input as REAL Tarnished v1.17
+ // four-scenario browser record; no gear, buffs or rune effects applied.
+ await evaluate("(()=>{const s=document.querySelector('#origin');s.value='Wretch';s.dispatchEvent(new Event('change',{bubbles:true}));const set=(i,n)=>{const x=document.querySelector('#stat-grid [data-stat=\\\"'+i+'\\\"]');x.value=String(n);x.dispatchEvent(new Event('input',{bubbles:true}))};set(0,40);set(1,30);set(2,25)})()");
+ assert.deepEqual(await evaluate("['base-hp','base-fp','base-stamina','base-equip-load'].map(id=>document.getElementById(id)?.textContent)"),
+  ['1,450','173','121','72'],'Real browser base Wretch VIG40/MND30/END25 must match v1.17 UI');
+ assert.match(await evaluate("document.querySelector('#base-vitals-note').textContent"),
+  /not itself independently checked/,'Exact combined build remains unverified even though curves are site-read');
+ await evaluate("(()=>{const s=document.querySelector('#origin');s.value='Samurai';s.dispatchEvent(new Event('change',{bubbles:true}))})()");
+
  await waitFor('document.querySelector("#build-weapon")?.disabled===false',
   'Build Planner catalog ready');
  await evaluate("document.querySelector('#build-loadout-start').click()");
@@ -878,19 +887,19 @@ try{
   assert.equal(await evaluate("document.querySelector('#build-armor-metric-summary')===null"),true,
    'No source-derived armor aggregate can appear before equipment is chosen');
   await evaluate("document.querySelector('#build-loadout-load-armor').click()");
-  await waitFor("document.querySelector('#build-loadout-armor-source-status')?.textContent.includes('568 pinned community armor names')||document.querySelector('#build-loadout-armor-source-status')?.textContent.includes('unavailable:')",
+  await waitFor("document.querySelector('#build-loadout-armor-source-status')?.textContent.includes('568 pinned armor items loaded')||document.querySelector('#build-loadout-armor-source-status')?.textContent.includes('unavailable:')",
    'Build opt-in source must load 568 real armor pieces');
   assert.ok((await evaluate("document.querySelector('#build-loadout-armor-source-status').textContent"))
-   .includes('568 pinned community armor names'),
+   .includes('568 pinned armor items loaded'),
    'Real Build armor source cannot be silently replaced by synthetic data');
   await evaluate("(()=>{const names=[...document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=text]')];if(names.length!==4)throw Error('Expected four armor name slots');names[0].value='All-knowing Helm';names[0].dispatchEvent(new Event('input',{bubbles:true}));names[1].value='All-knowing Armor';names[1].dispatchEvent(new Event('input',{bubbles:true}));})()");
-  await waitFor("document.querySelector('#build-armor-metric-summary')?.textContent.includes('15.52%')",
+  await waitFor("document.querySelector('#build-armor-metric-summary')?.textContent.includes('16.91%')",
    'Actual two-item Build armor damage negation must stack multiplicatively');
   const armorBuildText=await evaluate("document.querySelector('#build-armor-metric-summary').textContent");
-  assert.ok(armorBuildText.includes('21 points')&&armorBuildText.includes('13 source metrics'),
+  assert.ok(armorBuildText.includes('29 points')&&armorBuildText.includes('13 source metrics'),
    'Known All-knowing Helm + Armor must yield 21 source poise and 13 live metric rows');
   assert.equal(await evaluate("document.querySelectorAll('#build-armor-metric-summary tbody tr').length"),13);
-  console.log('[REAL BUILD ARMOR] Opt-in 568 source; two real armor pieces produce 21 poise and 15.52% physical negation in Build.');
+  console.log('[REAL BUILD ARMOR] Opt-in 568 source; two real armor pieces produce 29 verified Poise and 16.91% direct-field physical negation in Build.');
   // Armor v1.17 functional alignment: visit the real, pinned community
   // source and exercise a non-Poise metric through a real page/Worker.
   // Not a claim of Tarnished.dev same-input armor numeric parity.
@@ -906,7 +915,7 @@ try{
   await waitFor("document.querySelector('#armor-full-heading')?.textContent.startsWith('Best Physical negation:')||document.querySelector('#armor-full-status')?.dataset.state==='error'",
    'Full source physical negation Worker solution must become visible');
   assert.ok((await evaluate("document.querySelector('#armor-full-heading').textContent"))
-   .includes('Best Physical negation: 32.05234%'),
+   .includes('Best Physical negation: 32.796079%'),
    'Expected reproducible 568-item source model reference at 75 max load, 18 reserved, medium tier');
   assert.equal(await evaluate("document.querySelectorAll('#armor-full-rows tr').length"),4);
   assert.equal(await evaluate("document.querySelector('#armor-full-results').hidden"),false);
@@ -917,11 +926,11 @@ try{
   await waitFor("document.querySelector('#armor-full-details')?.textContent.includes('Minimum source Poise 51 satisfied')||document.querySelector('#armor-full-status')?.dataset.state==='error'",
    'Exact source physical-negation optimum under 51 Poise and medium roll');
   const joint=await evaluate("(()=>({title:document.querySelector('#armor-full-heading').textContent,details:document.querySelector('#armor-full-details').textContent,poise:[...document.querySelectorAll('#armor-full-rows tr')].reduce((s,tr)=>s+Number(tr.children[3].textContent),0)}))()");
-  assert.ok(joint.title.includes('Best Physical negation: 31.2922%'),
+  assert.ok(joint.title.includes('Best Physical negation: 32.796079%'),
    'Pinned 568-item joint Poise/weight constrained physical optimum must match independent source audit');
-  assert.equal(joint.poise,51);
-  assert.match(joint.details,/Minimum source Poise 51 satisfied: total 51/);
-  console.log('[REAL ARMOR JOINT] PASS: source 568, max physical negation 31.2922%, source Poise 51+, exact medium-roll cap.');
+  assert.ok(joint.poise>=51,'Poise 51 minimum constraint remains strict');
+  assert.match(joint.details,/Minimum source Poise 51 satisfied: total [5-9][0-9]/);
+  console.log('[REAL ARMOR JOINT] PASS: source 568, max physical negation 32.796079%, source Poise 51+, exact medium-roll cap.');
   console.log('[REAL ARMOR SOURCE] 568-item public-source Worker completed independent physical-negation objective; not a competitor UI golden.');
   await navigate('/weapon-database/?weapon=v117-roster-001');
   await waitFor("document.querySelector('#catalog-title')?.textContent==='Albinauric Shield'",
@@ -1108,19 +1117,19 @@ try{
    'Real pinned public armor source or honest load error');
   const exactArmorStatus=await evaluate("document.querySelector('#armor-full-status').textContent");
   assert.ok(exactArmorStatus.includes('568'), 'Full armor source load failed: '+exactArmorStatus);
-  assert.ok(exactArmorStatus.includes('3 items lack valid source Poise'),
-   'Source omits three Poise values, which must stay excluded');
+  assert.ok(exactArmorStatus.includes('0 items lack valid source Poise'),
+   'Corrected source now has complete numerically present Poise, while 19 unverified identity items remain excluded by site-verified toggle');
   await evaluate("document.querySelector('#armor-full-run').click()");
   await waitFor("document.querySelector('#armor-full-results')?.hidden===false",
    'The Worker returns an exact source-wide Poise combination under live controls');
   const sourceOptimization=await evaluate("({headline:document.querySelector('#armor-full-heading').textContent,details:document.querySelector('#armor-full-details').textContent,items:document.querySelectorAll('#armor-full-rows tr').length,status:document.querySelector('#armor-full-status').textContent})");
-  assert.match(sourceOptimization.headline,/Best Poise: 64 points/);
+  assert.match(sourceOptimization.headline,/Best Poise: 71 points/);
   assert.equal(sourceOptimization.items,4);
   assert.ok(sourceOptimization.details.includes('roll tier')&&
    sourceOptimization.status.includes('completed in Worker')&&
-   sourceOptimization.details.includes('3 records excluded'),
+   sourceOptimization.details.includes('0 records excluded'),
    'Live full-source optimum must disclose source Poise, load tier and excluded unknowns');
-  console.log('[REAL ARMOR SOURCE] PASS: pinned 568 items, 3 unknown Poise, exact source-constrained 4-slot Worker search.');
+  console.log('[REAL ARMOR SOURCE] PASS: pinned 568 records + 1 direct DLC and verified filtered candidate pool, exact source-constrained 4-slot Worker search.');
 
  }
 

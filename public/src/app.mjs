@@ -1,4 +1,5 @@
 import {STATS,CLASSES,classForName,validateStats,buildLevel,optimizeClasses,runeCostForLevel,runeRange,targetFromRunes,loadTier,commas,farmingRunsNeeded,parseSharedStats} from './core.mjs';
+import {verifiedV117BaseVitals} from './v117-base-vitals-direct.mjs';
 import {validateCommunityCatalog} from './community-weapons.mjs';
 import {parseBuildWeaponId,parseContentFlag,buildWeaponOptions,inspectBuildWeapon} from './build-weapon-reference.mjs';
 import {makeBuildSmithingUrl} from './build-smithing-handoff.mjs';
@@ -285,6 +286,12 @@ function initBuild(){
     $('#build-level').textContent=level;$('#spent-points').textContent=level-current.level;
     $('#build-runecost').textContent=fmt(runeRange(current.level,level));
     $('#build-summary').textContent=current.name+' · Lv '+level+' · '+v.join(' / ');
+    const base=verifiedV117BaseVitals(v,{origin:current.name});
+    const values={'#base-hp':base.hp,'#base-fp':base.fp,
+      '#base-stamina':base.stamina,'#base-equip-load':base.maxEquipLoadDisplay};
+    for(const [selector,value] of Object.entries(values))
+      $(selector).textContent=value===null?'Unverified':fmt(value);
+    $('#base-vitals-note').textContent=base.note;
     $('#class-compare-link').href=queryURL('../class-optimizer/',{stats:v.join(',')});
     $('#rune-plan-link').href=queryURL('../level-rune-calculator/',{from:current.level,to:level});
     $('#respec-link').href=queryURL('../respec-planner/',{origin:current.name,stats:v.join(',')});
@@ -301,6 +308,9 @@ function initBuild(){
     status(sharedProblem||'Plan valid. Attribute level is calculated locally; selected weapons are community references only.');
   }catch(e){
     clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);
+    for(const id of ['#base-hp','#base-fp','#base-stamina','#base-equip-load'])
+      $(id).textContent='Unverified';
+    $('#base-vitals-note').textContent='Correct the eight character attributes; no previous derived vitals are carried forward.';
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=true;
     weaponDetails.hidden=true;weaponAr.hidden=true;weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
     renderSmithingShortlist();

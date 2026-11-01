@@ -1,0 +1,108 @@
+{
+  "source": "Tarnished.dev public v1.17",
+  "siteRun": 41281523364,
+  "independentActualBrowser": true,
+  "baseline": "Wretch all 10, no equipment/runes/buffs",
+  "observedCases": [
+    {
+      "name": "Wretch VIG40",
+      "fields": {
+        "HP": "1,450",
+        "FP": "78",
+        "Stamina": "96",
+        "Poise": "0",
+        "Equip Load": "0 / 48.2 (0%) -> Light Load",
+        "Discovery": "110",
+        "Physical Defense": "87",
+        "Magic Defense": "103",
+        "Fire Defense": "123",
+        "Lightning Defense": "83",
+        "Holy Defense": "103",
+        "Immunity": "126",
+        "Robustness": "96",
+        "Focus": "96",
+        "Vitality": "106",
+        "Physical Dmg Negation": "0.000",
+        "Magic Dmg Negation": "0.000",
+        "Fire Dmg Negation": "0.000",
+        "Lightning Dmg Negation": "0.000",
+        "Holy Dmg Negation": "0.000"
+      }
+    },
+    {
+      "name": "Wretch VIG40 MND30",
+      "fields": {
+        "HP": "1,450",
+        "FP": "173",
+        "Stamina": "96",
+        "Poise": "0",
+        "Equip Load": "0 / 48.2 (0%) -> Light Load",
+        "Discovery": "110",
+        "Physical Defense": "95",
+        "Magic Defense": "111",
+        "Fire Defense": "131",
+        "Lightning Defense": "91",
+        "Holy Defense": "111",
+        "Immunity": "130",
+        "Robustness": "100",
+        "Focus": "100",
+        "Vitality": "110",
+        "Physical Dmg Negation": "0.000",
+        "Magic Dmg Negation": "0.000",
+        "Fire Dmg Negation": "0.000",
+        "Lightning Dmg Negation": "0.000",
+        "Holy Dmg Negation": "0.000"
+      }
+    },
+    {
+      "name": "Wretch VIG40 MND30 END25",
+      "fields": {
+        "HP": "1,450",
+        "FP": "173",
+        "Stamina": "121",
+        "Poise": "0",
+        "Equip Load": "0 / 72 (0%) -> Light Load",
+        "Discovery": "110",
+        "Physical Defense": "101",
+        "Magic Defense": "117",
+        "Fire Defense": "137",
+        "Lightning Defense": "97",
+        "Holy Defense": "117",
+        "Immunity": "134",
+        "Robustness": "104",
+        "Focus": "104",
+        "Vitality": "114",
+        "Physical Dmg Negation": "0.000",
+        "Magic Dmg Negation": "0.000",
+        "Fire Dmg Negation": "0.000",
+        "Lightning Dmg Negation": "0.000",
+        "Holy Dmg Negation": "0.000"
+      }
+    },
+    {
+      "name": "Wretch VIG40 MND30 END25 ARC40",
+      "fields": {
+        "HP": "1,450",
+        "FP": "173",
+        "Stamina": "121",
+        "Poise": "0",
+        "Equip Load": "0 / 72 (0%) -> Light Load",
+        "Discovery": "140",
+        "Physical Defense": "124",
+        "Magic Defense": "141",
+        "Fire Defense": "161",
+        "Lightning Defense": "121",
+        "Holy Defense": "173",
+        "Immunity": "160",
+        "Robustness": "130",
+        "Focus": "130",
+        "Vitality": "160",
+        "Physical Dmg Negation": "0.000",
+        "Magic Dmg Negation": "0.000",
+        "Fire Dmg Negation": "0.000",
+        "Lightning Dmg Negation": "0.000",
+        "Holy Dmg Negation": "0.000"
+      }
+    }
+  ]
+}
