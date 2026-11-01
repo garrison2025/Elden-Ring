@@ -54,3 +54,21 @@ export function getArGapRequirementShard(index){
  if(!Number.isInteger(index)||index<0||index>=2)throw new RangeError('Expected AR-gap shard index 0..1');
  return AR_GAP_REQUIREMENT_CANDIDATES.slice(index*11,(index+1)*11);
 }
+
+/** Genuine public-site Req gaps for entries without prior direct AR, where
+ * at least one original community requirement exceeds the 10-point Wretch
+ * baseline. This is only a retry shortlist, NOT a certification.
+ */
+const highGapNames=new Set(reqAudit.rows.filter(x=>
+ x.status==='NOT_OBSERVED'&&!arNames.has(x.name)&&
+ c.weapons.some(w=>w.name===x.name&&Array.isArray(w.requirements)&&
+  Math.max(...w.requirements)>10)).map(x=>x.name));
+export const HIGH_GAP_REQUIREMENT_CANDIDATES=Object.freeze(
+ REQUIREMENT_CANDIDATES.filter(x=>highGapNames.has(x.name)));
+if(reqAudit.total!==487||HIGH_GAP_REQUIREMENT_CANDIDATES.length!==47)
+ throw new RangeError('Previous 47 public v1.17 high-Req gap cases changed; inspect inputs');
+export function getHighGapRequirementShard(index){
+ if(!Number.isInteger(index)||index<0||index>=6)throw new RangeError('Expected high-gap shard 0..5');
+ const start=Math.floor(index*47/6),end=Math.floor((index+1)*47/6);
+ return HIGH_GAP_REQUIREMENT_CANDIDATES.slice(start,end);
+}
