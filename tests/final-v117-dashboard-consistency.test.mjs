@@ -17,7 +17,7 @@ test('user-facing verification page matches independent evidence tiers with noin
  assert.ok(page.includes('Individual weapon weights</span><strong>487 / 487</strong>'));
  assert.ok(page.includes('Minimum five-stat requirements</span><strong>460 / 487</strong>'));
  assert.ok(page.includes('27 are independently pinned-source-only'));
- assert.ok(page.includes('Icerind Hatchet remains unresolved'));
+ assert.ok(page.includes('Historical original direct-browser audit: Icerind Hatchet'));
  assert.ok(readme.includes('487/487 directly observed weapon weights'));
  assert.ok(readme.includes('460/487 directly observed five-stat requirements'));
  assert.ok(page.includes('content="noindex,nofollow"'));
