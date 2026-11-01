@@ -1321,6 +1321,19 @@ try{
  assert.equal(await evaluate("document.querySelector('#spell-outcome').hidden"),true,
   'Unobserved INT31 must not show a guessed spell damage');
  assert.match(await evaluate("document.querySelector('#spell-status').textContent"),/NOT OBSERVED/);
+ await navigate('/build-planner/');
+ await evaluate("document.querySelector('#build-loadout-start').click()");
+ await waitFor("document.querySelector('[aria-label=\\\"Choose a twice-observed reference talisman combination\\\"]')!==null",
+  'Live Build equipment planner loads exact-source combination presets');
+ await evaluate("(()=>{const x=document.querySelector('[aria-label=\\\"Choose a twice-observed reference talisman combination\\\"]');x.value='2';document.querySelector('#build-loadout-talismans .build-armor-metric-panel button').click()})()");
+ await waitFor("document.querySelector('#build-v117-combined-talisman-reference')!==null",
+  'Twice-observed Radagon and Marika Soreseal combo renders actual public Wretch profile');
+ const realBuild=await evaluate("({attrs:[...document.querySelectorAll('#stat-grid [data-stat]')].map(x=>x.value),origin:document.querySelector('#origin').value,selected:document.querySelector('#build-v117-combined-talisman-reference').textContent})");
+ assert.equal(realBuild.origin,'Wretch');
+ assert.deepEqual(realBuild.attrs,Array(8).fill('10'));
+ assert.ok(realBuild.selected.includes('-32.25%'),
+  'Combined Soreseal negative damage negation must be the real observed -32.25%, not -30%');
+ console.log('[FOUR MODULE BUILD SMOKE] PASS: one-click exact two-Soreseal Wretch10 scenario, real observed -32.25% negation.');
  await navigate('/armor-optimizer/');
  assert.equal(await evaluate("document.querySelector('#armor-v117-apply-first').disabled"),true,
   'The site rank-one armor preset must stay disabled before the user loads the source');
