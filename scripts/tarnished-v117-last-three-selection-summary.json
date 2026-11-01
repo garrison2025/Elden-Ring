@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "comparator": "Tarnished.dev public v1.17 rendered Build Planner",
+  "sourceRun": 41268225982,
+  "sourceJob": 124735399387,
+  "independentChromiumPasses": 2,
+  "scope": "Item activation and displayed AR/Req only. These AR totals have not been compared to local engine in this audit.",
+  "items": [
+    {
+      "name": "Great Épée",
+      "stats": 10,
+      "status": "NOT_OBSERVED",
+      "requirements": null,
+      "ar": null,
+      "verifiedPasses": 2,
+      "requirementAccepted": false
+    },
+    {
+      "name": "Great Épée",
+      "stats": 99,
+      "status": "NOT_OBSERVED",
+      "requirements": null,
+      "ar": null,
+      "verifiedPasses": 2,
+      "requirementAccepted": false
+    },
+    {
+      "name": "Serpent-hunter",
+      "stats": 10,
+      "status": "ACTIVATED_REQ_HIDDEN",
+      "requirements": null,
+      "ar": 123,
+      "verifiedPasses": 2,
+      "requirementAccepted": false
+    },
+    {
+      "name": "Serpent-hunter",
+      "stats": 99,
+      "status": "ACTIVATED_REQ_HIDDEN",
+      "requirements": null,
+      "ar": 216,
+      "verifiedPasses": 2,
+      "requirementAccepted": false
+    },
+    {
+      "name": "Steel-wire Torch",
+      "stats": 10,
+      "status": "ACTIVATED_REQ_HIDDEN",
+      "requirements": null,
+      "ar": 177,
+      "verifiedPasses": 2,
+      "requirementAccepted": false
+    },
+    {
+      "name": "Steel-wire Torch",
+      "stats": 99,
+      "status": "ACTIVATED_REQ_HIDDEN",
+      "requirements": null,
+      "ar": 228,
+      "verifiedPasses": 2,
+      "requirementAccepted": false
+    }
+  ],
+  "flags": {
+    "newDirectReqFacts": 0,
+    "priorDirectReqCount": 458,
+    "remainingUnverifiedReqCount": 29
+  },
+  "classification": {
+    "greatEpee": "not activated with tried name/affinity aliases at both stat presets",
+    "serpentHunter": "active in both stat presets, Req hidden",
+    "steelWireTorch": "active in both stat presets, Req hidden"
+  }
+}
