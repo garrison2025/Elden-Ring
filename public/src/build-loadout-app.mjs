@@ -150,6 +150,17 @@ function render(){
     const row=make('div',{className:'build-loadout-effect-row'},panel);
     make('h4',{text:one.name+' · '+one.kind+' · '+one.status},row);
     if(one.values)make('p',{text:effectSelection.labels.map((k,i)=>k+' '+topStats()[i]+' → '+one.values[i]).join(' · ')},row);
+    if(one.siteObserved){
+     const ref=one.siteObserved;
+     make('p',{text:'Actual single-talisman Wretch10 · HP '+ref.vitals.HP+
+      ' · FP '+ref.vitals.FP+' · Stamina '+ref.vitals.Stamina+
+      ' · Discovery '+ref.vitals.Discovery+
+      ' · Max Equip Load '+ref.maxEquipLoad.toFixed(1)+
+      ' · Weight '+ref.weight.toFixed(1)},row);
+     const neg=['physical','strike','slash','pierce','magic','fire','lightning','holy'];
+     make('p',{text:'Actual displayed damage negation: '+
+      neg.map(k=>k+' '+ref.defensiveFields[k]+'%').join(' · ')},row);
+    }
     make('p',{text:one.note},row);
    }
    make('p',{text:effectSelection.note},panel);
