@@ -35,7 +35,31 @@ On conflict, the Build Planner reports `UNWEARABLE`, withholds `exactTotal` and 
 
 Each read uses the **public Tarnished.dev v1.17** Wretch all-10 naked Build profile with no rune/physick, and captures actual selected tokens and numeric fields after clicking each real selector option. Outcomes are *discovered*, not guessed: both-selected, first-only, none-selected, or a flagged unexpected outcome. Two identical captures are required by a separate comparison job. The actual JSON artifacts are retained for 30 days and the full observed selection table is posted on the pull request. A selector that allows a pair **does not override documented game-client equipability**, and a selector that refuses a pair does **not** certify any combined numeric effect.
 
-No additional browser run is asserted by this planning note; see the actual pull request's Actions results/comments for live acceptance.
+## Completed direct browser run — independently reproduced twice
+
+The added workflow **completed successfully**: [GitHub Actions 41294550820](https://github.com/garrison2025/Elden-Ring/actions/runs/41294550820). Eight individual scenarios were each read by two independent fresh Chromium processes, and every one of the 8 comparison rows matched. This documents ACTUAL public reference-selector behavior only, not the Elden Ring game client:
+
+| Ordered real selector actions | Actual selected tokens after both actions | Evidence |
+| --- | --- | --- |
+| Radagon Soreseal → Scarseal | Radagon Soreseal only | double read |
+| Marika Scarseal → Soreseal | Marika Scarseal only | double read |
+| Marika Soreseal → Scarseal | Marika Soreseal only | double read |
+| Radagon Scarseal → Scarseal again | none selected (toggle off) | double read |
+| Starscourge Heirloom → same again | none selected (toggle off) | double read |
+| Crimson Amber Medallion → +1 | base only | double read, **this order only** |
+| Arsenal Charm → +1 | base only | double read, **this order only** |
+| Erdtree's Favor → +2 | base only | double read, **this order only** |
+
+First-order Radagon Scarseal → Soreseal was also independently measured in the prior workflow [41291997231](https://github.com/garrison2025/Elden-Ring/actions/runs/41291997231); both orders are therefore now directly supported.
+
+The actual direct selector outputs are frozen in `public/src/v117-talisman-selector-exclusions-direct.mjs`. The Wretch-context preview links only exact ordered request pairs; unsupported opposite-order tier pairs still return `combination-not-directly-verified`. No new negation, HP, FP, scaling, or stacked numerical outputs are fabricated.
+
+Evidence grades after this run:
+- **direct-site-both-orders-plus-independent-documentation**: Radagon seals, Marika seals.
+- **direct-site-one-order-plus-independent-documentation**: base→+1 Crimson Amber, base→+1 Arsenal, base→+2 Erdtree's Favor (other order/tier combinations still independently documented only).
+- **independent-documentation-only**: remaining tier families and duplicate-name restrictions as game-client rules; two exact duplicate *selector toggle* scenes were observed, not generalized to every item.
+
+
 
 ## Remaining independent validation boundaries
 - **Damage**: Actual public-site Uchigatana/Standard/+25 Wretch sample has AR 376 and displayed DPS 464/547, but our DPS timing/moveset data are not proven same-input. Do not claim general damage or DPS parity.
