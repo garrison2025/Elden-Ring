@@ -6,13 +6,15 @@ import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {V117_WEIGHT_BATCH2_CANDIDATES} from './tarnished-v117-weight-batch2-candidates.mjs';
+import {V117_WEIGHT_FINAL37_CANDIDATES} from './tarnished-v117-weight-final37-candidates.mjs';
 const fail=s=>{throw new RangeError(s)};
 const HISTORIC_TARGETS=['missing-albinauric-shield','missing-brass-shield',
  'missing-fingerprint-stone-shield','missing-golden-greatshield','missing-great-turtle-shell'];
 const BASELINE=['baseline-no-items','known-longsword-rh1','known-longsword-lh1'];
 const batch2=process.env.TARNISHED_WEIGHT_BATCH==='2';
-const TARGETS=batch2?V117_WEIGHT_BATCH2_CANDIDATES.map(x=>x.id):HISTORIC_TARGETS;
-const CANDIDATES=batch2?[...BASELINE,...TARGETS]:[...BASELINE,...TARGETS,
+const batch3=process.env.TARNISHED_WEIGHT_BATCH==='3';
+const TARGETS=batch3?V117_WEIGHT_FINAL37_CANDIDATES.map(x=>x.id):batch2?V117_WEIGHT_BATCH2_CANDIDATES.map(x=>x.id):HISTORIC_TARGETS;
+const CANDIDATES=batch2||batch3?[...BASELINE,...TARGETS]:[...BASELINE,...TARGETS,
  'conflict-stone-sheathed','conflict-fire-knights-shortsword',
  'conflict-radahn-light','conflict-ritual-thrusting-shield'];
 const round3=n=>Math.round(n*1000)/1000;
@@ -42,6 +44,7 @@ export function comparePublicItemWeights(first,second,catalog){
    const x=a.get(id),y=b.get(id),row=catalogNames.get(x.requested);
    const good=Boolean(knownControl&&check(x)&&check(y)&&x.requested===y.requested&&
     x.hand===y.hand&&x.affinity===y.affinity&&x.equipLoad===y.equipLoad&&
+    x.activationEvidence===y.activationEvidence&&
     x.equipLoad>0&&row);
    const observedWeight=good?round3(x.equipLoad-baseline.equipLoad):null;
    const localWeight=row?.weight??null;
@@ -70,7 +73,7 @@ export async function run(){
  const report=comparePublicItemWeights(one,two,catalog);
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-v117-item-weight-comparison.json'),JSON.stringify(report,null,2)+'\n');
- console.log('[V117 DIRECT ITEM WEIGHT] '+JSON.stringify({mode:batch2?'batch2-30':'historical-9',verifiedBaseline:report.verifiedBaseline,
+ console.log('[V117 DIRECT ITEM WEIGHT] '+JSON.stringify({mode:batch3?'final37':batch2?'batch2-30':'historical-9',verifiedBaseline:report.verifiedBaseline,
   knownLongswordBothHands:report.knownLongswordBothHands,...report.counts}));
  for(const row of report.rows)console.log('[V117 WEIGHT ROW] '+JSON.stringify(row));
  if(!report.knownLongswordBothHands)throw Error('Known-weight controls failed; no direct item weights may be approved.');
