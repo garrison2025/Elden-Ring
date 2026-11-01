@@ -1302,6 +1302,31 @@ try{
  assert.ok(damageMobile.scroll<=damageMobile.width+5,
   '375px damage calculator must not overflow: '+JSON.stringify(damageMobile));
  console.log('[DAMAGE PREVIEW] PASS: 8 defense pairs, motion/negation formula, split-AR URL handoff, 375px mobile.');
+ // Newly added real-v1.17 reference workflows: verify the actually rendered
+ // outputs and fail-closed behavior in Chrome, not merely source-file strings.
+ await navigate('/damage-calculator/');
+ await waitFor("document.querySelector('#damage-v117-ar')?.textContent==='376'",
+  'Twice-observed public v1.17 Uchigatana +25 AR visible separately from the manual damage estimate');
+ assert.equal(await evaluate("document.querySelector('#damage-v117-single').textContent"),'464');
+ await evaluate("(()=>{const x=document.querySelector('#damage-v117-scene');x.value='20,20';x.dispatchEvent(new Event('change',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#damage-v117-ar').textContent==='388'&&document.querySelector('#damage-v117-single').textContent==='483'",
+  'Real 20/20 reference scene changes exactly and does not reuse stale 15/20 DPS');
+ await navigate('/spell-calculator/');
+ await waitFor("document.querySelector('#spell-magic')?.textContent==='242'",
+  'The exact public Glintstone Pebble v1.17 sample renders without extrapolation');
+ await evaluate("(()=>{const x=document.querySelector('#spell-int');x.value='30';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-magic').textContent==='267'",
+  'Actual independently observed 30 INT sorcery result must show 267');
+ await evaluate("(()=>{const x=document.querySelector('#spell-int');x.value='31';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.equal(await evaluate("document.querySelector('#spell-outcome').hidden"),true,
+  'Unobserved INT31 must not show a guessed spell damage');
+ assert.match(await evaluate("document.querySelector('#spell-status').textContent"),/NOT OBSERVED/);
+ await navigate('/armor-optimizer/');
+ assert.equal(await evaluate("document.querySelector('#armor-v117-apply-first').disabled"),true,
+  'The site rank-one armor preset must stay disabled before the user loads the source');
+ assert.match(await evaluate("document.querySelector('#armor-v117-reference-comparison').textContent"),
+  /Reference comparison disabled/);
+ console.log('[FOUR MODULE REF SMOKE] PASS: Damage real AR/DPS scene switch, Spell exact-only/no-interpolation, Armor opt-in guard.');
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
  console.log('[BROWSER SMOKE] PASS: disputed weapon requirement/attack fail-closed UI + local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){
