@@ -167,7 +167,7 @@ worker?.addEventListener('message',event=>{
   return;
  }
  $('armor-full-heading').textContent='Best '+r.metricLabel+': '+
-  r.metricValue+(r.metricUnit==='%'?'%':' points');
+  r.metricValue+(r.metricUnit==='%'?'%':r.metricUnit==='score'?' score':' points');
  $('armor-full-details').textContent=
   'Armor weight '+r.armorWeight.toFixed(3)+' + reserved gear = '+
   r.totalWeight.toFixed(3)+' / max '+r.maxEquipLoad.toFixed(3)+

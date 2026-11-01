@@ -932,6 +932,25 @@ try{
   assert.match(joint.details,/Minimum source Poise 51 satisfied: total [5-9][0-9]/);
   console.log('[REAL ARMOR JOINT] PASS: source 568, max physical negation 32.796079%, source Poise 51+, exact medium-roll cap.');
   console.log('[REAL ARMOR SOURCE] 568-item public-source Worker completed independent physical-negation objective; not a competitor UI golden.');
+
+  // NEW 13-attribute weighted user flow: the already user-loaded verified
+  // source is reused. This does not rerun the historical 549 item field audit.
+  await evaluate("(()=>{const mode=document.querySelector('#armor-full-mode');mode.value='weighted';mode.dispatchEvent(new Event('change',{bubbles:true}));const min=document.querySelector('#minPoise');min.value='0';min.dispatchEvent(new Event('input',{bubbles:true}));})()");
+  assert.equal(await evaluate("document.querySelectorAll('#armor-weighted-rows .armor-weighted-row').length"),13,
+   'New weighted form must render all 13 adjustable real metrics');
+  assert.equal(await evaluate("document.querySelector('#armor-weighted-panel').hidden"),false,
+   'Weighted field controls should be visible after user mode change');
+  assert.equal(await evaluate("document.querySelectorAll('#armor-weighted-rows input').length"),39,
+   'Each metric needs multiplier, minimum and maximum controls');
+  await evaluate("document.querySelector('#armor-full-run').click()");
+  await waitFor("document.querySelector('#armor-full-heading')?.textContent.startsWith('Best Weighted 13-attribute score:')||document.querySelector('#armor-full-status')?.dataset.state==='error'",
+   'Weighted Worker must report a result or a real bounded-search error');
+  const weighted=await evaluate("({heading:document.querySelector('#armor-full-heading').textContent,details:document.querySelector('#armor-full-details').textContent,status:document.querySelector('#armor-full-status').textContent,rows:document.querySelectorAll('#armor-full-rows tr').length})");
+  assert.equal(weighted.heading,'Best Weighted 13-attribute score: 71 score',
+   'Default Poise-weighted mode must derive actual 71 Poise under the currently set 75/18 medium-roll scenario');
+  assert.ok(weighted.details.includes('poise 71')&&weighted.details.includes('NOT Tarnished.dev scoring parity'));
+  assert.equal(weighted.rows,4);
+  console.log('[REAL WEIGHTED ARMOR] 13 input rows, 39 controls, Worker exact Poise score 71, site evidence gating.');
   await navigate('/weapon-database/?weapon=v117-roster-001');
   await waitFor("document.querySelector('#catalog-title')?.textContent==='Albinauric Shield'",
    'Source-only Albinauric Shield selected in the real catalog');
