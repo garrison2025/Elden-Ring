@@ -80,6 +80,8 @@ const invalidate=()=>{
  revision++;
  $('armor-full-results').hidden=true;
  $('armor-full-rows').replaceChildren();
+ $('armor-local-top-five').hidden=true;
+ $('armor-local-top-five-rows').replaceChildren();
  const ref=$('armor-v117-reference-comparison');
  if(ref){ref.textContent='Constraints changed; previous source comparison invalidated. Re-run with matching inputs.';ref.dataset.state='unverified';}
  if(armors){
@@ -218,6 +220,18 @@ worker?.addEventListener('message',event=>{
    const td=document.createElement('td');td.textContent=value;row.append(td);
   }
   $('armor-full-rows').append(row);
+ }
+ if(m.topFive?.ranked?.length){
+  const target=$('armor-local-top-five-rows');target.replaceChildren();
+  for(const item of m.topFive.ranked){
+   const tr=document.createElement('tr');
+   for(const cell of [String(item.rank),String(item.poise),item.weight.toFixed(3),
+    item.combination.map(x=>x.name).join(' / ')]){
+    const td=document.createElement('td');td.textContent=cell;tr.append(td);
+   }
+   target.append(tr);
+  }
+  $('armor-local-top-five').hidden=false;
  }
  status('Exact local '+r.metricLabel+' optimization completed in Worker. '+
   r.stages.map(x=>x.slot+': '+x.stateCount+' states').join(' · ')+
