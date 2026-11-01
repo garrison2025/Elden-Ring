@@ -53,13 +53,75 @@ function capture(){
   inputs,selects,buttons
  };
 }
-function clickCalculate(){
- const nodes=[...document.querySelectorAll('button,[role="button"],input[type="submit"]')];
- const el=nodes.find(x=>/^calculate(?: best armor)?$/i.test((x.innerText||x.textContent||x.value||'').trim()));
- if(!el)return {clicked:false,reason:'No Calculate button found',candidates:nodes.map(x=>(x.innerText||'').trim()).filter(Boolean).slice(-40)};
- if(el.disabled)return {clicked:false,reason:'Calculate disabled'};
- el.click();
- return {clicked:true,button:el.outerHTML.slice(0,440)};
+
+function changeNumber(id,value){
+ const e=document.getElementById(id);if(!e)return {ok:false,why:'missing'};
+ const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')?.set;
+ setter.call(e,String(value));
+ e.dispatchEvent(new Event('input',{bubbles:true}));
+ e.dispatchEvent(new Event('change',{bubbles:true}));
+ return {ok:true,value:e.value};
+}
+function poiseOnly(){
+ const results=[];
+ for(const e of document.querySelectorAll('input[id$="_multiplier"]')){
+  if(e.id==='poise_multiplier')continue;
+  const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')?.set;
+  setter.call(e,'0');
+  e.dispatchEvent(new Event('input',{bubbles:true}));
+  e.dispatchEvent(new Event('change',{bubbles:true}));
+  results.push({name:e.id,value:e.value});
+ }
+ return results;
+}
+function buttonRect(label){
+ const nodes=[...document.querySelectorAll('button,[role="button"]')];
+ const el=nodes.find(x=>(x.innerText||x.textContent||'').trim()===label);
+ if(!el)return {found:false,reason:'Button missing',label};
+ if(el.disabled)return {found:false,reason:'Button disabled',label};
+ el.scrollIntoView({block:'center',inline:'center'});
+ const r=el.getBoundingClientRect();
+ return {found:true,label,x:r.x+r.width/2,y:r.y+r.height/2,html:el.outerHTML.slice(0,260)};
+}
+async function trustedClick(label){
+ const r=await call(buttonRect,label);
+ if(!r.found)return r;
+ await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:r.x,y:r.y});
+ await send('Input.dispatchMouseEvent',{type:'mousePressed',x:r.x,y:r.y,button:'left',clickCount:1});
+ await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:r.x,y:r.y,button:'left',clickCount:1});
+ return {...r,clicked:true};
+}
+async function configureOurArmor(){
+ const fields=[['maxLoad','48.176'],['reservedWeight','0'],['minPoise','0']];
+ const changes=await call(function(fields){
+  return fields.map(([id,value])=>{
+   const e=document.getElementById(id);if(!e)return{id,error:'missing'};
+   const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;
+   setter.call(e,value);e.dispatchEvent(new Event('input',{bubbles:true}));
+   return{id,value:e.value};
+  });
+ },fields);
+ const load=await trustedClick('Load pinned 568-item public armor reference');
+ await sleep(6500);
+ const loaded=await call(function(){return{status:document.getElementById('armor-full-status')?.innerText,
+  runDisabled:document.getElementById('armor-full-run')?.disabled,
+  count:document.getElementById('armor-full-slot-head')?.options?.length};});
+ let run={found:false,reason:'not ready'};
+ if(!loaded.runDisabled)run=await trustedClick('Optimize selected combat metric under my weight limit');
+ if(run.clicked)await sleep(14000);
+ const result=await call(function(){return{
+  status:document.getElementById('armor-full-status')?.innerText,
+  heading:document.getElementById('armor-full-heading')?.innerText,
+  details:document.getElementById('armor-full-details')?.innerText,
+  rows:[...(document.getElementById('armor-full-rows')?.querySelectorAll('tr')||[])].map(e=>e.innerText),
+  hidden:document.getElementById('armor-full-results')?.hidden,
+  maxLoad:document.getElementById('maxLoad')?.value,
+  reservedWeight:document.getElementById('reservedWeight')?.value,
+  minPoise:document.getElementById('minPoise')?.value,
+  metric:document.getElementById('armor-full-metric')?.value,
+  siteOnly:document.getElementById('armor-full-site-only')?.checked
+ };});
+ return {changes,load,loaded,run,result};
 }
 async function navigate(url){
  await send('Page.navigate',{url});
@@ -99,16 +161,25 @@ async function main(){
  for(const c of cases){
   try{
    const before=await navigate(c.url);
-   const click=c.id==='tarnished-armor'?await call(clickCalculate):{clicked:false,reason:'Read-only initial controls'};
-   if(click.clicked)await sleep(7000);
+   let configuration=null,click={clicked:false,reason:'Control read only'};
+   if(c.id==='tarnished-armor'){
+    configuration=await call(poiseOnly);
+    await sleep(650);
+    click=await trustedClick('Calculate Best Armor');
+    if(click.clicked)await sleep(15000);
+   }
+   if(c.id==='our-armor'){
+    configuration=await configureOurArmor();
+    click=configuration.run;
+   }
    const after=click.clicked?await call(capture):null;
-   all.push({...c,before,click,after});
+   all.push({...c,before,configuration,click,after});
    const change=after?(after.textTail!==before.textTail):null;
    console.log('[NEW PARITY BROWSER] '+JSON.stringify({id:c.id,url:before.url,title:before.title,
     version:before.version,head:before.textHead.slice(0,1100),
     initialTail:before.textTail.slice(-1800),afterTail:after?.textTail.slice(-3500)||null,
     buttons:before.buttons.map(x=>x.text).slice(-30),inputs:before.inputs.map(x=>({id:x.id,value:x.value,checked:x.checked,label:x.label.slice(0,62)})).slice(0,c.id==='tarnished-armor'?95:12),inputCount:before.inputs.length,
-    selects:before.selects.slice(0,c.id==='tarnished-armor'?35:4).map(x=>({id:x.id,text:x.text,parent:x.parent})),click,changed:change}));
+    selects:before.selects.slice(0,c.id==='tarnished-armor'?35:4).map(x=>({id:x.id,text:x.text,parent:x.parent})),configuration,click,changed:change}));
   }catch(err){all.push({...c,error:String(err.message)});console.error('[NEW PARITY BROWSER FAILURE] '+JSON.stringify({id:c.id,error:String(err.message)}));}
  }
  await mkdir(resolve('.audit'),{recursive:true});
