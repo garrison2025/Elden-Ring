@@ -6,6 +6,8 @@ const update=()=>{
  const pane=$('spell-outcome'),note=$('spell-status');
  if(!observed.reference){
   pane.hidden=true;
+  pane.style.display='none';
+  for(const id of ['spell-magic','spell-fp','spell-bullets','spell-req'])$(id).textContent='—';
   note.textContent='NOT OBSERVED: no independent v1.17 reference row for INT '+$('spell-int').value+
    '. No damage value is invented or interpolated. This reference-only module is not a general spell calculation engine.';
   note.dataset.state='error';
@@ -13,6 +15,7 @@ const update=()=>{
  }
  const p=observed.reference;
  pane.hidden=false;
+ pane.style.display='grid';
  $('spell-magic').textContent=String(p.magic);
  $('spell-fp').textContent=String(p.fp);
  $('spell-bullets').textContent=String(p.bullets);
