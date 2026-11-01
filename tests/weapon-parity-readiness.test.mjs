@@ -19,7 +19,7 @@ test('weapon parity audit exposes real source coverage rather than claiming all 
  assert.equal(audit.counts.sourceOnlyMissingPrimaryAttackWeight,72);
  assert.equal(audit.counts.sourceConflicts,9);
  assert.equal(audit.counts.embeddedPreciseArProfiles,0);
- assert.equal(audit.counts.v117ReferenceUiObservations,50);
+ assert.equal(audit.counts.v117ReferenceUiObservations,68);
  assert.equal(audit.readyForFullWeaponParity,false);
 });
 test('reference-only parity gates retain 50 competitor cases and exclude real-game certification',()=>{
