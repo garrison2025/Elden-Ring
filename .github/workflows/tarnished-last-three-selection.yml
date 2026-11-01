@@ -1,0 +1,35 @@
+name: Direct public v1.17 unresolved three weapon activation
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-last-three-selection.mjs
+      - .github/workflows/tarnished-last-three-selection.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First public Chromium site observation
+        run: |
+          node scripts/probe-tarnished-last-three-selection.mjs
+          cp .audit/tarnished-last-three-selection.json .audit/first.json
+      - name: Independent second public Chromium observation
+        run: node scripts/probe-tarnished-last-three-selection.mjs
+      - name: Save raw observations including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-v117-last-three-two-reads
+          path: |
+            .audit/first.json
+            .audit/tarnished-last-three-selection.json
+          retention-days: 30
+          if-no-files-found: warn
