@@ -92,5 +92,6 @@ test('browser exposes per-slot locks, mandatory empty slots, and passes the rest
  for(const slot of slots)assert.match(page,new RegExp('id="armor-full-slot-'+slot.toLowerCase()+'"'));
  assert.match(app,/\.\.\.slotRestrictions\(\)/);
  assert.match(app,/select\.disabled=false/);
- assert.match(page,/arbitrary multi-stat minima\/maxima/i);
+ assert.match(page,/13-metric weighted mode/i);
+ assert.match(page,/per-metric minima\/maxima/i);
 });
