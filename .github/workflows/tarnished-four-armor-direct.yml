@@ -1,0 +1,41 @@
+name: Direct Tarnished.dev 4 armor x 2 browser site parity
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-four-armor-pieces.mjs
+      - scripts/compare-tarnished-four-armor-double-site.mjs
+      - public/src/tarnished-v117-armor-direct.mjs
+      - public/src/armor-source-optin.mjs
+      - .github/workflows/tarnished-four-armor-direct.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  armor-direct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First real Tarnished.dev Build Planner armor weight/poise observation
+        run: |
+          node scripts/probe-tarnished-four-armor-pieces.mjs
+          cp .audit/tarnished-armor-four-piece-site.json .audit/armor-first.json
+      - name: Second independent browser process re-reads four same inputs
+        run: node scripts/probe-tarnished-four-armor-pieces.mjs
+      - name: Demand exactly matching UI twice and local loaded armor fields
+        run: node scripts/compare-tarnished-four-armor-double-site.mjs
+      - name: Archive both reads and exact-input site-only parity result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-four-armor-two-pass-numeric-goldens
+          path: |
+            .audit/armor-first.json
+            .audit/tarnished-armor-four-piece-site.json
+            .audit/tarnished-four-armor-site-parity.json
+          retention-days: 30
+          if-no-files-found: warn

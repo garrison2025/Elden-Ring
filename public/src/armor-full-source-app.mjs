@@ -35,7 +35,7 @@ $('armor-full-load').addEventListener('click',async()=>{
   const source=await loadPinnedArmorSource(fetch);
   armors=source.armors;
   const missing=armors.filter(x=>x.poise===null).length;
-  status('Pinned '+source.count+' armor names/weights loaded. '+
+  status('Pinned '+source.count+' armor items loaded; '+(source.directTarnishedV117ArmorCount??0)+' item weight and Poise pairs directly matched Tarnished.dev v1.17. Other armor fields remain unverified. '+ 
    missing+' items lack valid source Poise. For any chosen objective, missing metric rows are independently excluded. '+
    'Values and item availability are not current-game certified.');
   $('armor-full-run').disabled=false;button.hidden=true;

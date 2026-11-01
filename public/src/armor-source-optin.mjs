@@ -1,3 +1,4 @@
+import {applyTarnishedV117DirectArmorFields} from './tarnished-v117-armor-direct.mjs';
 /** User-requested source reference only. Never bundle/copy third-party item
  * descriptions, images, code, or claimed patch-certified derived mechanics. */
 export const ARMOR_SNAPSHOT_SHA='3d9cefcfcda7066796b9553825449039c2073926';
@@ -84,7 +85,13 @@ export async function loadPinnedArmorSource(fetcher,{signal}={}){
  if(bytes>1_500_000)fail('Pinned armor file is too large.');
  const text=await response.text();
  if(text.length>1_500_000)fail('Pinned armor JSON exceeds limit.');
- return inspectArmorSource(text);
+ const original=inspectArmorSource(text);
+ // Site-verified numeric fields win; unobserved metrics stay source-only.
+ const direct=applyTarnishedV117DirectArmorFields(original.armors);
+ return {...original,armors:direct.armors,
+  directTarnishedV117ArmorCount:direct.directlyCorrectedArmorCount,
+  description:original.description+' '+direct.directlyCorrectedArmorCount+
+   ' armor pieces have directly double-observed v1.17 Tarnished.dev weight and Poise overrides; other metrics are not site-verified.'};
 }
 export function findExactArmor(rows,slot,name){
  if(!Array.isArray(rows)||typeof slot!=='string'||typeof name!=='string')return null;
