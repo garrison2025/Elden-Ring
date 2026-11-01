@@ -12,7 +12,7 @@ import {downloadV117Source,V117_UPSTREAM_COMMIT} from '../public/src/upstream-re
 import {auditRawMathParity} from '../public/src/regulation-parity.mjs';
 import {auditHistoricalPlayerAr} from '../public/src/external-ar-evidence.mjs';
 import {auditCurrentReferenceAr,CURRENT_REFERENCE_URL} from '../public/src/current-reference-ar.mjs';
-import {auditTarnishedV117ReferenceAR} from '../public/src/tarnished-reference-benchmark.mjs';
+import {auditTarnishedV117ReferenceAR,TARNISHED_V117_ALL_APPROVED_AR_CASES} from '../public/src/tarnished-reference-benchmark.mjs';
 import {buildV117CatalogOverlay} from '../public/src/v117-catalog-overlay.mjs';
 import {buildV117ComparatorCatalog} from '../public/src/v117-comparator-catalog.mjs';
 
@@ -47,7 +47,7 @@ async function main(){
   remainingUnknownWeights:accepted.summary.weightNotSupplied,
   remainingDisputedWeights:accepted.summary.weightConflictsRemain,
   allNeutralAttackAndRequirementsMatchSource:acceptedFactsMatch,
-  independentPublicSiteARExamples:50,
+  independentPublicSiteARExamples:TARNISHED_V117_ALL_APPROVED_AR_CASES.length,
   mappingIsNotIndividualWebsiteObservation:true,
   requiresInGameValidation:false,
   liveDatasetBundled:false,
@@ -188,7 +188,7 @@ async function main(){
  // First live-site candidate: captured once, but repeated public fetches returned
  // blank weapon slots. Audit actual source computation; do not award a release
  // badge or treat a transient scraped display as a stable benchmark.
- const tarnished=auditTarnishedV117ReferenceAR(params);
+ const tarnished=auditTarnishedV117ReferenceAR(params,{cases:TARNISHED_V117_ALL_APPROVED_AR_CASES});
  const referenceSummary={
   benchmarkSource:tarnished.source,
   sourceVersion:tarnished.version,

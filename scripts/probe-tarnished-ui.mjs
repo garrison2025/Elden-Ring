@@ -9,6 +9,10 @@ import {tmpdir} from 'node:os';
 import {waitForChromePage} from './browser-cdp-startup.mjs';
 import {V117_ADDITIONAL_UI_CANDIDATES} from './tarnished-v117-extra-candidates.mjs';
 import {V117_FRESH_UI_CANDIDATES} from './tarnished-v117-fresh-candidates.mjs';
+import {V117_DISPUTED_UI_CANDIDATES} from './tarnished-v117-disputed-candidates.mjs';
+const disputeMode=process.env.TARNISHED_PROBE_SET==='disputes';
+if(process.env.TARNISHED_PROBE_SET&&!['disputes','all'].includes(process.env.TARNISHED_PROBE_SET))
+ throw new RangeError('Unsupported read-only reference probe set.');
 const chromePath=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].find(existsSync);
 if(!chromePath)throw Error('GitHub runner has no Chromium');
 const cases=[
@@ -31,7 +35,11 @@ const cases=[
 const baseCases=cases.length;
 cases.push(...V117_ADDITIONAL_UI_CANDIDATES,...V117_FRESH_UI_CANDIDATES);
 const priorTotal=baseCases+V117_ADDITIONAL_UI_CANDIDATES.length;
-if(baseCases!==15||V117_ADDITIONAL_UI_CANDIDATES.length!==35||V117_FRESH_UI_CANDIDATES.length!==18||
+if(disputeMode)cases.splice(0,cases.length,...V117_DISPUTED_UI_CANDIDATES);
+if(disputeMode){
+ if(cases.length!==18||new Set(cases.map(c=>c.id)).size!==18)
+  throw new RangeError('Dispute probe requires 18 distinct v1.17 weapon candidate inputs.');
+}else if(baseCases!==15||V117_ADDITIONAL_UI_CANDIDATES.length!==35||V117_FRESH_UI_CANDIDATES.length!==18||
  cases.length!==68||new Set(cases.map(c=>c.id)).size!==68)
  throw new RangeError('Reference probe requires 15 prior + 35 approved + 18 fresh DISTINCT candidate input combinations.');
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -143,7 +151,8 @@ async function main(){
     );
     const result={
      id:c.id,request:c,
-     evidenceTier:cases.indexOf(c)<baseCases?'prior-15-reprobe':
+     evidenceTier:disputeMode?'dispute-unpromoted-candidate':
+       cases.indexOf(c)<baseCases?'prior-15-reprobe':
         cases.indexOf(c)<priorTotal?'additional-unpromoted-candidate':'fresh-18-unpromoted-candidate',
      observedAr:ar?Number(ar[1]):null,
      displayedWeapon:snap.weaponBlock.includes('\n'+desiredWeapon+'\n')?desiredWeapon:null,
@@ -171,8 +180,10 @@ async function main(){
  await writeFile(resolve('.audit/tarnished-chrome-ui.json'),JSON.stringify({
   source:'tarnished.dev public UI',gameCertified:false,comparatorVersion:'v1.17',
   evidenceStatus:'RAW OBSERVATIONS ONLY; new cases are not counted or promoted until two confirmed external reads and independent AR matching',
-  priorCaseCount:baseCases,newCandidateCount:V117_ADDITIONAL_UI_CANDIDATES.length,
-  freshCandidateCount:V117_FRESH_UI_CANDIDATES.length,
+  priorCaseCount:disputeMode?0:baseCases,
+  newCandidateCount:disputeMode?0:V117_ADDITIONAL_UI_CANDIDATES.length,
+  freshCandidateCount:disputeMode?0:V117_FRESH_UI_CANDIDATES.length,
+  disputeCandidateCount:disputeMode?V117_DISPUTED_UI_CANDIDATES.length:0,
   freshInputVerified:results.slice(priorTotal).filter(c=>c.status==='INPUT-VERIFIED-AR').length,
   newInputVerified:results.slice(baseCases).filter(c=>c.status==='INPUT-VERIFIED-AR').length,
   cases:results
@@ -182,7 +193,8 @@ async function main(){
   ' prior-input-verified='+results.slice(0,baseCases).filter(x=>x.status==='INPUT-VERIFIED-AR').length+
   ' NEW-input-verified='+results.slice(baseCases).filter(x=>x.status==='INPUT-VERIFIED-AR').length+
   ' FRESH-input-verified='+results.slice(priorTotal).filter(c=>c.status==='INPUT-VERIFIED-AR').length+
-  ' FRESH-unpromoted='+V117_FRESH_UI_CANDIDATES.length+
+  ' FRESH-unpromoted='+(disputeMode?0:V117_FRESH_UI_CANDIDATES.length)+
+  ' DISPUTE-input-verified='+(disputeMode?results.filter(c=>c.status==='INPUT-VERIFIED-AR').length:0)+
   '; zero new benchmark passes auto-approved');
 }
 main().catch(async e=>{console.error('[TARNISHED CHROME] fatal: '+String(e));await cleanup();process.exitCode=1;});

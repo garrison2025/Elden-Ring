@@ -2,6 +2,7 @@ import {convertCompactRegulation} from './regulation-import.mjs';
 import {calculateAr,POWER_STATS} from './weapon-ar.mjs';
 import {TARNISHED_V117_35_APPROVED_ADDITIONAL} from './tarnished-v117-approved-additions.mjs';
 import {TARNISHED_V117_18_APPROVED_FRESH} from './tarnished-v117-approved-fresh.mjs';
+import {TARNISHED_V117_18_APPROVED_DISPUTED} from './tarnished-v117-approved-disputed.mjs';
 
 /** Named public UI observations: first rendered through site scraping then
  * read in a real GitHub-hosted Chrome browser; five cases from run 41180413857.
@@ -167,9 +168,10 @@ export const TARNISHED_REFERENCE_AR_CASES=Object.freeze([
  }),
  ...TARNISHED_V117_35_APPROVED_ADDITIONAL
 ]);
-/** Keeps the historic 50-case suite intact while exposing all 68 approved cases. */
+/** Keeps historic 50-case suite intact while exposing 86 twice-observed public UI cases. */
 export const TARNISHED_V117_ALL_APPROVED_AR_CASES=Object.freeze([
- ...TARNISHED_REFERENCE_AR_CASES,...TARNISHED_V117_18_APPROVED_FRESH
+ ...TARNISHED_REFERENCE_AR_CASES,...TARNISHED_V117_18_APPROVED_FRESH,
+ ...TARNISHED_V117_18_APPROVED_DISPUTED
 ]);
 const fail=s=>{throw new RangeError(s)};
 const same=(a,b)=>a.every((x,i)=>x===b[i]);

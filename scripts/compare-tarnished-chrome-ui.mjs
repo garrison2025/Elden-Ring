@@ -87,7 +87,12 @@ export function compareTarnishedChromeObservations(snapshot,source){
 export async function run(){
  const path=resolve('.audit/tarnished-chrome-ui.json');
  const snapshot=JSON.parse(await readFile(path,'utf8'));
- if(snapshot.priorCaseCount!==15||snapshot.newCandidateCount!==35||
+ const disputeMode=snapshot.disputeCandidateCount===18;
+if(disputeMode){
+ if(snapshot.priorCaseCount!==0||snapshot.newCandidateCount!==0||
+  snapshot.freshCandidateCount!==0||snapshot.cases?.length!==18)
+  error('Dispute Chrome probe must include exactly 18 targeted input observations.');
+}else if(snapshot.priorCaseCount!==15||snapshot.newCandidateCount!==35||
   snapshot.freshCandidateCount!==18||snapshot.cases?.length!==68)
   error('Raw Chrome probe did not contain all 50 prior + 18 fresh observations.');
  const {text}=await downloadV117Source(fetch);
@@ -96,7 +101,8 @@ export async function run(){
  await mkdir(dirname(out),{recursive:true});
  await writeFile(out,JSON.stringify(comparison,null,2)+'\n','utf8');
  console.log('[COMPARATOR] '+JSON.stringify(comparison.counts));
- for(const item of comparison.results.slice(50)) console.log('[FRESH COMPARE] '+JSON.stringify(item));
+ if(disputeMode){for(const item of comparison.results) console.log('[DISPUTE COMPARE] '+JSON.stringify(item));}
+else for(const item of comparison.results.slice(50)) console.log('[FRESH COMPARE] '+JSON.stringify(item));
  console.log('[COMPARATOR] '+comparison.qualification);
  for(const r of comparison.results){
   if(r.status!=='matched-unpromoted')

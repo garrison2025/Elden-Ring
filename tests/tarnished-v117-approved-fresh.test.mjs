@@ -4,9 +4,9 @@ import {TARNISHED_V117_18_APPROVED_FRESH as fresh} from '../public/src/tarnished
 import {TARNISHED_REFERENCE_AR_CASES as previous,TARNISHED_V117_ALL_APPROVED_AR_CASES as all} from '../public/src/tarnished-reference-benchmark.mjs';
 import {V117_FRESH_UI_CANDIDATES as proposed} from '../scripts/tarnished-v117-fresh-candidates.mjs';
 test('18 new external site data rows have two UI observations, all numbers and inputs; 50 earlier rows remain intact',()=>{
- assert.equal(previous.length,50);assert.equal(fresh.length,18);assert.equal(all.length,68);
+ assert.equal(previous.length,50);assert.equal(fresh.length,18);assert.equal(all.length,86);
  assert.deepEqual(all.slice(0,50),previous);
- assert.deepEqual(all.slice(50),fresh);
+ assert.deepEqual(all.slice(50,68),fresh);
  const old=new Set(previous.map(x=>x.id));
  for(const [index,c] of fresh.entries()){
   const input=proposed[index];
@@ -23,6 +23,6 @@ test('18 new external site data rows have two UI observations, all numbers and i
   assert.ok(c.sourceUrl.startsWith('https://www.tarnished.dev/build-planner?'));
   assert.ok(c.observedDisplay.includes('Total AR : '+c.expectedTotal));
  }
- assert.equal(new Set(all.map(x=>x.id)).size,68);
+ assert.equal(new Set(all.map(x=>x.id)).size,86);
  assert.deepEqual(fresh.map(x=>x.expectedTotal),[142,517,735,599,556,449,572,785,847,508,748,501,659,671,629,609,568,732]);
 });
