@@ -165,6 +165,15 @@ try{
  await connect();
  await send('Page.enable');await send('Runtime.enable');
  await navigate('/build-planner/');
+ // Newly verified base-vitals readouts: same input as REAL Tarnished v1.17
+ // four-scenario browser record; no gear, buffs or rune effects applied.
+ await evaluate("(()=>{const s=document.querySelector('#origin');s.value='Wretch';s.dispatchEvent(new Event('change',{bubbles:true}));const set=(i,n)=>{const x=document.querySelector('#stat-grid [data-stat=\\\"'+i+'\\\"]');x.value=String(n);x.dispatchEvent(new Event('input',{bubbles:true}))};set(0,40);set(1,30);set(2,25)})()");
+ assert.deepEqual(await evaluate("['base-hp','base-fp','base-stamina','base-equip-load'].map(id=>document.getElementById(id)?.textContent)"),
+  ['1,450','173','121','72'],'Real browser base Wretch VIG40/MND30/END25 must match v1.17 UI');
+ assert.match(await evaluate("document.querySelector('#base-vitals-note').textContent"),
+  /not itself independently checked/,'Exact combined build remains unverified even though curves are site-read');
+ await evaluate("(()=>{const s=document.querySelector('#origin');s.value='Samurai';s.dispatchEvent(new Event('change',{bubbles:true}))})()");
+
  await waitFor('document.querySelector("#build-weapon")?.disabled===false',
   'Build Planner catalog ready');
  await evaluate("document.querySelector('#build-loadout-start').click()");

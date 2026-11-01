@@ -308,6 +308,9 @@ function initBuild(){
     status(sharedProblem||'Plan valid. Attribute level is calculated locally; selected weapons are community references only.');
   }catch(e){
     clearValues(['#build-level','#spent-points','#build-runecost','#build-summary']);
+    for(const id of ['#base-hp','#base-fp','#base-stamina','#base-equip-load'])
+      $(id).textContent='Unverified';
+    $('#base-vitals-note').textContent='Correct the eight character attributes; no previous derived vitals are carried forward.';
     for(const id of ['#class-compare-link','#rune-plan-link','#respec-link','#weapon-req-link','#weapon-catalog-link'])$(id).hidden=true;
     weaponDetails.hidden=true;weaponAr.hidden=true;weaponSummary.textContent='Correct the eight character attributes before checking weapon requirements.';
     renderSmithingShortlist();
