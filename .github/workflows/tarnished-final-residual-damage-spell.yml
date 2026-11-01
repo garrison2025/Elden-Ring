@@ -52,7 +52,7 @@ jobs:
     timeout-minutes: 7
     strategy:
       fail-fast: false
-      max-parallel: 6
+      max-parallel: 3
       matrix:
         profile: [0, 1, 2]
         pass: [1, 2]

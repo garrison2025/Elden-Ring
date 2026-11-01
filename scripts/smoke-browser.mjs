@@ -1248,6 +1248,11 @@ try{
    sourceOptimization.status.includes('completed in Worker')&&
    sourceOptimization.details.includes('0 records excluded'),
    'Live full-source optimum must disclose source Poise, load tier and excluded unknowns');
+  await waitFor("document.querySelectorAll('#armor-local-top-five-rows tr').length===5",
+   'Independent exact Armor top-five DP must produce five distinct ranked combinations');
+  const topFive=await evaluate("({rows:[...document.querySelectorAll('#armor-local-top-five-rows tr')].map(x=>x.textContent),visible:document.querySelector('#armor-local-top-five').hidden})");
+  assert.equal(topFive.visible,false);
+  assert.equal(new Set(topFive.rows).size,5,'Local ranked alternatives cannot repeat exactly identical four-piece sets');
   // Same exact public v1.17 Wretch10, Normal-roll, Poise-only reference.
   await evaluate("(()=>{for(const [id,value] of [['maxLoad','48.176'],['reservedWeight','0'],['minPoise','0']])document.getElementById(id).value=value;document.querySelector('#targetTier').value='medium';document.querySelector('#armor-full-site-only').checked=true;const box=document.querySelector('#armor-v117-confirm-wretch');box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#armor-full-run').click()})()");
   await waitFor("document.querySelector('#armor-v117-reference-comparison').textContent.includes('local = 70')",
@@ -1317,6 +1322,15 @@ try{
  const damageMobile=await evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth})");
  assert.ok(damageMobile.scroll<=damageMobile.width+5,
   '375px damage calculator must not overflow: '+JSON.stringify(damageMobile));
+ // Real per-move frame DPS: no known frames yields no fake numeric output.
+ assert.equal(await evaluate("document.querySelector('#damage-frame-dps').textContent"),'—');
+ await evaluate("(()=>{document.querySelector('#damage-frame-calculate').click()})()");
+ assert.match(await evaluate("document.querySelector('#damage-frame-status').textContent"),/frame count/,
+  'Missing animation frames must fail closed rather than guessing DPS');
+ await evaluate("(()=>{for(const [id,v] of [['damage-attack-physical','200'],['damage-attack-magic','0'],['damage-def-physical','0'],['damage-neg-physical','0']]){const el=document.getElementById(id);el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}))}const fr=document.querySelector('[data-frame-field=frames]');fr.value='60';fr.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#damage-frame-calculate').click()})()");
+ await waitFor("document.querySelector('#damage-frame-dps').textContent==='180'",
+  'Independent 200 physical AR, 0 defense, 100% MV, 60 frames at 60FPS produces 180 source-model DPS');
+ console.log('[INDEPENDENT DPS FRAMES] PASS: zero-default frames fail closed, entered 60-frame move yields mathematical DPS 180.');
  console.log('[DAMAGE PREVIEW] PASS: 8 defense pairs, motion/negation formula, split-AR URL handoff, 375px mobile.');
  // Newly added real-v1.17 reference workflows: verify the actually rendered
  // outputs and fail-closed behavior in Chrome, not merely source-file strings.
@@ -1341,6 +1355,39 @@ try{
  assert.equal(await evaluate("document.querySelector('#spell-magic').textContent"),'—',
   'Previously observed spell damage must clear immediately when input is unsupported');
  assert.match(await evaluate("document.querySelector('#spell-status').textContent"),/NOT OBSERVED/);
+ // Independent spell engine: user-triggered pinned catalyst parameter download,
+ // not the fixed reference lookup. Verify three actual Tarnished.dev v1.17 rows.
+ await evaluate("document.querySelector('#spell-load-math').click()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent!=='—'||document.querySelector('#spell-math-status').dataset.state==='error'",
+  'Pinned public v1.17 source loads and Glintstone Pebble is calculated from catalyst scaling');
+ const spellIndependentStatus=await evaluate("document.querySelector('#spell-math-status').textContent");
+ assert.ok(!spellIndependentStatus.includes('Source unavailable')&&
+  !spellIndependentStatus.includes('Calculation refused'),
+  'Independent source calculation unexpectedly failed: '+spellIndependentStatus);
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='25';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent==='242'",
+  'Real Tarnished v1.17 spell magic at INT25 must be independently calculated to site 242 boundary');
+ assert.equal(await evaluate("document.querySelector('#spell-math-raw').textContent"),'243',
+  'INT25 one-point source arithmetic boundary remains disclosed, not globally hidden');
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='30';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent==='267'",
+  'Pinned catalyst math Glintstone Pebble INT30 equals actual Tarnished v1.17 267');
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='40';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent==='315'",
+  'Pinned catalyst math Glintstone Pebble INT40 equals actual Tarnished v1.17 315');
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='50';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.equal(await evaluate("document.querySelector('#spell-math-damage').textContent"),'362');
+ assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/public site two-pass damage 363/,
+  'Actual INT50 Tarnished.dev magic 363 must remain visibly different from source model 362');
+ assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/SOURCE_MODEL_NUMERIC_MISMATCH/,
+  'INT50 genuine one-point discrepancy cannot be hidden by a site-specific fake adjustment');
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='60';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent==='410'",
+  'Independent source staff model matches twice-observed Tarnished.dev INT60 magic 410');
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='51';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/No same-input Tarnished.dev benchmark/,
+  'Unobserved INT51 calculated from source cannot be called actual real-site verified');
+
  await navigate('/build-planner/');
  await evaluate("document.querySelector('#build-loadout-start').click()");
  await waitFor("document.querySelector('[aria-label=\\\"Choose a twice-observed reference talisman combination\\\"]')!==null",
@@ -1354,6 +1401,12 @@ try{
  assert.deepEqual(realBuild.attrs,Array(8).fill('10'));
  assert.ok(realBuild.selected.includes('-32.25%'),
   'Combined Soreseal negative damage negation must be the real observed -32.25%, not -30%');
+ const compositionResult=await evaluate("document.querySelector('#build-v117-independent-talisman-stats')?.textContent||''");
+ assert.match(compositionResult,/REAL_TARNISHED_V117_ATTRIBUTES_MATCH/,
+  'Independent Build combination must mathematically reproduce exact real two-Soreseal site attributes');
+ assert.match(compositionResult,/STR 10 \+ 5 = 15/,
+  'Real independent strength +5 composition must be visible in Build');
+
  console.log('[FOUR MODULE BUILD SMOKE] PASS: one-click exact two-Soreseal Wretch10 scenario, real observed -32.25% negation.');
  await navigate('/armor-optimizer/');
  assert.equal(await evaluate("document.querySelector('#armor-v117-apply-first').disabled"),true,

@@ -1,3 +1,4 @@
+import {calculateManualMoveSequence} from './damage-moveset-sequence.mjs';
 import {exactPublicUchigatanaDamage} from './tarnished-v117-scoped-reference-scenes.mjs';
 import {DAMAGE_TYPES,ENEMY_TYPES,calculateManualDamage} from './damage-reference-model.mjs';
 const $=id=>document.getElementById(id);
@@ -150,3 +151,74 @@ const selectedV117=()=>{
 };
 $('damage-v117-scene').addEventListener('change',selectedV117);
 selectedV117();
+
+const frames=$('damage-frame-entries');
+let moveSerial=0;
+const invalidateFrames=()=>{
+ for(const id of ['damage-frame-total','damage-frame-dps','damage-frame-count'])
+  $(id).textContent='—';
+ $('damage-frame-status').textContent='Frame inputs changed. Recalculate with actual move values.';
+ $('damage-frame-status').dataset.state='unverified';
+};
+const addFrame=()=>{
+ if(frames.children.length>=8)return;
+ const group=make('div',frames);group.className='panel damage-frame-row';
+ const n=++moveSerial;
+ const fields=[
+  {name:'label',label:'Move label',type:'text',value:'Move '+n},
+  {name:'mv',label:'Motion value %',type:'number',value:'100',min:'0',max:'500',step:'0.001'},
+  {name:'hits',label:'Hit count',type:'number',value:'1',min:'1',max:'100',step:'1'},
+  {name:'frames',label:'Animation + recovery frames (required)',type:'number',value:'',min:'1',max:'10000',step:'1'}
+ ];
+ for(const meta of fields){
+  const label=make('label',group);label.className='field';label.textContent=meta.label;
+  const input=make('input',label);
+  Object.assign(input,{type:meta.type,value:meta.value});
+  input.dataset.frameField=meta.name;
+  for(const prop of ['min','max','step'])if(meta[prop]!==undefined)input[prop]=meta[prop];
+  if(meta.name==='frames')input.placeholder='Enter measured frames (no default)';
+ }
+ const remove=make('button',group);
+ remove.type='button';remove.className='btn alt';remove.textContent='Remove move '+n;
+ remove.addEventListener('click',()=>{group.remove();invalidateFrames();$('damage-frame-add').disabled=false;});
+ $('damage-frame-add').disabled=frames.children.length>=8;
+ invalidateFrames();
+};
+$('damage-frame-add').addEventListener('click',addFrame);
+frames.addEventListener('input',invalidateFrames);
+for(const parent of [attackRow,tbody])parent.addEventListener('input',invalidateFrames);
+for(const id of ['damage-physical-type','damage-buff','damage-frame-fps']){
+ $(id).addEventListener('input',invalidateFrames);
+ $(id).addEventListener('change',invalidateFrames);
+}
+$('damage-frame-calculate').addEventListener('click',()=>{
+ try{
+  const input=config();
+  const moves=[...frames.children].map(e=>{
+   const v=key=>e.querySelector('[data-frame-field="'+key+'"]').value;
+   return {label:v('label'),motionValue:Number(v('mv')),
+    hits:Number(v('hits')),frames:Number(v('frames'))};
+  });
+  // A blank frame is INVALID, not Number('') -> zero as an accidental value.
+  if([...frames.querySelectorAll('[data-frame-field="frames"]')].some(e=>!e.value.trim()))
+   throw Error('Enter a real animation/recovery frame count for every move; zero/blank timing is unsupported.');
+  const calculated=calculateManualMoveSequence({
+   attack:input.attack,enemy:input.enemy,physicalType:input.physicalType,
+   damageMultiplier:Number(input.damageMultiplier),
+   framesPerSecond:Number($('damage-frame-fps').value),moves
+  });
+  $('damage-frame-total').textContent=fmt(calculated.damagePerSequence);
+  $('damage-frame-dps').textContent=fmt(calculated.damagePerSecond);
+  $('damage-frame-count').textContent=String(calculated.totalFrames);
+  $('damage-frame-status').textContent=calculated.status+
+   ' · '+calculated.perMove.map(x=>x.label+' '+fmt(x.sequenceDamage)).join('; ')+
+   '. '+calculated.caveat;
+  $('damage-frame-status').dataset.state='ready';
+ }catch(error){
+  for(const id of ['damage-frame-total','damage-frame-dps','damage-frame-count'])
+   $(id).textContent='—';
+  $('damage-frame-status').textContent='Calculation rejected: '+String(error.message).slice(0,250);
+  $('damage-frame-status').dataset.state='error';
+ }
+});
+addFrame();

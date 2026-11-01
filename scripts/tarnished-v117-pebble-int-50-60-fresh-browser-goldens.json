@@ -1,0 +1,26 @@
+{
+  "site": "Tarnished.dev public v1.17",
+  "evidence": "Real independent Chromium reads, same Wretch10 except INT, Astrologer's Staff + Glintstone Pebble, +25 catalyst, zero default enemy defense/negation",
+  "realBrowserRun": 41361280757,
+  "cases": [
+    {
+      "int": 50,
+      "magic": 363,
+      "fp": 7,
+      "bullets": 1,
+      "independentSourceModel": 362,
+      "delta": -1,
+      "status": "SOURCE_MODEL_ONE_POINT_MISMATCH"
+    },
+    {
+      "int": 60,
+      "magic": 410,
+      "fp": 7,
+      "bullets": 1,
+      "independentSourceModel": 410,
+      "delta": 0,
+      "status": "INDEPENDENT_SOURCE_MODEL_MATCH"
+    }
+  ],
+  "note": "Two separate real Chrome sessions each. Source-derived spell arithmetic yields 362 at 50 while Tarnished.dev displays 363; this is a genuine not-yet-reconciled one-point numerical disagreement. Do NOT call all-INT spell scaling verified."
+}

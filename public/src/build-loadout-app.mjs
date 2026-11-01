@@ -1,3 +1,4 @@
+import {calculateV117BuildTalismanAttributeComposition} from './v117-build-talisman-composition.mjs';
 import {V117_EXACT_TALISMAN_COMBOS} from './v117-talisman-combos-direct.mjs';
 import {
  LOADOUT_WEAPON_SLOTS,LOADOUT_ARMOR_SLOTS,emptyBuildLoadout,
@@ -203,6 +204,41 @@ function render(){
     ['physical','strike','slash','pierce','magic','fire','lightning','holy']
      .map(k=>k+' '+x.metrics[k]+'%').join(' · ')},p);
    make('p',{text:directPair.note},p);
+  }
+  const composition=calculateV117BuildTalismanAttributeComposition(
+   topStats(),evaluated.state.talismans,{
+    origin:byId('origin')?.value??'unverified',
+    hasOtherEquipment:evaluated.state.weaponSlots.some(x=>x.id)||
+     evaluated.state.armorSlots.some(x=>x.name)||evaluated.state.spells.some(Boolean),
+    activeOtherEffects:evaluated.state.crystalTears.some(Boolean)||!!evaluated.state.greatRune
+   });
+  if(composition.status!=='NO_TALISMANS'){
+   const panel=make('section',{className:'build-armor-metric-panel',
+    id:'build-v117-independent-talisman-stats'},result);
+   make('h3',{text:'Independently computed talisman attribute bonuses'},panel);
+   make('p',{text:composition.status},panel);
+   if(composition.final){
+    make('p',{text:'Computed final eight attributes: '+
+     composition.labels.map((label,i)=>label+' '+topStats()[i]+' + '+
+      composition.bonuses[i]+' = '+composition.final[i]).join(' · ')},panel);
+   }else{
+    make('p',{text:'No combined attributes published. Incompatible, unknown or over-cap effects cannot be treated as zeros.'},panel);
+   }
+   if(composition.computedVitals){
+    const vit=composition.computedVitals;
+    make('p',{text:'Independently computed equipment stats: HP '+vit.HP+
+     ' · FP '+vit.FP+' · Stamina '+vit.Stamina+' · Discovery '+vit.Discovery+
+     ' · max load '+vit.maxEquipLoad.toFixed(1)+' · equipped talisman weight '+vit.weight.toFixed(1)+
+     ' · all-type damage negation '+vit.damageNegation+'%'},panel);
+    make('p',{text:composition.reference?.matched?
+     'All seven computed fields above agree with the identical two-browser Wretch10 reference combination.':
+     'These percentages and vitals are inferred from isolated reference effects and the independently measured naked base curves. They are not certified for an arbitrary combined Build.'},panel);
+   }
+   make('p',{text:composition.reference?.matched?
+    'The calculated eight final attributes match the actual two-browser Tarnished.dev v1.17 combined Wretch10 result in this exact selected order. '+
+    'Other measured HP/defenses/negations are displayed separately, not inferred.':
+    'This is an arithmetic composition of individually observed attribute deltas, NOT a full same-input website Build verification. '+
+    'Combined HP, max load, negation, attack and defense are NOT derived.'},panel);
   }
   const multi=previewV117ExactTalismanCombination(topStats(),evaluated.state,{
    origin:byId('origin')?.value??'unverified'
