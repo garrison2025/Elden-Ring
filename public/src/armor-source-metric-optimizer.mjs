@@ -15,6 +15,7 @@ import {ARMOR_METRICS} from './armor-source-optin.mjs';
 import {ARMOR_OPT_SLOTS,optimizePinnedArmorPoise} from './armor-full-source-optimizer.mjs';
 import {loadTier} from './core.mjs';
 import {optimizeArmorPoiseConstrainedDP} from './armor-poise-constrained-dp.mjs';
+import {restrictedArmorGroups} from './armor-slot-restrictions.mjs';
 const fail=s=>{throw new RangeError(s)};
 const scale=1000;
 const signature=pieces=>pieces.map(x=>x?.id??'').join('|');
@@ -58,7 +59,7 @@ function validateRows(rows,metric,excluded){
 }
 export function optimizePinnedArmorMetric(rows,{
  metric='poise',maxEquipLoad,reservedWeight=0,tier='medium',
- minPoise=0,excludedIds=[]
+ minPoise=0,excludedIds=[],lockedIds={},disabledSlots=[]
 }={}){
  if(!Object.hasOwn(ARMOR_METRICS,metric))fail('Unsupported armor optimization objective.');
  if(!Array.isArray(rows)||rows.length<1||rows.length>2000)
@@ -73,7 +74,8 @@ export function optimizePinnedArmorMetric(rows,{
   fail('Minimum Poise must be an integer from 0 to 500.');
  if(metric==='poise'){
   const result=optimizePinnedArmorPoise(rows,{
-   maxEquipLoad:max,reservedWeight:reserved,tier,minPoise,excludedIds
+   maxEquipLoad:max,reservedWeight:reserved,tier,minPoise,excludedIds,
+   lockedIds,disabledSlots
   });
   return {...result,metric,metricLabel:ARMOR_METRICS.poise.label,
    metricValue:result.status==='no-solution'?null:result.poise,
@@ -98,9 +100,10 @@ export function optimizePinnedArmorMetric(rows,{
   minPoise,explicitExcluded:excludedCount,
   combination:null,stages:[],evaluatedRows:rows.length,sourceVerified:false
  };
- const groups=ARMOR_OPT_SLOTS.map(slot=>[
-  null,...eligible.filter(x=>x.slot===slot).sort((a,b)=>a.id.localeCompare(b.id))
- ]);
+ const slotGroups=restrictedArmorGroups(eligible,rows,{
+  lockedIds,disabledSlots,excludedIds
+ });
+ const groups=ARMOR_OPT_SLOTS.map(slot=>slotGroups[slot]);
  let best=null,stages=[],algorithm='exact-weight-dp';
  if(minPoise>0){
   const solved=optimizeArmorPoiseConstrainedDP(groups,{

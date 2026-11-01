@@ -1,6 +1,33 @@
 import {siteVerifiedArmorSubset} from './tarnished-armor-eligibility.mjs';
 import {loadPinnedArmorSource} from './armor-source-optin.mjs';
 const $=id=>document.getElementById(id);
+const slotNames=['Head','Chest','Arms','Legs'];
+const slotId=slot=>'armor-full-slot-'+slot.toLowerCase();
+const slotRestrictions=()=>{
+ const lockedIds={},disabledSlots=[];
+ for(const slot of slotNames){
+  const value=$(slotId(slot)).value;
+  if(value==='empty')disabledSlots.push(slot);
+  else if(value!=='auto')lockedIds[slot]=value;
+ }
+ return {lockedIds,disabledSlots};
+};
+const populateSlots=rows=>{
+ for(const slot of slotNames){
+  const select=$(slotId(slot));
+  select.replaceChildren();
+  for(const [value,label] of [['auto','Any item or empty'],['empty','Keep slot empty']]){
+   const option=document.createElement('option');
+   option.value=value;option.textContent=label;select.append(option);
+  }
+  for(const item of rows.filter(x=>x.slot===slot).sort((a,b)=>a.name.localeCompare(b.name))){
+   const option=document.createElement('option');
+   option.value=item.id;option.textContent='Lock: '+item.name;
+   select.append(option);
+  }
+  select.disabled=false;
+ }
+};
 const status=(message,error=false)=>{
  $('armor-full-status').textContent=message;
  $('armor-full-status').dataset.state=error?'error':'ready';
@@ -13,7 +40,10 @@ const invalidate=()=>{
  revision++;
  $('armor-full-results').hidden=true;
  $('armor-full-rows').replaceChildren();
- if(armors)status('Constraints changed; run source optimizer again.');
+ if(armors){
+  $('armor-full-run').disabled=false;
+  status('Constraints changed; run source optimizer again.');
+ }
 };
 const parseExclude=()=>{
  const names=$('armor-full-exclude').value.split(',').map(x=>x.trim()).filter(Boolean);
@@ -35,6 +65,7 @@ $('armor-full-load').addEventListener('click',async()=>{
  try{
   const source=await loadPinnedArmorSource(fetch);
   armors=source.armors;
+  populateSlots(armors);
   const missing=armors.filter(x=>x.poise===null).length;
   status('Pinned '+source.count+' armor items loaded; '+(source.directTarnishedV117ArmorCount??0)+' item weight and Poise pairs directly matched Tarnished.dev v1.17; '+(source.siteTwelveMetricArmorCount??0)+' stat-stable armor pieces also have 12 same-input negation/resistance fields. Contextual equipment effects and other pieces remain unverified. '+ 
    missing+' items lack valid source Poise. For any chosen objective, missing metric rows are independently excluded. '+
@@ -54,7 +85,8 @@ $('armor-full-run').addEventListener('click',()=>{
    tier:$('targetTier').value,
    minPoise:Number(value),
    metric:$('armor-full-metric').value,
-   excludedIds:parseExclude()
+   excludedIds:parseExclude(),
+   ...slotRestrictions()
   };
   const restrict=$('armor-full-site-only').checked;
   const verified=siteVerifiedArmorSubset(armors,options.metric);
@@ -114,6 +146,7 @@ worker?.addEventListener('message',event=>{
   '. Search outputs require an independent same-input comparison before being labeled Tarnished.dev optimizer parity.');
 });
 $('armor-full-site-only').addEventListener('change',invalidate);
-for(const id of ['maxLoad','reservedWeight','targetTier','minPoise','armor-full-exclude','armor-full-metric']){
- $(id).addEventListener(['targetTier','armor-full-metric'].includes(id)?'change':'input',invalidate);
+for(const id of ['maxLoad','reservedWeight','targetTier','minPoise','armor-full-exclude','armor-full-metric',
+ ...slotNames.map(slotId)]){
+ $(id).addEventListener(['targetTier','armor-full-metric',...slotNames.map(slotId)].includes(id)?'change':'input',invalidate);
 }
