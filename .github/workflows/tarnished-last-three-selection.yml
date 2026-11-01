@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - scripts/probe-tarnished-last-three-selection.mjs
+      - scripts/probe-tarnished-rh1-options.mjs
       - .github/workflows/tarnished-last-three-selection.yml
   workflow_dispatch:
 permissions:
@@ -31,5 +32,30 @@ jobs:
           path: |
             .audit/first.json
             .audit/tarnished-last-three-selection.json
+          retention-days: 30
+          if-no-files-found: warn
+
+  dropdown-options:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect real public RH1 visible dropdown and option filter
+        run: |
+          node scripts/probe-tarnished-rh1-options.mjs
+          cp .audit/tarnished-rh1-options.json .audit/rh1-first.json
+      - name: Recheck independently in a new browser process
+        run: node scripts/probe-tarnished-rh1-options.mjs
+      - name: Preserve two independent option-list inspections
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-v117-rh1-visible-options-two-reads
+          path: |
+            .audit/rh1-first.json
+            .audit/tarnished-rh1-options.json
           retention-days: 30
           if-no-files-found: warn
