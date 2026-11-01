@@ -100,7 +100,7 @@ const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
 const mode=process.env.TARNISHED_REQUIREMENT_TARGET;
 const originMode=mode==='alt-origin'||mode==='steel-origin';
 const targeted=mode==='ar-gap'||mode==='high-gap'||originMode;
-const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):originMode?getAltOriginRequirementShard(index):mode==='steel-origin'?getSteelOriginRequirementShard(index):getRequirementsShard(index);
+const requirementSamples=mode==='ar-gap'?getArGapRequirementShard(index):mode==='high-gap'?getHighGapRequirementShard(index):mode==='alt-origin'?getAltOriginRequirementShard(index):mode==='steel-origin'?getSteelOriginRequirementShard(index):getRequirementsShard(index);
 const reqPattern=/(?:^|\n)Req:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/;
 async function chooseVisibleStartingClass(name){
  const trigger=document.querySelector('#startingclass .p-dropdown-trigger');
@@ -167,7 +167,7 @@ async function run(){
       controls.int===String(wantedStats[2])&&
       controls.fai===String(wantedStats[3])&&
       controls.arc===String(wantedStats[4])&&
-      (mode!=='alt-origin'||(s.startingClass===c.originName&&
+      (!originMode||(s.startingClass===c.originName&&
        classAction?.status==='VISIBLE_ORIGIN_CLICKED'&&
        classAction.selected===c.originName))&&
       controls.smith==='0'&&
