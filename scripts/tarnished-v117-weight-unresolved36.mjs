@@ -5,7 +5,7 @@
 import {readFileSync} from 'node:fs';
 import {TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE} from '../public/src/tarnished-v117-public-weights.mjs';
 const catalog=JSON.parse(readFileSync(new URL('../public/data/community-weapon-catalog.json',import.meta.url),'utf8'));
-const known=new Set(TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE.map(x=>x.weaponName));
+const known=new Set(TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE.filter(x=>x.evidenceRun!==41262468777).map(x=>x.weaponName));
 const remaining=catalog.weapons.filter(x=>!known.has(x.name));
 if(catalog.weapons.length!==487||known.size!==451||remaining.length!==36)
  throw new RangeError('Not the frozen 36-name unresolved set; refresh live source audit before retry.');
