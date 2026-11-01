@@ -67,7 +67,11 @@ test('real user-initiated 568-row source loader exposes exactly 549 site weight/
   ok:true,headers:{get:()=>String(payload.length)},text:async()=>payload
  }));
  assert.equal(source.count,568);
- assert.equal(source.directTarnishedV117ArmorCount,549);
+ assert.equal(source.additionalVerifiedDlcArmorCount,1);
+ assert.equal(source.armors.length,569);
+ assert.equal(source.directTarnishedV117ArmorCount-source.additionalVerifiedDlcArmorCount,549,
+  'historical 549 proven fields remain unchanged');
+ assert.equal(source.directTarnishedV117ArmorCount,550);
  assert.equal(source.recoveredDirectArmorCount,6);
  assert.equal(source.siteUnsupportedCandidateCount,19);
  assert.equal(source.siteTwelveMetricArmorCount,514);

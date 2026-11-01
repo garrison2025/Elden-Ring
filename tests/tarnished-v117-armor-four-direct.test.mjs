@@ -60,7 +60,11 @@ test('actual user initiated armor source load applies site goldens to four real 
   ok:true,headers:{get:()=>String(raw.length)},text:async()=>raw
  }));
  assert.equal(result.count,568);
- assert.equal(result.directTarnishedV117ArmorCount,4);
+ assert.equal(result.additionalVerifiedDlcArmorCount,1);
+ assert.equal(result.armors.length,569);
+ assert.equal(result.directTarnishedV117ArmorCount-result.additionalVerifiedDlcArmorCount,4,
+  'the original four direct-site fixtures must remain independently verified');
+ assert.equal(result.directTarnishedV117ArmorCount,5);
  for(const [i,e] of TARNISHED_V117_ARMOR_FOUR.entries()){
   assert.equal(result.armors[i].weight,e.weight);
   assert.equal(result.armors[i].poise,e.poise);
