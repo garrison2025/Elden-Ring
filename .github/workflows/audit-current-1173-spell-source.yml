@@ -1,0 +1,21 @@
+name: Diagnostic current Regulation 1.17.3 public spell table layout
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/audit-current-1173-spell-structure.mjs
+      - .github/workflows/audit-current-1173-spell-source.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-spell-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect public 1.17.3 spell table without saving source HTML
+        run: node scripts/audit-current-1173-spell-structure.mjs
