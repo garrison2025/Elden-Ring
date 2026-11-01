@@ -509,7 +509,35 @@ export const TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE=Object.freeze(
   gameClientVerified:false
  }))
 );
-const map=new Map(TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE.map(v=>[v.weaponName,v]));
+/** Six final real-browser weight observations from independent public v1.17
+ * Chromium runs, including ZERO-weight gear. A valid zero was accepted only
+ * when an empty equip=0 and active Longsword=3.5 control passed in BOTH
+ * browser processes: https://github.com/garrison2025/Elden-Ring/actions/runs/41269590190
+ *
+ * Keep the original 481-item set immutable so historical shard and
+ * acceptance tests remain reproducible. This is an additive evidence layer.
+ */
+export const TARNISHED_V117_FINAL_SIX_WEIGHT_EVIDENCE=Object.freeze([
+ ['Cipher Pata',0],
+ ['Dragon Communion Seal',0],
+ ['Erdtree Seal',0],
+ ['Frenzied Flame Seal',0],
+ ['Golden Order Seal',0],
+ ['Great Épée',6.5]
+].map(([weaponName,weight])=>Object.freeze({
+ weaponName,weight,
+ evidenceCategory:weight===0?'zero-weight-positive-control':'exact-name-recovered',
+ evidenceRun:41269590190,
+ source:'Tarnished.dev public Build Calculator',comparatorVersion:'1.17',
+ observedDate:'2026-11-01',observedTwice:true,verifiedSingleItem:true,
+ baseAttackVerified:false,requirementsVerified:false,gameClientVerified:false
+})));
+export const TARNISHED_V117_ALL_DIRECT_WEIGHT_EVIDENCE=Object.freeze([
+ ...TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE,...TARNISHED_V117_FINAL_SIX_WEIGHT_EVIDENCE
+]);
+const map=new Map(TARNISHED_V117_ALL_DIRECT_WEIGHT_EVIDENCE.map(v=>[v.weaponName,v]));
+if(TARNISHED_V117_ALL_DIRECT_WEIGHT_EVIDENCE.length!==487||map.size!==487)
+ throw Error('Exact 487 distinct public v1.17 weight observations required');
 export function getTarnishedV117DirectWeight(weaponName){
  return typeof weaponName==='string'?map.get(weaponName)??null:null;
 }

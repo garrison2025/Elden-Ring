@@ -101,8 +101,14 @@ test('twelve actual competitor browser shards preserve exact corrections and do 
  assert.equal(gargoyle.weight,0);
  assert.equal(get('Clinging Bone').weight,3);
  assert.equal(get("Gargoyle's Great Axe").weight,8.5);
+ // Prior shard remains frozen at 481; the separate two-pass positive-control
+ // browser run 41269590190 independently confirmed these six real weights.
  for(const item of ['Dragon Communion Seal','Erdtree Seal','Frenzied Flame Seal',
-  'Golden Order Seal','Cipher Pata','Great Épée']){
-  assert.equal(get(item),null,item+' must remain unverified even if community has a weight');
+  'Golden Order Seal','Cipher Pata']){
+  assert.equal(get(item)?.weight,0,item+' has verified public zero Equip Load');
+  assert.equal(get(item)?.evidenceRun,41269590190);
+  assert.equal(get(item)?.observedTwice,true);
  }
+ assert.equal(get('Great Épée')?.weight,6.5);
+ assert.equal(get('Great Épée')?.evidenceRun,41269590190);
 });

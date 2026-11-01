@@ -1,0 +1,35 @@
+name: Final 6 direct public v1.17 weapon weight checks including zero weight
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-final-six-weights.mjs
+      - .github/workflows/tarnished-final-six-weights.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-zero-and-epee:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: First actual six public weight read, with empty and 3.5 control
+        run: |
+          node scripts/probe-tarnished-final-six-weights.mjs
+          cp .audit/tarnished-v117-weight-final-six.json .audit/weight-first.json
+      - name: Independent second actual public weight read
+        run: node scripts/probe-tarnished-final-six-weights.mjs
+      - name: Preserve two separate unmodified browser readings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-six-weight-zero-validity-two-public-reads
+          path: |
+            .audit/weight-first.json
+            .audit/tarnished-v117-weight-final-six.json
+          retention-days: 30
+          if-no-files-found: warn

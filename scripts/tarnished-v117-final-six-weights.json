@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "source": "Tarnished.dev public v1.17 visible Equip Load delta",
+  "sourceRun": 41269590190,
+  "sourceJob": 124739425824,
+  "sourceUrl": "https://github.com/garrison2025/Elden-Ring/actions/runs/41269590190",
+  "condition": "Five player stats=99, +0, no buffs, selected RH1 item/affinity verified; two separate Chrome processes; empty=0.0 and active Longsword=3.5 positive control; no precondition item weight>0",
+  "emptyLoad": 0,
+  "longswordPositiveControl": 3.5,
+  "totalPreviouslyVerified": 481,
+  "newVerified": 6,
+  "totalVerified": 487,
+  "items": [
+    {
+      "name": "Cipher Pata",
+      "siteName": "Cipher Pata",
+      "weight": 0,
+      "independentVerifiedPasses": 2,
+      "siteVersion": "1.17"
+    },
+    {
+      "name": "Dragon Communion Seal",
+      "siteName": "Dragon Communion Seal",
+      "weight": 0,
+      "independentVerifiedPasses": 2,
+      "siteVersion": "1.17"
+    },
+    {
+      "name": "Erdtree Seal",
+      "siteName": "Erdtree Seal",
+      "weight": 0,
+      "independentVerifiedPasses": 2,
+      "siteVersion": "1.17"
+    },
+    {
+      "name": "Frenzied Flame Seal",
+      "siteName": "Frenzied Flame Seal",
+      "weight": 0,
+      "independentVerifiedPasses": 2,
+      "siteVersion": "1.17"
+    },
+    {
+      "name": "Golden Order Seal",
+      "siteName": "Golden Order Seal",
+      "weight": 0,
+      "independentVerifiedPasses": 2,
+      "siteVersion": "1.17"
+    },
+    {
+      "name": "Great Épée",
+      "siteName": "Great epee",
+      "weight": 6.5,
+      "independentVerifiedPasses": 2,
+      "siteVersion": "1.17"
+    }
+  ]
+}
