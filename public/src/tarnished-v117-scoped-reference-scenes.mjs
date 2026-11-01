@@ -1,7 +1,7 @@
 /**
  * Twice-observed actual PUBLIC Tarnished.dev v1.17 rendered result rows.
  * Reference RESULT LOOKUPS only. This is NOT an independent DPS or spell formula.
- * Same-input runs: https://github.com/garrison2025/Elden-Ring/actions/runs/41297001066
+ * Same-input runs: https://github.com/garrison2025/Elden-Ring/actions/runs/41297001066\n * Additional 17 independent INT observations: https://github.com/garrison2025/Elden-Ring/actions/runs/41362826940
  * Strictly limit to exactly tested scenarios; never interpolate or extrapolate.
  */
 export const V117_UCHIGATANA_DAMAGE_ROWS=Object.freeze([
@@ -12,9 +12,21 @@ export const V117_UCHIGATANA_DAMAGE_ROWS=Object.freeze([
 export const V117_PEBBLE_STAFF_ROWS=Object.freeze([
  Object.freeze({int:25,magic:242,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:30,magic:267,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:35,magic:290,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:40,magic:315,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:45,magic:338,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:50,magic:363,bullets:1,fp:7,intRequirement:10}),
- Object.freeze({int:60,magic:410,bullets:1,fp:7,intRequirement:10})
+ Object.freeze({int:55,magic:386,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:60,magic:410,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:65,magic:424,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:70,magic:438,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:75,magic:451,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:80,magic:465,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:85,magic:475,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:90,magic:484,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:95,magic:494,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:98,magic:499,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:99,magic:502,bullets:1,fp:7,intRequirement:10}),
 ]);
 const integer=n=>Number.isInteger(n)&&n>=1&&n<=99;
 export function exactPublicUchigatanaDamage({origin='Wretch',str,dex,otherStats=[10,10,10],weapon='Uchigatana',
