@@ -1,0 +1,29 @@
+name: Full 39552 source-case Icerind integer boundary risk audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/audit-v117-icerind-global-rounding-risk.mjs
+      - .github/workflows/v117-icerind-global-rounding.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit all 3296 v1.17 source variants x 12 profiles without changing formulas
+        run: node scripts/audit-v117-icerind-global-rounding-risk.mjs
+      - name: Preserve aggregate numerical-risk evidence, not game dataset
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-icerind-global-39552-rounding-risk
+          path: .audit/v117-icerind-global-rounding-risk.json
+          retention-days: 30
+          if-no-files-found: warn
