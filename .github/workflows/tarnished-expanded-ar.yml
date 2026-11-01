@@ -21,6 +21,8 @@ jobs:
           node-version: '22'
       - name: Independently calculate each observed +0 AR with pinned public v1.17 source
         run: node scripts/audit-tarnished-v117-expanded-ar.mjs
+      - name: Regression-check 86 previously approved direct v1.17 AR cases against same pinned source
+        run: node scripts/audit-v117-pinned.mjs
       - name: Archive item-by-item AR comparison, including mismatches and blockers
         if: always()
         uses: actions/upload-artifact@v4
