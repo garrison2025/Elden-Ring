@@ -1,0 +1,29 @@
+name: Pinned community spells talismans and enemy source coverage
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/audit-pinned-spell-talisman-enemy-source.mjs
+      - .github/workflows/pinned-spell-talisman-enemy-audit.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Source-only audit pinned sorceries incantations talismans bosses creatures
+        run: node scripts/audit-pinned-spell-talisman-enemy-source.mjs
+      - name: Preserve aggregate evidence of missing numeric combat inputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pinned-spells-talismans-enemy-source-integrity
+          path: .audit/pinned-spell-talisman-enemy-source.json
+          retention-days: 30
+          if-no-files-found: warn
