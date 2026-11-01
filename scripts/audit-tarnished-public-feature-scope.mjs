@@ -75,7 +75,9 @@ async function main(){
    out.push({route,...row});
    console.log('[TARNISHED SOLE BASELINE UI] '+JSON.stringify({route,version:row.gameVersion,
     heading:row.heading,inputCount:row.inputs.length,dropdownCount:row.visibleDropdowns.length,
-    buttons:row.buttonLabels.slice(0,14),words:row.visibleWords}));
+    buttons:row.buttonLabels.slice(0,14),words:row.visibleWords,
+    inputIds:row.inputs.filter(x=>x.id).map(x=>x.id),
+    dropdownContexts:row.visibleDropdowns.map(x=>x.nearby).slice(0,18)}));
   }catch(e){out.push({route,error:String(e.message).slice(0,180)});
    console.log('[TARNISHED SOLE BASELINE ERROR] '+route+': '+String(e.message));}
  }
