@@ -144,6 +144,28 @@ async function keyboardSetNumeric(id,value){
  },id);
  return {before,after};
 }
+
+async function ensureCheckboxChecked(id){
+ const before=await call(function(id){
+  const el=document.getElementById(id);if(!el)return {found:false,id};
+  el.scrollIntoView({behavior:'instant',block:'center'});
+  const r=el.getBoundingClientRect();
+  return {found:true,id,checked:el.checked,x:r.x+r.width/2,y:r.y+r.height/2,width:innerWidth,height:innerHeight,html:el.outerHTML.slice(0,450)};
+ },id);
+ if(!before.found)throw Error('Missing checkbox '+id);
+ if(!before.checked){
+  if(before.x>=0&&before.x<before.width&&before.y>=0&&before.y<before.height){
+   await send('Input.dispatchMouseEvent',{type:'mousePressed',x:before.x,y:before.y,button:'left',clickCount:1});
+   await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:before.x,y:before.y,button:'left',clickCount:1});
+  } else {
+   await call(function(id){document.getElementById(id).click();return true},id);
+  }
+  await sleep(300);
+ }
+ const after=await call(function(id){const e=document.getElementById(id);return{checked:e.checked,disabled:e.disabled}},id);
+ if(!after.checked)throw Error('Checkbox was not actually checked '+id+': '+JSON.stringify({before,after}));
+ return {before,after};
+}
 async function navigate(url){
  await send('Page.navigate',{url});
  await sleep(3600);
@@ -187,6 +209,8 @@ async function main(){
      'robustness_multiplier','focus_multiplier','vitality_multiplier'];
     for(const id of ids)configuration.push({id,...await keyboardSetNumeric(id,0)});
     configuration.push({afterAll:await call(function(){return [...document.querySelectorAll('input[id$="_multiplier"]')].map(x=>({id:x.id,value:x.value,valid:x.checkValidity(),min:x.min}))})});
+    const excludes=[await ensureCheckboxChecked('exclude-dlc-armor'),await ensureCheckboxChecked('exclude-horse-armor-dlc')];
+    configuration.push({excludes});
     await sleep(650);
     click=await trustedClick('Calculate Best Armor');
     if(click.clicked){
