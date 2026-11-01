@@ -152,15 +152,43 @@ const pickTalisman=async(name,previousNames)=>{
  const matched=[...previousNames,name].every(n=>norm(label).includes(norm(n)));
  return{success:matched,name,label,optionText:option.textContent?.trim(),previousNames};
 };
-async function capture(){
- const core=state();
- const ids=['HP','FP','Stamina','Discovery','Physical Defense','Magic Defense','Fire Defense',
-   'Lightning Defense','Holy Defense','Immunity','Robustness','Focus','Vitality'];
- const raw=Object.fromEntries(ids.map(x=>[x,document.getElementById(x)?.value??null]));
- const neg=core.metrics;
- const selected=[...document.querySelectorAll('.p-multiselect')].map(w=>
-  w.querySelector('.p-multiselect-label')?.textContent?.trim()||'');
- return {...core,raw,selected};
+function capture(){
+ const get=id=>document.getElementById(id)?.value??null;
+ const load=String(get('Equip Load')??'').match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
+ const metricIds={
+  physical:'Physical Dmg Negation',strike:'Strike Dmg Negation',
+  slash:'Slash Dmg Negation',pierce:'Pierce Dmg Negation',
+  magic:'Magic Dmg Negation',fire:'Fire Dmg Negation',
+  lightning:'Lightning Dmg Negation',holy:'Holy Dmg Negation',
+  immunity:'Immunity',robustness:'Robustness',focus:'Focus',vitality:'Vitality'
+ };
+ const metrics=Object.fromEntries(Object.entries(metricIds).map(([k,id])=>{
+  const text=String(get(id)??'').replace('%','');
+  return[k,/^-?\d+(?:\.\d+)?$/.test(text)?Number(text):null];
+ }));
+ const fields=['HP','FP','Stamina','Discovery','Physical Defense','Magic Defense','Fire Defense',
+ 'Lightning Defense','Holy Defense','Immunity','Robustness','Focus','Vitality'];
+ const values=Object.fromEntries(fields.map(id=>[id,get(id)]));
+ const slots={};
+ for(const [slot,label] of Object.entries({
+  Head:'Equipped Helmet',Chest:'Equipped Chest',Arms:'Equipped Gauntlets',Legs:'Equipped Legs'
+ })){
+  const el=[...document.querySelectorAll('.p-dropdown')]
+   .find(e=>e.parentElement?.innerText?.trim()?.startsWith(label+'\n'));
+  slots[slot]=el?.querySelector('.p-dropdown-label')?.textContent?.trim()??null;
+ }
+ return {
+  version:(document.body?.innerText||'').match(/Elden Ring Version:[^\n]*/)?.[0]??'',
+  finalStats:['finalvigor','finalmind','finalendurance','finalstrength',
+   'finaldexterity','finalintelligence','finalfaith','finalarcane'].map(id=>String(get(id))),
+  load:load?Number(load[1]):null,capacity:load?Number(load[2]):null,
+  poise:Number(get('Poise')),
+  rune:document.getElementById('activate-rune')?.checked,
+  physick:document.getElementById('activate-physick')?.checked,
+  metrics,raw:values,slots,
+  selected:[...document.querySelectorAll('.p-multiselect')].map(w=>
+   w.querySelector('.p-multiselect-label')?.textContent?.trim()||'')
+ };
 }
 async function main(){
  profile=await mkdtemp(join(tmpdir(),'v117-double-talisman-'+index+'-'+pass+'-'));
