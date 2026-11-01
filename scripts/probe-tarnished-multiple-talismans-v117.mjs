@@ -132,6 +132,7 @@ if(!Number.isInteger(shard)||shard<0||shard>2||![1,2].includes(pass))
  throw Error('Set V117_COMBO_SHARD 0..2 and V117_COMBO_PASS 1..2');
 const norm=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
 async function addTalisman(name){
+ const norm=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
  const widget=[...document.querySelectorAll('.p-multiselect')].find(x=>
   (x.parentElement?.innerText||'').includes('Equipped Talismans'));
  if(!widget)return{ok:false,why:'Actual talisman multiselect missing'};
