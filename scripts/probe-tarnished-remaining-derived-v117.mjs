@@ -100,6 +100,43 @@ async function main(){
    url:shot.url,version:shot.version,inputs:shot.elements.map(x=>({id:x.id,value:x.value,label:x.label})).slice(0,100),
    selects:shot.selects,text:shot.text.slice(-1700)}).slice(0,14000));
  }
+ // NEW unverified data only: obtain full primitive vitals by real site
+ // keyboard edits at all VIG/MND/END points 10..99. Restore Wretch no gear
+ // between sweeps. ARC discovery is independently sampled in the 4 profiles
+ // above; do not claim unsampled effects.
+ await nav('https://www.tarnished.dev/build-planner');
+ const curves={source:'Tarnished.dev public v1.17 real Chromium input',version:'v1.17',
+  build:'Wretch, all baseline stats 10, all equipment empty, no active effects',
+  hp:[],fp:[],stamina:[],maxEquipLoad:[]};
+ for(const [id,field,outputId] of [
+  ['vigor','hp','HP'],['mind','fp','FP'],['endurance','stamina','Stamina'],
+  ['endurance','maxEquipLoad','Equip Load']
+ ]){
+  // For the two END fields read in one sweep below, skip the duplicate.
+  if(field==='maxEquipLoad')continue;
+  for(let x=10;x<=99;x++){
+   const edited=await keyboard(id,x);
+   if(edited!==String(x))throw Error('Keyboard edit did not stick: '+id+' '+x);
+   const actual=await run(function(outputId){
+    return document.getElementById(outputId)?.value??null;
+   },outputId);
+   const n=Number((actual||'').replace(/,/g,''));
+   if(!Number.isFinite(n))throw Error('No numeric stat '+id+' '+x+' '+actual);
+   curves[field].push([x,n]);
+   if(id==='endurance'){
+    const raw=await run(function(){
+     return document.getElementById('Equip Load')?.value??null;
+    });
+    const cap=Number(raw?.match(/\/\s*([0-9]+(?:\.[0-9]+)?)/)?.[1]);
+    if(!Number.isFinite(cap))throw Error('No equip cap at END '+x+' : '+raw);
+    curves.maxEquipLoad.push([x,cap]);
+   }
+  }
+  await keyboard(id,10);
+  console.log('[BUILD FULL CURVE] '+field+' '+JSON.stringify(curves[field]));
+  if(id==='endurance')console.log('[BUILD FULL CURVE] maxEquipLoad '+JSON.stringify(curves.maxEquipLoad));
+ }
+ results.newUnverifiedDerivedCurves=curves;
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/remaining-build-damage-spell-v117.json'),JSON.stringify(results,null,2)+'\n');
  const altered=results.buildScenarios[1].snapshot;
