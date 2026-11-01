@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {TARNISHED_V117_WIDE_ARMOR_GOLDENS} from '../public/src/tarnished-v117-armor-wide.mjs';
+import {TARNISHED_V117_ARMOR_STABLE_METRICS} from '../public/src/tarnished-v117-armor-12-fields.mjs';
+const stableById=new Map(TARNISHED_V117_ARMOR_STABLE_METRICS.map(x=>[x.id,x]));
 import {applyTarnishedV117DirectArmorFields} from '../public/src/tarnished-v117-armor-direct.mjs';
 import {loadPinnedArmorSource} from '../public/src/armor-source-optin.mjs';
 const evidence=JSON.parse(readFileSync(new URL('../scripts/tarnished-v117-armor-568-site-observations.json',import.meta.url),'utf8'));
@@ -26,7 +28,7 @@ test('All 15 independent browser shards cover 568 unique local armor candidates;
  assert.equal(new Set([...accepted,...unobserved].map(x=>x.id)).size,568);
  assert.deepEqual(sorted(TARNISHED_V117_WIDE_ARMOR_GOLDENS.map(key)),sorted(accepted.map(key)));
 });
-test('543 exact armor items (Weight and Poise only) override legacy community source, no fake game values',()=>{
+test('543 armor weights/Poise and 514 stable-site twelve-metric armor records replace only proven fields',()=>{
  const old=TARNISHED_V117_WIDE_ARMOR_GOLDENS.map((item,i)=>({
   id:item.id,name:item.name,
   slot:item.slot,weight:item.weight+0.1,poise:item.poise+1,
@@ -46,8 +48,16 @@ test('543 exact armor items (Weight and Poise only) override legacy community so
   assert.equal(x.weight,want.weight);
   assert.equal(x.poise,want.poise);
   assert.equal(x.metrics.poise,want.poise);
-  assert.equal(x.metrics.physical,old[i].metrics.physical);
-  assert.equal(x.metrics.fire,-2);
+  const stable=stableById.get(x.id);
+  if(stable){
+   assert.equal(x.metrics.physical,stable.metrics.physical);
+   assert.equal(x.metrics.fire,stable.metrics.fire);
+   assert.equal(x.siteDirectFields.physical.includes('Tarnished.dev'),true);
+  }else{
+   assert.equal(x.metrics.physical,old[i].metrics.physical);
+   assert.equal(x.metrics.fire,-2);
+   assert.equal(x.siteDirectFields.physical,undefined);
+  }
   assert.ok(x.siteDirectFields.weight.includes('Tarnished.dev public v1.17'));
   assert.equal(old[i].poise,want.poise+1,'do not mutate original data');
  }
@@ -80,7 +90,9 @@ test('User-initiated armor source loader serves all 543 site-verified weight/Poi
  for(let i=0;i<543;i++){
   assert.equal(result.armors[i].weight,TARNISHED_V117_WIDE_ARMOR_GOLDENS[i].weight);
   assert.equal(result.armors[i].poise,TARNISHED_V117_WIDE_ARMOR_GOLDENS[i].poise);
-  assert.equal(result.armors[i].metrics.immunity,7,'unverified immunity must stay source value');
+  const stable=stableById.get(result.armors[i].id);
+  assert.equal(result.armors[i].metrics.immunity,stable?.metrics.immunity??7,
+   'use site-derived immunity only for stat-stable, double-verified items');
  }
  assert.equal(result.armors[567].siteDirectFields,undefined,'unknown site items remain source-only');
 });
