@@ -19,24 +19,24 @@
     {
       "str": 20,
       "dex": 20,
-      "ar": 392,
-      "physical": 392,
-      "poise": 5,
-      "dpsSingle": 489,
-      "dpsPaired": 577,
-      "buildPlannerAr": 388,
-      "referenceSameSiteArDisagreement": true
-    },
-    {
-      "str": 15,
-      "dex": 25,
       "ar": 388,
       "physical": 388,
       "poise": 5,
       "dpsSingle": 483,
       "dpsPaired": 570,
+      "buildPlannerAr": 388,
+      "referenceSameSiteArDisagreement": false
+    },
+    {
+      "str": 15,
+      "dex": 25,
+      "ar": 392,
+      "physical": 392,
+      "poise": 5,
+      "dpsSingle": 489,
+      "dpsPaired": 577,
       "buildPlannerAr": 392,
-      "referenceSameSiteArDisagreement": true
+      "referenceSameSiteArDisagreement": false
     }
   ],
   "spell": [
@@ -59,6 +59,6 @@
       "fp": 7
     }
   ],
-  "note": "These are TWO DIFFERENT pages at exactly the same stats, upgrade, affinity and weapon. Damage table and Build Planner reference AR differ by 4 on 2/3 inputs; the independently implemented pinned v1.17 local AR engine agrees with Build Planner. Do not silently force one page's value to match the other. Damage DPS and Spell damage remain source reference only, not reproduced by local algorithms.",
+  "note": "Each result is matched to the explicit caseId and actual effective controls in two independent Chromium profiles. The Tarnished.dev Build Planner and Damage Calculator both show 376/388/392 for the corresponding three +25 Uchigatana profiles, and the independent local pinned-v1.17 AR engine reproduces all three. The reference displays DPS 464/547,483/570,489/577 but the local Damage engine has not reproduced DPS timing or moveset calculations. Reference spell magic 242/267/315 is observed, not yet locally calculated; no invented formula.",
   "crossPageBuildSourceRun": 41296445733
 }
