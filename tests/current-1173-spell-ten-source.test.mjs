@@ -1,0 +1,26 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const read=p=>readFileSync(new URL(p,import.meta.url),'utf8');
+const s=JSON.parse(read('../scripts/current-1173-spell-ten-comparison-summary.json'));
+test('ten current publicly referenced spells expose old data differences, not pretend complete source',()=>{
+ assert.equal(s.sourceRun,41273131553);
+ assert.equal(s.sourceCurrentReferenceVersion,'Regulation 1.17.3 build 25827938');
+ assert.deepEqual(s.counts,{total:10,matches:7,fpMismatches:2,notFound:1,otherMismatches:0,nameAliases:1});
+ const byName=new Map(s.rows.map(x=>[x.name,x]));
+ const black=byName.get('Black Flame'),ranni=byName.get("Ranni's Dark Moon");
+ assert.equal(black.legacyFp,15);assert.equal(black.publicReferenceFp,18);
+ assert.equal(ranni.legacyFp,62);assert.equal(ranni.publicReferenceFp,57);
+ assert.equal(byName.get('Catch Flame').status,'LEGACY_SOURCE_MISSING');
+ const terra=byName.get('Terra Magica');
+ assert.equal(terra.legacyName,'Terra Magicus');
+ assert.equal(terra.legacyAliasUsed,true);
+ assert.equal(terra.status,'CURRENT_REFERENCE_AND_LEGACY_MATCH');
+ assert.equal(s.currentGameClientVerified,false);
+ assert.equal(s.blockedAutomatedSiteFetch.startsWith('HTTP 410'),true);
+ const html=read('../public/validation-status/index.html');
+ assert.ok(html.includes('Black Flame 15 → 18'));
+ assert.ok(html.includes('Ranni\'s Dark Moon 62 → 57'));
+ assert.ok(html.includes('No current-version spell database is automatically inferred'));
+ assert.ok(read('../README.md').includes('2 outdated FP costs'));
+});

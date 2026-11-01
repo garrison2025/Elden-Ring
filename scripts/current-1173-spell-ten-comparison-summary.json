@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "sourceRun": 41273131553,
+  "sourceJob": 124749818970,
+  "public1173Source": "https://almanauts.com/eldenring/spells/",
+  "sourceCurrentReferenceVersion": "Regulation 1.17.3 build 25827938",
+  "legacyPinnedSourceCommit": "3d9cefcfcda7066796b9553825449039c2073926",
+  "independentWikiFacts": [
+    "https://eldenring.wiki.gg/wiki/Black_Flame",
+    "https://eldenring.wiki.gg/wiki/Ranni%27s_Dark_Moon",
+    "https://eldenring.wiki.gg/wiki/Terra_Magica"
+  ],
+  "counts": {
+    "total": 10,
+    "matches": 7,
+    "fpMismatches": 2,
+    "notFound": 1,
+    "otherMismatches": 0,
+    "nameAliases": 1
+  },
+  "rows": [
+    {
+      "name": "Glintstone Pebble",
+      "legacyName": "Glintstone Pebble",
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 7,
+      "legacyFp": 7,
+      "publicReferenceSlots": 1,
+      "legacySlots": 1,
+      "publicReferenceMinimums": {
+        "int": 10,
+        "fai": 0,
+        "arc": 0
+      },
+      "legacyMinimums": {
+        "int": 10,
+        "fai": 0,
+        "arc": 0
+      },
+      "status": "CURRENT_REFERENCE_AND_LEGACY_MATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Carian Slicer",
+      "legacyName": "Carian Slicer",
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 4,
+      "legacyFp": 4,
+      "publicReferenceSlots": 1,
+      "legacySlots": 1,
+      "publicReferenceMinimums": {
+        "int": 14,
+        "fai": 0,
+        "arc": 0
+      },
+      "legacyMinimums": {
+        "int": 14,
+        "fai": 0,
+        "arc": 0
+      },
+      "status": "CURRENT_REFERENCE_AND_LEGACY_MATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Comet Azur",
+      "legacyName": "Comet Azur",
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 40,
+      "legacyFp": 40,
+      "publicReferenceSlots": 3,
+      "legacySlots": 3,
+      "publicReferenceMinimums": {
+        "int": 60,
+        "fai": 0,
+        "arc": 0
+      },
+      "legacyMinimums": {
+        "int": 60,
+        "fai": 0,
+        "arc": 0
+      },
+      "status": "CURRENT_REFERENCE_AND_LEGACY_MATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Black Flame",
+      "legacyName": "Black Flame",
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 18,
+      "legacyFp": 15,
+      "publicReferenceSlots": 1,
+      "legacySlots": 1,
+      "publicReferenceMinimums": {
+        "int": 0,
+        "fai": 20,
+        "arc": 0
+      },
+      "legacyMinimums": {
+        "int": 0,
+        "fai": 20,
+        "arc": 0
+      },
+      "status": "LEGACY_FP_MISMATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Bloodflame Blade",
+      "legacyName": "Bloodflame Blade",
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 20,
+      "legacyFp": 20,
+      "publicReferenceSlots": 1,
+      "legacySlots": 1,
+      "publicReferenceMinimums": {
+        "int": 0,
+        "fai": 12,
+        "arc": 10
+      },
+      "legacyMinimums": {
+        "int": 0,
+        "fai": 12,
+        "arc": 10
+      },
+      "status": "CURRENT_REFERENCE_AND_LEGACY_MATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Rock Sling",
+      "legacyName": "Rock Sling",
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 18,
+      "legacyFp": 18,
+      "publicReferenceSlots": 1,
+      "legacySlots": 1,
+      "publicReferenceMinimums": {
+        "int": 18,
+        "fai": 0,
+        "arc": 0
+      },
+      "legacyMinimums": {
+        "int": 18,
+        "fai": 0,
+        "arc": 0
+      },
+      "status": "CURRENT_REFERENCE_AND_LEGACY_MATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Catch Flame",
+      "legacyName": null,
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 10,
+      "legacyFp": null,
+      "publicReferenceSlots": 1,
+      "legacySlots": null,
+      "publicReferenceMinimums": {
+        "int": 0,
+        "fai": 8,
+        "arc": 0
+      },
+      "legacyMinimums": null,
+      "status": "LEGACY_SOURCE_MISSING",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Heal",
+      "legacyName": "Heal",
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 32,
+      "legacyFp": 32,
+      "publicReferenceSlots": 1,
+      "legacySlots": 1,
+      "publicReferenceMinimums": {
+        "int": 0,
+        "fai": 12,
+        "arc": 0
+      },
+      "legacyMinimums": {
+        "int": 0,
+        "fai": 12,
+        "arc": 0
+      },
+      "status": "CURRENT_REFERENCE_AND_LEGACY_MATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Terra Magica",
+      "legacyName": "Terra Magicus",
+      "legacyAliasUsed": true,
+      "publicReferenceFp": 20,
+      "legacyFp": 20,
+      "publicReferenceSlots": 1,
+      "legacySlots": 1,
+      "publicReferenceMinimums": {
+        "int": 20,
+        "fai": 0,
+        "arc": 0
+      },
+      "legacyMinimums": {
+        "int": 20,
+        "fai": 0,
+        "arc": 0
+      },
+      "status": "CURRENT_REFERENCE_AND_LEGACY_MATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    },
+    {
+      "name": "Ranni's Dark Moon",
+      "legacyName": "Ranni's Dark Moon",
+      "legacyAliasUsed": false,
+      "publicReferenceFp": 57,
+      "legacyFp": 62,
+      "publicReferenceSlots": 2,
+      "legacySlots": 2,
+      "publicReferenceMinimums": {
+        "int": 68,
+        "fai": 0,
+        "arc": 0
+      },
+      "legacyMinimums": {
+        "int": 68,
+        "fai": 0,
+        "arc": 0
+      },
+      "status": "LEGACY_FP_MISMATCH",
+      "sourcePage": "https://almanauts.com/eldenring/spells/",
+      "currentSourceClaim": "Regulation 1.17.3 / build 25827938; published page inspected, but not in-game screenshot"
+    }
+  ],
+  "doNotImportWithoutVersionedSource": true,
+  "comparatorOnly": true,
+  "currentGameClientVerified": false,
+  "blockedAutomatedSiteFetch": "HTTP 410; current published ten cases individually sourced, not bulk fetched in CI"
+}

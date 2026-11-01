@@ -1,0 +1,29 @@
+name: Ten exact current public 1.17.3 spell FP cross-source comparisons
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/audit-current-1173-spell-fp-ten.mjs
+      - .github/workflows/audit-current-1173-spell-source.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-spell-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compare 10 source-published current 1.17.3 spell facts with pinned legacy JSON
+        run: node scripts/audit-current-1173-spell-fp-ten.mjs
+      - name: Archive cross-source differences without copying upstream tables
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v1173-spell-legacy-10-case-comparison
+          path: .audit/v1173-spell-ten-case-legacy-comparison.json
+          retention-days: 30
+          if-no-files-found: warn
