@@ -2,6 +2,7 @@
 /** Exactly repeated observable public result rows, never numeric parity by assertion alone. */
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
+const goldens=JSON.parse(await readFile(new URL('./tarnished-v117-residual-3x2-observed-goldens.json',import.meta.url),'utf8'));
 const result={source:'Tarnished.dev public v1.17',profiles:[],errors:[]};
 for(let index=0;index<3;index++){
  const reads=[];
@@ -15,21 +16,27 @@ for(let index=0;index<3;index++){
   const b=reads[1].pages.find(p=>p.name===module);
   if(!a||!b){result.errors.push('Missing page '+index+'-'+module);continue;}
   const exact=p=>({
-   inputs:p.scenario,version:p.version,selected:p.identity?.selectedTokens?.map(v=>v.selected),
+   inputs:p.scenario,version:p.version,
+   selected:p.identity?.selectedTokens?.map(v=>v.selected),
    stats:p.identity?.stats,selectedAllVisible:p.identity?.displayed,
-   resultVisible:module==='spell'?
-     /Astrologer's Staff\s+Glintstone Pebble\s+1\s+0\s+\d+/.test(p.revealed?.textTail||''):
-     (p.openTablePointer?.found===true&&p.openTablePointer?.hit?.trim()==='Show Table'),
-   resultText:(p.revealed?.textTail||'').replace(/\s+/g,' ').trim()
+   visibleNumericalRow:p.actualRow?.found===true?p.actualRow:null
   });
   const x=exact(a),y=exact(b),match=JSON.stringify(x)===JSON.stringify(y);
   const genuine=!!x.selectedAllVisible&&!!y.selectedAllVisible&&
-   x.resultVisible&&y.resultVisible&&x.resultText.length>50&&y.resultText.length>50;
-  const status=genuine&&match?'REPEATED_SOURCE_OBSERVATION':'UNVERIFIED_SOURCE_READ';
+   !!x.visibleNumericalRow&&!!y.visibleNumericalRow&&
+   x.visibleNumericalRow.matchCount===1&&y.visibleNumericalRow.matchCount===1;
+  const expected=module==='damage'?goldens.damage[index]:goldens.spell[index];
+  const fields=module==='damage'?
+   {physicalAr:expected.physical,totalAr:expected.ar,poise:expected.poise,
+    dpsSingle:expected.dpsSingle,dpsPaired:expected.dpsPaired}:
+   {magic:expected.magic,bullets:expected.bullets,fp:expected.fp};
+  const exactNumerics=genuine&&Object.entries(fields).every(([k,v])=>
+   x.visibleNumericalRow[k]===v&&y.visibleNumericalRow[k]===v);
+  const status=genuine&&match&&exactNumerics?'REPEATED_SOURCE_OBSERVATION':'UNVERIFIED_SOURCE_READ';
   if(status!=='REPEATED_SOURCE_OBSERVATION')
    result.errors.push('Unrepeated, mismatched or missing results '+index+'-'+module);
   result.profiles.push({index,module,status,inputs:x.inputs,version:x.version,
-   selected:x.selected,stats:x.stats,referenceText:x.resultText,
+   selected:x.selected,stats:x.stats,referenceRow:x.visibleNumericalRow,
    sourceTimes:2,localSameInputNumericParity:'NOT_ESTABLISHED_BY_THIS_READ'});
  }
 }
@@ -49,13 +56,11 @@ if(buildReads.length===2){
      source[0].publicAr!==source[1].publicAr)
    result.errors.push('Independent Build AR reads do not match/activate for '+index);
   const damage=result.profiles.find(x=>x.index===index&&x.module==='damage');
-  const tail=damage?.referenceText??'';
-  const match=/Uchigatana Katana Standard 5 (\d+) 0 0 0 0 (\d+) (\d+) (\d+)/.exec(tail);
-  if(!match||Number(match[1])!==Number(match[2])){
-   result.errors.push('Could not independently read exact Damage table AR '+index);
+  const siteDamageAr=damage?.referenceRow?.totalAr;
+  if(!Number.isInteger(siteDamageAr)||siteDamageAr!==damage.referenceRow.physicalAr){
+   result.errors.push('Actual rendered Damage numeric row missing or inconsistent '+index);
    continue;
   }
-  const siteDamageAr=Number(match[1]);
   const siteBuildAr=source[0]?.publicAr;
   const status=siteDamageAr===siteBuildAr?'CROSS_PAGE_MATCH':'REFERENCE_CROSS_PAGE_MISMATCH';
   observed.push({index,inputs:damage.inputs,siteDamageAr,siteBuildAr,delta:siteDamageAr-siteBuildAr,status,
