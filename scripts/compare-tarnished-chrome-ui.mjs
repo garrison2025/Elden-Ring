@@ -81,20 +81,22 @@ export function compareTarnishedChromeObservations(snapshot,source){
  };
  return {source:'Tarnished.dev public v1.17 with independently calculated AR',
   comparatorOnly:true,gameClientVerificationRequired:false,
-  qualification:'Single-run results are NOT added to the approved 15-case reference suite. Repeat live UI observations and review before promotion.',
+  qualification:'A single browser run does NOT approve the fresh 18 reference candidates. Repeat UI capture and independent review are required before promotion.',
   counts,results};
 }
 export async function run(){
  const path=resolve('.audit/tarnished-chrome-ui.json');
  const snapshot=JSON.parse(await readFile(path,'utf8'));
  if(snapshot.priorCaseCount!==15||snapshot.newCandidateCount!==35||
-  snapshot.cases?.length!==50)error('Raw Chrome probe did not contain all planned 50 observations.');
+  snapshot.freshCandidateCount!==18||snapshot.cases?.length!==68)
+  error('Raw Chrome probe did not contain all 50 prior + 18 fresh observations.');
  const {text}=await downloadV117Source(fetch);
  const comparison=compareTarnishedChromeObservations(snapshot,JSON.parse(text));
  const out=resolve('.audit/tarnished-chrome-comparison.json');
  await mkdir(dirname(out),{recursive:true});
  await writeFile(out,JSON.stringify(comparison,null,2)+'\n','utf8');
  console.log('[COMPARATOR] '+JSON.stringify(comparison.counts));
+ for(const item of comparison.results.slice(50)) console.log('[FRESH COMPARE] '+JSON.stringify(item));
  console.log('[COMPARATOR] '+comparison.qualification);
  for(const r of comparison.results){
   if(r.status!=='matched-unpromoted')
