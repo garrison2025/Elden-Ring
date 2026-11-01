@@ -137,12 +137,27 @@ async function addTalisman(name){
   (x.parentElement?.innerText||'').includes('Equipped Talismans'));
  if(!widget)return{ok:false,why:'Actual talisman multiselect missing'};
  const trigger=widget.querySelector('.p-multiselect-trigger')??widget;
- trigger.click();await new Promise(ok=>setTimeout(ok,120));
+ // PrimeReact keeps the panel OPEN when a checkbox is selected. An
+ // unconditional second click closes it and loses the next site option.
+ const isOpen=()=>[...document.querySelectorAll('.p-multiselect-panel,[role=listbox]')]
+   .some(x=>{const b=x.getBoundingClientRect();return b.width>0&&b.height>0&&
+    !!x.querySelector('.p-multiselect-item,[role=option]')});
+ if(!isOpen())trigger.click();
+ await new Promise(ok=>setTimeout(ok,120));
  const options=()=>[...document.querySelectorAll('[role=option],.p-multiselect-item')]
   .filter(x=>x.getBoundingClientRect().width>0&&x.getBoundingClientRect().height>0);
  let list=options(),match=list.find(x=>norm(x.textContent)===norm(name));
  if(!match){
-  const filter=document.querySelector('.p-multiselect-filter');
+  // The previous selected label may remain in the live filter input;
+ // always replace it with the new exact item name before searching.
+ const filter=document.querySelector('.p-multiselect-filter');
+ if(filter){
+  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(filter,name);
+  filter.dispatchEvent(new Event('input',{bubbles:true}));
+  await new Promise(ok=>setTimeout(ok,200));
+  list=options();
+  match=list.find(x=>norm(x.textContent)===norm(name));
+ }
   if(filter){
    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(filter,name);
    filter.dispatchEvent(new Event('input',{bubbles:true}));
