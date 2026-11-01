@@ -122,3 +122,17 @@ export function getSteelOriginRequirementShard(index){
  if(index!==0)throw new RangeError('Steel origin audit has one shard');
  return [STEEL_ORIGIN_REQUIREMENT_CANDIDATE];
 }
+
+/** Exact spelling from independently inspected PUBLIC v1.17 RH1 dropdown.
+ * The rendered selectable item is "Great epee", not "Great Epee"/"Great Épée".
+ */
+const greatEpeeBase=REQUIREMENT_CANDIDATES.find(x=>x.name==='Great Épée');
+export const GREAT_EPEE_DIRECT_CANDIDATE=Object.freeze({
+ ...greatEpeeBase,siteNames:Object.freeze(['Great epee']),
+ affinities:Object.freeze(['Standard']),hand:'rh1'
+});
+if(greatEpeeBase?.id!=='req-177')throw Error('Great epee source catalog changed');
+export function getGreatEpeeRequirementShard(index){
+ if(index!==0)throw new RangeError('Great epee has one targeted shard');
+ return [GREAT_EPEE_DIRECT_CANDIDATE];
+}
