@@ -97,7 +97,7 @@ function snapshot(){
 import {getRequirementsShard} from './tarnished-v117-requirement-candidates.mjs';
 const index=Number(process.env.TARNISHED_REQUIREMENT_SHARD);
 const requirementSamples=getRequirementsShard(index);
-const reqPattern=/(?:^|\\n)Req:\\s*(\\d+)\\/(\\d+)\\/(\\d+)\\/(\\d+)\\/(\\d+)/;
+const reqPattern=/(?:^|\n)Req:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/;
 async function run(){
  profile=await mkdtemp(join(tmpdir(),'tarnished-v117-public-req-'));
  browser=spawn(chrome,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
@@ -131,12 +131,12 @@ async function run(){
      await send('Page.navigate',{url:'https://www.tarnished.dev/build-planner?'+params});
      await sleep(2200);
      let s=await evaluate('('+snapshot.toString()+')()');
-     if(!s.version.includes('v1.17')||!s.buildWeaponBlock.includes('\\n'+candidateName+'\\n')){
+     if(!s.version.includes('v1.17')||!s.buildWeaponBlock.includes('\n'+candidateName+'\n')){
       await sleep(2000);s=await evaluate('('+snapshot.toString()+')()');
      }
      const pos=s.buildWeaponBlock.indexOf('Equipped '+(c.hand==='lh1'?'Left':'Right')+' Hand 1');
      const part=pos<0?'':s.buildWeaponBlock.slice(pos);
-     const selected=part.split(/\\nEquipped (?:Left|Right) Hand [123]/)[0];
+     const selected=part.split(/\nEquipped (?:Left|Right) Hand [123]/)[0];
      const m=selected.match(reqPattern);
      const controls=s.controls;
      const valid=controls.str==='1'&&controls.dex==='1'&&controls.int==='1'&&
@@ -146,8 +146,8 @@ async function run(){
      const onSite=s.version==='Elden Ring Version: v1.17'&&
       new URL(s.url).hostname==='www.tarnished.dev'&&
       new URL(s.url).pathname==='/build-planner';
-     const active=selected.includes('\\n'+candidateName+'\\n')&&
-      selected.includes('\\n'+affinity+'\\n');
+     const active=selected.includes('\n'+candidateName+'\n')&&
+      selected.includes('\n'+affinity+'\n');
      const five=m?.slice(1).map(Number)??null;
      const verified=Boolean(onSite&&valid&&active&&five&&five.length===5&&
       five.every(v=>Number.isInteger(v)&&v>=0&&v<=99)&&five.some(v=>v>1));
@@ -173,7 +173,7 @@ async function run(){
  await writeFile(resolve('.audit/tarnished-public-requirements.json'),JSON.stringify({
   source:'Public Tarnished.dev v1.17 Build Planner Req: text, raw UI',
   stats:[1,1,1,1,1],shard:index,observedDate:new Date().toISOString(),
-  cases:results},null,2)+'\\n');
+  cases:results},null,2)+'\n');
  console.log('[REQ SITE SUMMARY] '+JSON.stringify({shard:index,total:results.length,
   observed:results.filter(x=>x.status==='INPUT_AND_REQ_VERIFIED').length,
   unobserved:results.filter(x=>x.status!=='INPUT_AND_REQ_VERIFIED').length}));
