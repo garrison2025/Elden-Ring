@@ -83,6 +83,23 @@
 <p class="note">The reference also lists poise 5. Results for another weapon, enhancement, character, buff, enemy or moveset are <strong>not observed</strong> in this reference panel; the manual calculator above remains separately labelled as an estimate.</p>
 <a href="../spell-calculator/">View the three independently observed spell reference scenarios ↗</a>
 </section>
+<section class="panel" id="damage-frame-sequence" aria-labelledby="damage-frame-heading">
+<h2 id="damage-frame-heading">Independent animation-frame damage &amp; sequence DPS</h2>
+<p class="note">Give every attack its actual motion value, hit count, and total animation/recovery frame count. The engine computes each hit after your entered enemy defense/negation, sums the move sequence, then divides by elapsed frames. <strong>Unknown frames cannot be guessed from AR.</strong> Inputs above supply the five AR components, enemy and damage multiplier.</p>
+<label class="field" for="damage-frame-fps">Animation frames per second (explicitly chosen)
+<input type="number" id="damage-frame-fps" min="1" max="240" step="1" value="60"></label>
+<div id="damage-frame-entries"></div>
+<div class="workbench-actions">
+<button type="button" class="btn alt" id="damage-frame-add">Add move (max 8)</button>
+<button type="button" class="btn" id="damage-frame-calculate">Calculate exact entered sequence</button></div>
+<div class="metric-grid">
+<div class="metric"><div class="metric-label">Damage per sequence</div><strong id="damage-frame-total">—</strong></div>
+<div class="metric"><div class="metric-label">DPS from entered frames</div><strong id="damage-frame-dps">—</strong></div>
+<div class="metric"><div class="metric-label">Total frames</div><strong id="damage-frame-count">—</strong></div>
+</div>
+<p id="damage-frame-status" class="note" role="status" aria-live="polite">Enter actual motion and frame data to calculate. No motion/frames are auto-generated from a weapon name.</p>
+<p class="note">Not yet verified against a selected Tarnished.dev Damage moveset unless precisely matching live move parameters and enemy context are available. This is a real parameter-driven formula, not an observed reference output being replayed.</p>
+</section>
 <section class="panel damage-method">
 <h2>How this preview works</h2>
 <p><strong>For each damage type:</strong> Attack Rating × selected motion value × user-entered multiplier → defense-ratio attenuation → enemy percentage negation. The five remaining amounts are added for damage per hit; estimated DPS multiplies by the user's attacks-per-second value.</p>
