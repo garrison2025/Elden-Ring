@@ -86,7 +86,14 @@ test('User-initiated armor source loader serves all 543 site-verified weight/Poi
   ok:true,headers:{get:()=>String(text.length)},text:async()=>text
  }));
  assert.equal(result.count,568);
- assert.equal(result.directTarnishedV117ArmorCount,543);
+ assert.equal(result.additionalVerifiedDlcArmorCount,1);
+ assert.equal(result.armors.length,569);
+ assert.equal(result.directTarnishedV117ArmorCount-result.additionalVerifiedDlcArmorCount,543,
+  'original 543 site-proven fields remain untouched');
+ assert.equal(result.directTarnishedV117ArmorCount,544);
+ assert.equal(result.armors[568].name,'Circlet of Light');
+ assert.equal(result.armors[568].weight,1);
+ assert.equal(result.armors[568].poise,5);
  for(let i=0;i<543;i++){
   assert.equal(result.armors[i].weight,TARNISHED_V117_WIDE_ARMOR_GOLDENS[i].weight);
   assert.equal(result.armors[i].poise,TARNISHED_V117_WIDE_ARMOR_GOLDENS[i].poise);
