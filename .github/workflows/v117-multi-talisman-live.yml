@@ -1,0 +1,38 @@
+name: Verify real multitalisman combos actual public v1.17
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-multiple-talismans-v117.mjs
+      - .github/workflows/v117-multi-talisman-live.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-two-or-three-talisman-combos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2]
+        pass: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect actual two- and three-item Tarnished v1.17 Build outputs
+        env:
+          V117_COMBO_SHARD: ${{ matrix.shard }}
+          V117_COMBO_PASS: ${{ matrix.pass }}
+        run: node scripts/probe-tarnished-multiple-talismans-v117.mjs
+      - name: Save exact per-scene source and selected names
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-v117-combo-${{ matrix.shard }}-pass-${{ matrix.pass }}
+          path: .audit/v117-talisman-combo-${{ matrix.shard }}-pass-${{ matrix.pass }}.json
+          retention-days: 30
+          if-no-files-found: warn

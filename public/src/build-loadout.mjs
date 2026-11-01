@@ -133,6 +133,14 @@ export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnish
    items.push({slot:'Talisman '+(i+1),name,weight:null,provenance:'unknown'});
   }
  }
+ // This exact ordered reference UI attempt is NOT an equipable 2-item
+ // scenario: actual v1.17 multiselect kept Radagon Scarseal only.
+ const impossibleRadagonSealPair=state.talismans.includes("Radagon's Scarseal")&&
+  state.talismans.includes("Radagon's Soreseal");
+ if(impossibleRadagonSealPair)
+  unknowns.push({slot:'Talisman mutual restriction',
+   name:"Radagon's Scarseal + Radagon's Soreseal",
+   reason:'The actual v1.17 UI refused to retain both Radagon seals. Requested total cannot be certified as an equipped build.'});
  const exactTotal=unknowns.length?null:Math.round(knownWeight*1000)/1000;
  let tier=null;
  if(exactTotal!==null&&state.maxEquipLoad!=='')tier=loadTier(exactTotal,state.maxEquipLoad);
@@ -140,6 +148,8 @@ export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnish
   exactTotal,tier,status:unknowns.length?'PARTIAL':'USER_SOURCE_ONLY',
   warnings:[
    'No armor, talisman, crystal tear, Great Rune, status or spell effects are applied to character stats, defenses or AR.',
+   ...(impossibleRadagonSealPair?[
+    'The public v1.17 selector did not retain Radagon Scarseal and Soreseal together; requested weight subtotal is NOT a valid equipped item total.']:[]),
    'Nine weapon weights are independently observed from Tarnished.dev public v1.17 with two browser reads. Other community weights are not competitor-verified. This is not a game-client current-patch claim.',
    ...(unknowns.length?['Equip-load tier withheld because one or more selected equipment weights are unknown.']:[])
   ]};
