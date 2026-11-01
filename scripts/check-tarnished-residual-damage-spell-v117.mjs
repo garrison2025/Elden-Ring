@@ -17,12 +17,14 @@ for(let index=0;index<3;index++){
   const exact=p=>({
    inputs:p.scenario,version:p.version,selected:p.identity?.selectedTokens?.map(v=>v.selected),
    stats:p.identity?.stats,selectedAllVisible:p.identity?.displayed,
-   hasTable:p.openTablePointer?.found&&p.openTablePointer?.hit?.trim()==='Show Table',
+   resultVisible:module==='spell'?
+     (p.revealed?.textTail||'').includes('Astrologer\'s Staff\\nGlintstone Pebble\\n1\\n'):
+     (p.openTablePointer?.found===true&&p.openTablePointer?.hit?.trim()==='Show Table'),
    resultText:(p.revealed?.textTail||'').replace(/\s+/g,' ').trim()
   });
   const x=exact(a),y=exact(b),match=JSON.stringify(x)===JSON.stringify(y);
   const genuine=!!x.selectedAllVisible&&!!y.selectedAllVisible&&
-   x.hasTable&&y.hasTable&&x.resultText.length>50&&y.resultText.length>50;
+   x.resultVisible&&y.resultVisible&&x.resultText.length>50&&y.resultText.length>50;
   const status=genuine&&match?'REPEATED_SOURCE_OBSERVATION':'UNVERIFIED_SOURCE_READ';
   if(status!=='REPEATED_SOURCE_OBSERVATION')
    result.errors.push('Unrepeated, mismatched or missing results '+index+'-'+module);
