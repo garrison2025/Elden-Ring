@@ -47,7 +47,7 @@ test('recover six double-observed direct site armor aliases and avoid shadow/dup
   /alias identity differs/);
 });
 
-test('real user-initiated 568-row source loader exposes exactly 549 site weight/Poise pairs and 514 site-derived metric records',async()=>{
+test('real user-initiated 568-row source loader exposes exactly 549 site weight/Poise pairs and 514 original plus one DLC site-derived metric records',async()=>{
  const convert=(id,name,slot,weight,poise)=>({
   id,name,
   category:{Head:'Helm',Chest:'Chest Armor',Arms:'Gauntlets',Legs:'Leg Armor'}[slot],
@@ -74,8 +74,8 @@ test('real user-initiated 568-row source loader exposes exactly 549 site weight/
  assert.equal(source.directTarnishedV117ArmorCount,551);
  assert.equal(source.recoveredDirectArmorCount,6);
  assert.equal(source.siteUnsupportedCandidateCount,19);
- assert.equal(source.siteTwelveMetricArmorCount,514);
- assert.equal(source.siteAdditionalMetricFields,6168);
+ assert.equal(source.siteTwelveMetricArmorCount,515);
+ assert.equal(source.siteAdditionalMetricFields,6180);
  for(const e of TARNISHED_V117_ARMOR_RECOVERED){
   const row=source.armors.find(x=>x.id===e.id);
   assert.ok(row);

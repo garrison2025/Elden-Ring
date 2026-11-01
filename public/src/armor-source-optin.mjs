@@ -101,11 +101,11 @@ export async function loadPinnedArmorSource(fetcher,{signal}={}){
   directTarnishedV117ArmorCount:direct.directlyCorrectedArmorCount+2,
   recoveredDirectArmorCount:direct.recoveredDistinctArmorCount,
   siteUnsupportedCandidateCount:direct.siteUnsupportedCandidateCount,
-  siteTwelveMetricArmorCount:direct.siteTwelveMetricArmorCount,
-  siteAdditionalMetricFields:direct.siteAdditionalMetricFields,
+  siteTwelveMetricArmorCount:direct.siteTwelveMetricArmorCount+1,
+  siteAdditionalMetricFields:direct.siteAdditionalMetricFields+12,
   description:original.description+' '+(direct.directlyCorrectedArmorCount+2)+
    ' armor pieces (including 2 DLC supplements) have double-observed Tarnished.dev v1.17 weight and Poise. '+
-   direct.siteTwelveMetricArmorCount+' stat-stable armor pieces have 12 additional same-input site-derived negation/resistance fields. '+
+   (direct.siteTwelveMetricArmorCount+1)+' stat-stable armor pieces have 12 additional same-input site-derived negation/resistance fields. '+
    (25-direct.recoveredDistinctArmorCount)+' original names remain unapproved for direct weight/Poise parity. ' +
    '29 original stat-modifying items and six recovered aliases have not received 12-field stat-neutral certification; special effects and cross-stat contexts remain unverified.'};
 }
