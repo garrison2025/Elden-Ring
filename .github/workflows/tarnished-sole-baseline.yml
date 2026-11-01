@@ -1,0 +1,29 @@
+name: Sole comparator Tarnished.dev live feature-scope audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/audit-tarnished-public-feature-scope.mjs
+      - .github/workflows/tarnished-sole-baseline.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-site-scope:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect all four live public calculator interfaces with Chromium
+        run: node scripts/audit-tarnished-public-feature-scope.mjs
+      - name: Preserve source-scope and actual form controls, not competitor datasets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarnished-live-four-page-feature-scope
+          path: .audit/tarnished-live-feature-scope.json
+          retention-days: 30
+          if-no-files-found: warn
