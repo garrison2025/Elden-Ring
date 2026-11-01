@@ -132,6 +132,7 @@ $('armor-full-run').addEventListener('click',()=>{
    tier:$('targetTier').value,
    minPoise:Number(value),
    metric:weightedMode()?'weighted':$('armor-full-metric').value,
+   includeTopFive:!weightedMode()&&$('armor-full-metric').value==='poise',
    ...(weightedMode()?weightedOptions():{}),
    excludedIds:parseExclude(),
    ...slotRestrictions()
