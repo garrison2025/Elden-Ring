@@ -80,6 +80,25 @@ const EXCLUSIVE_FAMILIES=Object.freeze([
   note:'An upgraded talisman replaces another tier of its own family; restriction from https://eldenring.fandom.com/wiki/Talismans . Not directly measured on public Tarnished.dev.'
  }),
 ]);
+/**
+ * Exact ordered pair click observations. Every entry below was observed in
+ * two separate fresh Chromium sessions on PUBLIC Tarnished.dev v1.17; the
+ * originally tested Radagon Scarseal -> Soreseal direction was read in its
+ * preceding two-browser run. This proves selector behavior in that scene,
+ * NOT numeric effects or all other family/order/equipment combinations.
+ */
+const DIRECT_TWO_CLICK_ORDERS=Object.freeze([
+ ["Radagon seal variants",["Radagon's Scarseal","Radagon's Soreseal"]],
+ ["Radagon seal variants",["Radagon's Soreseal","Radagon's Scarseal"]],
+ ["Marika seal variants",["Marika's Scarseal","Marika's Soreseal"]],
+ ["Marika seal variants",["Marika's Soreseal","Marika's Scarseal"]],
+ ["Erdtree's Favor upgrade variants",["Erdtree's Favor","Erdtree's Favor +2"]],
+ ["Arsenal load-boost variants",["Arsenal Charm","Arsenal Charm +1"]],
+ ["Crimson Amber Medallion upgrade variants",["Crimson Amber Medallion","Crimson Amber Medallion +1"]]
+].map(([family,order])=>Object.freeze({family,order:Object.freeze(order)})));
+const directOrderWasObserved=(family,selected)=>
+ selected.length===2&&DIRECT_TWO_CLICK_ORDERS.some(proof=>
+  proof.family===family&&proof.order.every((n,i)=>selected[i]===n));
 export function reviewTalismanLoadoutCompatibility(names){
  if(!Array.isArray(names)||names.length!==4||
     names.some(n=>typeof n!=='string'))
@@ -98,9 +117,15 @@ export function reviewTalismanLoadoutCompatibility(names){
  }
  for(const rule of EXCLUSIVE_FAMILIES){
   const selectedVariants=rule.names.filter(n=>seen.has(n));
-  if(selectedVariants.length>=2)
+  if(selectedVariants.length>=2){
+   const exactSelectorOrderObserved=directOrderWasObserved(rule.family,selected);
    conflicts.push({type:'exclusive-family',family:rule.family,
-    names:selectedVariants,evidence:rule.evidence,note:rule.note});
+    names:selectedVariants,
+    evidence:exactSelectorOrderObserved?rule.evidence:'independent-documentation-only',
+    exactSelectorOrderObserved,
+    note:exactSelectorOrderObserved?rule.note:
+     'This exact selected order and context have NOT been tested twice in the public v1.17 selector; the incompatible family rule is supported by independent documentation. '+rule.note});
+  }
  }
  return {
   status:conflicts.length?'UNWEARABLE':'NO_DOCUMENTED_CONFLICT',
