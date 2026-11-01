@@ -8,6 +8,7 @@ on:
       - '.github/workflows/tarnished-final-residual-damage-spell.yml'
       - 'scripts/tarnished-v117-residual-3x2-observed-goldens.json'
       - 'scripts/verify-tarnished-residual-three-uchigatana-ar.mjs'
+      - 'scripts/probe-tarnished-residual-build-ar-v117.mjs'
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,6 +24,29 @@ jobs:
           node-version: '22'
       - name: Independently compute +25 AR for three directly observed site scenarios
         run: node scripts/verify-tarnished-residual-three-uchigatana-ar.mjs
+  same-input-build-ar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        pass: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Observe the identical +25 Uchigatana scenarios on actual reference Build Planner
+        env:
+          TARNISHED_DUAL_AR_PASS: ${{ matrix.pass }}
+        run: node scripts/probe-tarnished-residual-build-ar-v117.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-tarnished-build-ar-${{ matrix.pass }}
+          path: .audit/tarnished-residual-build-weapon-ar-pass-${{ matrix.pass }}.json
+          retention-days: 30
+          if-no-files-found: warn
   observe:
     runs-on: ubuntu-latest
     timeout-minutes: 7
