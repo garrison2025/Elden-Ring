@@ -1,0 +1,21 @@
+name: Independent v1.17 catalyst-spell mathematics
+on:
+  pull_request:
+    paths:
+      - 'public/src/v117-spell-scaling-engine.mjs'
+      - 'scripts/check-v117-pebble-independent.mjs'
+      - '.github/workflows/independent-v117-spell-model.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  spell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Independently calculate source-derived 25/30/40 INT versus real site numeric goldens
+        run: node scripts/check-v117-pebble-independent.mjs
