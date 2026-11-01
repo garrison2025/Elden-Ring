@@ -6,7 +6,7 @@ import {downloadV117Source} from '../public/src/upstream-regulation-v117.mjs';
 const raw=JSON.parse((await downloadV117Source(fetch)).text);
 const candidates=raw.weapons.filter(x=>x.name.includes("Astrologer's Staff"));
 const arr=candidates.map(w=>({
- name:w.name,attack:w.attack,attributeScaling:w.attributeScaling,
+ name:w.name,sorceryTool:w.sorceryTool,attack:w.attack,attributeScaling:w.attributeScaling,
  correction:w.calcCorrectGraphIds,reinforceTypeId:w.reinforceTypeId,
  attackElementCorrectId:w.attackElementCorrectId,
  requirements:w.requirements,weaponType:w.weaponType,
