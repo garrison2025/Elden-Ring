@@ -6,11 +6,23 @@ on:
       - 'scripts/probe-tarnished-residual-damage-spell-v117.mjs'
       - 'scripts/check-tarnished-residual-damage-spell-v117.mjs'
       - '.github/workflows/tarnished-final-residual-damage-spell.yml'
+      - 'scripts/tarnished-v117-residual-3x2-observed-goldens.json'
+      - 'scripts/verify-tarnished-residual-three-uchigatana-ar.mjs'
   workflow_dispatch:
 permissions:
   contents: read
   pull-requests: write
 jobs:
+  local-ar-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Independently compute +25 AR for three directly observed site scenarios
+        run: node scripts/verify-tarnished-residual-three-uchigatana-ar.mjs
   observe:
     runs-on: ubuntu-latest
     timeout-minutes: 7
