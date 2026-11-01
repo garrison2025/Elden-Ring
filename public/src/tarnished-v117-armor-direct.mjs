@@ -72,6 +72,7 @@ export function applyTarnishedV117DirectArmorFields(rows){
   siteTwelveMetricArmorCount:stableCorrected,
   siteAdditionalMetricFields:stableCorrected*12,
   correctedFields:corrected*2+stableCorrected*12,
-  otherArmorFieldsNumericallyVerified:stableCorrected!==rows.length,
+  otherArmorFieldsNumericallyVerified:false,
+  anySiteDerivedDefenseEvidence:stableCorrected>0,
   siteUnsupportedCandidateCount:25};
 }
