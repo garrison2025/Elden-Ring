@@ -25,7 +25,7 @@ test('451 individually twice-observed public site weight facts remain versioned 
  assert.equal(get('Fingerprint Stone Shield').weight,29);
  assert.equal(get('Golden Greatshield').weight,17);
  assert.equal(get('Great Turtle Shell').weight,5.5);
- assert.equal(get('Moonveil'),null);
+ assert.equal(get('Moonveil').weight,6.5);
  assert.equal(get(null),null);
 });
 test('community catalog remains intact and source disagreements are NOT silently erased',()=>{
