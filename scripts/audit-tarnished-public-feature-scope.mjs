@@ -33,6 +33,10 @@ function snapshot(){
   visibleDropdowns:[...document.querySelectorAll('[role="combobox"]')].filter(e=>e.offsetParent!==null).
    map(e=>({id:e.id||null,ariaLabel:e.getAttribute('aria-label')||null,
     nearby:e.parentElement?.parentElement?.textContent?.trim()?.slice(0,75)||null})).slice(0,35),
+  primeDropdowns:[...document.querySelectorAll('.p-dropdown, .p-multiselect, .p-autocomplete')].slice(0,32).map(e=>({
+   id:e.id||null,classNames:String(e.className).slice(0,75),
+   parent:(e.parentElement?.innerText||'').trim().slice(0,90),
+   html:e.outerHTML.slice(0,220)})),
   buttonLabels:textOf('button').slice(0,55),
   visibleWords:['Weapon','Armor','Talismans','Spells','Damage Calculator',
    'Enemy','Defense','Poise','Spell Buff','Great Rune','Active Effects',
@@ -77,7 +81,8 @@ async function main(){
     heading:row.heading,inputCount:row.inputs.length,dropdownCount:row.visibleDropdowns.length,
     buttons:row.buttonLabels.slice(0,14),words:row.visibleWords,
     inputIds:row.inputs.filter(x=>x.id).map(x=>x.id),
-    dropdownContexts:row.visibleDropdowns.map(x=>x.nearby).slice(0,18)}));
+    dropdownContexts:row.visibleDropdowns.map(x=>x.nearby).slice(0,18),
+    primeDropdowns:row.primeDropdowns.slice(0,16)}));
   }catch(e){out.push({route,error:String(e.message).slice(0,180)});
    console.log('[TARNISHED SOLE BASELINE ERROR] '+route+': '+String(e.message));}
  }
