@@ -48,8 +48,8 @@ function validateRows(rows,metric,excluded){
   if(excluded.has(item.id)){excludedCount++;continue;}
   const v=item.metrics?.[metric];
   const kind=ARMOR_METRICS[metric].kind;
-  if(!Number.isFinite(v)||v<0||v>(kind==='negation'?99:800)||
-   (kind==='resistance'&&!Number.isInteger(v))){
+  if(!Number.isFinite(v)||(kind==='negation'?(v< -99||v>99):
+   (v<0||v>800||!Number.isInteger(v)))){
    missingMetric++;continue;
   }
   valid.push(item);

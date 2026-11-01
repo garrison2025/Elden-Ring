@@ -30,7 +30,8 @@ export function optimizeArmorPoiseConstrainedDP(groups,{
  const unitValue=piece=>{
   if(!piece)return 0;
   const v=piece.metrics?.[metric];
-  if(!Number.isFinite(v)||v<0||v>(kind==='negation'?99:800))
+  if(!Number.isFinite(v)||(kind==='negation'?(v< -99||v>99):
+   (v<0||v>800||!Number.isInteger(v))))
    fail('Objective source value is unavailable or malformed.');
   return kind==='negation'?-Math.log1p(-v/100):v;
  };

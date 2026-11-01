@@ -30,8 +30,12 @@ function sourceCell(source,name,kind){
  const found=source.filter(row=>row&&typeof row==='object'&&accepted.includes(row.name));
  if(found.length!==1)return null; // Ambiguous or malformed source: no invented 0.
  const value=found[0].amount;
- if(!Number.isFinite(value)||value<0||value>(kind==='negation'?99:800)||
-  (kind==='resistance'&&!Number.isInteger(value)))return null;
+ // Negative damage negation is valid (Scarab helms; flowering Guardian Garb).
+ // A negative SOURCE value increases incoming damage. Resistances/Poise
+ // still cannot be negative; the optimizer uses log1p for signed negation.
+ if(!Number.isFinite(value)||
+  (kind==='negation'?(value< -99||value>99):
+   (value<0||value>800||!Number.isInteger(value))))return null;
  return value;
 }
 const categories=Object.freeze({'Helm':'Head','Chest Armor':'Chest','Gauntlets':'Arms',
