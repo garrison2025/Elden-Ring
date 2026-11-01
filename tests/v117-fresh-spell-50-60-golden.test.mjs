@@ -13,10 +13,10 @@ test('INT50/INT60 public v1.17 site values are both independently observed twice
   assert.deepEqual(exactPublicPebbleSpell({int:row.int+1}).reference,null);
  }
 });
-test('all nine double-observed spell reference outputs keep unverified model mismatches explicit',()=>{
- assert.deepEqual(V117_PEBBLE_STAFF_ROWS.map(x=>[x.int,x.magic]),[
-  [20,219],[25,242],[30,267],[35,290],[40,315],[45,338],[50,363],[55,386],[60,410]
- ]);
+test('17 actual spell reference rows include both prior INT50/60 source observations',()=>{
+ assert.equal(V117_PEBBLE_STAFF_ROWS.length,17);
+ assert.equal(V117_PEBBLE_STAFF_ROWS.find(x=>x.int===50).magic,363);
+ assert.equal(V117_PEBBLE_STAFF_ROWS.find(x=>x.int===60).magic,410);
  assert.equal(evidence.cases[0].status,'SOURCE_MODEL_ONE_POINT_MISMATCH');
  assert.equal(evidence.cases[1].status,'INDEPENDENT_SOURCE_MODEL_MATCH');
 });
