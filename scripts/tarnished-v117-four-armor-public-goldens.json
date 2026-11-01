@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "site": "Tarnished.dev real public v1.17 Build Calculator",
+  "sourceUrl": "https://www.tarnished.dev/build-planner",
+  "sourceRun": 41274222694,
+  "sourceJob": 124753003643,
+  "observedBrowserPassesAtCreation": 1,
+  "validatedInputs": "Wretch 10/10/10/10/10, +0, no buffs or runes, empty 0 weight/0 poise, capacity48.2",
+  "rows": [
+    {
+      "name": "All-knowing Helm",
+      "siteLabel": "All-Knowing Helm",
+      "slot": "Head",
+      "weight": 4.6,
+      "poise": 7
+    },
+    {
+      "name": "All-knowing Armor",
+      "siteLabel": "All-Knowing Armor",
+      "slot": "Chest",
+      "weight": 10.7,
+      "poise": 22
+    },
+    {
+      "name": "All-knowing Gauntlets",
+      "siteLabel": "All-Knowing Gauntlets",
+      "slot": "Arms",
+      "weight": 3.5,
+      "poise": 5
+    },
+    {
+      "name": "All-knowing Greaves",
+      "siteLabel": "All-Knowing Greaves",
+      "slot": "Legs",
+      "weight": 6.6,
+      "poise": 13
+    }
+  ],
+  "note": "Independent repeat CI is required before this single-run record is accepted as a two-pass golden; no other armor fields validated."
+}
