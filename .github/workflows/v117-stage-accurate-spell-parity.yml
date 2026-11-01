@@ -1,12 +1,6 @@
 name: Stage-accurate 17 real Tarnished v1.17 Spell golden matches
 on:
   pull_request:
-    paths:
-      - public/src/v117-spell-scaling-engine.mjs
-      - public/src/tarnished-v117-scoped-reference-scenes.mjs
-      - scripts/check-v117-pebble-independent.mjs
-      - scripts/tarnished-v117-spell-17-double-observed-goldens.json
-      - .github/workflows/v117-stage-accurate-spell-parity.yml
   workflow_dispatch:
 permissions:
   contents: read
