@@ -19,7 +19,7 @@ test('the new DLC candidate is only one newly audited Head row, with unknown oth
  assert.ok(!circlet.siteDirectFields.physical);
  assert.match(circlet.effectNotModeled,/INT, FAI, ARC/);
 });
-test('exact 568 pinned source remains untouched; DLC is an additional 569th verified armor candidate',async()=>{
+test('original 568 pinned records stay untouched; two separately verified DLC candidates append',async()=>{
  const raw=Array.from({length:ARMOR_SOURCE_COUNT},(_,i)=>({
   id:'fictional-row-'+i+'-source',name:'FICTIONAL '+i,
   category:['Helm','Chest Armor','Gauntlets','Leg Armor'][i%4],weight:1
@@ -27,10 +27,11 @@ test('exact 568 pinned source remains untouched; DLC is an additional 569th veri
  const source=await loadPinnedArmorSource(async()=>({ok:true,headers:{get:()=>null},
   text:async()=>JSON.stringify(raw)}));
  assert.equal(source.count,568);
- assert.equal(source.armors.length,569);
- assert.equal(source.additionalVerifiedDlcArmorCount,1);
+ assert.equal(source.armors.length,570);
+ assert.equal(source.additionalVerifiedDlcArmorCount,2);
  assert.equal(findExactArmor(source.armors,'Head','Circlet of Light')?.poise,5);
- assert.equal(siteVerifiedArmorSubset(source.armors,'poise').accepted.length,1);
+ assert.equal(findExactArmor(source.armors,'Arms','Gravebird Bracelets')?.poise,3);
+ assert.equal(siteVerifiedArmorSubset(source.armors,'poise').accepted.length,2);
  assert.equal(siteVerifiedArmorSubset(source.armors,'physical').accepted.length,0);
 });
 test('the exact 70 Poise combination is COMPUTED, never injected as an answer',()=>{
