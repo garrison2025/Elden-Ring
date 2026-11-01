@@ -1,0 +1,2 @@
+# Two actual talisman combination reference profiles (pending proof)
+Four selected-two-talisman Wretch10 scenarios, each in two different real Chromium public v1.17 UI passes; only after both real runs pass may output values be promoted. This checks ACTUAL joint final attributes, physical/other negation, HP/FP/Stamina, max equip load and equipped weight as a further gate. No universal stacking law or arbitrary gameplay parity should be inferred from four pairwise observations.
