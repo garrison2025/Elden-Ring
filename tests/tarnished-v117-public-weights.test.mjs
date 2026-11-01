@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE as evidence,getTarnishedV117DirectWeight as get} from '../public/src/tarnished-v117-public-weights.mjs';
 const catalog=JSON.parse(readFileSync(new URL('../public/data/community-weapon-catalog.json',import.meta.url),'utf8'));
-test('9 small, independently two-pass observed site weights are versioned and source explicit',()=>{
+test('39 individually twice-observed public site weight facts remain versioned and source explicit',()=>{
  assert.equal(evidence.length,39);
  assert.equal(evidence.filter(x=>x.evidenceRun===41257934288).length,30);
- assert.equal(new Set(evidence.map(x=>x.weaponName)).size,9);
+ assert.equal(new Set(evidence.map(x=>x.weaponName)).size,39);
  for(const x of evidence){
   assert.ok(catalog.weapons.some(w=>w.name===x.weaponName));
   assert.equal(x.observedTwice,true);
