@@ -1,13 +1,5 @@
 name: Parallel Tarnished.dev public v1.17 remaining weapon weight audit
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/probe-tarnished-item-fields.mjs
-      - scripts/compare-tarnished-item-weights.mjs
-      - scripts/tarnished-v117-weight-remaining380.mjs
-      - tests/tarnished-v117-weight-remaining380.test.mjs
-      - .github/workflows/tarnished-item-fields.yml
   workflow_dispatch:
 permissions:
   contents: read
