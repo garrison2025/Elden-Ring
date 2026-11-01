@@ -1,0 +1,22 @@
+name: Verify newly observed Uchigatana +25 public Damage AR input
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/verify-new-v117-uchigatana-damage-ar.mjs
+      - scripts/tarnished-v117-damage-spell-new-live-goldens.json
+      - .github/workflows/tarnished-new-damage-ar-live.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare-one-new-site-numeric-case:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compute exactly same public weapon AR using independent pinned source
+        run: node scripts/verify-new-v117-uchigatana-damage-ar.mjs

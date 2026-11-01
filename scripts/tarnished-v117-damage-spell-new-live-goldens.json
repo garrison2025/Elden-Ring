@@ -1,0 +1,71 @@
+{
+  "site": "Tarnished.dev public v1.17",
+  "evidence": "Real Chrome public selection, two independent CI profiles, 2026-11-01",
+  "actionRuns": [
+    41284358487,
+    41284568837
+  ],
+  "damage": {
+    "origin": "Wretch",
+    "baseStats": {
+      "vig": 10,
+      "mnd": 10,
+      "end": 10,
+      "str": 15,
+      "dex": 20,
+      "int": 10,
+      "fai": 10,
+      "arc": 10
+    },
+    "weapon": "Uchigatana",
+    "affinity": "Standard",
+    "upgrade": 25,
+    "reinforcement": "smithing",
+    "grip": "single",
+    "selectedEnemy": "Default",
+    "selectedNG": "NG+0",
+    "otherEffects": "none",
+    "observed": {
+      "ar": 376,
+      "physical": 376,
+      "magic": 0,
+      "fire": 0,
+      "lightning": 0,
+      "holy": 0,
+      "poise": 5,
+      "dpsSingle": 464,
+      "dpsPaired": 547
+    },
+    "evidenceLevel": "actual reference table under selected weapon/STR/DEX, not a verified moveset damage scene"
+  },
+  "spell": {
+    "origin": "Wretch",
+    "baseStats": {
+      "vig": 10,
+      "mnd": 10,
+      "end": 10,
+      "str": 10,
+      "dex": 10,
+      "int": 25,
+      "fai": 10,
+      "arc": 10
+    },
+    "catalyst": "Astrologer's Staff",
+    "spell": "Glintstone Pebble",
+    "smithingLevelDefault": 25,
+    "somberLevelDefault": 10,
+    "enemyDefense": 0,
+    "enemyNegation": 0,
+    "observed": {
+      "magic": 242,
+      "physical": 0,
+      "fire": 0,
+      "lightning": 0,
+      "holy": 0,
+      "bullets": 1,
+      "fpCost": 7,
+      "intRequirement": 10
+    },
+    "evidenceLevel": "actual reference table after selecting staff and spell; NOT a game-client combat hit"
+  }
+}
