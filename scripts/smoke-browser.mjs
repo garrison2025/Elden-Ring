@@ -1341,6 +1341,31 @@ try{
  assert.equal(await evaluate("document.querySelector('#spell-magic').textContent"),'—',
   'Previously observed spell damage must clear immediately when input is unsupported');
  assert.match(await evaluate("document.querySelector('#spell-status').textContent"),/NOT OBSERVED/);
+ // Independent spell engine: user-triggered pinned catalyst parameter download,
+ // not the fixed reference lookup. Verify three actual Tarnished.dev v1.17 rows.
+ await evaluate("document.querySelector('#spell-load-math').click()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent!=='—'||document.querySelector('#spell-math-status').dataset.state==='error'",
+  'Pinned public v1.17 source loads and Glintstone Pebble is calculated from catalyst scaling');
+ const spellIndependentStatus=await evaluate("document.querySelector('#spell-math-status').textContent");
+ assert.ok(!spellIndependentStatus.includes('Source unavailable')&&
+  !spellIndependentStatus.includes('Calculation refused'),
+  'Independent source calculation unexpectedly failed: '+spellIndependentStatus);
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='25';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent==='242'",
+  'Real Tarnished v1.17 spell magic at INT25 must be independently calculated to site 242 boundary');
+ assert.equal(await evaluate("document.querySelector('#spell-math-raw').textContent"),'243',
+  'INT25 one-point source arithmetic boundary remains disclosed, not globally hidden');
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='30';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent==='267'",
+  'Pinned catalyst math Glintstone Pebble INT30 equals actual Tarnished v1.17 267');
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='40';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-math-damage').textContent==='315'",
+  'Pinned catalyst math Glintstone Pebble INT40 equals actual Tarnished v1.17 315');
+ await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='50';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.equal(await evaluate("document.querySelector('#spell-math-damage').textContent"),'362');
+ assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/No same-input Tarnished.dev benchmark/,
+  'Unobserved INT50 calculated from source must not be called real-site verified');
+
  await navigate('/build-planner/');
  await evaluate("document.querySelector('#build-loadout-start').click()");
  await waitFor("document.querySelector('[aria-label=\\\"Choose a twice-observed reference talisman combination\\\"]')!==null",
