@@ -1248,6 +1248,22 @@ try{
    sourceOptimization.status.includes('completed in Worker')&&
    sourceOptimization.details.includes('0 records excluded'),
    'Live full-source optimum must disclose source Poise, load tier and excluded unknowns');
+  // Same exact public v1.17 Wretch10, Normal-roll, Poise-only reference.
+  await evaluate("(()=>{for(const [id,value] of [['maxLoad','48.176'],['reservedWeight','0'],['minPoise','0']])document.getElementById(id).value=value;document.querySelector('#targetTier').value='medium';document.querySelector('#armor-full-site-only').checked=true;const box=document.querySelector('#armor-v117-confirm-wretch');box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#armor-full-run').click()})()");
+  await waitFor("document.querySelector('#armor-v117-reference-comparison').textContent.includes('local = 70')",
+   'Real 70 Poise must match reference score under specifically confirmed Wretch10 constraints');
+  await evaluate("(()=>{const e=document.querySelector('#reservedWeight');e.value='1';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  assert.match(await evaluate("document.querySelector('#armor-v117-reference-comparison').textContent"),/previous source comparison invalidated/,
+   'Changing source optimizer constraints must erase previously observed parity claims');
+  await evaluate("document.querySelector('#armor-v117-apply-first').click()");
+  await waitFor("document.querySelector('#armor-full-results')?.hidden===false&&document.querySelector('#armor-full-rows')?.textContent.includes('Preceptor')",
+   'Direct v1.17 rank-one four-piece reference armor must load only from available source pieces');
+  const selectedReferenceArmor=await evaluate("({names:document.querySelector('#armor-full-rows').textContent,headline:document.querySelector('#armor-full-heading').textContent})");
+  assert.ok(selectedReferenceArmor.names.includes('Circlet of Light')&&
+    selectedReferenceArmor.names.includes('Tree Sentinel')&&
+    selectedReferenceArmor.names.includes('Preceptor'),
+    'Observed rank-one pieces must actually be locked and shown');
+  assert.match(selectedReferenceArmor.headline,/70/);
   console.log('[REAL ARMOR SOURCE] PASS: pinned 568 records + 1 direct DLC and verified filtered candidate pool, exact source-constrained 4-slot Worker search.');
 
  }
