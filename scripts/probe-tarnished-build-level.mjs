@@ -97,7 +97,7 @@ function snapshot(){
 import {CLASSES,buildLevel} from '../public/src/core.mjs';
 const WRETCH=CLASSES.find(x=>x.name==='Wretch');
 const ALL=[[10,10,10,10,10],[20,10,10,10,10],[10,40,10,10,10],[10,10,60,10,10],[10,10,10,50,10],[10,10,10,10,70],[30,30,30,30,30],[99,99,99,99,99],[60,25,15,20,10],[12,18,38,22,15],[33,12,12,45,12],[23,67,12,12,12],[45,45,45,11,11],[45,10,10,45,10],[10,10,10,10,11],[11,10,10,10,10],[20,20,20,20,20],[80,80,12,12,12],[40,40,20,20,20],[14,70,10,10,35]];
-const samples=ALL.map((five,index)=>({id:'level-'+String(index+1).padStart(2,'0'),
+const levelSamples=ALL.map((five,index)=>({id:'level-'+String(index+1).padStart(2,'0'),
  stats:[10,10,10,...five],
  expected:buildLevel(WRETCH,[10,10,10,...five])}));
 async function run(){
@@ -121,7 +121,7 @@ async function run(){
  });
  await send('Page.enable');await send('Runtime.enable');
  const observations=[];
- for(const c of samples){
+ for(const c of levelSamples){
   const five=c.stats.slice(3);
   const params=new URLSearchParams({str:String(five[0]),dex:String(five[1]),
    int:String(five[2]),fai:String(five[3]),arc:String(five[4]),
