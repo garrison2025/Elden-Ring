@@ -8,6 +8,7 @@ import {summarizeEquippedArmorMetrics} from './build-armor-metrics.mjs';
 import {previewDirectV117ArmorAttributeEffect} from './build-verified-armor-attribute-effect.mjs';
 import {previewV117SelectedBuildEffects} from './v117-selected-build-effects.mjs';
 import {observedV117TalismanPair} from './v117-selected-pair-preview.mjs';
+import {previewV117ExactTalismanCombination} from './v117-multi-talisman-reference.mjs';
 const byId=id=>document.getElementById(id);
 const status=(message,error=false)=>{
  const el=byId('build-loadout-status');el.textContent=message;el.dataset.state=error?'error':'ready';
@@ -186,6 +187,34 @@ function render(){
     ['physical','strike','slash','pierce','magic','fire','lightning','holy']
      .map(k=>k+' '+x.metrics[k]+'%').join(' · ')},p);
    make('p',{text:directPair.note},p);
+  }
+  const multi=previewV117ExactTalismanCombination(topStats(),evaluated.state,{
+   origin:byId('origin')?.value??'unverified'
+  });
+  if(multi.status==='direct-site-same-input-combination'&&!directPair.record){
+   const p=multi.observation;
+   const panel=make('section',{className:'build-armor-metric-panel',
+    id:'build-v117-combined-talisman-reference'},result);
+   make('h3',{text:'Directly observed multitalisman reference · public v1.17'},panel);
+   make('p',{text:p.names.join(' + ')},panel);
+   make('p',{text:'Actual Wretch10 final attributes: '+
+    ['VIG','MND','END','STR','DEX','INT','FAI','ARC'].map((k,i)=>k+' '+p.stats[i]).join(' · ')},panel);
+   make('p',{text:'Actual HP '+p.vitals.HP+' · FP '+p.vitals.FP+
+    ' · Stamina '+p.vitals.Stamina+' · Discovery '+p.vitals.Discovery+
+    ' · Weight '+p.weight.toFixed(1)+' · Maximum Equip Load '+p.maxEquipLoad.toFixed(1)},panel);
+   make('p',{text:'Actual per-type damage negation: '+
+    ['physical','strike','slash','pierce','magic','fire','lightning','holy']
+     .map(k=>k+' '+p.negation[k]+'%').join(' · ')},panel);
+   make('p',{text:'Actual physical/magic defense '+p.vitals['Physical Defense']+
+    ' / '+p.vitals['Magic Defense']+'; Immunity '+p.vitals.Immunity+
+    ', Robustness '+p.vitals.Robustness+', Focus '+p.vitals.Focus+
+    ', Vitality '+p.vitals.Vitality},panel);
+   make('p',{text:multi.note},panel);
+  }else if(multi.status==='source-exclusivity-observed'){
+   const panel=make('section',{className:'build-armor-metric-panel',
+    id:'build-v117-combined-talisman-exclusion'},result);
+   make('h3',{text:'Reference-site equipped-item restriction'},panel);
+   make('p',{text:multi.note},panel);
   }
   const opts=contentOpts();
   const selected=state().weaponSlots.filter(x=>x.id);
