@@ -1393,6 +1393,12 @@ try{
  assert.deepEqual(realBuild.attrs,Array(8).fill('10'));
  assert.ok(realBuild.selected.includes('-32.25%'),
   'Combined Soreseal negative damage negation must be the real observed -32.25%, not -30%');
+ const compositionResult=await evaluate("document.querySelector('#build-v117-independent-talisman-stats')?.textContent||''");
+ assert.match(compositionResult,/REAL_TARNISHED_V117_ATTRIBUTES_MATCH/,
+  'Independent Build combination must mathematically reproduce exact real two-Soreseal site attributes');
+ assert.match(compositionResult,/STR 10 \+ 5 = 15/,
+  'Real independent strength +5 composition must be visible in Build');
+
  console.log('[FOUR MODULE BUILD SMOKE] PASS: one-click exact two-Soreseal Wretch10 scenario, real observed -32.25% negation.');
  await navigate('/armor-optimizer/');
  assert.equal(await evaluate("document.querySelector('#armor-v117-apply-first').disabled"),true,
