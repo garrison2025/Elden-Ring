@@ -285,7 +285,30 @@ async function main(){
       Number(identity.stats.finalInt)!==scenario.intelligence))
    throw Error('Spell effective INT does not match requested input '+JSON.stringify(identity.stats));
   console.log('[RESIDUAL EFFECTIVE INPUT IDENTITY] '+JSON.stringify({name,caseId,pass,stats:identity.stats,toggles:identity.toggles,controlSample:identity.controlSample}));
-  const record={name,url,version:first.version,firstText:first.text.slice(-1300),identity,
+  const actualRow=await run(function(name){
+   // Real PrimeReact virtualized rows are text nodes, not HTML <tr> children.
+   // Parse the COMPLETE rendered document, never a truncated 4800-character tail.
+   const all=document.body?.innerText||'';
+   const rx=name==='damage'?
+    /\nUchigatana\nKatana\nStandard\n5\n(\d+)\n0\n0\n0\n0\n(\d+)\n(\d+)\n(\d+)\nPrivacy Policy\b/g:
+    /\nAstrologer's Staff\nGlintstone Pebble\n1\n0\n(\d+)\n0\n0\n0\n7\nSorcery\n10\n0\n0\nPrivacy Policy\b/g;
+   const matches=[...all.matchAll(rx)];
+   if(matches.length!==1)return {found:false,matchCount:matches.length,textLength:all.length};
+   const m=matches[0];
+   return name==='damage'?{
+    found:true,name:'Uchigatana',affinity:'Standard',poise:5,
+    physicalAr:Number(m[1]),totalAr:Number(m[2]),
+    dpsSingle:Number(m[3]),dpsPaired:Number(m[4]),
+    exactRenderedRow:m[0].trim(),matchCount:1
+   }:{
+    found:true,catalyst:"Astrologer's Staff",spell:'Glintstone Pebble',
+    bullets:1,physical:0,magic:Number(m[1]),fire:0,lightning:0,holy:0,
+    fp:7,intRequirement:10,exactRenderedRow:m[0].trim(),matchCount:1
+   };
+  },name);
+  if(!actualRow?.found)throw Error('Actual visible virtual table numeric row missing for '+name+' '+JSON.stringify(actualRow));
+  console.log('[RESIDUAL COMPLETE VISIBLE NUMERIC ROW] '+JSON.stringify({caseId,pass,module:name,actualRow}));
+  const record={name,url,version:first.version,firstText:first.text.slice(-1300),actualRow,identity,
    openTablePointer:rect,afterText:after.text.slice(-2700),revealed,controls,scenario};
   results.pages.push(record);
   console.log('[LIVE '+name.toUpperCase()+' ACTUAL TABLE]',JSON.stringify({
