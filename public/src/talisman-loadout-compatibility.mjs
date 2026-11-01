@@ -1,10 +1,11 @@
 /**
  * Narrow equipability gate for Build Planner, NOT a talisman-effect calculator.
- * The public v1.17 site directly rejected Radagon Scarseal -> Soreseal
- * in precisely that click order. Other directions/rules are supported by
- * separate community documentation, NOT by two-browser Tarnished goldens.
+ * Public v1.17 source-site selection: Radagon and Marika seal pairs have
+ * direct rejections measured in BOTH click orders; Arsenal/Crimson Amber/
+ * Erdtree variants have ONE exact observed order each. All other alternate
+ * tier variants remain independently documented, NOT reference-site goldens.
  *
- * Reference site: docs/TARNISHED_V117_FIVE_MULTITALISMAN_AND_ONE_EXCLUSION_20261101.md
+ * Direct source: docs/TALISMAN_VARIANT_FAMILY_AND_LIVE_SELECTION_AUDIT_20261101.md
  * Independent sources (rules only):
  * https://eldenring.wiki.gg/wiki/Radagon%27s_Scarseal
  * https://eldenring.wiki.gg/wiki/Radagon%27s_Soreseal
@@ -15,32 +16,32 @@ const EXCLUSIVE_FAMILIES=Object.freeze([
  Object.freeze({
   names:Object.freeze(["Radagon's Scarseal","Radagon's Soreseal"]),
   family:'Radagon seal variants',
-  evidence:'direct-site-one-order-plus-independent-documentation',
-  note:'Only Scarseal then Soreseal was directly rejected by public Tarnished.dev v1.17 in two fresh browser runs. Reverse order is based on separate equipability documentation, not an observed reverse-order result.'
+  evidence:'direct-site-both-orders-plus-independent-documentation',
+  note:'Both Radagon seal click orders were independently rejected in two fresh Chromium runs on public Tarnished.dev v1.17. The source-site selector kept the first item in either order. This is not a game-client capture.'
  }),
  Object.freeze({
   names:Object.freeze(["Marika's Scarseal","Marika's Soreseal"]),
   family:'Marika seal variants',
-  evidence:'independent-documentation-only',
-  note:'Community documentation says the Marika seal variants cannot be worn together. No two-browser Tarnished.dev Marika pair rejection has been measured.'
+  evidence:'direct-site-both-orders-plus-independent-documentation',
+  note:'Both Marika seal click orders were independently rejected in two fresh Chromium runs on public Tarnished.dev v1.17. The selector kept the first item in either order. This is not a game-client capture.'
  }),
  Object.freeze({
   names:Object.freeze(["Erdtree's Favor","Erdtree's Favor +1","Erdtree's Favor +2"]),
   family:"Erdtree's Favor upgrade variants",
-  evidence:'independent-documentation-only',
-  note:'Only one Erdtree Favor tier can be equipped at a time. Source: https://eldenring.wiki.gg/wiki/Erdtree%27s_Favor_%2B2 . No direct two-browser numeric result for this exclusion.'
+  evidence:'direct-site-one-order-plus-independent-documentation',
+  note:'Public Tarnished.dev v1.17 twice rejected Erdtree\'s Favor then Erdtree\'s Favor +2, retaining the base item. Other tier pairings and reverse click order rely on https://eldenring.wiki.gg/wiki/Erdtree%27s_Favor_%2B2 ; no numeric stacking golden.'
  }),
  Object.freeze({
   names:Object.freeze(["Arsenal Charm","Arsenal Charm +1","Great-Jar's Arsenal"]),
   family:'Arsenal load-boost variants',
-  evidence:'independent-documentation-only',
-  note:"Arsenal Charm, Arsenal Charm +1 and Great-Jar's Arsenal share a one-of-family equipment restriction. Source: https://eldenring.wiki.gg/wiki/Equip_Load . No direct two-browser numeric result for this exclusion."
+  evidence:'direct-site-one-order-plus-independent-documentation',
+  note:"Public Tarnished.dev v1.17 twice rejected Arsenal Charm then Arsenal Charm +1, retaining Arsenal Charm. Great-Jar and reverse-order restrictions rely on https://eldenring.wiki.gg/wiki/Equip_Load ; no numeric stacking golden."
  }),
  Object.freeze({
   names:Object.freeze(['Crimson Amber Medallion','Crimson Amber Medallion +1','Crimson Amber Medallion +2','Crimson Amber Medallion +3']),
   family:'Crimson Amber Medallion upgrade variants',
-  evidence:'independent-documentation-only',
-  note:'Only one Crimson Amber Medallion tier can be equipped. Source: https://eldenring.wiki.gg/wiki/Crimson_Amber_Medallion_%2B3 . No direct two-browser numeric result for this exclusion.'
+  evidence:'direct-site-one-order-plus-independent-documentation',
+  note:'Public Tarnished.dev v1.17 twice rejected Crimson Amber Medallion then +1, retaining the base item. Other tiers or reverse orders rely on https://eldenring.wiki.gg/wiki/Crimson_Amber_Medallion_%2B3 ; no numeric stacking golden.'
  }),
  Object.freeze({
   names:Object.freeze(['Cerulean Amber Medallion','Cerulean Amber Medallion +1','Cerulean Amber Medallion +2','Cerulean Amber Medallion +3']),
