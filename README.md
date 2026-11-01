@@ -53,6 +53,14 @@ This is an unofficial fan project unaffiliated with FromSoftware or Bandai Namco
 
 The current real-site observation reports: [86 historical AR cases](docs/TARNISHED_DEV_86_CASE_PARITY_20261101.md), [348 new +0 AR cases with one unresolved numerical discrepancy](docs/TARNISHED_DEV_V117_EXPANDED_348_AR_20261101.md), [487 directly observed individual weapon weights](docs/TARNISHED_V117_FINAL_487_WEIGHT_EVIDENCE_20261101.md), and [460 directly observed minimum weapon requirements plus 27 pinned-source-only values](docs/TARNISHED_V117_FINAL_487_REQUIREMENTS_EVIDENCE_20261101.md). The website's validation-status page distinguishes public comparator-only data from original community source fields. Armor/Build-effects/Damage/Spell accuracy and weapon component damage still require separate site observations. No game client is needed for the user's chosen public-v1.17 website comparator acceptance.
 
+## Additional exact-input AR and combat source audits (2026-11-01)
+
+- **30 new real v1.17 AR input cases passed twice**, including all 13 regular affinities, intermediate regular reinforcement, somber +5 and 1H/2H. Alongside the prior 86 approved public-site AR cases, **116 exact-input comparisons matched**. The separate +0 expanded audit remains **347/348** due to Icerind Hatchet's 1-AR boundary exception. [Source](docs/TARNISHED_V117_BROAD_AR_30_VERIFIED_20261101.md).
+- **Armor source-level completeness, not game-client parity:** 568 unique armor records, 13 metrics, **7,325 / 7,384** valid numeric source values, **59 UNKNOWN** fields. The source does not certify Regulation 1.17.3 or permission to rebundle third-party tables. [Source](docs/ARMOR_568_13_METRICS_SOURCE_AUDIT_20261101.md).
+- **Spell and enemy schema limitations:** pinned community source contains 71 sorceries, 98 incantations, 87 talismans, 106 bosses and 115 creatures. This source has no numeric spell scaling, per-talisman effect stacking or enemy per-type defense/negation fields; a roster is not a PvE combat simulator. [Source](docs/SPELL_TALISMAN_ENEMY_PINNED_SOURCE_COVERAGE_20261101.md).
+
+These tests are intentionally **evidence-tiered**, not a claim of 100% numerical validation, accurate spell/damage models or game-data redistribution rights. The currently reviewed main-branch Cloudflare production build allows indexing only the separately approved five basic routes; all research and unverified combat routes remain noindexed.
+
 ## Latest usability work (2026-10-30)
 
 The Build Planner can send its eight stats to the Class Optimizer and its level plan to the Rune Calculator. Rune farming yield is an optional, user-supplied estimate, not a measured farm rate. Equip Load now gives action-oriented reduction thresholds. Invalid inputs clear stale displayed results. See `docs/ITERATION_20261030.md`.
