@@ -1,0 +1,29 @@
+name: Pinned 568 armor source numeric-field integrity and coverage
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/audit-armor-568-source-field-integrity.mjs
+      - .github/workflows/pinned-armor-568-integrity.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify public pinned 568-item armor source and 13 metric coverages
+        run: node scripts/audit-armor-568-source-field-integrity.mjs
+      - name: Preserve only aggregate source field coverage, not external armor rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pinned-armor-568-thirteen-metric-source-integrity
+          path: .audit/armor-568-source-field-integrity.json
+          retention-days: 30
+          if-no-files-found: warn
