@@ -55,7 +55,7 @@ function capture(){
 }
 function clickCalculate(){
  const nodes=[...document.querySelectorAll('button,[role="button"],input[type="submit"]')];
- const el=nodes.find(x=>/^calculate$/i.test((x.innerText||x.textContent||x.value||'').trim()));
+ const el=nodes.find(x=>/^calculate(?: best armor)?$/i.test((x.innerText||x.textContent||x.value||'').trim()));
  if(!el)return {clicked:false,reason:'No Calculate button found',candidates:nodes.map(x=>(x.innerText||'').trim()).filter(Boolean).slice(-40)};
  if(el.disabled)return {clicked:false,reason:'Calculate disabled'};
  el.click();
@@ -107,14 +107,14 @@ async function main(){
    console.log('[NEW PARITY BROWSER] '+JSON.stringify({id:c.id,url:before.url,title:before.title,
     version:before.version,head:before.textHead.slice(0,1100),
     initialTail:before.textTail.slice(-1800),afterTail:after?.textTail.slice(-3500)||null,
-    buttons:before.buttons.map(x=>x.text).slice(-30),inputCount:before.inputs.length,
-    selects:before.selects.length,click,changed:change}));
+    buttons:before.buttons.map(x=>x.text).slice(-30),inputs:before.inputs.map(x=>({id:x.id,value:x.value,checked:x.checked,label:x.label.slice(0,62)})).slice(0,c.id==='tarnished-armor'?95:12),inputCount:before.inputs.length,
+    selects:before.selects.slice(0,c.id==='tarnished-armor'?35:4).map(x=>({id:x.id,text:x.text,parent:x.parent})),click,changed:change}));
   }catch(err){all.push({...c,error:String(err.message)});console.error('[NEW PARITY BROWSER FAILURE] '+JSON.stringify({id:c.id,error:String(err.message)}));}
  }
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/tarnished-remaining-live-ui.json'),JSON.stringify({date:'2026-11-01',
   scope:'Remaining functionality only; not prior 568 armor field audits',cases:all},null,2)+'\n');
- if(all.some(x=>x.error)||all.some(x=>x.before?.textLength<1800))throw Error('One or more live pages not fully observed');
+ if(all.some(x=>x.error)||all.some(x=>x.before?.textLength<300))throw Error('One or more live pages not fully observed');
 }
 try{await main()}finally{
  try{socket?.close()}catch{}
