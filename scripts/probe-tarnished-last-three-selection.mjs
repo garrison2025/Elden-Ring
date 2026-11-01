@@ -38,6 +38,13 @@ function snap(){
  const block=start<0?'':body.slice(start,end>=0?start+1+end:start+700);
  const req=block.match(/\bReq:\s*(\d+)\/(\d+)\/(\d+)\/(\d+)\/(\d+)/);
  const ar=block.match(/Total AR\s*:\s*(\d+)/);
+ const near=[...document.querySelectorAll('label,span,h2,h3,h4,div')].find(x=>
+  x.childElementCount<3&&(x.textContent||'').trim()==='Equipped Right Hand 1');
+ const widgetDom=block.includes('Select equipped weapon...')?
+  (near?.parentElement?.parentElement?.parentElement?.outerHTML||'').slice(0,6500):'';
+ const idHints=block.includes('Select equipped weapon...')?
+  [...document.querySelectorAll('[id]')].filter(x=>/rh1|right.*hand|weapon/i.test(x.id)).
+  slice(0,14).map(x=>({id:x.id,html:x.outerHTML.slice(0,450)})):[];
  const dropdowns=[...document.querySelectorAll('.p-dropdown')].filter(x=>
   /weapon|hand|rh1|great|torch/i.test(x.id+' '+(x.getAttribute('aria-label')||'')+' '+(x.textContent||''))).
   slice(0,12).map(x=>({id:x.id||'',label:x.querySelector('.p-dropdown-label')?.textContent?.trim()||'',
@@ -47,7 +54,7 @@ function snap(){
   twoHanded:document.getElementById('twohand')?.checked,
   rune:document.getElementById('activate-rune')?.checked,
   physick:document.getElementById('activate-physick')?.checked,
-  block:block.slice(0,450),req:req?.slice(1).map(Number)||null,
+  block:block.slice(0,450),widgetDom,idHints,req:req?.slice(1).map(Number)||null,
   ar:ar?Number(ar[1]):null,dropdowns};
 }
 async function main(){
@@ -95,6 +102,7 @@ async function main(){
        status:!valid?'INVALID_INPUT':!active?'NOT_ACTIVATED':
         s.req?'DIRECT_REQ_RENDERED':s.ar!==null?'ACTIVATED_REQ_HIDDEN':'ACTIVATED_NO_NUMERIC_FIELD',
        observedReq:valid&&active?s.req:null,observedAr:valid&&active?s.ar:null,
+       ...(c.name==='Great Épée'&&stats===10&&name===c.aliases[0]&&affinity==='Standard'?{widgetDom:s.widgetDom,idHints:s.idHints}:{}),
        screenshotNotTaken:true,siteVersion:s.version,
        controls:s.controls,block:s.block,dropdowns:s.dropdowns};
       attempts.push(row);
