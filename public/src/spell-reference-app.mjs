@@ -79,7 +79,7 @@ $('spell-load-math').addEventListener('click',async()=>{
  try{
   const response=await downloadV117Source(fetch);
   const root=JSON.parse(response.text);
-  const possible=root.weapons.filter(w=>w.sorceryTool===true&&w.affinityId===0)
+  const possible=root.weapons.filter(w=>w.sorceryTool===true)
    .map(w=>w.name).filter((v,i,a)=>a.indexOf(v)===i).sort();
   if(!possible.includes("Astrologer's Staff"))throw Error('Pinned source missing benchmark staff');
   const select=$('spell-math-staff');select.replaceChildren();
