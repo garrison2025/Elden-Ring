@@ -98,9 +98,13 @@ async function openAndSelect(id,exactName){
  if(!await clickRect(pos))return {...pos,clicked:false};
  const filter=await run(function(){return{
   available:!!document.querySelector('.p-multiselect-filter'),
-  optionCount:document.querySelectorAll('[role="option"],.p-multiselect-item').length
+  optionCount:document.querySelectorAll('[role="option"],.p-multiselect-item').length,
+  options:[...document.querySelectorAll('[role="option"],.p-multiselect-item')].map(x=>x.innerText.trim()).slice(0,120),
+  rootId:document.querySelector('.p-multiselect-panel')?.id||''
  }});
- if(!filter.available)return{found:false,reason:'No rendered real search input after opening',id};
+ const direct=await chooseOption(exactName);
+ if(direct.clicked)return{id,filter:{...filter,options:filter.options.slice(0,10)},selected:direct,method:'existing visible option'};
+ if(!filter.available)return{found:false,reason:'No rendered real search input after opening',id,filter};
  await run(function(){document.querySelector('.p-multiselect-filter')?.focus()});
  await send('Input.insertText',{text:exactName});
  await sleep(850);
@@ -176,6 +180,11 @@ async function main(){
    await keyboard('intelligence',scenario.intelligence);
    const selection=await chooseOption(scenario.spell);
    console.log('[LIVE SPELL SAME-INPUT SPELL SELECTION]',JSON.stringify(selection));
+   // A PrimeReact multiselect can stay open after selecting a spell.
+   // Escape the first overlay before clicking the separate catalyst selector.
+   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+   await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+   await sleep(350);
    const catalyst=await openAndSelect('select-weapons',scenario.weapon);
    console.log('[LIVE SPELL SAME-INPUT CATALYST SELECTION]',JSON.stringify(catalyst).slice(0,4000));
   }
