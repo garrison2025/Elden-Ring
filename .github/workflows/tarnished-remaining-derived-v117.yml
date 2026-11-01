@@ -1,0 +1,29 @@
+name: Narrow unresolved Build Stats, Spell and Damage live audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-remaining-derived-v117.mjs
+      - .github/workflows/tarnished-remaining-derived-v117.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  read-unverified-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Observe actual Build derived stats at changed Wretch inputs and other remaining UI
+        run: node scripts/probe-tarnished-remaining-derived-v117.mjs
+      - name: Keep complete actual public UI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: remaining-derived-build-spell-damage-v117
+          path: .audit/remaining-build-damage-spell-v117.json
+          retention-days: 30
+          if-no-files-found: warn
