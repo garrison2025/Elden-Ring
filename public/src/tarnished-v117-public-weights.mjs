@@ -13,6 +13,8 @@
  * Parallel twelve-shard 380-name public v1.17 source audit: 344 accepted,
  * 342 exact community matches, 2 mismatches, 36 NOT_OBSERVED:
  * https://github.com/garrison2025/Elden-Ring/actions/runs/41261521809
+ * 36-name public-site alias/stats retry: 30 directly verified, 6 unobserved:
+ * https://github.com/garrison2025/Elden-Ring/actions/runs/41262468777
  * No game-client version equivalence or third-party code reuse is claimed.
  */
 const rows=Object.freeze([
@@ -466,7 +468,37 @@ const rows=Object.freeze([
  ["Winged Scythe",7.5,'matched-community-weight',41261521809],
  ["Wolf Crest Shield",6,'matched-community-weight',41261521809],
  ["Zamor Curved Sword",9,'matched-community-weight',41261521809],
- ["Zweihander",15.5,'matched-community-weight',41261521809]
+ ["Zweihander",15.5,'matched-community-weight',41261521809],
+ ["Axe Of Godfrey",18,'matched-community-weight',41262468777],
+ ["Axe Of Godrick",11,'matched-community-weight',41262468777],
+ ["Azur's Glintstone Staff",4,'matched-community-weight',41262468777],
+ ["Beast-repellent Torch",2.5,'matched-community-weight',41262468777],
+ ["Blade Of Calling",1.5,'matched-community-weight',41262468777],
+ ["Bolt Of Gransax",8.5,'matched-community-weight',41262468777],
+ ["Carian Regal Scepter",3,'matched-community-weight',41262468777],
+ ["Celebrant's Rib-rake",5,'matched-community-weight',41262468777],
+ ["Crepus's Black-key Crossbow",5,'matched-community-weight',41262468777],
+ ["Cross-naginata",8,'matched-community-weight',41262468777],
+ ["Crystal Staff",4.5,'matched-community-weight',41262468777],
+ ["Demi-human Queen's Staff",3,'matched-community-weight',41262468777],
+ ["Giant-crusher",26.5,'matched-community-weight',41262468777],
+ ["Hand Of Malenia",7,'matched-community-weight',41262468777],
+ ["Lusat's Glintstone Staff",4,'matched-community-weight',41262468777],
+ ["Miséricorde",2,'matched-community-weight',41262468777],
+ ["Regalia Of Eochaid",5.5,'matched-community-weight',41262468777],
+ ["Rivers Of Blood",6.5,'matched-community-weight',41262468777],
+ ["Rotten Crystal Staff",4.5,'matched-community-weight',41262468777],
+ ["Scepter Of The All-knowing",4.5,'matched-community-weight',41262468777],
+ ["Serpent-god's Curved Sword",4,'matched-community-weight',41262468777],
+ ["Serpent-hunter",12,'matched-community-weight',41262468777],
+ ["Staff Of Loss",2.5,'matched-community-weight',41262468777],
+ ["Staff Of The Avatar",20,'matched-community-weight',41262468777],
+ ["Staff Of The Guilty",4.5,'matched-community-weight',41262468777],
+ ["Steel-wire Torch",3,'matched-community-weight',41262468777],
+ ["Sword Of Milos",10,'matched-community-weight',41262468777],
+ ["Sword Of Night And Flame",4,'matched-community-weight',41262468777],
+ ["Varré's Bouquet",2,'matched-community-weight',41262468777],
+ ["Wing Of Astel",2.5,'matched-community-weight',41262468777]
 ]);
 export const TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE=Object.freeze(
  rows.map(([weaponName,weight,evidenceCategory,evidenceRun=41257042883])=>Object.freeze({

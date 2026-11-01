@@ -13,6 +13,7 @@ import {V117_WEIGHT_BATCH2_CANDIDATES} from './tarnished-v117-weight-batch2-cand
 import {V117_WEIGHT_FINAL37_CANDIDATES} from './tarnished-v117-weight-final37-candidates.mjs';
 import {V117_WEIGHT_BATCH4_CANDIDATES} from './tarnished-v117-weight-batch4-candidates.mjs';
 import {getRemainingWeightShard} from './tarnished-v117-weight-remaining380.mjs';
+import {getUnresolvedAliasShard} from './tarnished-v117-weight-unresolved36.mjs';
 const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].find(existsSync);
 if(!chrome)throw Error('No public-site browser installed');
 const historicSamples=[
@@ -33,8 +34,10 @@ const batch2=process.env.TARNISHED_WEIGHT_BATCH==='2';
 const batch3=process.env.TARNISHED_WEIGHT_BATCH==='3';
 const batch4=process.env.TARNISHED_WEIGHT_BATCH==='4';
 const batch5=process.env.TARNISHED_WEIGHT_BATCH==='5';
+const batch6=process.env.TARNISHED_WEIGHT_BATCH==='6';
+const aliasShard=batch6?Number(process.env.TARNISHED_WEIGHT_SHARD):null;
 const bulkShard=batch5?Number(process.env.TARNISHED_WEIGHT_SHARD):null;
-const samples=batch5?[...historicSamples.slice(0,3),...getRemainingWeightShard(bulkShard)]:batch4?[...historicSamples.slice(0,3),...V117_WEIGHT_BATCH4_CANDIDATES]:batch3?[...historicSamples.slice(0,3),...V117_WEIGHT_FINAL37_CANDIDATES]:
+const samples=batch6?[...historicSamples.slice(0,3),...getUnresolvedAliasShard(aliasShard)]:batch5?[...historicSamples.slice(0,3),...getRemainingWeightShard(bulkShard)]:batch4?[...historicSamples.slice(0,3),...V117_WEIGHT_BATCH4_CANDIDATES]:batch3?[...historicSamples.slice(0,3),...V117_WEIGHT_FINAL37_CANDIDATES]:
  batch2?[...historicSamples.slice(0,3),...V117_WEIGHT_BATCH2_CANDIDATES]:historicSamples;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const uniqueAffinity=new Set(['Stone-Sheathed Sword','Greatsword of Radahn (Light)']);
@@ -113,19 +116,23 @@ async function run(){
  await send('Page.enable');await send('Runtime.enable');
  const results=[];
  for(const c of samples){
-  const baseParams=new URLSearchParams({str:'60',dex:'60',int:'30',fai:'30',arc:'30',
+  const baseParams=new URLSearchParams({str:batch6?'99':'60',dex:batch6?'99':'60',
+   int:batch6?'99':'30',fai:batch6?'99':'30',arc:batch6?'99':'30',
    smith:'0',somber:'0',twoHanded:'false'});
   if(c.name)baseParams.set(c.hand,c.name);
   const choices=c.name?(c.affinities??[c.affinity??(uniqueAffinity.has(c.name)?'None':'Standard')]):[null];
+  const siteNames=c.siteNames??[c.name];
   let lastAttempt=null,goodAttempt=null;
   try{
+   for(const siteName of siteNames){
    for(const affinity of choices){
     const params=new URLSearchParams(baseParams);
+    if(c.name)params.set(c.hand,siteName);
     if(affinity!==null)params.set(c.hand==='rh1'?'aRh1':'aLh1',affinity);
     const url='https://www.tarnished.dev/build-planner?'+params;
-    await send('Page.navigate',{url});await sleep(batch3||batch4||batch5?2400:3500);
+    await send('Page.navigate',{url});await sleep(batch3||batch4||batch5||batch6?2400:3500);
     let s=await evaluate('('+snapshot.toString()+')()');
-    if(!s.version.includes('v1.17')||(c.name&&!s.buildWeaponBlock.includes('\n'+c.name+'\n'))){
+    if(!s.version.includes('v1.17')||(c.name&&!s.buildWeaponBlock.includes('\n'+siteName+'\n'))){
      await sleep(3000);s=await evaluate('('+snapshot.toString()+')()');
     }
     const blockStart='Equipped '+(c.hand==='lh1'?'Left':'Right')+' Hand 1';
@@ -139,8 +146,9 @@ async function run(){
     const capPart=(loadParts[1]??'').split(' ')[0];
     const cap=/^[0-9]+(?:[.][0-9]+)?$/.test(capPart)?Number(capPart):null;
     const controls=s.controls;
-    const validControls=controls.str==='60'&&controls.dex==='60'&&controls.int==='30'&&
-     controls.fai==='30'&&controls.arc==='30'&&controls.smith==='0'&&
+    const validControls=controls.str===(batch6?'99':'60')&&
+     controls.dex===(batch6?'99':'60')&&controls.int===(batch6?'99':'30')&&
+     controls.fai===(batch6?'99':'30')&&controls.arc===(batch6?'99':'30')&&controls.smith==='0'&&
      controls.somber==='0'&&controls.twoHanded===false&&
      controls.rune===false&&controls.physick===false;
     const numericAr=/Total AR *: *[0-9]+/.test(selected);
@@ -148,7 +156,7 @@ async function run(){
     // Keep their weaker evidence independently labelled for manual review.
     const catalystActive=c.catalyst===true&&selected.includes('Scaling:')&&
      /(?:Sorcery|Incantation|Incantations)[ ]*:[ ]*[0-9]+/.test(selected)&&actual>0;
-    const active=c.name?(selected.includes(String.fromCharCode(10)+c.name+String.fromCharCode(10))&&
+    const active=c.name?(selected.includes(String.fromCharCode(10)+siteName+String.fromCharCode(10))&&
       selected.includes(String.fromCharCode(10)+affinity+String.fromCharCode(10))&&
       (numericAr||catalystActive)&&actual>0):
       actual===0&&!/Total AR *: *[0-9]+/.test(s.buildWeaponBlock);
@@ -156,7 +164,7 @@ async function run(){
      new URL(s.url).hostname==='www.tarnished.dev'&&
      new URL(s.url).pathname==='/build-planner'&&validControls&&
      Number.isFinite(actual)&&Number.isFinite(cap)&&cap===48.2&&active);
-    const observation={id:c.id,requested:c.name,hand:c.hand,affinity,
+    const observation={id:c.id,requested:c.name,siteName,hand:c.hand,affinity,
      activationEvidence:numericAr?'numeric-ar':catalystActive?'catalyst-scaling-no-ar':null,
      equipLoad:verified?actual:null,equipCap:verified?cap:null,
      status:verified?'INPUT_AND_ITEM_VERIFIED':'NOT_OBSERVED',
@@ -166,6 +174,8 @@ async function run(){
       individualRequirementsLabel:s.context.some(y=>/Requirements/i.test(y.term))}};
     lastAttempt=observation;
     if(verified){goodAttempt=observation;break;}
+   }
+   if(goodAttempt)break;
    }
    const observation=goodAttempt??lastAttempt;
    if(!observation)throw new Error('No primary-site observations collected');
@@ -181,7 +191,7 @@ async function run(){
   JSON.stringify({comparator:'Tarnished.dev v1.17',checkedAt:new Date().toISOString(),
    classification:'Public-site UI observations only; item attributes NOT automatically accepted',
    cases:results},null,2)+'\n');
- console.log('[FIELD SITE SUMMARY] '+JSON.stringify({mode:batch5?'parallel-remaining380-shard-'+bulkShard:batch4?'known-weight-32':batch3?'final37':batch2?'batch2-30':'historical-9',checked:results.length,
+ console.log('[FIELD SITE SUMMARY] '+JSON.stringify({mode:batch6?'remaining36-alias-shard-'+aliasShard:batch5?'parallel-remaining380-shard-'+bulkShard:batch4?'known-weight-32':batch3?'final37':batch2?'batch2-30':'historical-9',checked:results.length,
   validVersion:results.filter(x=>x.version?.includes('v1.17')).length,
   verifiedItems:results.filter(x=>x.status==='INPUT_AND_ITEM_VERIFIED').length,
   notObserved:results.filter(x=>x.status!=='INPUT_AND_ITEM_VERIFIED').length}));
