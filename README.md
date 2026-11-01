@@ -62,6 +62,10 @@ The current real-site observation reports: [86 historical AR cases](docs/TARNISH
 - Other-source 1.16/1.17.3 armor/spell differences, deliton source completeness, independent game-version capture and third-party build-calculator archives are **research**, not open requirements to certify Tarnished.dev-only numeric parity. Do not prevent numerical parity sign-off solely because those other sources differ.
 - User-approved detailed rulebook: [sole comparator acceptance policy](docs/TARNISHED_ONLY_NUMERICAL_ACCEPTANCE_POLICY_20261101.md).
 
+## Direct Tarnished.dev armor site matching (2026-11-01)
+
+Four actual item selections were verified on Tarnished.dev's public v1.17 Build Calculator as Wretch 10/10/10/10/10 with no buffs, 0 baseline equip load and 0 Poise. This exposed **4/4 legacy community Poise mismatches** and **one weight mismatch**. The opt-in armor loader now uses the exact directly observed site **weight and Poise only** for those items; other armor stats remain source-only. Two independent site browser passes and CI compare are required for acceptance. [Four-item evidence](docs/TARNISHED_V117_FOUR_DIRECT_ARMOR_PIECES_20261101.md).
+
 ## Additional exact-input AR and combat source audits (2026-11-01)
 
 - **30 new real v1.17 AR input cases passed twice**, including all 13 regular affinities, intermediate regular reinforcement, somber +5 and 1H/2H. Alongside the prior 86 approved public-site AR cases, **116 exact-input comparisons matched**. The separate +0 expanded audit remains **347/348** due to Icerind Hatchet's 1-AR boundary exception. [Source](docs/TARNISHED_V117_BROAD_AR_30_VERIFIED_20261101.md).
