@@ -1,11 +1,7 @@
 name: Tarnished.dev real 568 armor catalog weight/Poise double pass
+# This expensive full external-site audit runs only on explicit manual revalidation.
+# Original successful 568-candidate double read: GitHub Actions run 41274764944.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/probe-tarnished-v117-armor-all568.mjs
-      - scripts/compare-tarnished-v117-armor-all568.mjs
-      - .github/workflows/tarnished-live-all-armor-568.yml
   workflow_dispatch:
 permissions:
   contents: read
