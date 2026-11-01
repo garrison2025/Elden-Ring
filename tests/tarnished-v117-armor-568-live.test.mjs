@@ -35,7 +35,9 @@ test('543 exact armor items (Weight and Poise only) override legacy community so
  const result=applyTarnishedV117DirectArmorFields(old);
  assert.equal(result.directlyCorrectedArmorCount,543);
  assert.equal(result.wideDirectEvidenceCount,543);
- assert.equal(result.correctedFields,1086);
+ assert.equal(result.correctedFields,7254);
+ assert.equal(result.siteTwelveMetricArmorCount,514);
+ assert.equal(result.siteAdditionalMetricFields,6168);
  assert.equal(result.siteUnsupportedCandidateCount,25);
  assert.equal(result.otherArmorFieldsNumericallyVerified,false);
  for(let i=0;i<old.length;i++){
