@@ -26,6 +26,7 @@ const samples=[
  {id:'conflict-ritual-thrusting-shield',name:'Ritual Thrusting Shield',hand:'lh1'}
 ];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const uniqueAffinity=new Set(['Stone-Sheathed Sword','Greatsword of Radahn (Light)']);
 let browser,profile,socket,serial=0;const pending=new Map();
 async function send(method,params={}){
  const id=++serial;
@@ -60,7 +61,20 @@ function snapshot(){
   .slice(0,20).map(e=>({tag:e.tagName,text:(e.textContent||'').trim(),
    parent:(e.parentElement?.innerText||'').trim().slice(0,280),
    html:(e.parentElement?.outerHTML||'').slice(0,450)}));
- return {version:(text.match(/Elden Ring Version:[^\n]*/i)||[])[0]||'',
+ const from=text.indexOf('Equipped Left Hand 1'),to=text.indexOf('Equipped Right Hand 2');
+ const block=from>=0?text.slice(from,to>from?to:from+1100):'';
+ return {buildWeaponBlock:block,
+  controls:{str:document.getElementById('strength')?.value,
+   dex:document.getElementById('dexterity')?.value,
+   int:document.getElementById('intelligence')?.value,
+   fai:document.getElementById('faith')?.value,
+   arc:document.getElementById('arcane')?.value,
+   smith:document.getElementById('smithinglevel')?.value,
+   somber:document.getElementById('somberlevel')?.value,
+   twoHanded:document.getElementById('twohand')?.checked,
+   rune:document.getElementById('activate-rune')?.checked,
+   physick:document.getElementById('activate-physick')?.checked},
+  version:(text.match(/Elden Ring Version:[^\n]*/i)||[])[0]||'',
   title:document.title,url:location.href,
   status:document.readyState,context:contexts,fields:outputEls,labels:exactLabels,
   firstText:text.slice(0,2300),textLength:text.length};
@@ -90,16 +104,41 @@ async function run(){
  for(const c of samples){
   const params=new URLSearchParams({str:'60',dex:'60',int:'30',fai:'30',arc:'30',
    smith:'0',somber:'0',twoHanded:'false'});
-  if(c.name){params.set(c.hand,c.name);params.set(c.hand==='rh1'?'aRh1':'aLh1','Standard');}
+  if(c.name){params.set(c.hand,c.name);params.set(c.hand==='rh1'?'aRh1':'aLh1',uniqueAffinity.has(c.name)?'None':'Standard');}
   const url='https://www.tarnished.dev/build-planner?'+params;
   try{
    await send('Page.navigate',{url});await sleep(3500);
    let s=await evaluate('('+snapshot.toString()+')()');
-   if(!s.version.includes('v1.17')||(c.name&&!s.firstText.includes(c.name))){
+   if(!s.version.includes('v1.17')||(c.name&&!s.buildWeaponBlock.includes('\n'+c.name+'\n'))){
     await sleep(5000);s=await evaluate('('+snapshot.toString()+')()');
    }
-   results.push({id:c.id,requested:c.name,hand:c.hand,...s});
-   console.log('[FIELD SITE] '+JSON.stringify({id:c.id,version:s.version,url:s.url,
+   const blockStart='Equipped '+(c.hand==='lh1'?'Left':'Right')+' Hand 1';
+   const pos=s.buildWeaponBlock.indexOf(blockStart);
+   const next=s.buildWeaponBlock.search(/Equipped (?:Right|Left) Hand [23]/);
+   const selected=pos>=0?s.buildWeaponBlock.slice(pos,next>pos?next:pos+420):'';
+   const affinity=uniqueAffinity.has(c.name)?'None':'Standard';
+   const parsed=s.fields.find(x=>x.id==='Equip Load')?.value.match(/^(\\d+(?:\\.\\d+)?) \\/ (\\d+(?:\\.\\d+)?)/);
+   const actual=parsed?Number(parsed[1]):null,cap=parsed?Number(parsed[2]):null;
+   const validControls=s.controls.str==='60'&&s.controls.dex==='60'&&s.controls.int==='30'&&
+    s.controls.fai==='30'&&s.controls.arc==='30'&&
+    s.controls.smith==='0'&&s.controls.somber==='0'&&s.controls.twoHanded===false&&
+    s.controls.rune===false&&s.controls.physick===false;
+   const verified=Boolean(s.version.includes('v1.17')&&
+    new URL(s.url).hostname==='www.tarnished.dev'&&
+    new URL(s.url).pathname==='/build-planner'&&
+    validControls&&Number.isFinite(actual)&&Number.isFinite(cap)&&cap===48.2&&
+    (c.name?selected.includes('\\n'+c.name+'\\n')&&
+      selected.includes('\\n'+affinity+'\\n')&&/Total AR\\s*:\\s*\\d+/.test(selected):
+      actual===0&&!/Total AR\\s*:\\s*\\d+/.test(s.buildWeaponBlock)));
+   const status=verified?'INPUT_AND_ITEM_VERIFIED':'NOT_OBSERVED';
+   results.push({id:c.id,requested:c.name,hand:c.hand,affinity:c.name?affinity:null,
+    equipLoad:verified?actual:null,equipCap:verified?cap:null,
+    status,version:s.version,url:s.url,
+    itemBlock:selected.slice(0,420),sourceValue:s.fields.find(x=>x.id==='Equip Load')?.value??null,
+    controls:s.controls,fieldAvailability:{individualWeightLabel:s.labels.some(y=>/Weight/i.test(y.text)),
+     individualRequirementsLabel:s.context.some(y=>/Requirements/i.test(y.term))}});
+   console.log('[FIELD SITE] '+JSON.stringify({id:c.id,status,equipLoad:verified?actual:null,
+    cap:verified?cap:null,itemBlock:selected.slice(0,220),version:s.version,url:s.url,
     contexts:s.context.slice(0,8),fields:s.fields.slice(0,20),labels:s.labels.slice(0,8),
     firstText:c.id==='baseline-no-items'?s.firstText:'',textLength:s.textLength}));
   }catch(e){
@@ -114,8 +153,8 @@ async function run(){
    cases:results},null,2)+'\n');
  console.log('[FIELD SITE SUMMARY] '+JSON.stringify({checked:results.length,
   validVersion:results.filter(x=>x.version?.includes('v1.17')).length,
-  withWeightLabels:results.filter(x=>x.context?.some(y=>/weight/i.test(y.term))).length,
-  withLoadLabels:results.filter(x=>x.context?.some(y=>/equip load/i.test(y.term))).length}));
+  verifiedItems:results.filter(x=>x.status==='INPUT_AND_ITEM_VERIFIED').length,
+  notObserved:results.filter(x=>x.status!=='INPUT_AND_ITEM_VERIFIED').length}));
 }
 try{await run()}finally{
  try{socket?.close()}catch{}
