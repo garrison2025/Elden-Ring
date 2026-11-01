@@ -1,10 +1,7 @@
 name: Tarnished.dev v1.17 ten remaining armor alias/site selection probes
+# Two independent actual-site runs completed in 41276086880.
+# Future reruns are explicit to avoid redundant requests on doc/test changes.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/probe-tarnished-armor-aliases.mjs
-      - .github/workflows/tarnished-armor-aliases.yml
   workflow_dispatch:
 permissions:
   contents: read
