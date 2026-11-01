@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "comparator": "Tarnished.dev public v1.17 - rendered Build Planner minimum requirements",
+  "sourceRun": 41266643033,
+  "sourceJobs": [
+    124730708557,
+    124730708696
+  ],
+  "sourceUrl": "https://github.com/garrison2025/Elden-Ring/actions/runs/41266643033",
+  "independentPasses": 2,
+  "qualification": "All accepted Req values independently rendered and matched in both real Chromium passes with exact selected item and affinity, Wretch 10/10/10/10/10, +0, no buffs; separately compared against pinned v1.17 source. No game client or other live API.",
+  "baseDataset": "scripts/tarnished-v117-direct-requirements-actual10.json",
+  "previousVerified": 357,
+  "newlyVerified": 20,
+  "combinedVerified": 377,
+  "remainingUnobserved": 110,
+  "rows": [
+    {
+      "id": "req-011",
+      "name": "Axe Of Godfrey",
+      "siteName": "Axe of Godfrey",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        42,
+        14,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-012",
+      "name": "Axe Of Godrick",
+      "siteName": "Axe of Godrick",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        34,
+        22,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-023",
+      "name": "Beast-repellent Torch",
+      "siteName": "Beast-Repellent Torch",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        8,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-032",
+      "name": "Blade Of Calling",
+      "siteName": "Blade of Calling",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        6,
+        13,
+        0,
+        15,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-041",
+      "name": "Bolt Of Gransax",
+      "siteName": "Bolt of Gransax",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        20,
+        40,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-056",
+      "name": "Celebrant's Rib-rake",
+      "siteName": "Celebrant's Rib-Rake",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        14,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-075",
+      "name": "Crepus's Black-key Crossbow",
+      "siteName": "Crepus's Black-Key Crossbow",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        14,
+        16,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-077",
+      "name": "Cross-naginata",
+      "siteName": "Cross-Naginata",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        16,
+        20,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-154",
+      "name": "Giant-crusher",
+      "siteName": "Giant-Crusher",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        60,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-198",
+      "name": "Hand Of Malenia",
+      "siteName": "Hand of Malenia",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        16,
+        48,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-259",
+      "name": "Miséricorde",
+      "siteName": "Misericorde",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        7,
+        12,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-302",
+      "name": "Regalia Of Eochaid",
+      "siteName": "Regalia of Eochaid",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        18,
+        0,
+        0,
+        15
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-310",
+      "name": "Rivers Of Blood",
+      "siteName": "Rivers of Blood",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        18,
+        0,
+        0,
+        20
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-325",
+      "name": "Scepter Of The All-knowing",
+      "siteName": "Scepter of the All-Knowing",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        18,
+        21,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-333",
+      "name": "Serpent-god's Curved Sword",
+      "siteName": "Serpent-God's Curved Sword",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        13,
+        9,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-334",
+      "name": "Serpent-hunter",
+      "siteName": null,
+      "affinity": null,
+      "status": "NOT_OBSERVED",
+      "requirements": null,
+      "observedTwice": false,
+      "sourceShard": 1,
+      "reason": "No exact activated weapon and visible Req in both public reads"
+    },
+    {
+      "id": "req-363",
+      "name": "Staff Of The Avatar",
+      "siteName": "Staff of the Avatar",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        34,
+        8,
+        0,
+        24,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-369",
+      "name": "Steel-wire Torch",
+      "siteName": null,
+      "affinity": null,
+      "status": "NOT_OBSERVED",
+      "requirements": null,
+      "observedTwice": false,
+      "sourceShard": 1,
+      "reason": "No exact activated weapon and visible Req in both public reads"
+    },
+    {
+      "id": "req-377",
+      "name": "Sword Of Milos",
+      "siteName": "Sword of Milos",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        15,
+        19,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-379",
+      "name": "Sword Of Night And Flame",
+      "siteName": "Sword of Night and Flame",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        12,
+        24,
+        24,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-394",
+      "name": "Varré's Bouquet",
+      "siteName": "Varre's Bouquet",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        16,
+        0,
+        0,
+        24
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-410",
+      "name": "Wing Of Astel",
+      "siteName": "Wing of Astel",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        7,
+        17,
+        20,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    }
+  ]
+}
