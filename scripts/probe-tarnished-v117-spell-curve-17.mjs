@@ -114,7 +114,7 @@ async function openAndSelect(id,exactName){
 async function main(){
  const pass=Number(process.env.TARNISHED_CURVE_PASS);
  if(![1,2].includes(pass))throw Error('TARNISHED_CURVE_PASS must be 1 or 2');
- const intelligenceValues=[16,18,20,25,30,35,40,45,50,55,60,65,70,75,80,90,99];
+ const intelligenceValues=[25,30,40,50,60,35,45,55,65,70,75,80,85,90,95,98,99];
  profile=await mkdtemp(join(tmpdir(),'tarnished-spell-curve-v117-'));
  chrome=spawn(chromePath,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
  '--disable-extensions','--no-first-run','--disable-background-networking',
@@ -178,7 +178,7 @@ async function main(){
     Number(row.stats.finalInt)!==intelligence||
    !row.selectedTokens.includes("Astrologer's Staff")||
    !row.selectedTokens.includes('Glintstone Pebble'))
-   throw Error('Fail closed on missing effective source inputs '+JSON.stringify(row));
+   throw Error('Fail closed on missing effective source inputs '+JSON.stringify({...row,debugTail:await run(function(){return document.body.innerText.slice(-1600)})}));
   rows.push(row);
   console.log('[REAL TARNISHED SPELL SWEEP ROW]',JSON.stringify({pass,...row}));
  }
