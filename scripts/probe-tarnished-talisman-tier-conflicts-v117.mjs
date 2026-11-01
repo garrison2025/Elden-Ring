@@ -275,9 +275,18 @@ async function main(){
    actualNames.length===1&&actualNames[0]===names[0]?'FIRST_ONLY':
    actualNames.length===0?'NONE_SELECTED':'UNEXPECTED_SELECTION';
   const mutuallyExclusive=observedSelection==='FIRST_ONLY';
-  const valid=sourceConsistent&&observedSelection!=='UNEXPECTED_SELECTION'&&
+  // Reject a no-op first click or a missing selector even if both final
+  // browser reads happen to agree on an empty (or single) token list.
+  const firstSelected=clicks.length===names.length&&clicks[0]?.ok===true&&
+    Array.isArray(clicks[0].tokens)&&clicks[0].tokens.length===1&&
+    clicks[0].tokens[0]===names[0];
+  const secondSnapshotMatchesFinal=Array.isArray(clicks[1]?.tokens)&&
+    clicks[1].tokens.length===actualNames.length&&
+    clicks[1].tokens.every((token,i)=>token===actualNames[i]);
+  const valid=sourceConsistent&&firstSelected&&secondSnapshotMatchesFinal&&
+    observedSelection!=='UNEXPECTED_SELECTION'&&
     actualNames.every(n=>names.includes(n));
-  rows.push({index,names,baseline,clicks,actual,valid,
+  rows.push({index,names,baseline,clicks,actual,valid,firstSelected,secondSnapshotMatchesFinal,
    acceptedAll:equippedAll,mutuallyExclusive,observedSelection,actualSelectedNames:actualNames});
   if(!valid)throw Error('Refuse to certify incomplete browser selection '+index+
     ': '+JSON.stringify(rows.at(-1)).slice(0,1600));
