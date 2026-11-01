@@ -1,0 +1,770 @@
+{
+  "schemaVersion": 1,
+  "comparator": "Tarnished.dev PUBLIC v1.17 direct rendered minimum requirements",
+  "sourceRun": 41266993579,
+  "sourceJobs": [
+    124731752611,
+    124731752660,
+    124731752631,
+    124731752662,
+    124731752512,
+    124731752620
+  ],
+  "sourceUrl": "https://github.com/garrison2025/Elden-Ring/actions/runs/41266993579",
+  "independentPasses": 2,
+  "qualification": "Each accepted 5-attribute Req shown in both independent Chromium reads with exact version, site-selected name/affinity, 10/10/10/10/10, +0, no buffs; reconciled with pinned source in successful six-shard CI.",
+  "previousVerified": 377,
+  "newlyVerified": 46,
+  "combinedVerified": 423,
+  "remainingUnobserved": 64,
+  "siteVsPinnedMismatches": 0,
+  "rows": [
+    {
+      "id": "req-016",
+      "name": "Banished Knight's Halberd",
+      "siteName": "Banished Knight's Halberd",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        14,
+        12,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-054",
+      "name": "Carian Thrusting Shield",
+      "siteName": "Carian Thrusting Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        17,
+        13,
+        15,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-128",
+      "name": "Fire Knight's Shortsword",
+      "siteName": "Fire Knight's Shortsword",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        13,
+        0,
+        12,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-170",
+      "name": "Golem Fist",
+      "siteName": "Golem Fist",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        24,
+        8,
+        11,
+        11,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-177",
+      "name": "Great Épée",
+      "siteName": null,
+      "affinity": null,
+      "status": "NOT_OBSERVED",
+      "requirements": null,
+      "observedTwice": false,
+      "sourceShard": 0,
+      "reason": "No exact selected item and visible Req in both public reads"
+    },
+    {
+      "id": "req-201",
+      "name": "Hefty Scimitar",
+      "siteName": "Hefty Scimitar",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        13,
+        11,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-210",
+      "name": "Idus Sword",
+      "siteName": "Idus Sword",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        15,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-245",
+      "name": "Main-gauche",
+      "siteName": "Main-gauche",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        7,
+        15,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-253",
+      "name": "Messmer Soldier's Spear",
+      "siteName": "Messmer Soldier's Spear",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        19,
+        16,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-293",
+      "name": "Queelign's Greatsword",
+      "siteName": "Queelign's Greatsword",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        14,
+        18,
+        0,
+        12,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-301",
+      "name": "Reed Great Katana",
+      "siteName": "Reed Great Katana",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        11,
+        16,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-305",
+      "name": "Reverse-Bladed Sword",
+      "siteName": "Reverse-Bladed Sword",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        9,
+        11,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-309",
+      "name": "Ritual Thrusting Shield",
+      "siteName": "Ritual Thrusting Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        13,
+        12,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-344",
+      "name": "Silver Grooved Shield",
+      "siteName": "Silver Grooved Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        9,
+        12,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-345",
+      "name": "Smithscript Axe",
+      "siteName": "Smithscript Axe",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        13,
+        10,
+        11,
+        11,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-347",
+      "name": "Smithscript Dagger",
+      "siteName": "Smithscript Dagger",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        5,
+        11,
+        11,
+        11,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-362",
+      "name": "Staff Of Loss",
+      "siteName": "Staff of Loss",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        6,
+        12,
+        14,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-365",
+      "name": "Staff Of The Guilty",
+      "siteName": "Staff of the Guilty",
+      "affinity": "None",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        0,
+        0,
+        12,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-373",
+      "name": "Swift Spear",
+      "siteName": "Swift Spear",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        26,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-416",
+      "name": "Albinauric Shield",
+      "siteName": "Albinauric Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        11,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-418",
+      "name": "Bandit's Curved Sword",
+      "siteName": "Bandit's Curved Sword",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        11,
+        13,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-419",
+      "name": "Banished Knight's Shield",
+      "siteName": "Banished Knight's Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-424",
+      "name": "Blue-Gold Kite Shield",
+      "siteName": "Blue-Gold Kite Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-426",
+      "name": "Brass Shield",
+      "siteName": "Brass Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        16,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-427",
+      "name": "Briar Greatshield",
+      "siteName": "Briar Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        21,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-428",
+      "name": "Buckler",
+      "siteName": "Buckler",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        13,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-430",
+      "name": "Carian Knight's Shield",
+      "siteName": "Carian Knight's Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        10,
+        15,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-432",
+      "name": "Crossed-Tree Towershield",
+      "siteName": "Crossed-Tree Towershield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-434",
+      "name": "Cuckoo Greatshield",
+      "siteName": "Cuckoo Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-435",
+      "name": "Distinguished Greatshield",
+      "siteName": "Distinguished Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-436",
+      "name": "Dragon Towershield",
+      "siteName": "Dragon Towershield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-438",
+      "name": "Eclipse Crest Greatshield",
+      "siteName": "Eclipse Crest Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        32,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-441",
+      "name": "Fingerprint Stone Shield",
+      "siteName": "Fingerprint Stone Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        48,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-443",
+      "name": "Gilded Greatshield",
+      "siteName": "Gilded Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-445",
+      "name": "Golden Beast Crest Shield",
+      "siteName": "Golden Beast Crest Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-446",
+      "name": "Golden Greatshield",
+      "siteName": "Golden Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        34,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-448",
+      "name": "Great Turtle Shell",
+      "siteName": "Great Turtle Shell",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-449",
+      "name": "Haligtree Crest Greatshield",
+      "siteName": "Haligtree Crest Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        36,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-457",
+      "name": "Inverted Hawk Towershield",
+      "siteName": "Inverted Hawk Towershield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-460",
+      "name": "Kite Shield",
+      "siteName": "Kite Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-462",
+      "name": "Lordsworn's Shield",
+      "siteName": "Lordsworn's Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        16,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-464",
+      "name": "Manor Towershield",
+      "siteName": "Manor Towershield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-472",
+      "name": "Redmane Greatshield",
+      "siteName": "Redmane Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        30,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-477",
+      "name": "Scorpion Kite Shield",
+      "siteName": "Scorpion Kite Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-482",
+      "name": "Spiked Palisade Shield",
+      "siteName": "Spiked Palisade Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        20,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-485",
+      "name": "Twinbird Kite Shield",
+      "siteName": "Twinbird Kite Shield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-487",
+      "name": "Wooden Greatshield",
+      "siteName": "Wooden Greatshield",
+      "affinity": "Standard",
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+name: Public v1.17 remaining 47 high requirement direct comparisons
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/tarnished-v117-requirement-candidates.mjs
+      - scripts/probe-tarnished-v117-requirements.mjs
+      - scripts/compare-tarnished-v117-requirements.mjs
+      - .github/workflows/tarnished-req-high-gap.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        shard: [0,1,2,3,4,5]
+    env:
+      TARNISHED_REQUIREMENT_SHARD: ${{ matrix.shard }}
+      TARNISHED_REQUIREMENT_TARGET: high-gap
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read actual public Req at Wretch 10, first Chrome pass
+        run: |
+          node scripts/probe-tarnished-v117-requirements.mjs
+          cp .audit/tarnished-public-requirements.json .audit/req-first.json
+      - name: Independent second public Req read
+        run: node scripts/probe-tarnished-v117-requirements.mjs
+      - name: Validate all directly rendered Req values and pinned comparison
+        run: node scripts/compare-tarnished-v117-requirements.mjs
+      - name: Preserve both observations and non-observation reasons
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-req-high-gap-shard-${{ matrix.shard }}
+          path: |
+            .audit/req-first.json
+            .audit/tarnished-public-requirements.json
+            .audit/requirements-comparison.json
+          retention-days: 30
+          if-no-files-found: warn
