@@ -35,7 +35,7 @@ Visit `http://localhost:8080` and try every calculator. Viewing the HTML directl
 - The calculator relies on a small documented set of baseline stats and numerical formulas with tests.
 - No official images, game assets, game binaries or copyrighted icon packs are bundled.
 - The two extra-content classes are optional; only select one if your edition includes it.
-- No real weapon dataset has been licensed/validated. Do not remove the research warning or `noindex` until game-client golden-vector validation is complete.
+- Public Tarnished.dev v1.17 numeric parity tests now cover 481/487 directly observed weapon weights, 357/487 directly observed five-stat requirements (all 357 agree with our pinned v1.17 source), 86 previously approved AR input cases, and 347/348 additional direct +0 AR comparisons (Icerind Hatchet remains 1 AR different). These are **version-scoped competitor comparisons, not current-game-client proof**. Game installation is not required for this public-site benchmark, but third-party data reuse rights, feature-specific completeness and indexing quality gates remain separate. Do not remove the research warning or site-wide `noindex` prematurely.
 - Official game patches require data review, not necessarily a code change; see `docs/RELEASE_GATE.md`.
 - Inputs are processed in the browser. No analytics or advertising scripts are integrated.
 
@@ -48,6 +48,10 @@ The product specification and keyword study are in `docs/BUILD_SPEC_V2.md` and `
 `npm test` runs the core, class, rune, load and synthetic AR engine tests. These tests do **not** prove parity with current in-game AR or opponent damage. Run browser smoke checks and current data validations before production indexing.
 
 This is an unofficial fan project unaffiliated with FromSoftware or Bandai Namco Entertainment.
+
+## Direct numeric comparator progress (2026-11-01)
+
+The current real-site observation reports: [86 historical AR cases](docs/TARNISHED_DEV_86_CASE_PARITY_20261101.md), [348 new +0 AR cases with one unresolved numerical discrepancy](docs/TARNISHED_DEV_V117_EXPANDED_348_AR_20261101.md), [481 observed individual weapon weights](docs/TARNISHED_DEV_V117_ALIAS36_PARITY_20261101.md), and [357 directly read minimum weapon requirements](docs/TARNISHED_DEV_V117_DIRECT_357_REQUIREMENTS_20261101.md). The website's validation-status page distinguishes public comparator-only data from original community source fields. Armor/Build-effects/Damage/Spell accuracy and weapon component damage still require separate site observations. No game client is needed for the user's chosen public-v1.17 website comparator acceptance.
 
 ## Latest usability work (2026-10-30)
 

@@ -1,0 +1,31 @@
+name: Audit 357 real Tarnished.dev v1.17 minimum-requirement vectors
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/tarnished-v117-direct-requirements-actual10.json
+      - scripts/audit-tarnished-v117-requirements-archive.mjs
+      - tests/tarnished-v117-requirements-archive.test.mjs
+      - .github/workflows/tarnished-requirements-archive.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare-site-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compare 357 actual browser Req vectors with independent pinned v1.17 source
+        run: node scripts/audit-tarnished-v117-requirements-archive.mjs
+      - name: Preserve complete direct site/source comparison including 130 unavailable
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-direct-357-requirements-comparison
+          path: .audit/tarnished-direct-req-compare.json
+          retention-days: 30
+          if-no-files-found: warn
