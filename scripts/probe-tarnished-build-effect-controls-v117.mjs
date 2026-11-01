@@ -158,7 +158,14 @@ async function main(){
    text:document.body.innerText.slice(0,6000)};
  });
  if(state.version!=='Elden Ring Version: v1.17')throw Error('Wrong public reference version');
- console.log('[V117 EFFECT ACTUAL CONTROLS] '+JSON.stringify(state).slice(0,16000));
+ console.log('[V117 EFFECT ACTUAL CONTROLS] '+JSON.stringify({
+ version:state.version,
+ dropdowns:state.dropdowns.map(x=>({i:x.i,title:x.title,id:x.html.match(/id=\\\"([^\\\"]+)/)?.[1],
+  label:x.label.slice(0,125)})),
+ toggles:state.toggles.map(x=>({id:x.id,checked:x.checked,context:x.context})),
+ fields:state.fields,
+ text:state.text.slice(-3000)
+}));
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/v117-effect-control-discovery-'+pass+'.json'),JSON.stringify(state,null,2)+'\n');
 }
