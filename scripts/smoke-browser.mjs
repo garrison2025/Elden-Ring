@@ -236,6 +236,27 @@ try{
   'Clearing selected effects prevents stale source proof from surviving');
  console.log('[REAL V117 BUILD EFFECTS] Starscourge STR+5 0.8 load, Godrick selected +5×8, Intelligence knot selected INT+10, toggle anomaly disclosed.');
 
+ // Real Chrome exercises the FIVE exactly observed dual/triple talisman
+ // scenes separately from individual isolated previews (no invented stacking).
+ await evaluate("(()=>{const o=document.querySelector('#origin');o.value='Wretch';o.dispatchEvent(new Event('change',{bubbles:true}));const t=document.querySelectorAll('#build-loadout-talismans input');t[0].value=\"Radagon's Soreseal\";t[1].value=\"Marika's Soreseal\";t[1].dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-combined-talisman-reference')?.textContent.includes('physical -32.25%')",
+  'Both actually equipped Soreseals must use site displayed -32.25% and not naive -30%');
+ assert.ok((await evaluate("document.querySelector('#build-v117-combined-talisman-reference').textContent")).includes('Actual HP 522'),
+  'Both Soreseals should show exactly independently read Wretch10 HP 522');
+ await evaluate("(()=>{const t=document.querySelectorAll('#build-loadout-talismans input');t[1].value=\"Erdtree's Favor +2\";t[1].dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-combined-talisman-reference')?.textContent.includes('Maximum Equip Load 60.6')",
+  'Actual Radagon Soreseal + Erdtree Favor Wretch10 load cap is 60.6');
+ assert.ok((await evaluate("document.querySelector('#build-v117-combined-talisman-reference').textContent")).includes('Actual HP 542'),
+  'Actual Radagon Soreseal + Erdtree Favor HP is 542');
+ await evaluate("(()=>{const t=document.querySelectorAll('#build-loadout-talismans input');t[0].value=\"Radagon's Scarseal\";t[1].value=\"Radagon's Soreseal\";t[1].dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#build-v117-combined-talisman-exclusion')?.textContent.includes('did NOT remain selected')",
+  'Actual mutually exclusive Radagon seals cannot be treated as a source-verified 2-item scene');
+ assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('exact equip load withheld')||
+  (await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('exact equip load withheld'),
+  'Do not assert an exact equip load for reference-rejected item combination');
+ await evaluate("(()=>{const t=document.querySelectorAll('#build-loadout-talismans input');t[0].value='';t[1].value='';t[1].dispatchEvent(new Event('input',{bubbles:true}));const o=document.querySelector('#origin');o.value='Samurai';o.dispatchEvent(new Event('change',{bubbles:true}))})()");
+
+
  await evaluate("(()=>{const sel=document.querySelector('#build-loadout-weapons select');sel.value=[...sel.options].find(x=>x.textContent.startsWith('Uchigatana'))?.value;sel.dispatchEvent(new Event('change',{bubbles:true}));const max=document.querySelector('#build-loadout-maximum');max.value='75';max.dispatchEvent(new Event('input',{bubbles:true}))})()");
  assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 5.500'),
   'Sourced Uchigatana weight enters the build subtotal');
