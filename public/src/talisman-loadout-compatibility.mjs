@@ -91,7 +91,7 @@ export function reviewTalismanLoadoutCompatibility(names){
   if(seen.has(name)&&!conflicts.some(x=>x.type==='duplicate-item'&&x.names[0]===name)){
    conflicts.push({
     type:'duplicate-item',names:[name],evidence:'independent-documentation-only',
-    note:'The same talisman cannot occupy two equipped slots. This is a documented equipability restriction, not a direct double-read reference-site sample.'
+    note:'The same talisman cannot occupy two equipped slots. In the public v1.17 selector, repeating Radagon\'s Scarseal or Starscourge Heirloom deselected the first click (two fresh browsers each); other duplicate names are covered by independent game equipment documentation, not further site examples.'
    });
   }
   seen.add(name);
