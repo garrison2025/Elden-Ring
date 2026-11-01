@@ -930,8 +930,8 @@ try{
    'External source facts cannot load without explicit user click');
   assert.equal(await evaluate("document.querySelector('#catalog-v117-export').disabled"),true,
    'Review CSV must stay disabled before the external source is loaded');
-  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('Not verified'),
-   'Unknown weapon weight must never default to zero');
+  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('4.5 (Tarnished.dev v1.17'),
+   'Two-run public Tarnished.dev weight 4.5 is shown with explicit provenance, not zero');
   await evaluate("document.querySelector('#catalog-v117-load').click()");
   await waitFor("document.querySelector('#catalog-v117-status')?.textContent.includes('source variants:')||document.querySelector('#catalog-v117-status')?.textContent.includes('unavailable:')",
    'Pinned neutral source overlay loads or shows a meaningful error');
@@ -946,8 +946,8 @@ try{
    'Accepted v1.17 +0 attack must appear in PRIMARY weapon detail, not just audit overlay');
   assert.ok((await evaluate("document.querySelector('#catalog-warnings').textContent")).includes('487 neutral attack'),
    'Page must declare the authoritative version and source-limited scope');
-  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('Not verified'),
-   'Comparator must not fill the 72 unsourced weapon weights');
+  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('4.5 (Tarnished.dev v1.17'),
+   'Pinned attack source must not override independent v1.17 competitor weight observation; original community row still weights');
   assert.ok(catalogSourceText.includes('All 487 neutral rows now USE v1.17 attack and requirements'),
    'Full source mapping must actually activate versioned catalog calculations');
   assert.ok((await evaluate("document.querySelector('#catalog-v117-differences').textContent")).includes('WEIGHT UNKNOWN'),
