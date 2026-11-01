@@ -8,6 +8,8 @@
  * https://github.com/garrison2025/Elden-Ring/actions/runs/41257934288
  * Final 37, direct public v1.17 two-run verification, every input confirmed:
  * https://github.com/garrison2025/Elden-Ring/actions/runs/41259504988
+ * Known-weight batch: 31 new verified numerical readings (30 exact, 1 real mismatch),
+ * one torch unobserved: https://github.com/garrison2025/Elden-Ring/actions/runs/41260697800
  * No game-client version equivalence or third-party code reuse is claimed.
  */
 const rows=Object.freeze([
@@ -86,7 +88,38 @@ const rows=Object.freeze([
  ["Sun Realm Shield",3.5,'missing-primary-weight',41259504988],
  ["Twinbird Kite Shield",4.5,'missing-primary-weight',41259504988],
  ["Visage Shield",24,'missing-primary-weight',41259504988],
- ["Wooden Greatshield",8,'missing-primary-weight',41259504988]
+ ["Wooden Greatshield",8,'missing-primary-weight',41259504988],
+ ["Barbed Staff-Spear",7.5,'matched-community-weight',41260697800],
+ ["Claws of Night",3,'matched-community-weight',41260697800],
+ ["Falx",4,'matched-community-weight',41260697800],
+ ["Golden Order Flail",5,'matched-community-weight',41260697800],
+ ["Golem Fist",6,'matched-community-weight',41260697800],
+ ["Greatsword of Radahn (Lord)",19,'matched-community-weight',41260697800],
+ ["Hefty Scimitar",9.5,'matched-community-weight',41260697800],
+ ["Idus Sword",7,'matched-community-weight',41260697800],
+ ["Leontiel's Greatsword",9.5,'matched-community-weight',41260697800],
+ ["Madding Hand",1,'matched-community-weight',41260697800],
+ ["Main-gauche",2,'matched-community-weight',41260697800],
+ ["Messmer Soldier's Spear",8.5,'matched-community-weight',41260697800],
+ ["Queelign's Greatsword",7.5,'matched-community-weight',41260697800],
+ ["Reed Great Katana",10,'matched-community-weight',41260697800],
+ ["Reverse-Bladed Sword",3,'matched-community-weight',41260697800],
+ ["Silver Grooved Shield",3,'matched-community-weight',41260697800],
+ ["Smithscript Axe",5,'matched-community-weight',41260697800],
+ ["Smithscript Dagger",1.5,'matched-community-weight',41260697800],
+ ["Staff of the Great Beyond",2.5,'known-community-weight-disagreement',41260697800],
+ ["Swift Spear",3,'matched-community-weight',41260697800],
+ ["Ancient Meteoric Ore Greatsword",22,'matched-community-weight',41260697800],
+ ["Anvil Hammer",22,'matched-community-weight',41260697800],
+ ["Black Bow",4,'matched-community-weight',41260697800],
+ ["Blasphemous Blade",13.5,'matched-community-weight',41260697800],
+ ["Bloodhound's Fang",11.5,'matched-community-weight',41260697800],
+ ["Broadsword",4,'matched-community-weight',41260697800],
+ ["Carian Thrusting Shield",10.5,'matched-community-weight',41260697800],
+ ["Caestus",1.5,'matched-community-weight',41260697800],
+ ["Arbalest",6,'matched-community-weight',41260697800],
+ ["Banished Knight's Halberd",8,'matched-community-weight',41260697800],
+ ["Carian Sorcery Sword",2.5,'matched-community-weight',41260697800]
 ]);
 export const TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE=Object.freeze(
  rows.map(([weaponName,weight,evidenceCategory,evidenceRun=41257042883])=>Object.freeze({
