@@ -26,7 +26,7 @@ test('a same-name talisman in two slots cannot claim an equipped total or roll t
  assert.match(x.warnings.join(' '),/NOT an actual equipped weight/);
 });
 
-test('Radagon variants are blocked in both orders, without lying about reverse-order live proof',()=>{
+test('Radagon variants are blocked in both directly observed source orders',()=>{
  for(const names of [
   ["Radagon's Scarseal","Radagon's Soreseal"],
   ["Radagon's Soreseal","Radagon's Scarseal"]
@@ -36,16 +36,16 @@ test('Radagon variants are blocked in both orders, without lying about reverse-o
   assert.equal(x.exactTotal,null);
   assert.equal(x.tier,null);
   const c=x.compatibility.conflicts[0];
-  assert.equal(c.evidence,'direct-site-one-order-plus-independent-documentation');
-  assert.match(c.note,/Reverse order/);
+  assert.equal(c.evidence,'direct-site-both-orders-plus-independent-documentation');
+  assert.match(c.note,/Both Radagon seal click orders/);
  }
  const directlyMeasured=equip("Radagon's Scarseal","Radagon's Soreseal");
  assert.equal(previewV117ExactTalismanCombination(base,directlyMeasured).status,'source-exclusivity-observed');
  const reverse=equip("Radagon's Soreseal","Radagon's Scarseal");
- assert.equal(previewV117ExactTalismanCombination(base,reverse).status,'combination-not-directly-verified');
+ assert.equal(previewV117ExactTalismanCombination(base,reverse).status,'source-exclusivity-observed');
 });
 
-test('Marika variant restriction is secondary documentation, not claimed as a live two-pass site result',()=>{
+test('Marika variant restriction is directly observed in both orders, without inventing combined numerics',()=>{
  for(const names of [
   ["Marika's Scarseal","Marika's Soreseal"],
   ["Marika's Soreseal","Marika's Scarseal"]
@@ -53,8 +53,8 @@ test('Marika variant restriction is secondary documentation, not claimed as a li
   const x=evaluate(...names);
   assert.equal(x.compatibility.status,'UNWEARABLE');
   assert.equal(x.exactTotal,null);
-  assert.equal(x.compatibility.conflicts[0].evidence,'independent-documentation-only');
-  assert.equal(previewV117ExactTalismanCombination(base,equip(...names)).status,'combination-not-directly-verified');
+  assert.equal(x.compatibility.conflicts[0].evidence,'direct-site-both-orders-plus-independent-documentation');
+  assert.equal(previewV117ExactTalismanCombination(base,equip(...names)).status,'source-exclusivity-observed');
  }
 });
 
@@ -157,7 +157,10 @@ test('documented upgrade tiers and named alternate variants cannot yield a weara
    assert.equal(x.compatibility.status,'UNWEARABLE',names.join(' + '));
    assert.equal(x.compatibility.conflicts.length,1);
    assert.equal(x.compatibility.conflicts[0].family,family);
-   assert.equal(x.compatibility.conflicts[0].evidence,'independent-documentation-only');
+   assert.equal(x.compatibility.conflicts[0].evidence,
+    ['Erdtree\'s Favor upgrade variants','Arsenal load-boost variants',
+     'Crimson Amber Medallion upgrade variants'].includes(family)?
+     'direct-site-one-order-plus-independent-documentation':'independent-documentation-only');
    assert.equal(x.exactTotal,null);
    assert.equal(x.tier,null);
    assert.ok(x.unknowns.some(v=>v.slot==='Talisman compatibility'));
@@ -177,4 +180,21 @@ test('upgrade-family detection catches three variants once without making cross-
  ]){
   assert.equal(evaluate(...names).compatibility.status,'NO_DOCUMENTED_CONFLICT',names.join(' + '));
  }
+});
+
+test('eight exact two-pass public v1.17 click observations are exposed without interpolating effect outputs',async()=>{
+ const {V117_DIRECT_SELECTOR_EXCLUSIONS:cases}=await import('../public/src/v117-talisman-selector-exclusions-direct.mjs');
+ assert.equal(cases.length,8);
+ for(const x of cases){
+  assert.equal(x.independentChromiumPasses,2);
+  const actual=previewV117ExactTalismanCombination(base,equip(...x.names));
+  const wanted=x.selectorOutcome==='NONE_SELECTED'?
+   'source-duplicate-toggle-observed':'source-exclusivity-observed';
+  assert.equal(actual.status,wanted,x.names.join(' → '));
+  assert.deepEqual(actual.observation.actualSelectedNames,x.actualSelectedNames);
+  assert.equal(Object.hasOwn(actual.observation,'negation'),false,'no invented numeric goldens');
+ }
+ const unmeasured=previewV117ExactTalismanCombination(base,
+  equip("Erdtree's Favor +2","Erdtree's Favor"));
+ assert.equal(unmeasured.status,'combination-not-directly-verified');
 });
