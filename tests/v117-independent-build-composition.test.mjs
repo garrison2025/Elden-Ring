@@ -9,6 +9,17 @@ test('independent selected talisman attribute engine reproduces all five actual 
   assert.equal(s.status,'REAL_TARNISHED_V117_ATTRIBUTES_MATCH',scene.names.join(' + '));
   assert.deepEqual(s.final,scene.stats);
   assert.equal(s.reference?.maxEquipLoad,scene.maxEquipLoad);
+  assert.ok(s.computedVitals,'An observed combination needs an independently derived numeric output');
+  assert.deepEqual({
+   hp:s.computedVitals.HP,fp:s.computedVitals.FP,stamina:s.computedVitals.Stamina,
+   discovery:s.computedVitals.Discovery,load:s.computedVitals.maxEquipLoad,
+   weight:s.computedVitals.weight,negation:s.computedVitals.damageNegation
+  },{
+   hp:scene.vitals.HP,fp:scene.vitals.FP,stamina:scene.vitals.Stamina,
+   discovery:scene.vitals.Discovery,load:scene.maxEquipLoad,
+   weight:scene.weight,negation:scene.negation.physical
+  });
+
  }
 });
 test('composed different baseline never claims whole-site combined parity',()=>{
