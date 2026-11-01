@@ -36,7 +36,8 @@ test('source-disputed weapon retains reported fields without trusted attack or e
  const nameOnly=find('Stone-Sheathed Sword');
  const requirementsOnly=find('Anvil Hammer');
  const onlyName=inspectBuildWeapon(catalog.weapons,nameOnly.id,stats,{allowSote:true});
- assert.equal(onlyName.weight,null);
+ assert.equal(onlyName.weight,5);
+ assert.equal(onlyName.weightProvenance,'tarnished-dev-v1.17-direct-ui');
  assert.equal(onlyName.weightDisputed,true);
  assert.equal(onlyName.reportedWeight,3.5);
  assert.equal(onlyName.attackDisputed,true);

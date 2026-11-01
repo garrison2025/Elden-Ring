@@ -1,5 +1,6 @@
 import {loadTier} from './core.mjs';
 import {hasDisputedWeight} from './community-weapons.mjs';
+import {getTarnishedV117DirectWeight} from './tarnished-v117-public-weights.mjs';
 
 export const LOADOUT_WEAPON_SLOTS=Object.freeze(['Right hand 1','Right hand 2','Right hand 3','Left hand 1','Left hand 2','Left hand 3']);
 export const LOADOUT_ARMOR_SLOTS=Object.freeze(['Head','Chest','Arms','Legs']);
@@ -88,12 +89,15 @@ export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnish
   const manual=weight(slot.manualWeight,'Manual weapon weight');
   const sourced=typeof found.weight==='number'&&Number.isFinite(found.weight)&&
     found.weight>=0&&!hasDisputedWeight(found)?found.weight:null;
-  const amount=manual??sourced;
+  const observed=getTarnishedV117DirectWeight(found.name);
+  // User override wins. The public v1.17 same-input equip-load observations
+  // supersede disputed or absent community weights ONLY in this comparator view.
+  const amount=manual??observed?.weight??sourced;
   if(amount===null)unknowns.push({slot:LOADOUT_WEAPON_SLOTS[i],name:found.name,
-   reason:'Primary weight missing or source-disputed; supply a value from your own game menu.'});
+   reason:'No verified v1.17 competitor weight or undisputed primary weight; enter a manual value.'});
   else knownWeight+=amount;
   items.push({slot:LOADOUT_WEAPON_SLOTS[i],name:found.name,weight:amount,
-   provenance:manual!==null?'user-entered':'community-source-unverified'});
+   provenance:manual!==null?'user-entered':observed?'tarnished-dev-v1.17-direct-ui':'community-source-unverified'});
  }
  for(let i=0;i<4;i++){
   const slot=state.armorSlots[i];
@@ -120,7 +124,7 @@ export function evaluateBuildLoadout(input,catalog,{allowSote=false,allowTarnish
   exactTotal,tier,status:unknowns.length?'PARTIAL':'USER_SOURCE_ONLY',
   warnings:[
    'No armor, talisman, crystal tear, Great Rune, status or spell effects are applied to character stats, defenses or AR.',
-   'Community weapon weights are source-reported, not independently certified to the current game.',
+   'Nine weapon weights are independently observed from Tarnished.dev public v1.17 with two browser reads. Other community weights are not competitor-verified. This is not a game-client current-patch claim.',
    ...(unknowns.length?['Equip-load tier withheld because one or more selected equipment weights are unknown.']:[])
   ]};
 }

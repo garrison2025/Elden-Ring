@@ -178,8 +178,10 @@ try{
   'Sourced Uchigatana weight enters the build subtotal');
  await evaluate("(()=>{const sel=document.querySelectorAll('#build-loadout-weapons select')[1];sel.value=[...sel.options].find(x=>x.textContent.startsWith('Albinauric Shield'))?.value;sel.dispatchEvent(new Event('change',{bubbles:true}))})()");
  const unknownWeight=await evaluate("document.querySelector('#build-loadout-results').textContent");
- assert.ok(unknownWeight.includes('exact equip load withheld')&&unknownWeight.includes('Roll tier UNSUPPORTED'),
-  'Missing source-only shield weight blocks roll tier');
+ assert.ok(unknownWeight.includes('Equipped weight: 10.000')&&
+  unknownWeight.includes('tarnished-dev-v1.17-direct-ui')&&
+  unknownWeight.includes('Roll tier: Light'),
+  'Two-run observed v1.17 Albinauric Shield weight 4.5 combines with Uchigatana 5.5');
  await evaluate("(()=>{const i=document.querySelectorAll('#build-loadout-weapons .build-loadout-item input[type=number]')[1];i.value='3.5';i.dispatchEvent(new Event('input',{bubbles:true}))})()");
  const known=await evaluate("document.querySelector('#build-loadout-results').textContent");
  assert.ok(known.includes('Equipped weight: 9.000')&&known.includes('Roll tier: Light'),
@@ -194,7 +196,7 @@ try{
  assert.ok((await evaluate("document.querySelector('#build-loadout-results').textContent")).includes('Equipped weight: 9.000'),
   'Local restore is explicit and exact');
  await evaluate("document.querySelector('#build-loadout-clear').click()");
- console.log('[BROWSER SMOKE] Six-slot build equipment and 72 source-only weight fail-closed with local save/restore PASS.');
+ console.log('[BROWSER SMOKE] Six-slot build equipment, direct v1.17 observed shield weight and manual override/save/restore PASS.');
  await selectWeapon('Uchigatana');
  const buildArHandoff=await evaluate("(()=>{const a=document.querySelector('#build-weapon-ar-link');const u=new URL(a.href);return {hidden:a.hidden,path:u.pathname,weapon:u.searchParams.get('weapon'),stats:u.searchParams.get('player'),upgrade:u.searchParams.get('upgrade')}})()");
  assert.deepEqual(buildArHandoff,{
@@ -928,8 +930,8 @@ try{
    'External source facts cannot load without explicit user click');
   assert.equal(await evaluate("document.querySelector('#catalog-v117-export').disabled"),true,
    'Review CSV must stay disabled before the external source is loaded');
-  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('Not verified'),
-   'Unknown weapon weight must never default to zero');
+  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('4.5 (Tarnished.dev v1.17'),
+   'Two-run public Tarnished.dev weight 4.5 is shown with explicit provenance, not zero');
   await evaluate("document.querySelector('#catalog-v117-load').click()");
   await waitFor("document.querySelector('#catalog-v117-status')?.textContent.includes('source variants:')||document.querySelector('#catalog-v117-status')?.textContent.includes('unavailable:')",
    'Pinned neutral source overlay loads or shows a meaningful error');
@@ -944,12 +946,12 @@ try{
    'Accepted v1.17 +0 attack must appear in PRIMARY weapon detail, not just audit overlay');
   assert.ok((await evaluate("document.querySelector('#catalog-warnings').textContent")).includes('487 neutral attack'),
    'Page must declare the authoritative version and source-limited scope');
-  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('Not verified'),
-   'Comparator must not fill the 72 unsourced weapon weights');
+  assert.ok((await evaluate("document.querySelector('#catalog-weight').textContent")).includes('4.5 (Tarnished.dev v1.17'),
+   'Pinned attack source must not override independent v1.17 competitor weight observation; original community row still weights');
   assert.ok(catalogSourceText.includes('All 487 neutral rows now USE v1.17 attack and requirements'),
    'Full source mapping must actually activate versioned catalog calculations');
-  assert.ok((await evaluate("document.querySelector('#catalog-v117-differences').textContent")).includes('WEIGHT UNKNOWN'),
-   'Pinned source does not supply weapon weight');
+  assert.ok((await evaluate("document.querySelector('#catalog-v117-differences').textContent")).includes('COMMUNITY WEIGHT MISSING'),
+   'Pinned attack source has no weight but the separate twice-observed competitor UI has 4.5');
   assert.ok(catalogSourceText.includes('41 attack and 25 requirement differences'),
    'All 41 existing community attack and 25 requirement disagreements must be visible');
   // The deep-linked item prepopulates the global name search. Clear it to

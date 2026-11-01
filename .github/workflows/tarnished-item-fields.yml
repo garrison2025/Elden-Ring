@@ -1,0 +1,40 @@
+name: Direct Tarnished.dev v1.17 item field visibility probe
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-item-fields.mjs
+      - scripts/compare-tarnished-item-weights.mjs
+      - tests/tarnished-v117-item-weight.test.mjs
+      - .github/workflows/tarnished-item-fields.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-fields:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Independently read competitor v1.17 item fields, round 1
+        run: |
+          node scripts/probe-tarnished-item-fields.mjs
+          cp .audit/tarnished-public-field-visibility.json .audit/item-field-first.json
+      - name: Independently read the same competitor fields, round 2
+        run: node scripts/probe-tarnished-item-fields.mjs
+      - name: Validate two rounds and known-item control using local catalog
+        run: node scripts/compare-tarnished-item-weights.mjs
+      - name: Preserve bounded public UI numeric observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-v117-item-field-visibility
+          path: |
+            .audit/tarnished-public-field-visibility.json
+            .audit/item-field-first.json
+            .audit/tarnished-v117-item-weight-comparison.json
+          retention-days: 7
+          if-no-files-found: warn
