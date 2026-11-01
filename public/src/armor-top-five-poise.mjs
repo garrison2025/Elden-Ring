@@ -10,7 +10,8 @@ import {optimizePinnedArmorPoise,ARMOR_OPT_SLOTS} from './armor-full-source-opti
 import {restrictedArmorGroups} from './armor-slot-restrictions.mjs';
 const fail=msg=>{throw new RangeError(msg)};
 const sig=parts=>parts.map(x=>x?.id??'').join('|');
-const cmp=(a,b)=>b.poise-a.poise||a.weight-b.weight||sig(a.pieces).localeCompare(sig(b.pieces));
+const cmp=(a,b)=>b.poise-a.poise||a.weight-b.weight||
+ (sig(a.pieces)<sig(b.pieces)?-1:sig(a.pieces)>sig(b.pieces)?1:0);
 const wu=x=>Math.round(x*1000);
 export function optimizePinnedArmorPoiseTopFive(rows,options={}){
  const base=optimizePinnedArmorPoise(rows,options);
