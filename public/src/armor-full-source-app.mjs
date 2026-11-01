@@ -80,6 +80,8 @@ const invalidate=()=>{
  revision++;
  $('armor-full-results').hidden=true;
  $('armor-full-rows').replaceChildren();
+ const ref=$('armor-v117-reference-comparison');
+ if(ref){ref.textContent='Constraints changed; previous source comparison invalidated. Re-run with matching inputs.';ref.dataset.state='unverified';}
  if(armors){
   $('armor-full-run').disabled=false;
   status('Constraints changed; run source optimizer again.');
