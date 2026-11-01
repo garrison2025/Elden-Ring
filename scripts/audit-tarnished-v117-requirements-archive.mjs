@@ -67,6 +67,8 @@ async function run(){
   else if(r.communityMismatch===true)
    console.log('[V117 DIRECT COMMUNITY REQ DIFFERENCE] '+JSON.stringify(r));
  }
+ if(result.summary.pinnedMismatches!==0||result.summary.pinnedUnavailable!==0)
+  throw Error('Public v1.17 requirements disagree with pinned source');
  if(result.summary.siteObserved!==357||result.summary.siteNotObserved!==130)
   throw Error('Direct source observation coverage changed; do not silently approve more records');
 }
