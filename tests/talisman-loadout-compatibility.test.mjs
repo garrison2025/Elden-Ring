@@ -157,10 +157,15 @@ test('documented upgrade tiers and named alternate variants cannot yield a weara
    assert.equal(x.compatibility.status,'UNWEARABLE',names.join(' + '));
    assert.equal(x.compatibility.conflicts.length,1);
    assert.equal(x.compatibility.conflicts[0].family,family);
+   const actuallyObservedExactOrder=new Set([
+    "Erdtree's Favor|Erdtree's Favor +2",
+    'Arsenal Charm|Arsenal Charm +1',
+    'Crimson Amber Medallion|Crimson Amber Medallion +1'
+   ]).has(names.join('|'));
    assert.equal(x.compatibility.conflicts[0].evidence,
-    ['Erdtree\'s Favor upgrade variants','Arsenal load-boost variants',
-     'Crimson Amber Medallion upgrade variants'].includes(family)?
+    actuallyObservedExactOrder?
      'direct-site-one-order-plus-independent-documentation':'independent-documentation-only');
+   assert.equal(x.compatibility.conflicts[0].exactSelectorOrderObserved,actuallyObservedExactOrder);
    assert.equal(x.exactTotal,null);
    assert.equal(x.tier,null);
    assert.ok(x.unknowns.some(v=>v.slot==='Talisman compatibility'));
@@ -197,4 +202,34 @@ test('eight exact two-pass public v1.17 click observations are exposed without i
  const unmeasured=previewV117ExactTalismanCombination(base,
   equip("Erdtree's Favor +2","Erdtree's Favor"));
  assert.equal(unmeasured.status,'combination-not-directly-verified');
+});
+
+test('direct-site selector evidence never propagates into unmeasured reverse, tiers or extra selections',()=>{
+ for(const names of [
+  ["Erdtree's Favor +2","Erdtree's Favor"],
+  ["Erdtree's Favor +1","Erdtree's Favor +2"],
+  ["Arsenal Charm","Great-Jar's Arsenal"],
+  ['Crimson Amber Medallion +1','Crimson Amber Medallion +3'],
+  ["Marika's Scarseal","Marika's Soreseal","Silver Scarab"],
+  ["Radagon's Scarseal","Radagon's Soreseal","Starscourge Heirloom"]
+ ]){
+  const x=evaluate(...names);
+  assert.equal(x.compatibility.status,'UNWEARABLE');
+  const conflict=x.compatibility.conflicts.find(q=>q.type==='exclusive-family');
+  assert.ok(conflict);
+  assert.equal(conflict.exactSelectorOrderObserved,false);
+  assert.equal(conflict.evidence,'independent-documentation-only');
+  assert.match(conflict.note,/NOT been tested twice/);
+  assert.equal(x.exactTotal,null);
+ }
+ for(const names of [
+  ["Radagon's Scarseal","Radagon's Soreseal"],
+  ["Radagon's Soreseal","Radagon's Scarseal"],
+  ["Marika's Scarseal","Marika's Soreseal"],
+  ["Marika's Soreseal","Marika's Scarseal"]
+ ]){
+  const conflict=evaluate(...names).compatibility.conflicts[0];
+  assert.equal(conflict.exactSelectorOrderObserved,true);
+  assert.equal(conflict.evidence,'direct-site-both-orders-plus-independent-documentation');
+ }
 });
