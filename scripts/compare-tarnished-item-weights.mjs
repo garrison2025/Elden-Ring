@@ -59,7 +59,7 @@ export function comparePublicItemWeights(first,second,catalog){
     requirementsVerified:false,arNotUsedAsWeightEvidence:true};
   });
  const counts={total:rows.length,weightObserved:rows.filter(x=>x.observedWeight!==null).length,
-  sourceMissingObserved:rows.filter(x=>TARGETS.includes(x.id)&&x.observedWeight!==null).length,
+  sourceMissingObserved:rows.filter(x=>TARGETS.includes(x.id)&&x.localWeight===null&&x.observedWeight!==null).length,
   sameAsLocal:rows.filter(x=>x.status==='WEIGHT_MATCH').length,
   differentFromLocal:rows.filter(x=>x.status==='WEIGHT_MISMATCH').length,
   notObserved:rows.filter(x=>x.status==='NOT_OBSERVED').length};
