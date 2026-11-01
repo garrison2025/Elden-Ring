@@ -132,7 +132,12 @@ const pickTalisman=async(name,previousNames)=>{
     previousNames.some(n=>norm(label).includes(norm(n)));
  });
  if(!chosen)return{success:false,reason:'Actual talisman selector missing',labels:widgets.map(w=>w.innerText.slice(0,120))};
- (chosen.querySelector('.p-multiselect-trigger')||chosen).click();
+ // PrimeReact MULTISELECT keeps its overlay open after clicking a checked
+ // option. Clicking the trigger unconditionally would CLOSE the overlay on
+ // the second item, yielding zero options. Reuse an already visible overlay.
+ const open=[...document.querySelectorAll('.p-multiselect-panel')].
+  some(e=>e.offsetParent!==null&&e.getBoundingClientRect().width>0);
+ if(!open)(chosen.querySelector('.p-multiselect-trigger')||chosen).click();
  await new Promise(r=>setTimeout(r,180));
  const options=()=>[...document.querySelectorAll('[role="option"],.p-multiselect-item')].
   filter(e=>e.offsetParent!==null);
