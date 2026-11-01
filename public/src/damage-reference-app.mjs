@@ -1,3 +1,4 @@
+import {exactPublicUchigatanaDamage} from './tarnished-v117-scoped-reference-scenes.mjs';
 import {DAMAGE_TYPES,ENEMY_TYPES,calculateManualDamage} from './damage-reference-model.mjs';
 const $=id=>document.getElementById(id);
 const labels={physical:'Physical',strike:'Strike',slash:'Slash',pierce:'Thrust',magic:'Magic',fire:'Fire',lightning:'Lightning',holy:'Holy'};
@@ -130,3 +131,22 @@ $('damage-copy').addEventListener('click',async()=>{
 });
 restoreFromUrl();
 render();
+
+const selectedV117=()=>{
+ const values=$('damage-v117-scene').value.split(',').map(Number);
+ const x=exactPublicUchigatanaDamage({str:values[0],dex:values[1]});
+ const note=$('damage-v117-evidence-status');
+ if(!x.reference){
+  for(const id of ['damage-v117-ar','damage-v117-single','damage-v117-paired'])$(id).textContent='—';
+  note.textContent='Reference result not independently observed for this exact input.';
+  note.dataset.state='error';
+  return;
+ }
+ $('damage-v117-ar').textContent=String(x.reference.ar);
+ $('damage-v117-single').textContent=String(x.reference.dpsSingle);
+ $('damage-v117-paired').textContent=String(x.reference.dpsPaired);
+ note.dataset.state='ready';
+ note.textContent=x.status+' · exact site source: '+x.source+'. '+x.caveat;
+};
+$('damage-v117-scene').addEventListener('change',selectedV117);
+selectedV117();
