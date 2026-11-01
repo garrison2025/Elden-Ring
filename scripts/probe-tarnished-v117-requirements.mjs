@@ -146,6 +146,11 @@ async function run(){
      params.set(c.hand==='lh1'?'aLh1':'aRh1',affinity);
      await send('Page.navigate',{url:'https://www.tarnished.dev/build-planner?'+params});
      await sleep(2200);
+     let classAction=null;
+     if(mode==='alt-origin'){
+      classAction=await evaluate('('+chooseVisibleStartingClass.toString()+')('+JSON.stringify(c.originName)+')');
+      await sleep(850);
+     }
      let s=await evaluate('('+snapshot.toString()+')()');
      if(!s.version.includes('v1.17')||!s.buildWeaponBlock.includes('\n'+candidateName+'\n')){
       await sleep(2000);s=await evaluate('('+snapshot.toString()+')()');
