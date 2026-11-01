@@ -950,8 +950,8 @@ try{
    'Pinned attack source must not override independent v1.17 competitor weight observation; original community row still weights');
   assert.ok(catalogSourceText.includes('All 487 neutral rows now USE v1.17 attack and requirements'),
    'Full source mapping must actually activate versioned catalog calculations');
-  assert.ok((await evaluate("document.querySelector('#catalog-v117-differences').textContent")).includes('WEIGHT UNKNOWN'),
-   'Pinned source does not supply weapon weight');
+  assert.ok((await evaluate("document.querySelector('#catalog-v117-differences').textContent")).includes('COMMUNITY WEIGHT MISSING'),
+   'Pinned attack source has no weight but the separate twice-observed competitor UI has 4.5');
   assert.ok(catalogSourceText.includes('41 attack and 25 requirement differences'),
    'All 41 existing community attack and 25 requirement disagreements must be visible');
   // The deep-linked item prepopulates the global name search. Clear it to
