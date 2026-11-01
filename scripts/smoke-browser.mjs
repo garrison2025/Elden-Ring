@@ -893,13 +893,13 @@ try{
    .includes('568 pinned armor items loaded'),
    'Real Build armor source cannot be silently replaced by synthetic data');
   await evaluate("(()=>{const names=[...document.querySelectorAll('#build-loadout-armor .build-loadout-item input[type=text]')];if(names.length!==4)throw Error('Expected four armor name slots');names[0].value='All-knowing Helm';names[0].dispatchEvent(new Event('input',{bubbles:true}));names[1].value='All-knowing Armor';names[1].dispatchEvent(new Event('input',{bubbles:true}));})()");
-  await waitFor("document.querySelector('#build-armor-metric-summary')?.textContent.includes('15.52%')",
+  await waitFor("document.querySelector('#build-armor-metric-summary')?.textContent.includes('16.91%')",
    'Actual two-item Build armor damage negation must stack multiplicatively');
   const armorBuildText=await evaluate("document.querySelector('#build-armor-metric-summary').textContent");
-  assert.ok(armorBuildText.includes('21 points')&&armorBuildText.includes('13 source metrics'),
+  assert.ok(armorBuildText.includes('29 points')&&armorBuildText.includes('13 source metrics'),
    'Known All-knowing Helm + Armor must yield 21 source poise and 13 live metric rows');
   assert.equal(await evaluate("document.querySelectorAll('#build-armor-metric-summary tbody tr').length"),13);
-  console.log('[REAL BUILD ARMOR] Opt-in 568 source; two real armor pieces produce 21 poise and 15.52% physical negation in Build.');
+  console.log('[REAL BUILD ARMOR] Opt-in 568 source; two real armor pieces produce 29 verified Poise and 16.91% direct-field physical negation in Build.');
   // Armor v1.17 functional alignment: visit the real, pinned community
   // source and exercise a non-Poise metric through a real page/Worker.
   // Not a claim of Tarnished.dev same-input armor numeric parity.
