@@ -1,0 +1,53 @@
+name: Compare novel v1.17 Spell INT50/60 against real Tarnished
+on:
+  pull_request:
+    paths:
+      - 'scripts/probe-tarnished-residual-damage-spell-v117.mjs'
+      - 'scripts/check-v117-fresh-int-50-60.mjs'
+      - 'public/src/v117-spell-scaling-engine.mjs'
+      - '.github/workflows/tarnished-extended-spell-int50-60.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [3, 4]
+        pass: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Independent real Chromium read of new spell input
+        env:
+          TARNISHED_RESIDUAL_CASE: ${{ matrix.profile }}
+          TARNISHED_RESIDUAL_PASS: ${{ matrix.pass }}
+        run: node scripts/probe-tarnished-residual-damage-spell-v117.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fresh-spell-int-${{ matrix.profile }}-${{ matrix.pass }}
+          path: .audit/tarnished-residual-damage-spell-${{ matrix.profile }}-pass-${{ matrix.pass }}.json
+          retention-days: 30
+  compare:
+    needs: observe
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: fresh-spell-int-*
+          path: .audit
+          merge-multiple: true
+      - name: Two fresh Tarnished values versus independent pinned model
+        run: node scripts/check-v117-fresh-int-50-60.mjs
