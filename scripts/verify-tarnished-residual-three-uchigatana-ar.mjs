@@ -21,5 +21,5 @@ const outcomes=evidence.damage.map(row=>{
 });
 console.log('[THREE ACTUAL SITE AR COMPARISONS]',JSON.stringify(outcomes));
 if(!outcomes.every(x=>x.exactMatch))throw Error('Real Build Planner +25 AR does not match our local math');
-if(outcomes.filter(x=>x.referencePagesDisagree).length!==2)
- throw Error('Historical cross-page discrepancy evidence no longer has expected scope');
+if(outcomes.some(x=>x.referencePagesDisagree))
+ throw Error('Build versus Damage v1.17 site AR no longer matches for the sampled cases');
