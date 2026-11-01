@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - scripts/probe-tarnished-build-level.mjs
+      - scripts/verify-tarnished-build-level-reads.mjs
       - .github/workflows/tarnished-build-level.yml
   workflow_dispatch:
 permissions:
