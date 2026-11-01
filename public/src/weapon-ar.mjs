@@ -7,6 +7,16 @@ export const DAMAGE_TYPES = Object.freeze(['physical','magic','fire','lightning'
 export const POWER_STATS = Object.freeze(['str','dex','int','fai','arc']);
 const own = (obj,key)=>Object.prototype.hasOwnProperty.call(obj,key);
 function fail(msg){throw new RangeError(msg)}
+/** Correct a sub-ULP negative IEEE-754 residual at a true integer boundary.
+ * Example: independently observed v1.17 Icerind Hatchet total is 184 while
+ * the parameter math is 183.99999999999997. Never round ordinary fractions.
+ * Bound the adjustment to one relative machine epsilon, not arbitrary 0.001.
+ */
+function floorArNearInteger(n){
+ const nearest=Math.round(n);
+ return Math.abs(nearest-n)<=Number.EPSILON*Math.max(1,Math.abs(n))?
+  nearest:Math.floor(n);
+}
 function record(v,label){if(!v||typeof v!=='object'||Array.isArray(v))fail(`${label} must be an object.`);return v}
 function number(v,label,min=0,max=1e8){if(typeof v!=='number'||!Number.isFinite(v)||v<min||v>max)fail(`${label} must be a finite number between ${min} and ${max}.`);return v}
 function integer(v,label,min,max){if(!Number.isInteger(v)||v<min||v>max)fail(`${label} must be an integer from ${min} to ${max}.`);return v}
@@ -110,7 +120,7 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
       POWER_STATS.some(s=>a.elementScaling[d][s].enabled&&effective[s]<p.requirements[s]);
     if(elementUnmet){
       const raw=base*0.6;
-      result.push({element:d,base,scaling:raw-base,raw,displayed:Math.floor(raw),
+      result.push({element:d,base,scaling:raw-base,raw,displayed:floorArNearInteger(raw),
         attributes:POWER_STATS.map(s=>({stat:s,multiplier:0,reason:'damage-type-requirement-penalty'})),
         penaltyApplied:true});
       continue;
@@ -149,13 +159,13 @@ export function calculateAr(profile,rawStats,{affinity,upgrade=0,twoHanded=false
     const raw=sourceOrder?base*sourceOrderMultiplier:
       base+base*scalingMultiplier;
     const scaling=raw-base;
-    result.push({element:d,base,scaling,raw,displayed:Math.floor(raw),attributes:attr});
+    result.push({element:d,base,scaling,raw,displayed:floorArNearInteger(raw),attributes:attr});
   }
   // Both values remain observable. 50 twice-observed Tarnished.dev v1.17
   // exact-input cases establish that compact-source mixed-component total AR
   // floors the RAW SUM, not each component before summing. Manual research
   // profiles retain their explicitly chosen legacy rounding behavior.
-  const floorTotal=Math.floor(result.reduce((s,e)=>s+e.raw,0));
+  const floorTotal=floorArNearInteger(result.reduce((s,e)=>s+e.raw,0));
   const floorComponents=result.reduce((s,e)=>s+e.displayed,0);
   const total=aggregation==='floor-raw-sum'?floorTotal:
     roundingPolicy==='floor-components'?floorComponents:floorTotal;
