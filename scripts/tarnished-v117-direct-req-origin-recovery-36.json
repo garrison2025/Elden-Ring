@@ -1,0 +1,978 @@
+{
+  "schemaVersion": 1,
+  "comparator": "Tarnished.dev public v1.17 visible starting-class switched direct requirements",
+  "sourceRun": 41267709648,
+  "sourceJobs": [
+    124733883333,
+    124733883213,
+    124733883297,
+    124733883322,
+    124733883148,
+    124733883293
+  ],
+  "sourceUrl": "https://github.com/garrison2025/Elden-Ring/actions/runs/41267709648",
+  "independentPasses": 2,
+  "qualification": "No DOM-only input hacks accepted. Real PrimeReact Starting Class option clicked, selected origin and actual five base stats validated in BOTH public Chromium passes; exact item+affinity, v1.17, +0, no buffs, visible identical Req. Independent pinned source matched all 35.",
+  "baseVerified": 423,
+  "newlyVerified": 35,
+  "combinedVerified": 458,
+  "remainingUnobserved": 29,
+  "siteVsPinnedMismatches": 0,
+  "rows": [
+    {
+      "id": "req-045",
+      "name": "Broadsword",
+      "siteName": "Broadsword",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-061",
+      "name": "Cinquedea",
+      "siteName": "Cinquedea",
+      "affinity": "None",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-063",
+      "name": "Clawmark Seal",
+      "siteName": "Clawmark Seal",
+      "affinity": "None",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        4,
+        0,
+        0,
+        10,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-070",
+      "name": "Club",
+      "siteName": "Club",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-094",
+      "name": "Demi-human Queen's Staff",
+      "siteName": "Demi-Human Queen's Staff",
+      "affinity": "None",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        6,
+        0,
+        10,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-099",
+      "name": "Dragon Communion Seal",
+      "siteName": "Dragon Communion Seal",
+      "affinity": "None",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        0,
+        0,
+        0,
+        10,
+        10
+      ],
+      "observedTwice": true,
+      "sourceShard": 0
+    },
+    {
+      "id": "req-125",
+      "name": "Finger Seal",
+      "siteName": "Finger Seal",
+      "affinity": "None",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        4,
+        0,
+        0,
+        10,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-137",
+      "name": "Frenzied Flame Seal",
+      "status": "NOT_OBSERVED",
+      "originName": "Astrologer",
+      "requirements": null,
+      "observedTwice": false,
+      "sourceShard": 1,
+      "reason": "Did not render an independently double-verified Req after a valid origin change"
+    },
+    {
+      "id": "req-159",
+      "name": "Glintstone Staff",
+      "siteName": "Glintstone Staff",
+      "affinity": "None",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        6,
+        0,
+        10,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-196",
+      "name": "Hand Axe",
+      "siteName": "Hand Axe",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        9,
+        8,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-199",
+      "name": "Harp Bow",
+      "siteName": "Harp Bow",
+      "affinity": "None",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        9,
+        9,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-220",
+      "name": "Katar",
+      "siteName": "Katar",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 1
+    },
+    {
+      "id": "req-222",
+      "name": "Lamenting Visage",
+      "siteName": "Lamenting Visage",
+      "affinity": "None",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        9,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-234",
+      "name": "Longsword",
+      "siteName": "Longsword",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-236",
+      "name": "Lordsworn's Straight Sword",
+      "siteName": "Lordsworn's Straight Sword",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-251",
+      "name": "Messmer Soldier Shield",
+      "siteName": "Messmer Soldier Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-271",
+      "name": "Noble's Estoc",
+      "siteName": "Noble's Estoc",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        9,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-339",
+      "name": "Short Spear",
+      "siteName": "Short Spear",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 2
+    },
+    {
+      "id": "req-340",
+      "name": "Short Sword",
+      "siteName": "Short Sword",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-341",
+      "name": "Shortbow",
+      "siteName": "Shortbow",
+      "affinity": "None",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-351",
+      "name": "Soldier's Crossbow",
+      "siteName": "Soldier's Crossbow",
+      "affinity": "None",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        8,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-354",
+      "name": "Spiked Caestus",
+      "siteName": "Spiked Caestus",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-396",
+      "name": "Venomous Fang",
+      "siteName": "Venomous Fang",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        9,
+        9,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-408",
+      "name": "Weathered Straight Sword",
+      "siteName": "Weathered Straight Sword",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        7,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 3
+    },
+    {
+      "id": "req-420",
+      "name": "Beast Crest Heater Shield",
+      "siteName": "Beast Crest Heater Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-421",
+      "name": "Beastman's Jar-Shield",
+      "siteName": "Beastman's Jar-Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-422",
+      "name": "Black Leather Shield",
+      "siteName": "Black Leather Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-423",
+      "name": "Blue Crest Heater Shield",
+      "siteName": "Blue Crest Heater Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-431",
+      "name": "Coil Shield",
+      "siteName": "Coil Shield",
+      "affinity": "None",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-439",
+      "name": "Eclipse Crest Heater Shield",
+      "siteName": "Eclipse Crest Heater Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 4
+    },
+    {
+      "id": "req-451",
+      "name": "Heater Shield",
+      "siteName": "Heater Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-453",
+      "name": "Ice Crest Shield",
+      "siteName": "Ice Crest Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        9,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-456",
+      "name": "Inverted Hawk Heater Shield",
+      "siteName": "Inverted Hawk Heater Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-469",
+      "name": "Pillory Shield",
+      "siteName": "Pillory Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-470",
+      "name": "Red Crest Heater Shield",
+      "siteName": "Red Crest Heater Shield",
+      "affinity": "Standard",
+      "originName": "Astrologer",
+      "originStats": [
+        9,
+        15,
+        9,
+        8,
+        12,
+        16,
+        7,
+        9
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    },
+    {
+      "id": "req-483",
+      "name": "Spiralhorn Shield",
+      "siteName": "Spiralhorn Shield",
+      "affinity": "Standard",
+      "originName": "Hero",
+      "originStats": [
+        14,
+        9,
+        12,
+        16,
+        9,
+        7,
+        8,
+        11
+      ],
+      "status": "DIRECT_SITE_REQ_VERIFIED",
+      "requirements": [
+        8,
+        10,
+        0,
+        0,
+        0
+      ],
+      "observedTwice": true,
+      "sourceShard": 5
+    }
+  ]
+}
