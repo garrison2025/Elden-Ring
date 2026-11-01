@@ -1248,6 +1248,22 @@ try{
    sourceOptimization.status.includes('completed in Worker')&&
    sourceOptimization.details.includes('0 records excluded'),
    'Live full-source optimum must disclose source Poise, load tier and excluded unknowns');
+  // Same exact public v1.17 Wretch10, Normal-roll, Poise-only reference.
+  await evaluate("(()=>{for(const [id,value] of [['maxLoad','48.176'],['reservedWeight','0'],['minPoise','0']])document.getElementById(id).value=value;document.querySelector('#targetTier').value='medium';document.querySelector('#armor-full-site-only').checked=true;const box=document.querySelector('#armor-v117-confirm-wretch');box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#armor-full-run').click()})()");
+  await waitFor("document.querySelector('#armor-v117-reference-comparison').textContent.includes('local = 70')",
+   'Real 70 Poise must match reference score under specifically confirmed Wretch10 constraints');
+  await evaluate("(()=>{const e=document.querySelector('#reservedWeight');e.value='1';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  assert.match(await evaluate("document.querySelector('#armor-v117-reference-comparison').textContent"),/previous source comparison invalidated/,
+   'Changing source optimizer constraints must erase previously observed parity claims');
+  await evaluate("document.querySelector('#armor-v117-apply-first').click()");
+  await waitFor("document.querySelector('#armor-full-results')?.hidden===false&&document.querySelector('#armor-full-rows')?.textContent.includes('Preceptor')",
+   'Direct v1.17 rank-one four-piece reference armor must load only from available source pieces');
+  const selectedReferenceArmor=await evaluate("({names:document.querySelector('#armor-full-rows').textContent,headline:document.querySelector('#armor-full-heading').textContent})");
+  assert.ok(selectedReferenceArmor.names.includes('Circlet of Light')&&
+    selectedReferenceArmor.names.includes('Tree Sentinel')&&
+    selectedReferenceArmor.names.includes('Preceptor'),
+    'Observed rank-one pieces must actually be locked and shown');
+  assert.match(selectedReferenceArmor.headline,/70/);
   console.log('[REAL ARMOR SOURCE] PASS: pinned 568 records + 1 direct DLC and verified filtered candidate pool, exact source-constrained 4-slot Worker search.');
 
  }
@@ -1302,6 +1318,49 @@ try{
  assert.ok(damageMobile.scroll<=damageMobile.width+5,
   '375px damage calculator must not overflow: '+JSON.stringify(damageMobile));
  console.log('[DAMAGE PREVIEW] PASS: 8 defense pairs, motion/negation formula, split-AR URL handoff, 375px mobile.');
+ // Newly added real-v1.17 reference workflows: verify the actually rendered
+ // outputs and fail-closed behavior in Chrome, not merely source-file strings.
+ await navigate('/damage-calculator/');
+ await waitFor("document.querySelector('#damage-v117-ar')?.textContent==='376'",
+  'Twice-observed public v1.17 Uchigatana +25 AR visible separately from the manual damage estimate');
+ assert.equal(await evaluate("document.querySelector('#damage-v117-single').textContent"),'464');
+ await evaluate("(()=>{const x=document.querySelector('#damage-v117-scene');x.value='20,20';x.dispatchEvent(new Event('change',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#damage-v117-ar').textContent==='388'&&document.querySelector('#damage-v117-single').textContent==='483'",
+  'Real 20/20 reference scene changes exactly and does not reuse stale 15/20 DPS');
+ await navigate('/spell-calculator/');
+ await waitFor("document.querySelector('#spell-magic')?.textContent==='242'",
+  'The exact public Glintstone Pebble v1.17 sample renders without extrapolation');
+ await evaluate("(()=>{const x=document.querySelector('#spell-int');x.value='30';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ await waitFor("document.querySelector('#spell-magic').textContent==='267'",
+  'Actual independently observed 30 INT sorcery result must show 267');
+ await evaluate("(()=>{const x=document.querySelector('#spell-int');x.value='31';x.dispatchEvent(new Event('input',{bubbles:true}))})()");
+ assert.equal(await evaluate("document.querySelector('#spell-outcome').hidden"),true,
+  'Unobserved INT31 must not show a guessed spell damage');
+ assert.equal(await evaluate("getComputedStyle(document.querySelector('#spell-outcome')).display"),'none',
+  'Hidden reference damage must not remain visually displayed under CSS .metric-grid display');
+ assert.equal(await evaluate("document.querySelector('#spell-magic').textContent"),'—',
+  'Previously observed spell damage must clear immediately when input is unsupported');
+ assert.match(await evaluate("document.querySelector('#spell-status').textContent"),/NOT OBSERVED/);
+ await navigate('/build-planner/');
+ await evaluate("document.querySelector('#build-loadout-start').click()");
+ await waitFor("document.querySelector('[aria-label=\\\"Choose a twice-observed reference talisman combination\\\"]')!==null",
+  'Live Build equipment planner loads exact-source combination presets');
+ await evaluate("(()=>{const x=document.querySelector('[aria-label=\\\"Choose a twice-observed reference talisman combination\\\"]');x.value='2';document.querySelector('#build-loadout-talismans .build-armor-metric-panel button').click()})()");
+ await waitFor("document.querySelector('#build-v117-combined-talisman-reference')!==null",
+  'Twice-observed Radagon and Marika Soreseal combo renders actual public Wretch profile');
+ const realBuild=await evaluate("({attrs:[...document.querySelectorAll('#stat-grid [data-stat]')].map(x=>x.value),origin:document.querySelector('#origin').value,selected:document.querySelector('#build-v117-combined-talisman-reference').textContent,maximum:document.querySelector('#build-loadout-maximum').value})");
+ assert.equal(realBuild.origin,'Wretch');
+ assert.equal(realBuild.maximum,'56.1','Two Soreseals must load the observed buffed equip capacity, not naked Wretch 48.176');
+ assert.deepEqual(realBuild.attrs,Array(8).fill('10'));
+ assert.ok(realBuild.selected.includes('-32.25%'),
+  'Combined Soreseal negative damage negation must be the real observed -32.25%, not -30%');
+ console.log('[FOUR MODULE BUILD SMOKE] PASS: one-click exact two-Soreseal Wretch10 scenario, real observed -32.25% negation.');
+ await navigate('/armor-optimizer/');
+ assert.equal(await evaluate("document.querySelector('#armor-v117-apply-first').disabled"),true,
+  'The site rank-one armor preset must stay disabled before the user loads the source');
+ assert.match(await evaluate("document.querySelector('#armor-v117-reference-comparison').textContent"),
+  /Reference comparison disabled/);
+ console.log('[FOUR MODULE REF SMOKE] PASS: Damage real AR/DPS scene switch, Spell exact-only/no-interpolation, Armor opt-in guard.');
  assert.deepEqual(pageErrors,[], 'No uncaught page JavaScript errors expected');
  console.log('[BROWSER SMOKE] PASS: disputed weapon requirement/attack fail-closed UI + local seven-case JSON reimport/original-hash recheck + local unreviewed screenshot SHA256 capture/mobile + seven-way current-game-unreviewed discrepancy ledger + source-derived 408-weapon audit + explicit slot-based equipped load and 375px mobile + wield shortlist targets/mobile + Build A/B pin/edit/share/reopen/origin/mobile + Build shortlist → Smithing import → confirmed levels → shared stock → save/reload/restore/delete + 375px mobile viewport');
 }catch(error){

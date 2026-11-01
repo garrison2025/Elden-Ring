@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10161d"><meta name="robots" content="noindex,follow">
+<title>Tarnished.dev v1.17 Spell Result Reference | Elden Ring Build Lab</title>
+<meta name="description" content="Independently double-observed reference spell outputs, with strict limits on the supported inputs. Research, not a general spell damage calculator.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/style.css">
+<style>#spell-outcome[hidden]{display:none!important}</style></head><body data-page="spell">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="../">✧ BUILD<span class="gold">LAB</span></a>
+<nav class="nav"><a href="../">Tools</a><a href="../weapon-ar-calculator/">Weapon AR</a><a href="../damage-calculator/">Damage</a><a href="../build-planner/">Build Planner</a></nav>
+<a class="header-status" href="../validation-status/">Accuracy record</a></div></header>
+<main class="container">
+<section class="hero"><div class="eyebrow">Exact v1.17 observed spell rows · no invented scaling</div>
+<h1>Spell reference results</h1>
+<p>Compare three exact sorcery scenarios observed twice on <a href="https://www.tarnished.dev/spell-calculator" target="_blank" rel="noopener noreferrer">Tarnished.dev v1.17</a>. This limited lookup is <strong>not</strong> a standalone catalyst-scaling engine. It never guesses a result outside the observed input.</p>
+<span class="pill">Local · No paid API · Research / noindex</span></section>
+<div class="damage-layout">
+<section class="panel"><h2>Exact verified reference context</h2>
+<p>Wretch, all other seven attributes 10. Astrologer's Staff + Glintstone Pebble; default smithing +25 / somber +10; enemy defense and negation 0; no other gear or effects.</p>
+<div class="input-two"><label class="field" for="spell-int">Intelligence (1–99)
+<input id="spell-int" type="number" min="1" max="99" step="1" value="25"></label>
+<label class="field" for="spell-presets">Observed cases
+<select id="spell-presets"><option value="">Choose an observed case</option></select></label></div>
+<p class="note">An arbitrary Intelligence value is not automatically supported: the public source has not been read at every value, and interpolation is prohibited.</p></section>
+<section class="panel"><h2>Actual displayed reference output</h2>
+<div id="spell-outcome" class="metric-grid" hidden>
+<div class="metric"><div class="metric-label">Magic damage · observed</div><strong id="spell-magic">—</strong></div>
+<div class="metric"><div class="metric-label">FP cost</div><strong id="spell-fp">—</strong></div>
+<div class="metric"><div class="metric-label">Bullets</div><strong id="spell-bullets">—</strong></div>
+<div class="metric"><div class="metric-label">INT requirement</div><strong id="spell-req">—</strong></div></div>
+<p id="spell-status" class="note" role="status" aria-live="polite">Checking reference scene…</p>
+<p class="note"><strong>Accuracy boundary:</strong> verified source observations do not establish an independently computed damage formula, scaling for other catalysts, other spells, buffs, conditions or enemy resistances.</p>
+<p><a href="https://github.com/garrison2025/Elden-Ring/actions/runs/41297001066" target="_blank" rel="noopener noreferrer">Read independent live-browser evidence</a></p></section></div>
+<nav class="related-tools" aria-label="Related tools"><a href="../damage-calculator/">Damage preview</a>
+<a href="../weapon-ar-calculator/">Weapon AR</a><a href="../build-planner/">Build Planner</a></nav>
+</main><footer class="site-footer"><div class="container footer-flex"><div>Unofficial fan project. Not affiliated with FromSoftware or Bandai Namco Entertainment.</div><a href="../validation-status/">Verification details</a></div></footer>
+<script type="module" src="../src/spell-reference-app.mjs"></script></body></html>
