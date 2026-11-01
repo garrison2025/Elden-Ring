@@ -233,13 +233,22 @@ async function main(){
    if(!out.ok)break;
   }
   const actual=await pageCall(readResult);
-  const valid=clicks.length===names.length&&clicks.every(x=>x.ok)&&
+  const sourceConsistent=clicks.length===names.length&&clicks.every(x=>x.ok)&&
    actual.version===baseline.version&&actual.rune===false&&actual.physick===false&&
    actual.noWeaponsAndArmor&&actual.poise===0&&
    actual.stats.length===8&&actual.stats.every(Number.isInteger)&&
    Number.isFinite(actual.load)&&Number.isFinite(actual.maxEquipLoad)&&
    Object.values(actual.negation).every(Number.isFinite);
-  rows.push({index,names,baseline,clicks,actual,valid});
+  const actualNames=actual.selectedTokens;
+  const equippedAll=actualNames.length===names.length&&
+    names.every(name=>actualNames.includes(name));
+  // Real v1.17 enforces Radagon Scarseal / Radagon Soreseal mutual
+  // exclusion: both options can be clicked but the second is not kept.
+  const mutuallyExclusive=index===5&&actualNames.length===1&&
+    actualNames[0]===names[0]&&actual.stats.join(',')==='13,10,13,13,13,10,10,10';
+  const valid=sourceConsistent&&(equippedAll||mutuallyExclusive);
+  rows.push({index,names,baseline,clicks,actual,valid,
+   acceptedAll:equippedAll,mutuallyExclusive,actualSelectedNames:actualNames});
   if(!valid)throw Error('Refuse to certify incomplete browser selection '+index+
     ': '+JSON.stringify(rows.at(-1)).slice(0,1600));
  }
