@@ -85,8 +85,11 @@ async function chooseOption(exactName){
 }
 async function openAndSelect(id,exactName){
  const pos=await run(function(id){
-  const el=document.getElementById(id);
-  if(!el)return{found:false,reason:'Missing real selection control '+id};
+  const el=document.getElementById(id)||
+   [...document.querySelectorAll('.p-multiselect-label')].
+    find(x=>(x.textContent||'').trim()==='Search weapons...')?.
+    closest('[data-pc-name="multiselect"]');
+  if(!el)return{found:false,reason:'Missing actual public weapon multiselect after label fallback '+id};
   el.scrollIntoView({block:'center',inline:'center',behavior:'instant'});
   const r=el.getBoundingClientRect();
   return{found:true,x:r.left+r.width/2,y:r.top+r.height/2,
