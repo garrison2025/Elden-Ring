@@ -23,7 +23,7 @@ const EXCLUSIVE_FAMILIES=Object.freeze([
   family:'Marika seal variants',
   evidence:'independent-documentation-only',
   note:'Community documentation says the Marika seal variants cannot be worn together. No two-browser Tarnished.dev Marika pair rejection has been measured.'
- })
+ }),
  Object.freeze({
   names:Object.freeze(["Erdtree's Favor","Erdtree's Favor +1","Erdtree's Favor +2"]),
   family:"Erdtree's Favor upgrade variants",
