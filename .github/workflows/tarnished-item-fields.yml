@@ -1,5 +1,13 @@
-name: Parallel Tarnished.dev public v1.17 remaining weapon weight audit
+name: Tarnished.dev v1.17 36 unresolved direct alias weight retry
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/tarnished-v117-weight-unresolved36.mjs
+      - scripts/probe-tarnished-item-fields.mjs
+      - scripts/compare-tarnished-item-weights.mjs
+      - tests/tarnished-v117-weight-unresolved36.test.mjs
+      - .github/workflows/tarnished-item-fields.yml
   workflow_dispatch:
 permissions:
   contents: read
@@ -9,11 +17,11 @@ jobs:
     timeout-minutes: 20
     strategy:
       fail-fast: false
-      max-parallel: 12
+      max-parallel: 4
       matrix:
-        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+        shard: [0,1,2,3]
     env:
-      TARNISHED_WEIGHT_BATCH: '5'
+      TARNISHED_WEIGHT_BATCH: '6'
       TARNISHED_WEIGHT_SHARD: ${{ matrix.shard }}
     steps:
       - uses: actions/checkout@v4
@@ -32,7 +40,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: public-v117-remaining380-shard-${{ matrix.shard }}
+          name: public-v117-unresolved36-alias-shard-${{ matrix.shard }}
           path: |
             .audit/tarnished-public-field-visibility.json
             .audit/item-field-first.json
