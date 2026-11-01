@@ -3,6 +3,7 @@
  * The rest remain CANDIDATES, never automatically accepted if selector fails.
  */
 import {readFileSync} from 'node:fs';
+import {CLASSES} from '../public/src/core.mjs';
 import {TARNISHED_V117_DIRECT_WEIGHT_EVIDENCE} from '../public/src/tarnished-v117-public-weights.mjs';
 const c=JSON.parse(readFileSync(new URL('../public/data/community-weapon-catalog.json',import.meta.url),'utf8'));
 const a=JSON.parse(readFileSync(new URL('./tarnished-v117-weight-probe-ar-observations.json',import.meta.url),'utf8'));
@@ -71,4 +72,36 @@ export function getHighGapRequirementShard(index){
  if(!Number.isInteger(index)||index<0||index>=6)throw new RangeError('Expected high-gap shard 0..5');
  const start=Math.floor(index*47/6),end=Math.floor((index+1)*47/6);
  return HIGH_GAP_REQUIREMENT_CANDIDATES.slice(start,end);
+}
+
+/** Valid origin-lowering hypotheses, not certified values: 23 initially
+ * activated-but-hidden plus 13 low-Req names without a direct AR reference.
+ * Choose an actually playable original class with at least one stat below
+ * LOCAL candidate requirements. These inputs do not certify game facts.
+ */
+const altOrigCandidates=Object.freeze(REQUIREMENT_CANDIDATES.flatMap(row=>{
+ const old=reqAudit.rows.find(r=>r.id===row.id);
+ if(!old)return [];
+ const weapon=c.weapons.find(w=>w.name===row.name);
+ if(!weapon||!Array.isArray(weapon.requirements))return [];
+ const hidden=old.status==='REQ_NOT_EXPOSED_AT_WRETCH10';
+ const lowNoAr=old.status==='NOT_OBSERVED'&&!arNames.has(row.name)&&
+   Math.max(...weapon.requirements)<=10;
+ if(!hidden&&!lowNoAr)return [];
+ const candidates=CLASSES.filter(origin=>!origin.dlc).map(origin=>{
+  const deficit=weapon.requirements.reduce((sum,need,i)=>sum+Number(need>origin.stats[i+3]),0);
+  return {origin,deficit};
+ }).filter(x=>x.deficit>0).sort((a,b)=>
+  b.deficit-a.deficit||
+  a.origin.stats.slice(3).reduce((s,n)=>s+n,0)-b.origin.stats.slice(3).reduce((s,n)=>s+n,0));
+ if(!candidates.length)return [];
+ const origin=candidates[0].origin;
+ return [Object.freeze({...row,originName:origin.name,originStats:Object.freeze([...origin.stats])})];
+}));
+export const ALT_ORIGIN_REQUIREMENT_CANDIDATES=altOrigCandidates;
+if(ALT_ORIGIN_REQUIREMENT_CANDIDATES.length!==36)
+ throw new RangeError('Expected 36 low-Req site display hypotheses, actual '+ALT_ORIGIN_REQUIREMENT_CANDIDATES.length);
+export function getAltOriginRequirementShard(index){
+ if(!Number.isInteger(index)||index<0||index>=6)throw new RangeError('Expected origin shard 0..5');
+ return ALT_ORIGIN_REQUIREMENT_CANDIDATES.slice(index*6,(index+1)*6);
 }
