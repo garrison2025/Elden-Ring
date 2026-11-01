@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Regression of the REAL pinned source plus the new twice-read single DLC item.
+/** Regression of the REAL pinned source plus the two independently double-read DLC pieces.
  * Explicit opt-in external JSON download on CI only, never paid API.
  */
 import assert from 'node:assert/strict';
@@ -17,7 +17,7 @@ console.log('[REAL SOURCE + VERIFIED DLC OPTIMUM] '+JSON.stringify({
  metricValue:result.metricValue,armorWeight:result.armorWeight,combo
 }));
 assert.equal(src.count,568);
-assert.equal(src.armors.length,569);
-assert.equal(eligible.accepted.length,550);
+assert.equal(src.armors.length,570);
+assert.equal(eligible.accepted.length,551);
 assert.ok(result.metricValue>=70,'Must find actual >=70 Poise, not fake UI label');
 assert.ok(result.armorWeight<48.176*0.7,'Normal roll constraint must hold');

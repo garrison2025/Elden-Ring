@@ -1,0 +1,35 @@
+name: Two independent real-site Gravebird DLC Weight and Poise reads
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-gravebird-v117.mjs
+      - .github/workflows/gravebird-twice-real-site.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-browser:
+    strategy:
+      fail-fast: false
+      matrix:
+        pass: [1, 2]
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Observe unbuffed source-only Gravebird Bracelets
+        env:
+          V117_PROOF_PASS: ${{ matrix.pass }}
+        run: node scripts/probe-tarnished-gravebird-v117.mjs
+      - name: Keep actual browser evidence for independent pass
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-gravebird-bracelets-v117-pass-${{ matrix.pass }}
+          path: .audit/tarnished-dlc-gravebird-v117.json
+          retention-days: 30
+          if-no-files-found: warn
