@@ -100,6 +100,14 @@
 <label class="field" for="armor-full-exclude">Exclude specific armor by exact name, separated by commas (optional, maximum 50)
 <input id="armor-full-exclude" type="text" maxlength="800" placeholder="Black Knife Armor, All-knowing Helm" autocomplete="off"></label>
 <p id="armor-full-status" class="note" role="status" aria-live="polite">Reference not requested; manual CSV optimizer above remains available.</p>
+<div class="panel" style="margin-top:15px">
+<h3>Tarnished.dev v1.17 · directly observed Poise-only reference</h3>
+<p class="note">The actual source site produced 70 Poise for naked Wretch (all stats 10), no other equipment/effects, maximum load 48.176, reserved weight 0, normal roll; Poise multiplier 1 and twelve other multipliers 0. This reference <strong>does not establish the competitor's 13-metric ranking algorithm</strong>.</p>
+<label class="field" for="armor-v117-confirm-wretch"><input id="armor-v117-confirm-wretch" type="checkbox"> I am using the exact unbuffed Wretch 10×8 reference context; compare the result only when all optimizer constraints match</label>
+<p class="note" id="armor-v117-reference-comparison" role="status" aria-live="polite">Reference comparison disabled until you confirm the exact character context and run an eligible Poise-only optimization.</p>
+<button id="armor-v117-apply-first" class="btn alt" type="button" disabled>Apply observed rank-1 armor set as four locked slots</button>
+<p class="note">Observed first row: Circlet of Light + Tree Sentinel Armor + Preceptor's Gloves + Tree Sentinel Greaves; 70 Poise, 33.7 weight. A second observed 70-Poise row weighs 33.3 with Gravebird Bracelets instead. The site's tie ordering is not reproduced by claiming a different algorithm is identical.</p>
+</div>
 <div id="armor-full-results" hidden>
 <h3 id="armor-full-heading">—</h3>
 <p id="armor-full-details" class="note">—</p>
