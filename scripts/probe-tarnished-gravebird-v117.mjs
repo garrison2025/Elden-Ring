@@ -187,6 +187,21 @@ async function main(){
  if(accepted!==1||row.name!=='Gravebird Bracelets'||row.siteName!=='Gravebird Bracelets'||
   row.weight!==1.7||row.poise!==3||row.slot!=='Arms')
   throw Error('Gravebird Bracelets did not match 1.7 weight / 3 Poise on actual Tarnished v1.17: '+JSON.stringify(row));
+ const keys=['physical','strike','slash','pierce','magic','fire','lightning','holy',
+   'immunity','robustness','focus','vitality'];
+ const raw=row.liveMetrics,base=row.baselineMetrics;
+ if(!raw||!base||keys.some(k=>!Number.isFinite(raw[k])||!Number.isFinite(base[k])))
+  throw Error('One or more of the 12 previously UNVERIFIED DLC armor metrics unreadable; no number accepted.');
+ const statsUnchanged=row.baselineFinalStats.every((x,i)=>x===row.equippedFinalStats[i]);
+ const baseNegZero=keys.slice(0,8).every(k=>base[k]===0);
+ if(!statsUnchanged||!baseNegZero)throw Error('Cannot isolate 12 armor fields because baseline stats or negations changed');
+ const isolated=Object.fromEntries(keys.map((k,i)=>[k,
+  i<8?raw[k]:Math.round((raw[k]-base[k])*1000)/1000]));
+ console.log('[GRAVEBIRD 12 FIELD DOUBLE-PROOF] '+JSON.stringify({
+  referenceVersion:'v1.17',pass:shard,name:row.siteName,slot,
+  baselineStats:row.baselineFinalStats,equippedStats:row.equippedFinalStats,
+  baseline:base,equipped:raw,isolated
+ }));
  console.log('[GRAVEBIRD DIRECT SITE PROOF] '+JSON.stringify({url:'https://www.tarnished.dev/build-planner',
    name:row.siteName,slot:row.slot,weight:row.weight,poise:row.poise,
    equippedFinalStats:row.equippedFinalStats,baselineFinalStats:row.baselineFinalStats}));
