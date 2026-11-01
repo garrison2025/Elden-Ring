@@ -10,7 +10,9 @@ const rows=[];const problems=[];
 const equal=(x,y)=>JSON.stringify(x)===JSON.stringify(y);
 const details=x=>({
   selectedNames:x.actualSelectedNames,observedSelection:x.observedSelection,
-  clicks:x.clicks.map(k=>({ok:k.ok,why:k.why??null,name:k.name,status:k.status??null})),
+  firstSelected:x.firstSelected,secondSnapshotMatchesFinal:x.secondSnapshotMatchesFinal,
+  clicks:x.clicks.map(k=>({ok:k.ok,why:k.why??null,name:k.name,status:k.status??null,
+   tokens:k.tokens??null})),
   actual:{stats:x.actual.stats,HP:x.actual.extras?.HP,FP:x.actual.extras?.FP,
    Stamina:x.actual.extras?.Stamina,load:x.actual.load,maxEquipLoad:x.actual.maxEquipLoad,
    negation:x.actual.negation,version:x.actual.version}
@@ -29,8 +31,9 @@ for(let shard=0;shard<4;shard++){
   if(!a||!b||a.index!==index||b.index!==index){
    problems.push('Missing or mis-indexed row '+index);continue;
   }
-  if(!a.valid||!b.valid)
-   problems.push('Incomplete source selection for '+index+' '+a.names.join(' + '));
+  if(!a.valid||!b.valid||!a.firstSelected||!b.firstSelected||
+     !a.secondSnapshotMatchesFinal||!b.secondSnapshotMatchesFinal)
+   problems.push('Incomplete or unproven first/second click selection for '+index+' '+a.names.join(' + '));
   if(!equal(a.names,b.names)||!equal(details(a),details(b)))
    problems.push('Independent browser mismatch for '+index+' '+a.names.join(' + '));
   rows.push({index,names:a.names,pass1:details(a),pass2:details(b),
