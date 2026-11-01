@@ -18,7 +18,7 @@ for(let index=0;index<3;index++){
    inputs:p.scenario,version:p.version,selected:p.identity?.selectedTokens?.map(v=>v.selected),
    stats:p.identity?.stats,selectedAllVisible:p.identity?.displayed,
    resultVisible:module==='spell'?
-     (p.revealed?.textTail||'').includes('Astrologer\'s Staff\\nGlintstone Pebble\\n1\\n'):
+     /Astrologer's Staff\s+Glintstone Pebble\s+1\s+0\s+\d+/.test(p.revealed?.textTail||''):
      (p.openTablePointer?.found===true&&p.openTablePointer?.hit?.trim()==='Show Table'),
    resultText:(p.revealed?.textTail||'').replace(/\s+/g,' ').trim()
   });
