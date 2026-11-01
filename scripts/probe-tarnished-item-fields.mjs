@@ -144,7 +144,7 @@ async function run(){
     // Catalysts may not show an attack AR at all, yet still have real weight.
     // Keep their weaker evidence independently labelled for manual review.
     const catalystActive=c.catalyst===true&&selected.includes('Scaling:')&&
-     selected.includes('Total AR :')&&actual>0;
+     /Sorcery[ ]*:[ ]*[0-9]+/.test(selected)&&actual>0;
     const active=c.name?(selected.includes(String.fromCharCode(10)+c.name+String.fromCharCode(10))&&
       selected.includes(String.fromCharCode(10)+affinity+String.fromCharCode(10))&&
       (numericAr||catalystActive)&&actual>0):
