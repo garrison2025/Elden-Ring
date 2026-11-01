@@ -13,6 +13,11 @@ export function auditDirectRequirements(fixture,catalog,source){
  if(!Array.isArray(fixture?.rows)||fixture.rows.length!==487||
  !Array.isArray(catalog?.weapons)||catalog.weapons.length!==487)
  throw new RangeError('Require full catalog plus 487 original browser observations');
+ for(const row of fixture.rows)if(row.observedRequirements!==null&&
+  (row.status!=='DIRECT_SITE_REQ_VERIFIED'||row.independentlyObservedTwice!==true||
+   !Array.isArray(row.observedRequirements)||row.observedRequirements.length!==5||
+   row.observedRequirements.some(n=>!Number.isInteger(n)||n<0||n>99)))
+  throw new RangeError('Malformed or non-repeatable public minimum requirement observation');
  const overlay=buildV117CatalogOverlay(catalog,source);
  const map=new Map(catalog.weapons.map(x=>[x.name,x]));
  const ids=new Set(),rows=[];
