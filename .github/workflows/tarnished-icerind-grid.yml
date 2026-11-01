@@ -1,0 +1,39 @@
+name: Direct public Icerind Hatchet v1.17 AR precision grid
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-tarnished-icerind-grid.mjs
+      - scripts/compare-tarnished-icerind-grid.mjs
+      - .github/workflows/tarnished-icerind-grid.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  precision-grid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Public browser observation first independent read
+        run: |
+          node scripts/probe-tarnished-icerind-grid.mjs
+          cp .audit/icerind-v117-direct-ui.json .audit/first.json
+      - name: Public browser observation second independent read
+        run: node scripts/probe-tarnished-icerind-grid.mjs
+      - name: Compare both actual site reads with unchanged pinned source math
+        run: node scripts/compare-tarnished-icerind-grid.mjs
+      - name: Archive immutable diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v117-icerind-precision-eight-two-reads
+          path: |
+            .audit/first.json
+            .audit/icerind-v117-direct-ui.json
+            .audit/icerind-v117-math-grid.json
+          retention-days: 30
+          if-no-files-found: warn

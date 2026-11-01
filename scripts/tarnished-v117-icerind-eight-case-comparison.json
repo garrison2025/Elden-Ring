@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "publicSite": "Tarnished.dev v1.17 rendered Build Planner",
+  "sourceRun": 41268333282,
+  "sourceJob": 124735725185,
+  "twoIndependentBrowserRuns": true,
+  "caseCount": 8,
+  "matched": 7,
+  "mismatched": 1,
+  "note": "Actual two-read AR site observations cross-checked against unchanged pinned-version local algorithm; does not certify game client or justify global epsilon.",
+  "rows": [
+    {
+      "id": "baseline-60-60",
+      "stats": [
+        60,
+        60,
+        30,
+        30,
+        30
+      ],
+      "publicAr": 184,
+      "localAr": 183,
+      "delta": -1,
+      "rawPhysical": 183.99999999999997,
+      "status": "DIRECT_UI_AND_LOCAL_MISMATCH"
+    },
+    {
+      "id": "dex59",
+      "stats": [
+        60,
+        59,
+        30,
+        30,
+        30
+      ],
+      "publicAr": 183,
+      "localAr": 183,
+      "delta": 0,
+      "rawPhysical": 183.61102656100084,
+      "status": "DIRECT_UI_AND_LOCAL_MATCH"
+    },
+    {
+      "id": "str59",
+      "stats": [
+        59,
+        60,
+        30,
+        30,
+        30
+      ],
+      "publicAr": 183,
+      "localAr": 183,
+      "delta": 0,
+      "rawPhysical": 183.87034218700026,
+      "status": "DIRECT_UI_AND_LOCAL_MATCH"
+    },
+    {
+      "id": "low-20-20",
+      "stats": [
+        20,
+        20,
+        10,
+        10,
+        10
+      ],
+      "publicAr": 140,
+      "localAr": 140,
+      "delta": 0,
+      "rawPhysical": 140.61589197600412,
+      "status": "DIRECT_UI_AND_LOCAL_MATCH"
+    },
+    {
+      "id": "mid-30-30",
+      "stats": [
+        30,
+        30,
+        10,
+        10,
+        10
+      ],
+      "publicAr": 153,
+      "localAr": 153,
+      "delta": 0,
+      "rawPhysical": 153.28120406940738,
+      "status": "DIRECT_UI_AND_LOCAL_MATCH"
+    },
+    {
+      "id": "mid-40-40",
+      "stats": [
+        40,
+        40,
+        10,
+        10,
+        10
+      ],
+      "publicAr": 165,
+      "localAr": 165,
+      "delta": 0,
+      "rawPhysical": 165.11597016080526,
+      "status": "DIRECT_UI_AND_LOCAL_MATCH"
+    },
+    {
+      "id": "high-99",
+      "stats": [
+        99,
+        99,
+        99,
+        99,
+        99
+      ],
+      "publicAr": 202,
+      "localAr": 202,
+      "delta": 0,
+      "rawPhysical": 202.7942857142857,
+      "status": "DIRECT_UI_AND_LOCAL_MATCH"
+    },
+    {
+      "id": "minimum-12-16",
+      "stats": [
+        12,
+        16,
+        10,
+        10,
+        10
+      ],
+      "publicAr": 133,
+      "localAr": 133,
+      "delta": 0,
+      "rawPhysical": 133.2546672791981,
+      "status": "DIRECT_UI_AND_LOCAL_MATCH"
+    }
+  ]
+}
