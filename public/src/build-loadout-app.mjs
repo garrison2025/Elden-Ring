@@ -9,6 +9,7 @@ import {loadPinnedArmorSource,findExactArmor} from './armor-source-optin.mjs';
 import {summarizeEquippedArmorMetrics} from './build-armor-metrics.mjs';
 import {previewDirectV117ArmorAttributeEffect} from './build-verified-armor-attribute-effect.mjs';
 import {previewV117SelectedBuildEffects} from './v117-selected-build-effects.mjs';
+import {exactV117RunePhysickSelectedAttributes} from './v117-rune-physick-selected-combo.mjs';
 import {observedV117TalismanPair} from './v117-selected-pair-preview.mjs';
 import {previewV117ExactTalismanCombination} from './v117-multi-talisman-reference.mjs';
 const byId=id=>document.getElementById(id);
@@ -183,6 +184,19 @@ function render(){
     make('p',{text:one.note},row);
    }
    make('p',{text:effectSelection.note},panel);
+  }
+  const runeTear=exactV117RunePhysickSelectedAttributes(topStats(),evaluated.state,{
+   origin:byId('origin')?.value??'unverified'
+  });
+  if(runeTear.status==='EXACT_SAME_INPUT_SELECTED_ONLY_SITE_MATCH'){
+   const panel=make('section',{className:'build-armor-metric-panel',
+    id:'build-v117-rune-physick-selected-combo'},result);
+   make('h3',{text:'Two-source selected Rune + Physick attributes · public v1.17'},panel);
+   make('p',{text:'Godrick\'s Great Rune + Intelligence-knot Crystal Tear · '+runeTear.status},panel);
+   make('p',{text:'Independently composed and twice-observed selected-item stats: '+
+    ['VIG','MND','END','STR','DEX','INT','FAI','ARC']
+     .map((key,i)=>key+' '+runeTear.final[i]).join(' · ')},panel);
+   make('p',{text:runeTear.warning},panel);
   }
   const directPair=observedV117TalismanPair(topStats(),evaluated.state,{
    origin:byId('origin')?.value??'unverified'
