@@ -1,0 +1,59 @@
+name: Double-read actual Tarnished v1.17 Academy staff spell damage
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/probe-tarnished-v117-academy-staff.mjs'
+      - 'scripts/compare-tarnished-v117-academy-staff.mjs'
+      - '.github/workflows/v117-academy-spell-live.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    strategy:
+      fail-fast: false
+      matrix:
+        pass: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Record new catalyst reference independently in browser
+        env:
+          TARNISHED_ACADEMY_PASS: ${{ matrix.pass }}
+        run: node scripts/probe-tarnished-v117-academy-staff.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v117-academy-observation-${{ matrix.pass }}
+          path: .audit/tarnished-spell-v117-academy-pass-${{ matrix.pass }}.json
+          retention-days: 30
+          if-no-files-found: warn
+  compare:
+    needs: [observe]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v117-academy-observation-*
+          path: .audit
+          merge-multiple: true
+      - name: Require two consistent site readings and independently compute
+        run: node scripts/compare-tarnished-v117-academy-staff.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: academy-staff-independent-parity
+          path: .audit/academy-staff-v117-independent-parity.json
+          retention-days: 30
+          if-no-files-found: warn
