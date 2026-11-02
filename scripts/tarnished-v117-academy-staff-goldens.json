@@ -1,0 +1,39 @@
+{
+  "site": "Tarnished.dev public v1.17",
+  "sourceWorkflowRun": 41367503995,
+  "independentBrowserPasses": 2,
+  "context": {
+    "origin": "Wretch",
+    "otherAttributes": 10,
+    "staff": "Academy Glintstone Staff",
+    "staffUpgrade": 25,
+    "spell": "Glintstone Pebble",
+    "enemyDefense": 0,
+    "enemyNegation": 0,
+    "otherEffects": false
+  },
+  "rows": [
+    {
+      "int": 40,
+      "magic": 319,
+      "modelMagic": 319
+    },
+    {
+      "int": 50,
+      "magic": 368,
+      "modelMagic": 368
+    },
+    {
+      "int": 60,
+      "magic": 416,
+      "modelMagic": 416
+    },
+    {
+      "int": 80,
+      "magic": 472,
+      "modelMagic": 472
+    }
+  ],
+  "status": "4_OF_4_INDEPENDENT_NUMERICAL_MATCHES_EXACT_CONTEXT_ONLY",
+  "limitations": "Does not certify other staff upgrades, other spells, other stats, nonzero enemy defenses, PvP, buffs, 1.17.3 game-client hits or all-game accuracy."
+}
