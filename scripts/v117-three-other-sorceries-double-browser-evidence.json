@@ -123,6 +123,11 @@
         1117
       ]
     ],
-    "remarks": "Site displays separate Charged Comet row, verifies spell projectile; not extra AoE impact or multi-target stacking"
+    "remarks": "Site displays separate Charged Comet row, verifies spell projectile; not extra AoE impact or multi-target stacking",
+    "run": 41373171565,
+    "browserJobIds": [
+      125047768221,
+      125047768105
+    ]
   }
 }
