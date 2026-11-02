@@ -48,7 +48,7 @@ export function weightedVerifiedArmorSubset(rows,activeKeys){
 export function optimizeWeightedArmor(rows,{
  maxEquipLoad,reservedWeight=0,tier='medium',minPoise=0,
  weights={},minimums={},maximums={},excludedIds=[],lockedIds={},disabledSlots=[],
- maxNodes=1500000
+ maxNodes=1500000,topK=1
 }={}){
  if(!Array.isArray(rows)||!rows.length||rows.length>2000)fail('Armor source rows must be 1–2000.');
  if(!weights||typeof weights!=='object'||Array.isArray(weights)||
@@ -87,6 +87,8 @@ export function optimizeWeightedArmor(rows,{
   fail('Malformed exact armor exclusions.');
  if(!Number.isInteger(maxNodes)||maxNodes<1||maxNodes>3000000)
   fail('Invalid exact-search node budget.');
+ if(!Number.isInteger(topK)||topK<1||topK>5)
+  fail('Exact weighted ranking supports 1–5 results only.');
  const cap=Math.ceil((max*(tier==='light'?.3:tier==='medium'?.7:1)-reserved)*1000-1e-9)-1;
  const seen=new Set(),excluded=new Set(excludedIds),valid=[];let missing=0;
  for(const x of rows){
@@ -124,21 +126,40 @@ export function optimizeWeightedArmor(rows,{
  }]));
  const stats={evaluatedNodes:0,algorithm:constraints.length?'exact-bounded-branch-and-bound':'exact-weight-dp'};
  let best=null;
+ // A discarded prefix at the SAME integer weight cannot enter the global
+ // top K under additive scores and identical future slot options. Retaining
+ // K paths per exact weight is therefore exact in the unbounded DP case.
+ const rankCompare=(a,b)=>{
+  if(Math.abs(a.score-b.score)>1e-10)return b.score-a.score;
+  if(a.weight!==b.weight)return a.weight-b.weight;
+  const x=sign(a.pieces),y=sign(b.pieces);
+  return x<y?-1:x>y?1:0;
+ };
+ const winners=[];
+ const offer=candidate=>{
+  if(winners.some(x=>sign(x.pieces)===sign(candidate.pieces)))return;
+  winners.push(candidate);winners.sort(rankCompare);
+  if(winners.length>topK)winners.length=topK;
+  best=winners[0];
+ };
  if(!constraints.length){
-  let dp=new Map([[0,{score:0,weight:0,pieces:[]}]]);
+  let dp=new Map([[0,[{score:0,weight:0,pieces:[]}]]]);
   for(const options of groups){
    const next=new Map();
-   for(const row of dp.values())for(const item of options){
+   for(const paths of dp.values())for(const row of paths)for(const item of options){
     const w=row.weight+wu(item?.weight??0);
     if(w>cap)continue;
     const candidate={weight:w,score:row.score+ps(item),pieces:[...row.pieces,item]};
-    if(better(candidate,next.get(w)))next.set(w,candidate);
+    const shortlist=next.get(w)??[];
+    shortlist.push(candidate);shortlist.sort(rankCompare);
+    if(shortlist.length>topK)shortlist.length=topK;
+    next.set(w,shortlist);
    }
-   if(next.size>maxNodes)fail('Exact weighted DP exceeded browser memory budget; no approximate result.');
+   if(next.size*topK>maxNodes)fail('Exact weighted DP exceeded browser memory budget; no approximate result.');
    dp=next;
   }
-  for(const row of dp.values())if(better(row,best))best=row;
-  stats.evaluatedNodes=dp.size;
+  for(const paths of dp.values())for(const row of paths)offer(row);
+  stats.evaluatedNodes=[...dp.values()].reduce((n,x)=>n+x.length,0);
  }else{
   const options=groups.map(xs=>xs.map(x=>({item:x,w:wu(x?.weight??0),score:ps(x)}))
    .sort((a,b)=>b.score-a.score||a.w-b.w||String(a.item?.id??'').localeCompare(String(b.item?.id??''))));
@@ -156,7 +177,10 @@ export function optimizeWeightedArmor(rows,{
   const visit=(i,used,score,pieces,values)=>{
    if(++stats.evaluatedNodes>maxNodes)
     fail('Exact multi-bound search exceeded '+maxNodes+' states; refine locked/excluded slots or constraints. No approximate result.');
-   if(used>cap||best&&score+tailScore[i]<best.score-1e-10)return;
+   // Prune by the WORST retained winner only when K distinct complete
+   // solutions already exist; pruning by top-one would lose ranks 2–5.
+   if(used>cap||winners.length===topK&&
+      score+tailScore[i]<winners[winners.length-1].score-1e-10)return;
    for(const key of constraints){
     const val=values[key]??0;
     if(val+maxTail[key][i]<converted[key].min-1e-10||
@@ -164,7 +188,7 @@ export function optimizeWeightedArmor(rows,{
    }
    if(i===4){
     const candidate={score,weight:used,pieces:[...pieces]};
-    if(better(candidate,best))best=candidate;
+    offer(candidate);
     return;
    }
    for(const o of options[i]){
@@ -179,6 +203,16 @@ export function optimizeWeightedArmor(rows,{
  }
  if(!best)return{status:'no-solution',reason:'No complete four-slot set meets ALL selected metric bounds and the strict roll cap.',
   combination:null,missingMetricExcluded:missing,activeMetrics:active,...stats};
+ const ranked=winners.map((row,index)=>({
+  rank:index+1,score:rounded(row.score),weight:row.weight/1000,
+  poise:row.pieces.every(p=>!p||Number.isInteger(p.poise))?
+   row.pieces.reduce((sum,p)=>sum+(p?.poise??0),0):null,
+  combination:row.pieces.map((piece,i)=>({
+   id:piece?.id??null,name:piece?.name??'Empty slot',
+   slot:ARMOR_RESTRICTABLE_SLOTS[i],weight:piece?.weight??0,
+   poise:Number.isInteger(piece?.poise)?piece.poise:piece?null:0
+  }))
+ }));
  const values={};
  for(const key of active){
   let total=0;
@@ -198,7 +232,8 @@ export function optimizeWeightedArmor(rows,{
   bounds,weights:parsedWeights,armorWeight,totalWeight,maxEquipLoad:max,
   rollTier:loadTier(totalWeight,max).tier,targetTier:tier,
   poise:items.every(x=>x.poise!==null)?items.reduce((s,x)=>s+x.poise,0):null,
-  combination:items,missingMetricExcluded:missing,
+  combination:items,ranked,referenceRankingVerified:false,
+  missingMetricExcluded:missing,
   explicitExcluded:excludedIds.length,evaluatedRows:rows.length,
   stages:[{slot:'Weighted',stateCount:stats.evaluatedNodes}],...stats,
   sourceVerified:false,
