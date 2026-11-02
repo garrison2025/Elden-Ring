@@ -204,7 +204,7 @@ $('damage-frame-calculate').addEventListener('click',()=>{
     // Never silently discard empty or malformed segments, and never coerce
     // blank values to zero. The engine validates count, range and finiteness.
     const parts=raw.split(',').map(x=>x.trim());
-    if(parts.some(x=>!/^\\d+(?:\\.\\d+)?$/.test(x)))
+    if(parts.some(x=>!/^\d+(?:\.\d+)?$/.test(x)))
      throw Error('Per-hit motion values must be comma-separated nonnegative numbers.');
     result.hitMotionValues=parts.map(Number);
    }
