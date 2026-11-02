@@ -175,7 +175,7 @@ async function main(){
   await sleep(400);
   const row=await run(function(intelligence){
    const text=document.body?.innerText||'';
-   const matches=[...text.matchAll(/\nAstrologer's Staff\nComet\n1\n0\n(\d+)\n0\n0\n0\n24\nSorcery\n52\n0\n0\nPrivacy Policy\b/g)];
+   const matches=[...text.matchAll(/\nAstrologer's Staff\nComet\n1\n0\n(\d+)\n0\n0\n0\nKarolos Spell\n24\n24\nSorcery\n52\n0\n0\nAstrologer's Staff\nCharged\nComet\b/g)];
    const selectedTokens=[...document.querySelectorAll('.p-multiselect-token')].map(n=>n.textContent.trim());
    const stats={int:document.getElementById('intelligence')?.value,
     finalInt:document.getElementById('finalintelligence')?.value,
