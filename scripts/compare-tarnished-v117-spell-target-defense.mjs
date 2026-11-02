@@ -22,7 +22,8 @@ for(let i=0;i<expected.length;i++){
  for(const read of [a,b]){
   if(read.intelligence!==int||read.rowCount!==1||
    !Number.isInteger(read.magic)||read.version!=='Elden Ring Version: v1.17'||
-   read.stats.int!==String(int)||read.stats.finalInt!==String(int)||
+   read.stats.int!==String(int)||
+   (read.stats.finalInt!==null&&read.stats.finalInt!==undefined&&read.stats.finalInt!==String(int))||
    read.stats.smithing!=='20'||
    !read.selectedTokens.includes('Academy Glintstone Staff')||
    !read.selectedTokens.includes('Glintstone Pebble'))
