@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-11-02",
+  "comparator": "Tarnished.dev public v1.17 UI, same effective inputs, two independent Chromium reads per accepted case",
+  "meaning": "Finite evidence-based scope; not all-game or all-calculator parity.",
+  "baseData": {
+    "weaponWeight": {
+      "total": 487,
+      "siteVerified": 487,
+      "unobservable": 0,
+      "status": "CLOSED_VERIFIED"
+    },
+    "weaponMinimumRequirement": {
+      "total": 487,
+      "siteVerified": 460,
+      "unobservable": 27,
+      "status": "CLOSED_UI_UNOBSERVABLE_REMAINDER"
+    },
+    "legacyArmorWeightPoise": {
+      "total": 568,
+      "siteVerified": 549,
+      "unobservable": 19,
+      "status": "CLOSED_UI_UNOBSERVABLE_REMAINDER"
+    },
+    "armorNeutralTwelveFields": {
+      "siteVerified": 515,
+      "legacyApproved": 514,
+      "extraDlcApproved": 1,
+      "fieldsPerItem": 12,
+      "status": "CLOSED_FOR_VERIFIED_ITEMS_ONLY"
+    },
+    "originalClasses": {
+      "total": 10,
+      "siteVerified": 10,
+      "status": "CLOSED_VERIFIED"
+    },
+    "nakedBaseVitals": {
+      "referenceCases": 360,
+      "status": "CLOSED_FOR_OBSERVED_INPUTS"
+    },
+    "exactGlintstonePebbleStaffScenes": {
+      "observed": 18,
+      "independentCalculatedMatches": 18,
+      "observedInt": [
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55,
+        60,
+        65,
+        70,
+        75,
+        80,
+        85,
+        90,
+        95,
+        98,
+        99
+      ],
+      "status": "CLOSED_FOR_IDENTICAL_INPUTS_ONLY"
+    },
+    "isolatedTalismanScenes": {
+      "items": 14,
+      "status": "CLOSED_FOR_IDENTICAL_INPUTS_ONLY"
+    },
+    "combinedTalismanScenes": {
+      "profiles": 5,
+      "status": "CLOSED_FOR_IDENTICAL_INPUTS_ONLY"
+    },
+    "damageUchigatanaAr": {
+      "profiles": 3,
+      "status": "CLOSED_FOR_IDENTICAL_INPUTS_ONLY"
+    }
+  },
+  "notComparableWithoutMoreImplementation": [
+    {
+      "module": "Armor Optimizer",
+      "status": "NOT_PARITY_CERTIFIED",
+      "blocker": "Full DLC candidate pool and exact reference 13-metric score, constraints and top-five tie/rank algorithm not established"
+    },
+    {
+      "module": "Damage Calculator",
+      "status": "NOT_PARITY_CERTIFIED",
+      "blocker": "Reference weapon moveset frames/motion values, enemy defenses/negations, NG+ and PvP hit/DPS pipeline missing"
+    },
+    {
+      "module": "Spell Calculator",
+      "status": "PARTIAL_ONLY",
+      "blocker": "Beyond the 18 verified Astrologer's Staff +25 / Glintstone Pebble naked Wretch contexts, other spells, catalysts, buffs and nonzero enemy defenses not independently site-verified"
+    },
+    {
+      "module": "Build Planner",
+      "status": "NOT_PARITY_CERTIFIED",
+      "blocker": "Arbitrary talisman/armor/Physick/Great Rune/active-buff interactions and conditional downstream effects not independently modeled or reference-tested"
+    }
+  ],
+  "stopRule": "Do not rerun completed 487/487 weights, 460/487 visible requirements, 549/568 legacy armor or 18 spell scenarios merely to raise counts. No numerical goldens for site-unobservable items. Remaining work is actual feature implementation and same-input acceptance, not rechecking baseline tables.",
+  "sources": [
+    "docs/TARNISHED_V117_FINAL_487_WEIGHT_EVIDENCE_20261101.md",
+    "docs/TARNISHED_V117_FINAL_487_REQUIREMENTS_EVIDENCE_20261101.md",
+    "docs/TARNISHED_V117_REMAINING_ONLY_FINAL_AUDIT_20261101.md",
+    "docs/TARNISHED_V117_FINAL_SCOPE_ACCEPTANCE_20261101.md",
+    "docs/TARNISHED_V117_SPELL_ONE_POINT_UNIFIED_ROUNDING_FIX_20261102.md",
+    "docs/FOUR_ENGINE_REAL_SITE_ACCEPTANCE_20261102.md"
+  ]
+}
