@@ -14,6 +14,10 @@
     "cometUncharged": [
       125047311417,
       125047311361
+    ],
+    "cometCharged": [
+      125047768221,
+      125047768105
     ]
   },
   "sourceCoefficientUrls": {
@@ -98,6 +102,27 @@
       ]
     }
   ],
-  "chargedCometPending": true,
-  "scope": "These are reference readouts, not comprehensive game-client actual damage. The independent catalyst source must separately recompute every case without fitting per-INT numeric outputs."
+  "chargedCometPending": false,
+  "scope": "These are reference readouts, not comprehensive game-client actual damage. The independent catalyst source must separately recompute every case without fitting per-INT numeric outputs.",
+  "chargedComet": {
+    "spell": "Comet",
+    "charged": true,
+    "coefficient": 365,
+    "fp": 24,
+    "intRequirement": 52,
+    "source": "https://eldenring.wiki.gg/wiki/Comet",
+    "rows": [
+      [
+        60,
+        986,
+        986
+      ],
+      [
+        80,
+        1117,
+        1117
+      ]
+    ],
+    "remarks": "Site displays separate Charged Comet row, verifies spell projectile; not extra AoE impact or multi-target stacking"
+  }
 }
