@@ -9,7 +9,7 @@ import {loadPinnedArmorSource,findExactArmor} from './armor-source-optin.mjs';
 import {summarizeEquippedArmorMetrics} from './build-armor-metrics.mjs';
 import {previewDirectV117ArmorAttributeEffect} from './build-verified-armor-attribute-effect.mjs';
 import {previewV117SelectedBuildEffects} from './v117-selected-build-effects.mjs';
-import {exactV117RunePhysickSelectedAttributes} from './v117-rune-physick-selected-combo.mjs';
+import {exactV117RunePhysickSelectedAttributes,previewSelectedRunePhysickArithmetic} from './v117-rune-physick-selected-combo.mjs';
 import {observedV117TalismanPair} from './v117-selected-pair-preview.mjs';
 import {previewV117ExactTalismanCombination} from './v117-multi-talisman-reference.mjs';
 const byId=id=>document.getElementById(id);
@@ -197,6 +197,17 @@ function render(){
     ['VIG','MND','END','STR','DEX','INT','FAI','ARC']
      .map((key,i)=>key+' '+runeTear.final[i]).join(' · ')},panel);
    make('p',{text:runeTear.warning},panel);
+  }
+  const independentRuneTear=previewSelectedRunePhysickArithmetic(topStats(),evaluated.state,{
+   origin:byId('origin')?.value??'unverified'
+  });
+  if(independentRuneTear.status==='SELECTED_ATTRIBUTE_ARITHMETIC_ONLY'){
+   const panel=make('section',{className:'build-armor-metric-panel',
+    id:'build-rune-physick-arithmetic-preview'},result);
+   make('h3',{text:'Independent selected Rune + Physick attribute arithmetic (not site-certified)'},panel);
+   make('p',{text:['VIG','MND','END','STR','DEX','INT','FAI','ARC']
+    .map((key,i)=>key+' '+topStats()[i]+' → '+independentRuneTear.final[i]).join(' · ')},panel);
+   make('p',{text:independentRuneTear.warning},panel);
   }
   const directPair=observedV117TalismanPair(topStats(),evaluated.state,{
    origin:byId('origin')?.value??'unverified'
