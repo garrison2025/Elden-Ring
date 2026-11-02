@@ -1367,8 +1367,9 @@ try{
  await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='25';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
  await waitFor("document.querySelector('#spell-math-damage').textContent==='242'",
   'Real Tarnished v1.17 spell magic at INT25 must be independently calculated to site 242 boundary');
- assert.equal(await evaluate("document.querySelector('#spell-math-raw').textContent"),'243',
-  'INT25 one-point source arithmetic boundary remains disclosed, not globally hidden');
+ assert.equal(await evaluate("document.querySelector('#spell-math-raw').textContent"),'242',
+  'INT25 must independently equal actual source magic without an override');
+ assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/INDEPENDENT_MODEL_MATCHES_TARNISHED_V117_SCENE/);
  await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='30';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
  await waitFor("document.querySelector('#spell-math-damage').textContent==='267'",
   'Pinned catalyst math Glintstone Pebble INT30 equals actual Tarnished v1.17 267');
@@ -1376,14 +1377,20 @@ try{
  await waitFor("document.querySelector('#spell-math-damage').textContent==='315'",
   'Pinned catalyst math Glintstone Pebble INT40 equals actual Tarnished v1.17 315');
  await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='50';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
- assert.equal(await evaluate("document.querySelector('#spell-math-damage').textContent"),'362');
- assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/public site two-pass damage 363/,
-  'Actual INT50 Tarnished.dev magic 363 must remain visibly different from source model 362');
- assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/SOURCE_MODEL_NUMERIC_MISMATCH/,
-  'INT50 genuine one-point discrepancy cannot be hidden by a site-specific fake adjustment');
+ await waitFor("document.querySelector('#spell-math-damage').textContent==='363'",
+  'Corrected INT50 must equal two-browser Tarnished.dev 363');
+ assert.equal(await evaluate("document.querySelector('#spell-math-raw').textContent"),'363');
+ assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/INDEPENDENT_MODEL_MATCHES_TARNISHED_V117_SCENE/);
  await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='60';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
  await waitFor("document.querySelector('#spell-math-damage').textContent==='410'",
   'Independent source staff model matches twice-observed Tarnished.dev INT60 magic 410');
+ for(const [intValue,magicValue] of [[35,290],[98,499]]){
+  await evaluate("((v)=>{const e=document.querySelector('#spell-int');e.value=String(v);e.dispatchEvent(new Event('input',{bubbles:true}))})("+intValue+")");
+  await waitFor("document.querySelector('#spell-math-damage').textContent==='"+magicValue+"'",
+   'Previously mismatching site magic is independently correct at INT '+intValue);
+  assert.equal(await evaluate("document.querySelector('#spell-math-raw').textContent"),String(magicValue));
+  assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/INDEPENDENT_MODEL_MATCHES_TARNISHED_V117_SCENE/);
+ }
  await evaluate("(()=>{const e=document.querySelector('#spell-int');e.value='51';e.dispatchEvent(new Event('input',{bubbles:true}))})()");
  assert.match(await evaluate("document.querySelector('#spell-math-status').textContent"),/No same-input Tarnished.dev benchmark/,
   'Unobserved INT51 calculated from source cannot be called actual real-site verified');
