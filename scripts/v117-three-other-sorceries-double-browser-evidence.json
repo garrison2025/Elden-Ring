@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "comparator": "Tarnished.dev actual public v1.17 rendered UI; two independent headless Chromium processes for each scenario",
+  "run": 41373017465,
+  "jobs": {
+    "swift": [
+      125046551137,
+      125046551215
+    ],
+    "arc": [
+      125046551154,
+      125046551312
+    ],
+    "cometUncharged": [
+      125047311417,
+      125047311361
+    ]
+  },
+  "sourceCoefficientUrls": {
+    "Swift Glintstone Shard": "https://eldenring.wiki.gg/wiki/Swift_Glintstone_Shard",
+    "Glintstone Arc": "https://eldenring.wiki.gg/wiki/Glintstone_Arc",
+    "Comet": "https://eldenring.wiki.gg/wiki/Comet"
+  },
+  "condition": {
+    "origin": "Wretch",
+    "allOtherStats": 10,
+    "staff": "Astrologer's Staff",
+    "normalReinforcement": 25,
+    "somber": 10,
+    "enemyDefense": 0,
+    "enemyNegation": 0,
+    "noBuffs": true
+  },
+  "entries": [
+    {
+      "spell": "Swift Glintstone Shard",
+      "coefficient": 114,
+      "fp": 5,
+      "intRequirement": 12,
+      "rows": [
+        [
+          40,
+          236,
+          236
+        ],
+        [
+          60,
+          308,
+          308
+        ],
+        [
+          80,
+          349,
+          349
+        ]
+      ]
+    },
+    {
+      "spell": "Glintstone Arc",
+      "coefficient": 148,
+      "fp": 9,
+      "intRequirement": 13,
+      "rows": [
+        [
+          40,
+          306,
+          306
+        ],
+        [
+          60,
+          400,
+          400
+        ],
+        [
+          80,
+          453,
+          453
+        ]
+      ]
+    },
+    {
+      "spell": "Comet",
+      "coefficient": 292,
+      "fp": 24,
+      "intRequirement": 52,
+      "charged": false,
+      "rows": [
+        [
+          60,
+          788,
+          788
+        ],
+        [
+          80,
+          894,
+          894
+        ]
+      ]
+    }
+  ],
+  "chargedCometPending": true,
+  "scope": "These are reference readouts, not comprehensive game-client actual damage. The independent catalyst source must separately recompute every case without fitting per-INT numeric outputs."
+}
