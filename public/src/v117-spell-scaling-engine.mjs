@@ -13,6 +13,26 @@
 import {defenseMultiplier} from './damage-reference-model.mjs';
 import {V117_PEBBLE_STAFF_ROWS,V117_PEBBLE_ACADEMY_STAFF_ROWS,V117_PEBBLE_ACADEMY_PLUS20_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
 export const PEBBLE_BASE_MAGIC=152;
+/** Simple, uncharged, one-hit pure-magic spell coefficients from separate public
+ * individual spell references. Not multi-hit, school boosts or actual 1.17.3 game goldens.
+ * https://eldenring.wiki.gg/wiki/Great_Glintstone_Shard
+ * https://eldenring.wiki.gg/wiki/Glintstone_Arc
+ * https://eldenring.wiki.gg/wiki/Swift_Glintstone_Shard
+ * https://eldenring.wiki.gg/wiki/Comet
+ */
+export const V117_SIMPLE_SORCERIES=Object.freeze({
+ 'Glintstone Pebble':Object.freeze({magic:152,fp:7,intRequirement:10}),
+ 'Great Glintstone Shard':Object.freeze({magic:211,fp:12,intRequirement:16}),
+ 'Swift Glintstone Shard':Object.freeze({magic:114,fp:5,intRequirement:12}),
+ 'Glintstone Arc':Object.freeze({magic:148,fp:9,intRequirement:13}),
+ 'Comet':Object.freeze({magic:292,fp:24,intRequirement:52})
+});
+export const V117_GREAT_SHARD_DIRECT=Object.freeze([
+ Object.freeze({int:40,magic:437,fp:12,intRequirement:16}),
+ Object.freeze({int:60,magic:570,fp:12,intRequirement:16}),
+ Object.freeze({int:80,magic:646,fp:12,intRequirement:16})
+]);
+
 const fail=s=>{throw new RangeError(s)};
 const rec=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const mapPairs=(x,label)=>{
@@ -42,6 +62,7 @@ function curve(stages,stat){
 }
 export function calculatePinnedV117PebbleMagic(root,{
  staff="Astrologer's Staff",intelligence,reinforcement=25,
+ spell='Glintstone Pebble',
  strength=10,defense=0,negation=0
 }={}){
  if(!rec(root)||!Array.isArray(root.weapons)||!rec(root.reinforceTypes)||
@@ -56,6 +77,10 @@ export function calculatePinnedV117PebbleMagic(root,{
   !Number.isFinite(negation)||negation< -100||negation>100)
   fail('Invalid target defense or negation.');
  if(typeof staff!=='string'||staff.length>120||!staff.trim())fail('Choose an exact catalyst name.');
+ const spellParam=Object.hasOwn(V117_SIMPLE_SORCERIES,spell)?V117_SIMPLE_SORCERIES[spell]:null;
+ if(!spellParam)fail('Spell is not a supported uncharged single-hit pure-magic coefficient.');
+ if(intelligence<spellParam.intRequirement)return {status:'UNSUPPORTED_SPELL_REQUIREMENTS',damage:null,
+  warning:spell+' requires INT '+spellParam.intRequirement+'. No damage certified with unmet spell requirements.'};
  const selected=root.weapons.filter(x=>x.name===staff&&x.sorceryTool===true);
  if(selected.length!==1)fail('Catalyst is missing, not unique, or is not a sorcery tool.');
  const item=selected[0],req=item.requirements;
@@ -85,11 +110,12 @@ export function calculatePinnedV117PebbleMagic(root,{
  // Do not use floor(152*scalar*.9): that caused 1-point differences.
  const catalystScalingRaw=100*scalar;
  const catalystScalingTruncated=Math.trunc(catalystScalingRaw);
- const rawMagic=catalystScalingTruncated*(PEBBLE_BASE_MAGIC/100);
+ const rawMagic=catalystScalingTruncated*(spellParam.magic/100);
  const beforeNegation=rawMagic*defenseMultiplier(rawMagic,defense);
  const calculated=Math.round(beforeNegation*(1-negation/100));
  const total=calculated;
- const verifiedStaffScenes=staff==="Astrologer's Staff"&&reinforcement===25?
+ const verifiedStaffScenes=spell==='Great Glintstone Shard'&&staff==="Astrologer's Staff"&&reinforcement===25?V117_GREAT_SHARD_DIRECT:
+  spell!=='Glintstone Pebble'?null:staff==="Astrologer's Staff"&&reinforcement===25?
   V117_PEBBLE_STAFF_ROWS:staff==='Academy Glintstone Staff'&&reinforcement===25?
   V117_PEBBLE_ACADEMY_STAFF_ROWS:staff==='Academy Glintstone Staff'&&reinforcement===20?
   V117_PEBBLE_ACADEMY_PLUS20_ROWS:null;
@@ -104,13 +130,16 @@ export function calculatePinnedV117PebbleMagic(root,{
  return {
   status:referenceCompared?.exactMatch?'INDEPENDENT_MODEL_MATCHES_TARNISHED_V117_SCENE':
    referenceCompared?'SOURCE_MODEL_NUMERIC_MISMATCH':'INDEPENDENT_SOURCE_MODEL_UNVERIFIED_AT_SITE',
-  spell:'Glintstone Pebble',staff,intelligence,reinforcement,strength,
-  spellBaseMagic:PEBBLE_BASE_MAGIC,catalystScalar:scalar,
+  spell,staff,intelligence,reinforcement,strength,
+  spellBaseMagic:spellParam.magic,catalystScalar:scalar,
   magicBeforeDefense:rawMagic,defense,negation,
   catalystScalingRaw,catalystScalingTruncated,
   sourceMathDamage:calculated,damage:total,
   appliedExactSiteBoundary:false,referenceCompared,
-  provenance:'Pinned public v1.17 catalyst graph and 152 magic spell coefficient; source downloaded on user action; not bundled.',
-  warning:'Only 18 Astrologer\'s Staff +25, 4 Academy Glintstone Staff +25, and 2 Academy Glintstone Staff +20 exact Glintstone Pebble cases have same-input public v1.17 reference checks at Wretch, other stats 10, zero enemy defense/negation and no buffs. Tarnished.dev Spell Calculator itself has no nonzero-target defense control; other target computations are UNVERIFIED estimates, not site parity.'
+  provenance:'Pinned public v1.17 catalyst graph and independently attributed spell attack parameter; source downloaded on user action; not bundled.',
+  warning:'Two-browser reference comparisons: 24 Glintstone Pebble scenes and three Great Glintstone Shard +25 Astrologer scenes, Wretch other stats 10 and zero defense/negation. The other coefficients are community-sourced estimates, NOT site parity. Does not cover charged Comet, multiple projectiles, school buffs, hybrid catalysts, seals or nonzero enemy defenses.'
  };
 }
+
+/** Explicit name for parameterized function; legacy Pebble entrypoint remains compatible. */
+export const calculatePinnedV117SimpleSorceryMagic=calculatePinnedV117PebbleMagic;
