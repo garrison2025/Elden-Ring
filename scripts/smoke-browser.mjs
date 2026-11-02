@@ -1050,7 +1050,20 @@ try{
    'Default Poise-weighted mode must derive actual 71 Poise under the currently set 75/18 medium-roll scenario');
   assert.ok(weighted.details.includes('poise 71')&&weighted.details.includes('NOT Tarnished.dev scoring parity'));
   assert.equal(weighted.rows,4);
-  console.log('[REAL WEIGHTED ARMOR] 13 input rows, 39 controls, Worker exact Poise score 71, site evidence gating.');
+  await waitFor("document.querySelectorAll('#armor-local-top-five-rows tr').length===5&&document.querySelector('#armor-local-top-five').hidden===false",
+   'Weighted armor Worker must show five actual ranked sets, not only rank one');
+  const weightedRanked=await evaluate("([...document.querySelectorAll('#armor-local-top-five-rows tr')].map(tr=>({rank:Number(tr.cells[0].textContent),score:Number(tr.cells[1].textContent),weight:Number(tr.cells[2].textContent),pieces:tr.cells[3].textContent})))");
+  assert.equal(weightedRanked.length,5);
+  assert.equal(weightedRanked[0].score,71);
+  assert.deepEqual(weightedRanked.map(row=>row.rank),[1,2,3,4,5]);
+  assert.equal(new Set(weightedRanked.map(row=>row.pieces)).size,5,
+   'All five weighted armor solutions must contain unique equipment sets');
+  assert.ok(weightedRanked.every((row,i)=>i===0||
+   weightedRanked[i-1].score>=row.score-1e-10),
+   'Five weighted armor alternatives must be ordered by independent descending score');
+  assert.equal(await evaluate("document.querySelector('#armor-local-top-five thead th:nth-child(2)').textContent"),
+   'Weighted score','The UI must not mislabel weighted scores as Poise');
+  console.log('[REAL WEIGHTED ARMOR] PASS: 13 metrics, exact rank-one score 71, five distinct sorted local sets, no source parity claim.');
   await navigate('/weapon-database/?weapon=v117-roster-001');
   await waitFor("document.querySelector('#catalog-title')?.textContent==='Albinauric Shield'",
    'Source-only Albinauric Shield selected in the real catalog');
