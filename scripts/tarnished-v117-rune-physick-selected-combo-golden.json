@@ -1,0 +1,45 @@
+{
+  "reference": "Tarnished.dev public v1.17 actual Build Calculator selected-item UI",
+  "run": 41368151680,
+  "independentBrowserReads": 2,
+  "base": {
+    "origin": "Wretch",
+    "attributes": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "noOtherEquipment": true
+  },
+  "rune": "Godrick's Great Rune",
+  "tear": "Intelligence-knot Crystal Tear",
+  "runeActivationCheckbox": false,
+  "physickActivationCheckbox": false,
+  "observed": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    25,
+    15,
+    15
+  ],
+  "independentIsolatedDeltaSum": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    15,
+    5,
+    5
+  ],
+  "status": "EXACT_SELECTED_ONLY_SITE_MATCH_NOT_GAME_ACTIVATION",
+  "limit": "Reference visibly displays bonuses with both Activate checkboxes OFF; not evidence of active rune/physick in-game or arbitrary stacks."
+}
