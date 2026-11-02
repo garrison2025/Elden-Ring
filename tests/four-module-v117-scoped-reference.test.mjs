@@ -62,7 +62,7 @@ test('site Poise-only reference has observed rank order and conservative tie sta
 test('new spell page remains noindex and clearly labels source observations',()=>{
  const html=readFileSync(new URL('../public/spell-calculator/index.html',import.meta.url),'utf8');
  assert.match(html,/noindex,follow/);
- assert.match(html,/not<\/strong> a standalone catalyst-scaling engine/i);
+ assert.match(html,/separate calculator below independently computes/i);
  assert.match(html,/spell-reference-app\.mjs/);
  const damage=readFileSync(new URL('../public/damage-calculator/index.html',import.meta.url),'utf8');
  assert.match(damage,/damage-v117-scene/);
