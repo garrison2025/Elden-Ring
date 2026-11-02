@@ -29,4 +29,5 @@ for(const [caseId,intelligence] of [[5,20],[6,35],[7,45],[8,55]]){
 await mkdir(resolve('.audit'),{recursive:true});
 await writeFile(resolve('.audit/v117-pebble-four-new-curve-observations.json'),JSON.stringify(data,null,2)+'\n');
 console.log('[NEW ACTUAL SOURCE CURVE CHALLENGE] '+JSON.stringify(data));
-console.log('[ACCURACY] A successful run certifies only that all real-site numbers were read twice. Differences in discrepancy MUST remain explicitly recorded.');
+if(data.some(x=>x.discrepancy!==0||x.modelStatus!=='INDEPENDENT_MODEL_MATCHES_TARNISHED_V117_SCENE')) throw Error('One or more actual-source-v1.17 Spell curves still mismatch the independent corrected algorithm.');
+console.log('[ACCURACY] All four new real-source twice-read Spell inputs independently match with consistent truncation/rounding stages.');
