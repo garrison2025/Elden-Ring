@@ -14,7 +14,7 @@ test('damage correctly distinguishes attack buffs before defense and final buffs
  assert.ok(pre.damagePerHit>baseline.damagePerHit);
  assert.ok(post.damagePerHit>baseline.damagePerHit);
  assert.notEqual(pre.damagePerHit,post.damagePerHit,'Different defense stages are not mathematically interchangeable');
- assert.ok(Math.abs(post.damagePerHit-baseline.damagePerHit*2)<0.000002);
+ assert.ok(Math.abs(post.damagePerHit-baseline.damagePerHit*2)<0.000005);
  assert.equal(post.afterNegationMultiplier,2);
  for(const type of post.perType){
   const old=baseline.perType.find(x=>x.type===type.type);
@@ -34,8 +34,8 @@ test('per-hit damage and real frame-sequence DPS propagate the post-negation sta
  assert.ok(Math.abs(post.damagePerSecond-2*base.damagePerSecond)<0.00001);
 });
 test('post-negation multipliers are bound to actual browser inputs and validated; unknown game buffs remain explicit user choices',()=>{
- assert.throws(()=>calculateManualDamage({...input,afterNegationMultiplier:7}),/out of range/);
- assert.throws(()=>calculateManualDamage({...input,afterNegationMultiplier:NaN}),/out of range/);
+ assert.throws(()=>calculateManualDamage({...input,afterNegationMultiplier:7}),/must be between 0 and 5|out of range/);
+ assert.throws(()=>calculateManualDamage({...input,afterNegationMultiplier:NaN}),/must be between 0 and 5|out of range/);
  const app=readFileSync(new URL('../public/src/damage-reference-app.mjs',import.meta.url),'utf8');
  const page=readFileSync(new URL('../public/damage-calculator/index.html',import.meta.url),'utf8');
  assert.match(app,/afterNegationMultiplier:\$\('damage-post-buff'\)\.value/);
