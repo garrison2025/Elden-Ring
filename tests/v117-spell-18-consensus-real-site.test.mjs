@@ -20,7 +20,7 @@ test('18 real Tarnished sorcery outputs preserve two separate evidence sets and 
   assert.equal(exactPublicPebbleSpell({int:r.int}).reference?.magic,r.siteMagic);
  }
 });
-test('14/18 independent mathematical matches and exactly four disclosed off-by-one mismatches',()=>{
+test('historical PRE-FIX model had 14-of-18 matches and four one-point gaps, retained as immutable evidence',()=>{
  assert.equal(source.summary.independentExact,14);
  assert.deepEqual(source.summary.onePointDisagreements,[
   {int:25,site:242,model:243},
@@ -31,12 +31,11 @@ test('14/18 independent mathematical matches and exactly four disclosed off-by-o
  for(const int of [10,19,21,26,31,36,51,56,61,81,96,97])
   assert.equal(exactPublicPebbleSpell({int}).status,'NOT_OBSERVED');
 });
-test('new reference UI exposes 18 exact samples without claiming a universal rounded formula',()=>{
+test('current reference UI describes 18 real source inputs and general verified staged spell rounding',()=>{
  const html=readFileSync(new URL('../public/spell-calculator/index.html',import.meta.url),'utf8');
  assert.match(html,/Compare 18 exact sorcery scenarios/);
- assert.match(html,/INT25/);
- assert.match(html,/INT35/);
- assert.match(html,/INT50/);
- assert.match(html,/INT98/);
+ assert.match(html,/integer-truncated catalyst scaling value and final rounding/);
+ assert.match(html,/with no per-INT patches/);
+ assert.doesNotMatch(html,/remain genuine 1-point independent-model mismatches/);
  assert.match(html,/noindex,follow/);
 });
