@@ -204,7 +204,9 @@ async function main(){
  const actualSelectionOnly=selection.ok&&delta.length===8&&delta.every((n,i)=>n===expected[i]);
  const neverOtherGear=observed.load===(KIND==='talisman'?0.8:0)&&observed.poise===0&&
   Object.values(observed.slots).every(x=>String(x).startsWith('Select equipped'));
- const otherToggles=observed.rune===true&&observed.physick===true;
+ // The public site exposes stat changes even with both Activate checkboxes OFF.
+ // Certify only the observable *selection* state; never misreport game activation.
+ const otherToggles=observed.rune===false&&observed.physick===false;
  const proof={site:'Tarnished.dev public v1.17',kind:KIND,choice:"Godrick's Great Rune + Intelligence-knot Crystal Tear",
   baseline:baseline.finalStats,after:observed.finalStats,
   change:delta,selection,baselineHP:baseline.controls,
@@ -212,8 +214,9 @@ async function main(){
   runeActivated:observed.rune,physickActivated:observed.physick,
   fullBaseMetricReadouts:observed.metrics,
   actualSelectionOnly,expectedDelta:expected,valid:Boolean(actualSelectionOnly&&neverOtherGear&&otherToggles),
-  WARNING:!otherToggles?
-   'At least one activation checkbox not ON; no active combination parity can be certified.':null};
+  WARNING:otherToggles?
+   'Both Activate checkboxes remained OFF although final attributes changed. This verifies source UI selected-item output ONLY, not active Great Rune or Physick mechanics.':
+   'Reference activation UI did not match prior observed selected-only state; fail closed.'};
  await mkdir(resolve('.audit'),{recursive:true});
  await writeFile(resolve('.audit/v117-build-effect-'+KIND+'-pass-'+PASS+'.json'),JSON.stringify(proof,null,2)+'\n');
  console.log('[V117 ACTUAL EFFECT SINGLE] '+JSON.stringify({...proof,pass:PASS}));
