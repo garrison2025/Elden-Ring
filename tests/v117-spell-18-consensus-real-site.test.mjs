@@ -31,12 +31,10 @@ test('14/18 independent mathematical matches and exactly four disclosed off-by-o
  for(const int of [10,19,21,26,31,36,51,56,61,81,96,97])
   assert.equal(exactPublicPebbleSpell({int}).status,'NOT_OBSERVED');
 });
-test('new reference UI exposes 18 exact samples without claiming a universal rounded formula',()=>{
+test('all 18 observed reference inputs and corrected independent stage-accurate formula are disclosed',()=>{
  const html=readFileSync(new URL('../public/spell-calculator/index.html',import.meta.url),'utf8');
  assert.match(html,/Compare 18 exact sorcery scenarios/);
- assert.match(html,/INT25/);
- assert.match(html,/INT35/);
- assert.match(html,/INT50/);
- assert.match(html,/INT98/);
+ assert.match(html,/independent algorithm below matches all 18/i);
+ assert.match(html,/no per-INT patches/i);
  assert.match(html,/noindex,follow/);
 });
