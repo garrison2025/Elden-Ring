@@ -114,7 +114,7 @@ async function openAndSelect(id,exactName){
 async function main(){
  const pass=Number(process.env.TARNISHED_DEFENSE_PASS);
  if(![1,2].includes(pass))throw Error('TARNISHED_DEFENSE_PASS must be 1 or 2');
- const intelligenceValues=[40];
+ const intelligenceValues=[40,60];
  profile=await mkdtemp(join(tmpdir(),'tarnished-spell-defense-v117-'));
  chrome=spawn(chromePath,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
  '--disable-extensions','--no-first-run','--disable-background-networking',
@@ -150,7 +150,7 @@ async function main(){
  await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
  await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
  await sleep(300);
- const staff=await openAndSelect('select-weapons',"Astrologer's Staff");
+ const staff=await openAndSelect('select-weapons',"Academy Glintstone Staff");
  if(!staff.selected?.clicked)throw Error('Could not genuinely select Astrologers Staff');
  await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
  await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
@@ -168,19 +168,19 @@ async function main(){
  if(!show.found||show.disabled||show.hit?.trim()!=='Show Table'||!await clickRect(show))
   throw Error('Actual public Spell Show Table button did not open '+JSON.stringify(show));
  await sleep(1200);
- // Discovery only: inspect all actual public enemy-defense and negation controls.
- // We will not infer their ids, their meanings, or any numerical parity.
- const discovery=await run(function(){
-  const els=[...document.querySelectorAll('input,select')].map(e=>({
-   tag:e.tagName,id:e.id,name:e.name,type:e.type,value:e.value,readOnly:e.readOnly,
-   placeholder:e.placeholder,min:e.min,max:e.max,
-   parent:e.parentElement?.parentElement?.innerText.slice(0,120),
-   html:e.outerHTML.slice(0,400)
-  }));
-  const controls=[...document.querySelectorAll('label')].map(e=>({text:e.innerText.slice(0,140),for:e.htmlFor})).filter(x=>/enemy|defen|negat|magic|scal/i.test(x.text));
-  return{els,controls,version:(document.body.innerText.match(/Elden Ring Version:[^\\n]*/)||[])[0],tail:document.body.innerText.slice(-3500)};
+ // Public reference currently only supports its stated ZERO enemy defenses/resistances.
+ // A nonexistent enemy-control input must not be guessed or fabricated.
+ const referenceDisclaimer=await run(function(){
+  const body=document.body.innerText;
+  const quote='This calculates based on an enemy with zero defences and resistances';
+  return{statedZeroTarget:body.includes(quote),
+   hasEnemyDefenseInput:[...document.querySelectorAll('input')].some(e=>/enemy.*defen|magic.*defen|enemy.*negat/i.test(e.id+' '+e.name+' '+e.placeholder))};
  });
- console.log('[NEW SPELL TARGET INPUT DISCOVERY]',JSON.stringify(discovery));
+ if(!referenceDisclaimer.statedZeroTarget||referenceDisclaimer.hasEnemyDefenseInput)
+  throw Error('Public target-scope changed; inspect before accepting another comparison');
+ const upgraded=await keyboard('smithinglevel',20);
+ if(upgraded!=='20')throw Error('Did not set public +20 smithing input');
+ console.log('[ZERO-TARGET REFERENCE LIMIT VERIFIED]',JSON.stringify(referenceDisclaimer));
  const rows=[];
  for(const intelligence of intelligenceValues){
   const raw=await keyboard('intelligence',intelligence);
@@ -188,7 +188,7 @@ async function main(){
   await sleep(400);
   const row=await run(function(intelligence){
    const text=document.body?.innerText||'';
-   const matches=[...text.matchAll(/\nAstrologer's Staff\nGlintstone Pebble\n1\n0\n(\d+)\n0\n0\n0\n7\nSorcery\n10\n0\n0\nPrivacy Policy\b/g)];
+   const matches=[...text.matchAll(/\nAcademy Glintstone Staff\nGlintstone Pebble\n1\n0\n(\d+)\n0\n0\n0\n7\nSorcery\n10\n0\n0\nPrivacy Policy\b/g)];
    const selectedTokens=[...document.querySelectorAll('.p-multiselect-token')].map(n=>n.textContent.trim());
    const stats={int:document.getElementById('intelligence')?.value,
     finalInt:document.getElementById('finalintelligence')?.value,
@@ -204,14 +204,15 @@ async function main(){
    Number(row.stats.int)!==intelligence||
    row.stats.finalInt!==null&&row.stats.finalInt!==undefined&&
     Number(row.stats.finalInt)!==intelligence||
-   !row.selectedTokens.includes("Astrologer's Staff")||
+   row.stats.smithing!=='20'||
+   !row.selectedTokens.includes("Academy Glintstone Staff")||
    !row.selectedTokens.includes('Glintstone Pebble'))
    throw Error('Fail closed on missing effective source inputs '+JSON.stringify({...row,debugTail:await run(function(){return document.body.innerText.slice(-1600)})}));
   rows.push(row);
   console.log('[REAL TARNISHED SPELL SWEEP ROW]',JSON.stringify({pass,...row}));
  }
  await mkdir(resolve('.audit'),{recursive:true});
- const file=resolve('.audit/tarnished-spell-v117-defensive-controls-pass-'+pass+'.json');
+ const file=resolve('.audit/tarnished-spell-v117-academy-plus20-pass-'+pass+'.json');
  await writeFile(file,JSON.stringify({
   source:'Tarnished.dev public v1.17',pass,scenario:'Wretch original stats 10 except INT; selected Astrologers Staff +25 and Glintstone Pebble; no effects; default target',
   rows,publicUrl:initial.url
