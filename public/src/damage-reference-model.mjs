@@ -52,7 +52,7 @@ export function defenseMultiplier(attack,defense){
 }
 export function calculateManualDamage({
  attack,physicalType='physical',enemy,motionValue=100,
- damageMultiplier=1,attacksPerSecond=1
+ damageMultiplier=1,afterNegationMultiplier=1,attacksPerSecond=1
 }={}){
  if(!attack||typeof attack!=='object'||Array.isArray(attack)||
   !enemy||typeof enemy!=='object'||Array.isArray(enemy))
@@ -60,7 +60,8 @@ export function calculateManualDamage({
  if(!['physical','strike','slash','pierce'].includes(physicalType))
   fail('Select the actual physical damage type of the attack.');
  const mv=number(motionValue,'Attack motion value',0,500);
- const buff=number(damageMultiplier,'User-entered damage multiplier',0,5);
+ const buff=number(damageMultiplier,'User-entered pre-defense multiplier',0,5);
+ const post=number(afterNegationMultiplier,'User-entered post-negation multiplier',0,5);
  const aps=number(attacksPerSecond,'Attacks per second',0.001,20);
  const out=[];
  for(const type of DAMAGE_TYPES){
@@ -74,7 +75,7 @@ export function calculateManualDamage({
   // Separate per damage type: do not apply enemy defense once to the sum.
   const effectiveAttack=v*mv/100*buff;
   const throughDefense=effectiveAttack*defenseMultiplier(effectiveAttack,def);
-  const afterNegation=throughDefense*(1-neg/100);
+  const afterNegation=throughDefense*(1-neg/100)*post;
   out.push({type,defenseType,attackRating:v,effectiveAttack:round(effectiveAttack),
    enemyDefense:def,enemyNegation:neg,defenseMultiplier:round(
     defenseMultiplier(effectiveAttack,def)),
@@ -86,10 +87,10 @@ export function calculateManualDamage({
   status:'community-formula-estimate',beforeDefense:round(beforeDefense),
   perType:out,damagePerHit:round(total),
   attacksPerSecond:aps,estimatedDps:round(total*aps),
-  physicalType,motionValue:mv,damageMultiplier:buff,
+  physicalType,motionValue:mv,damageMultiplier:buff,afterNegationMultiplier:post,
   caveat:'Community defense-ratio approximation from user-entered AR/MV/enemy values. '+
    'Not Tarnished.dev v1.17 same-input numerical parity or an enemy database. '+
-   'No PvP multipliers, attack-specific motion values, status procs, weakspots, '+
+   'Pre-defense and post-negation user multipliers are explicitly separate stages, NOT automatically recognized game buffs. No PvP multipliers, attack-specific motion values, status procs, weakspots, '+
    'counter hits, Great Runes, talisman conditionals, buffs stacking, hitboxes or game-rounding stages.'
  };
 }
