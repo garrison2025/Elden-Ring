@@ -5,7 +5,7 @@ import {calculateManualMoveSequence} from '../public/src/damage-moveset-sequence
 
 const source=readFileSync(new URL('../public/src/damage-reference-app.mjs',import.meta.url),'utf8');
 test('browser input exposes per-hit motion values and forwards them into sequence engine',()=>{
- assert.match(source,/data\.frameField=meta\.name/);
+ assert.match(source,/dataset\.frameField=meta\.name/);
  assert.match(source,/name:'hitMvs'/);
  assert.match(source,/result\.hitMotionValues=parts\.map\(Number\)/);
  assert.match(source,/calculateManualMoveSequence\(/);
