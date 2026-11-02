@@ -11,7 +11,7 @@
  * Other staffs/spells/enemies/effects are not automatically source certified.
  */
 import {defenseMultiplier} from './damage-reference-model.mjs';
-import {V117_PEBBLE_STAFF_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
+import {V117_PEBBLE_STAFF_ROWS,V117_PEBBLE_ACADEMY_STAFF_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
 export const PEBBLE_BASE_MAGIC=152;
 const fail=s=>{throw new RangeError(s)};
 const rec=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
@@ -89,9 +89,11 @@ export function calculatePinnedV117PebbleMagic(root,{
  const beforeNegation=rawMagic*defenseMultiplier(rawMagic,defense);
  const calculated=Math.round(beforeNegation*(1-negation/100));
  const total=calculated;
- const supportedReference=staff==="Astrologer's Staff"&&
+ const verifiedStaffScenes=staff==="Astrologer's Staff"?V117_PEBBLE_STAFF_ROWS:
+  staff==='Academy Glintstone Staff'?V117_PEBBLE_ACADEMY_STAFF_ROWS:null;
+ const supportedReference=verifiedStaffScenes&&
   reinforcement===25&&strength===10&&defense===0&&negation===0?
-   V117_PEBBLE_STAFF_ROWS.find(x=>x.int===intelligence):null;
+   verifiedStaffScenes.find(x=>x.int===intelligence):null;
  const referenceCompared=supportedReference?{
   publicSiteMagic:supportedReference.magic,
   exactMatch:total===supportedReference.magic,
@@ -107,6 +109,6 @@ export function calculatePinnedV117PebbleMagic(root,{
   sourceMathDamage:calculated,damage:total,
   appliedExactSiteBoundary:false,referenceCompared,
   provenance:'Pinned public v1.17 catalyst graph and 152 magic spell coefficient; source downloaded on user action; not bundled.',
-  warning:'Only selected Wretch10 / Astrologer\'s Staff +25 / Glintstone Pebble, zero enemy defense/negation, no buffs, has same-input public Tarnished.dev v1.17 reference evidence. Other catalysts, spells, targets, reinforcement levels and buffs are independent source-model calculations, NOT independently certified against the real reference site.'
+  warning:'Only the 18 Astrologer\'s Staff +25 or 4 Academy Glintstone Staff +25 Glintstone Pebble cases, Wretch other stats 10, zero enemy defense/negation and no buffs, have same-input Tarnished.dev v1.17 evidence. Other catalysts, spells, targets, reinforcement levels and buffs are independent source-model calculations, NOT independently certified against the real reference site.'
  };
 }
