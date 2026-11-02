@@ -40,6 +40,14 @@ export const V117_PEBBLE_ACADEMY_STAFF_ROWS=Object.freeze([
  Object.freeze({int:60,magic:416,bullets:1,fp:7,intRequirement:10}),
  Object.freeze({int:80,magic:472,bullets:1,fp:7,intRequirement:10})
 ]);
+/** New independent reference: Academy Glintstone Staff +20 / Glintstone Pebble
+ * double Chrome https://github.com/garrison2025/Elden-Ring/actions/runs/41369361678
+ * Public reference fixes enemy defense/negation at zero.
+ */
+export const V117_PEBBLE_ACADEMY_PLUS20_ROWS=Object.freeze([
+ Object.freeze({int:40,magic:294,bullets:1,fp:7,intRequirement:10}),
+ Object.freeze({int:60,magic:379,bullets:1,fp:7,intRequirement:10})
+]);
 const integer=n=>Number.isInteger(n)&&n>=1&&n<=99;
 export function exactPublicUchigatanaDamage({origin='Wretch',str,dex,otherStats=[10,10,10],weapon='Uchigatana',
  affinity='Standard',upgrade=25,twoHanded=false,effects=false,enemy='Default',ng='NG'}={}){
@@ -59,13 +67,16 @@ export function exactPublicPebbleSpell({origin='Wretch',int,otherStats=[10,10,10
  smithing=25,somber=10,enemyDefense=0,enemyNegation=0,effects=false}={}){
  if(origin!=='Wretch'||!integer(int)||!Array.isArray(otherStats)||otherStats.length!==7||
   otherStats.some(x=>x!==10)||!(["Astrologer's Staff",'Academy Glintstone Staff'].includes(catalyst))||spell!=='Glintstone Pebble'||
-  smithing!==25||somber!==10||enemyDefense!==0||enemyNegation!==0||effects!==false)
+  ![20,25].includes(smithing)||somber!==10||enemyDefense!==0||enemyNegation!==0||effects!==false)
   return {status:'NOT_OBSERVED',reference:null};
  const rows=catalyst==="Astrologer's Staff"?
-  V117_PEBBLE_STAFF_ROWS:V117_PEBBLE_ACADEMY_STAFF_ROWS;
+  (smithing===25?V117_PEBBLE_STAFF_ROWS:[]):
+  (smithing===20?V117_PEBBLE_ACADEMY_PLUS20_ROWS:V117_PEBBLE_ACADEMY_STAFF_ROWS);
  const row=rows.find(x=>x.int===int);
  return row?{status:'REFERENCE_UI_OBSERVED_TWICE',reference:row,
-  source:catalyst==='Academy Glintstone Staff'?
+  source:catalyst==='Academy Glintstone Staff'&&smithing===20?
+   'Tarnished.dev public v1.17 Academy Glintstone Staff +20 / Glintstone Pebble; two independent Chromium reads per row, workflow 41369361678':
+   catalyst==='Academy Glintstone Staff'?
    'Tarnished.dev public v1.17 Academy Glintstone Staff +25 / Glintstone Pebble; two independent Chromium reads per row, workflow 41367503995':
    'Tarnished.dev public v1.17 Spell result table; two independent Chromium reads per row. INT20: workflow 41362855674; INT25/30/35/40/45/50/55/60/65/70/75/80/85/90/95/98/99: double-read 41362826940 (prior subset also 41297001066, 41361280757, 41362855674)',
   caveat:'A twice-observed reference result, NOT an independently calculated spell multiplier. No interpolation or new catalyst/spell combinations.'}:
