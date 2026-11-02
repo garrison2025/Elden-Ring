@@ -12,16 +12,21 @@
 <main class="container">
 <section class="hero"><div class="eyebrow">v1.17 spell arithmetic · source-backed computation</div>
 <h1>Spell calculator &amp; independently observed reference</h1>
-<p>Compare 18 exact sorcery scenarios observed twice on <a href="https://www.tarnished.dev/spell-calculator" target="_blank" rel="noopener noreferrer">Tarnished.dev v1.17</a>. The upper table is a strict measured-results lookup. The separate calculator below independently computes damage with your chosen parameters, using an integer-truncated catalyst scaling value and final rounding.</p>
+<p>Compare 18 exact sorcery scenarios, plus 4 second-catalyst scenarios, observed twice on <a href="https://www.tarnished.dev/spell-calculator" target="_blank" rel="noopener noreferrer">Tarnished.dev v1.17</a>. The upper table is a strict measured-results lookup. The separate calculator below independently computes damage with your chosen parameters, using an integer-truncated catalyst scaling value and final rounding.</p>
 <span class="pill">Local · No paid API · Research / noindex</span></section>
 <div class="damage-layout">
 <section class="panel"><h2>Exact verified reference context</h2>
 <p>Wretch, all other seven attributes 10. Astrologer's Staff + Glintstone Pebble; default smithing +25 / somber +10; enemy defense and negation 0; no other gear or effects.</p>
+<label class="field" for="spell-reference-staff">Verified reference catalyst
+<select id="spell-reference-staff">
+<option value="Astrologer&#39;s Staff">Astrologer's Staff · 18 observed scenes</option>
+<option value="Academy Glintstone Staff">Academy Glintstone Staff · 4 observed scenes</option>
+</select></label>
 <div class="input-two"><label class="field" for="spell-int">Intelligence (1–99)
 <input id="spell-int" type="number" min="1" max="99" step="1" value="25"></label>
 <label class="field" for="spell-presets">Observed cases
 <select id="spell-presets"><option value="">Choose an observed case</option></select></label></div>
-<p class="note">Only 18 exact inputs are certified as directly observed on Tarnished.dev; use the independent calculator below to compute other INT settings without claiming same-input source verification.</p></section>
+<p class="note">Only 18 Astrologer's Staff and 4 Academy Glintstone Staff exact inputs have been observed on Tarnished.dev; use the independent calculator below to compute other INT settings without claiming same-input source verification.</p></section>
 <section class="panel"><h2>Actual displayed reference output</h2>
 <div id="spell-outcome" class="metric-grid" hidden>
 <div class="metric"><div class="metric-label">Magic damage · observed</div><strong id="spell-magic">—</strong></div>
@@ -29,7 +34,7 @@
 <div class="metric"><div class="metric-label">Bullets</div><strong id="spell-bullets">—</strong></div>
 <div class="metric"><div class="metric-label">INT requirement</div><strong id="spell-req">—</strong></div></div>
 <p id="spell-status" class="note" role="status" aria-live="polite">Checking reference scene…</p>
-<p class="note"><strong>Accuracy boundary:</strong> the independent algorithm below matches all 18 directly checked Wretch / Astrologer’s Staff +25 / Glintstone Pebble cases. Other catalyst effects, spells, buffs and nonzero target defenses are not thereby certified against Tarnished.dev.</p>
+<p class="note"><strong>Accuracy boundary:</strong> the independent algorithm below matches the 18 directly checked Astrologer’s Staff and 4 Academy Glintstone Staff +25 / Glintstone Pebble cases. Other catalyst effects, spells, buffs and nonzero target defenses are not thereby certified against Tarnished.dev.</p>
 <p><a href="https://github.com/garrison2025/Elden-Ring/actions/runs/41362826940" target="_blank" rel="noopener noreferrer">Read independent live-browser evidence</a></p></section></div>
 <section class="panel" id="spell-v117-independent" aria-labelledby="spell-independent-heading">
 <h2 id="spell-independent-heading">Independent catalyst calculation · public v1.17 parameters</h2>
