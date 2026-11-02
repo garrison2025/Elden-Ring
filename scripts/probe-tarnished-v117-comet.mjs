@@ -176,6 +176,7 @@ async function main(){
   const row=await run(function(intelligence){
    const text=document.body?.innerText||'';
    const matches=[...text.matchAll(/\nAstrologer's Staff\nComet\n1\n0\n(\d+)\n0\n0\n0\nKarolos Spell\n24\n24\nSorcery\n52\n0\n0\nAstrologer's Staff\nCharged\nComet\b/g)];
+   const chargedMatches=[...text.matchAll(/\nAstrologer's Staff\nCharged\nComet\n1\n0\n(\d+)\n0\n0\n0\nKarolos Spell\n24\n24\nSorcery\n52\n0\n0\nPrivacy Policy\b/g)];
    const selectedTokens=[...document.querySelectorAll('.p-multiselect-token')].map(n=>n.textContent.trim());
    const stats={int:document.getElementById('intelligence')?.value,
     finalInt:document.getElementById('finalintelligence')?.value,
@@ -183,10 +184,12 @@ async function main(){
     somber:document.getElementById('somberlevel')?.value};
    const version=(text.match(/Elden Ring Version:[^\n]*/)||[])[0]??null;
    return{intelligence,magic:matches.length===1?Number(matches[0][1]):null,
+    chargedMagic:chargedMatches.length===1?Number(chargedMatches[0][1]):null,
+    chargedRowCount:chargedMatches.length,
     rowCount:matches.length,selectedTokens,version,stats,
     pageLength:text.length};
   },intelligence);
-  if(row.magic===null||row.rowCount!==1||
+  if(row.magic===null||row.rowCount!==1||row.chargedMagic===null||row.chargedRowCount!==1||
    row.version!=='Elden Ring Version: v1.17'||
    Number(row.stats.int)!==intelligence||
    row.stats.finalInt!==null&&row.stats.finalInt!==undefined&&
