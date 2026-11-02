@@ -19,7 +19,7 @@ test('all 17 twice-observed real v1.17 spell rows are exact and reachable withou
   assert.equal(exactPublicPebbleSpell({int}).status,'NOT_OBSERVED');
  }
 });
-test('only 13 of 17 source formula results match; 4 have genuine one-point discrepancies',()=>{
+test('historic old-model 13-of-17 mismatch record remains unchanged as pre-fix evidence',()=>{
  const bad=evidence.rows.filter(x=>x.delta!==0).sort((a,b)=>a.int-b.int);
  assert.deepEqual(bad.map(x=>[x.int,x.realTarnished,x.modelWithoutCalibration,x.delta]),[
   [25,242,243,1],[35,290,291,1],[50,363,362,-1],[98,499,500,1]
@@ -28,9 +28,10 @@ test('only 13 of 17 source formula results match; 4 have genuine one-point discr
  assert.equal(evidence.rows.filter(x=>x.boundaryApplied).length,1);
  assert.equal(evidence.rows.find(x=>x.boundaryApplied).int,25);
 });
-test('spell source-only panels remain noindex and disclose outstanding rounding discrepancies',()=>{
+test('independent spell calculator remains noindex and presents corrected source-backed rounding',()=>{
  const html=readFileSync(new URL('../public/spell-calculator/index.html',import.meta.url),'utf8');
  assert.match(html,/noindex,follow/);
  assert.match(html,/18 exact sorcery scenarios/);
- for(const stat of ['INT25','INT35','INT50','INT98'])assert.ok(html.includes(stat));
+ assert.match(html,/integer-truncated catalyst scaling value and final rounding/);
+ assert.match(html,/with no per-INT patches/);
 });
