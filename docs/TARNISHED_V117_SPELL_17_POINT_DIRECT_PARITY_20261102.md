@@ -1,5 +1,7 @@
 # Tarnished.dev v1.17 Spell Calculator: 17-point actual same-input numerical acceptance (2026-11-02)
 
+> **Historical audit as of the original fractional-scaling formula.** This document's 13/17 and four one-point gaps preserve the original evidence only; they are **not** the current calculator state. The unified site-accurate rule `Math.round(Math.trunc(sorceryScaling) * spellCoefficient * defenseMultiplier)` fixes all four input discrepancies without per-INT patches. See [TARNISHED_V117_SPELL_ONE_POINT_UNIFIED_ROUNDING_FIX_20261102.md](TARNISHED_V117_SPELL_ONE_POINT_UNIFIED_ROUNDING_FIX_20261102.md) for current math and 18/18 source inputs.
+
 Only comparator: **https://www.tarnished.dev/spell-calculator** actual rendered interactive output (v1.17). No additional sites or game-client certification are required to mark a same-input result. This is **not** a claim of general spell or full website parity.
 
 ## Real measured conditions
