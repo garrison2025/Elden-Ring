@@ -11,3 +11,5 @@ jobs:
         with:
           node-version: '22'
       - run: npm run check
+      - name: Validate 17 real Tarnished spell goldens using downloaded pinned regulation v1.17 parameters
+        run: node scripts/check-v117-pebble-independent.mjs
