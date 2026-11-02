@@ -34,7 +34,7 @@ test('full unsupported features never get inadvertently called fully verified',(
  assert.equal(c.notComparableWithoutMoreImplementation.length,4);
  for(const m of c.notComparableWithoutMoreImplementation){
   assert.notEqual(m.status,'CLOSED_VERIFIED',m.module);
-  assert.match(m.blocker,/\S{15}/);
+  assert.ok(m.blocker.trim().length>=40,'Each unsupported feature needs a concrete written blocker');
  }
  assert.match(c.stopRule,/Do not rerun completed/);
  const html=readFileSync(new URL('../public/validation-status/index.html',import.meta.url),'utf8');
