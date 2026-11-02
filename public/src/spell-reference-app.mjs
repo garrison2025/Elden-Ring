@@ -61,8 +61,8 @@ const showComputed=()=>{
   $('spell-math-raw').textContent=String(result.sourceMathDamage);
   info.dataset.state=result.referenceCompared?.exactMatch?'ready':'unverified';
   info.textContent=result.status+' · correction graph × reinforcement × Glintstone Pebble base magic 152 × enemy defense stage. '+
-   (result.appliedExactSiteBoundary?
-     'INT25 has a verified 1-point Tarnished.dev displayed boundary (site 242, underlying source math 243); this exact input alone follows the real site. ':'')+
+   'Catalyst scaling (before spell attack) truncated to '+result.catalystScalingTruncated+
+     ', final spell magic rounded after target stages. '+
    (result.referenceCompared?'Actual public site two-pass damage '+result.referenceCompared.publicSiteMagic+
      ', independent calculation '+result.damage+'. ':'No same-input Tarnished.dev benchmark for this configuration. ')+
    result.warning;
