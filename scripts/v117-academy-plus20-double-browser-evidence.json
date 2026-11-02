@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "reference": "Tarnished.dev public v1.17 Spell Calculator",
+  "workflowRun": 41369361678,
+  "independentChromiumPasses": 2,
+  "scenario": {
+    "origin": "Wretch",
+    "otherOriginalStats": 10,
+    "spell": "Glintstone Pebble",
+    "catalyst": "Academy Glintstone Staff",
+    "reinforcement": 20,
+    "smithing": 20,
+    "somber": 10,
+    "enemyDefense": 0,
+    "enemyNegation": 0,
+    "otherEffects": false
+  },
+  "rows": [
+    {
+      "int": 40,
+      "observedMagic": 294,
+      "independentMagic": 294,
+      "delta": 0
+    },
+    {
+      "int": 60,
+      "observedMagic": 379,
+      "independentMagic": 379,
+      "delta": 0
+    }
+  ],
+  "allIndependentNumericalMatches": true,
+  "referenceEnemyDefenseControl": false,
+  "referenceNote": "Reference page explicitly says enemy zero defences and resistances; cannot certify nonzero target values",
+  "status": "CLOSED_EXACT_TWO_INPUT_UPGRADE_20_PARITY_ONLY"
+}

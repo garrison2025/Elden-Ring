@@ -1,13 +1,15 @@
 import {downloadV117Source} from './upstream-regulation-v117.mjs';
 import {calculatePinnedV117PebbleMagic} from './v117-spell-scaling-engine.mjs';
-import {exactPublicPebbleSpell,V117_PEBBLE_STAFF_ROWS,V117_PEBBLE_ACADEMY_STAFF_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
+import {exactPublicPebbleSpell,V117_PEBBLE_STAFF_ROWS,V117_PEBBLE_ACADEMY_STAFF_ROWS,V117_PEBBLE_ACADEMY_PLUS20_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
 const $=id=>document.getElementById(id);
 const referenceStaff=()=>$('spell-reference-staff').value;
+const referenceUpgrade=()=>Number($('spell-reference-upgrade').value);
 const referenceRows=()=>referenceStaff()==='Academy Glintstone Staff'?
- V117_PEBBLE_ACADEMY_STAFF_ROWS:V117_PEBBLE_STAFF_ROWS;
+ (referenceUpgrade()===20?V117_PEBBLE_ACADEMY_PLUS20_ROWS:V117_PEBBLE_ACADEMY_STAFF_ROWS):
+ V117_PEBBLE_STAFF_ROWS;
 const update=()=>{
  const n=Number($('spell-int').value);
- const observed=exactPublicPebbleSpell({int:n,catalyst:referenceStaff()});
+ const observed=exactPublicPebbleSpell({int:n,catalyst:referenceStaff(),smithing:referenceUpgrade()});
  const pane=$('spell-outcome'),note=$('spell-status');
  if(!observed.reference){
   pane.hidden=true;
@@ -27,7 +29,7 @@ const update=()=>{
  $('spell-req').textContent=String(p.intRequirement);
  note.dataset.state='ready';
  note.textContent=observed.status+': two real Chromium readings for Wretch INT '+n+
-  ', other stats 10, one '+referenceStaff()+', Glintstone Pebble, no effects, site default smithing +25 and somber +10, zero enemy defense/negation. '+
+  ', other stats 10, one '+referenceStaff()+', Glintstone Pebble, no effects, smithing +'+referenceUpgrade()+' and somber +10, zero enemy defense/negation. '+
   'These are measured public results, NOT outputs of an independent catalyst scaling formula.';
 };
 const recommended=$('spell-presets');
@@ -44,13 +46,20 @@ const populatePresets=()=>{
   $('spell-int').value:'';
 };
 recommended.addEventListener('change',()=>{if(recommended.value)$('spell-int').value=recommended.value;update();});
-$('spell-reference-staff').addEventListener('change',()=>{populatePresets();update();});
+const configureUpgrade=()=>{
+ const options=[...$('spell-reference-upgrade').options];
+ const academy=referenceStaff()==='Academy Glintstone Staff';
+ for(const opt of options)opt.disabled=opt.value==='20'&&!academy;
+ if(!academy)$('spell-reference-upgrade').value='25';
+};
+$('spell-reference-staff').addEventListener('change',()=>{configureUpgrade();populatePresets();update();});
+$('spell-reference-upgrade').addEventListener('change',()=>{populatePresets();update();});
 $('spell-int').addEventListener('input',()=>{
  const input=$('spell-int').value;
  recommended.value=referenceRows().some(x=>String(x.int)===input)?input:'';
  update();
 });
-populatePresets();update();
+configureUpgrade();populatePresets();update();
 
 let localSource=null;
 const showComputed=()=>{
