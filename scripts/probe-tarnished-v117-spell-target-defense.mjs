@@ -214,7 +214,8 @@ async function main(){
  await mkdir(resolve('.audit'),{recursive:true});
  const file=resolve('.audit/tarnished-spell-v117-academy-plus20-pass-'+pass+'.json');
  await writeFile(file,JSON.stringify({
-  source:'Tarnished.dev public v1.17',pass,scenario:'Wretch original stats 10 except INT; selected Astrologers Staff +25 and Glintstone Pebble; no effects; default target',
+  source:'Tarnished.dev public v1.17',pass,scenario:'Wretch original stats 10 except INT; selected Academy Glintstone Staff +20 and Glintstone Pebble; no effects; target fixed at zero defense/negation',
+  targetLimitation:referenceDisclaimer,
   rows,publicUrl:initial.url
  },null,2)+'\n');
  console.log('[REAL SPELL SWEEP SUMMARY]',JSON.stringify({pass,file,rows:rows.map(r=>[r.intelligence,r.magic])}));
