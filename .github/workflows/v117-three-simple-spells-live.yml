@@ -1,0 +1,37 @@
+name: Double-browser v1.17 three further distinct sorceries
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/probe-tarnished-v117-swift-shard.mjs'
+      - 'scripts/probe-tarnished-v117-glintstone-arc.mjs'
+      - 'scripts/probe-tarnished-v117-comet.mjs'
+      - '.github/workflows/v117-three-simple-spells-live.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        spell: [swift-shard, glintstone-arc, comet]
+        pass: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read ACTUAL different spell result and selected effective inputs
+        env:
+          TARNISHED_SIMPLE_SPELL_PASS: ${{ matrix.pass }}
+        run: node scripts/probe-tarnished-v117-${{ matrix.spell }}.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sorcery-${{ matrix.spell }}-pass-${{ matrix.pass }}
+          path: .audit/tarnished-${{ matrix.spell }}-v117-pass-${{ matrix.pass }}.json
+          if-no-files-found: warn
+          retention-days: 30
