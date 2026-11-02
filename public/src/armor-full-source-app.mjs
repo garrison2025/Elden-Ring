@@ -133,7 +133,7 @@ $('armor-full-run').addEventListener('click',()=>{
    minPoise:Number(value),
    metric:weightedMode()?'weighted':$('armor-full-metric').value,
    includeTopFive:!weightedMode()&&$('armor-full-metric').value==='poise',
-   ...(weightedMode()?weightedOptions():{}),
+   ...(weightedMode()?{...weightedOptions(),topK:5}:{}),
    excludedIds:parseExclude(),
    ...slotRestrictions()
   };
@@ -223,10 +223,16 @@ worker?.addEventListener('message',event=>{
   $('armor-full-rows').append(row);
  }
  if(m.topFive?.ranked?.length){
+  const mode=m.topFive.metric==='weighted';
+  const section=$('armor-local-top-five');
+  section.querySelector('h4').textContent=mode?
+   'Top five exact local weighted sets · independent score, NOT reference-site ranking':
+   'Top five exact local Poise sets · not Tarnished.dev tie ranking';
+  section.querySelector('thead th:nth-child(2)').textContent=mode?'Weighted score':'Poise';
   const target=$('armor-local-top-five-rows');target.replaceChildren();
   for(const item of m.topFive.ranked){
    const tr=document.createElement('tr');
-   for(const cell of [String(item.rank),String(item.poise),item.weight.toFixed(3),
+   for(const cell of [String(item.rank),mode?String(item.score):String(item.poise),item.weight.toFixed(3),
     item.combination.map(x=>x.name).join(' / ')]){
     const td=document.createElement('td');td.textContent=cell;tr.append(td);
    }
