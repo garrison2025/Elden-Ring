@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "checkedAt": "2026-11-02",
   "comparator": "Tarnished.dev public v1.17 UI, same effective inputs, two independent Chromium reads per accepted case",
   "meaning": "Finite evidence-based scope; not all-game or all-calculator parity.",
@@ -90,7 +90,7 @@
     {
       "module": "Spell Calculator",
       "status": "PARTIAL_ONLY",
-      "blocker": "Beyond the 18 verified Astrologer's Staff +25 / Glintstone Pebble naked Wretch contexts, other spells, catalysts, buffs and nonzero enemy defenses not independently site-verified"
+      "blocker": "Only one spell kind is verified: Glintstone Pebble; 24 same-input cases across 18 Astrologer +25, 4 Academy +25 and 2 Academy +20. Other spells, seals, buffs and nonzero enemy defense remain uncertified."
     },
     {
       "module": "Build Planner",
@@ -105,6 +105,170 @@
     "docs/TARNISHED_V117_REMAINING_ONLY_FINAL_AUDIT_20261101.md",
     "docs/TARNISHED_V117_FINAL_SCOPE_ACCEPTANCE_20261101.md",
     "docs/TARNISHED_V117_SPELL_ONE_POINT_UNIFIED_ROUNDING_FIX_20261102.md",
-    "docs/FOUR_ENGINE_REAL_SITE_ACCEPTANCE_20261102.md"
-  ]
+    "docs/FOUR_ENGINE_REAL_SITE_ACCEPTANCE_20261102.md",
+    "docs/V117_ACADEMY_STAFF_REAL_PARITY_20261102.md",
+    "docs/V117_ACADEMY_PLUS20_SPELL_AND_NONZERO_TARGET_BOUNDARY_20261102.md",
+    "docs/V117_RUNE_PHYSICK_SELECTED_COMBO_20261102.md",
+    "docs/FOUR_ENGINE_ONE_SHOT_FINAL_DISPOSITION_20261102.md"
+  ],
+  "finalFourEngineDecision": {
+    "asOf": "2026-11-02",
+    "baselineRef": "main@70b1ad9acaa9bcecbc4768d93343ca40310e1d2b",
+    "referenceVersion": "Tarnished.dev public v1.17, not certified game client 1.17.3",
+    "question": "Which calculator behavior is demonstrably accepted, and what is blocked without independent source evidence?",
+    "decision": "CLOSE_REPEAT_AUDIT; APPROVE_FINITE_SCENES_ONLY; DO_NOT_MARK_FOUR_ENGINES_FULL_PARITY",
+    "acceptedModules": 0,
+    "limitedScopeModules": 4,
+    "wholeGameParityCertified": false,
+    "evidenceStandard": "Real same-effective-input two independent browser observations plus independently calculated results; mathematical unit tests without reference are LOCAL_ONLY",
+    "modules": {
+      "armor": {
+        "overall": "LIMITED_LOCAL_FUNCTION_ACCEPTED__REFERENCE_TOP5_PARITY_NOT_CERTIFIED",
+        "accepted": [
+          "Local exact four-slot top-5 optimizer for 13 selectable weighted metrics and declared constraints; independent brute-force test oracle",
+          "One reference Poise-only Wretch medium-load maximum of 70 observed in a specific constrained scene",
+          "549 source-identified original armor weight/Poise pairs and 515 accepted stat-neutral 12-field items retained without rerun"
+        ],
+        "notAccepted": [
+          "Tarnished.dev top-five exact order and tie-breaking",
+          "Complete DLC candidate pool and effects",
+          "Exact parity of all 13 reference weighting/limit semantics"
+        ],
+        "blockers": [
+          "Legal, versioned complete DLC armor candidate catalogue including contextual stat-changing effects",
+          "An independent same-input 13-metric reference score/rank dataset with exact settings and tie cases"
+        ],
+        "evidence": [
+          "docs/ARMOR_EXACT_WEIGHTED_TOP5_20261102.md",
+          "tests/armor-weighted-top-five.test.mjs"
+        ],
+        "release": "RESEARCH_NOINDEX_ONLY"
+      },
+      "damage": {
+        "overall": "LIMITED_MANUAL_SEQUENCE_ACCEPTED__REAL_DPS_PARITY_NOT_CERTIFIED",
+        "accepted": [
+          "User-entered attack channels, per-hit motion values, target defense/negation and per-move timing; deterministic mathematical DPS from entered frames",
+          "Three observed +25 Standard Uchigatana source AR values 376,388,392; these are AR, not real enemy damage",
+          "Browser and unit tests cover per-hit values, frame validation and per-hit defense application"
+        ],
+        "notAccepted": [
+          "Automated per-weapon animation and recovery frames",
+          "Versioned enemy defense/negation, NG+ and PvP scaling",
+          "Tarnished.dev moveset DPS numeric equivalence; real in-game damage"
+        ],
+        "blockers": [
+          "Verifiable versioned enemy per-type defense/negation, NG+ and PvP parameters",
+          "Move-specific motion values, frame timings and real same-input damage/DPS goldens"
+        ],
+        "evidence": [
+          "docs/FOUR_ENGINE_REAL_SITE_ACCEPTANCE_20261102.md",
+          "tests/damage-moveset-sequence.test.mjs",
+          "tests/damage-per-hit-ui.test.mjs"
+        ],
+        "release": "MANUAL_MODEL_ONLY__NO_CLAIM_OF_GAME_PARITY"
+      },
+      "spell": {
+        "overall": "LIMITED_EXACT_REFERENCE_SCENES_ACCEPTED__GENERAL_SPELL_PARITY_NOT_CERTIFIED",
+        "accepted": [
+          "18 separately observed Astrologer's Staff +25 Glintstone Pebble exact-input local matches",
+          "4 separately observed Academy Glintstone Staff +25 Glintstone Pebble exact-input local matches",
+          "2 separately observed Academy Glintstone Staff +20 Glintstone Pebble exact-input local matches"
+        ],
+        "exactTotal": 24,
+        "exactByStaffAndUpgrade": [
+          {
+            "staff": "Astrologer's Staff",
+            "level": 25,
+            "scenes": 18
+          },
+          {
+            "staff": "Academy Glintstone Staff",
+            "level": 25,
+            "scenes": 4
+          },
+          {
+            "staff": "Academy Glintstone Staff",
+            "level": 20,
+            "scenes": 2
+          }
+        ],
+        "actualSpellKindsCovered": 1,
+        "zeroDefenseComparatorOnly": true,
+        "notAccepted": [
+          "All other spells and incantations including seals",
+          "Spell/equipment buffs, alternative catalyst correction modes",
+          "Damage against nonzero enemy defense/negation: public v1.17 reference page has no such input controls"
+        ],
+        "blockers": [
+          "Versioned attack-parameter/spell coefficient and seal/catalyst tables plus independent exact-input numeric scenes for other spells",
+          "Independent in-game damage observations for nonzero target-defense cases; reference UI alone cannot prove them"
+        ],
+        "evidence": [
+          "scripts/tarnished-v117-spell-18-consensus-goldens.json",
+          "scripts/tarnished-v117-academy-staff-goldens.json",
+          "scripts/v117-academy-plus20-double-browser-evidence.json",
+          "docs/V117_ACADEMY_PLUS20_SPELL_AND_NONZERO_TARGET_BOUNDARY_20261102.md"
+        ],
+        "release": "SCOPED_EXACT_REFERENCE_ONLY__NONZERO_DEFENSE_ESTIMATE"
+      },
+      "build": {
+        "overall": "LIMITED_EXACT_SELECTED_SCENES_ACCEPTED__ARBITRARY_STACKS_NOT_CERTIFIED",
+        "accepted": [
+          "10 original starting classes / 360 naked-vitals baseline scenes",
+          "14 isolated talisman scenes and five explicit combined talisman scenes",
+          "One actual Wretch10 simultaneously selected Godrick's Great Rune + Intelligence-knot Crystal Tear, final attributes 15/15/15/15/15/25/15/15 in two browsers"
+        ],
+        "referenceToggles": {
+          "greatRune": false,
+          "physick": false
+        },
+        "notAccepted": [
+          "Actual activated Great Rune/Physick effects, durations and Rune Arc semantics: reference checkboxes remained OFF despite attribute changes",
+          "Arbitrary multi-item stacks including conditional armor, buffs and equipment interaction order",
+          "General derived HP, FP, defenses, negation, weapon AR and damage for those arbitrary combinations"
+        ],
+        "blockers": [
+          "Versioned active-effect and stacking-order rules validated in real client or independently auditable same-input display",
+          "Cross-category numerical benchmarks including activation, equipment and dependent outputs, not merely selected-item eight-stat changes"
+        ],
+        "evidence": [
+          "docs/V117_RUNE_PHYSICK_SELECTED_COMBO_20261102.md",
+          "tests/v117-rune-physick-selected-combo.test.mjs",
+          "tests/v117-independent-build-composition.test.mjs"
+        ],
+        "release": "EXACT_SCENES_ONLY__ACTIVATION_UNCERTIFIED"
+      }
+    },
+    "unobservableData": {
+      "weaponRequirements": {
+        "unobservable": 27,
+        "reason": "Reference UI does not render accepted values for these entries, not numeric failures"
+      },
+      "legacyArmor": {
+        "unobservable": 19,
+        "reason": "Unavailable, duplicate or miscategorised exact source items, not zero-valued numerical failures"
+      },
+      "nonzeroDefenseSpell": {
+        "status": "NO_COMPARATOR_INPUT",
+        "reason": "Public v1.17 Spell UI assumes zero enemy defences and resistances"
+      },
+      "buildRunePhysickActivation": {
+        "status": "OFF_CHECKBOX_IN_REAL_UI",
+        "reason": "Displayed bonuses with unchecked activation toggles cannot establish active effects"
+      }
+    },
+    "currentGameProof": {
+      "target": "Game client App 1.17.2 / Regulation 1.17.3",
+      "approvedGameClientGoldens": 0,
+      "status": "NOT_CERTIFIED_FROM_REFERENCE_SITE_ONLY"
+    },
+    "stopRepeatRule": "Do not re-run historic 487 weapon or 568 armor audits, do not recheck 24 exact Glintstone Pebble goldens or a single selected-effect combination just to raise counts. Reopen only the specific blocked functionality when a genuinely new independent source or game-client observation exists. Never reinterpret CI green as whole-engine numerical parity.",
+    "nextReopenPrerequisites": [
+      "Armor: lawful complete DLC set and 13-metric source ranking cases",
+      "Damage: versioned enemy statistics + real move frame/motion tables + actual damage goldens",
+      "Spell: second distinct spell parameters and real same-input damage, or independent game-client target defense data",
+      "Build: observed activation-state semantics and conditional multi-effect downstream goldens"
+    ],
+    "legacyDocs": "docs/FOUR_ENGINE_REAL_SITE_ACCEPTANCE_20261102.md contains historical pre-upgrade spell examples; not a current final acceptance summary"
+  }
 }

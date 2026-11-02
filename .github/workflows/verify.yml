@@ -13,3 +13,5 @@ jobs:
       - run: npm run check
       - name: Validate 17 real Tarnished spell goldens using downloaded pinned regulation v1.17 parameters
         run: node scripts/check-v117-pebble-independent.mjs
+      - name: Enforce one-shot final four-engine scope and prevent unverified parity promotion
+        run: npm run verify:four-engines
