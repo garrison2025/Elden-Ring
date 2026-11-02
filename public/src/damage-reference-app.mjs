@@ -167,6 +167,7 @@ const addFrame=()=>{
  const fields=[
   {name:'label',label:'Move label',type:'text',value:'Move '+n},
   {name:'mv',label:'Motion value %',type:'number',value:'100',min:'0',max:'500',step:'0.001'},
+  {name:'hitMvs',label:'Optional per-hit motion values (%) — comma-separated; overrides uniform MV',type:'text',value:''},
   {name:'hits',label:'Hit count',type:'number',value:'1',min:'1',max:'100',step:'1'},
   {name:'frames',label:'Animation + recovery frames (required)',type:'number',value:'',min:'1',max:'10000',step:'1'}
  ];
@@ -196,8 +197,18 @@ $('damage-frame-calculate').addEventListener('click',()=>{
   const input=config();
   const moves=[...frames.children].map(e=>{
    const v=key=>e.querySelector('[data-frame-field="'+key+'"]').value;
-   return {label:v('label'),motionValue:Number(v('mv')),
-    hits:Number(v('hits')),frames:Number(v('frames'))};
+   const hitsRaw=v('hits').trim(),framesRaw=v('frames').trim();
+   const perHitRaw=v('hitMvs').trim(),uniformRaw=v('mv').trim();
+   if(!hitsRaw||!framesRaw||(!perHitRaw&&!uniformRaw))
+    throw Error('Enter hit count, measured frames, and motion values for each move.');
+   const entry={label:v('label'),hits:Number(hitsRaw),frames:Number(framesRaw)};
+   if(perHitRaw){
+    const tokens=perHitRaw.split(',').map(s=>s.trim());
+    if(tokens.some(s=>!s||!/^\\d+(?:\\.\\d+)?$/.test(s)))
+     throw Error('Per-hit motion values must be comma-separated nonnegative numbers.');
+    entry.hitMotionValues=tokens.map(Number);
+   }else entry.motionValue=Number(uniformRaw);
+   return entry;
   });
   // A blank frame is INVALID, not Number('') -> zero as an accidental value.
   if([...frames.querySelectorAll('[data-frame-field="frames"]')].some(e=>!e.value.trim()))
