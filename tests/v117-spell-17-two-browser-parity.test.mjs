@@ -28,9 +28,10 @@ test('only 13 of 17 source formula results match; 4 have genuine one-point discr
  assert.equal(evidence.rows.filter(x=>x.boundaryApplied).length,1);
  assert.equal(evidence.rows.find(x=>x.boundaryApplied).int,25);
 });
-test('spell source-only panels remain noindex and disclose outstanding rounding discrepancies',()=>{
+test('spell panels preserve historical numerical evidence while showing the corrected independent algorithm',()=>{
  const html=readFileSync(new URL('../public/spell-calculator/index.html',import.meta.url),'utf8');
  assert.match(html,/noindex,follow/);
  assert.match(html,/18 exact sorcery scenarios/);
- for(const stat of ['INT25','INT35','INT50','INT98'])assert.ok(html.includes(stat));
+ assert.match(html,/independent algorithm below matches all 18/i);
+ assert.match(html,/no per-INT patches/i);
 });
