@@ -29,3 +29,29 @@ test('manual enemy negation reduces each hit before exact frame-rate DPS',()=>{
  assert.equal(result.damagePerSequence,144);
  assert.equal(result.damagePerSecond,288);
 });
+
+
+test('multi-hit sequence calculates each distinct motion value through defense separately',()=>{
+ const result=run([{label:'two different hits',frames:45,hits:2,hitMotionValues:[50,150]}]);
+ assert.deepEqual(result.perMove[0].hitMotionValues,[50,150]);
+ assert.deepEqual(result.perMove[0].hitDamages,[90,270]);
+ assert.equal(result.perMove[0].perHitDamage,null);
+ assert.equal(result.perMove[0].sequenceDamage,360);
+ assert.equal(result.damagePerSecond,480);
+ assert.equal(result.attackCount,2);
+});
+test('multi-hit motion values validate length, range and missing values without inventing hits',()=>{
+ assert.throws(()=>run([{label:'bad',frames:60,hits:2,hitMotionValues:[100]}]),/exactly 2/);
+ assert.throws(()=>run([{label:'bad',frames:60,hits:2,hitMotionValues:[100,501]}]),/out of range/);
+ assert.throws(()=>run([{label:'bad',frames:60,hits:2,hitMotionValues:[100,null]}]),/out of range/);
+ assert.throws(()=>run([{label:'bad',frames:60,hits:2}]),/motion value/);
+});
+test('different hit values apply defense and negation to each hit separately',()=>{
+ const result=calculateManualMoveSequence({
+  attack,enemy:{...enemy,physical:{defense:0,negation:20}},
+  moves:[{label:'split',frames:60,hits:2,hitMotionValues:[50,150]}]
+ });
+ assert.deepEqual(result.perMove[0].hitDamages,[72,216]);
+ assert.equal(result.damagePerSequence,288);
+ assert.equal(result.damagePerSecond,288);
+});
