@@ -74,6 +74,26 @@
     "damageUchigatanaAr": {
       "profiles": 3,
       "status": "CLOSED_FOR_IDENTICAL_INPUTS_ONLY"
+    },
+    "exactGreatGlintstoneShardScenes": {
+      "observed": 3,
+      "independentCalculatedMatches": 3,
+      "independentBrowserPasses": 2,
+      "spell": "Great Glintstone Shard",
+      "staff": "Astrologer's Staff",
+      "upgrade": 25,
+      "intelligence": [
+        40,
+        60,
+        80
+      ],
+      "observedMagic": [
+        437,
+        570,
+        646
+      ],
+      "sourceRun": 41371710168,
+      "status": "CLOSED_FOR_THREE_IDENTICAL_INPUTS_ONLY"
     }
   },
   "notComparableWithoutMoreImplementation": [
@@ -90,7 +110,7 @@
     {
       "module": "Spell Calculator",
       "status": "PARTIAL_ONLY",
-      "blocker": "Only one spell kind is verified: Glintstone Pebble; 24 same-input cases across 18 Astrologer +25, 4 Academy +25 and 2 Academy +20. Other spells, seals, buffs and nonzero enemy defense remain uncertified."
+      "blocker": "Two spell kinds now have 27 narrow actual source-site matches: 24 Glintstone Pebble and 3 Great Glintstone Shard. Three other separately documented one-hit formula coefficients exist without direct same-input site scenes. All other spells, seals, charged hits, buffs and nonzero enemy defense are not full-game certified."
     },
     {
       "module": "Build Planner",
@@ -109,7 +129,8 @@
     "docs/V117_ACADEMY_STAFF_REAL_PARITY_20261102.md",
     "docs/V117_ACADEMY_PLUS20_SPELL_AND_NONZERO_TARGET_BOUNDARY_20261102.md",
     "docs/V117_RUNE_PHYSICK_SELECTED_COMBO_20261102.md",
-    "docs/FOUR_ENGINE_ONE_SHOT_FINAL_DISPOSITION_20261102.md"
+    "docs/FOUR_ENGINE_ONE_SHOT_FINAL_DISPOSITION_20261102.md",
+    "scripts/v117-great-shard-double-browser-evidence.json"
   ],
   "finalFourEngineDecision": {
     "asOf": "2026-11-02",
@@ -172,9 +193,11 @@
         "accepted": [
           "18 separately observed Astrologer's Staff +25 Glintstone Pebble exact-input local matches",
           "4 separately observed Academy Glintstone Staff +25 Glintstone Pebble exact-input local matches",
-          "2 separately observed Academy Glintstone Staff +20 Glintstone Pebble exact-input local matches"
+          "2 separately observed Academy Glintstone Staff +20 Glintstone Pebble exact-input local matches",
+          "3 newly independent double-browser Great Glintstone Shard +25 Astrologer's Staff scenes INT40/60/80 match separately sourced AtkParam 211 coefficient and pinned catalyst arithmetic exactly",
+          "Five separate uncharged single-hit pure-magic source-backed coefficients are implemented; only Pebble and Great Shard have same-input real reference-site comparisons"
         ],
-        "exactTotal": 24,
+        "exactTotal": 27,
         "exactByStaffAndUpgrade": [
           {
             "staff": "Astrologer's Staff",
@@ -192,10 +215,10 @@
             "scenes": 2
           }
         ],
-        "actualSpellKindsCovered": 1,
+        "actualSpellKindsCovered": 2,
         "zeroDefenseComparatorOnly": true,
         "notAccepted": [
-          "All other spells and incantations including seals",
+          "Other spells and incantations without an independent tested attack-parameter model; Swift Shard, Arc and Comet coefficients have no direct site-matched same-input observations yet",
           "Spell/equipment buffs, alternative catalyst correction modes",
           "Damage against nonzero enemy defense/negation: public v1.17 reference page has no such input controls"
         ],
@@ -207,9 +230,20 @@
           "scripts/tarnished-v117-spell-18-consensus-goldens.json",
           "scripts/tarnished-v117-academy-staff-goldens.json",
           "scripts/v117-academy-plus20-double-browser-evidence.json",
-          "docs/V117_ACADEMY_PLUS20_SPELL_AND_NONZERO_TARGET_BOUNDARY_20261102.md"
+          "docs/V117_ACADEMY_PLUS20_SPELL_AND_NONZERO_TARGET_BOUNDARY_20261102.md",
+          "scripts/v117-great-shard-double-browser-evidence.json",
+          "scripts/check-v117-great-shard-independent.mjs",
+          "tests/v117-great-shard-real-parity.test.mjs"
         ],
-        "release": "SCOPED_EXACT_REFERENCE_ONLY__NONZERO_DEFENSE_ESTIMATE"
+        "release": "SCOPED_EXACT_REFERENCE_ONLY__NONZERO_DEFENSE_ESTIMATE",
+        "attributedSimpleUnchargedSourceSpellKinds": 5,
+        "exactSecondSpell": {
+          "name": "Great Glintstone Shard",
+          "staff": "Astrologer's Staff",
+          "upgrade": 25,
+          "scenes": 3,
+          "sourceRun": 41371710168
+        }
       },
       "build": {
         "overall": "LIMITED_EXACT_SELECTED_SCENES_ACCEPTED__ARBITRARY_STACKS_NOT_CERTIFIED",
@@ -266,7 +300,7 @@
     "nextReopenPrerequisites": [
       "Armor: lawful complete DLC set and 13-metric source ranking cases",
       "Damage: versioned enemy statistics + real move frame/motion tables + actual damage goldens",
-      "Spell: second distinct spell parameters and real same-input damage, or independent game-client target defense data",
+      "Spell: second distinct spell now tested; continue only genuinely new spells, versioned seals, charged/projectile mechanics and current-client target-defense values",
       "Build: observed activation-state semantics and conditional multi-effect downstream goldens"
     ],
     "legacyDocs": "docs/FOUR_ENGINE_REAL_SITE_ACCEPTANCE_20261102.md contains historical pre-upgrade spell examples; not a current final acceptance summary"
