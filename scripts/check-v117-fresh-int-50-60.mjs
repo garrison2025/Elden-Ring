@@ -30,12 +30,10 @@ for(const [caseId,intelligence] of [[3,50],[4,60]]){
  output.push(line);
  const observed=frozen.cases.find(x=>x.int===intelligence);
  if(!observed||!repeated||reads[0]!==observed.magic||
-    independent.damage!==observed.independentSourceModel||
-    matched!==(observed.delta===0))
+    independent.damage!==observed.magic||
+    !matched)
   failed=true;
 }
 console.log('[EXTENDED SAME-INPUT LIVE SPELL COMPARE] '+JSON.stringify(output));
 if(failed)throw Error('New real-site source or model results changed: manual mismatch review required.');
-if(output.some(x=>!x.matched)){
- console.log('[SPELL PARITY NOT COMPLETE] A genuine one-point real-site mismatch remains. This audit only confirms that it is not hidden; do NOT mark generic scaling fully matched.');
-}
+console.log('[SPELL PARITY] Both newly observed INT50/60 scenarios match independently through truncation/rounding; historical model results retained for regression provenance.');
