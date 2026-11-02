@@ -168,6 +168,7 @@ const addFrame=()=>{
   {name:'label',label:'Move label',type:'text',value:'Move '+n},
   {name:'mv',label:'Motion value %',type:'number',value:'100',min:'0',max:'500',step:'0.001'},
   {name:'hits',label:'Hit count',type:'number',value:'1',min:'1',max:'100',step:'1'},
+  {name:'hitMvs',label:'Per-hit motion values % (optional, comma-separated)',type:'text',value:''},
   {name:'frames',label:'Animation + recovery frames (required)',type:'number',value:'',min:'1',max:'10000',step:'1'}
  ];
  for(const meta of fields){
@@ -196,8 +197,18 @@ $('damage-frame-calculate').addEventListener('click',()=>{
   const input=config();
   const moves=[...frames.children].map(e=>{
    const v=key=>e.querySelector('[data-frame-field="'+key+'"]').value;
-   return {label:v('label'),motionValue:Number(v('mv')),
+   const raw=v('hitMvs').trim();
+   const result={label:v('label'),motionValue:Number(v('mv')),
     hits:Number(v('hits')),frames:Number(v('frames'))};
+   if(raw){
+    // Never silently discard empty or malformed segments, and never coerce
+    // blank values to zero. The engine validates count, range and finiteness.
+    const parts=raw.split(',').map(x=>x.trim());
+    if(parts.some(x=>!/^\d+(?:\.\d+)?$/.test(x)))
+     throw Error('Per-hit motion values must be comma-separated nonnegative numbers.');
+    result.hitMotionValues=parts.map(Number);
+   }
+   return result;
   });
   // A blank frame is INVALID, not Number('') -> zero as an accidental value.
   if([...frames.querySelectorAll('[data-frame-field="frames"]')].some(e=>!e.value.trim()))
