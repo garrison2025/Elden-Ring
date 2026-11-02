@@ -12,21 +12,26 @@
 <main class="container">
 <section class="hero"><div class="eyebrow">v1.17 spell arithmetic · source-backed computation</div>
 <h1>Spell calculator &amp; independently observed reference</h1>
-<p>Compare 18 exact sorcery scenarios, plus 4 second-catalyst scenarios, observed twice on <a href="https://www.tarnished.dev/spell-calculator" target="_blank" rel="noopener noreferrer">Tarnished.dev v1.17</a>. The upper table is a strict measured-results lookup. The separate calculator below independently computes damage with your chosen parameters, using an integer-truncated catalyst scaling value and final rounding.</p>
+<p>Compare 18 exact sorcery scenarios, plus 6 second-catalyst scenarios, observed twice on <a href="https://www.tarnished.dev/spell-calculator" target="_blank" rel="noopener noreferrer">Tarnished.dev v1.17</a>. The upper table is a strict measured-results lookup. The separate calculator below independently computes damage with your chosen parameters, using an integer-truncated catalyst scaling value and final rounding.</p>
 <span class="pill">Local · No paid API · Research / noindex</span></section>
 <div class="damage-layout">
 <section class="panel"><h2>Exact verified reference context</h2>
-<p>Wretch, all other seven attributes 10. Astrologer's Staff + Glintstone Pebble; default smithing +25 / somber +10; enemy defense and negation 0; no other gear or effects.</p>
+<p>Wretch, all other seven attributes 10. Glintstone Pebble with the selected validated catalyst and reinforcement (+20 or +25); somber +10; enemy defense and negation 0; no other gear or effects.</p>
 <label class="field" for="spell-reference-staff">Verified reference catalyst
 <select id="spell-reference-staff">
 <option value="Astrologer&#39;s Staff">Astrologer's Staff · 18 observed scenes</option>
 <option value="Academy Glintstone Staff">Academy Glintstone Staff · 4 observed scenes</option>
 </select></label>
+<label class="field" for="spell-reference-upgrade">Reference catalyst reinforcement
+<select id="spell-reference-upgrade">
+<option value="25">+25 · Astrologer's &amp; Academy Staff</option>
+<option value="20">+20 · Academy Staff only</option>
+</select></label>
 <div class="input-two"><label class="field" for="spell-int">Intelligence (1–99)
 <input id="spell-int" type="number" min="1" max="99" step="1" value="25"></label>
 <label class="field" for="spell-presets">Observed cases
 <select id="spell-presets"><option value="">Choose an observed case</option></select></label></div>
-<p class="note">Only 18 Astrologer's Staff and 4 Academy Glintstone Staff exact inputs have been observed on Tarnished.dev; use the independent calculator below to compute other INT settings without claiming same-input source verification.</p></section>
+<p class="note">Only 18 Astrologer's Staff +25, 4 Academy Glintstone Staff +25, and 2 Academy Glintstone Staff +20 exact inputs have been observed on Tarnished.dev; use the independent calculator below to compute other INT settings without claiming same-input source verification.</p></section>
 <section class="panel"><h2>Actual displayed reference output</h2>
 <div id="spell-outcome" class="metric-grid" hidden>
 <div class="metric"><div class="metric-label">Magic damage · observed</div><strong id="spell-magic">—</strong></div>
@@ -34,7 +39,7 @@
 <div class="metric"><div class="metric-label">Bullets</div><strong id="spell-bullets">—</strong></div>
 <div class="metric"><div class="metric-label">INT requirement</div><strong id="spell-req">—</strong></div></div>
 <p id="spell-status" class="note" role="status" aria-live="polite">Checking reference scene…</p>
-<p class="note"><strong>Accuracy boundary:</strong> the independent algorithm below matches the 18 directly checked Astrologer’s Staff and 4 Academy Glintstone Staff +25 / Glintstone Pebble cases. Other catalyst effects, spells, buffs and nonzero target defenses are not thereby certified against Tarnished.dev.</p>
+<p class="note"><strong>Accuracy boundary:</strong> the independent algorithm below matches 18 Astrologer’s Staff +25, 4 Academy Glintstone Staff +25 and 2 Academy Glintstone Staff +20 / Glintstone Pebble exact zero-defense cases. Tarnished.dev's Spell page itself assumes zero enemy defenses and resistances and exposes no nonzero-target controls. Other target values, spells and buffs are estimates NOT site-certified.</p>
 <p><a href="https://github.com/garrison2025/Elden-Ring/actions/runs/41362826940" target="_blank" rel="noopener noreferrer">Read independent live-browser evidence</a></p></section></div>
 <section class="panel" id="spell-v117-independent" aria-labelledby="spell-independent-heading">
 <h2 id="spell-independent-heading">Independent catalyst calculation · public v1.17 parameters</h2>
@@ -57,7 +62,7 @@
 <div class="metric"><div class="metric-label">Independent damage after catalyst truncation &amp; final rounding</div>
 <strong id="spell-math-raw">—</strong></div></div>
 <p id="spell-math-status" class="note" role="status" aria-live="polite">User action required to load the independent community v1.17 regulation source. No result inferred until loaded.</p>
-<p class="note">Only Wretch10, Astrologer's Staff +25, zero enemy defense/negation and 18 tested INT values have double-observed Tarnished.dev v1.17 source results; the independent algorithm now matches all 18 same-input source observations using one general formula, with no per-INT patches. Any other catalyst, upgrade, INT or target condition is explicitly labeled <strong>unverified at Tarnished.dev</strong>. This is only the independently modeled Glintstone Pebble attack; not every sorcery and incantation.</p>
+<p class="note">Only the 24 exact Wretch10 / Astrologer's Staff +25, Academy Glintstone Staff +25 or Academy Glintstone Staff +20, zero enemy defense/negation cases have double-observed Tarnished.dev v1.17 source results; the independent algorithm matches all 24 supported same-input source observations using one general formula, with no per-INT patches. Any other catalyst, upgrade, INT or target condition is explicitly labeled <strong>unverified at Tarnished.dev</strong>. This is only the independently modeled Glintstone Pebble attack; not every sorcery and incantation.</p>
 </section>
 <nav class="related-tools" aria-label="Related tools"><a href="../damage-calculator/">Damage preview</a>
 <a href="../weapon-ar-calculator/">Weapon AR</a><a href="../build-planner/">Build Planner</a></nav>
