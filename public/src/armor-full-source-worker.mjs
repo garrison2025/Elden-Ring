@@ -7,8 +7,10 @@ self.onmessage=event=>{
  try{
   const result=msg.options?.metric==='weighted'?
    optimizeWeightedArmor(msg.armors,msg.options):optimizePinnedArmorMetric(msg.armors,msg.options);
-  const topFive=msg.options?.metric==='poise'&&msg.options?.includeTopFive?
-   optimizePinnedArmorPoiseTopFive(msg.armors,msg.options):null;
+  const topFive=msg.options?.metric==='weighted'&&result.ranked?
+   {ranked:result.ranked,metric:'weighted',referenceRankingVerified:false}:
+   msg.options?.metric==='poise'&&msg.options?.includeTopFive?
+    optimizePinnedArmorPoiseTopFive(msg.armors,msg.options):null;
   self.postMessage({op:'result',requestId:msg.requestId,result,topFive});
  }catch(error){
   self.postMessage({op:'error',requestId:msg.requestId,
