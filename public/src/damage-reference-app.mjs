@@ -204,7 +204,7 @@ $('damage-frame-calculate').addEventListener('click',()=>{
    const entry={label:v('label'),hits:Number(hitsRaw),frames:Number(framesRaw)};
    if(perHitRaw){
     const tokens=perHitRaw.split(',').map(s=>s.trim());
-    if(tokens.some(s=>!s||!/^\\d+(?:\\.\\d+)?$/.test(s)))
+    if(tokens.some(s=>!s||!/^\d+(?:\.\d+)?$/.test(s)))
      throw Error('Per-hit motion values must be comma-separated nonnegative numbers.');
     entry.hitMotionValues=tokens.map(Number);
    }else entry.motionValue=Number(uniformRaw);
