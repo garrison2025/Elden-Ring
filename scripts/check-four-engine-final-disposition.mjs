@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {exactPublicPebbleSpell} from '../public/src/tarnished-v117-scoped-reference-scenes.mjs';
 import {calculateManualMoveSequence} from '../public/src/damage-moveset-sequence.mjs';
+import {V117_GREAT_SHARD_DIRECT} from '../public/src/v117-spell-scaling-engine.mjs';
 import {emptyBuildLoadout} from '../public/src/build-loadout.mjs';
 import {exactV117RunePhysickSelectedAttributes} from '../public/src/v117-rune-physick-selected-combo.mjs';
 const load=(path)=>JSON.parse(readFileSync(new URL(path,import.meta.url),'utf8'));
@@ -53,6 +54,16 @@ for(const x of cases){
  assert.equal(actual.status,'REFERENCE_UI_OBSERVED_TWICE',key);
  assert.equal(actual.reference.magic,x.magic,key);
 }
+const second=load('./v117-great-shard-double-browser-evidence.json');
+assert.equal(second.independentBrowserPasses,2);
+assert.equal(second.sourceRun,41371710168);
+assert.equal(final.modules.spell.actualSpellKindsCovered,2);
+for(const row of second.rows){
+ assert.equal(row.sitePass1,row.sitePass2,'Different sorcery two browser reads differ');
+ assert.equal(V117_GREAT_SHARD_DIRECT.find(x=>x.int===row.int)?.magic,row.sitePass1);
+ const key='Great Glintstone Shard:Astrologer25:'+row.int;
+ assert.ok(!keys.has(key));keys.add(key);
+}
 assert.equal(keys.size,final.modules.spell.exactTotal);
 for(const no of [
  {catalyst:'Academy Glintstone Staff',smithing:20,int:50},
@@ -90,7 +101,7 @@ console.log('[FOUR ENGINES: ONE-SHOT FINITE ACCEPTANCE PASSED]',JSON.stringify({
  fullEngineParityAccepted:0,limitedScopeEngines:4,spellDirectInputMatches:keys.size,
  armor:'local exact optimization; source rank not certified',
  damage:'manual model; real named enemy DPS not certified',
- spell:'one spell kind; 24 narrow direct reference scenes',
+ spell:'two spell kinds; 27 narrow double-browser reference scenes; five independently sourced simple coefficients',
  build:'only selected rune/tear scene and limited talisman cases; activation not certified',
  realGameClientGoldens:0,repeatAudit:'CLOSED_UNTIL_NEW_INDEPENDENT_EVIDENCE'
 }));
