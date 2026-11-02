@@ -39,10 +39,11 @@
 <div class="eyebrow">02 / Motion & timing</div><h2>Attack conditions</h2>
 <div class="damage-field-grid">
 <label class="field">Motion value (%) <input id="damage-mv" type="number" min="0" max="500" step="0.001" value="100"></label>
-<label class="field">Overall damage multiplier (×) <input id="damage-buff" type="number" min="0" max="5" step="0.001" value="1"></label>
+<label class="field">Pre-defense attack multiplier (×) <input id="damage-buff" type="number" min="0" max="5" step="0.001" value="1"></label>
+<label class="field">Post-negation final multiplier (×) <input id="damage-post-buff" type="number" min="0" max="5" step="0.001" value="1"></label>
 <label class="field">Attacks per second <input id="damage-aps" type="number" min="0.001" max="20" step="0.001" value="1"></label>
 </div>
-<p class="note">Set the motion value for the exact attack yourself. No moveset, buff or talisman effects are guessed; a global multiplier applies equally to all five attack channels.</p>
+<p class="note">Set the motion value for the exact attack yourself. No moveset, buff or talisman effects are guessed; Two explicit stages are separate: pre-defense attack × and post-negation final ×. Enter the actual condition yourself; no automatic game buff mapping.</p>
 </section>
 <section class="panel">
 <div class="eyebrow">03 / Enemy</div><h2>Enemy defenses & negation</h2>
@@ -102,7 +103,7 @@
 </section>
 <section class="panel damage-method">
 <h2>How this preview works</h2>
-<p><strong>For each damage type:</strong> Attack Rating × selected motion value × user-entered multiplier → defense-ratio attenuation → enemy percentage negation. The five remaining amounts are added for damage per hit; estimated DPS multiplies by the user's attacks-per-second value.</p>
+<p><strong>For each damage type:</strong> Attack Rating × selected motion value × pre-defense multiplier → defense-ratio attenuation → enemy percentage negation → post-negation multiplier. The five remaining amounts are added for damage per hit; estimated DPS multiplies by the user's attacks-per-second value.</p>
 <p>Defense-ratio breakpoints are ⅛, 1, 2.5 and 8. Even at zero defense, the documented ratio model caps this stage at 90% rather than 100%. Split elemental AR is attenuated separately for each corresponding defense. This preview is grounded in <a href="https://eldenring.wiki.gg/wiki/Stats_and_Attributes" target="_blank" rel="noopener noreferrer">Eldenpedia's damage explanation</a> and the documented <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3476225321" target="_blank" rel="noopener noreferrer">community ratio equations</a>.</p>
 <p><strong>Not yet equivalent to Tarnished.dev v1.17:</strong> its Damage Calculator itself is marked a work in progress. This implementation does not yet choose actual moveset motion values, game enemy presets/NG scaling, critical or counter-hit multipliers, PvP, conditional buffs, status or damage-rounding steps. Do not treat the community model as independently checked same-input damage from Tarnished.dev.</p>
 </section>
