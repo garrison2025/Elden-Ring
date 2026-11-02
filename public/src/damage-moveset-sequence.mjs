@@ -16,7 +16,7 @@ const scalar=(x,name,lo,hi)=>{
 const round=n=>Math.round(n*1e6)/1e6;
 export function calculateManualMoveSequence({
  attack,enemy,moves,physicalType='physical',
- damageMultiplier=1,framesPerSecond=60
+ damageMultiplier=1,afterNegationMultiplier=1,framesPerSecond=60
 }={}){
  if(!Array.isArray(moves)||moves.length<1||moves.length>8)
   fail('Provide 1–8 explicitly entered moves.');
@@ -38,7 +38,7 @@ export function calculateManualMoveSequence({
    entry.hitMotionValues.map((mv,j)=>scalar(mv,'Move '+label+' hit '+(j+1)+' motion value',0,500)):
    Array(hits).fill(scalar(entry.motionValue,'Move '+label+' motion value',0,500));
   const hitResults=motionValues.map(motionValue=>calculateManualDamage({
-   attack,enemy,physicalType,motionValue,damageMultiplier,attacksPerSecond:1
+   attack,enemy,physicalType,motionValue,damageMultiplier,afterNegationMultiplier,attacksPerSecond:1
   }));
   const hitDamages=hitResults.map(x=>x.damagePerHit);
   const sequenceDamage=round(hitDamages.reduce((sum,x)=>sum+x,0));

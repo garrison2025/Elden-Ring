@@ -10,7 +10,7 @@ test('the single final acceptance gate executes 4 engines without granting full 
   {encoding:'utf8',timeout:20000});
  assert.match(output,/FOUR ENGINES: ONE-SHOT FINITE ACCEPTANCE PASSED/);
  assert.match(output,/"fullEngineParityAccepted":0/);
- assert.match(output,/"spellDirectInputMatches":24/);
+ assert.match(output,/"spellDirectInputMatches":27/);
  assert.match(output,/"realGameClientGoldens":0/);
 });
 test('final report has 4 individual concrete evidence gates and explicitly disallows old audit loops',()=>{
@@ -18,8 +18,8 @@ test('final report has 4 individual concrete evidence gates and explicitly disal
  assert.equal(x.acceptedModules,0);
  assert.equal(x.limitedScopeModules,4);
  assert.deepEqual(Object.keys(x.modules).sort(),['armor','build','damage','spell']);
- assert.equal(x.modules.spell.actualSpellKindsCovered,1);
- assert.equal(x.modules.spell.exactTotal,24);
+ assert.equal(x.modules.spell.actualSpellKindsCovered,2);
+ assert.equal(x.modules.spell.exactTotal,27);
  assert.equal(x.unobservableData.nonzeroDefenseSpell.status,'NO_COMPARATOR_INPUT');
  assert.deepEqual(x.modules.build.referenceToggles,{greatRune:false,physick:false});
  assert.match(x.stopRepeatRule,/Do not re-run historic 487 weapon or 568 armor audits/);

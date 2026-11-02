@@ -43,8 +43,16 @@
 <p><a href="https://github.com/garrison2025/Elden-Ring/actions/runs/41362826940" target="_blank" rel="noopener noreferrer">Read independent live-browser evidence</a></p></section></div>
 <section class="panel" id="spell-v117-independent" aria-labelledby="spell-independent-heading">
 <h2 id="spell-independent-heading">Independent catalyst calculation · public v1.17 parameters</h2>
-<p>Unlike the fixed reference rows above, this engine calculates Glintstone Pebble attack damage using the selected staff's independently sourced INT correction graph, reinforcement multiplier, its documented 152 magic attack coefficient, and the explicit enemy-defense stage. The full parameter file is fetched <strong>only after you click</strong>; it is not bundled or redistributed.</p>
+<p>Unlike the fixed reference rows above, this engine calculates simple uncharged single-hit sorcery attack damage using the selected staff's independently sourced INT correction graph, reinforcement multiplier, each independently sourced documented magic attack coefficient, and the explicit enemy-defense stage. The full parameter file is fetched <strong>only after you click</strong>; it is not bundled or redistributed.</p>
 <div class="input-two">
+<label class="field" for="spell-math-spell">Simple uncharged magic attack (separate source coefficient)
+<select id="spell-math-spell">
+<option value="Glintstone Pebble">Glintstone Pebble · 152% (24 source matches)</option>
+<option value="Great Glintstone Shard">Great Glintstone Shard · 211% (3 source matches)</option>
+<option value="Swift Glintstone Shard">Swift Glintstone Shard · 114% (source coefficient only)</option>
+<option value="Glintstone Arc">Glintstone Arc · 148% (source coefficient only)</option>
+<option value="Comet">Comet · 292% (uncharged initial hit only)</option>
+</select></label>
 <label class="field" for="spell-math-staff">Sorcery casting tool (exact public source name)
 <select id="spell-math-staff" disabled><option value="Astrologer's Staff">Astrologer's Staff (load source first)</option></select></label>
 <label class="field" for="spell-math-upgrade">Catalyst reinforcement (+0 to +25, normal)
@@ -62,7 +70,7 @@
 <div class="metric"><div class="metric-label">Independent damage after catalyst truncation &amp; final rounding</div>
 <strong id="spell-math-raw">—</strong></div></div>
 <p id="spell-math-status" class="note" role="status" aria-live="polite">User action required to load the independent community v1.17 regulation source. No result inferred until loaded.</p>
-<p class="note">Only the 24 exact Wretch10 / Astrologer's Staff +25, Academy Glintstone Staff +25 or Academy Glintstone Staff +20, zero enemy defense/negation cases have double-observed Tarnished.dev v1.17 source results; the independent algorithm matches all 24 supported same-input source observations using one general formula, with no per-INT patches. Any other catalyst, upgrade, INT or target condition is explicitly labeled <strong>unverified at Tarnished.dev</strong>. This is only the independently modeled Glintstone Pebble attack; not every sorcery and incantation.</p>
+<p class="note">Only the 24 exact Wretch10 / Astrologer's Staff +25, Academy Glintstone Staff +25 or Academy Glintstone Staff +20, zero enemy defense/negation cases have double-observed Tarnished.dev v1.17 source results; the independent algorithm matches all 24 supported same-input source observations using one general formula, with no per-INT patches. Any other catalyst, upgrade, INT or target condition is explicitly labeled <strong>unverified at Tarnished.dev</strong>. Only 27 same-input reference results are available: 24 Glintstone Pebble plus three Great Glintstone Shard. Swift Glintstone Shard, Glintstone Arc and uncharged Comet use separately published coefficients without direct public-site comparison; multi-hit/area damage, charged attacks and all incantations are not covered.</p>
 </section>
 <nav class="related-tools" aria-label="Related tools"><a href="../damage-calculator/">Damage preview</a>
 <a href="../weapon-ar-calculator/">Weapon AR</a><a href="../build-planner/">Build Planner</a></nav>

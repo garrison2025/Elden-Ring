@@ -15,3 +15,5 @@ jobs:
         run: node scripts/check-v117-pebble-independent.mjs
       - name: Enforce one-shot final four-engine scope and prevent unverified parity promotion
         run: npm run verify:four-engines
+      - name: Verify entirely DIFFERENT spell by live double-Chromium goldens and independent AtkParam
+        run: npm run verify:second-sorcery

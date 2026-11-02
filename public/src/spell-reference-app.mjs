@@ -70,6 +70,7 @@ const showComputed=()=>{
  try{
   const num=id=>Number($(id).value);
   const result=calculatePinnedV117PebbleMagic(localSource,{
+   spell:$('spell-math-spell').value,
    staff:$('spell-math-staff').value,
    intelligence:num('spell-int'),reinforcement:num('spell-math-upgrade'),
    defense:num('spell-math-defense'),negation:num('spell-math-negation')
@@ -80,7 +81,7 @@ const showComputed=()=>{
   $('spell-math-damage').textContent=String(result.damage);
   $('spell-math-raw').textContent=String(result.sourceMathDamage);
   info.dataset.state=result.referenceCompared?.exactMatch?'ready':'unverified';
-  info.textContent=result.status+' · correction graph × reinforcement × Glintstone Pebble base magic 152 × enemy defense stage. '+
+  info.textContent=result.status+' · '+result.spell+' coefficient '+result.spellBaseMagic+'% × correction graph × reinforcement × enemy defense stage. '+
    'Catalyst scaling (before spell attack) truncated to '+result.catalystScalingTruncated+
      ', final spell magic rounded after target stages. '+
    (result.referenceCompared?'Actual public site two-pass damage '+result.referenceCompared.publicSiteMagic+
@@ -118,7 +119,7 @@ $('spell-load-math').addEventListener('click',async()=>{
  }
 });
 $('spell-recalculate').addEventListener('click',showComputed);
-for(const name of ['spell-int','spell-math-staff','spell-math-upgrade',
+for(const name of ['spell-int','spell-math-spell','spell-math-staff','spell-math-upgrade',
  'spell-math-defense','spell-math-negation']){
  $(name).addEventListener('input',showComputed);
  $(name).addEventListener('change',showComputed);

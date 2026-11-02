@@ -33,6 +33,7 @@ const config=()=>({
  }])),
  motionValue:$('damage-mv').value,
  damageMultiplier:$('damage-buff').value,
+ afterNegationMultiplier:$('damage-post-buff').value,
  attacksPerSecond:$('damage-aps').value
 });
 function render(){
@@ -91,7 +92,7 @@ function restoreFromUrl(){
    $('damage-neg-'+key).value=n;
  }
  for(const [param,id,max] of [['mv','damage-mv',500],
-  ['buff','damage-buff',5],['aps','damage-aps',20]]){
+  ['buff','damage-buff',5],['post','damage-post-buff',5],['aps','damage-aps',20]]){
   const v=params.get(param);
   if(v!==null&&/^\d+(?:\.\d{1,3})?$/.test(v)&&Number(v)<=max)
    $(id).value=v;
@@ -109,7 +110,7 @@ for(const parent of [attackRow,tbody]){
  parent.addEventListener('input',render);
  parent.addEventListener('change',render);
 }
-for(const id of ['damage-physical-type','damage-mv','damage-buff','damage-aps']){
+for(const id of ['damage-physical-type','damage-mv','damage-buff','damage-post-buff','damage-aps']){
  $(id).addEventListener('change',render);
  $(id).addEventListener('input',render);
 }
@@ -125,6 +126,7 @@ $('damage-copy').addEventListener('click',async()=>{
   }
   url.searchParams.set('mv',c.motionValue);
   url.searchParams.set('buff',c.damageMultiplier);
+  url.searchParams.set('post',c.afterNegationMultiplier);
   url.searchParams.set('aps',c.attacksPerSecond);
   await navigator.clipboard.writeText(url.toString());
   feedback('Scenario URL copied. It contains the chosen values in the URL query; opening the link reveals those values to the hosting provider.');
@@ -188,7 +190,7 @@ const addFrame=()=>{
 $('damage-frame-add').addEventListener('click',addFrame);
 frames.addEventListener('input',invalidateFrames);
 for(const parent of [attackRow,tbody])parent.addEventListener('input',invalidateFrames);
-for(const id of ['damage-physical-type','damage-buff','damage-frame-fps']){
+for(const id of ['damage-physical-type','damage-buff','damage-post-buff','damage-frame-fps']){
  $(id).addEventListener('input',invalidateFrames);
  $(id).addEventListener('change',invalidateFrames);
 }
@@ -216,6 +218,7 @@ $('damage-frame-calculate').addEventListener('click',()=>{
   const calculated=calculateManualMoveSequence({
    attack:input.attack,enemy:input.enemy,physicalType:input.physicalType,
    damageMultiplier:Number(input.damageMultiplier),
+   afterNegationMultiplier:Number(input.afterNegationMultiplier),
    framesPerSecond:Number($('damage-frame-fps').value),moves
   });
   $('damage-frame-total').textContent=fmt(calculated.damagePerSequence);

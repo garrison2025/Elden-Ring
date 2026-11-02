@@ -14,7 +14,8 @@
     "audit:regulation": "node scripts/audit-regulation.mjs --help",
     "audit:real-v117": "node scripts/audit-v117-pinned.mjs",
     "audit:weapon-parity": "node scripts/audit-weapon-parity.mjs",
-    "verify:four-engines": "node scripts/check-four-engine-final-disposition.mjs"
+    "verify:four-engines": "node scripts/check-four-engine-final-disposition.mjs",
+    "verify:second-sorcery": "node scripts/check-v117-great-shard-independent.mjs"
   },
   "engines": {
     "node": ">=20"

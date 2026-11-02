@@ -1,0 +1,53 @@
+{
+  "source": "Tarnished.dev actual public v1.17 UI (not game-client App/Regulation screenshot)",
+  "sourceRun": 41371710168,
+  "sourceJobs": [
+    125043369418,
+    125043369653
+  ],
+  "independentBrowserPasses": 2,
+  "spell": "Great Glintstone Shard",
+  "atkParamId": 40010,
+  "coefficient": {
+    "magic": 211,
+    "fp": 12,
+    "intRequirement": 16,
+    "referenceUrl": "https://eldenring.wiki.gg/wiki/Great_Glintstone_Shard"
+  },
+  "scenario": {
+    "origin": "Wretch",
+    "otherStats": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "staff": "Astrologer's Staff",
+    "reinforcement": 25,
+    "somber": 10,
+    "enemyDefense": 0,
+    "enemyNegation": 0,
+    "otherEffects": false
+  },
+  "rows": [
+    {
+      "int": 40,
+      "sitePass1": 437,
+      "sitePass2": 437
+    },
+    {
+      "int": 60,
+      "sitePass1": 570,
+      "sitePass2": 570
+    },
+    {
+      "int": 80,
+      "sitePass1": 646,
+      "sitePass2": 646
+    }
+  ],
+  "meaning": "Each pair is a genuine independent browser read of effective public UI input and output, not proof of current-game-client damage or other spells."
+}
