@@ -1,10 +1,13 @@
 import {downloadV117Source} from './upstream-regulation-v117.mjs';
 import {calculatePinnedV117PebbleMagic} from './v117-spell-scaling-engine.mjs';
-import {exactPublicPebbleSpell,V117_PEBBLE_STAFF_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
+import {exactPublicPebbleSpell,V117_PEBBLE_STAFF_ROWS,V117_PEBBLE_ACADEMY_STAFF_ROWS} from './tarnished-v117-scoped-reference-scenes.mjs';
 const $=id=>document.getElementById(id);
+const referenceStaff=()=>$('spell-reference-staff').value;
+const referenceRows=()=>referenceStaff()==='Academy Glintstone Staff'?
+ V117_PEBBLE_ACADEMY_STAFF_ROWS:V117_PEBBLE_STAFF_ROWS;
 const update=()=>{
  const n=Number($('spell-int').value);
- const observed=exactPublicPebbleSpell({int:n});
+ const observed=exactPublicPebbleSpell({int:n,catalyst:referenceStaff()});
  const pane=$('spell-outcome'),note=$('spell-status');
  if(!observed.reference){
   pane.hidden=true;
@@ -24,22 +27,30 @@ const update=()=>{
  $('spell-req').textContent=String(p.intRequirement);
  note.dataset.state='ready';
  note.textContent=observed.status+': two real Chromium readings for Wretch INT '+n+
-  ', other stats 10, one Astrologer\'s Staff, Glintstone Pebble, no effects, site default smithing +25 and somber +10, zero enemy defense/negation. '+
+  ', other stats 10, one '+referenceStaff()+', Glintstone Pebble, no effects, site default smithing +25 and somber +10, zero enemy defense/negation. '+
   'These are measured public results, NOT outputs of an independent catalyst scaling formula.';
 };
 const recommended=$('spell-presets');
-for(const p of V117_PEBBLE_STAFF_ROWS){
- const option=document.createElement('option');option.value=String(p.int);
- option.textContent='INT '+p.int+' · reference magic '+p.magic;
- recommended.append(option);
-}
-recommended.addEventListener('change',()=>{$('spell-int').value=recommended.value;update();});
+const populatePresets=()=>{
+ recommended.replaceChildren();
+ const none=document.createElement('option');none.value='';
+ none.textContent='Choose an observed case';recommended.append(none);
+ for(const p of referenceRows()){
+  const option=document.createElement('option');option.value=String(p.int);
+  option.textContent='INT '+p.int+' · reference magic '+p.magic;
+  recommended.append(option);
+ }
+ recommended.value=referenceRows().some(x=>String(x.int)===$('spell-int').value)?
+  $('spell-int').value:'';
+};
+recommended.addEventListener('change',()=>{if(recommended.value)$('spell-int').value=recommended.value;update();});
+$('spell-reference-staff').addEventListener('change',()=>{populatePresets();update();});
 $('spell-int').addEventListener('input',()=>{
  const input=$('spell-int').value;
- recommended.value=V117_PEBBLE_STAFF_ROWS.some(x=>String(x.int)===input)?input:'';
+ recommended.value=referenceRows().some(x=>String(x.int)===input)?input:'';
  update();
 });
-update();
+populatePresets();update();
 
 let localSource=null;
 const showComputed=()=>{
